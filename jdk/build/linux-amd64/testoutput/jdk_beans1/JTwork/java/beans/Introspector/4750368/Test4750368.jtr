@@ -1,0 +1,144 @@
+#Test Results (version 2)
+#Tue Mar 18 20:15:46 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368/Test4750368.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Mark Davidson
+keywords=bug4750368
+run=ASSUMED_ACTION main Test4750368\n
+source=Test4750368.java
+title=Tests for class name collision in Introspector
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368/Test4750368.java
+elapsed=126 0\:00\:00.126
+end=Tue Mar 18 20\:15\:46 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile main
+start=Tue Mar 18 20\:15\:46 EDT 2014
+test=java/beans/Introspector/4750368/Test4750368.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector/4750368
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/96)----------
+command: build Test4750368
+reason: Named class compiled on demand
+elapsed time (seconds): 0.048
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/212)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368/Test4750368.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.048
+----------rerun:(19/1861)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368 \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368 \\
+        -J-Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368 -classpath /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368/Test4750368.java
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/121)----------
+command: main Test4750368
+reason: Assumed action based on file name: run main Test4750368 
+elapsed time (seconds): 0.077
+----------rerun:(18/1701)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368 \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368 \\
+        -Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368 \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/4750368:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+        Test4750368
+----------System.out:(39/574)----------
+class com.foo.test.Component: 3
+ - class
+ - name
+ - value
+class java.awt.Component: 7
+ - background
+ - enabled
+ - focusable
+ - font
+ - foreground
+ - name
+ - visible
+interface java.util.List: 1
+ - empty
+class java.awt.List: 24
+ - accessibleContext
+ - actionListeners
+ - background
+ - enabled
+ - focusable
+ - font
+ - foreground
+ - item
+ - itemCount
+ - itemListeners
+ - items
+ - minimumSize
+ - multipleMode
+ - multipleSelections
+ - name
+ - preferredSize
+ - rows
+ - selectedIndex
+ - selectedIndexes
+ - selectedItem
+ - selectedItems
+ - selectedObjects
+ - visible
+ - visibleIndex
+----------System.err:(3/36)----------
+
+JavaTest Message:  Test complete.
+
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

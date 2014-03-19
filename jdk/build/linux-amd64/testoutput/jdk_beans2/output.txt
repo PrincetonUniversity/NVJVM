@@ -1,0 +1,1453 @@
+Directory "/home/tandon/Projects/openjdk/jdk/test/../build/linux-amd64/testoutput/jdk_beans2/JTwork" not found: creating
+Directory "/home/tandon/Projects/openjdk/jdk/test/../build/linux-amd64/testoutput/jdk_beans2/JTreport" not found: creating
+--------------------------------------------------
+TEST: java/beans/Beans/6669869/TestDesignTime.java
+  build: 0.444 seconds
+  compile: 0.44 seconds
+  main: 0.057 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/Beans/6669869/TestGuiAvailable.java
+  build: 0.387 seconds
+  compile: 0.386 seconds
+  main: 0.047 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/Beans/Test4067824.java
+  build: 0.389 seconds
+  compile: 0.389 seconds
+  main: 0.055 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/Beans/Test4080522.java
+  build: 0.376 seconds
+  compile: 0.376 seconds
+  main: 0.062 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/Beans/Test4343723.java
+  build: 0.378 seconds
+  compile: 0.378 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/EventHandler/Test6179222.java
+  build: 0.422 seconds
+  compile: 0.422 seconds
+  main: 0.216 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/EventHandler/Test6277246.java
+  build: 0.369 seconds
+  compile: 0.369 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/EventHandler/Test6277266.java
+  build: 0.401 seconds
+  compile: 0.401 seconds
+  main: 0.066 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.443 seconds
+messages:
+command: build TestPropertyEditor
+reason: Named class compiled on demand
+elapsed time (seconds): 0.443
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.443 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.443
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849 \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849 \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849 \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849 \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849 -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849 -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: expected editor is not found
+REASON: Assumed action based on file name: run main TestPropertyEditor 
+TIME:   0.055 seconds
+messages:
+command: main TestPropertyEditor
+reason: Assumed action based on file name: run main TestPropertyEditor 
+elapsed time (seconds): 0.055
+STDOUT:
+STDERR:
+java.lang.Error: expected editor is not found
+	at TestPropertyEditor.test(TestPropertyEditor.java:73)
+	at TestPropertyEditor.run(TestPropertyEditor.java:108)
+	at TestPropertyEditor.main(TestPropertyEditor.java:62)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: expected editor is not found
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: expected editor is not found
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849 \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849 \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849 \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849 \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/6380849/TestPropertyEditor.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: expected editor is not found
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/Test4968709.java
+  build: 0.366 seconds
+  compile: 0.366 seconds
+  main: 0.056 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/Test6397609.java
+  build: 0.441 seconds
+  compile: 0.441 seconds
+  main: 0.556 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/Test6963811.java
+  build: 0.381 seconds
+  compile: 0.381 seconds
+  main: 1.046 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanClass.java
+  build: 0.404 seconds
+  compile: 0.404 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanClassJava.java
+  build: 0.36 seconds
+  compile: 0.36 seconds
+  main: 0.409 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanClassNull.java
+  build: 0.365 seconds
+  compile: 0.364 seconds
+  main: 0.374 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanClassValue.java
+  build: 0.369 seconds
+  compile: 0.369 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanType.java
+  build: 0.363 seconds
+  compile: 0.363 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanTypeJava.java
+  build: 0.36 seconds
+  compile: 0.36 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanTypeNull.java
+  build: 0.361 seconds
+  compile: 0.361 seconds
+  main: 0.385 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestBooleanTypeValue.java
+  build: 0.372 seconds
+  compile: 0.372 seconds
+  main: 0.043 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteClass.java
+  build: 0.362 seconds
+  compile: 0.362 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteClassJava.java
+  build: 0.354 seconds
+  compile: 0.354 seconds
+  main: 0.398 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteClassNull.java
+  build: 0.392 seconds
+  compile: 0.392 seconds
+  main: 0.388 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteClassValue.java
+  build: 0.372 seconds
+  compile: 0.371 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteType.java
+  build: 0.363 seconds
+  compile: 0.363 seconds
+  main: 0.051 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteTypeJava.java
+  build: 0.358 seconds
+  compile: 0.358 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteTypeNull.java
+  build: 0.36 seconds
+  compile: 0.36 seconds
+  main: 0.386 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestByteTypeValue.java
+  build: 0.368 seconds
+  compile: 0.368 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestColorClass.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.394 seconds
+messages:
+command: build TestColorClass
+reason: Named class compiled on demand
+elapsed time (seconds): 0.394
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.393 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClass.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.393
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClass.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+REASON: Assumed action based on file name: run main TestColorClass 
+TIME:   0.071 seconds
+messages:
+command: main TestColorClass
+reason: Assumed action based on file name: run main TestColorClass 
+elapsed time (seconds): 0.071
+STDOUT:
+Property class: class java.awt.Color
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Color
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestColorClass.main(TestColorClass.java:36)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Color
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestColorClass.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestColorClassJava.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.38 seconds
+messages:
+command: build TestColorClassJava
+reason: Named class compiled on demand
+elapsed time (seconds): 0.38
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.38 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassJava.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.38
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassJava.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+REASON: Assumed action based on file name: run main TestColorClassJava 
+TIME:   0.052 seconds
+messages:
+command: main TestColorClassJava
+reason: Assumed action based on file name: run main TestColorClassJava 
+elapsed time (seconds): 0.052
+STDOUT:
+Property class: class java.awt.Color
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Color
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestColorClassJava.main(TestColorClassJava.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Color
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestColorClassJava.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestColorClassNull.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.381 seconds
+messages:
+command: build TestColorClassNull
+reason: Named class compiled on demand
+elapsed time (seconds): 0.381
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.381 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassNull.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.381
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassNull.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+REASON: Assumed action based on file name: run main TestColorClassNull 
+TIME:   0.052 seconds
+messages:
+command: main TestColorClassNull
+reason: Assumed action based on file name: run main TestColorClassNull 
+elapsed time (seconds): 0.052
+STDOUT:
+Property class: class java.awt.Color
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Color
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestColorClassNull.main(TestColorClassNull.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Color
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestColorClassNull.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestColorClassValue.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.385 seconds
+messages:
+command: build TestColorClassValue
+reason: Named class compiled on demand
+elapsed time (seconds): 0.385
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.385 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassValue.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.385
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestColorClassValue.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+REASON: Assumed action based on file name: run main TestColorClassValue 
+TIME:   0.052 seconds
+messages:
+command: main TestColorClassValue
+reason: Assumed action based on file name: run main TestColorClassValue 
+elapsed time (seconds): 0.052
+STDOUT:
+Property class: class java.awt.Color
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Color
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestColorClassValue.main(TestColorClassValue.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Color
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestColorClassValue.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleClass.java
+  build: 0.363 seconds
+  compile: 0.363 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleClassJava.java
+  build: 0.366 seconds
+  compile: 0.365 seconds
+  main: 0.398 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleClassNull.java
+  build: 0.353 seconds
+  compile: 0.353 seconds
+  main: 0.385 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleClassValue.java
+  build: 0.371 seconds
+  compile: 0.371 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleType.java
+  build: 0.363 seconds
+  compile: 0.363 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleTypeJava.java
+  build: 0.365 seconds
+  compile: 0.365 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleTypeNull.java
+  build: 0.353 seconds
+  compile: 0.353 seconds
+  main: 0.389 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestDoubleTypeValue.java
+  build: 0.371 seconds
+  compile: 0.371 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumClass.java
+  build: 0.38 seconds
+  compile: 0.38 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumClassJava.java
+  build: 0.379 seconds
+  compile: 0.379 seconds
+  main: 0.39 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumClassNull.java
+  build: 0.382 seconds
+  compile: 0.382 seconds
+  main: 0.388 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumClassValue.java
+  build: 0.382 seconds
+  compile: 0.382 seconds
+  main: 0.055 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumSubclass.java
+  build: 0.389 seconds
+  compile: 0.389 seconds
+  main: 0.064 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumSubclassJava.java
+  build: 0.392 seconds
+  compile: 0.392 seconds
+  main: 0.392 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumSubclassNull.java
+  build: 0.388 seconds
+  compile: 0.388 seconds
+  main: 0.393 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestEnumSubclassValue.java
+  build: 0.386 seconds
+  compile: 0.385 seconds
+  main: 0.046 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatClass.java
+  build: 0.367 seconds
+  compile: 0.367 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatClassJava.java
+  build: 0.401 seconds
+  compile: 0.401 seconds
+  main: 0.403 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatClassNull.java
+  build: 0.38 seconds
+  compile: 0.379 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatClassValue.java
+  build: 0.4 seconds
+  compile: 0.4 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatType.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatTypeJava.java
+  build: 0.371 seconds
+  compile: 0.371 seconds
+  main: 0.4 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatTypeNull.java
+  build: 0.367 seconds
+  compile: 0.367 seconds
+  main: 0.392 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFloatTypeValue.java
+  build: 0.369 seconds
+  compile: 0.369 seconds
+  main: 0.044 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFontClass.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.383 seconds
+messages:
+command: build TestFontClass
+reason: Named class compiled on demand
+elapsed time (seconds): 0.383
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.383 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClass.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.383
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClass.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+REASON: Assumed action based on file name: run main TestFontClass 
+TIME:   0.072 seconds
+messages:
+command: main TestFontClass
+reason: Assumed action based on file name: run main TestFontClass 
+elapsed time (seconds): 0.072
+STDOUT:
+Property class: class java.awt.Font
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Font
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestFontClass.main(TestFontClass.java:36)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Font
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestFontClass.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFontClassJava.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.396 seconds
+messages:
+command: build TestFontClassJava
+reason: Named class compiled on demand
+elapsed time (seconds): 0.396
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.396 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassJava.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.396
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassJava.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+REASON: Assumed action based on file name: run main TestFontClassJava 
+TIME:   0.054 seconds
+messages:
+command: main TestFontClassJava
+reason: Assumed action based on file name: run main TestFontClassJava 
+elapsed time (seconds): 0.054
+STDOUT:
+Property class: class java.awt.Font
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Font
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestFontClassJava.main(TestFontClassJava.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Font
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestFontClassJava.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFontClassNull.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.389 seconds
+messages:
+command: build TestFontClassNull
+reason: Named class compiled on demand
+elapsed time (seconds): 0.389
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.389 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassNull.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.389
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassNull.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+REASON: Assumed action based on file name: run main TestFontClassNull 
+TIME:   0.054 seconds
+messages:
+command: main TestFontClassNull
+reason: Assumed action based on file name: run main TestFontClassNull 
+elapsed time (seconds): 0.054
+STDOUT:
+Property class: class java.awt.Font
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Font
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestFontClassNull.main(TestFontClassNull.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Font
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestFontClassNull.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestFontClassValue.java
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+ACTION: build -- Passed. Build successful
+REASON: Named class compiled on demand
+TIME:   0.384 seconds
+messages:
+command: build TestFontClassValue
+reason: Named class compiled on demand
+elapsed time (seconds): 0.384
+
+ACTION: compile -- Passed. Compilation successful
+REASON: .class file out of date or does not exist
+TIME:   0.384 seconds
+messages:
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassValue.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.384
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \
+        -J-ea \
+        -J-esa \
+        -J-Dtest.vm.opts='-ea -esa' \
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.timeout.factor=4.0 \
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -J-Dtest.java.opts= \
+        -J-Dtest.compiler.opts= \
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestFontClassValue.java
+STDOUT:
+STDERR:
+
+ACTION: main -- Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+REASON: Assumed action based on file name: run main TestFontClassValue 
+TIME:   0.054 seconds
+messages:
+command: main TestFontClassValue
+reason: Assumed action based on file name: run main TestFontClassValue 
+elapsed time (seconds): 0.054
+STDOUT:
+Property class: class java.awt.Font
+STDERR:
+java.lang.Error: could not find editor for class java.awt.Font
+	at TestEditor.<init>(TestEditor.java:35)
+	at TestFontClassValue.main(TestFontClassValue.java:35)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at com.sun.javatest.regtest.MainWrapper$MainThread.run(MainWrapper.java:94)
+	at java.lang.Thread.run(Thread.java:722)
+
+JavaTest Message: Test threw exception: java.lang.Error: could not find editor for class java.awt.Font
+JavaTest Message: shutting down test
+
+STATUS:Failed.`main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+rerun:
+HOME=/home/tandon \
+LANG=C \
+PATH=/bin:/usr/bin \
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \
+        -Dtest.vm.opts='-ea -esa' \
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.timeout.factor=4.0 \
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \
+        -Dtest.java.opts= \
+        -Dtest.compiler.opts= \
+        -ea -esa \
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestFontClassValue.jta
+
+TEST RESULT: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerClass.java
+  build: 0.376 seconds
+  compile: 0.376 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerClassJava.java
+  build: 0.382 seconds
+  compile: 0.382 seconds
+  main: 0.4 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerClassNull.java
+  build: 0.385 seconds
+  compile: 0.385 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerClassValue.java
+  build: 0.377 seconds
+  compile: 0.377 seconds
+  main: 0.055 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerType.java
+  build: 0.394 seconds
+  compile: 0.394 seconds
+  main: 0.051 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerTypeJava.java
+  build: 0.373 seconds
+  compile: 0.373 seconds
+  main: 0.404 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerTypeNull.java
+  build: 0.37 seconds
+  compile: 0.37 seconds
+  main: 0.391 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestIntegerTypeValue.java
+  build: 0.376 seconds
+  compile: 0.376 seconds
+  main: 0.044 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongClass.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongClassJava.java
+  build: 0.373 seconds
+  compile: 0.372 seconds
+  main: 0.403 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongClassNull.java
+  build: 0.375 seconds
+  compile: 0.374 seconds
+  main: 0.392 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongClassValue.java
+  build: 0.374 seconds
+  compile: 0.374 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongType.java
+  build: 0.374 seconds
+  compile: 0.374 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongTypeJava.java
+  build: 0.372 seconds
+  compile: 0.371 seconds
+  main: 0.4 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongTypeNull.java
+  build: 0.371 seconds
+  compile: 0.371 seconds
+  main: 0.393 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestLongTypeValue.java
+  build: 0.368 seconds
+  compile: 0.367 seconds
+  main: 0.044 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortClass.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.053 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortClassJava.java
+  build: 0.374 seconds
+  compile: 0.374 seconds
+  main: 0.403 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortClassNull.java
+  build: 0.373 seconds
+  compile: 0.373 seconds
+  main: 0.396 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortClassValue.java
+  build: 0.377 seconds
+  compile: 0.377 seconds
+  main: 0.045 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortType.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.051 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortTypeJava.java
+  build: 0.373 seconds
+  compile: 0.373 seconds
+  main: 0.402 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortTypeNull.java
+  build: 0.373 seconds
+  compile: 0.372 seconds
+  main: 0.394 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestShortTypeValue.java
+  build: 0.383 seconds
+  compile: 0.383 seconds
+  main: 0.043 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestStringClass.java
+  build: 0.373 seconds
+  compile: 0.373 seconds
+  main: 0.052 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestStringClassJava.java
+  build: 0.373 seconds
+  compile: 0.373 seconds
+  main: 0.437 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestStringClassNull.java
+  build: 0.368 seconds
+  compile: 0.368 seconds
+  main: 0.397 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/PropertyEditor/TestStringClassValue.java
+  build: 0.37 seconds
+  compile: 0.37 seconds
+  main: 0.055 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/4676532/Test4676532.java
+  build: 0.406 seconds
+  compile: 0.405 seconds
+  main: 0.06 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestArray.java
+  build: 0.394 seconds
+  compile: 0.394 seconds
+  main: 0.068 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestBoolean.java
+  build: 0.362 seconds
+  compile: 0.362 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestByte.java
+  build: 0.38 seconds
+  compile: 0.38 seconds
+  main: 0.068 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestChar.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestClass.java
+  build: 0.376 seconds
+  compile: 0.376 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestDouble.java
+  build: 0.392 seconds
+  compile: 0.392 seconds
+  main: 0.066 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestFalse.java
+  build: 0.375 seconds
+  compile: 0.375 seconds
+  main: 0.066 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestField.java
+  build: 0.39 seconds
+  compile: 0.39 seconds
+  main: 0.075 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestFloat.java
+  build: 0.389 seconds
+  compile: 0.389 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestInt.java
+  build: 0.382 seconds
+  compile: 0.382 seconds
+  main: 0.068 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestJava.java
+  build: 0.365 seconds
+  compile: 0.365 seconds
+  main: 0.069 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestLong.java
+  build: 0.387 seconds
+  compile: 0.387 seconds
+  main: 0.069 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestMethod.java
+  build: 0.379 seconds
+  compile: 0.379 seconds
+  main: 0.072 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestNew.java
+  build: 0.402 seconds
+  compile: 0.402 seconds
+  main: 0.068 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestNull.java
+  build: 0.362 seconds
+  compile: 0.362 seconds
+  main: 0.077 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestObject.java
+  build: 0.416 seconds
+  compile: 0.416 seconds
+  main: 0.117 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestProperty.java
+  build: 0.38 seconds
+  compile: 0.38 seconds
+  main: 0.077 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestShort.java
+  build: 0.386 seconds
+  compile: 0.386 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestString.java
+  build: 0.386 seconds
+  compile: 0.386 seconds
+  main: 0.077 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestTrue.java
+  build: 0.359 seconds
+  compile: 0.359 seconds
+  main: 0.067 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/spec/TestVar.java
+  build: 0.366 seconds
+  compile: 0.365 seconds
+  main: 0.066 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/Test4864117.java
+  build: 0.426 seconds
+  compile: 0.425 seconds
+  main: 0.06 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/Test6338070.java
+  build: 0.363 seconds
+  compile: 0.363 seconds
+  main: 0.058 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+TEST: java/beans/XMLDecoder/Test6341798.java
+  build: 0.396 seconds
+  compile: 0.396 seconds
+  main: 0.071 seconds
+TEST RESULT: Passed. Execution successful
+--------------------------------------------------
+Test results: passed: 104; failed: 9
+Report written to /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTreport/html/report.html
+Results written to /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork
+Error: Some tests failed or other problems occurred.
+Summary: jdk_beans2
+FAILED: java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+FAILED: java/beans/PropertyEditor/TestColorClass.java
+FAILED: java/beans/PropertyEditor/TestColorClassJava.java
+FAILED: java/beans/PropertyEditor/TestColorClassNull.java
+FAILED: java/beans/PropertyEditor/TestColorClassValue.java
+FAILED: java/beans/PropertyEditor/TestFontClass.java
+FAILED: java/beans/PropertyEditor/TestFontClassJava.java
+FAILED: java/beans/PropertyEditor/TestFontClassNull.java
+FAILED: java/beans/PropertyEditor/TestFontClassValue.java
+TEST STATS: name=jdk_beans2  run=113  pass=104  fail=9  excluded=1
+EXIT CODE: 2

@@ -1,0 +1,106 @@
+#Test Results (version 2)
+#Tue Mar 18 20:15:55 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler/Test6277246.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Jeff Nisewanger
+keywords=bug6277246 othervm
+run=USER_SPECIFIED main/othervm Test6277246\n
+source=Test6277246.java
+title=Tests problem with java.beans use of reflection
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler/Test6277246.java
+elapsed=423 0\:00\:00.423
+end=Tue Mar 18 20\:15\:55 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile main
+start=Tue Mar 18 20\:15\:54 EDT 2014
+test=java/beans/EventHandler/Test6277246.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/EventHandler
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/96)----------
+command: build Test6277246
+reason: Named class compiled on demand
+elapsed time (seconds): 0.369
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/204)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler/Test6277246.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.369
+----------rerun:(18/1684)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler:/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler/Test6277246.java
+----------System.out:(0/0)----------
+----------System.err:(2/174)----------
+Note: /home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler/Test6277246.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/117)----------
+command: main Test6277246
+reason: User specified action: run main/othervm Test6277246 
+elapsed time (seconds): 0.053
+----------System.out:(0/0)----------
+----------System.err:(1/15)----------
+STATUS:Passed.
+----------rerun:(18/1516)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler:/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/EventHandler \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -ea -esa \\
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/EventHandler/Test6277246.jta
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

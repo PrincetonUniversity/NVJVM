@@ -1,0 +1,11 @@
+Summary: jdk_beans2
+FAILED: java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+FAILED: java/beans/PropertyEditor/TestColorClass.java
+FAILED: java/beans/PropertyEditor/TestColorClassJava.java
+FAILED: java/beans/PropertyEditor/TestColorClassNull.java
+FAILED: java/beans/PropertyEditor/TestColorClassValue.java
+FAILED: java/beans/PropertyEditor/TestFontClass.java
+FAILED: java/beans/PropertyEditor/TestFontClassJava.java
+FAILED: java/beans/PropertyEditor/TestFontClassNull.java
+FAILED: java/beans/PropertyEditor/TestFontClassValue.java
+TEST STATS: name=jdk_beans2  run=113  pass=104  fail=9  excluded=1

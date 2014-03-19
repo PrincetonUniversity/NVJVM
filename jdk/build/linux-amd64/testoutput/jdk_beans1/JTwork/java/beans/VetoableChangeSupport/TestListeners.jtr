@@ -1,0 +1,111 @@
+#Test Results (version 2)
+#Tue Mar 18 20:15:49 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Sergey Malenkov
+keywords=bug5004188
+run=ASSUMED_ACTION main TestListeners\n
+source=TestListeners.java
+title=Tests sequence of listeners
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
+elapsed=20 0\:00\:00.020
+end=Tue Mar 18 20\:15\:49 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile main
+start=Tue Mar 18 20\:15\:49 EDT 2014
+test=java/beans/VetoableChangeSupport/TestListeners.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/VetoableChangeSupport
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/98)----------
+command: build TestListeners
+reason: Named class compiled on demand
+elapsed time (seconds): 0.018
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/215)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.018
+----------rerun:(19/1874)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport \\
+        -J-Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport -classpath /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/125)----------
+command: main TestListeners
+reason: Assumed action based on file name: run main TestListeners 
+elapsed time (seconds): 0.002
+----------rerun:(18/1711)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport \\
+        -Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+        TestListeners
+----------System.out:(6/60)----------
+index = 0
+index = 1
+index = 2
+index = 3
+index = 0
+index = 1
+----------System.err:(3/36)----------
+
+JavaTest Message:  Test complete.
+
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

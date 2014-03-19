@@ -1,0 +1,461 @@
+# Trace file started at Tue Mar 18 20:15:51 EDT 2014
+# JT Harness version 4.4.1
+# class directory: /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar
+# using java: /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/jre
+Starting tests.
+Test suite class: com.sun.javatest.regtest.RegressionTestSuite
+Test finder class: com.sun.javatest.regtest.RegressionTestFinder
+
+Test starting: java/beans/Beans/6669869/TestDesignTime.java
+
+Test finished: java/beans/Beans/6669869/TestDesignTime.java: Passed. Execution successful
+
+Test starting: java/beans/Beans/6669869/TestGuiAvailable.java
+
+Test finished: java/beans/Beans/6669869/TestGuiAvailable.java: Passed. Execution successful
+
+Test starting: java/beans/Beans/Test4067824.java
+
+Test finished: java/beans/Beans/Test4067824.java: Passed. Execution successful
+
+Test starting: java/beans/Beans/Test4080522.java
+
+Test finished: java/beans/Beans/Test4080522.java: Passed. Execution successful
+
+Test starting: java/beans/Beans/Test4343723.java
+
+Test finished: java/beans/Beans/Test4343723.java: Passed. Execution successful
+
+Test starting: java/beans/EventHandler/Test6179222.java
+
+Test finished: java/beans/EventHandler/Test6179222.java: Passed. Execution successful
+
+Test starting: java/beans/EventHandler/Test6277246.java
+
+Test finished: java/beans/EventHandler/Test6277246.java: Passed. Execution successful
+
+Test starting: java/beans/EventHandler/Test6277266.java
+
+Test finished: java/beans/EventHandler/Test6277266.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/6380849/TestPropertyEditor.java
+
+Test finished: java/beans/PropertyEditor/6380849/TestPropertyEditor.java: Failed. Execution failed: `main' threw exception: java.lang.Error: expected editor is not found
+
+Test starting: java/beans/PropertyEditor/Test4968709.java
+
+Test finished: java/beans/PropertyEditor/Test4968709.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/Test6397609.java
+
+Test finished: java/beans/PropertyEditor/Test6397609.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/Test6963811.java
+
+Test finished: java/beans/PropertyEditor/Test6963811.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanClass.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanType.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestBooleanTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestBooleanTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteClass.java
+
+Test finished: java/beans/PropertyEditor/TestByteClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestByteClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestByteClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestByteClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteType.java
+
+Test finished: java/beans/PropertyEditor/TestByteType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestByteTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestByteTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestByteTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestByteTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestColorClass.java
+
+Test finished: java/beans/PropertyEditor/TestColorClass.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+
+Test starting: java/beans/PropertyEditor/TestColorClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestColorClassJava.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+
+Test starting: java/beans/PropertyEditor/TestColorClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestColorClassNull.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+
+Test starting: java/beans/PropertyEditor/TestColorClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestColorClassValue.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Color
+
+Test starting: java/beans/PropertyEditor/TestDoubleClass.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleType.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestDoubleTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestDoubleTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumClass.java
+
+Test finished: java/beans/PropertyEditor/TestEnumClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestEnumClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestEnumClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestEnumClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumSubclass.java
+
+Test finished: java/beans/PropertyEditor/TestEnumSubclass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumSubclassJava.java
+
+Test finished: java/beans/PropertyEditor/TestEnumSubclassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumSubclassNull.java
+
+Test finished: java/beans/PropertyEditor/TestEnumSubclassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestEnumSubclassValue.java
+
+Test finished: java/beans/PropertyEditor/TestEnumSubclassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatClass.java
+
+Test finished: java/beans/PropertyEditor/TestFloatClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestFloatClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestFloatClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestFloatClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatType.java
+
+Test finished: java/beans/PropertyEditor/TestFloatType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestFloatTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestFloatTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFloatTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestFloatTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestFontClass.java
+
+Test finished: java/beans/PropertyEditor/TestFontClass.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+
+Test starting: java/beans/PropertyEditor/TestFontClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestFontClassJava.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+
+Test starting: java/beans/PropertyEditor/TestFontClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestFontClassNull.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+
+Test starting: java/beans/PropertyEditor/TestFontClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestFontClassValue.java: Failed. Execution failed: `main' threw exception: java.lang.Error: could not find editor for class java.awt.Font
+
+Test starting: java/beans/PropertyEditor/TestIntegerClass.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerType.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestIntegerTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestIntegerTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongClass.java
+
+Test finished: java/beans/PropertyEditor/TestLongClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestLongClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestLongClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestLongClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongType.java
+
+Test finished: java/beans/PropertyEditor/TestLongType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestLongTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestLongTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestLongTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestLongTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortClass.java
+
+Test finished: java/beans/PropertyEditor/TestShortClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestShortClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestShortClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestShortClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortType.java
+
+Test finished: java/beans/PropertyEditor/TestShortType.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortTypeJava.java
+
+Test finished: java/beans/PropertyEditor/TestShortTypeJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortTypeNull.java
+
+Test finished: java/beans/PropertyEditor/TestShortTypeNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestShortTypeValue.java
+
+Test finished: java/beans/PropertyEditor/TestShortTypeValue.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestStringClass.java
+
+Test finished: java/beans/PropertyEditor/TestStringClass.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestStringClassJava.java
+
+Test finished: java/beans/PropertyEditor/TestStringClassJava.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestStringClassNull.java
+
+Test finished: java/beans/PropertyEditor/TestStringClassNull.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyEditor/TestStringClassValue.java
+
+Test finished: java/beans/PropertyEditor/TestStringClassValue.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/4676532/Test4676532.java
+
+Test finished: java/beans/XMLDecoder/4676532/Test4676532.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestArray.java
+
+Test finished: java/beans/XMLDecoder/spec/TestArray.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestBoolean.java
+
+Test finished: java/beans/XMLDecoder/spec/TestBoolean.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestByte.java
+
+Test finished: java/beans/XMLDecoder/spec/TestByte.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestChar.java
+
+Test finished: java/beans/XMLDecoder/spec/TestChar.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestClass.java
+
+Test finished: java/beans/XMLDecoder/spec/TestClass.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestDouble.java
+
+Test finished: java/beans/XMLDecoder/spec/TestDouble.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestFalse.java
+
+Test finished: java/beans/XMLDecoder/spec/TestFalse.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestField.java
+
+Test finished: java/beans/XMLDecoder/spec/TestField.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestFloat.java
+
+Test finished: java/beans/XMLDecoder/spec/TestFloat.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestInt.java
+
+Test finished: java/beans/XMLDecoder/spec/TestInt.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestJava.java
+
+Test finished: java/beans/XMLDecoder/spec/TestJava.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestLong.java
+
+Test finished: java/beans/XMLDecoder/spec/TestLong.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestMethod.java
+
+Test finished: java/beans/XMLDecoder/spec/TestMethod.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestNew.java
+
+Test finished: java/beans/XMLDecoder/spec/TestNew.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestNull.java
+
+Test finished: java/beans/XMLDecoder/spec/TestNull.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestObject.java
+
+Test finished: java/beans/XMLDecoder/spec/TestObject.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestProperty.java
+
+Test finished: java/beans/XMLDecoder/spec/TestProperty.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestShort.java
+
+Test finished: java/beans/XMLDecoder/spec/TestShort.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestString.java
+
+Test finished: java/beans/XMLDecoder/spec/TestString.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestTrue.java
+
+Test finished: java/beans/XMLDecoder/spec/TestTrue.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/spec/TestVar.java
+
+Test finished: java/beans/XMLDecoder/spec/TestVar.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/Test4864117.java
+
+Test finished: java/beans/XMLDecoder/Test4864117.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/Test6338070.java
+
+Test finished: java/beans/XMLDecoder/Test6338070.java: Passed. Execution successful
+
+Test starting: java/beans/XMLDecoder/Test6341798.java
+
+Test finished: java/beans/XMLDecoder/Test6341798.java: Passed. Execution successful
+Doing post-run cleanup
+Completed: Some tests did not pass

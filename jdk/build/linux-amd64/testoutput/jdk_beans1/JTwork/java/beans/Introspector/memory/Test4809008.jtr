@@ -1,0 +1,146 @@
+#Test Results (version 2)
+#Tue Mar 18 20:15:47 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Mark Davidson
+keywords=bug4809008 othervm
+run=USER_SPECIFIED build Bean\nUSER_SPECIFIED main/othervm -server -XX\:SoftRefLRUPolicyMSPerMB\=0 Test4809008\n
+source=Test4809008.java
+title=Tests memory leak with multiple class loader access
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
+elapsed=949 0\:00\:00.949
+end=Tue Mar 18 20\:15\:47 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile build compile main
+start=Tue Mar 18 20\:15\:46 EDT 2014
+test=java/beans/Introspector/memory/Test4809008.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector/memory
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/97)----------
+command: build Bean
+reason: User specified action: run build Bean 
+elapsed time (seconds): 0.019
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/204)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Bean.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.019
+----------rerun:(19/1843)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -J-Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory -classpath /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Bean.java
+result: Passed. Compilation successful
+
+#section:build
+----------messages:(3/96)----------
+command: build Test4809008
+reason: Named class compiled on demand
+elapsed time (seconds): 0.038
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/211)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.038
+----------rerun:(19/1850)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -J-Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory -classpath /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/193)----------
+command: main -server -XX:SoftRefLRUPolicyMSPerMB=0 Test4809008
+reason: User specified action: run main/othervm -server -XX:SoftRefLRUPolicyMSPerMB=0 Test4809008 
+elapsed time (seconds): 0.892
+----------System.out:(8/143)----------
+Start Memory
+	free:  504606256
+	total: 504889344
+End Memory
+	free:  504577072
+	total: 504889344
+200 classes introspected
+200 classes finalized
+----------System.err:(1/15)----------
+STATUS:Passed.
+----------rerun:(19/1829)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory \\
+        -Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -ea -esa -server -XX:SoftRefLRUPolicyMSPerMB=0 \\
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/Introspector/memory/Test4809008.jta
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

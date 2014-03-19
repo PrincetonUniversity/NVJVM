@@ -1,0 +1,9 @@
+java/beans/PropertyChangeSupport/Test4682386.java		generic-all
+java/beans/PropertyChangeSupport/TestSynchronization.java	generic-all
+java/beans/Introspector/TestTypeResolver.java   		generic-all
+java/beans/Introspector/memory/Test4508780.java			generic-all
+java/beans/Introspector/4168475/Test4168475.java		generic-all
+java/beans/Introspector/4520754/Test4520754.java		generic-all
+java/beans/Introspector/6380849/TestBeanInfo.java		generic-all
+java/beans/Introspector/Test4144543.java			generic-all
+java/beans/Statement/Test4653179.java				generic-all

@@ -1,0 +1,213 @@
+# Trace file started at Tue Mar 18 20:15:45 EDT 2014
+# JT Harness version 4.4.1
+# class directory: /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar
+# using java: /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/jre
+Starting tests.
+Test suite class: com.sun.javatest.regtest.RegressionTestSuite
+Test finder class: com.sun.javatest.regtest.RegressionTestFinder
+
+Test starting: java/beans/beancontext/Test4132698.java
+
+Test finished: java/beans/beancontext/Test4132698.java: Passed. Execution successful
+
+Test starting: java/beans/beancontext/Test4233980.java
+
+Test finished: java/beans/beancontext/Test4233980.java: Passed. Execution successful
+
+Test starting: java/beans/beancontext/Test4328406.java
+
+Test finished: java/beans/beancontext/Test4328406.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/4750368/Test4750368.java
+
+Test finished: java/beans/Introspector/4750368/Test4750368.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/6976577/Test6976577.java
+
+Test finished: java/beans/Introspector/6976577/Test6976577.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/memory/Test4809008.java
+
+Test finished: java/beans/Introspector/memory/Test4809008.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4072197.java
+
+Test finished: java/beans/Introspector/Test4072197.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4168833.java
+
+Test finished: java/beans/Introspector/Test4168833.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4274639.java
+
+Test finished: java/beans/Introspector/Test4274639.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4498236.java
+
+Test finished: java/beans/Introspector/Test4498236.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4619536.java
+
+Test finished: java/beans/Introspector/Test4619536.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4619792.java
+
+Test finished: java/beans/Introspector/Test4619792.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4634390.java
+
+Test finished: java/beans/Introspector/Test4634390.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4896879.java
+
+Test finished: java/beans/Introspector/Test4896879.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4918902.java
+
+Test finished: java/beans/Introspector/Test4918902.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4935607.java
+
+Test finished: java/beans/Introspector/Test4935607.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4948761.java
+
+Test finished: java/beans/Introspector/Test4948761.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test4984912.java
+
+Test finished: java/beans/Introspector/Test4984912.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test5063390.java
+
+Test finished: java/beans/Introspector/Test5063390.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test5102804.java
+
+Test finished: java/beans/Introspector/Test5102804.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6194788.java
+
+Test finished: java/beans/Introspector/Test6194788.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6277246.java
+
+Test finished: java/beans/Introspector/Test6277246.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6311051.java
+
+Test finished: java/beans/Introspector/Test6311051.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6422403.java
+
+Test finished: java/beans/Introspector/Test6422403.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6447751.java
+
+Test finished: java/beans/Introspector/Test6447751.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6528714.java
+
+Test finished: java/beans/Introspector/Test6528714.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6660539.java
+
+Test finished: java/beans/Introspector/Test6660539.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6707234.java
+
+Test finished: java/beans/Introspector/Test6707234.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6723447.java
+
+Test finished: java/beans/Introspector/Test6723447.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6868189.java
+
+Test finished: java/beans/Introspector/Test6868189.java: Passed. Execution successful
+
+Test starting: java/beans/Introspector/Test6963811.java
+
+Test finished: java/beans/Introspector/Test6963811.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/Test4092905.java
+
+Test finished: java/beans/PropertyChangeSupport/Test4092905.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/Test4353056.java
+
+Test finished: java/beans/PropertyChangeSupport/Test4353056.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/Test4985020.java
+
+Test finished: java/beans/PropertyChangeSupport/Test4985020.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/TestEquals.java
+
+Test finished: java/beans/PropertyChangeSupport/TestEquals.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/TestListeners.java
+
+Test finished: java/beans/PropertyChangeSupport/TestListeners.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/TestMethods.java
+
+Test finished: java/beans/PropertyChangeSupport/TestMethods.java: Passed. Execution successful
+
+Test starting: java/beans/PropertyChangeSupport/TestSerialization.java
+
+Test finished: java/beans/PropertyChangeSupport/TestSerialization.java: Passed. Execution successful
+
+Test starting: java/beans/Statement/Test4530962.java
+
+Test finished: java/beans/Statement/Test4530962.java: Passed. Execution successful
+
+Test starting: java/beans/Statement/Test6224433.java
+
+Test finished: java/beans/Statement/Test6224433.java: Passed. Execution successful
+
+Test starting: java/beans/Statement/Test6707226.java
+
+Test finished: java/beans/Statement/Test6707226.java: Passed. Execution successful
+
+Test starting: java/beans/Statement/Test6788531.java
+
+Test finished: java/beans/Statement/Test6788531.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/Test4076065.java
+
+Test finished: java/beans/VetoableChangeSupport/Test4076065.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/Test4092906.java
+
+Test finished: java/beans/VetoableChangeSupport/Test4092906.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/Test4425885.java
+
+Test finished: java/beans/VetoableChangeSupport/Test4425885.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/Test4994635.java
+
+Test finished: java/beans/VetoableChangeSupport/Test4994635.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/Test6630275.java
+
+Test finished: java/beans/VetoableChangeSupport/Test6630275.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/TestEquals.java
+
+Test finished: java/beans/VetoableChangeSupport/TestEquals.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/TestListeners.java
+
+Test finished: java/beans/VetoableChangeSupport/TestListeners.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/TestMethods.java
+
+Test finished: java/beans/VetoableChangeSupport/TestMethods.java: Passed. Execution successful
+
+Test starting: java/beans/VetoableChangeSupport/TestSerialization.java
+
+Test finished: java/beans/VetoableChangeSupport/TestSerialization.java: Passed. Execution successful
+Doing post-run cleanup
+Completed: All tests passed

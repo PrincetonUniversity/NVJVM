@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+ Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This code is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License version 2 only, as
+ published by the Free Software Foundation.  Oracle designates this
+ particular file as subject to the "Classpath" exception as provided
+ by Oracle in the LICENSE file that accompanied this code.
+
+ This code is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ version 2 for more details (a copy is included in the LICENSE file that
+ accompanied this code).
+
+ You should have received a copy of the GNU General Public License version
+ 2 along with this work; if not, write to the Free Software Foundation,
+ Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ or visit www.oracle.com if you need additional information or have any
+ questions.
+-->
+
+<project name="jaxp_src-drop" default="all" basedir=".">
+
+    <!-- Locations of master drop bundles. -->
+    <property name="jaxp_src.master.bundle.copy"
+              value="${jaxp_src.master.bundle.dir}/${jaxp_src.bundle.name}"/>
+    <property name="jaxp_src.master.bundle.url"
+              value="${jaxp_src.master.bundle.url.base}/${jaxp_src.bundle.name}"/>
+
+    <!-- Location where the copied bundle lands. -->
+    <property name="jaxp_src.bundle.copy"
+              value="${drop.expanded.dir}/bundles/${jaxp_src.bundle.name}"/>
+
+    <!-- Root of exploded area. -->
+    <property name="jaxp_src.root.dir" value="${drop.dir}/jaxp_src"/>
+    <property name="jaxp_src.src.dir" value="${jaxp_src.root.dir}/src"/>
+
+    <!-- To see if the drop areas are ready. (ignoring bundles) -->
+    <target name="-jaxp_src-ready">
+        <condition property="jaxp_src.ready">
+            <or>
+                <available file="${drop.included.dir}" type="dir"/>
+                <and>
+                    <available file="${jaxp_src.root.dir}" type="dir"/>
+                    <available file="${jaxp_src.root.dir}/PATCHED" type="file"/>
+                </and>
+            </or>
+        </condition>
+    </target>
+
+    <!-- Copy over bundles from some shared master area. -->
+    <condition property="jaxp_src.master.bundle.copy.exists">
+        <available file="${jaxp_src.master.bundle.copy}" type="file"/>
+    </condition>
+    <target name="-jaxp_src-copy-bundle"
+	    depends="init, -jaxp_src-ready"
+            if="jaxp_src.master.bundle.copy.exists"
+            unless="jaxp_src.ready">
+        <echo message="Copying from ${jaxp_src.master.bundle.copy}"/>
+        <dirname property="jaxp_src.bundle.dirname" file="${jaxp_src.bundle.copy}"/>
+        <mkdir dir="${jaxp_src.bundle.dirname}"/>
+        <delete file="${jaxp_src.bundle.copy}.temp"/>
+        <delete file="${jaxp_src.bundle.copy}"/>
+        <copy file="${jaxp_src.master.bundle.copy}" tofile="${jaxp_src.bundle.copy}.temp"/>
+        <move file="${jaxp_src.bundle.copy}.temp" tofile="${jaxp_src.bundle.copy}"/>
+        <property name="jaxp_src.master.bundle.found" value="true"/>
+    </target>
+
+    <!-- Determine if the master url download should be used. -->
+    <target name="-jaxp_src-url-should-be-used" unless="jaxp_src.url.should.be.used">
+        <condition property="jaxp_src.url.should.be.used">
+            <and>
+                <istrue value="${allow.downloads}"/>
+                <not>
+                    <isset property="jaxp_src.master.bundle.copy.exists"/>
+                </not>
+            </and>
+        </condition>
+    </target>
+
+    <!-- Download bundles from a url. -->
+    <target name="-jaxp_src-url-bundle"
+	    depends="init, -jaxp_src-ready, -jaxp_src-url-should-be-used"
+            if="jaxp_src.url.should.be.used"
+            unless="jaxp_src.ready">
+        <echo message="Downloading from ${jaxp_src.master.bundle.url}"/>
+        <dirname property="jaxp_src.bundle.dirname" file="${jaxp_src.bundle.copy}"/>
+        <mkdir dir="${jaxp_src.bundle.dirname}"/>
+        <delete file="${jaxp_src.bundle.copy}.temp"/>
+        <delete file="${jaxp_src.bundle.copy}"/>
+        <get src="${jaxp_src.master.bundle.url}" dest="${jaxp_src.bundle.copy}.temp"/>
+        <move file="${jaxp_src.bundle.copy}.temp" tofile="${jaxp_src.bundle.copy}"/>
+        <property name="jaxp_src.master.bundle.found" value="true"/>
+    </target>
+    
+    <!-- Fill in the drop zones, but just when needed. -->
+    <target name="jaxp_src-update"
+            depends="init, 
+		     -jaxp_src-copy-bundle,
+		     -jaxp_src-url-bundle,
+                     -jaxp_src-ready"
+            if="jaxp_src.master.bundle.found"
+            unless="jaxp_src.ready">
+        <delete dir="${jaxp_src.root.dir}"/>
+        <delete dir="${jaxp_src.root.dir}-temp"/>
+        <mkdir dir="${jaxp_src.root.dir}-temp"/>
+	<checksum file="${jaxp_src.bundle.copy}" 
+		  property="jaxp_src.bundle.md5.checksum.is"/>
+        <condition property="jaxp_src.bundle.md5.checksum.good">
+            <equals arg1="${jaxp_src.bundle.md5.checksum}"
+                    arg2="${jaxp_src.bundle.md5.checksum.is}"/>
+        </condition>
+        <fail unless="jaxp_src.bundle.md5.checksum.good">
+              Checksum on file ${jaxp_src.bundle.copy} is 
+              ${jaxp_src.bundle.md5.checksum.is}, not ${jaxp_src.bundle.md5.checksum}
+        </fail>
+        <unzip src="${jaxp_src.bundle.copy}" dest="${jaxp_src.root.dir}-temp"/>
+        <move file="${jaxp_src.root.dir}-temp" tofile="${jaxp_src.root.dir}"/>
+        <touch>
+            <fileset dir="${jaxp_src.root.dir}"/>
+        </touch>
+        <condition property="patch.utility" value="gpatch" else="patch">
+            <os name="SunOS"/>
+        </condition>
+        <apply executable="${patch.utility}"
+		   dir="${jaxp_src.root.dir}"
+	           parallel="false"
+	           failonerror="true"
+	           verbose="true">
+            <arg value="-l"/>
+            <arg value="-p0"/>
+            <arg value="-i"/>
+            <filelist dir="${patches.dir}/jaxp_src" files="${jaxp_src.patch.list}"/>
+        </apply>
+        <echo file="${jaxp_src.root.dir}/PATCHED"
+	      message="Patches have been applied."/>
+    </target>
+
+</project>

@@ -1,0 +1,1 @@
+java/beans/EventHandler/Test6788531.java		 	generic-all

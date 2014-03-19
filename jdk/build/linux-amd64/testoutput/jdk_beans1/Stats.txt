@@ -1,0 +1,2 @@
+Summary: jdk_beans1
+TEST STATS: name=jdk_beans1  run=51  pass=51  fail=0  excluded=9

@@ -1,0 +1,371 @@
+#Test Results (version 2)
+#Tue Mar 18 20:15:49 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/Test4353056.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Mark Davidson
+keywords=bug4353056
+run=ASSUMED_ACTION main Test4353056\n
+source=Test4353056.java
+title=Tests basic IndexPropertyChangeEvent functionality
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/Test4353056.java
+elapsed=28 0\:00\:00.028
+end=Tue Mar 18 20\:15\:49 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile main
+start=Tue Mar 18 20\:15\:49 EDT 2014
+test=java/beans/PropertyChangeSupport/Test4353056.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/PropertyChangeSupport
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/96)----------
+command: build Test4353056
+reason: Named class compiled on demand
+elapsed time (seconds): 0.021
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/213)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/Test4353056.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.021
+----------rerun:(19/1872)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport \\
+        -J-Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport -classpath /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/Test4353056.java
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/121)----------
+command: main Test4353056
+reason: Assumed action based on file name: run main Test4353056 
+elapsed time (seconds): 0.005
+----------rerun:(18/1709)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport \\
+        -Dtest.class.path.prefix=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/classes/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+        Test4353056
+----------System.out:(266/7210)----------
+color at 0 is java.awt.Color[r=255,g=0,b=0]
+boolean at 0 is true
+color at 1 is java.awt.Color[r=0,g=0,b=255]
+boolean at 1 is false
+integer at 1 is 1
+boolean at 2 is true
+integer at 2 is 2
+color at 3 is java.awt.Color[r=255,g=0,b=0]
+boolean at 3 is false
+integer at 3 is 3
+color at 4 is java.awt.Color[r=0,g=0,b=255]
+boolean at 4 is true
+integer at 4 is 4
+boolean at 5 is false
+integer at 5 is 5
+color at 6 is java.awt.Color[r=255,g=0,b=0]
+boolean at 6 is true
+integer at 6 is 6
+color at 7 is java.awt.Color[r=0,g=0,b=255]
+boolean at 7 is false
+integer at 7 is 7
+boolean at 8 is true
+integer at 8 is 8
+color at 9 is java.awt.Color[r=255,g=0,b=0]
+boolean at 9 is false
+integer at 9 is 9
+color at 10 is java.awt.Color[r=0,g=0,b=255]
+boolean at 10 is true
+integer at 10 is 10
+boolean at 11 is false
+integer at 11 is 11
+color at 12 is java.awt.Color[r=255,g=0,b=0]
+boolean at 12 is true
+integer at 12 is 12
+color at 13 is java.awt.Color[r=0,g=0,b=255]
+boolean at 13 is false
+integer at 13 is 13
+boolean at 14 is true
+integer at 14 is 14
+color at 15 is java.awt.Color[r=255,g=0,b=0]
+boolean at 15 is false
+integer at 15 is 15
+color at 16 is java.awt.Color[r=0,g=0,b=255]
+boolean at 16 is true
+integer at 16 is 16
+boolean at 17 is false
+integer at 17 is 17
+color at 18 is java.awt.Color[r=255,g=0,b=0]
+boolean at 18 is true
+integer at 18 is 18
+color at 19 is java.awt.Color[r=0,g=0,b=255]
+boolean at 19 is false
+integer at 19 is 19
+boolean at 20 is true
+integer at 20 is 20
+color at 21 is java.awt.Color[r=255,g=0,b=0]
+boolean at 21 is false
+integer at 21 is 21
+color at 22 is java.awt.Color[r=0,g=0,b=255]
+boolean at 22 is true
+integer at 22 is 22
+boolean at 23 is false
+integer at 23 is 23
+color at 24 is java.awt.Color[r=255,g=0,b=0]
+boolean at 24 is true
+integer at 24 is 24
+color at 25 is java.awt.Color[r=0,g=0,b=255]
+boolean at 25 is false
+integer at 25 is 25
+boolean at 26 is true
+integer at 26 is 26
+color at 27 is java.awt.Color[r=255,g=0,b=0]
+boolean at 27 is false
+integer at 27 is 27
+color at 28 is java.awt.Color[r=0,g=0,b=255]
+boolean at 28 is true
+integer at 28 is 28
+boolean at 29 is false
+integer at 29 is 29
+color at 30 is java.awt.Color[r=255,g=0,b=0]
+boolean at 30 is true
+integer at 30 is 30
+color at 31 is java.awt.Color[r=0,g=0,b=255]
+boolean at 31 is false
+integer at 31 is 31
+boolean at 32 is true
+integer at 32 is 32
+color at 33 is java.awt.Color[r=255,g=0,b=0]
+boolean at 33 is false
+integer at 33 is 33
+color at 34 is java.awt.Color[r=0,g=0,b=255]
+boolean at 34 is true
+integer at 34 is 34
+boolean at 35 is false
+integer at 35 is 35
+color at 36 is java.awt.Color[r=255,g=0,b=0]
+boolean at 36 is true
+integer at 36 is 36
+color at 37 is java.awt.Color[r=0,g=0,b=255]
+boolean at 37 is false
+integer at 37 is 37
+boolean at 38 is true
+integer at 38 is 38
+color at 39 is java.awt.Color[r=255,g=0,b=0]
+boolean at 39 is false
+integer at 39 is 39
+color at 40 is java.awt.Color[r=0,g=0,b=255]
+boolean at 40 is true
+integer at 40 is 40
+boolean at 41 is false
+integer at 41 is 41
+color at 42 is java.awt.Color[r=255,g=0,b=0]
+boolean at 42 is true
+integer at 42 is 42
+color at 43 is java.awt.Color[r=0,g=0,b=255]
+boolean at 43 is false
+integer at 43 is 43
+boolean at 44 is true
+integer at 44 is 44
+color at 45 is java.awt.Color[r=255,g=0,b=0]
+boolean at 45 is false
+integer at 45 is 45
+color at 46 is java.awt.Color[r=0,g=0,b=255]
+boolean at 46 is true
+integer at 46 is 46
+boolean at 47 is false
+integer at 47 is 47
+color at 48 is java.awt.Color[r=255,g=0,b=0]
+boolean at 48 is true
+integer at 48 is 48
+color at 49 is java.awt.Color[r=0,g=0,b=255]
+boolean at 49 is false
+integer at 49 is 49
+boolean at 50 is true
+integer at 50 is 50
+color at 51 is java.awt.Color[r=255,g=0,b=0]
+boolean at 51 is false
+integer at 51 is 51
+color at 52 is java.awt.Color[r=0,g=0,b=255]
+boolean at 52 is true
+integer at 52 is 52
+boolean at 53 is false
+integer at 53 is 53
+color at 54 is java.awt.Color[r=255,g=0,b=0]
+boolean at 54 is true
+integer at 54 is 54
+color at 55 is java.awt.Color[r=0,g=0,b=255]
+boolean at 55 is false
+integer at 55 is 55
+boolean at 56 is true
+integer at 56 is 56
+color at 57 is java.awt.Color[r=255,g=0,b=0]
+boolean at 57 is false
+integer at 57 is 57
+color at 58 is java.awt.Color[r=0,g=0,b=255]
+boolean at 58 is true
+integer at 58 is 58
+boolean at 59 is false
+integer at 59 is 59
+color at 60 is java.awt.Color[r=255,g=0,b=0]
+boolean at 60 is true
+integer at 60 is 60
+color at 61 is java.awt.Color[r=0,g=0,b=255]
+boolean at 61 is false
+integer at 61 is 61
+boolean at 62 is true
+integer at 62 is 62
+color at 63 is java.awt.Color[r=255,g=0,b=0]
+boolean at 63 is false
+integer at 63 is 63
+color at 64 is java.awt.Color[r=0,g=0,b=255]
+boolean at 64 is true
+integer at 64 is 64
+boolean at 65 is false
+integer at 65 is 65
+color at 66 is java.awt.Color[r=255,g=0,b=0]
+boolean at 66 is true
+integer at 66 is 66
+color at 67 is java.awt.Color[r=0,g=0,b=255]
+boolean at 67 is false
+integer at 67 is 67
+boolean at 68 is true
+integer at 68 is 68
+color at 69 is java.awt.Color[r=255,g=0,b=0]
+boolean at 69 is false
+integer at 69 is 69
+color at 70 is java.awt.Color[r=0,g=0,b=255]
+boolean at 70 is true
+integer at 70 is 70
+boolean at 71 is false
+integer at 71 is 71
+color at 72 is java.awt.Color[r=255,g=0,b=0]
+boolean at 72 is true
+integer at 72 is 72
+color at 73 is java.awt.Color[r=0,g=0,b=255]
+boolean at 73 is false
+integer at 73 is 73
+boolean at 74 is true
+integer at 74 is 74
+color at 75 is java.awt.Color[r=255,g=0,b=0]
+boolean at 75 is false
+integer at 75 is 75
+color at 76 is java.awt.Color[r=0,g=0,b=255]
+boolean at 76 is true
+integer at 76 is 76
+boolean at 77 is false
+integer at 77 is 77
+color at 78 is java.awt.Color[r=255,g=0,b=0]
+boolean at 78 is true
+integer at 78 is 78
+color at 79 is java.awt.Color[r=0,g=0,b=255]
+boolean at 79 is false
+integer at 79 is 79
+boolean at 80 is true
+integer at 80 is 80
+color at 81 is java.awt.Color[r=255,g=0,b=0]
+boolean at 81 is false
+integer at 81 is 81
+color at 82 is java.awt.Color[r=0,g=0,b=255]
+boolean at 82 is true
+integer at 82 is 82
+boolean at 83 is false
+integer at 83 is 83
+color at 84 is java.awt.Color[r=255,g=0,b=0]
+boolean at 84 is true
+integer at 84 is 84
+color at 85 is java.awt.Color[r=0,g=0,b=255]
+boolean at 85 is false
+integer at 85 is 85
+boolean at 86 is true
+integer at 86 is 86
+color at 87 is java.awt.Color[r=255,g=0,b=0]
+boolean at 87 is false
+integer at 87 is 87
+color at 88 is java.awt.Color[r=0,g=0,b=255]
+boolean at 88 is true
+integer at 88 is 88
+boolean at 89 is false
+integer at 89 is 89
+color at 90 is java.awt.Color[r=255,g=0,b=0]
+boolean at 90 is true
+integer at 90 is 90
+color at 91 is java.awt.Color[r=0,g=0,b=255]
+boolean at 91 is false
+integer at 91 is 91
+boolean at 92 is true
+integer at 92 is 92
+color at 93 is java.awt.Color[r=255,g=0,b=0]
+boolean at 93 is false
+integer at 93 is 93
+color at 94 is java.awt.Color[r=0,g=0,b=255]
+boolean at 94 is true
+integer at 94 is 94
+boolean at 95 is false
+integer at 95 is 95
+color at 96 is java.awt.Color[r=255,g=0,b=0]
+boolean at 96 is true
+integer at 96 is 96
+color at 97 is java.awt.Color[r=0,g=0,b=255]
+boolean at 97 is false
+integer at 97 is 97
+boolean at 98 is true
+integer at 98 is 98
+color at 99 is java.awt.Color[r=255,g=0,b=0]
+boolean at 99 is false
+integer at 99 is 99
+----------System.err:(3/36)----------
+
+JavaTest Message:  Test complete.
+
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

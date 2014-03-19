@@ -1,0 +1,6 @@
+grant codebase "file:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar" {
+    permission java.security.AllPermission;
+};
+grant codebase "file:/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar" {
+    permission java.security.AllPermission;
+};

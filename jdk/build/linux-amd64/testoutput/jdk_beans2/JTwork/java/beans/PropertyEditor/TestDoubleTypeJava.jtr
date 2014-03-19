@@ -1,0 +1,108 @@
+#Test Results (version 2)
+#Tue Mar 18 20:16:13 EDT 2014
+#-----testdescription-----
+$file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeJava.java
+$root=/home/tandon/Projects/openjdk/jdk/test
+author=Sergey Malenkov
+keywords=bug4506596
+run=ASSUMED_ACTION main TestDoubleTypeJava\n
+source=TestDoubleTypeJava.java
+title=Tests PropertyEditor for value of type double
+
+#-----environment-----
+
+#-----testresult-----
+description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeJava.java
+elapsed=759 0\:00\:00.759
+end=Tue Mar 18 20\:16\:13 EDT 2014
+environment=regtest
+execStatus=Passed. Execution successful
+hostname=localhost.localdomain
+javatestOS=Linux 3.11.10-301.fc20.x86_64 (amd64)
+javatestVersion=4.4.1
+jtregVersion=jtreg 4.1 dev b00
+script=com.sun.javatest.regtest.RegressionScript 
+sections=script_messages build compile main
+start=Tue Mar 18 20\:16\:13 EDT 2014
+test=java/beans/PropertyEditor/TestDoubleTypeJava.java
+user.name=tandon
+work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
+
+#section:script_messages
+----------messages:(5/245)----------
+JDK under test: (/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image)
+openjdk version "1.7.0-internal"
+OpenJDK Runtime Environment (build 1.7.0-internal-tandon_2014_03_18_06_24-b00)
+OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
+
+
+#section:build
+----------messages:(3/103)----------
+command: build TestDoubleTypeJava
+reason: Named class compiled on demand
+elapsed time (seconds): 0.365
+result: Passed. Build successful
+
+#section:compile
+----------messages:(3/213)----------
+command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeJava.java
+reason: .class file out of date or does not exist
+elapsed time (seconds): 0.365
+----------rerun:(18/1709)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/javac \\
+        -J-ea \\
+        -J-esa \\
+        -J-Dtest.vm.opts='-ea -esa' \\
+        -J-Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \\
+        -J-Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \\
+        -J-Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -J-Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \\
+        -J-Dtest.timeout.factor=4.0 \\
+        -J-Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \\
+        -J-Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -J-Dtest.java.opts= \\
+        -J-Dtest.compiler.opts= \\
+        -d /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor -classpath /home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar -sourcepath /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeJava.java
+----------System.out:(0/0)----------
+----------System.err:(0/0)----------
+result: Passed. Compilation successful
+
+#section:main
+----------messages:(3/135)----------
+command: main TestDoubleTypeJava
+reason: Assumed action based on file name: run main TestDoubleTypeJava 
+elapsed time (seconds): 0.394
+----------System.out:(4/139)----------
+Property class: double
+PropertyEditor class: class sun.beans.editors.DoubleEditor
+Property value before: 12.34
+Property value after: 12.34
+----------System.err:(1/15)----------
+STATUS:Passed.
+----------rerun:(18/1537)*----------
+HOME=/home/tandon \\
+LANG=C \\
+PATH=/bin:/usr/bin \\
+CLASSPATH=/home/tandon/Projects/jtreg/build/images/jtreg/lib/javatest.jar:/home/tandon/Projects/jtreg/build/images/jtreg/lib/jtreg.jar:/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor:/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/lib/tools.jar \\
+    /home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image/bin/java \\
+        -Dtest.vm.opts='-ea -esa' \\
+        -Dcompile.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.src.path=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \\
+        -Dtest.src=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor \\
+        -Dtest.tool.vm.opts='-J-ea -J-esa' \\
+        -Dtest.class.path=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \\
+        -Dtest.timeout.factor=4.0 \\
+        -Dtest.classes=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor \\
+        -Dtest.jdk=/home/tandon/Projects/openjdk/build/linux-amd64/j2sdk-image \\
+        -Dtest.java.opts= \\
+        -Dtest.compiler.opts= \\
+        -ea -esa \\
+        com.sun.javatest.regtest.MainWrapper /home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/classes/java/beans/PropertyEditor/TestDoubleTypeJava.jta
+result: Passed. Execution successful
+
+
+test result: Passed. Execution successful

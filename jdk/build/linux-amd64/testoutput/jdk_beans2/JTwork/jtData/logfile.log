@@ -1,0 +1,16 @@
+=JTLOG=
+Harness Core
+800
+1395188151921
+70
+[Benchmark] Workdir cache rebuild finished on background thread in 0s.
+Harness Core
+800
+1395188151922
+78
+[Benchmark] Workdir cache load (complete) finished on background thread in 0s.
+Harness Core
+800
+1395188214801
+78
+[Benchmark] Workdir cache load (complete) finished on background thread in 0s.
