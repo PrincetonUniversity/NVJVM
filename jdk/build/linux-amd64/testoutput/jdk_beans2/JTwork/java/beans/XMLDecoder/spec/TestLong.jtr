@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:49 EDT 2014
+#Tue Mar 18 23:49:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestLong.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -12,8 +12,8 @@ title=Tests <long> element
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestLong.java
-elapsed=456 0\:00\:00.456
-end=Tue Mar 18 20\:16\:49 EDT 2014
+elapsed=467 0\:00\:00.467
+end=Tue Mar 18 23\:49\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -22,7 +22,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:48 EDT 2014
+start=Tue Mar 18 23\:49\:49 EDT 2014
 test=java/beans/XMLDecoder/spec/TestLong.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/XMLDecoder/spec
@@ -39,14 +39,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/93)----------
 command: build TestLong
 reason: Named class compiled on demand
-elapsed time (seconds): 0.387
+elapsed time (seconds): 0.397
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/204)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestLong.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.387
+elapsed time (seconds): 0.397
 ----------rerun:(18/1708)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -71,10 +71,10 @@ PATH=/bin:/usr/bin \\
 result: Passed. Compilation successful
 
 #section:main
-----------messages:(3/115)----------
+----------messages:(3/114)----------
 command: main TestLong
 reason: Assumed action based on file name: run main TestLong 
-elapsed time (seconds): 0.069
+elapsed time (seconds): 0.07
 ----------System.out:(0/0)----------
 ----------System.err:(1/15)----------
 STATUS:Passed.

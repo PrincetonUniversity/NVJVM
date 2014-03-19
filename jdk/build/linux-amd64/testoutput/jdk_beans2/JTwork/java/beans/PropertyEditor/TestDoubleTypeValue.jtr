@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:15 EDT 2014
+#Tue Mar 18 23:49:15 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeValue.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type double
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeValue.java
-elapsed=416 0\:00\:00.416
-end=Tue Mar 18 20\:16\:15 EDT 2014
+elapsed=420 0\:00\:00.420
+end=Tue Mar 18 23\:49\:15 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:14 EDT 2014
+start=Tue Mar 18 23\:49\:15 EDT 2014
 test=java/beans/PropertyEditor/TestDoubleTypeValue.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/104)----------
 command: build TestDoubleTypeValue
 reason: Named class compiled on demand
-elapsed time (seconds): 0.371
+elapsed time (seconds): 0.374
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/214)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestDoubleTypeValue.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.371
+elapsed time (seconds): 0.374
 ----------rerun:(18/1710)*----------
 HOME=/home/tandon \\
 LANG=C \\

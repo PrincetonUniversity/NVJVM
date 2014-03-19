@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:08 EDT 2014
+#Tue Mar 18 23:49:08 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeValue.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type byte
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeValue.java
-elapsed=413 0\:00\:00.413
-end=Tue Mar 18 20\:16\:08 EDT 2014
+elapsed=415 0\:00\:00.415
+end=Tue Mar 18 23\:49\:08 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:08 EDT 2014
+start=Tue Mar 18 23\:49\:08 EDT 2014
 test=java/beans/PropertyEditor/TestByteTypeValue.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -37,17 +37,17 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 
 
 #section:build
-----------messages:(3/102)----------
+----------messages:(3/101)----------
 command: build TestByteTypeValue
 reason: Named class compiled on demand
-elapsed time (seconds): 0.368
+elapsed time (seconds): 0.37
 result: Passed. Build successful
 
 #section:compile
-----------messages:(3/212)----------
+----------messages:(3/211)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeValue.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.368
+elapsed time (seconds): 0.37
 ----------rerun:(18/1708)*----------
 HOME=/home/tandon \\
 LANG=C \\

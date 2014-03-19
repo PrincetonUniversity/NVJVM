@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/Test4076065.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests that constructor check for null source
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/Test4076065.java
-elapsed=8 0\:00\:00.008
-end=Tue Mar 18 20\:15\:49 EDT 2014
+elapsed=9 0\:00\:00.009
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/VetoableChangeSupport/Test4076065.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/VetoableChangeSupport

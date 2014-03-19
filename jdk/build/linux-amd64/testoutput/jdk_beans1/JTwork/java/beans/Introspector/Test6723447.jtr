@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:48 EDT 2014
+#Tue Mar 18 23:48:48 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6723447.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests return type for property setters
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6723447.java
-elapsed=40 0\:00\:00.040
-end=Tue Mar 18 20\:15\:48 EDT 2014
+elapsed=32 0\:00\:00.032
+end=Tue Mar 18 23\:48\:48 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:48 EDT 2014
+start=Tue Mar 18 23\:48\:48 EDT 2014
 test=java/beans/Introspector/Test6723447.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test6723447
 reason: Named class compiled on demand
-elapsed time (seconds): 0.013
+elapsed time (seconds): 0.014
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/204)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6723447.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.013
+elapsed time (seconds): 0.014
 ----------rerun:(19/1773)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -74,7 +74,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6723447
 reason: Assumed action based on file name: run main Test6723447 
-elapsed time (seconds): 0.027
+elapsed time (seconds): 0.018
 ----------rerun:(18/1637)*----------
 HOME=/home/tandon \\
 LANG=C \\

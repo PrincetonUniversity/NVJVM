@@ -1,2 +1,2 @@
-[18Mar2014 20:15EDT]  Starting test run
-[18Mar2014 20:16EDT]  Completed test run: not ok
+[18Mar2014 23:48EDT]  Starting test run
+[18Mar2014 23:49EDT]  Completed test run: not ok

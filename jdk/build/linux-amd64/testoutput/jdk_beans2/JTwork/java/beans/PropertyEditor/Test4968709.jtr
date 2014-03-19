@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:56 EDT 2014
+#Tue Mar 18 23:48:57 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test4968709.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor after changing EditorSearchPath
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test4968709.java
-elapsed=423 0\:00\:00.423
-end=Tue Mar 18 20\:15\:56 EDT 2014
+elapsed=432 0\:00\:00.432
+end=Tue Mar 18 23\:48\:57 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:56 EDT 2014
+start=Tue Mar 18 23\:48\:56 EDT 2014
 test=java/beans/PropertyEditor/Test4968709.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test4968709
 reason: Named class compiled on demand
-elapsed time (seconds): 0.366
+elapsed time (seconds): 0.376
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/206)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test4968709.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.366
+elapsed time (seconds): 0.376
 ----------rerun:(18/1702)*----------
 HOME=/home/tandon \\
 LANG=C \\

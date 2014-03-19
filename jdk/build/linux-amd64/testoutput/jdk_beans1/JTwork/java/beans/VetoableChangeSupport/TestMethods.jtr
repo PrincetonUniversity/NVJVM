@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:50 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestMethods.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests sequence of methods
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestMethods.java
-elapsed=21 0\:00\:00.021
-end=Tue Mar 18 20\:15\:49 EDT 2014
+elapsed=22 0\:00\:00.022
+end=Tue Mar 18 23\:48\:50 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/VetoableChangeSupport/TestMethods.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/VetoableChangeSupport
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build TestMethods
 reason: Named class compiled on demand
-elapsed time (seconds): 0.018
+elapsed time (seconds): 0.019
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/213)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestMethods.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.018
+elapsed time (seconds): 0.019
 ----------rerun:(19/1872)*----------
 HOME=/home/tandon \\
 LANG=C \\

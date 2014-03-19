@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:32 EDT 2014
+#Tue Mar 18 23:49:32 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongClassJava.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type Long
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongClassJava.java
-elapsed=776 0\:00\:00.776
-end=Tue Mar 18 20\:16\:32 EDT 2014
+elapsed=778 0\:00\:00.778
+end=Tue Mar 18 23\:49\:32 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:31 EDT 2014
+start=Tue Mar 18 23\:49\:32 EDT 2014
 test=java/beans/PropertyEditor/TestLongClassJava.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -47,7 +47,7 @@ result: Passed. Build successful
 ----------messages:(3/212)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongClassJava.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.372
+elapsed time (seconds): 0.373
 ----------rerun:(18/1708)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/133)----------
 command: main TestLongClassJava
 reason: Assumed action based on file name: run main TestLongClassJava 
-elapsed time (seconds): 0.403
+elapsed time (seconds): 0.404
 ----------System.out:(4/145)----------
 Property class: class java.lang.Long
 PropertyEditor class: class sun.beans.editors.LongEditor

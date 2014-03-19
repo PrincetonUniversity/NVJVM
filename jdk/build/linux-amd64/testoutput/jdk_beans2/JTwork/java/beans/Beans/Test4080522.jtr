@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:53 EDT 2014
+#Tue Mar 18 23:48:54 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Beans/Test4080522.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests security checks for calls on\: Beans.setDesignTime Beans.setGuiAvail
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Beans/Test4080522.java
-elapsed=438 0\:00\:00.438
-end=Tue Mar 18 20\:15\:53 EDT 2014
+elapsed=427 0\:00\:00.427
+end=Tue Mar 18 23\:48\:54 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:53 EDT 2014
+start=Tue Mar 18 23\:48\:53 EDT 2014
 test=java/beans/Beans/Test4080522.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/Beans
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test4080522
 reason: Named class compiled on demand
-elapsed time (seconds): 0.376
+elapsed time (seconds): 0.365
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/197)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/Beans/Test4080522.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.376
+elapsed time (seconds): 0.365
 ----------rerun:(18/1621)*----------
 HOME=/home/tandon \\
 LANG=C \\

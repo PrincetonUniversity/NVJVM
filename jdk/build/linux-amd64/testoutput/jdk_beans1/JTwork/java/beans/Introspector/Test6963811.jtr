@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6963811.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests deadlock in Introspector
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6963811.java
-elapsed=1018 0\:00\:01.018
-end=Tue Mar 18 20\:15\:49 EDT 2014
+elapsed=1019 0\:00\:01.019
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:48 EDT 2014
+start=Tue Mar 18 23\:48\:48 EDT 2014
 test=java/beans/Introspector/Test6963811.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector
@@ -74,7 +74,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6963811
 reason: Assumed action based on file name: run main Test6963811 
-elapsed time (seconds): 1.002
+elapsed time (seconds): 1.003
 ----------rerun:(18/1637)*----------
 HOME=/home/tandon \\
 LANG=C \\

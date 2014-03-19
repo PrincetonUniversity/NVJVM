@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:47 EDT 2014
+#Tue Mar 18 23:48:47 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test4619792.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests property descriptor for the focusable property
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test4619792.java
-elapsed=71 0\:00\:00.071
-end=Tue Mar 18 20\:15\:47 EDT 2014
+elapsed=70 0\:00\:00.070
+end=Tue Mar 18 23\:48\:47 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:47 EDT 2014
+start=Tue Mar 18 23\:48\:47 EDT 2014
 test=java/beans/Introspector/Test4619792.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector
@@ -71,10 +71,10 @@ PATH=/bin:/usr/bin \\
 result: Passed. Compilation successful
 
 #section:main
-----------messages:(3/120)----------
+----------messages:(3/121)----------
 command: main Test4619792
 reason: Assumed action based on file name: run main Test4619792 
-elapsed time (seconds): 0.05
+elapsed time (seconds): 0.049
 ----------rerun:(18/1637)*----------
 HOME=/home/tandon \\
 LANG=C \\

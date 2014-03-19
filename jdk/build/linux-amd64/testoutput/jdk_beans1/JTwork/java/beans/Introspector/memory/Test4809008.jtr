@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:47 EDT 2014
+#Tue Mar 18 23:48:47 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests memory leak with multiple class loader access
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/memory/Test4809008.java
-elapsed=949 0\:00\:00.949
-end=Tue Mar 18 20\:15\:47 EDT 2014
+elapsed=975 0\:00\:00.975
+end=Tue Mar 18 23\:48\:47 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile build compile main
-start=Tue Mar 18 20\:15\:46 EDT 2014
+start=Tue Mar 18 23\:48\:46 EDT 2014
 test=java/beans/Introspector/memory/Test4809008.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector/memory
@@ -108,7 +108,7 @@ result: Passed. Compilation successful
 ----------messages:(3/193)----------
 command: main -server -XX:SoftRefLRUPolicyMSPerMB=0 Test4809008
 reason: User specified action: run main/othervm -server -XX:SoftRefLRUPolicyMSPerMB=0 Test4809008 
-elapsed time (seconds): 0.892
+elapsed time (seconds): 0.918
 ----------System.out:(8/143)----------
 Start Memory
 	free:  504606256

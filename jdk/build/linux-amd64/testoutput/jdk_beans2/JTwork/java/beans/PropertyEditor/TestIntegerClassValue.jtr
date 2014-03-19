@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:28 EDT 2014
+#Tue Mar 18 23:49:29 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestIntegerClassValue.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type Integer
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestIntegerClassValue.java
-elapsed=433 0\:00\:00.433
-end=Tue Mar 18 20\:16\:28 EDT 2014
+elapsed=422 0\:00\:00.422
+end=Tue Mar 18 23\:49\:29 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:28 EDT 2014
+start=Tue Mar 18 23\:49\:28 EDT 2014
 test=java/beans/PropertyEditor/TestIntegerClassValue.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/141)----------
 command: main TestIntegerClassValue
 reason: Assumed action based on file name: run main TestIntegerClassValue 
-elapsed time (seconds): 0.055
+elapsed time (seconds): 0.045
 ----------System.out:(2/100)----------
 Property class: class java.lang.Integer
 PropertyEditor class: class sun.beans.editors.IntegerEditor

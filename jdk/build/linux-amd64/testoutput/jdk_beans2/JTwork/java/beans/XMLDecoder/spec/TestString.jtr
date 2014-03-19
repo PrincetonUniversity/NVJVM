@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:52 EDT 2014
+#Tue Mar 18 23:49:52 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestString.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -12,8 +12,8 @@ title=Tests <string> element
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestString.java
-elapsed=463 0\:00\:00.463
-end=Tue Mar 18 20\:16\:52 EDT 2014
+elapsed=462 0\:00\:00.462
+end=Tue Mar 18 23\:49\:52 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -22,7 +22,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:52 EDT 2014
+start=Tue Mar 18 23\:49\:52 EDT 2014
 test=java/beans/XMLDecoder/spec/TestString.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/XMLDecoder/spec
@@ -39,14 +39,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/95)----------
 command: build TestString
 reason: Named class compiled on demand
-elapsed time (seconds): 0.386
+elapsed time (seconds): 0.383
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/206)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/spec/TestString.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.386
+elapsed time (seconds): 0.383
 ----------rerun:(18/1710)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -74,7 +74,7 @@ result: Passed. Compilation successful
 ----------messages:(3/119)----------
 command: main TestString
 reason: Assumed action based on file name: run main TestString 
-elapsed time (seconds): 0.077
+elapsed time (seconds): 0.078
 ----------System.out:(0/0)----------
 ----------System.err:(1/15)----------
 STATUS:Passed.

@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:59 EDT 2014
+#Tue Mar 18 23:48:59 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test6963811.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests deadlock in PropertyEditorManager
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test6963811.java
-elapsed=1428 0\:00\:01.428
-end=Tue Mar 18 20\:15\:59 EDT 2014
+elapsed=1433 0\:00\:01.433
+end=Tue Mar 18 23\:48\:59 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:57 EDT 2014
+start=Tue Mar 18 23\:48\:57 EDT 2014
 test=java/beans/PropertyEditor/Test6963811.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test6963811
 reason: Named class compiled on demand
-elapsed time (seconds): 0.381
+elapsed time (seconds): 0.378
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/206)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/Test6963811.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.381
+elapsed time (seconds): 0.378
 ----------rerun:(18/1702)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6963811
 reason: Assumed action based on file name: run main Test6963811 
-elapsed time (seconds): 1.046
+elapsed time (seconds): 1.055
 ----------System.out:(0/0)----------
 ----------System.err:(1/15)----------
 STATUS:Passed.

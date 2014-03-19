@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -14,7 +14,7 @@ title=Tests sequence of listeners
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/TestListeners.java
 elapsed=20 0\:00\:00.020
-end=Tue Mar 18 20\:15\:49 EDT 2014
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/VetoableChangeSupport/TestListeners.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/VetoableChangeSupport

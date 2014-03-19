@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/Test6630275.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests VetoableChangeSupport specification
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/Test6630275.java
-elapsed=14 0\:00\:00.014
-end=Tue Mar 18 20\:15\:49 EDT 2014
+elapsed=13 0\:00\:00.013
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/VetoableChangeSupport/Test6630275.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/VetoableChangeSupport
@@ -44,10 +44,10 @@ elapsed time (seconds): 0.011
 result: Passed. Build successful
 
 #section:compile
-----------messages:(3/212)----------
+----------messages:(3/213)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/VetoableChangeSupport/Test6630275.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.01
+elapsed time (seconds): 0.011
 ----------rerun:(19/1872)*----------
 HOME=/home/tandon \\
 LANG=C \\

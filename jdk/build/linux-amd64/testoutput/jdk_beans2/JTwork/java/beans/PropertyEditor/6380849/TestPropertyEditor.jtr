@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:56 EDT 2014
+#Tue Mar 18 23:48:56 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849/TestPropertyEditor.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor finder
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849/TestPropertyEditor.java
-elapsed=499 0\:00\:00.499
-end=Tue Mar 18 20\:15\:56 EDT 2014
+elapsed=501 0\:00\:00.501
+end=Tue Mar 18 23\:48\:56 EDT 2014
 environment=regtest
 execStatus=Failed. Execution failed\: `main' threw exception\: java.lang.Error\: expected editor is not found
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:55 EDT 2014
+start=Tue Mar 18 23\:48\:56 EDT 2014
 test=java/beans/PropertyEditor/6380849/TestPropertyEditor.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor/6380849
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/103)----------
 command: build TestPropertyEditor
 reason: Named class compiled on demand
-elapsed time (seconds): 0.443
+elapsed time (seconds): 0.445
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/221)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/6380849/TestPropertyEditor.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.443
+elapsed time (seconds): 0.445
 ----------rerun:(18/1781)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/135)----------
 command: main TestPropertyEditor
 reason: Assumed action based on file name: run main TestPropertyEditor 
-elapsed time (seconds): 0.055
+elapsed time (seconds): 0.056
 ----------System.out:(0/0)----------
 ----------System.err:(15/831)----------
 java.lang.Error: expected editor is not found

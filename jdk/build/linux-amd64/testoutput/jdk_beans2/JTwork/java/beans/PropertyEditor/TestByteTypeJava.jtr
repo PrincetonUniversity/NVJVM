@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:07 EDT 2014
+#Tue Mar 18 23:49:07 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeJava.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type byte
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeJava.java
-elapsed=752 0\:00\:00.752
-end=Tue Mar 18 20\:16\:07 EDT 2014
+elapsed=761 0\:00\:00.761
+end=Tue Mar 18 23\:49\:07 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:06 EDT 2014
+start=Tue Mar 18 23\:49\:07 EDT 2014
 test=java/beans/PropertyEditor/TestByteTypeJava.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/101)----------
 command: build TestByteTypeJava
 reason: Named class compiled on demand
-elapsed time (seconds): 0.358
+elapsed time (seconds): 0.364
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/211)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteTypeJava.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.358
+elapsed time (seconds): 0.364
 ----------rerun:(18/1707)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/131)----------
 command: main TestByteTypeJava
 reason: Assumed action based on file name: run main TestByteTypeJava 
-elapsed time (seconds): 0.394
+elapsed time (seconds): 0.396
 ----------System.out:(4/129)----------
 Property class: byte
 PropertyEditor class: class sun.beans.editors.ByteEditor

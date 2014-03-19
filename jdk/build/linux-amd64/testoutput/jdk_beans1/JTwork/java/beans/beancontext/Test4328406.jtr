@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:46 EDT 2014
+#Tue Mar 18 23:48:46 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/beancontext/Test4328406.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests NPE while removing a BeanContextServices
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/beancontext/Test4328406.java
-elapsed=69 0\:00\:00.069
-end=Tue Mar 18 20\:15\:46 EDT 2014
+elapsed=70 0\:00\:00.070
+end=Tue Mar 18 23\:48\:46 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:46 EDT 2014
+start=Tue Mar 18 23\:48\:46 EDT 2014
 test=java/beans/beancontext/Test4328406.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/beancontext
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test4328406
 reason: Named class compiled on demand
-elapsed time (seconds): 0.064
+elapsed time (seconds): 0.065
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/203)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/beancontext/Test4328406.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.064
+elapsed time (seconds): 0.065
 ----------rerun:(19/1762)*----------
 HOME=/home/tandon \\
 LANG=C \\

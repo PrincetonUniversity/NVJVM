@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:48 EDT 2014
+#Tue Mar 18 23:48:48 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6707234.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests setter in a complex bean
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Introspector/Test6707234.java
-elapsed=13 0\:00\:00.013
-end=Tue Mar 18 20\:15\:48 EDT 2014
+elapsed=14 0\:00\:00.014
+end=Tue Mar 18 23\:48\:48 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:48 EDT 2014
+start=Tue Mar 18 23\:48\:48 EDT 2014
 test=java/beans/Introspector/Test6707234.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Introspector
@@ -37,10 +37,10 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 
 
 #section:build
-----------messages:(3/95)----------
+----------messages:(3/96)----------
 command: build Test6707234
 reason: Named class compiled on demand
-elapsed time (seconds): 0.01
+elapsed time (seconds): 0.011
 result: Passed. Build successful
 
 #section:compile
@@ -74,7 +74,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6707234
 reason: Assumed action based on file name: run main Test6707234 
-elapsed time (seconds): 0.002
+elapsed time (seconds): 0.003
 ----------rerun:(18/1637)*----------
 HOME=/home/tandon \\
 LANG=C \\

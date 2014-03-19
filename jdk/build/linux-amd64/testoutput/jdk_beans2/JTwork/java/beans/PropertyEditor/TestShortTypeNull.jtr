@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:40 EDT 2014
+#Tue Mar 18 23:49:40 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestShortTypeNull.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for null value of type short
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestShortTypeNull.java
-elapsed=767 0\:00\:00.767
-end=Tue Mar 18 20\:16\:40 EDT 2014
+elapsed=771 0\:00\:00.771
+end=Tue Mar 18 23\:49\:40 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:39 EDT 2014
+start=Tue Mar 18 23\:49\:40 EDT 2014
 test=java/beans/PropertyEditor/TestShortTypeNull.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/102)----------
 command: build TestShortTypeNull
 reason: Named class compiled on demand
-elapsed time (seconds): 0.373
+elapsed time (seconds): 0.375
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/212)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestShortTypeNull.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.372
+elapsed time (seconds): 0.375
 ----------rerun:(18/1708)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/133)----------
 command: main TestShortTypeNull
 reason: Assumed action based on file name: run main TestShortTypeNull 
-elapsed time (seconds): 0.394
+elapsed time (seconds): 0.396
 ----------System.out:(4/135)----------
 Property class: short
 PropertyEditor class: class sun.beans.editors.ShortEditor

@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/Statement/Test6224433.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -14,7 +14,7 @@ title=Tests class loader lookup problem in Statement
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/Statement/Test6224433.java
 elapsed=12 0\:00\:00.012
-end=Tue Mar 18 20\:15\:49 EDT 2014
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/Statement/Test6224433.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/Statement
@@ -37,10 +37,10 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 
 
 #section:build
-----------messages:(3/96)----------
+----------messages:(3/95)----------
 command: build Test6224433
 reason: Named class compiled on demand
-elapsed time (seconds): 0.009
+elapsed time (seconds): 0.01
 result: Passed. Build successful
 
 #section:compile
@@ -74,7 +74,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6224433
 reason: Assumed action based on file name: run main Test6224433 
-elapsed time (seconds): 0.003
+elapsed time (seconds): 0.002
 ----------rerun:(18/1613)*----------
 HOME=/home/tandon \\
 LANG=C \\

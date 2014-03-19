@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:00 EDT 2014
+#Tue Mar 18 23:49:00 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestBooleanClassJava.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type Boolean
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestBooleanClassJava.java
-elapsed=769 0\:00\:00.769
-end=Tue Mar 18 20\:16\:00 EDT 2014
+elapsed=765 0\:00\:00.765
+end=Tue Mar 18 23\:49\:00 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:59 EDT 2014
+start=Tue Mar 18 23\:48\:59 EDT 2014
 test=java/beans/PropertyEditor/TestBooleanClassJava.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/104)----------
 command: build TestBooleanClassJava
 reason: Named class compiled on demand
-elapsed time (seconds): 0.36
+elapsed time (seconds): 0.37
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/214)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestBooleanClassJava.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.36
+elapsed time (seconds): 0.37
 ----------rerun:(18/1711)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/139)----------
 command: main TestBooleanClassJava
 reason: Assumed action based on file name: run main TestBooleanClassJava 
-elapsed time (seconds): 0.409
+elapsed time (seconds): 0.394
 ----------System.out:(4/155)----------
 Property class: class java.lang.Boolean
 PropertyEditor class: class sun.beans.editors.BooleanEditor

@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:06 EDT 2014
+#Tue Mar 18 23:49:07 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteType.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type byte with security manager
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteType.java
-elapsed=414 0\:00\:00.414
-end=Tue Mar 18 20\:16\:06 EDT 2014
+elapsed=430 0\:00\:00.430
+end=Tue Mar 18 23\:49\:07 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:06 EDT 2014
+start=Tue Mar 18 23\:49\:06 EDT 2014
 test=java/beans/PropertyEditor/TestByteType.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/97)----------
 command: build TestByteType
 reason: Named class compiled on demand
-elapsed time (seconds): 0.363
+elapsed time (seconds): 0.378
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/207)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestByteType.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.363
+elapsed time (seconds): 0.377
 ----------rerun:(18/1703)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/123)----------
 command: main TestByteType
 reason: Assumed action based on file name: run main TestByteType 
-elapsed time (seconds): 0.051
+elapsed time (seconds): 0.052
 ----------System.out:(2/78)----------
 Property class: byte
 PropertyEditor class: class sun.beans.editors.ByteEditor

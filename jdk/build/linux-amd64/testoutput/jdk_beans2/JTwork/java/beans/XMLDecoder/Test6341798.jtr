@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:54 EDT 2014
+#Tue Mar 18 23:49:55 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test6341798.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests name generation for turkish locale
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test6341798.java
-elapsed=467 0\:00\:00.467
-end=Tue Mar 18 20\:16\:54 EDT 2014
+elapsed=463 0\:00\:00.463
+end=Tue Mar 18 23\:49\:55 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:54 EDT 2014
+start=Tue Mar 18 23\:49\:54 EDT 2014
 test=java/beans/XMLDecoder/Test6341798.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/XMLDecoder
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test6341798
 reason: Named class compiled on demand
-elapsed time (seconds): 0.396
+elapsed time (seconds): 0.401
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/202)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test6341798.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.396
+elapsed time (seconds): 0.401
 ----------rerun:(18/1666)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -75,7 +75,7 @@ result: Passed. Compilation successful
 ----------messages:(3/121)----------
 command: main Test6341798
 reason: Assumed action based on file name: run main Test6341798 
-elapsed time (seconds): 0.071
+elapsed time (seconds): 0.061
 ----------System.out:(4/74)----------
 locale = en
 object = property is set

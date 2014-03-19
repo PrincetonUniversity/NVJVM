@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:53 EDT 2014
+#Tue Mar 18 23:49:54 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test4864117.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests XMLDecoder within another DefaultHandler for SAX parser
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test4864117.java
-elapsed=486 0\:00\:00.486
-end=Tue Mar 18 20\:16\:53 EDT 2014
+elapsed=476 0\:00\:00.476
+end=Tue Mar 18 23\:49\:54 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:53 EDT 2014
+start=Tue Mar 18 23\:49\:53 EDT 2014
 test=java/beans/XMLDecoder/Test4864117.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/XMLDecoder
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/96)----------
 command: build Test4864117
 reason: Named class compiled on demand
-elapsed time (seconds): 0.426
+elapsed time (seconds): 0.417
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/202)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/XMLDecoder/Test4864117.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.425
+elapsed time (seconds): 0.417
 ----------rerun:(18/1666)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -72,10 +72,10 @@ PATH=/bin:/usr/bin \\
 result: Passed. Compilation successful
 
 #section:main
-----------messages:(3/120)----------
+----------messages:(3/121)----------
 command: main Test4864117
 reason: Assumed action based on file name: run main Test4864117 
-elapsed time (seconds): 0.06
+elapsed time (seconds): 0.059
 ----------System.out:(8/85)----------
 > test
  > void

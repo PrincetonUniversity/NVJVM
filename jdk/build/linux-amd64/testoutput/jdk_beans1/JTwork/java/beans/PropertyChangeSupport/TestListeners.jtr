@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:15:49 EDT 2014
+#Tue Mar 18 23:48:49 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/TestListeners.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests sequence of listeners
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/TestListeners.java
-elapsed=24 0\:00\:00.024
-end=Tue Mar 18 20\:15\:49 EDT 2014
+elapsed=25 0\:00\:00.025
+end=Tue Mar 18 23\:48\:49 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:15\:49 EDT 2014
+start=Tue Mar 18 23\:48\:49 EDT 2014
 test=java/beans/PropertyChangeSupport/TestListeners.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans1/JTwork/java/beans/PropertyChangeSupport
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/98)----------
 command: build TestListeners
 reason: Named class compiled on demand
-elapsed time (seconds): 0.022
+elapsed time (seconds): 0.023
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/215)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyChangeSupport/TestListeners.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.022
+elapsed time (seconds): 0.023
 ----------rerun:(19/1874)*----------
 HOME=/home/tandon \\
 LANG=C \\

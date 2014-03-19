@@ -1,5 +1,5 @@
 #Test Results (version 2)
-#Tue Mar 18 20:16:34 EDT 2014
+#Tue Mar 18 23:49:35 EDT 2014
 #-----testdescription-----
 $file=/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongTypeJava.java
 $root=/home/tandon/Projects/openjdk/jdk/test
@@ -13,8 +13,8 @@ title=Tests PropertyEditor for value of type long
 
 #-----testresult-----
 description=file\:/home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongTypeJava.java
-elapsed=772 0\:00\:00.772
-end=Tue Mar 18 20\:16\:34 EDT 2014
+elapsed=777 0\:00\:00.777
+end=Tue Mar 18 23\:49\:35 EDT 2014
 environment=regtest
 execStatus=Passed. Execution successful
 hostname=localhost.localdomain
@@ -23,7 +23,7 @@ javatestVersion=4.4.1
 jtregVersion=jtreg 4.1 dev b00
 script=com.sun.javatest.regtest.RegressionScript 
 sections=script_messages build compile main
-start=Tue Mar 18 20\:16\:34 EDT 2014
+start=Tue Mar 18 23\:49\:34 EDT 2014
 test=java/beans/PropertyEditor/TestLongTypeJava.java
 user.name=tandon
 work=/home/tandon/Projects/openjdk/jdk/build/linux-amd64/testoutput/jdk_beans2/JTwork/java/beans/PropertyEditor
@@ -40,14 +40,14 @@ OpenJDK 64-Bit Server VM (build 21.0-b17, mixed mode)
 ----------messages:(3/101)----------
 command: build TestLongTypeJava
 reason: Named class compiled on demand
-elapsed time (seconds): 0.372
+elapsed time (seconds): 0.374
 result: Passed. Build successful
 
 #section:compile
 ----------messages:(3/211)----------
 command: compile -XDignore.symbol.file=true /home/tandon/Projects/openjdk/jdk/test/java/beans/PropertyEditor/TestLongTypeJava.java
 reason: .class file out of date or does not exist
-elapsed time (seconds): 0.371
+elapsed time (seconds): 0.374
 ----------rerun:(18/1707)*----------
 HOME=/home/tandon \\
 LANG=C \\
@@ -72,10 +72,10 @@ PATH=/bin:/usr/bin \\
 result: Passed. Compilation successful
 
 #section:main
-----------messages:(3/129)----------
+----------messages:(3/131)----------
 command: main TestLongTypeJava
 reason: Assumed action based on file name: run main TestLongTypeJava 
-elapsed time (seconds): 0.4
+elapsed time (seconds): 0.403
 ----------System.out:(4/129)----------
 Property class: long
 PropertyEditor class: class sun.beans.editors.LongEditor
