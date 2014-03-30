@@ -42,7 +42,7 @@ template <class T> void oop_store(T* p, oop v);
 template <class T> void oop_store(volatile T* p, oop v);
 
 // store into oop without store check
-template <class T> void oop_store_without_check(T* p, oop v);
+template <class T> void oop_store_without_check(T* p, oop v	);
 template <class T> void oop_store_without_check(volatile T* p, oop v);
 
 extern bool always_do_update_barrier;
@@ -66,6 +66,7 @@ class oopDesc {
     wideKlassOop    _klass;
     narrowOop       _compressed_klass;
   } _metadata;
+  objectCounter _objectCounter; // Added object counter to the header of an object for each instance type
 
   // Fast access to barrier set.  Must be initialized.
   static BarrierSet* _bs;
@@ -79,6 +80,15 @@ class oopDesc {
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 
+  /**********************************  Object Counter APIs *****************/
+  // Getter Method for object counter
+  objectCounter counter() 		{ return _objectCounter; }
+  // Incrementing the object counter
+  void increment_counter() { _objectCounter++; }
+  // Increment object counter, by some number
+  void increment_counter(objectCounter value) { _objectCounter += value; }
+  /**************************************************************************/
+
   void set_mark(volatile markOop m)      { _mark = m;   }
 
   void    release_set_mark(markOop m);
@@ -87,6 +97,8 @@ class oopDesc {
   // Used only to re-initialize the mark word (e.g., of promoted
   // objects during a GC) -- requires a valid klass pointer
   void init_mark();
+  // Used to initialize the counter when the object gets accessed
+  void init_counter();
 
   klassOop klass() const;
   klassOop klass_or_null() const volatile;
