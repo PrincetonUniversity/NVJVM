@@ -30,7 +30,7 @@
 #include "memory/specialized_oop_closures.hpp"
 #include "utilities/top.hpp"
 
-// oopDesc is the top baseclass for objects classes.  The {name}Desc classes describe
+// oopDesc is the top BaseClass for objects classes.  The {name}Desc classes describe
 // the format of Java objects so the fields can be accessed from C++.
 // oopDesc is abstract.
 // (see oopHierarchy for complete oop class hierarchy)
