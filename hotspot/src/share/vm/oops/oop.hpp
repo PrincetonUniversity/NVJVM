@@ -420,7 +420,7 @@ class oopDesc {
   static int klass_offset_in_bytes()   { return offset_of(oopDesc, _metadata._klass); }
   // This method gets the offset of the object counter from the header of an object
   static int counter_offset_in_bytes() {
-	  	  	  return (size_t)((intx)(&(_objectCounter)) - sizeof(objectCounter));
+	  	  	  return (size_t)((intx)(&(((oopDesc*)16)->_objectCounter)) - sizeof(objectCounter));
   }
   static int klass_gap_offset_in_bytes();
 };

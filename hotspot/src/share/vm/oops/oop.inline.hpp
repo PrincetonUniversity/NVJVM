@@ -137,7 +137,7 @@ inline void oopDesc::set_klass_to_list_ptr(oop k) {
 
 inline void   oopDesc::init_mark()                 { set_mark(markOopDesc::prototype_for_object(this)); }
 inline void oopDesc::init_counter()				   { this->_objectCounter = 0;} // Method that initializes the counter within the object header
-inline void
+
 inline Klass* oopDesc::blueprint()           const { return klass()->klass_part(); }
 
 inline bool oopDesc::is_a(klassOop k)        const { return blueprint()->is_subtype_of(k); }
