@@ -438,6 +438,9 @@ class Parse : public GraphKit {
   // Helper function to compute array addressing
   Node* array_addressing(BasicType type, int vals, const Type* *result2=NULL);
 
+  // Function to increment the counter variable in the header of the object
+  void increment_access_counter(BasicType basicType);
+
   // Pass current map to exits
   void return_current(Node* value);
 

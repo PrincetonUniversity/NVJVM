@@ -1830,6 +1830,10 @@ void GraphKit::increment_counter(Node* counter_addr) {
   store_to_memory( ctrl, counter_addr, incr, T_INT, adr_type );
 }
 
+Node* GraphKit::load_object_counter(Node *obj){
+	Node *obj_count_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+	return obj_count_addr;
+}
 
 //------------------------------uncommon_trap----------------------------------
 // Bail out to the interpreter in mid-method.  Implemented by calling the

@@ -627,6 +627,9 @@ class GraphKit : public Phase {
   void increment_counter(address counter_addr);   // increment a debug counter
   void increment_counter(Node*   counter_addr);   // increment a debug counter
 
+  // Loads the object counter from the object's address
+  Node* load_object_counter (Node* object);
+
   // Bail out to the interpreter right now
   // The optional klass is the one causing the trap.
   // The optional reason is debug information written to the compile log.
