@@ -197,7 +197,7 @@ public:
 
 private:
   JVMState*         _caller;    // List pointer for forming scope chains
-  uint              _depth;     // One mroe than caller depth, or one.
+  uint              _depth;     // One more than caller depth, or one.
   uint              _locoff;    // Offset to locals in input edge mapping
   uint              _stkoff;    // Offset to stack in input edge mapping
   uint              _monoff;    // Offset to monitors in input edge mapping
