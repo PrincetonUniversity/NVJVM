@@ -151,7 +151,7 @@ class typeArrayOopDesc : public arrayOopDesc {
   // elements each of the given "byte_size".
  private:
   static int object_size(int lh, int length) {
-    int instance_header_size = Klass::layout_helper_header_size(lh);
+    int instance_header_size = Klass::layout_helper_header_size(lh) + sizeof(objectCounter);
     int element_shift = Klass::layout_helper_log2_element_size(lh);
     DEBUG_ONLY(BasicType etype = Klass::layout_helper_element_type(lh));
     assert(length <= arrayOopDesc::max_array_length(etype), "no overflow");
