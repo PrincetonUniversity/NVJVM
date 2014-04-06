@@ -62,11 +62,11 @@ class oopDesc {
   friend class VMStructs;
  private:
   volatile markOop  _mark;
+  objectCounter _objectCounter; // Added object counter to the header of an object for each instance type
   union _metadata {
     wideKlassOop    _klass;
     narrowOop       _compressed_klass;
   } _metadata;
-  objectCounter _objectCounter; // Added object counter to the header of an object for each instance type
 
   // Fast access to barrier set.  Must be initialized.
   static BarrierSet* _bs;

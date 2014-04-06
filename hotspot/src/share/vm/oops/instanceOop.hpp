@@ -38,7 +38,7 @@ class instanceOopDesc : public oopDesc {
   // If compressed, the offset of the fields of the instance may not be aligned.
   static int base_offset_in_bytes() {
     return UseCompressedOops ?
-             klass_gap_offset_in_bytes() + sizeof(objectCounter):
+             klass_gap_offset_in_bytes():
              sizeof(instanceOopDesc);
   }
 
