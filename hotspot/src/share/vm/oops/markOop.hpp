@@ -134,8 +134,7 @@ class markOopDesc: public oopDesc {
          age_shift                = lock_bits + biased_lock_bits,
          cms_shift                = age_shift + age_bits,
          hash_shift               = count_bits + count_shift,
-         epoch_shift              = cms_shift + cms_bits,
-
+         epoch_shift              = cms_shift + cms_bits
   };
 
   enum { lock_mask                = right_n_bits(lock_bits),
@@ -156,7 +155,9 @@ class markOopDesc: public oopDesc {
   };
 
   // Alignment of JavaThread pointers encoded in object header required by biased locking
-  enum { biased_lock_alignment    = 2 << (count_shift + count_bits)
+  enum {
+
+	  biased_lock_alignment    = ((uint64_t)2) << (count_shift + count_bits)
   };
 
 #ifdef _WIN64

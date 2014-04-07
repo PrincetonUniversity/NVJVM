@@ -221,6 +221,9 @@ class Parse : public GraphKit {
       _is_parsed = true;
     }
 
+    // Method to increment the access counter
+    void increment_access_counter(BasicType elem_type);
+
     // Return the phi/region input index for the "current" pred,
     // and bump the pred number.  For historical reasons these index
     // numbers are handed out in descending order.  The last index is
