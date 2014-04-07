@@ -66,7 +66,7 @@ void Parse::array_store(BasicType elem_type) {
 }
 
 //------------------------ incrementing the counter in the header--------------
-void Parse::increment_access_counter(BasicType elem_type){
+void Parse::increment_access_counter(){
   Node *obj = peek(0); // Getting the address of the object from the stack
   increment_object_counter (obj);
 }
@@ -1405,6 +1405,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
     push( local(0) );
+    increment_access_counter ();
     break;
   case Bytecodes::_aload_1:
     push( local(1) );

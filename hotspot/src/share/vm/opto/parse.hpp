@@ -221,8 +221,6 @@ class Parse : public GraphKit {
       _is_parsed = true;
     }
 
-    // Method to increment the access counter
-    void increment_access_counter(BasicType elem_type);
 
     // Return the phi/region input index for the "current" pred,
     // and bump the pred number.  For historical reasons these index
@@ -431,6 +429,8 @@ class Parse : public GraphKit {
 
   // Parse this bytecode, and alter the Parsers JVM->Node mapping
   void do_one_bytecode();
+  // Method to increment the access counter
+  void increment_access_counter();
 
   // helper function to generate array store check
   void array_store_check();
