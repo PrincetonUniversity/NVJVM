@@ -50,7 +50,7 @@ extern bool always_do_update_barrier;
 // Forward declarations.
 class OopClosure;
 class ScanClosure;
-class FastScanClosure;
+[class FastScanClosure;
 class FilteringClosure;
 class BarrierSet;
 class CMSIsAliveClosure;
@@ -83,7 +83,7 @@ class oopDesc {
    // Getter Method for object counter
    objectCounter counter() 	{ return _mark->getObjectCounter(); }
    // Incrementing the object counter
-   void increment_counter() { _mark->incrementCounter() ; }
+   void increment_counter() { markOop m  = _mark->incrementCounter() ; _mark = m; }
    /**************************************************************************/
 
 

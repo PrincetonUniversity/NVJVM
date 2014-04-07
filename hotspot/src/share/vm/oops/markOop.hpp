@@ -193,22 +193,22 @@ class markOopDesc: public oopDesc {
 	  return (*((objectCounter*) (&val)));
  }
 
- void setCounter(objectCounter count){
+ markOop setCounter(objectCounter count){
 	 uintptr_t val = (uintptr_t) this;
 	 uintptr_t tmp = count;
-	 *(markOop*)(this) = (val & count_mask_not) | (tmp << count_shift);
+	 return (markOop) (val & count_mask_not) | (tmp << count_shift);
  }
 
- objectCounter* getObjectCounterAddr(){
+ /*objectCounter* getObjectCounterAddr(){
  	  uintptr_t val = (uintptr_t) this;
  	  val = (val & count_mask) << count_val_shift;
  	  return ((&(objectCounter)val));
-  }
+  }*/
 
- void incrementCounter(){
+ markOop incrementCounter(){
 	 uintptr_t val = (uintptr_t) this;
 	 uintptr_t tmp = this->getObjectCounter() + 1;
-	 *(markOop*)(this) = (val & count_mask_not) | (tmp << count_shift);
+	 return (markOop) (val & count_mask_not) | (tmp << count_shift);
  }
 
   // Biased Locking accessors.
