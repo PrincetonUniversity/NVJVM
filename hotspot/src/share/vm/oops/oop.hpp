@@ -81,9 +81,9 @@ class oopDesc {
 
   /**********************************  Object Counter APIs *****************/
    // Getter Method for object counter
-   objectCounter counter() 	{ return _mark->getObjectCounter(); }
+  // objectCounter counter() 	{ return ((markOop)_mark)->getObjectCounter(); }
    // Incrementing the object counter
-   void increment_counter() { _mark->incrementCounter() ; }
+  // void increment_counter() { ((markOop)_mark)->incrementCounter() ; }
    /**************************************************************************/
 
 
