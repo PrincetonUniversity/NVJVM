@@ -156,7 +156,7 @@ class markOopDesc: public oopDesc {
   };
 
   // Alignment of JavaThread pointers encoded in object header required by biased locking
-  enum { biased_lock_alignment    = 2 << (count_shift + count_bits)
+  enum { biased_lock_alignment    = ((uint64_t)2) << (count_shift + count_bits)
   };
 
 #ifdef _WIN64
