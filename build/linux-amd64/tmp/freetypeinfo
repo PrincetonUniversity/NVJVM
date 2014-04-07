@@ -1,6 +1,0 @@
-make[3]: Entering directory `/home/tandon/Projects/openjdk/jdk/make/tools/freetypecheck'
-/home/tandon/Projects/openjdk/build/linux-amd64/btbins/freetype_versioncheck
-Required version of freetype: 2.3.0
-Detected freetype headers: 2.5.0
-Detected freetype library: 2.5.0
-make[3]: Leaving directory `/home/tandon/Projects/openjdk/jdk/make/tools/freetypecheck'

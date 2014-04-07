@@ -1,5 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/SampleTree/src/SampleTree.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/SampleTree/src/SampleTreeModel.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/SampleTree/src/SampleTreeCellRenderer.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/SampleTree/src/DynamicTreeNode.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/SampleTree/src/SampleData.java

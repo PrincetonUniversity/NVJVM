@@ -1,3 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/scripting/jconsole-plugin/src/com/sun/demo/scripting/jconsole/ScriptJConsolePlugin.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/scripting/jconsole-plugin/src/com/sun/demo/scripting/jconsole/EditableAtEndDocument.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/scripting/jconsole-plugin/src/com/sun/demo/scripting/jconsole/ScriptShellPanel.java

@@ -1,3 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/CodePointIM/src/CodePointInputMethodDescriptor.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/CodePointIM/src/CodePointIM.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/CodePointIM/src/CodePointInputMethod.java

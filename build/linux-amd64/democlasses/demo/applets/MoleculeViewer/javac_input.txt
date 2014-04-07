@@ -1,2 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/MoleculeViewer/src/XYZApp.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/MoleculeViewer/src/Matrix3D.java

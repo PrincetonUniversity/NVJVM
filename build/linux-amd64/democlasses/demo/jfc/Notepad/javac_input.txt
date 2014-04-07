@@ -1,2 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/Notepad/src/ElementTreePanel.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/Notepad/src/Notepad.java

@@ -114,7 +114,8 @@ class markOopDesc: public oopDesc {
          max_hash_bits            = BitsPerWord - age_bits - lock_bits - biased_lock_bits,
          hash_bits                = max_hash_bits > 31 ? 31 : max_hash_bits,
          cms_bits                 = LP64_ONLY(1) NOT_LP64(0),
-         epoch_bits               = 2
+         epoch_bits               = 2,
+         count_bits               = 8
   };
 
   // The biased locking code currently requires that the age bits be
@@ -123,8 +124,8 @@ class markOopDesc: public oopDesc {
          biased_lock_shift        = lock_bits,
          age_shift                = lock_bits + biased_lock_bits,
          cms_shift                = age_shift + age_bits,
-         hash_shift               = cms_shift + cms_bits,
-         epoch_shift              = hash_shift
+         hash_shift               = cms_shift + cms_bits + count_bits + 2, // changes to 10
+         epoch_shift              = cms_shift + cms_bits // does not change
   };
 
   enum { lock_mask                = right_n_bits(lock_bits),
@@ -145,7 +146,7 @@ class markOopDesc: public oopDesc {
   };
 
   // Alignment of JavaThread pointers encoded in object header required by biased locking
-  enum { biased_lock_alignment    = 2 << (epoch_shift + epoch_bits)
+  enum { biased_lock_alignment    = 2 << (epoch_shift + epoch_bits + count_bits)
   };
 
 #ifdef _WIN64
@@ -374,7 +375,7 @@ class markOopDesc: public oopDesc {
   const static uintptr_t cms_free_chunk_pattern  = 0x1;
 
   // Constants for the size field.
-  enum { size_shift                = cms_shift + cms_bits,
+  enum { size_shift                = cms_shift + cms_bits + count_bits + 2,
          size_bits                 = 35    // need for compressed oops 32G
        };
   // These values are too big for Win64
