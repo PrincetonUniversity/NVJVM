@@ -156,7 +156,6 @@ class markOopDesc: public oopDesc {
 
   // Alignment of JavaThread pointers encoded in object header required by biased locking
   enum {
-
 	  biased_lock_alignment    = ((uint64_t)2) << (count_shift + count_bits)
   };
 
@@ -210,7 +209,7 @@ class markOopDesc: public oopDesc {
  markOop incrementCounter(){
 	 uintptr_t val = (uintptr_t) this;
 	 uintptr_t tmp = this->getObjectCounter() + 1;
-	 return (markOop) (val & count_mask_not) | (tmp << count_shift);
+	 return (markOop) ((val & count_mask_not) | (tmp << count_shift));
  }
 
   // Biased Locking accessors.

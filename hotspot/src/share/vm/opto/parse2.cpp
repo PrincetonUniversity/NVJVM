@@ -68,10 +68,7 @@ void Parse::array_store(BasicType elem_type) {
 //------------------------ incrementing the counter in the header--------------
 void Parse::increment_access_counter(BasicType elem_type){
   Node *obj = peek(0); // Getting the address of the object from the stack
-  Node *counter = load_object_counter(obj); // Gets the object counter from the header of the object
-  Node *incr_node = _gvn.transform(new (C, 3) AddINode(counter, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
-  int adr_type = Compile::AliasIdxRaw;
-  store_to_memory(control(), counter, incr_node, elem_type, adr_type); // Storing the result obtained after the increment operation to memory
+  increment_object_counter (obj);
 }
 
 

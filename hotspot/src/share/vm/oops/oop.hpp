@@ -79,15 +79,6 @@ class oopDesc {
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 
-  /**********************************  Object Counter APIs *****************/
-   // Getter Method for object counter
-  // objectCounter counter() 	{ return (markOop)_mark->getObjectCounter(); }
-   // Incrementing the object counter
-  // void increment_counter() { markOop m  = _mark->incrementCounter() ; _mark = m; }
-   /**************************************************************************/
-
-
-
   void set_mark(volatile markOop m)      { _mark = m;   }
 
   void    release_set_mark(markOop m);

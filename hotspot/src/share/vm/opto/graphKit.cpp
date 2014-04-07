@@ -1830,6 +1830,14 @@ void GraphKit::increment_counter(Node* counter_addr) {
   store_to_memory( ctrl, counter_addr, incr, T_INT, adr_type );
 }
 
+void GraphKit::increment_object_counter(Node* object) {
+  Node *counter_addr = basic_plus_adr(object, oopDesc::mark_offset_in_bytes() + 4);
+  int adr_type = Compile::AliasIdxRaw;
+  Node* ctrl = control();
+  Node* cnt  = make_load(ctrl, counter_addr, TypeInt::CHAR, T_CHAR, adr_type);
+  Node* incr = _gvn.transform(new (C, 3) AddINode(cnt, _gvn.intcon(1)));
+  store_to_memory( ctrl, counter_addr, incr, T_CHAR, adr_type );
+}
 
 //------------------------------uncommon_trap----------------------------------
 // Bail out to the interpreter in mid-method.  Implemented by calling the
