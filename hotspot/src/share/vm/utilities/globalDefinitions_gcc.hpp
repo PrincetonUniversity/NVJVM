@@ -160,6 +160,7 @@ typedef uint8_t  jubyte;
 typedef uint16_t jushort;
 typedef uint32_t juint;
 typedef uint64_t julong;
+typedef uint8_t objectCounter;
 
 //----------------------------------------------------------------------------------------------------
 // Special (possibly not-portable) casts
