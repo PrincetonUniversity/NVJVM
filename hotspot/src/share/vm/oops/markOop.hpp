@@ -44,21 +44,21 @@
 //  64 bits:
 //  --------
 //  unused:25 hash:31 ----->| unused:1   age:4    biased_lock:1 lock:2 (normal object)
-//  unused:15 hash:31 count:8 unused:3   age:4    biased_lock:1 lock:2 (normal object with count)
-//  JavaThread*:54         epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object)
-//  JavaThread*:46 count:8 epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object with count)
+//  unused:1 hash:31 count:16 unused:9   age:4    biased_lock:1 lock:2 (normal object with count)
+//  JavaThread*:54                   epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object)
+//  JavaThread*:32 count:16 unused:6 epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object with count)
 //  PromotedObject*:61 --------------------->| promo_bits:3 ----->| (CMS promoted object)
-//  PromotedObject*:46 count:8 ------------->| promo_bits:3 ----->| (CMS promoted object with count) // TODO change the size of the promoted object here
+//  PromotedObject*:32 count:16 unused:13 ------------->| promo_bits:3 ----->| (CMS promoted object with count) // TODO change the size of the promoted object here
 //  size:64 ----------------------------------------------------->| (CMS free block)
 //
-//  unused:25 hash:31 ----->| cms_free:1   age:4    biased_lock:1 lock:2 (COOPs && normal object)
-//  unused:15 hash:31 count:8 cms_free:3   age:4    biased_lock:1 lock:2 (COOPs && normal object with count)
+//  unused:25 hash:31 -------------->| cms_free:1   age:4    biased_lock:1 lock:2 (COOPs && normal object)
+//  unused:1 hash:31 count:16 unused:6 cms_free:3   age:4    biased_lock:1 lock:2 (COOPs && normal object with count)
 //  JavaThread*:54 epoch:2 cms_free:1 age:4    biased_lock:1 lock:2 (COOPs && biased object)
-//  JavaThread*:46 count:8 epoch:2 cms_free:1 age:4    biased_lock:1 lock:2 (COOPs && biased object)
+//  JavaThread*:32 count:16 unused:6 epoch:2 cms_free:1 age:4    biased_lock:1 lock:2 (COOPs && biased object)
 //  narrowOop:32 unused:24                  cms_free:1 unused:4 promo_bits:3 ----->| (COOPs && CMS promoted object)
-//  narrowOop:32 unused:14 count:8 unused:2 cms_free:1 unused:4 promo_bits:3 ----->| (COOPs && CMS promoted object with count)
+//  narrowOop:32 count:16 unused:8 cms_free:1 unused:4 promo_bits:3 ----->| (COOPs && CMS promoted object with count)
 //  unused:21 size:35 			       -->| cms_free:1 unused:7 ------------------>| (COOPs && CMS free block)
-//  unused:11 size:35 count:8 unused:2 -->| cms_free:1 unused:7 ------------------>| (COOPs && CMS free block with count)
+//  size:32 count:16 unused:8 -->| cms_free:1 unused:7 ------------------>| (COOPs && CMS free block with count)
 
 //
 //  - hash contains the identity hash value: largest value is
@@ -123,18 +123,19 @@ class markOopDesc: public oopDesc {
          hash_bits                = max_hash_bits > 31 ? 31 : max_hash_bits,
          cms_bits                 = LP64_ONLY(1) NOT_LP64(0),
          epoch_bits               = 2,
-         count_bits               = 8
+         count_bits               = 16
   };
 
   // The biased locking code currently requires that the age bits be
   // contiguous to the lock bits.
   enum { lock_shift               = 0,
-         biased_lock_shift        = lock_bits,
+	  	 count_shift 		      = 16,
+	     biased_lock_shift        = lock_bits,
          age_shift                = lock_bits + biased_lock_bits,
          cms_shift                = age_shift + age_bits,
-         hash_shift               = cms_shift + cms_bits + count_bits + epoch_bits,
+         hash_shift               = count_bits + count_shift,
          epoch_shift              = cms_shift + cms_bits,
-         count_shift 		      = epoch_shift + epoch_bits
+
   };
 
   enum { lock_mask                = right_n_bits(lock_bits),
@@ -155,7 +156,7 @@ class markOopDesc: public oopDesc {
   };
 
   // Alignment of JavaThread pointers encoded in object header required by biased locking
-  enum { biased_lock_alignment    = 2 << (epoch_shift + epoch_bits + count_bits)
+  enum { biased_lock_alignment    = 2 << (count_shift + count_bits)
   };
 
 #ifdef _WIN64
@@ -413,8 +414,8 @@ class markOopDesc: public oopDesc {
   const static uintptr_t cms_free_chunk_pattern  = 0x1;
 
   // Constants for the size field.
-  enum { size_shift                = cms_shift + cms_bits + count_bits + epoch_bits,
-         size_bits                 = 35    // need for compressed oops 32G
+  enum { size_shift                = count_bits + count_shift,
+         size_bits                 = 32    // need for compressed oops 32G
        };
   // These values are too big for Win64
   const static uintptr_t size_mask = LP64_ONLY(right_n_bits(size_bits))
