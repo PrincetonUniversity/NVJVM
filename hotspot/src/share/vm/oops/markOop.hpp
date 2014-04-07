@@ -115,7 +115,8 @@ class markOopDesc: public oopDesc {
          hash_bits                = max_hash_bits > 31 ? 31 : max_hash_bits,
          cms_bits                 = LP64_ONLY(1) NOT_LP64(0),
          epoch_bits               = 2,
-         count_bits               = 8
+         count_bits               = 8,
+         count_position 		  =
   };
 
   // The biased locking code currently requires that the age bits be
@@ -172,6 +173,11 @@ class markOopDesc: public oopDesc {
   enum { max_age                  = age_mask };
 
   enum { max_bias_epoch           = epoch_mask };
+
+  objectCounter getObjectCounter(){
+	  uintptr_t val = (uintptr_t) this;
+
+  }
 
   // Biased Locking accessors.
   // These must be checked by all code which calls into the
