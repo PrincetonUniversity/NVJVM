@@ -1480,26 +1480,31 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_istore_0:
   case Bytecodes::_astore_0:
     set_local( 0, pop() );
+    increment_access_counter();
     break;
   case Bytecodes::_fstore_1:
   case Bytecodes::_istore_1:
   case Bytecodes::_astore_1:
     set_local( 1, pop() );
+    increment_access_counter();
     break;
   case Bytecodes::_fstore_2:
   case Bytecodes::_istore_2:
   case Bytecodes::_astore_2:
     set_local( 2, pop() );
+    increment_access_counter();
     break;
   case Bytecodes::_fstore_3:
   case Bytecodes::_istore_3:
   case Bytecodes::_astore_3:
     set_local( 3, pop() );
+    increment_access_counter();
     break;
   case Bytecodes::_fstore:
   case Bytecodes::_istore:
   case Bytecodes::_astore:
     set_local( iter().get_index(), pop() );
+    increment_access_counter();
     break;
   // long stores
   case Bytecodes::_lstore_0:
