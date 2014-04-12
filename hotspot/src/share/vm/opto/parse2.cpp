@@ -1,4 +1,4 @@
-/*
+	/*
  * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
@@ -67,6 +67,7 @@ void Parse::array_store(BasicType elem_type) {
 
 //------------------------ incrementing the counter in the header--------------
 void Parse::increment_access_counter(){
+  printf("increment access count called \n"); fflush(stdout);
   Node *obj = peek(0); // Getting the address of the object from the stack
   increment_object_counter (obj);
 }
@@ -1409,15 +1410,19 @@ void Parse::do_one_bytecode() {
     break;
   case Bytecodes::_aload_1:
     push( local(1) );
+    increment_access_counter ();
     break;
   case Bytecodes::_aload_2:
     push( local(2) );
+    increment_access_counter ();
     break;
   case Bytecodes::_aload_3:
     push( local(3) );
+    increment_access_counter ();
     break;
   case Bytecodes::_aload:
     push( local(iter().get_index()) );
+    increment_access_counter ();
     break;
 
   case Bytecodes::_fload_0:
