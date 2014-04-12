@@ -145,7 +145,7 @@ HS_DTRACE_PROBE_DECL5(hotspot, thread__stop, char*, intptr_t,
 // Support for forcing alignment of thread objects for biased locking
 void* Thread::operator new(size_t size) {
   if (UseBiasedLocking) {
-    const int alignment = markOopDesc::biased_lock_alignment;
+    const int64_t alignment = markOopDesc::biased_lock_alignment;
     size_t aligned_size = size + (alignment - sizeof(intptr_t));
     void* real_malloc_addr = CHeapObj::operator new(aligned_size);
     void* aligned_addr     = (void*) align_size_up((intptr_t) real_malloc_addr, alignment);
