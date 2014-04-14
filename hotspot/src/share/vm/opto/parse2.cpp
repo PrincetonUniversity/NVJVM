@@ -1178,7 +1178,7 @@ void Parse::increment_access_counter(){
   Node *counter = load_object_counter(obj); // Gets the object counter from the header of the object
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(counter, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   int adr_type = Compile::AliasIdxRaw;
-  store_to_memory(control(), counter, incr_node, TypeInt::INT, adr_type); // Storing the result obtained after the increment operation to memory
+  store_to_memory(control(), counter, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------
