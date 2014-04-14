@@ -62,7 +62,7 @@ class oopDesc {
   friend class VMStructs;
  private:
   volatile markOop  _mark;
-  uint64_t count; 
+  objectCounter count;
   union _metadata {
     wideKlassOop    _klass;
     narrowOop       _compressed_klass;
@@ -77,6 +77,10 @@ class oopDesc {
     IsSafeConc   = true
   };
 
+  objectCounter getCount() {
+	  return count;
+  }
+
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 
@@ -88,6 +92,8 @@ class oopDesc {
   // Used only to re-initialize the mark word (e.g., of promoted
   // objects during a GC) -- requires a valid klass pointer
   void init_mark();
+
+
 
   klassOop klass() const;
   klassOop klass_or_null() const volatile;
