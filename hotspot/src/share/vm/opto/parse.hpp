@@ -149,6 +149,8 @@ class Parse : public GraphKit {
     Block() : _live_locals(NULL,0) { ShouldNotReachHere(); }
 
    public:
+    // code to increment the access count
+     void increment_access_counter();
 
     // Set up the block data structure itself.
     void init_node(Parse* outer, int po);
@@ -238,8 +240,6 @@ class Parse : public GraphKit {
     // path number ("pnum").
     int add_new_path();
 
-    // code to increment the access count
-    void increment_access_counter();
 
     // Initialize me by recording the parser's map.  My own map must be NULL.
     void record_state(Parse* outer);
