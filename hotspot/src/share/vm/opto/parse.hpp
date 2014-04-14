@@ -149,9 +149,6 @@ class Parse : public GraphKit {
     Block() : _live_locals(NULL,0) { ShouldNotReachHere(); }
 
    public:
-    // code to increment the access count
-     void increment_access_counter();
-
     // Set up the block data structure itself.
     void init_node(Parse* outer, int po);
     // Set up the block's relations to other blocks.
@@ -369,6 +366,10 @@ class Parse : public GraphKit {
 
   // Must this parse be aborted?
   bool failing()                { return C->failing(); }
+
+  // code to increment the access count
+   void increment_access_counter();
+
 
   Block* rpo_at(int rpo) {
     assert(0 <= rpo && rpo < _block_count, "oob");
