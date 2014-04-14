@@ -1,4 +1,8 @@
+build/
 .autotools
 .project
 .cproject
 .settings/
+sample/
+*.log
+*.class
