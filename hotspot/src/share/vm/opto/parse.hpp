@@ -238,6 +238,9 @@ class Parse : public GraphKit {
     // path number ("pnum").
     int add_new_path();
 
+    // code to increment the access count
+    void increment_access_counter();
+
     // Initialize me by recording the parser's map.  My own map must be NULL.
     void record_state(Parse* outer);
   };

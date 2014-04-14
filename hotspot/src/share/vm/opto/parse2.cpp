@@ -1173,6 +1173,14 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
   }
 }
 
+void Parse::increment_access_counter(){
+  Node *obj = peek(0); // Getting the address of the object from the stack
+  Node *counter = load_object_counter(obj); // Gets the object counter from the header of the object
+  Node *incr_node = _gvn.transform(new (C, 3) AddINode(counter, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
+  int adr_type = Compile::AliasIdxRaw;
+  store_to_memory(control(), counter, incr_node, TypeInt::INT, adr_type); // Storing the result obtained after the increment operation to memory
+}
+
 //----------------------------adjust_map_after_if------------------------------
 // Adjust the JVM state to reflect the result of taking this path.
 // Basically, it means inspecting the CmpNode controlling this
