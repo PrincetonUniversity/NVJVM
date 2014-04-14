@@ -62,6 +62,7 @@ class oopDesc {
   friend class VMStructs;
  private:
   volatile markOop  _mark;
+  uint64_t count; 
   union _metadata {
     wideKlassOop    _klass;
     narrowOop       _compressed_klass;
@@ -102,7 +103,7 @@ class oopDesc {
   void set_klass_to_list_ptr(oop k);
 
   // size of object header, aligned to platform wordSize
-  static int header_size()          { return sizeof(oopDesc)/HeapWordSize; }
+  static int header_size()          { return sizeof(oopDesc)/HeapWordSize;}
 
   Klass* blueprint() const;
 
