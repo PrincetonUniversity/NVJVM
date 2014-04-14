@@ -1407,18 +1407,23 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
     push( local(0) );
+    increment_access_counter();
     break;
   case Bytecodes::_aload_1:
     push( local(1) );
+    increment_access_counter();
     break;
   case Bytecodes::_aload_2:
     push( local(2) );
+    increment_access_counter();
     break;
   case Bytecodes::_aload_3:
     push( local(3) );
+    increment_access_counter();
     break;
   case Bytecodes::_aload:
     push( local(iter().get_index()) );
+    increment_access_counter();
     break;
 
   case Bytecodes::_fload_0:
