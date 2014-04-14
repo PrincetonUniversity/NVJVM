@@ -1175,10 +1175,12 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse::increment_access_counter(){
   Node *obj = peek(0); // Getting the address of the object from the stack
-  Node *counter = load_object_counter(obj); // Gets the object counter from the header of the object
-  Node *incr_node = _gvn.transform(new (C, 3) AddINode(counter, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   int adr_type = Compile::AliasIdxRaw;
-  store_to_memory(control(), counter, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+  Node* ctrl = control();
+  Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
+  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
+  store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------

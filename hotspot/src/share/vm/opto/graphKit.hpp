@@ -111,8 +111,6 @@ class GraphKit : public Phase {
     }
   }
 
-  Node* load_object_counter(Node *obj);
-
   jint  find_int_con(Node* n, jint value_if_unknown) {
     return _gvn.find_int_con(n, value_if_unknown);
   }
