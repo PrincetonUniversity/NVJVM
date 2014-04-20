@@ -1178,9 +1178,9 @@ void Parse::increment_access_counter(){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* ctrl = control();
-  Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
-  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
-  store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+  Node* count  = make_load(ctrl, counter_addr, TypeLong::LONG, T_LONG, adr_type);
+  Node *incr_node = _gvn.transform(new (C, 3) AddLNode(count, _gvn.longcon(1))); // incrementing the counter variable by 1, do not understand
+  store_to_memory(ctrl, counter_addr, incr_node, T_LONG, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------
@@ -1409,23 +1409,18 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
     push( local(0) );
-    increment_access_counter();
     break;
   case Bytecodes::_aload_1:
     push( local(1) );
-    increment_access_counter();
     break;
   case Bytecodes::_aload_2:
     push( local(2) );
-    increment_access_counter();
     break;
   case Bytecodes::_aload_3:
     push( local(3) );
-    increment_access_counter();
     break;
   case Bytecodes::_aload:
     push( local(iter().get_index()) );
-    increment_access_counter();
     break;
 
   case Bytecodes::_fload_0:
