@@ -51,6 +51,10 @@ static inline Address iaddress(int n) {
   return Address(r14, Interpreter::local_offset_in_bytes(n));
 }
 
+static inline Address iaddress(int n, int offset) {
+  return Address(r14, Interpreter::local_offset_in_bytes(n) + offset);
+}
+
 static inline Address laddress(int n) {
   return iaddress(n + 1);
 }
@@ -61,6 +65,10 @@ static inline Address faddress(int n) {
 
 static inline Address daddress(int n) {
   return laddress(n);
+}
+
+static inline Address aaddress(int n, int offset) {
+  return iaddress(n, offset);
 }
 
 static inline Address aaddress(int n) {
@@ -564,7 +572,6 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   __ movptr(rax, aaddress(rbx));
-  incrementq(Address(rax, oopDesc::counter_offset_in_bytes()));
 }
 
 void TemplateTable::locals_index_wide(Register reg) {
@@ -751,8 +758,12 @@ void TemplateTable::dload(int n) {
 
 void TemplateTable::aload(int n) {
   transition(vtos, atos);
+
+  __ movl(rax, aaddress(n, oopDesc::counter_offset_in_bytes()));        // load backedge counter
+  __ incrementl(rax, 1); // increment counter
+  __ movl(aaddress(n, oopDesc::counter_offset_in_bytes()), rax);        // store counter
+
   __ movptr(rax, aaddress(n));
-  incrementq(Address(rax, oopDesc::counter_offset_in_bytes()));
 }
 
 void TemplateTable::aload_0() {
