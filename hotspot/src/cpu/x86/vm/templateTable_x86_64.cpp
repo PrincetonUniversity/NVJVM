@@ -564,6 +564,7 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   __ movptr(rax, aaddress(rbx));
+  incrementq(Address(rax, oopDesc::counter_offset_in_bytes()), 1);
 }
 
 void TemplateTable::locals_index_wide(Register reg) {
@@ -751,6 +752,7 @@ void TemplateTable::dload(int n) {
 void TemplateTable::aload(int n) {
   transition(vtos, atos);
   __ movptr(rax, aaddress(n));
+  incrementq(Address(rax, oopDesc::counter_offset_in_bytes()), 1);
 }
 
 void TemplateTable::aload_0() {
