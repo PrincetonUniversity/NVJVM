@@ -368,7 +368,7 @@ class Parse : public GraphKit {
   bool failing()                { return C->failing(); }
 
   // code to increment the access count
-   void increment_access_counter();
+   void increment_access_counter(Node *obj);
 
 
   Block* rpo_at(int rpo) {
