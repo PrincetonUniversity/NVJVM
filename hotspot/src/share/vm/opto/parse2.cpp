@@ -1193,7 +1193,7 @@ void Parse:: increment_access_counter(Node *obj){
 void Parse::increment_count(Node *obj, Node *ctrl){
   const TypePtr* adr_type = _gvn.type(obj)->is_ptr();
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-  Node* count  = make_load(NULL, counter_addr, TypeLong::LONG, T_INT, adr_type);
+  Node* count  = make_load(NULL, counter_addr, TypeLong::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddLNode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   store_to_memory(NULL, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 }
