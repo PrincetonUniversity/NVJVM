@@ -1173,7 +1173,25 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
   }
 }
 
-void Parse::increment_access_counter(Node *obj){
+
+void Parse:: increment_access_counter(Node *obj){
+	Node *chk = _gvn.transform(new (C, 3) CmpPNode( obj, null() ));
+	BoolTest::mask btest = BoolTest::ne;
+	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
+	float ok_prob =  PROB_LIKELY_MAG(3);
+	IfNode* iff = create_and_map_if(control(), tst, ok_prob, COUNT_UNKNOWN);
+	Node* null_true = _gvn.transform( new (C, 1) IfFalseNode(iff));
+	Node *not_null = _gvn.tranform( new (C, 1) IFTrueNode(iff));
+	{
+	  PreserveJVMState pjvms(this);
+	  set_control( not_null );
+	  increment_count(Node * obj);
+	}
+	set_control(null_true);
+}
+
+
+void Parse::increment_count(Node *obj){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* ctrl = control();
@@ -1409,6 +1427,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload_0:
 	obj = local(0);
 	push( obj );
+
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
