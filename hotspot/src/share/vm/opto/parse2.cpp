@@ -1184,6 +1184,7 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *not_null = _gvn.transform( new (C, 1) IfTrueNode(iff));
 	{
 	  PreserveJVMState pjvms(this);
+	  set_control(not_null);
 	  increment_count(obj, not_null);
 	}
 	set_control(null_true);
