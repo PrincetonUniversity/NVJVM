@@ -1181,11 +1181,11 @@ void Parse:: increment_access_counter(Node *obj){
 	float ok_prob =  PROB_LIKELY_MAG(3);
 	IfNode* iff = create_and_map_if(control(), tst, ok_prob, COUNT_UNKNOWN);
 	Node* null_true = _gvn.transform( new (C, 1) IfFalseNode(iff));
-	Node *not_null = _gvn.tranform( new (C, 1) IFTrueNode(iff));
+	Node *not_null = _gvn.transform( new (C, 1) IFTrueNode(iff));
 	{
 	  PreserveJVMState pjvms(this);
 	  set_control( not_null );
-	  increment_count(Node * obj);
+	  increment_count(obj);
 	}
 	set_control(null_true);
 }
