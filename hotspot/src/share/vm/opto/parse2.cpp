@@ -1184,20 +1184,18 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *not_null = _gvn.transform( new (C, 1) IfTrueNode(iff));
 	{
 	  PreserveJVMState pjvms(this);
-	  set_control( not_null );
-	  increment_count(obj);
+	  increment_count(obj, not_null);
 	}
 	set_control(null_true);
-	increment_count(obj);
 }
 
-void Parse::increment_count(Node *obj){
+void Parse::increment_count(Node *obj, Node *control){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* ctrl = control();
   Node* count  = make_load(ctrl, counter_addr, TypeLong::LONG, T_LONG, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddLNode(count, _gvn.longcon(1))); // incrementing the counter variable by 1, do not understand
-  store_to_memory(NULL, counter_addr, incr_node, T_LONG, adr_type); // Storing the result obtained after the increment operation to memory
+  store_to_memory(control, counter_addr, incr_node, T_LONG, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------
