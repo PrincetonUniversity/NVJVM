@@ -1175,6 +1175,9 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 
 void Parse:: increment_access_counter(Node *obj){
+	increment_count (obj, NULL);
+	return ;
+
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode( obj, null() ));
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
