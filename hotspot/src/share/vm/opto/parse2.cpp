@@ -1173,8 +1173,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
   }
 }
 
-void Parse::increment_access_counter(){
-  Node *obj = peek(0); // Getting the address of the object from the stack
+void Parse::increment_access_counter(Node *obj){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* ctrl = control();
@@ -1321,7 +1320,7 @@ void Parse::adjust_map_after_if(BoolTest::mask btest, Node* c, float prob,
 //------------------------------do_one_bytecode--------------------------------
 // Parse this bytecode, and alter the Parsers JVM->Node mapping
 void Parse::do_one_bytecode() {
-  Node *a, *b, *c, *d;          // Handy temps
+  Node *a, *b, *c, *d, *obj;          // Handy temps
   BoolTest::mask btest;
   int i;
 
@@ -1408,19 +1407,29 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_aload_0:
-    push( local(0) );
+	obj = local(0);
+	push( obj );
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
-    push( local(1) );
+	obj = local(1);
+    push( obj );
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
-    push( local(2) );
+    obj = local(2);
+	push( obj );
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_3:
-    push( local(3) );
+    obj = local(3);
+	push( obj );
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload:
-    push( local(iter().get_index()) );
+	obj = local(iter().get_index());
+    push( obj );
+    increment_access_counter(obj);
     break;
 
   case Bytecodes::_fload_0:

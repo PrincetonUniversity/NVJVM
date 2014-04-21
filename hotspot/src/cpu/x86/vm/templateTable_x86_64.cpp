@@ -758,11 +758,6 @@ void TemplateTable::dload(int n) {
 
 void TemplateTable::aload(int n) {
   transition(vtos, atos);
-
-  __ movl(rax, aaddress(n, oopDesc::counter_offset_in_bytes()));        // load backedge counter
-  __ incrementl(rax, 1); // increment counter
-  __ movl(aaddress(n, oopDesc::counter_offset_in_bytes()), rax);        // store counter
-
   __ movptr(rax, aaddress(n));
 }
 
