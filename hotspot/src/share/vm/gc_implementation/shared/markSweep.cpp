@@ -29,6 +29,7 @@
 #include "oops/methodDataOop.hpp"
 #include "oops/objArrayKlass.inline.hpp"
 #include "oops/oop.inline.hpp"
+#include "inttypes.h"
 
 Stack<oop>              MarkSweep::_marking_stack;
 Stack<DataLayout*>      MarkSweep::_revisit_mdo_stack;
@@ -116,9 +117,11 @@ void MarkSweep::MarkAndPushClosure::do_oop(narrowOop* p) { mark_and_push(p); }
 
 void MarkSweep::follow_stack() {
   do {
+	printf("in mark sweep\n");
     while (!_marking_stack.is_empty()) {
       oop obj = _marking_stack.pop();
       assert (obj->is_gc_marked(), "p must be marked");
+      if(obj->getCount() != 0) printf("%" PRId64 "\n", obj->getCount());
       obj->follow_contents();
     }
     // Process ObjArrays one at a time to avoid marking stack bloat.
