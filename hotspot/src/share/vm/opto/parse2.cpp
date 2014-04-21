@@ -1192,7 +1192,7 @@ void Parse:: increment_access_counter(Node *obj){
 
 void Parse::increment_count(Node *obj){
   int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(obj, 0);
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* ctrl = control();
   Node* count  = make_load(ctrl, counter_addr, TypeLong::LONG, T_LONG, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddLNode(count, _gvn.longcon(1))); // incrementing the counter variable by 1, do not understand
