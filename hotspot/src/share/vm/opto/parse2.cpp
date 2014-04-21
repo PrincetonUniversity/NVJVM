@@ -1185,7 +1185,7 @@ void Parse:: increment_access_counter(Node *obj){
 	{
 	  PreserveJVMState pjvms(this);
 	  set_control(not_null);
-	  increment_count(obj, not_null);
+	 // increment_count(obj, not_null);
 	}
 	set_control(null_true);
 }
