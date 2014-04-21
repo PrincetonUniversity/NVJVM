@@ -369,7 +369,7 @@ class Parse : public GraphKit {
 
   // code to increment the access count
    void increment_access_counter(Node *obj);
-   void increment_count (Node *obj);
+   void increment_count (Node *obj, Node *control);
 
   Block* rpo_at(int rpo) {
     assert(0 <= rpo && rpo < _block_count, "oob");
