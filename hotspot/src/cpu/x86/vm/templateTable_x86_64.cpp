@@ -758,10 +758,12 @@ void TemplateTable::dload(int n) {
 
 void TemplateTable::aload(int n) {
   transition(vtos, atos);
+  printf("in aload");
   __ movptr(rax, aaddress(n));
 }
 
 void TemplateTable::aload_0() {
+  printf("in aload_0");
   transition(vtos, atos);
   // According to bytecode histograms, the pairs:
   //

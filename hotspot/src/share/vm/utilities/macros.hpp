@@ -107,7 +107,7 @@
 #define CHECK_UNHANDLED_OOPS_ONLY(code)
 #define NOT_CHECK_UNHANDLED_OOPS(code)  code
 #endif // CHECK_UNHANDLED_OOPS
-
+#define CC_INTERP
 #ifdef CC_INTERP
 #define CC_INTERP_ONLY(code) code
 #define NOT_CC_INTERP(code)

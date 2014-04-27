@@ -496,9 +496,9 @@ BytecodeInterpreter::run(interpreterState istate) {
 #endif
 #define INCREMENT_ACCESS_COUNT(object) \
         if (object != NULL){           \
-         oop->incrementCount();        \
+         object->incrementCount();        \
          printf("incrementing access count\t"); \
-  	  	 printf("count = %" PRId64 "\n", oop->getCount()); \
+  	  	 printf("count = %" PRId64 "\n", object->getCount()); \
         }                              \
 
 #ifdef USELABELS
@@ -906,7 +906,7 @@ run:
       /* QQQ Hmm this has knowledge of direction, ought to be a stack method */
       assert(topOfStack >= istate->stack_limit(), "Stack overrun");
       assert(topOfStack < istate->stack_base(), "Stack underrun");
-
+      printf ("in bytecode interpreter");
 #ifdef USELABELS
       DISPATCH(opcode);
 #else
