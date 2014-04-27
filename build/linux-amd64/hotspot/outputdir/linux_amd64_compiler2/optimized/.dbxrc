@@ -1,8 +1,0 @@
-echo '# Loading linux_amd64_compiler2/optimized/.dbxrc'
-if [ -f "${HOTSPOT_DBXWARE}" ]
-then
-	source "${HOTSPOT_DBXWARE}"
-elif [ -f "$HOME/.dbxrc" ]
-then
-	source "$HOME/.dbxrc"
-fi

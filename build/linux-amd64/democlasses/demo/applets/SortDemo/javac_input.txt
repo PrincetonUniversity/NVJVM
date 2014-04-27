@@ -1,5 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/SortDemo/src/QSortAlgorithm.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/SortDemo/src/BubbleSortAlgorithm.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/SortDemo/src/SortItem.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/SortDemo/src/BidirBubbleSortAlgorithm.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/SortDemo/src/SortAlgorithm.java

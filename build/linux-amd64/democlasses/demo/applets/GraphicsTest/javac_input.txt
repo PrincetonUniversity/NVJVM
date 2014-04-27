@@ -1,2 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/GraphicsTest/src/AppletFrame.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/applets/GraphicsTest/src/GraphicsTest.java
