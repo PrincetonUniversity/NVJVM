@@ -80,7 +80,9 @@ class oopDesc {
   objectCounter getCount() {
 	  return count;
   }
-
+  void incrementCount() {
+	  count++;
+  }
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 

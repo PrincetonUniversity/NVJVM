@@ -1027,6 +1027,10 @@ run:
           switch(opcode) {
               case Bytecodes::_aload:
                   VERIFY_OOP(LOCALS_OBJECT(reg));
+                  oop object = LOCALS_OBJECT(reg);
+                  if (object != NULL){
+                   oop->incrementCount();
+                  }
                   SET_STACK_OBJECT(LOCALS_OBJECT(reg), 0);
                   UPDATE_PC_AND_TOS_AND_CONTINUE(4, 1);
 
