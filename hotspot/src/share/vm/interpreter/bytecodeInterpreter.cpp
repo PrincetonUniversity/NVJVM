@@ -497,6 +497,8 @@ BytecodeInterpreter::run(interpreterState istate) {
 #define INCREMENT_ACCESS_COUNT(object) \
         if (object != NULL){           \
          oop->incrementCount();        \
+         printf("incrementing access count\t"); \
+  	  	 printf("count = %" PRId64 "\n", oop->getCount()); \
         }                              \
 
 #ifdef USELABELS
