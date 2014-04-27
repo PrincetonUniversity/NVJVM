@@ -494,6 +494,10 @@ BytecodeInterpreter::run(interpreterState istate) {
 #undef BYTE_MAP_BASE
 #define BYTE_MAP_BASE _byte_map_base
 #endif
+#define INCREMENT_ACCESS_COUNT(object) \
+        if (object != NULL){           \
+         oop->incrementCount();        \
+        }                              \
 
 #ifdef USELABELS
   const static void* const opclabels_data[256] = {
@@ -961,6 +965,7 @@ run:
 
       CASE(_aload):
           VERIFY_OOP(LOCALS_OBJECT(pc[1]));
+          INCREMENT_ACCESS_COUNT(LOCALS_OBJECT(pc[1]));
           SET_STACK_OBJECT(LOCALS_OBJECT(pc[1]), 0);
           UPDATE_PC_AND_TOS_AND_CONTINUE(2, 1);
 
@@ -982,6 +987,7 @@ run:
       CASE(_aload_##num):                                               \
           VERIFY_OOP(LOCALS_OBJECT(num));                               \
           SET_STACK_OBJECT(LOCALS_OBJECT(num), 0);                      \
+          INCREMENT_ACCESS_COUNT(LOCALS_OBJECT(num));					\
           UPDATE_PC_AND_TOS_AND_CONTINUE(1, 1);                         \
                                                                         \
       CASE(_iload_##num):                                               \
@@ -1027,10 +1033,7 @@ run:
           switch(opcode) {
               case Bytecodes::_aload:
                   VERIFY_OOP(LOCALS_OBJECT(reg));
-                  oop object = LOCALS_OBJECT(reg);
-                  if (object != NULL){
-                   oop->incrementCount();
-                  }
+                  INCREMENT_ACCESS_COUNT(LOCALS_OBJECT(reg));
                   SET_STACK_OBJECT(LOCALS_OBJECT(reg), 0);
                   UPDATE_PC_AND_TOS_AND_CONTINUE(4, 1);
 
