@@ -62,7 +62,7 @@
 
 // Organization of the interpreter(s). There exists two different interpreters in hotpot
 // an assembly language version (aka template interpreter) and a high level language version
-// (aka c++ interpreter). Th division of labor is as follows:
+// (aka c++ interpreter). The division of labor is as follows:
 
 // Template Interpreter          C++ Interpreter        Functionality
 //
