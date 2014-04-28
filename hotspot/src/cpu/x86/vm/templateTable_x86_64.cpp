@@ -571,20 +571,22 @@ void TemplateTable::dload() {
 void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
-  /*Label nullObj;
+  Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
-  __ movptr(rax, aaddress(rbx));
-  Address object = Address(rax, ce_offset);
+  Address object = aaddress(rbx);
+  __ movptr(r10, object);
+  Address objectCounter = Address(r10, ce_offset);
+  __ movptr(rax,object);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  __ movptr(rax, object);
+  __ movptr(rax, objectCounter);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  __ movl(rax, object);        // load access counter
+  __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
-  //__ movl(Address(r14, rbx, Address::times_8, ce_offset), rax);        // store access counter
-  __ bind(nullObj);*/
-  __ movptr(rax, aaddress(rbx));
+  __ movl(objectCounter, rax);        // store access counter
+  __ bind(nullObj);
+  __ movptr(rax, object);
 }
 
 void TemplateTable::locals_index_wide(Register reg) {
