@@ -766,12 +766,12 @@ void TemplateTable::aload(int n) {
   Address object = Address(rax, ce_offset);
 __ movl(rax, object);        // load access counter
 __ incrementl(rax, 1); 		 // increment access counter
-__ movl(object, rax);        // store access counter
+//__ movl(object, rax);        // store access counter
   __ movptr(rax, aaddress(n));
 }
 
 void TemplateTable::aload_0() {
-  printf("in aload_0");
+  //printf("in aload_0");
   transition(vtos, atos);
   // According to bytecode histograms, the pairs:
   //
