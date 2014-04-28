@@ -763,6 +763,7 @@ void TemplateTable::aload(int n) {
   intptr_t objA = object.target();
   if (objA)*/
   int ce_offset =  oopDesc::counter_offset_in_bytes();
+  __ movptr(rax, aaddress(n));
   Address object = Address(rax, ce_offset);
 __ movl(rax, object);        // load access counter
 __ incrementl(rax, 1); 		 // increment access counter
