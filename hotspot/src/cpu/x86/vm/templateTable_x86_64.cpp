@@ -773,18 +773,20 @@ void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
-  Address object = aaddress(n, ce_offset);
-  __ movptr(rax, aaddress(n));
+  Address object = aaddress(n);
+  __ movptr(r10, object);
+  Address objectCounter = Address(r10, ce_offset);
+  __ movptr(rax,object );
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  __ movptr(rax, object);
+  __ movptr(rax, objectCounter);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  __ movl(rax, object);        // load access counter
+  __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
-  __ movl(object, rax);        // store access counter
+  __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
-  __ movptr(rax, aaddress(n));
+  __ movptr(rax, object);
 }
 
 void TemplateTable::aload_0() {
