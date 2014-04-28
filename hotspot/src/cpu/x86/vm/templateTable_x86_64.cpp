@@ -571,7 +571,7 @@ void TemplateTable::dload() {
 void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
-  Label nullObj;
+  /*Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(rax, aaddress(rbx));
   Address object = Address(rax, ce_offset);
@@ -582,8 +582,8 @@ void TemplateTable::aload() {
   __ jcc(Assembler::zero, nullObj);
   __ movl(rax, object);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
-  __ movl(Address(r14, rbx, Address::times_8, ce_offset), rax);        // store access counter
-  __ bind(nullObj);
+  //__ movl(Address(r14, rbx, Address::times_8, ce_offset), rax);        // store access counter
+  __ bind(nullObj);*/
   __ movptr(rax, aaddress(rbx));
 }
 
@@ -772,9 +772,9 @@ void TemplateTable::dload(int n) {
 void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
-  int ce_offset =  oopDesc::counter_offset_in_bytes();
+  int ce_offset = oopDesc::counter_offset_in_bytes();
+  Address object = aaddress(n, ce_offset);
   __ movptr(rax, aaddress(n));
-  Address object = Address(rax, ce_offset);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
   __ movptr(rax, object);
@@ -782,7 +782,7 @@ void TemplateTable::aload(int n) {
   __ jcc(Assembler::zero, nullObj);
   __ movl(rax, object);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
-  __ movl(aaddress(n, ce_offset), rax);        // store access counter
+  __ movl(object, rax);        // store access counter
   __ bind(nullObj);
   __ movptr(rax, aaddress(n));
 }
