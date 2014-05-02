@@ -41,6 +41,7 @@
 #include "runtime/java.hpp"
 #include "runtime/vmThread.hpp"
 #include "utilities/copy.hpp"
+#include "inttypes.h"
 
 /////////////////////////////////////////////////////////////////////////
 //// CompactibleFreeListSpace
@@ -1001,7 +1002,10 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
       //printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
       printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
       // must read from what 'p' points to in each loop.
+      uint64_t t = ((oopDesc*)p)->getCount();
+      printf("count = %" PRIu64 "\n", t);
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
+
       if (k != NULL) {
     	printf("k not null \n"); fflush(stdout);
         assert(k->is_oop(true /* ignore mark word */), "Should be klass oop");
