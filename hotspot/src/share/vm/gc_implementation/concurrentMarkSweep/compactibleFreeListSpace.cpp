@@ -998,8 +998,8 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
         return res;
       }
     } else {
-      printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
-      printf("getting klassOop\n"); fflush(stdout);
+      //printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
+      printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
       // must read from what 'p' points to in each loop.
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
       if (k != NULL) {
@@ -1013,6 +1013,8 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
         res = adjustObjectSize(res);
         assert(res != 0, "Block size should not be 0");
         return res;
+      } else{
+    	  printf("k is NULL\n"); fflush(stdout);
       }
     }
   }
