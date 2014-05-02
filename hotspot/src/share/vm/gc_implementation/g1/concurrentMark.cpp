@@ -808,6 +808,7 @@ public:
     T heap_oop = oopDesc::load_heap_oop(p);
     if (!oopDesc::is_null(heap_oop)) {
       oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+      printf("in do_oop_work\n");
       assert(obj->is_oop() || obj->mark() == NULL,
              "expected an oop, possibly with mark word displaced");
       HeapWord* addr = (HeapWord*)obj;
