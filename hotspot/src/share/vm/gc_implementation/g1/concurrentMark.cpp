@@ -1094,6 +1094,7 @@ private:
 
 public:
   void work(int worker_i) {
+	printf("In ConcurrentMark::markFromRoots, work()");
     assert(Thread::current()->is_ConcurrentGC_thread(),
            "this should only be done by a conc GC thread");
     ResourceMark rm;
@@ -1161,6 +1162,7 @@ public:
 };
 
 void ConcurrentMark::markFromRoots() {
+	printf("In ConcurrentMark::markFromRoots");
   // we might be tempted to assert that:
   // assert(asynch == !SafepointSynchronize::is_at_safepoint(),
   //        "inconsistent argument?");

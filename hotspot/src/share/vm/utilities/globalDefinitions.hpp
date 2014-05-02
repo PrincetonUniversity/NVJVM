@@ -109,7 +109,7 @@ const int SerializePageShiftCount = 3;
 
 // An opaque struct of heap-word width, so that HeapWord* can be a generic
 // pointer into the heap.  We require that object sizes be measured in
-// units of heap words, so that that
+// units of heap words, so that
 //   HeapWord* hw;
 //   hw += oop(hw)->foo();
 // works, where foo is a method (like size or scavenge) that returns the

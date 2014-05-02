@@ -2173,6 +2173,7 @@ class ReleaseForegroundGC: public StackObj {
 // collector but the if-then-else required made it cleaner to have
 // separate methods.
 void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
+  printf("CMSCollector:collect_in_background");
   assert(Thread::current()->is_ConcurrentGC_thread(),
     "A CMS asynchronous collection is only allowed on a CMS thread.");
 
@@ -2278,7 +2279,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         {
           ReleaseForegroundGC x(this);
           stats().record_cms_begin();
-
+          printf("state Initial Marking");
           VM_CMS_Initial_Mark initial_mark_op(this);
           VMThread::execute(&initial_mark_op);
         }
