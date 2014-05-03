@@ -60,7 +60,6 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   // For 64 bit compressed oops, the markOop encodes both the size and the
   // indication that this is a FreeChunk and not an object.
   volatile size_t   _size;
-  uint64_t _dummy;
   FreeChunk* _prev;
   FreeChunk* _next;
 
@@ -82,7 +81,6 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   }
 
   bool isFree() const volatile {
-	  printf("_dummy= %" PRIu64 "\n", _dummy);fflush(stdout);
 	  printf("In isFree\n");fflush(stdout);
 	  printf("_prev=%d\n", (((intptr_t)_prev) & 0x1) == 0x1);fflush(stdout);
 	  printf("_next=%d\n", (((intptr_t)_next) & 0x1) == 0x1);fflush(stdout);
