@@ -576,6 +576,7 @@ protected:
         printf("pre fetch beyond end\n");									 \
         fflush(stdout);														 \
         printf("block is object:%d\n", block_is_obj(end));					 \
+        fflush(stdout);														 \
 		end += block_size(end);                                              \
       } while (end < t && (!block_is_obj(end) || !oop(end)->is_gc_marked()));\
                                                                              \

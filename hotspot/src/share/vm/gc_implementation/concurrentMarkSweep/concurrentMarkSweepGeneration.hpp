@@ -41,8 +41,8 @@
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
-// seniormost generation (modulo the PermGeneration), and for simplicity
-// in the first implementation, that this generation is a single compactible
+// senior most generation (modulo the PermGeneration), and for simplicity
+// in the first implementation, that this generation is a single compatible
 // space. Neither of these restrictions appears essential, and will be
 // relaxed in the future when more time is available to implement the
 // greater generality (and there's a need for it).
