@@ -32,6 +32,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
+#include "inttypes.h"
 
 //
 // Free block maintenance for Concurrent Mark Sweep Generation
@@ -81,10 +82,11 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   }
 
   bool isFree() const volatile {
-	  printf("In isFree\n");
-	  printf("_prev=%d\n", (((intptr_t)_prev) & 0x1) == 0x1);
-	  printf("_next=%d\n", (((intptr_t)_next) & 0x1) == 0x1);
-	  fflush(stdout);
+	  printf("_dummy= %" PRIu64 "\n", _dummy);fflush(stdout);
+	  printf("In isFree\n");fflush(stdout);
+	  printf("_prev=%d\n", (((intptr_t)_prev) & 0x1) == 0x1);fflush(stdout);
+	  printf("_next=%d\n", (((intptr_t)_next) & 0x1) == 0x1);fflush(stdout);
+
     LP64_ONLY(if (UseCompressedOops) return mark()->is_cms_free_chunk(); else)
     return (((intptr_t)_prev) & 0x1) == 0x1;
   }
