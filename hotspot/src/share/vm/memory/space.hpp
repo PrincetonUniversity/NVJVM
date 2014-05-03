@@ -573,8 +573,9 @@ protected:
       do {                                                                   \
         /* prefetch beyond end */                                            \
         Prefetch::write(end, interval);                                      \
-        printf("prefetch beyond end\n");									 \
+        printf("pre fetch beyond end\n");									 \
         fflush(stdout);														 \
+        printf("block is object:%d\n", block_is_obj(end));					 \
 		end += block_size(end);                                              \
       } while (end < t && (!block_is_obj(end) || !oop(end)->is_gc_marked()));\
                                                                              \
