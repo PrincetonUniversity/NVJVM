@@ -59,6 +59,7 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   // For 64 bit compressed oops, the markOop encodes both the size and the
   // indication that this is a FreeChunk and not an object.
   volatile size_t   _size;
+  size_t _count;
   FreeChunk* _prev;
   FreeChunk* _next;
 
