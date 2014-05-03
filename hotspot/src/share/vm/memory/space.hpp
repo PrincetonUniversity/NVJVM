@@ -559,24 +559,16 @@ protected:
       /* prefetch beyond q */                                                \
       Prefetch::write(q, interval);                                          \
       /* size_t size = oop(q)->size();  changing this for cms for perm gen */\
-	  printf("live block object\n");							             \
-	  fflush(stdout);														 \
       size_t size = block_size(q);                                           \
       compact_top = cp->space->forward(oop(q), size, cp, compact_top);       \
       q += size;                                                             \
       end_of_live = q;                                                       \
     } else {                                                                 \
       /* run over all the contiguous dead objects */                         \
-      printf("running over dead objects\n");							     \
-      fflush(stdout);														 \
       HeapWord* end = q;                                                     \
       do {                                                                   \
         /* prefetch beyond end */                                            \
         Prefetch::write(end, interval);                                      \
-        printf("pre fetch beyond end\n");									 \
-        fflush(stdout);														 \
-        printf("block is object:%d\n", block_is_obj(end));					 \
-        fflush(stdout);														 \
 		end += block_size(end);                                              \
       } while (end < t && (!block_is_obj(end) || !oop(end)->is_gc_marked()));\
                                                                              \
