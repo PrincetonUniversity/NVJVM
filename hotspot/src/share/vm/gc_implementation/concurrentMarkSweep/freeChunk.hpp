@@ -33,6 +33,7 @@
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
 #include "inttypes.h"
+#include "stdlib.h"
 
 //
 // Free block maintenance for Concurrent Mark Sweep Generation
