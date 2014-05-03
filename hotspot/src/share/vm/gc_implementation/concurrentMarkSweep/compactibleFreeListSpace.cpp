@@ -987,6 +987,7 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   // will compile the code below into a sometimes-infinite loop, by keeping
   // the value read the first time in a register.
   while (true) {
+	printf("start of the true loop\n");
     // We must do this until we get a consistent view of the object.
     if (FreeChunk::indicatesFreeChunk(p)) {
      printf("In FreeChunk::indicatesFreeChunk\n"); fflush(stdout);

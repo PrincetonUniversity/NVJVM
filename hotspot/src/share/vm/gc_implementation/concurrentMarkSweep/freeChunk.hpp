@@ -72,6 +72,7 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   // Returns "true" if the address indicates that the block represents
   // a free chunk.
   static bool indicatesFreeChunk(const HeapWord* addr) {
+	  printf("In indicatesFreeChunk\n");fflush(stdout);
     // Force volatile read from addr because value might change between
     // calls.  We really want the read of _mark and _prev from this pointer
     // to be volatile but making the fields volatile causes all sorts of
@@ -80,8 +81,10 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   }
 
   bool isFree() const volatile {
+	  printf("In isFree\n");
 	  printf("_prev=%d\n", (((intptr_t)_prev) & 0x1) == 0x1);
 	  printf("_next=%d\n", (((intptr_t)_next) & 0x1) == 0x1);
+	  fflush(stdout);
     LP64_ONLY(if (UseCompressedOops) return mark()->is_cms_free_chunk(); else)
     return (((intptr_t)_prev) & 0x1) == 0x1;
   }
