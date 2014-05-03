@@ -1,9 +1,0 @@
--XDignore.symbol.file=true -quiet -use -keywords -Xdocrootparent http://download.oracle.com/javase/7/docs
--sourcepath '../../src/share/classes:/home/tandon/Projects/openjdk/build/linux-amd64/impsrc:/home/tandon/Projects/openjdk/build/linux-amd64/gensrc:../../src/share/../solaris/classes:../../src/share/../windows/classes:../../src/share/doc/stub'
--encoding 'ascii'
--nodeprecatedlist
--doctitle 'Java&trade; HTTP Server'
--windowtitle 'Java HTTP Server b00'
--header '<strong>Java HTTP Server</strong><br><strong>DRAFT&nbsp;internal-b00</strong>'
--bottom '<font size="-1"><br> Copyright &#x00a9; 2005, 2014, Oracle and/or its affiliates.  All rights reserved.</font><br><strong>DRAFT&nbsp;internal-b00</strong>'
--linkoffline '../../../../../api' '/home/tandon/Projects/openjdk/build/linux-amd64/docs/api/'

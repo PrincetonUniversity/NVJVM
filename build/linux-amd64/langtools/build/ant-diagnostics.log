@@ -21,8 +21,8 @@ ant.home: /usr/share/ant
  ANT_HOME/lib jar listing
 -------------------------------------------
 ant.home: /usr/share/ant
-ant-launcher.jar (19064 bytes)
 ant.jar (1999727 bytes)
+ant-launcher.jar (19064 bytes)
 ant-bootstrap.jar (20918 bytes)
 
 -------------------------------------------
@@ -86,12 +86,12 @@ user.country : US
 sun.java.launcher : SUN_STANDARD
 sun.os.patch.level : unknown
 java.vm.specification.name : Java Virtual Machine Specification
-user.dir : /home/tandon/Projects/openjdk/langtools/make
+user.dir : /home/tandon/Projects/NVJVM/langtools/make
 java.runtime.version : 1.6.0_38-ea-b04
 java.awt.graphicsenv : sun.awt.X11GraphicsEnvironment
 java.endorsed.dirs : /usr/java/jdk1.6.0_38/jre/lib/endorsed
 os.arch : amd64
-java.io.tmpdir : /home/tandon/Projects/openjdk/build/linux-amd64/langtools/build/ant-tmp
+java.io.tmpdir : /home/tandon/Projects/NVJVM/build/linux-amd64/langtools/build/ant-tmp
 line.separator : 
 
 java.vm.specification.vendor : Sun Microsystems Inc.
@@ -109,7 +109,7 @@ java.awt.printerjob : sun.print.PSPrinterJob
 file.encoding : ANSI_X3.4-1968
 java.specification.version : 1.6
 user.name : tandon
-java.class.path : /usr/share/java/ant.jar:/usr/share/java/ant-launcher.jar:/usr/share/java/jaxp_parser_impl.jar:/usr/share/java/xml-commons-apis.jar:/usr/java/latest/lib/tools.jar:/usr/share/ant/lib/ant-launcher.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-bootstrap.jar
+java.class.path : /usr/share/java/ant.jar:/usr/share/java/ant-launcher.jar:/usr/share/java/jaxp_parser_impl.jar:/usr/share/java/xml-commons-apis.jar:/usr/java/jdk1.6.0_38//lib/tools.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-launcher.jar:/usr/share/ant/lib/ant-bootstrap.jar
 java.vm.specification.version : 1.0
 sun.arch.data.model : 64
 java.home : /usr/java/jdk1.6.0_38/jre
@@ -130,9 +130,9 @@ sun.cpu.isalist :
 -------------------------------------------
  Temp dir
 -------------------------------------------
-Temp dir is /home/tandon/Projects/openjdk/build/linux-amd64/langtools/build/ant-tmp
+Temp dir is /home/tandon/Projects/NVJVM/build/linux-amd64/langtools/build/ant-tmp
 Temp dir is writeable
-Temp dir alignment with system clock is -34 ms
+Temp dir alignment with system clock is -592 ms
 
 -------------------------------------------
  Locale information

@@ -1,8 +1,0 @@
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableSorter.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableExample4.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/OldJTable.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableExample3.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableExample.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/JDBCAdapter.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableExample2.java
-/home/tandon/Projects/openjdk/build/linux-amd64/democlasses/demo/jfc/TableExample/src/TableMap.java

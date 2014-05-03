@@ -52,7 +52,7 @@
 
 //SourceForm
 
-#line 548 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 548 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
 #define   RELOC_IMM64    Assembler::imm_operand
 #define   RELOC_DISP32   Assembler::disp32_operand
@@ -1615,7 +1615,7 @@ static Address build_address(int b, int i, int s, int d) {
 
 //SourceForm
 
-#line 152 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 152 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
 
 int MachCallRuntimeNode::ret_addr_offset() {
@@ -9138,7 +9138,7 @@ void loadBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5782 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5782 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9153,7 +9153,7 @@ void loadB2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5797 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5797 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9168,7 +9168,7 @@ void loadUBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5812 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5812 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9183,7 +9183,7 @@ void loadUB2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5827 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5827 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9199,7 +9199,7 @@ void loadUB2L_immI8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5841 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5841 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     __ movzbq(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -9216,7 +9216,7 @@ void loadSNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5857 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5857 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9232,7 +9232,7 @@ void loadS2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5870 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5870 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9247,7 +9247,7 @@ void loadS2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5884 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5884 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9262,7 +9262,7 @@ void loadUSNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5899 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5899 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9278,7 +9278,7 @@ void loadUS2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5912 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5912 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9293,7 +9293,7 @@ void loadUS2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5926 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5926 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9309,7 +9309,7 @@ void loadUS2L_immI_255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5938 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5938 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9325,7 +9325,7 @@ void loadUS2L_immI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5951 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5951 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     __ movzwq(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -9342,7 +9342,7 @@ void loadINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5967 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5967 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9358,7 +9358,7 @@ void loadI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5980 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5980 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movsbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9374,7 +9374,7 @@ void loadI2UBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 5992 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5992 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9390,7 +9390,7 @@ void loadI2SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6004 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6004 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movswl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9406,7 +9406,7 @@ void loadI2USNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6016 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6016 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9421,7 +9421,7 @@ void loadI2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6030 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6030 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movslq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9437,7 +9437,7 @@ void loadI2L_immI_255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6042 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6042 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzbq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9453,7 +9453,7 @@ void loadI2L_immI_65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6053 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6053 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movzwq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9469,7 +9469,7 @@ void loadI2L_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6066 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6066 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     __ movl(Rdst, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -9486,7 +9486,7 @@ void loadUI2LNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6082 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6082 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9501,7 +9501,7 @@ void loadLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6097 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6097 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9515,7 +9515,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9549,7 +9549,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -9557,7 +9557,7 @@ void loadRangeNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9579,7 +9579,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9615,7 +9615,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -9623,7 +9623,7 @@ void loadPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9646,7 +9646,7 @@ void loadNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6135 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6135 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ movl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
    
@@ -9660,7 +9660,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9696,7 +9696,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -9704,7 +9704,7 @@ void loadKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9727,7 +9727,7 @@ void loadNKlassNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -9741,7 +9741,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -9749,7 +9749,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9783,7 +9783,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -9791,7 +9791,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x10 /*tertiary()*/));
   
@@ -9799,7 +9799,7 @@ void loadFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9821,7 +9821,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -9829,7 +9829,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9863,7 +9863,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -9871,7 +9871,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x12 /*tertiary()*/));
   
@@ -9879,7 +9879,7 @@ void loadD_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9901,7 +9901,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -9909,7 +9909,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -9943,7 +9943,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -9951,7 +9951,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x10 /*tertiary()*/));
   
@@ -9959,7 +9959,7 @@ void loadDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -9981,7 +9981,7 @@ void loadA8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3274 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3274 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -9996,7 +9996,7 @@ void loadA4SNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3274 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3274 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -10011,7 +10011,7 @@ void loadA4CNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3274 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3274 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -10026,7 +10026,7 @@ void load2IUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3274 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3274 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -10041,7 +10041,7 @@ void loadA2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3274 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3274 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(opnd_array(0)->as_XMMRegister(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
@@ -10056,7 +10056,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10092,7 +10092,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10100,7 +10100,7 @@ void leaP8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10122,7 +10122,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10158,7 +10158,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10166,7 +10166,7 @@ void leaP32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10188,7 +10188,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10224,7 +10224,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10232,7 +10232,7 @@ void leaPIdxOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10254,7 +10254,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10290,7 +10290,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10298,7 +10298,7 @@ void leaPIdxScaleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10320,7 +10320,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10356,7 +10356,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10364,7 +10364,7 @@ void leaPIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10386,7 +10386,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10422,7 +10422,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10430,7 +10430,7 @@ void leaPPosIdxScaleOffNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10452,7 +10452,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10488,7 +10488,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10496,7 +10496,7 @@ void leaPCompressedOopOffsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) con
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10518,7 +10518,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10554,7 +10554,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10562,7 +10562,7 @@ void leaP8NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10584,7 +10584,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10620,7 +10620,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10628,7 +10628,7 @@ void leaP32NarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10650,7 +10650,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10686,7 +10686,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10694,7 +10694,7 @@ void leaPIdxOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10716,7 +10716,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10752,7 +10752,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10760,7 +10760,7 @@ void leaPIdxScaleNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10782,7 +10782,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10818,7 +10818,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10826,7 +10826,7 @@ void leaPIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10848,7 +10848,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -10884,7 +10884,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -10892,7 +10892,7 @@ void leaPPosIdxScaleOffNarrowNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) co
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -10914,7 +10914,7 @@ void loadConINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2689 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2689 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc >= 8) {
@@ -10934,7 +10934,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 8) {
@@ -10952,7 +10952,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -10960,7 +10960,7 @@ void loadConI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -10974,7 +10974,7 @@ void loadConLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2700 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2700 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc < 8) {
@@ -10996,7 +10996,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 8) {
@@ -11014,7 +11014,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -11022,7 +11022,7 @@ void loadConL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -11036,7 +11036,7 @@ void loadConUL32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2713 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2713 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // same as load_immI, but this time we care about zeroes in the high word
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -11057,7 +11057,7 @@ void loadConL32Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2725 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2725 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc < 8) {
@@ -11080,7 +11080,7 @@ void loadConPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2751 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2751 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc < 8) {
@@ -11107,7 +11107,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 8) {
@@ -11125,7 +11125,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -11133,7 +11133,7 @@ void loadConP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -11148,7 +11148,7 @@ void loadConP_pollNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6498 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6498 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     AddressLiteral polling_page(os::get_polling_page(), relocInfo::poll_type);
     __ lea(opnd_array(0)->as_Register(ra_,this), polling_page);
@@ -11163,7 +11163,7 @@ void loadConP31Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2739 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2739 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // same as load_immI, but this time we care about zeroes in the high word
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -11190,7 +11190,7 @@ void loadConFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6520 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6520 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movflt(opnd_array(0)->as_XMMRegister(ra_,this), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -11200,7 +11200,7 @@ void loadConFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void loadConFNode::eval_constant(Compile* C) {
   {
 
-#line 6521 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6521 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(1));
 #line 11206 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -11213,7 +11213,7 @@ void loadConN0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6530 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6530 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ xorq(opnd_array(0)->as_Register(ra_,this), opnd_array(0)->as_Register(ra_,this));
   
@@ -11228,7 +11228,7 @@ void loadConNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6541 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6541 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     address con = (address)opnd_array(1)->constant();
     if (con == NULL) {
@@ -11247,7 +11247,7 @@ void loadConF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 8) {
@@ -11265,7 +11265,7 @@ void loadConF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11273,7 +11273,7 @@ void loadConF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x57 /*secondary()*/));
   
@@ -11281,7 +11281,7 @@ void loadConF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -11296,7 +11296,7 @@ void loadConDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6568 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6568 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -11306,7 +11306,7 @@ void loadConDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void loadConDNode::eval_constant(Compile* C) {
   {
 
-#line 6569 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6569 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(1));
 #line 11312 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -11318,7 +11318,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -11326,7 +11326,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 8) {
@@ -11344,7 +11344,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -11352,7 +11352,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x57 /*tertiary()*/));
   
@@ -11360,7 +11360,7 @@ void loadConD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -11374,7 +11374,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -11408,7 +11408,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -11416,7 +11416,7 @@ void loadSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -11438,7 +11438,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -11474,7 +11474,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -11482,7 +11482,7 @@ void loadSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -11504,7 +11504,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -11540,7 +11540,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -11548,7 +11548,7 @@ void loadSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -11570,7 +11570,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -11578,7 +11578,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -11612,7 +11612,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -11620,7 +11620,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x10 /*tertiary()*/));
   
@@ -11628,7 +11628,7 @@ void loadSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -11651,7 +11651,7 @@ void loadSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6636 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6636 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdbl(opnd_array(0)->as_XMMRegister(ra_,this), Address(rsp, opnd_array(1)->disp(ra_,this,idx1)));
   
@@ -11665,7 +11665,7 @@ void prefetchrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11683,7 +11683,7 @@ void prefetchrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11691,7 +11691,7 @@ void prefetchrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0D /*secondary()*/));
   
@@ -11699,7 +11699,7 @@ void prefetchrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -11725,7 +11725,7 @@ void prefetchrNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11743,7 +11743,7 @@ void prefetchrNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11751,7 +11751,7 @@ void prefetchrNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -11759,7 +11759,7 @@ void prefetchrNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -11785,7 +11785,7 @@ void prefetchrT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11803,7 +11803,7 @@ void prefetchrT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11811,7 +11811,7 @@ void prefetchrT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -11819,7 +11819,7 @@ void prefetchrT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -11845,7 +11845,7 @@ void prefetchrT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11863,7 +11863,7 @@ void prefetchrT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11871,7 +11871,7 @@ void prefetchrT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -11879,7 +11879,7 @@ void prefetchrT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03);
 
@@ -11905,7 +11905,7 @@ void prefetchwNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11923,7 +11923,7 @@ void prefetchwNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11931,7 +11931,7 @@ void prefetchwNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0D /*secondary()*/));
   
@@ -11939,7 +11939,7 @@ void prefetchwNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -11965,7 +11965,7 @@ void prefetchwNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -11983,7 +11983,7 @@ void prefetchwNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -11991,7 +11991,7 @@ void prefetchwNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -11999,7 +11999,7 @@ void prefetchwNTANode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12025,7 +12025,7 @@ void prefetchwT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12043,7 +12043,7 @@ void prefetchwT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -12051,7 +12051,7 @@ void prefetchwT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -12059,7 +12059,7 @@ void prefetchwT0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -12085,7 +12085,7 @@ void prefetchwT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12103,7 +12103,7 @@ void prefetchwT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -12111,7 +12111,7 @@ void prefetchwT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x18 /*secondary()*/));
   
@@ -12119,7 +12119,7 @@ void prefetchwT2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03);
 
@@ -12146,7 +12146,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2933 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2933 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -12182,7 +12182,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x88 /*primary()*/));
   
@@ -12190,7 +12190,7 @@ void storeBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -12213,7 +12213,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2167 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2167 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, 0x66);
   
@@ -12221,7 +12221,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -12255,7 +12255,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -12263,7 +12263,7 @@ void storeCNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -12286,7 +12286,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -12320,7 +12320,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -12328,7 +12328,7 @@ void storeINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -12351,7 +12351,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -12387,7 +12387,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -12395,7 +12395,7 @@ void storeLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -12418,7 +12418,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -12454,7 +12454,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -12462,7 +12462,7 @@ void storePNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -12486,7 +12486,7 @@ void storeImmP0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6802 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6802 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12501,7 +12501,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12521,7 +12521,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -12529,7 +12529,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12549,7 +12549,7 @@ void storeImmPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2831 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2831 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     
@@ -12571,7 +12571,7 @@ void storeNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6827 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6827 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), opnd_array(2)->as_Register(ra_,this,idx2));
   
@@ -12587,7 +12587,7 @@ void storeImmN0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6840 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6840 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12603,7 +12603,7 @@ void storeImmNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6852 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6852 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     address con = (address)opnd_array(2)->constant();
     if (con == NULL) {
@@ -12624,7 +12624,7 @@ void storeImmI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6871 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6871 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12639,7 +12639,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12657,7 +12657,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -12665,7 +12665,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12685,7 +12685,7 @@ void storeImmINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2831 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2831 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constant());
@@ -12702,7 +12702,7 @@ void storeImmL0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6896 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6896 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12717,7 +12717,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12737,7 +12737,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -12745,7 +12745,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12765,7 +12765,7 @@ void storeImmLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2831 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2831 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constantL());
@@ -12782,7 +12782,7 @@ void storeImmC0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6921 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6921 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movw(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12797,7 +12797,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2167 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2167 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, 0x66);
   
@@ -12805,7 +12805,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12823,7 +12823,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -12831,7 +12831,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12851,7 +12851,7 @@ void storeImmI16Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2851 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2851 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d16(cbuf, opnd_array(2)->constant());
@@ -12868,7 +12868,7 @@ void storeImmB0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6947 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6947 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movb(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -12883,7 +12883,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -12901,7 +12901,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC6 /*primary()*/));
   
@@ -12909,7 +12909,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -12929,7 +12929,7 @@ void storeImmBNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -12950,7 +12950,7 @@ void storeA8BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3279 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3279 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
@@ -12966,7 +12966,7 @@ void storeA4CNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3279 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3279 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
@@ -12982,7 +12982,7 @@ void storeA2INode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3279 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3279 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
@@ -12999,7 +12999,7 @@ void storeImmCM0_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 6999 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6999 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movb(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -13014,7 +13014,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -13032,7 +13032,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC6 /*primary()*/));
   
@@ -13040,7 +13040,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -13060,7 +13060,7 @@ void storeImmCM0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -13081,7 +13081,7 @@ void storeA2FNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3279 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3279 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
@@ -13097,7 +13097,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -13105,7 +13105,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -13139,7 +13139,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -13147,7 +13147,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -13155,7 +13155,7 @@ void storeFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -13179,7 +13179,7 @@ void storeF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -13194,7 +13194,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -13212,7 +13212,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -13220,7 +13220,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -13240,7 +13240,7 @@ void storeF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2843 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2843 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output Float immediate bits
     jfloat jf = opnd_array(2)->constantF();
@@ -13258,7 +13258,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -13266,7 +13266,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -13300,7 +13300,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -13308,7 +13308,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -13316,7 +13316,7 @@ void storeDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -13339,7 +13339,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -13359,7 +13359,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC7 /*primary()*/));
   
@@ -13367,7 +13367,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -13387,7 +13387,7 @@ void storeD0_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2843 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2843 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output Float immediate bits
     jfloat jf = opnd_array(2)->constantD();
@@ -13406,7 +13406,7 @@ void storeD0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7094 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7094 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movq(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), r12);
   
@@ -13420,7 +13420,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -13454,7 +13454,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -13462,7 +13462,7 @@ void storeSSINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -13484,7 +13484,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -13520,7 +13520,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -13528,7 +13528,7 @@ void storeSSLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -13550,7 +13550,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -13586,7 +13586,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -13594,7 +13594,7 @@ void storeSSPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -13616,7 +13616,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -13624,7 +13624,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -13658,7 +13658,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -13666,7 +13666,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -13674,7 +13674,7 @@ void storeSSFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -13696,7 +13696,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -13704,7 +13704,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -13738,7 +13738,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -13746,7 +13746,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -13754,7 +13754,7 @@ void storeSSDNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -13776,7 +13776,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -13786,7 +13786,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -13794,7 +13794,7 @@ void bytes_reverse_intNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2446 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2446 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // BSWAP
     emit_cc(cbuf, (0xC8 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1));
@@ -13809,7 +13809,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -13821,7 +13821,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -13829,7 +13829,7 @@ void bytes_reverse_longNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2446 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2446 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // BSWAP
     emit_cc(cbuf, (0xC8 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1));
@@ -13845,7 +13845,7 @@ void bytes_reverse_unsigned_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7180 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7180 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ bswapl(opnd_array(1)->as_Register(ra_,this,idx1));
     __ shrl(opnd_array(1)->as_Register(ra_,this,idx1), 16);
@@ -13861,7 +13861,7 @@ void bytes_reverse_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7192 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7192 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ bswapl(opnd_array(1)->as_Register(ra_,this,idx1));
     __ sarl(opnd_array(1)->as_Register(ra_,this,idx1), 16);
@@ -13877,7 +13877,7 @@ void countLeadingZerosINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7207 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7207 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ lzcntl(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -13892,7 +13892,7 @@ void countLeadingZerosI_bsrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7224 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7224 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     Register Rsrc = opnd_array(1)->as_Register(ra_,this,idx1);
@@ -13915,7 +13915,7 @@ void countLeadingZerosLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7244 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7244 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ lzcntq(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -13930,7 +13930,7 @@ void countLeadingZerosL_bsrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7261 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7261 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     Register Rsrc = opnd_array(1)->as_Register(ra_,this,idx1);
@@ -13953,7 +13953,7 @@ void countTrailingZerosINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7283 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7283 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     Label done;
@@ -13973,7 +13973,7 @@ void countTrailingZerosLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7302 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7302 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     Label done;
@@ -13993,7 +13993,7 @@ void popCountINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7321 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7321 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntl(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -14008,7 +14008,7 @@ void popCountI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7332 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7332 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntl(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -14023,7 +14023,7 @@ void popCountLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7344 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7344 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntq(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -14038,7 +14038,7 @@ void popCountL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7356 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7356 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ popcntq(opnd_array(0)->as_Register(ra_,this), Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -14097,7 +14097,7 @@ void membar_volatileNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7425 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7425 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ membar(Assembler::StoreLoad);
   
@@ -14122,7 +14122,7 @@ void castX2PNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2804 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2804 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -14158,7 +14158,7 @@ void castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2804 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2804 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -14195,7 +14195,7 @@ void encodeHeapOopNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7470 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7470 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1);
     Register d = opnd_array(0)->as_Register(ra_,this);
@@ -14215,7 +14215,7 @@ void encodeHeapOop_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7486 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7486 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ encode_heap_oop_not_null(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -14230,7 +14230,7 @@ void decodeHeapOopNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7498 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7498 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1);
     Register d = opnd_array(0)->as_Register(ra_,this);
@@ -14250,7 +14250,7 @@ void decodeHeapOop_not_nullNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) cons
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7515 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7515 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register s = opnd_array(1)->as_Register(ra_,this,idx1);
     Register d = opnd_array(0)->as_Register(ra_,this);
@@ -14274,7 +14274,7 @@ void jumpXtnd_offsetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7539 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7539 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -14304,7 +14304,7 @@ void jumpXtnd_addrNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7560 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7560 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -14332,7 +14332,7 @@ void jumpXtndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 7581 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7581 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // We could use jump(ArrayAddress) except that the macro assembler needs to use r10
     // to do that and the compiler is using that register as one it can allocate.
@@ -14360,7 +14360,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) >= 8) {
@@ -14378,7 +14378,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14388,7 +14388,7 @@ void cmovI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14405,7 +14405,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) >= 8) {
@@ -14423,7 +14423,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14433,7 +14433,7 @@ void cmovI_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14450,7 +14450,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -14484,7 +14484,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14494,7 +14494,7 @@ void cmovI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -14519,7 +14519,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -14553,7 +14553,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14563,7 +14563,7 @@ void cmovI_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -14588,7 +14588,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) >= 8) {
@@ -14606,7 +14606,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14616,7 +14616,7 @@ void cmovN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14633,7 +14633,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) >= 8) {
@@ -14651,7 +14651,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14661,7 +14661,7 @@ void cmovN_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14678,7 +14678,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) < 8) {
@@ -14698,7 +14698,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14708,7 +14708,7 @@ void cmovP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14725,7 +14725,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) < 8) {
@@ -14745,7 +14745,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14755,7 +14755,7 @@ void cmovP_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14772,7 +14772,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) < 8) {
@@ -14792,7 +14792,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14802,7 +14802,7 @@ void cmovL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14819,7 +14819,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -14855,7 +14855,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14865,7 +14865,7 @@ void cmovL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -14890,7 +14890,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->reg(ra_,this,idx4) < 8) {
@@ -14910,7 +14910,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14920,7 +14920,7 @@ void cmovL_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(3)->reg(ra_,this,idx3) & 7, opnd_array(4)->reg(ra_,this,idx4) & 7);
   
@@ -14937,7 +14937,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(4)->base(ra_,this,idx4) < 8) {
@@ -14973,7 +14973,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2483 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2483 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // CMOV
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -14983,7 +14983,7 @@ void cmovL_memUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -15008,7 +15008,7 @@ void cmovF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2490 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2490 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Invert sense of branch from sense of cmov
     emit_cc(cbuf, 0x70, opnd_array(1)->ccode() ^ 1);
@@ -15045,7 +15045,7 @@ void cmovF_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2490 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2490 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Invert sense of branch from sense of cmov
     emit_cc(cbuf, 0x70, opnd_array(1)->ccode() ^ 1);
@@ -15082,7 +15082,7 @@ void cmovD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2515 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2515 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Invert sense of branch from sense of cmov
     emit_cc(cbuf, 0x70, opnd_array(1)->ccode() ^ 1);
@@ -15118,7 +15118,7 @@ void cmovD_regUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 2515 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2515 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Invert sense of branch from sense of cmov
     emit_cc(cbuf, 0x70, opnd_array(1)->ccode() ^ 1);
@@ -15152,7 +15152,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -15170,7 +15170,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -15178,7 +15178,7 @@ void addI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -15193,7 +15193,7 @@ void addI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -15216,7 +15216,7 @@ void addI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -15237,7 +15237,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -15271,7 +15271,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -15279,7 +15279,7 @@ void addI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -15302,7 +15302,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -15336,7 +15336,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -15344,7 +15344,7 @@ void addI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -15367,7 +15367,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -15401,7 +15401,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -15409,7 +15409,7 @@ void addI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -15432,7 +15432,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -15466,7 +15466,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -15474,7 +15474,7 @@ void addI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -15497,7 +15497,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -15515,7 +15515,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -15530,7 +15530,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -15550,7 +15550,7 @@ void addI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -15571,7 +15571,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -15581,7 +15581,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -15589,7 +15589,7 @@ void incI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -15605,7 +15605,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -15623,7 +15623,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -15631,7 +15631,7 @@ void incI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -15658,7 +15658,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -15668,7 +15668,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -15676,7 +15676,7 @@ void decI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x01 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -15692,7 +15692,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -15710,7 +15710,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -15718,7 +15718,7 @@ void decI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -15745,7 +15745,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x67));
   
@@ -15753,7 +15753,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -15771,7 +15771,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -15779,7 +15779,7 @@ void leaI_rReg_immINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3108 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3108 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this);
     int base         = opnd_array(1)->reg(ra_,this,idx1);      // 0xFFFFFFFF indicates no base
@@ -15801,7 +15801,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -15821,7 +15821,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -15829,7 +15829,7 @@ void addL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -15844,7 +15844,7 @@ void addL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -15869,7 +15869,7 @@ void addL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -15890,7 +15890,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -15926,7 +15926,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -15934,7 +15934,7 @@ void addL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -15957,7 +15957,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -15993,7 +15993,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -16001,7 +16001,7 @@ void addL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -16024,7 +16024,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16060,7 +16060,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -16068,7 +16068,7 @@ void addL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -16091,7 +16091,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16127,7 +16127,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x01 /*primary()*/));
   
@@ -16135,7 +16135,7 @@ void addL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -16158,7 +16158,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -16178,7 +16178,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -16193,7 +16193,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -16213,7 +16213,7 @@ void addL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -16234,7 +16234,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -16246,7 +16246,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -16254,7 +16254,7 @@ void incL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -16270,7 +16270,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -16290,7 +16290,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -16298,7 +16298,7 @@ void incL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -16325,7 +16325,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -16337,7 +16337,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -16345,7 +16345,7 @@ void decL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x01 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -16361,7 +16361,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -16381,7 +16381,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -16389,7 +16389,7 @@ void decL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x01);
 
@@ -16416,7 +16416,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -16436,7 +16436,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -16444,7 +16444,7 @@ void leaL_rReg_immLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3108 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3108 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this);
     int base         = opnd_array(1)->reg(ra_,this,idx1);      // 0xFFFFFFFF indicates no base
@@ -16466,7 +16466,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -16486,7 +16486,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x03 /*primary()*/));
   
@@ -16494,7 +16494,7 @@ void addP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -16509,7 +16509,7 @@ void addP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -16534,7 +16534,7 @@ void addP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -16555,7 +16555,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -16575,7 +16575,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8D /*primary()*/));
   
@@ -16583,7 +16583,7 @@ void leaP_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3108 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3108 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int reg_encoding = opnd_array(0)->reg(ra_,this);
     int base         = opnd_array(1)->reg(ra_,this,idx1);      // 0xFFFFFFFF indicates no base
@@ -16637,7 +16637,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16673,7 +16673,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -16681,7 +16681,7 @@ void loadPLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -16703,7 +16703,7 @@ void loadLLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16739,7 +16739,7 @@ void loadLLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -16747,7 +16747,7 @@ void loadLLockedNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -16771,7 +16771,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -16781,7 +16781,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16817,7 +16817,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -16825,7 +16825,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -16833,7 +16833,7 @@ void storePConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -16857,7 +16857,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -16867,7 +16867,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16901,7 +16901,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -16909,7 +16909,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -16917,7 +16917,7 @@ void storeIConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -16941,7 +16941,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -16951,7 +16951,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -16987,7 +16987,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -16995,7 +16995,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -17003,7 +17003,7 @@ void storeLConditionalNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -17027,7 +17027,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -17037,7 +17037,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17073,7 +17073,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -17081,7 +17081,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -17089,7 +17089,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -17105,7 +17105,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2909 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2909 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this) < 8 ? Assembler::REX : Assembler::REX_B);
@@ -17115,7 +17115,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -17123,7 +17123,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -17131,7 +17131,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2172 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2172 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17139,7 +17139,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -17157,7 +17157,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -17165,7 +17165,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -17173,7 +17173,7 @@ void compareAndSwapPNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17189,7 +17189,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -17199,7 +17199,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17235,7 +17235,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -17243,7 +17243,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -17251,7 +17251,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -17267,7 +17267,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2909 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2909 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this) < 8 ? Assembler::REX : Assembler::REX_B);
@@ -17277,7 +17277,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -17285,7 +17285,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -17293,7 +17293,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2172 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2172 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17301,7 +17301,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -17319,7 +17319,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -17327,7 +17327,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -17335,7 +17335,7 @@ void compareAndSwapLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17351,7 +17351,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -17361,7 +17361,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17395,7 +17395,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -17403,7 +17403,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -17411,7 +17411,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -17427,7 +17427,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2909 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2909 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this) < 8 ? Assembler::REX : Assembler::REX_B);
@@ -17437,7 +17437,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -17445,7 +17445,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -17453,7 +17453,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2172 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2172 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17461,7 +17461,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -17479,7 +17479,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -17487,7 +17487,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -17495,7 +17495,7 @@ void compareAndSwapINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17511,7 +17511,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2869 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2869 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (os::is_MP()) {
       emit_opcode(cbuf, 0xF0); // lock
@@ -17521,7 +17521,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17555,7 +17555,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -17563,7 +17563,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB1 /*secondary()*/));
   
@@ -17571,7 +17571,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(3)->reg(ra_,this,idx3);
@@ -17587,7 +17587,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2909 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2909 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) >= 4) {
       emit_opcode(cbuf, opnd_array(0)->reg(ra_,this) < 8 ? Assembler::REX : Assembler::REX_B);
@@ -17597,7 +17597,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -17605,7 +17605,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x94));
   
@@ -17613,7 +17613,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2172 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2172 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, 0, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17621,7 +17621,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -17639,7 +17639,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF));
   
@@ -17647,7 +17647,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -17655,7 +17655,7 @@ void compareAndSwapNNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -17670,7 +17670,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -17688,7 +17688,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -17696,7 +17696,7 @@ void subI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -17711,7 +17711,7 @@ void subI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -17734,7 +17734,7 @@ void subI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -17755,7 +17755,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -17789,7 +17789,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -17797,7 +17797,7 @@ void subI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -17820,7 +17820,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -17854,7 +17854,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x29 /*primary()*/));
   
@@ -17862,7 +17862,7 @@ void subI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -17885,7 +17885,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -17903,7 +17903,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -17918,7 +17918,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x05);
 
@@ -17938,7 +17938,7 @@ void subI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -17959,7 +17959,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -17979,7 +17979,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -17987,7 +17987,7 @@ void subL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -18002,7 +18002,7 @@ void subL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -18027,7 +18027,7 @@ void subL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -18048,7 +18048,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -18084,7 +18084,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -18092,7 +18092,7 @@ void subL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -18115,7 +18115,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18151,7 +18151,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x29 /*primary()*/));
   
@@ -18159,7 +18159,7 @@ void subL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -18182,7 +18182,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -18202,7 +18202,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -18217,7 +18217,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x05);
 
@@ -18237,7 +18237,7 @@ void subL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -18259,7 +18259,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(3)->reg(ra_,this,idx3) < 8) {
@@ -18279,7 +18279,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2B /*primary()*/));
   
@@ -18287,7 +18287,7 @@ void subP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(3)->reg(ra_,this,idx3) & 7);
   
@@ -18302,7 +18302,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -18312,7 +18312,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -18320,7 +18320,7 @@ void negI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x03 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -18336,7 +18336,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -18354,7 +18354,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -18362,7 +18362,7 @@ void negI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03 /*secondary()*/);
 
@@ -18389,7 +18389,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -18401,7 +18401,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -18409,7 +18409,7 @@ void negL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x03 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -18425,7 +18425,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -18445,7 +18445,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -18453,7 +18453,7 @@ void negL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x03 /*secondary()*/);
 
@@ -18480,7 +18480,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -18498,7 +18498,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -18506,7 +18506,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -18514,7 +18514,7 @@ void mulI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -18529,7 +18529,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -18547,7 +18547,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -18562,7 +18562,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -18570,7 +18570,7 @@ void mulI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -18591,7 +18591,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -18625,7 +18625,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -18633,7 +18633,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -18641,7 +18641,7 @@ void mulI_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -18664,7 +18664,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18698,7 +18698,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -18706,7 +18706,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -18714,7 +18714,7 @@ void mulI_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -18737,7 +18737,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -18771,7 +18771,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -18786,7 +18786,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -18802,7 +18802,7 @@ void mulI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -18823,7 +18823,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -18843,7 +18843,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -18851,7 +18851,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -18859,7 +18859,7 @@ void mulL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -18874,7 +18874,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -18894,7 +18894,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -18909,7 +18909,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -18917,7 +18917,7 @@ void mulL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -18938,7 +18938,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -18974,7 +18974,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -18982,7 +18982,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -18990,7 +18990,7 @@ void mulL_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -19013,7 +19013,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -19049,7 +19049,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -19057,7 +19057,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAF /*secondary()*/));
   
@@ -19065,7 +19065,7 @@ void mulL_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -19088,7 +19088,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -19124,7 +19124,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -19139,7 +19139,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -19155,7 +19155,7 @@ void mulL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -19176,7 +19176,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -19188,7 +19188,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19196,7 +19196,7 @@ void mulHiL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -19212,7 +19212,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2229 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2229 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19279,7 +19279,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -19289,7 +19289,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19297,7 +19297,7 @@ void divI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19313,7 +19313,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2293 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2293 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19387,7 +19387,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -19399,7 +19399,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19407,7 +19407,7 @@ void divL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19423,7 +19423,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2229 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2229 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19490,7 +19490,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -19500,7 +19500,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19508,7 +19508,7 @@ void divModI_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19524,7 +19524,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2293 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2293 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19598,7 +19598,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -19610,7 +19610,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19618,7 +19618,7 @@ void divModL_rReg_divmodNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19633,7 +19633,7 @@ void loadConL_0x6666666666666667Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_)
     unsigned idx1 = 1;
   {
 
-#line 2700 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2700 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc < 8) {
@@ -19656,7 +19656,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -19668,7 +19668,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19676,7 +19676,7 @@ void mul_hiNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -19691,7 +19691,7 @@ void sarL_rReg_63Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -19715,7 +19715,7 @@ void sarL_rReg_2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -19740,7 +19740,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2229 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2229 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java idiv and irem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19807,7 +19807,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -19817,7 +19817,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19825,7 +19825,7 @@ void modI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19841,7 +19841,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2293 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2293 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Full implementation of Java ldiv and lrem; checks for
     // special case as described in JVM spec., p.243 & p.271.
@@ -19915,7 +19915,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -19927,7 +19927,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -19935,7 +19935,7 @@ void modL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -19951,7 +19951,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -19961,7 +19961,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -19969,7 +19969,7 @@ void salI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -19985,7 +19985,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20003,7 +20003,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20011,7 +20011,7 @@ void salI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -20038,7 +20038,7 @@ void salI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -20061,7 +20061,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20079,7 +20079,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -20087,7 +20087,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -20107,7 +20107,7 @@ void salI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -20128,7 +20128,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20138,7 +20138,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20146,7 +20146,7 @@ void salI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20162,7 +20162,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20180,7 +20180,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20188,7 +20188,7 @@ void salI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -20215,7 +20215,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20225,7 +20225,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20233,7 +20233,7 @@ void sarI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20249,7 +20249,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20267,7 +20267,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20275,7 +20275,7 @@ void sarI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -20302,7 +20302,7 @@ void sarI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -20325,7 +20325,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20343,7 +20343,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -20351,7 +20351,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -20371,7 +20371,7 @@ void sarI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -20392,7 +20392,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20402,7 +20402,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20410,7 +20410,7 @@ void sarI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20426,7 +20426,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20444,7 +20444,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20452,7 +20452,7 @@ void sarI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -20479,7 +20479,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20489,7 +20489,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20497,7 +20497,7 @@ void shrI_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20513,7 +20513,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20531,7 +20531,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20539,7 +20539,7 @@ void shrI_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -20566,7 +20566,7 @@ void shrI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -20589,7 +20589,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20607,7 +20607,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -20615,7 +20615,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -20635,7 +20635,7 @@ void shrI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -20656,7 +20656,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -20666,7 +20666,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20674,7 +20674,7 @@ void shrI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20690,7 +20690,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20708,7 +20708,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20716,7 +20716,7 @@ void shrI_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -20743,7 +20743,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -20755,7 +20755,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20763,7 +20763,7 @@ void salL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20779,7 +20779,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20799,7 +20799,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -20807,7 +20807,7 @@ void salL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -20834,7 +20834,7 @@ void salL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -20859,7 +20859,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20879,7 +20879,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -20887,7 +20887,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -20907,7 +20907,7 @@ void salL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -20928,7 +20928,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -20940,7 +20940,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20948,7 +20948,7 @@ void salL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -20964,7 +20964,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -20984,7 +20984,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -20992,7 +20992,7 @@ void salL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -21019,7 +21019,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21031,7 +21031,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21039,7 +21039,7 @@ void sarL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21055,7 +21055,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21075,7 +21075,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21083,7 +21083,7 @@ void sarL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -21110,7 +21110,7 @@ void sarL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -21135,7 +21135,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21155,7 +21155,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -21163,7 +21163,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -21183,7 +21183,7 @@ void sarL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -21204,7 +21204,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21216,7 +21216,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21224,7 +21224,7 @@ void sarL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x7 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21240,7 +21240,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21260,7 +21260,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21268,7 +21268,7 @@ void sarL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x7 /*secondary()*/);
 
@@ -21295,7 +21295,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21307,7 +21307,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21315,7 +21315,7 @@ void shrL_rReg_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21331,7 +21331,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21351,7 +21351,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21359,7 +21359,7 @@ void shrL_mem_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -21386,7 +21386,7 @@ void shrL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -21411,7 +21411,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21431,7 +21431,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC1 /*primary()*/));
   
@@ -21439,7 +21439,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -21459,7 +21459,7 @@ void shrL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -21480,7 +21480,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21492,7 +21492,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21500,7 +21500,7 @@ void shrL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x5 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21516,7 +21516,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -21536,7 +21536,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21544,7 +21544,7 @@ void shrL_mem_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x5 /*secondary()*/);
 
@@ -21571,7 +21571,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 4) {
@@ -21589,7 +21589,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -21597,7 +21597,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xBE /*secondary()*/));
   
@@ -21605,7 +21605,7 @@ void i2bNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -21620,7 +21620,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -21638,7 +21638,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -21646,7 +21646,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xBF /*secondary()*/));
   
@@ -21654,7 +21654,7 @@ void i2sNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -21668,7 +21668,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -21678,7 +21678,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21686,7 +21686,7 @@ void rolI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21702,7 +21702,7 @@ void rolI_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -21725,7 +21725,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -21735,7 +21735,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21743,7 +21743,7 @@ void rolI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21758,7 +21758,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -21768,7 +21768,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21776,7 +21776,7 @@ void rorI_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21792,7 +21792,7 @@ void rorI_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -21815,7 +21815,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -21825,7 +21825,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21833,7 +21833,7 @@ void rorI_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21848,7 +21848,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21860,7 +21860,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21868,7 +21868,7 @@ void rolL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21884,7 +21884,7 @@ void rolL_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -21909,7 +21909,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21921,7 +21921,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -21929,7 +21929,7 @@ void rolL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x0 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21944,7 +21944,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -21956,7 +21956,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD1 /*primary()*/));
   
@@ -21964,7 +21964,7 @@ void rorL_rReg_imm1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -21980,7 +21980,7 @@ void rorL_rReg_imm8Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2674 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2674 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -22005,7 +22005,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -22017,7 +22017,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD3 /*primary()*/));
   
@@ -22025,7 +22025,7 @@ void rorL_rReg_CLNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x1 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -22041,7 +22041,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -22059,7 +22059,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -22067,7 +22067,7 @@ void andI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -22082,7 +22082,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 4) {
@@ -22100,7 +22100,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -22108,7 +22108,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -22116,7 +22116,7 @@ void andI_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -22131,7 +22131,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 4) {
@@ -22149,7 +22149,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -22157,7 +22157,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -22165,7 +22165,7 @@ void andI2L_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -22180,7 +22180,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -22198,7 +22198,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -22206,7 +22206,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -22214,7 +22214,7 @@ void andI_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -22229,7 +22229,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -22247,7 +22247,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -22255,7 +22255,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -22263,7 +22263,7 @@ void andI2L_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -22278,7 +22278,7 @@ void andI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -22301,7 +22301,7 @@ void andI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -22322,7 +22322,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -22356,7 +22356,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -22364,7 +22364,7 @@ void andI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -22387,7 +22387,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22421,7 +22421,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -22429,7 +22429,7 @@ void andI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -22452,7 +22452,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22486,7 +22486,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -22494,7 +22494,7 @@ void andI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -22517,7 +22517,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22551,7 +22551,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -22559,7 +22559,7 @@ void andI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -22582,7 +22582,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -22600,7 +22600,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -22615,7 +22615,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -22635,7 +22635,7 @@ void andI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -22656,7 +22656,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -22674,7 +22674,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -22682,7 +22682,7 @@ void orI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -22697,7 +22697,7 @@ void orI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -22720,7 +22720,7 @@ void orI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -22741,7 +22741,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -22775,7 +22775,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -22783,7 +22783,7 @@ void orI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -22806,7 +22806,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22840,7 +22840,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -22848,7 +22848,7 @@ void orI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -22871,7 +22871,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22905,7 +22905,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -22913,7 +22913,7 @@ void orI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -22936,7 +22936,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -22970,7 +22970,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -22978,7 +22978,7 @@ void orI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23001,7 +23001,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -23019,7 +23019,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -23034,7 +23034,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x1 /*secondary()*/);
 
@@ -23054,7 +23054,7 @@ void orI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -23075,7 +23075,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -23093,7 +23093,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -23101,7 +23101,7 @@ void xorI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -23117,7 +23117,7 @@ void xorI_rReg_im1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 9794 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9794 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ notl(opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -23132,7 +23132,7 @@ void xorI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -23155,7 +23155,7 @@ void xorI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -23176,7 +23176,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -23210,7 +23210,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -23218,7 +23218,7 @@ void xorI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -23241,7 +23241,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23275,7 +23275,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -23283,7 +23283,7 @@ void xorI_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23306,7 +23306,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23340,7 +23340,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -23348,7 +23348,7 @@ void xorI_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23371,7 +23371,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23405,7 +23405,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -23413,7 +23413,7 @@ void xorI_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23436,7 +23436,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2876 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2876 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -23454,7 +23454,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -23469,7 +23469,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x6 /*secondary()*/);
 
@@ -23489,7 +23489,7 @@ void xorI_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -23510,7 +23510,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -23530,7 +23530,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -23538,7 +23538,7 @@ void andL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -23553,7 +23553,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -23573,7 +23573,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23581,7 +23581,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6 /*secondary()*/));
   
@@ -23589,7 +23589,7 @@ void andL_rReg_imm255Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -23604,7 +23604,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -23624,7 +23624,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -23632,7 +23632,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB7 /*secondary()*/));
   
@@ -23640,7 +23640,7 @@ void andL_rReg_imm65535Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -23655,7 +23655,7 @@ void andL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -23680,7 +23680,7 @@ void andL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -23701,7 +23701,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -23737,7 +23737,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -23745,7 +23745,7 @@ void andL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -23768,7 +23768,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23804,7 +23804,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x23 /*primary()*/));
   
@@ -23812,7 +23812,7 @@ void andL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23835,7 +23835,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23871,7 +23871,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -23879,7 +23879,7 @@ void andL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23902,7 +23902,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -23938,7 +23938,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x21 /*primary()*/));
   
@@ -23946,7 +23946,7 @@ void andL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -23969,7 +23969,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -23989,7 +23989,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -24004,7 +24004,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x4 /*secondary()*/);
 
@@ -24024,7 +24024,7 @@ void andL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24045,7 +24045,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -24065,7 +24065,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -24073,7 +24073,7 @@ void orL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -24088,7 +24088,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -24108,7 +24108,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -24116,7 +24116,7 @@ void orL_rReg_castP2XNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -24131,7 +24131,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -24151,7 +24151,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -24159,7 +24159,7 @@ void orL_rReg_castP2X_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(2)->reg(ra_,this,idx2) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -24174,7 +24174,7 @@ void orL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -24199,7 +24199,7 @@ void orL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24220,7 +24220,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -24256,7 +24256,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -24264,7 +24264,7 @@ void orL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -24287,7 +24287,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24323,7 +24323,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0B /*primary()*/));
   
@@ -24331,7 +24331,7 @@ void orL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24354,7 +24354,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24390,7 +24390,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -24398,7 +24398,7 @@ void orL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24421,7 +24421,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24457,7 +24457,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x09 /*primary()*/));
   
@@ -24465,7 +24465,7 @@ void orL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24488,7 +24488,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24508,7 +24508,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -24523,7 +24523,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x1 /*secondary()*/);
 
@@ -24543,7 +24543,7 @@ void orL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24564,7 +24564,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -24584,7 +24584,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -24592,7 +24592,7 @@ void xorL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -24608,7 +24608,7 @@ void xorL_rReg_im1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10037 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10037 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
      __ notq(opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -24623,7 +24623,7 @@ void xorL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -24648,7 +24648,7 @@ void xorL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -24669,7 +24669,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -24705,7 +24705,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -24713,7 +24713,7 @@ void xorL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -24736,7 +24736,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24772,7 +24772,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33 /*primary()*/));
   
@@ -24780,7 +24780,7 @@ void xorL_rReg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24803,7 +24803,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24839,7 +24839,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -24847,7 +24847,7 @@ void xorL_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24870,7 +24870,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -24906,7 +24906,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x31 /*primary()*/));
   
@@ -24914,7 +24914,7 @@ void xorL_mem_rReg_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -24937,7 +24937,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -24957,7 +24957,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2365 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2365 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Emit primary opcode and set sign-extend bit
     // Check for 8-bit immediate, and set sign extend bit in opcode
@@ -24972,7 +24972,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x6 /*secondary()*/);
 
@@ -24992,7 +24992,7 @@ void xorL_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -25012,7 +25012,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -25030,7 +25030,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2182 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2182 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -25039,7 +25039,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc >= 8) {
@@ -25057,7 +25057,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -25075,7 +25075,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -25083,7 +25083,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -25091,7 +25091,7 @@ void convI2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -25105,7 +25105,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -25125,7 +25125,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2182 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2182 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -25134,7 +25134,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc >= 8) {
@@ -25152,7 +25152,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -25170,7 +25170,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -25178,7 +25178,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -25186,7 +25186,7 @@ void convP2BNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -25201,7 +25201,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -25219,7 +25219,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2182 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2182 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B));
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
@@ -25228,7 +25228,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3146 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3146 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc >= 8) {
@@ -25246,7 +25246,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2917 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2917 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(0)->reg(ra_,this) >= 4) {
@@ -25264,7 +25264,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F));
   
@@ -25272,7 +25272,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xB6));
   
@@ -25280,7 +25280,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(0)->reg(ra_,this) & 7);
   
@@ -25288,7 +25288,7 @@ void cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3120 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3120 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     if (dstenc >= 8) {
@@ -25310,7 +25310,7 @@ void cmpLTMask0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2661 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2661 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // SAL, SAR, SHR
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -25336,7 +25336,7 @@ void cadd_cmpLTMaskNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10168 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10168 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1);
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2);
@@ -25361,7 +25361,7 @@ void cadd_cmpLTMask_1Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10168 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10168 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1);
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2);
@@ -25386,7 +25386,7 @@ void cadd_cmpLTMask_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10168 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10168 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(2)->as_Register(ra_,this,idx2);
     Register Rq = opnd_array(3)->as_Register(ra_,this,idx3);
@@ -25411,7 +25411,7 @@ void cadd_cmpLTMask_2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10168 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10168 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rp = opnd_array(1)->as_Register(ra_,this,idx1);
     Register Rq = opnd_array(2)->as_Register(ra_,this,idx2);
@@ -25433,7 +25433,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -25451,7 +25451,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25459,7 +25459,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*secondary()*/));
   
@@ -25467,7 +25467,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -25475,7 +25475,7 @@ void cmpF_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2187 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2187 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
       MacroAssembler _masm(&cbuf);
       emit_cmpfp_fixup(_masm);
@@ -25492,7 +25492,7 @@ void cmpF_cc_reg_CFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10205 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10205 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
   
@@ -25507,7 +25507,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25541,7 +25541,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25549,7 +25549,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*secondary()*/));
   
@@ -25557,7 +25557,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -25573,7 +25573,7 @@ void cmpF_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2187 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2187 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
       MacroAssembler _masm(&cbuf);
       emit_cmpfp_fixup(_masm);
@@ -25589,7 +25589,7 @@ void cmpF_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25623,7 +25623,7 @@ void cmpF_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -25631,7 +25631,7 @@ void cmpF_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*secondary()*/));
   
@@ -25639,7 +25639,7 @@ void cmpF_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -25663,7 +25663,7 @@ void cmpF_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10248 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10248 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp_fixup(_masm);
@@ -25674,7 +25674,7 @@ void cmpF_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_cc_immNode::eval_constant(Compile* C) {
   {
 
-#line 10249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 25680 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -25688,7 +25688,7 @@ void cmpF_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10259 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10259 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomiss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -25698,7 +25698,7 @@ void cmpF_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_cc_immCFNode::eval_constant(Compile* C) {
   {
 
-#line 10260 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10260 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 25704 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -25711,7 +25711,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -25719,7 +25719,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -25737,7 +25737,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -25745,7 +25745,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*tertiary()*/));
   
@@ -25753,7 +25753,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -25761,7 +25761,7 @@ void cmpD_cc_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2187 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2187 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
       MacroAssembler _masm(&cbuf);
       emit_cmpfp_fixup(_masm);
@@ -25778,7 +25778,7 @@ void cmpD_cc_reg_CFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10287 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10287 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), opnd_array(2)->as_XMMRegister(ra_,this,idx2));
   
@@ -25793,7 +25793,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -25801,7 +25801,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25835,7 +25835,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -25843,7 +25843,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*tertiary()*/));
   
@@ -25851,7 +25851,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -25867,7 +25867,7 @@ void cmpD_cc_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2187 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2187 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
       MacroAssembler _masm(&cbuf);
       emit_cmpfp_fixup(_masm);
@@ -25883,7 +25883,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -25891,7 +25891,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -25925,7 +25925,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -25933,7 +25933,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*tertiary()*/));
   
@@ -25941,7 +25941,7 @@ void cmpD_cc_memCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -25965,7 +25965,7 @@ void cmpD_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10330 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10330 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
     emit_cmpfp_fixup(_masm);
@@ -25976,7 +25976,7 @@ void cmpD_cc_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_cc_immNode::eval_constant(Compile* C) {
   {
 
-#line 10331 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10331 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 25982 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -25990,7 +25990,7 @@ void cmpD_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10341 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10341 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ ucomisd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -26000,7 +26000,7 @@ void cmpD_cc_immCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_cc_immCFNode::eval_constant(Compile* C) {
   {
 
-#line 10342 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10342 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 26006 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -26013,7 +26013,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -26031,7 +26031,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -26039,7 +26039,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*secondary()*/));
   
@@ -26047,7 +26047,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -26055,7 +26055,7 @@ void cmpF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2193 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2193 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
 
@@ -26101,7 +26101,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -26135,7 +26135,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -26143,7 +26143,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*secondary()*/));
   
@@ -26151,7 +26151,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -26167,7 +26167,7 @@ void cmpF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2193 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2193 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
 
@@ -26214,7 +26214,7 @@ void cmpF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10402 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10402 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label L_done;
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
@@ -26232,7 +26232,7 @@ void cmpF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10405 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10405 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 26238 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -26245,7 +26245,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -26253,7 +26253,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -26271,7 +26271,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26279,7 +26279,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*tertiary()*/));
   
@@ -26287,7 +26287,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -26295,7 +26295,7 @@ void cmpD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2193 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2193 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
 
@@ -26341,7 +26341,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -26349,7 +26349,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -26383,7 +26383,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26391,7 +26391,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2E /*tertiary()*/));
   
@@ -26399,7 +26399,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -26415,7 +26415,7 @@ void cmpD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2193 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2193 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
 
@@ -26462,7 +26462,7 @@ void cmpD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10471 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10471 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rdst = opnd_array(0)->as_Register(ra_,this);
     Label L_done;
@@ -26480,7 +26480,7 @@ void cmpD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void cmpD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10474 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10474 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 26486 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -26493,7 +26493,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -26501,7 +26501,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -26519,7 +26519,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26527,7 +26527,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26535,7 +26535,7 @@ void addF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -26550,7 +26550,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -26558,7 +26558,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -26592,7 +26592,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26600,7 +26600,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26608,7 +26608,7 @@ void addF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -26631,7 +26631,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -26639,7 +26639,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -26673,7 +26673,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26681,7 +26681,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26689,7 +26689,7 @@ void addF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -26713,7 +26713,7 @@ void addF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10511 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10511 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -26723,7 +26723,7 @@ void addF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10512 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10512 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 26729 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -26736,7 +26736,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -26744,7 +26744,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -26762,7 +26762,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26770,7 +26770,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26778,7 +26778,7 @@ void addD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -26793,7 +26793,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -26801,7 +26801,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -26835,7 +26835,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26843,7 +26843,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26851,7 +26851,7 @@ void addD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -26874,7 +26874,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -26882,7 +26882,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -26916,7 +26916,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -26924,7 +26924,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x58 /*tertiary()*/));
   
@@ -26932,7 +26932,7 @@ void addD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -26956,7 +26956,7 @@ void addD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10543 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10543 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ addsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -26966,7 +26966,7 @@ void addD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void addD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10544 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10544 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 26972 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -26979,7 +26979,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -26987,7 +26987,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27005,7 +27005,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27013,7 +27013,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5C /*tertiary()*/));
   
@@ -27021,7 +27021,7 @@ void subF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -27036,7 +27036,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27044,7 +27044,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -27078,7 +27078,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27086,7 +27086,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5C /*tertiary()*/));
   
@@ -27094,7 +27094,7 @@ void subF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -27118,7 +27118,7 @@ void subF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10575 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10575 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ subss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -27128,7 +27128,7 @@ void subF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10576 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10576 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 27134 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -27141,7 +27141,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27149,7 +27149,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27167,7 +27167,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27175,7 +27175,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5C /*tertiary()*/));
   
@@ -27183,7 +27183,7 @@ void subD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -27198,7 +27198,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27206,7 +27206,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -27240,7 +27240,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27248,7 +27248,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5C /*tertiary()*/));
   
@@ -27256,7 +27256,7 @@ void subD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -27280,7 +27280,7 @@ void subD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10607 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10607 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ subsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -27290,7 +27290,7 @@ void subD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void subD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10608 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10608 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 27296 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -27303,7 +27303,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27311,7 +27311,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27329,7 +27329,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27337,7 +27337,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27345,7 +27345,7 @@ void mulF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -27360,7 +27360,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27368,7 +27368,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -27402,7 +27402,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27410,7 +27410,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27418,7 +27418,7 @@ void mulF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -27441,7 +27441,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27449,7 +27449,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -27483,7 +27483,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27491,7 +27491,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27499,7 +27499,7 @@ void mulF_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -27523,7 +27523,7 @@ void mulF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10639 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10639 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ mulss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -27533,7 +27533,7 @@ void mulF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10640 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10640 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 27539 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -27546,7 +27546,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27554,7 +27554,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27572,7 +27572,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27580,7 +27580,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27588,7 +27588,7 @@ void mulD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -27603,7 +27603,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27611,7 +27611,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -27645,7 +27645,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27653,7 +27653,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27661,7 +27661,7 @@ void mulD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -27684,7 +27684,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27692,7 +27692,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -27726,7 +27726,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27734,7 +27734,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x59 /*tertiary()*/));
   
@@ -27742,7 +27742,7 @@ void mulD_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -27766,7 +27766,7 @@ void mulD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10671 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10671 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ mulsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -27776,7 +27776,7 @@ void mulD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void mulD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10672 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10672 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 27782 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -27789,7 +27789,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27797,7 +27797,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27815,7 +27815,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27823,7 +27823,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5E /*tertiary()*/));
   
@@ -27831,7 +27831,7 @@ void divF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -27846,7 +27846,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -27854,7 +27854,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -27888,7 +27888,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27896,7 +27896,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5E /*tertiary()*/));
   
@@ -27904,7 +27904,7 @@ void divF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -27928,7 +27928,7 @@ void divF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10703 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10703 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ divss(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -27938,7 +27938,7 @@ void divF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10704 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10704 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 27944 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -27951,7 +27951,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -27959,7 +27959,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -27977,7 +27977,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -27985,7 +27985,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5E /*tertiary()*/));
   
@@ -27993,7 +27993,7 @@ void divD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -28008,7 +28008,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -28016,7 +28016,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -28050,7 +28050,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -28058,7 +28058,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5E /*tertiary()*/));
   
@@ -28066,7 +28066,7 @@ void divD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -28090,7 +28090,7 @@ void divD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10735 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10735 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ divsd(opnd_array(1)->as_XMMRegister(ra_,this,idx1), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -28100,7 +28100,7 @@ void divD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void divD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10736 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10736 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(2));
 #line 28106 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -28112,7 +28112,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -28120,7 +28120,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -28138,7 +28138,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -28146,7 +28146,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x51 /*tertiary()*/));
   
@@ -28154,7 +28154,7 @@ void sqrtF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -28168,7 +28168,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -28176,7 +28176,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -28210,7 +28210,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -28218,7 +28218,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x51 /*tertiary()*/));
   
@@ -28226,7 +28226,7 @@ void sqrtF_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -28249,7 +28249,7 @@ void sqrtF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10767 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10767 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ sqrtss(opnd_array(0)->as_XMMRegister(ra_,this), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -28259,7 +28259,7 @@ void sqrtF_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void sqrtF_immNode::eval_constant(Compile* C) {
   {
 
-#line 10768 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10768 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(1));
 #line 28265 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -28271,7 +28271,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -28279,7 +28279,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -28297,7 +28297,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -28305,7 +28305,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x51 /*tertiary()*/));
   
@@ -28313,7 +28313,7 @@ void sqrtD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -28327,7 +28327,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -28335,7 +28335,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -28369,7 +28369,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -28377,7 +28377,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x51 /*tertiary()*/));
   
@@ -28385,7 +28385,7 @@ void sqrtD_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -28408,7 +28408,7 @@ void sqrtD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 10799 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10799 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ sqrtsd(opnd_array(0)->as_XMMRegister(ra_,this), InternalAddress(__ code()->consts()->start() + constant_offset()));
   
@@ -28418,7 +28418,7 @@ void sqrtD_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
 void sqrtD_immNode::eval_constant(Compile* C) {
   {
 
-#line 10800 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 10800 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
     _constant = C->constant_table().add(opnd_array(1));
 #line 28424 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -28430,7 +28430,7 @@ void absF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3552 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3552 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
     address signmask_address = (address) StubRoutines::x86::float_sign_mask();
@@ -28456,7 +28456,7 @@ void absD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3569 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3569 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
     address signmask_address = (address) StubRoutines::x86::double_sign_mask();
@@ -28483,7 +28483,7 @@ void negF_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3587 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3587 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
     address signflip_address = (address) StubRoutines::x86::float_sign_flip();
@@ -28509,7 +28509,7 @@ void negD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3604 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3604 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
     address signflip_address = (address) StubRoutines::x86::double_sign_flip();
@@ -28536,7 +28536,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28564,7 +28564,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9 /*primary()*/));
   
@@ -28572,7 +28572,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*secondary()*/));
   
@@ -28580,7 +28580,7 @@ void cosD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3228 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3228 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28611,7 +28611,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28639,7 +28639,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9 /*primary()*/));
   
@@ -28647,7 +28647,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFE /*secondary()*/));
   
@@ -28655,7 +28655,7 @@ void sinD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3228 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3228 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28686,7 +28686,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28714,7 +28714,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -28722,7 +28722,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2));
   
@@ -28730,7 +28730,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xDD));
   
@@ -28738,7 +28738,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD8));
   
@@ -28746,7 +28746,7 @@ void tanD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3228 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3228 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28777,7 +28777,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -28785,7 +28785,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xEC));
   
@@ -28793,7 +28793,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28821,7 +28821,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -28829,7 +28829,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF1));
   
@@ -28837,7 +28837,7 @@ void log10D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3228 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3228 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28868,7 +28868,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -28876,7 +28876,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xED));
   
@@ -28884,7 +28884,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3249 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3249 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28912,7 +28912,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xD9));
   
@@ -28920,7 +28920,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF1));
   
@@ -28928,7 +28928,7 @@ void logD_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3228 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3228 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
 
@@ -28973,7 +28973,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -28981,7 +28981,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -28999,7 +28999,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29007,7 +29007,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5A /*tertiary()*/));
   
@@ -29015,7 +29015,7 @@ void convF2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29029,7 +29029,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -29037,7 +29037,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29071,7 +29071,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29079,7 +29079,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5A /*tertiary()*/));
   
@@ -29087,7 +29087,7 @@ void convF2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -29109,7 +29109,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29117,7 +29117,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -29135,7 +29135,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29143,7 +29143,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5A /*tertiary()*/));
   
@@ -29151,7 +29151,7 @@ void convD2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29165,7 +29165,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29173,7 +29173,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29207,7 +29207,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29215,7 +29215,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5A /*tertiary()*/));
   
@@ -29223,7 +29223,7 @@ void convD2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -29245,7 +29245,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -29253,7 +29253,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -29271,7 +29271,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29279,7 +29279,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2C /*tertiary()*/));
   
@@ -29287,7 +29287,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29295,7 +29295,7 @@ void convF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3622 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3622 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -29360,7 +29360,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -29368,7 +29368,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -29388,7 +29388,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29396,7 +29396,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2C /*tertiary()*/));
   
@@ -29404,7 +29404,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29412,7 +29412,7 @@ void convF2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3678 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3678 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -29479,7 +29479,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29487,7 +29487,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -29505,7 +29505,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29513,7 +29513,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2C /*tertiary()*/));
   
@@ -29521,7 +29521,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29529,7 +29529,7 @@ void convD2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3736 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3736 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -29594,7 +29594,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29602,7 +29602,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -29622,7 +29622,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29630,7 +29630,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2C /*tertiary()*/));
   
@@ -29638,7 +29638,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29646,7 +29646,7 @@ void convD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3792 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3792 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int dstenc = opnd_array(0)->reg(ra_,this);
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -29713,7 +29713,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -29721,7 +29721,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -29739,7 +29739,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29747,7 +29747,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -29755,7 +29755,7 @@ void convI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29769,7 +29769,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -29777,7 +29777,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29811,7 +29811,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29819,7 +29819,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -29827,7 +29827,7 @@ void convI2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -29849,7 +29849,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29857,7 +29857,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -29875,7 +29875,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29883,7 +29883,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -29891,7 +29891,7 @@ void convI2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -29905,7 +29905,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -29913,7 +29913,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -29947,7 +29947,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -29955,7 +29955,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -29963,7 +29963,7 @@ void convI2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -29986,7 +29986,7 @@ void convXI2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11092 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11092 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
     __ cvtdq2ps(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(0)->as_XMMRegister(ra_,this));
@@ -30002,7 +30002,7 @@ void convXI2D_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11106 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11106 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movdl(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
     __ cvtdq2pd(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(0)->as_XMMRegister(ra_,this));
@@ -30017,7 +30017,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -30025,7 +30025,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -30045,7 +30045,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30053,7 +30053,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -30061,7 +30061,7 @@ void convL2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -30075,7 +30075,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -30083,7 +30083,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30119,7 +30119,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30127,7 +30127,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -30135,7 +30135,7 @@ void convL2F_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30157,7 +30157,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -30165,7 +30165,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -30185,7 +30185,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30193,7 +30193,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -30201,7 +30201,7 @@ void convL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(0)->reg(ra_,this) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -30215,7 +30215,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 2;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -30223,7 +30223,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30259,7 +30259,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30267,7 +30267,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x2A /*tertiary()*/));
   
@@ -30275,7 +30275,7 @@ void convL2D_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30298,7 +30298,7 @@ void convI2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11159 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11159 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ movslq(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1));
   
@@ -30313,7 +30313,7 @@ void convI2L_reg_reg_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2770 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2770 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     encode_copy(cbuf, opnd_array(0)->reg(ra_,this), opnd_array(1)->reg(ra_,this,idx1));
   
@@ -30328,7 +30328,7 @@ void convI2L_reg_mem_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30362,7 +30362,7 @@ void convI2L_reg_mem_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -30370,7 +30370,7 @@ void convI2L_reg_mem_zexNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30393,7 +30393,7 @@ void zerox_long_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2780 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2780 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -30426,7 +30426,7 @@ void convL2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2780 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2780 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int srcenc = opnd_array(1)->reg(ra_,this,idx1);
     int dstenc = opnd_array(0)->reg(ra_,this);
@@ -30459,7 +30459,7 @@ void MoveF2I_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30493,7 +30493,7 @@ void MoveF2I_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -30501,7 +30501,7 @@ void MoveF2I_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30523,7 +30523,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -30531,7 +30531,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30565,7 +30565,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30573,7 +30573,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x10 /*tertiary()*/));
   
@@ -30581,7 +30581,7 @@ void MoveI2F_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30603,7 +30603,7 @@ void MoveD2L_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30639,7 +30639,7 @@ void MoveD2L_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x8B /*primary()*/));
   
@@ -30647,7 +30647,7 @@ void MoveD2L_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30669,7 +30669,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x66 /*primary()*/));
   
@@ -30677,7 +30677,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30711,7 +30711,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30719,7 +30719,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x12 /*tertiary()*/));
   
@@ -30727,7 +30727,7 @@ void MoveL2D_stack_reg_partialNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) c
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30749,7 +30749,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -30757,7 +30757,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(0)->reg(ra_,this) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -30791,7 +30791,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30799,7 +30799,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x10 /*tertiary()*/));
   
@@ -30807,7 +30807,7 @@ void MoveL2D_stack_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(0)->reg(ra_,this);
@@ -30829,7 +30829,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3 /*primary()*/));
   
@@ -30837,7 +30837,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -30871,7 +30871,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -30879,7 +30879,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -30887,7 +30887,7 @@ void MoveF2I_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -30909,7 +30909,7 @@ void MoveI2F_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -30943,7 +30943,7 @@ void MoveI2F_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -30951,7 +30951,7 @@ void MoveI2F_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -30973,7 +30973,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF2 /*primary()*/));
   
@@ -30981,7 +30981,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -31015,7 +31015,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*secondary()*/));
   
@@ -31023,7 +31023,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2155 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2155 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x11 /*tertiary()*/));
   
@@ -31031,7 +31031,7 @@ void MoveD2L_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -31053,7 +31053,7 @@ void MoveL2D_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(0)->base(ra_,this,idx0) < 8) {
@@ -31089,7 +31089,7 @@ void MoveL2D_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x89 /*primary()*/));
   
@@ -31097,7 +31097,7 @@ void MoveL2D_reg_stackNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -31120,7 +31120,7 @@ void MoveF2I_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11329 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11329 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ movdl(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_XMMRegister(ra_,this,idx1)); 
 #line 31126 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -31133,7 +31133,7 @@ void MoveD2L_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11338 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11338 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ movdq(opnd_array(0)->as_Register(ra_,this), opnd_array(1)->as_XMMRegister(ra_,this,idx1)); 
 #line 31139 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -31146,7 +31146,7 @@ void MoveI2F_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11348 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11348 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ movdl(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1)); 
 #line 31152 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -31159,7 +31159,7 @@ void MoveL2D_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11357 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11357 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ movdq(opnd_array(0)->as_XMMRegister(ra_,this), opnd_array(1)->as_Register(ra_,this,idx1)); 
 #line 31165 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -31171,7 +31171,7 @@ void Repl8B_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3284 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3284 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31189,7 +31189,7 @@ void Repl8B_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3310 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3310 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31199,7 +31199,7 @@ void Repl8B_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3284 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3284 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31217,7 +31217,7 @@ void Repl8B_immI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3304 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3304 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31233,7 +31233,7 @@ void Repl4S_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3292 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3292 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31249,7 +31249,7 @@ void Repl4S_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3310 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3310 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31259,7 +31259,7 @@ void Repl4S_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3292 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3292 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31275,7 +31275,7 @@ void Repl4S_immI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3304 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3304 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31291,7 +31291,7 @@ void Repl4C_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3292 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3292 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31307,7 +31307,7 @@ void Repl4C_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3310 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3310 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31317,7 +31317,7 @@ void Repl4C_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3292 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3292 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31333,7 +31333,7 @@ void Repl4C_immI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3304 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3304 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31349,7 +31349,7 @@ void Repl2I_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3298 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3298 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31365,7 +31365,7 @@ void Repl2I_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3310 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3310 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31375,7 +31375,7 @@ void Repl2I_rRegINode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3298 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3298 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31391,7 +31391,7 @@ void Repl2I_immI0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3304 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3304 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31407,7 +31407,7 @@ void Repl2F_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3298 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3298 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31423,7 +31423,7 @@ void Repl2F_regFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3298 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3298 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31439,7 +31439,7 @@ void Repl2F_immF0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 3304 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3304 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
 
@@ -31456,7 +31456,7 @@ void rep_stosNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2182 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2182 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x33));
     emit_rm(cbuf, 0x3, (RAX_enc) & 7, (RAX_enc) & 7);
@@ -31465,7 +31465,7 @@ void rep_stosNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF3));
   
@@ -31473,7 +31473,7 @@ void rep_stosNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x48));
   
@@ -31481,7 +31481,7 @@ void rep_stosNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xAB));
   
@@ -31500,7 +31500,7 @@ void string_compareNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11511 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11511 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ string_compare(opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(3)->as_Register(ra_,this,idx3),
                       opnd_array(2)->as_Register(ra_,this,idx2), opnd_array(4)->as_Register(ra_,this,idx4), opnd_array(0)->as_Register(ra_,this),
@@ -31521,7 +31521,7 @@ void string_indexof_conNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11528 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11528 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int icnt2 = (int)opnd_array(4)->constant();
     if (icnt2 >= 8) {
@@ -31554,7 +31554,7 @@ void string_indexofNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11556 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11556 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ string_indexof(opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(3)->as_Register(ra_,this,idx3),
                       opnd_array(2)->as_Register(ra_,this,idx2), opnd_array(4)->as_Register(ra_,this,idx4),
@@ -31576,7 +31576,7 @@ void string_equalsNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11573 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11573 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ char_arrays_equals(false, opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(2)->as_Register(ra_,this,idx2),
                           opnd_array(3)->as_Register(ra_,this,idx3), opnd_array(0)->as_Register(ra_,this), as_Register(RBX_enc),
@@ -31596,7 +31596,7 @@ void array_equalsNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11590 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11590 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ char_arrays_equals(true, opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(2)->as_Register(ra_,this,idx2),
                           as_Register(RCX_enc), opnd_array(0)->as_Register(ra_,this), as_Register(RBX_enc),
@@ -31613,7 +31613,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -31631,7 +31631,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -31639,7 +31639,7 @@ void compI_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -31654,7 +31654,7 @@ void compI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -31677,7 +31677,7 @@ void compI_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -31698,7 +31698,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -31732,7 +31732,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -31740,7 +31740,7 @@ void compI_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -31763,7 +31763,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -31781,7 +31781,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -31789,7 +31789,7 @@ void testI_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -31805,7 +31805,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -31815,7 +31815,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -31823,7 +31823,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -31832,7 +31832,7 @@ void testI_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2831 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2831 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constant());
@@ -31849,7 +31849,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -31883,7 +31883,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -31891,7 +31891,7 @@ void testI_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -31915,7 +31915,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -31949,7 +31949,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -31957,7 +31957,7 @@ void testI_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -31980,7 +31980,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -31998,7 +31998,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32006,7 +32006,7 @@ void compU_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -32021,7 +32021,7 @@ void compU_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2377 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2377 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -32044,7 +32044,7 @@ void compU_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constant() && opnd_array(2)->constant() < 0x80) {
@@ -32065,7 +32065,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3014 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3014 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -32099,7 +32099,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32107,7 +32107,7 @@ void compU_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -32130,7 +32130,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
@@ -32148,7 +32148,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -32156,7 +32156,7 @@ void testU_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -32171,7 +32171,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -32191,7 +32191,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32199,7 +32199,7 @@ void compP_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -32214,7 +32214,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -32250,7 +32250,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32258,7 +32258,7 @@ void compP_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -32281,7 +32281,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -32317,7 +32317,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32325,7 +32325,7 @@ void compP_mem_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -32348,7 +32348,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -32368,7 +32368,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -32376,7 +32376,7 @@ void testP_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -32391,7 +32391,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->base(ra_,this,idx1) >= 8) {
       if (opnd_array(1)->index(ra_,this,idx1) < 8) {
@@ -32411,7 +32411,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -32419,7 +32419,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3091 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3091 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int rm_byte_opcode = (0x00);
 
@@ -32439,7 +32439,7 @@ void testP_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2858 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2858 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_d32(cbuf,(0xFFFFFFFF));
   
@@ -32455,7 +32455,7 @@ void testP_mem_reg0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11798 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11798 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpq(r12, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -32471,7 +32471,7 @@ void compN_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11809 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11809 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(2)->as_Register(ra_,this,idx2)); 
 #line 32477 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32485,7 +32485,7 @@ void compN_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11818 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11818 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(opnd_array(1)->as_Register(ra_,this,idx1), Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_is_oop()));
   
@@ -32501,7 +32501,7 @@ void compN_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11828 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11828 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_oop(opnd_array(1)->as_Register(ra_,this,idx1), (jobject)opnd_array(2)->constant());
   
@@ -32517,7 +32517,7 @@ void compN_mem_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11839 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11839 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmp_narrow_oop(Address::make_raw(opnd_array(2)->base(ra_,this,idx2), opnd_array(2)->index(ra_,this,idx2), opnd_array(2)->scale(), opnd_array(2)->disp(ra_,this,idx2), opnd_array(2)->disp_is_oop()), (jobject)opnd_array(1)->constant());
   
@@ -32533,7 +32533,7 @@ void testN_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11849 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11849 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 __ testl(opnd_array(1)->as_Register(ra_,this,idx1), opnd_array(1)->as_Register(ra_,this,idx1)); 
 #line 32539 "../generated/adfiles/ad_x86_64.cpp"
   }
@@ -32547,7 +32547,7 @@ void testN_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11860 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11860 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()), (int)0xFFFFFFFF);
   
@@ -32563,7 +32563,7 @@ void testN_mem_reg0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 11872 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11872 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ cmpl(r12, Address::make_raw(opnd_array(1)->base(ra_,this,idx1), opnd_array(1)->index(ra_,this,idx1), opnd_array(1)->scale(), opnd_array(1)->disp(ra_,this,idx1), opnd_array(1)->disp_is_oop()));
   
@@ -32578,7 +32578,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
@@ -32598,7 +32598,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32606,7 +32606,7 @@ void compL_rRegNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -32621,7 +32621,7 @@ void compL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // OpcSEr/m
     int dstenc = opnd_array(1)->reg(ra_,this,idx1);
@@ -32646,7 +32646,7 @@ void compL_rReg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2419 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2419 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Check for 8-bit immediate, and set sign extend bit in opcode
     if (-0x80 <= opnd_array(2)->constantL() && opnd_array(2)->constantL() < 0x80) {
@@ -32667,7 +32667,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -32703,7 +32703,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x3B /*primary()*/));
   
@@ -32711,7 +32711,7 @@ void compL_rReg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -32734,7 +32734,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2997 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2997 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
@@ -32754,7 +32754,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -32762,7 +32762,7 @@ void testL_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(1)->reg(ra_,this,idx1) & 7);
   
@@ -32778,7 +32778,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       emit_opcode(cbuf, Assembler::REX_W);
@@ -32790,7 +32790,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xF7 /*primary()*/));
   
@@ -32798,7 +32798,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x00 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -32807,7 +32807,7 @@ void testL_reg_immNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2831 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2831 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // Output immediate
     emit_d32(cbuf, opnd_array(2)->constantL());
@@ -32824,7 +32824,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->base(ra_,this,idx2) < 8) {
@@ -32860,7 +32860,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -32868,7 +32868,7 @@ void testL_reg_memNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(1)->reg(ra_,this,idx1);
@@ -32892,7 +32892,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 3045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(2)->reg(ra_,this,idx2) < 8) {
       if (opnd_array(1)->base(ra_,this,idx1) < 8) {
@@ -32928,7 +32928,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x85 /*primary()*/));
   
@@ -32936,7 +32936,7 @@ void testL_reg_mem_0Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 3078 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3078 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // High registers handle in encode_RegMem
     int reg = opnd_array(2)->reg(ra_,this,idx2);
@@ -32959,7 +32959,7 @@ void cmpL3_reg_regNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 3178 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3178 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     int src1enc = opnd_array(1)->reg(ra_,this,idx1);
     int src2enc = opnd_array(2)->reg(ra_,this,idx2);
@@ -33021,7 +33021,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -33039,7 +33039,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -33047,7 +33047,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x4F /*secondary()*/));
   
@@ -33055,7 +33055,7 @@ void cmovI_reg_gNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -33071,7 +33071,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2982 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2982 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) < 8) {
       if (opnd_array(2)->reg(ra_,this,idx2) >= 8) {
@@ -33089,7 +33089,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x0F /*primary()*/));
   
@@ -33097,7 +33097,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2149 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2149 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x4C /*secondary()*/));
   
@@ -33105,7 +33105,7 @@ void cmovI_reg_lNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2177 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2177 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_rm(cbuf, 0x3, opnd_array(1)->reg(ra_,this,idx1) & 7, opnd_array(2)->reg(ra_,this,idx2) & 7);
   
@@ -33119,7 +33119,7 @@ void jmpDirNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xE9 /*primary()*/));
   
@@ -33127,7 +33127,7 @@ void jmpDirNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2430 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2430 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JMP, CALL
     Label* l = opnd_array(1)->label();
@@ -33149,7 +33149,7 @@ void jmpConNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33173,7 +33173,7 @@ void jmpLoopEndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33197,7 +33197,7 @@ void jmpLoopEndUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33221,7 +33221,7 @@ void jmpLoopEndUCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33245,7 +33245,7 @@ void jmpConUNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33269,7 +33269,7 @@ void jmpConUCFNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2464 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2464 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JCC
     Label* l = opnd_array(3)->label();
@@ -33294,7 +33294,7 @@ void jmpConUCF2Node::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 12127 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12127 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* l = opnd_array(3)->label();
     emit_d8(cbuf, (0x0F /*primary()*/));
@@ -33329,7 +33329,7 @@ void partialSubtypeCheckNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2539 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2539 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rrdi = as_Register(RDI_enc); // result register
     Register Rrax = as_Register(RAX_enc); // super class
@@ -33359,7 +33359,7 @@ void partialSubtypeCheck_vs_ZeroNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_)
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2539 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2539 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register Rrdi = as_Register(RDI_enc); // result register
     Register Rrax = as_Register(RAX_enc); // super class
@@ -33387,7 +33387,7 @@ void jmpDir_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xEB /*primary()*/));
   
@@ -33395,7 +33395,7 @@ void jmpDir_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2437 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2437 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JMP, CALL
     Label* l = opnd_array(1)->label();
@@ -33419,7 +33419,7 @@ void jmpCon_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33444,7 +33444,7 @@ void jmpLoopEnd_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33469,7 +33469,7 @@ void jmpLoopEndU_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33494,7 +33494,7 @@ void jmpLoopEndUCF_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33519,7 +33519,7 @@ void jmpConU_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33544,7 +33544,7 @@ void jmpConUCF_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 2473 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2473 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
   // JCC
     Label *l = opnd_array(3)->label();
@@ -33570,7 +33570,7 @@ void jmpConUCF2_shortNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 12333 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12333 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Label* l = opnd_array(3)->label();
     emit_cc(cbuf, (0x70 /*primary()*/), Assembler::parity);
@@ -33606,7 +33606,7 @@ void cmpFastLockNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx4 = idx3 + opnd_array(3)->num_edges();
   {
 
-#line 3328 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3328 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     Register objReg = as_Register((int)opnd_array(1)->reg(ra_,this,idx1));
     Register boxReg = as_Register((int)opnd_array(2)->reg(ra_,this,idx2));
@@ -33726,7 +33726,7 @@ void cmpFastUnlockNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx3 = idx2 + opnd_array(2)->num_edges();
   {
 
-#line 3440 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3440 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
 
     Register objReg = as_Register(opnd_array(1)->reg(ra_,this,idx1));
@@ -33837,7 +33837,7 @@ void safePoint_pollNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 12397 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12397 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     AddressLiteral addr(os::get_polling_page(), relocInfo::poll_type);
     __ testl(rax, addr);
@@ -33853,7 +33853,7 @@ void safePoint_poll_farNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   {
     MacroAssembler _masm(&cbuf);
 
-#line 12413 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12413 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     __ relocate(relocInfo::poll_type);
     __ testl(rax, Address(opnd_array(1)->as_Register(ra_,this,idx1), 0));
@@ -33868,7 +33868,7 @@ void CallStaticJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
     unsigned idx1 = 1;
   {
 
-#line 2586 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2586 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JAVA STATIC CALL
     // CALL to fixup routine.  Fixup routine uses ScopeDesc info to
@@ -33901,7 +33901,7 @@ void CallStaticJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 80 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 80 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     if (VerifyStackAtCalls) {
       // Check that stack depth is unchanged: find majik cookie on stack
@@ -33945,7 +33945,7 @@ void CallStaticJavaHandleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
     unsigned idx1 = 1;
   {
 
-#line 2570 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2570 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     debug_only(int off0 = cbuf.insts_size());
     MacroAssembler _masm(&cbuf);
@@ -33959,7 +33959,7 @@ void CallStaticJavaHandleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2586 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2586 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JAVA STATIC CALL
     // CALL to fixup routine.  Fixup routine uses ScopeDesc info to
@@ -33992,7 +33992,7 @@ void CallStaticJavaHandleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 2580 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2580 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     MacroAssembler _masm(&cbuf);
     __ movptr(rsp, rbp_mh_SP_save);
@@ -34001,7 +34001,7 @@ void CallStaticJavaHandleNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const 
   }
   {
 
-#line 80 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 80 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     if (VerifyStackAtCalls) {
       // Check that stack depth is unchanged: find majik cookie on stack
@@ -34045,7 +34045,7 @@ void CallDynamicJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
     unsigned idx1 = 1;
   {
 
-#line 2616 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2616 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // JAVA DYNAMIC CALL
     // !!!!!
@@ -34073,7 +34073,7 @@ void CallDynamicJavaDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const
   }
   {
 
-#line 80 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 80 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     if (VerifyStackAtCalls) {
       // Check that stack depth is unchanged: find majik cookie on stack
@@ -34117,7 +34117,7 @@ void CallRuntimeDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 59 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 59 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     // No relocation needed
 
@@ -34141,7 +34141,7 @@ void CallLeafDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 59 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 59 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     // No relocation needed
 
@@ -34165,7 +34165,7 @@ void CallLeafNoFPDirectNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 1;
   {
 
-#line 59 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 59 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     // No relocation needed
 
@@ -34189,7 +34189,7 @@ void RetNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 5;
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xC3 /*primary()*/));
   
@@ -34204,7 +34204,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -34214,7 +34214,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -34222,7 +34222,7 @@ void TailCalljmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -34238,7 +34238,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx2 = idx1 + opnd_array(1)->num_edges();
   {
 
-#line 2161 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2161 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0x5a));
   
@@ -34246,7 +34246,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2966 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2966 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     if (opnd_array(1)->reg(ra_,this,idx1) >= 8) {
       emit_opcode(cbuf, Assembler::REX_B);
@@ -34256,7 +34256,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     emit_opcode(cbuf, (0xFF /*primary()*/));
   
@@ -34264,7 +34264,7 @@ void tailjmpIndNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
   }
   {
 
-#line 2458 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 2458 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // INC, DEC, IDIV, IMOD, JMP indirect, ...
     emit_rm(cbuf, 0x3, (0x4 /*secondary()*/), opnd_array(1)->reg(ra_,this,idx1) & 7);
@@ -34290,7 +34290,7 @@ void RethrowExceptionNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 5;
   {
 
-#line 3542 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3542 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     cbuf.set_insts_mark();
     emit_opcode(cbuf, 0xE9); // jmp entry
@@ -34320,7 +34320,7 @@ void ShouldNotReachHereNode::emit(CodeBuffer& cbuf, PhaseRegAlloc* ra_) const {
     unsigned idx1 = 5;
   {
 
-#line 74 "/home/tandon/Projects/openjdk/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
+#line 74 "/home/tandon/Projects/NVJVM/hotspot/src/os_cpu/linux_x86/vm/linux_x86_64.ad"
 
     MacroAssembler* masm = new MacroAssembler(&cbuf);
     masm->call(RuntimeAddress(CAST_FROM_FN_PTR(address, os::breakpoint)));
@@ -34893,7 +34893,7 @@ uint Compile::varargs_C_out_slots_killed() const { return frame::arg_reg_save_ar
 
 void Matcher::calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length, bool is_outgoing) {
 
-#line 3967 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3967 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // No difference between ingoing/outgoing just pass false
     SharedRuntime::java_calling_convention(sig_bt, regs, length, false);
@@ -34904,7 +34904,7 @@ void Matcher::calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length
 
 void Matcher::c_calling_convention(BasicType *sig_bt, VMRegPair *regs, uint length) {
 
-#line 3973 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3973 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     // This is obviously always outgoing
     (void) SharedRuntime::c_calling_convention(sig_bt, regs, length);
@@ -34915,7 +34915,7 @@ void Matcher::c_calling_convention(BasicType *sig_bt, VMRegPair *regs, uint leng
 
 OptoRegPair Matcher::return_value(int ideal_reg, bool is_outgoing) {
 
-#line 3980 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3980 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     assert(ideal_reg >= Op_RegI && ideal_reg <= Op_RegL,
            "only return normal values");
@@ -34949,7 +34949,7 @@ OptoRegPair Matcher::return_value(int ideal_reg, bool is_outgoing) {
 
 OptoRegPair Matcher::c_return_value(int ideal_reg, bool is_outgoing) {
 
-#line 3980 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 3980 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 
     assert(ideal_reg >= Op_RegI && ideal_reg <= Op_RegL,
            "only return normal values");

@@ -209,7 +209,7 @@ void  State::_sub_Op_RegL(const Node *n){
 }
 void  State::_sub_Op_RegFlags(const Node *n){
     if(         
-#line 4750 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4750 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 false
 #line 215 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -420,7 +420,7 @@ void  State::_sub_Op_AddI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMMI_M1) &&
         (
-#line 7972 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7972 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 426 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -459,7 +459,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMMI1) &&
         (
-#line 7946 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7946 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 465 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -632,7 +632,7 @@ void  State::_sub_Op_AddL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) && STATE__VALID_CHILD(_kids[1], IMML_M1) &&
         (
-#line 8094 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8094 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 638 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -652,7 +652,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) && STATE__VALID_CHILD(_kids[1], IMML1) &&
         (
-#line 8068 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8068 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 658 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -902,7 +902,7 @@ void  State::_sub_Op_AddP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN___LSHIFTL__CONVI2L_RREGI__IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 5056 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5056 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->in(1)->as_Type()->type()->is_long()->_lo >= 0
 #line 908 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -960,7 +960,7 @@ Universe::narrow_oop_shift() == 0 && n->in(2)->in(3)->in(1)->as_Type()->type()->
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN___LSHIFTL_RREGL_IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 5038 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5038 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 966 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1018,7 +1018,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], _LSHIFTL_RREGL_IMMI2) &&
         
-#line 5021 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5021 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1024 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1072,7 +1072,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], RREGL) &&
         
-#line 5004 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5004 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1078 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1084,7 +1084,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP__DECODEN_RREGN__RREGL) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 4987 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4987 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1090 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1142,7 +1142,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 4971 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4971 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1148 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1196,7 +1196,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML8) &&
         
-#line 4955 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4955 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 1202 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1250,7 +1250,7 @@ Universe::narrow_oop_shift() == 0
     }
     if( STATE__VALID_CHILD(_kids[0], _DECODEN_RREGN_) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 4922 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4922 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_shift() == Address::times_8)
 #line 1256 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -1304,7 +1304,7 @@ UseCompressedOops && (Universe::narrow_oop_shift() == Address::times_8)
     }
     if( STATE__VALID_CHILD(_kids[0], _ADDP_ANY_REGP__LSHIFTL__CONVI2L_RREGI__IMMI2) && STATE__VALID_CHILD(_kids[1], IMML32) &&
         
-#line 4905 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4905 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->in(2)->in(3)->in(1)->as_Type()->type()->is_long()->_lo >= 0
 #line 1310 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -2244,7 +2244,7 @@ void  State::_sub_Op_Binary(const Node *n){
 }
 void  State::_sub_Op_Bool(const Node *n){
     if(         
-#line 5214 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5214 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_Bool()->_test._test == BoolTest::ne ||
             n->as_Bool()->_test._test == BoolTest::eq
 #line 2251 "../generated/adfiles/dfa_x86_64.cpp"
@@ -2253,7 +2253,7 @@ n->as_Bool()->_test._test == BoolTest::ne ||
         DFA_PRODUCTION__SET_VALID(CMPOPUCF2, cmpOpUCF2_rule, c)
     }
     if(         
-#line 5195 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 5195 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->as_Bool()->_test._test == BoolTest::lt ||
             n->as_Bool()->_test._test == BoolTest::ge ||
             n->as_Bool()->_test._test == BoolTest::le ||
@@ -2353,7 +2353,7 @@ void  State::_sub_Op_CallRuntime(const Node *n){
 }
 void  State::_sub_Op_CallStaticJava(const Node *n){
     if(         (
-#line 12444 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12444 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 ((CallStaticJavaNode*) n)->is_method_handle_invoke()
 #line 2359 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2361,7 +2361,7 @@ void  State::_sub_Op_CallStaticJava(const Node *n){
         DFA_PRODUCTION__SET_VALID(UNIVERSE, CallStaticJavaHandle_rule, c)
     }
     if(         (
-#line 12427 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12427 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !((CallStaticJavaNode*) n)->is_method_handle_invoke()
 #line 2367 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2964,7 +2964,7 @@ void  State::_sub_Op_CMoveN(const Node *n){
 void  State::_sub_Op_CmpN(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADN_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 11868 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11868 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() == NULL
 #line 2970 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -2973,7 +2973,7 @@ Universe::narrow_oop_base() == NULL
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADN_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 11855 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11855 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() != NULL
 #line 2979 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3380,7 +3380,7 @@ void  State::_sub_Op_CmpP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADP_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 11794 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11794 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 3386 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3391,7 +3391,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL)
     }
     if( STATE__VALID_CHILD(_kids[0], _LOADP_MEMORY_) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 11781 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11781 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCompressedOops || (Universe::narrow_oop_base() != NULL)
 #line 3397 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3408,7 +3408,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL)
     }
     if( STATE__VALID_CHILD(_kids[0], RREGP) && STATE__VALID_CHILD(_kids[1], _LOADP_MEMORY_) &&
         (
-#line 11756 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11756 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !n->in(2)->in(2)->bottom_type()->isa_oop_ptr()
 #line 3414 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -3510,7 +3510,7 @@ void  State::_sub_Op_CompareAndSwapN(const Node *n){
 }
 void  State::_sub_Op_ConN(const Node *n){
     if(         
-#line 4171 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4171 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->get_narrowcon() == 0
 #line 3516 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3544,7 +3544,7 @@ void  State::_sub_Op_ConD(const Node *n){
         DFA_PRODUCTION__SET_VALID(STACKSLOTD, storeSSD_rule, c+125+95)
     }
     if(         
-#line 4322 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4322 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 jlong_cast(n->getd()) == 0
 #line 3550 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3568,7 +3568,7 @@ void  State::_sub_Op_ConF(const Node *n){
         DFA_PRODUCTION__SET_VALID(STACKSLOTF, storeSSF_rule, c+125+95)
     }
     if(         
-#line 4301 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4301 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 jint_cast(n->getf()) == 0
 #line 3574 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3587,7 +3587,7 @@ jint_cast(n->getf()) == 0
 void  State::_sub_Op_ConI(const Node *n){
     int _n_get_int__ = n->get_int();
     if(         
-#line 4374 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4374 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 65535
 #line 3593 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3595,7 +3595,7 @@ _n_get_int__ == 65535
         DFA_PRODUCTION__SET_VALID(IMMI_65535, immI_65535_rule, c)
     }
     if(         
-#line 4364 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4364 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 255
 #line 3601 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3603,7 +3603,7 @@ _n_get_int__ == 255
         DFA_PRODUCTION__SET_VALID(IMMI_255, immI_255_rule, c)
     }
     if(         
-#line 4354 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4354 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 24
 #line 3609 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3611,7 +3611,7 @@ _n_get_int__ == 24
         DFA_PRODUCTION__SET_VALID(IMMI_24, immI_24_rule, c)
     }
     if(         
-#line 4345 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4345 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 16
 #line 3617 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3619,7 +3619,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_16, immI_16_rule, c)
     }
     if(         
-#line 4122 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4122 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
  _n_get_int__ == 64 
 #line 3625 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3627,7 +3627,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_64, immI_64_rule, c)
     }
     if(         
-#line 4111 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4111 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
  _n_get_int__ == 32 
 #line 3633 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3635,7 +3635,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI_32, immI_32_rule, c)
     }
     if(         
-#line 4100 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4100 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 (-32768 <= _n_get_int__) && (_n_get_int__ <= 32767)
 #line 3641 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3643,7 +3643,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI16, immI16_rule, c)
     }
     if(         
-#line 4090 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4090 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 (-0x80 <= _n_get_int__) && (_n_get_int__ < 0x80)
 #line 3649 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3651,7 +3651,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI8, immI8_rule, c)
     }
     if(         
-#line 4081 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4081 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 <= _n_get_int__ && (_n_get_int__ <= 3)
 #line 3657 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3659,7 +3659,7 @@ _n_get_int__ == 16
         DFA_PRODUCTION__SET_VALID(IMMI2, immI2_rule, c)
     }
     if(         
-#line 4070 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4070 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == -1
 #line 3665 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3667,7 +3667,7 @@ _n_get_int__ == -1
         DFA_PRODUCTION__SET_VALID(IMMI_M1, immI_M1_rule, c)
     }
     if(         
-#line 4059 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4059 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 1
 #line 3673 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3675,7 +3675,7 @@ _n_get_int__ == 1
         DFA_PRODUCTION__SET_VALID(IMMI1, immI1_rule, c)
     }
     if(         
-#line 4048 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4048 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_int__ == 0
 #line 3681 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3753,7 +3753,7 @@ _n_get_int__ == 0
 void  State::_sub_Op_ConL(const Node *n){
     jlong _n_get_long__ = n->get_long();
     if(         
-#line 4394 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4394 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 65535
 #line 3759 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3761,7 +3761,7 @@ _n_get_long__ == 65535
         DFA_PRODUCTION__SET_VALID(IMML_65535, immL_65535_rule, c)
     }
     if(         
-#line 4384 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4384 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 255
 #line 3767 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3769,7 +3769,7 @@ _n_get_long__ == 255
         DFA_PRODUCTION__SET_VALID(IMML_255, immL_255_rule, c)
     }
     if(         
-#line 4290 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4290 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 0xFFFFFFFFL
 #line 3775 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3777,7 +3777,7 @@ _n_get_long__ == 0xFFFFFFFFL
         DFA_PRODUCTION__SET_VALID(IMML_32BITS, immL_32bits_rule, c)
     }
     if(         
-#line 4279 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4279 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 <= _n_get_long__ && _n_get_long__ < 0x80
 #line 3783 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3785,7 +3785,7 @@ _n_get_long__ == 0xFFFFFFFFL
         DFA_PRODUCTION__SET_VALID(IMML_127, immL_127_rule, c)
     }
     if(         
-#line 4268 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4268 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 10
 #line 3791 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3793,7 +3793,7 @@ _n_get_long__ == 10
         DFA_PRODUCTION__SET_VALID(IMML10, immL10_rule, c)
     }
     if(         
-#line 4258 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4258 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == -1
 #line 3799 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3801,7 +3801,7 @@ _n_get_long__ == -1
         DFA_PRODUCTION__SET_VALID(IMML_M1, immL_M1_rule, c)
     }
     if(         
-#line 4248 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4248 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 1
 #line 3807 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3809,7 +3809,7 @@ _n_get_long__ == 1
         DFA_PRODUCTION__SET_VALID(IMML1, immL1_rule, c)
     }
     if(         
-#line 4237 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4237 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == 0L
 #line 3815 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3825,7 +3825,7 @@ _n_get_long__ == 0L
         DFA_PRODUCTION__SET_VALID(RDX_REGL, loadConL0_rule, c+50)
     }
     if(         
-#line 4226 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4226 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == (int) (_n_get_long__)
 #line 3831 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3857,7 +3857,7 @@ _n_get_long__ == (int) (_n_get_long__)
       }
     }
     if(         
-#line 4215 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4215 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 _n_get_long__ == (unsigned int) (_n_get_long__)
 #line 3863 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3889,7 +3889,7 @@ _n_get_long__ == (unsigned int) (_n_get_long__)
       }
     }
     if(         
-#line 4204 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4204 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 -0x80L <= _n_get_long__ && _n_get_long__ < 0x80L
 #line 3895 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -3951,7 +3951,7 @@ _n_get_long__ == (unsigned int) (_n_get_long__)
 }
 void  State::_sub_Op_ConP(const Node *n){
     if(         
-#line 4181 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4181 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !n->as_Type()->type()->isa_oopptr()
             && (n->get_ptr() >> 31) == 0
 #line 3958 "../generated/adfiles/dfa_x86_64.cpp"
@@ -3974,7 +3974,7 @@ void  State::_sub_Op_ConP(const Node *n){
         DFA_PRODUCTION__SET_VALID(R15_REGP, loadConP31_rule, c+60)
     }
     if(         
-#line 4152 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4152 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->get_ptr() != 0 && n->get_ptr() == (intptr_t)os::get_polling_page()
 #line 3980 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4024,7 +4024,7 @@ n->get_ptr() != 0 && n->get_ptr() == (intptr_t)os::get_polling_page()
       }
     }
     if(         
-#line 4143 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4143 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->get_ptr() == 0
 #line 4030 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -4334,7 +4334,7 @@ void  State::_sub_Op_ConvF2L(const Node *n){
 void  State::_sub_Op_ConvI2D(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 11101 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11101 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmI2D
 #line 4340 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4353,7 +4353,7 @@ UseXmmI2D
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 11066 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11066 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmI2D
 #line 4359 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4369,7 +4369,7 @@ UseXmmI2D
 void  State::_sub_Op_ConvI2F(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 11087 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11087 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmI2F
 #line 4375 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4388,7 +4388,7 @@ UseXmmI2F
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 11045 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11045 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmI2F
 #line 4394 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4847,7 +4847,7 @@ void  State::_sub_Op_CountedLoopEnd(const Node *n){
 void  State::_sub_Op_CountLeadingZerosI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 7214 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7214 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountLeadingZerosInstruction
 #line 4853 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4864,7 +4864,7 @@ void  State::_sub_Op_CountLeadingZerosI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 7202 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7202 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountLeadingZerosInstruction
 #line 4870 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4901,7 +4901,7 @@ UseCountLeadingZerosInstruction
 void  State::_sub_Op_CountLeadingZerosL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 7251 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7251 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCountLeadingZerosInstruction
 #line 4907 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -4918,7 +4918,7 @@ void  State::_sub_Op_CountLeadingZerosL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 7239 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7239 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCountLeadingZerosInstruction
 #line 4924 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5002,7 +5002,7 @@ void  State::_sub_Op_CreateEx(const Node *n){
 void  State::_sub_Op_DecodeN(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         (
-#line 7510 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7510 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->is_oopptr()->ptr() == TypePtr::NotNull ||
             n->bottom_type()->is_oopptr()->ptr() == TypePtr::Constant
 #line 5009 "../generated/adfiles/dfa_x86_64.cpp"
@@ -5025,7 +5025,7 @@ n->bottom_type()->is_oopptr()->ptr() == TypePtr::NotNull ||
     }
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         (
-#line 7493 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7493 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->is_oopptr()->ptr() != TypePtr::NotNull &&
             n->bottom_type()->is_oopptr()->ptr() != TypePtr::Constant
 #line 5032 "../generated/adfiles/dfa_x86_64.cpp"
@@ -5076,7 +5076,7 @@ n->bottom_type()->is_oopptr()->ptr() != TypePtr::NotNull &&
     }
     if( STATE__VALID_CHILD(_kids[0], RREGN) &&
         
-#line 4939 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 4939 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_shift() == 0
 #line 5082 "../generated/adfiles/dfa_x86_64.cpp"
  ) {
@@ -5210,7 +5210,7 @@ void  State::_sub_Op_DivModL(const Node *n){
 void  State::_sub_Op_EncodeP(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 7482 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7482 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->make_ptr()->ptr() == TypePtr::NotNull
 #line 5216 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5220,7 +5220,7 @@ n->bottom_type()->make_ptr()->ptr() == TypePtr::NotNull
     }
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 7466 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7466 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 n->bottom_type()->make_ptr()->ptr() != TypePtr::NotNull
 #line 5226 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5294,7 +5294,7 @@ void  State::_sub_Op_Jump(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTL_RREGL_IMMI2) &&
         (
-#line 7534 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7534 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 false
 #line 5300 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5610,7 +5610,7 @@ void  State::_sub_Op_LoadD(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6194 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6194 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmLoadAndClearUpper
 #line 5616 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5620,7 +5620,7 @@ UseXmmLoadAndClearUpper
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6182 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6182 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmLoadAndClearUpper
 #line 5626 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5846,7 +5846,7 @@ void  State::_sub_Op_MaxI(const Node *n){
 }
 void  State::_sub_Op_MemBarAcquire(const Node *n){
     if(         (
-#line 7380 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7380 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Matcher::prior_fast_lock(n)
 #line 5852 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5862,7 +5862,7 @@ Matcher::prior_fast_lock(n)
 }
 void  State::_sub_Op_MemBarRelease(const Node *n){
     if(         (
-#line 7403 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7403 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Matcher::post_fast_unlock(n)
 #line 5868 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -5878,7 +5878,7 @@ Matcher::post_fast_unlock(n)
 }
 void  State::_sub_Op_MemBarVolatile(const Node *n){
     if(         (
-#line 7434 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7434 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Matcher::post_store_load_barrier(n)
 #line 5884 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6049,7 +6049,7 @@ void  State::_sub_Op_MoveL2D(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], STACKSLOTL) &&
         (
-#line 11268 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11268 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseXmmLoadAndClearUpper
 #line 6055 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6063,7 +6063,7 @@ UseXmmLoadAndClearUpper
     }
     if( STATE__VALID_CHILD(_kids[0], STACKSLOTL) &&
         (
-#line 11256 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11256 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseXmmLoadAndClearUpper
 #line 6069 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -6728,7 +6728,7 @@ void  State::_sub_Op_OrI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _URSHIFTI_RREGI_IMMI8) && STATE__VALID_CHILD(_kids[1], _LSHIFTI_RREGI_IMMI8) &&
         (
-#line 9352 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9352 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x1f)
 #line 6734 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -6763,7 +6763,7 @@ void  State::_sub_Op_OrI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTI_RREGI_IMMI8) && STATE__VALID_CHILD(_kids[1], _URSHIFTI_RREGI_IMMI8) &&
         (
-#line 9352 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9352 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x1f)
 #line 6769 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -7132,7 +7132,7 @@ void  State::_sub_Op_OrL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _URSHIFTL_RREGL_IMMI8) && STATE__VALID_CHILD(_kids[1], _LSHIFTL_RREGL_IMMI8) &&
         (
-#line 9497 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9497 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x3f)
 #line 7138 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -7164,7 +7164,7 @@ void  State::_sub_Op_OrL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], _LSHIFTL_RREGL_IMMI8) && STATE__VALID_CHILD(_kids[1], _URSHIFTL_RREGL_IMMI8) &&
         (
-#line 9497 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 9497 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 0 == ((n->in(1)->in(2)->get_int() + n->in(2)->in(2)->get_int()) & 0x3f)
 #line 7170 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_kids[0]->_leaf == _kids[1]->_kids[0]->_leaf) ) {
@@ -7277,7 +7277,7 @@ void  State::_sub_Op_PartialSubtypeCheck(const Node *n){
 void  State::_sub_Op_PopCountI(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADI_MEMORY_) &&
         (
-#line 7328 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7328 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 7283 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7294,7 +7294,7 @@ UsePopCountInstruction
     }
     if( STATE__VALID_CHILD(_kids[0], RREGI) &&
         (
-#line 7317 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7317 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 7300 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7331,7 +7331,7 @@ UsePopCountInstruction
 void  State::_sub_Op_PopCountL(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _LOADL_MEMORY_) &&
         (
-#line 7352 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7352 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 7337 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7348,7 +7348,7 @@ UsePopCountInstruction
     }
     if( STATE__VALID_CHILD(_kids[0], RREGL) &&
         (
-#line 7340 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7340 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UsePopCountInstruction
 #line 7354 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7385,7 +7385,7 @@ UsePopCountInstruction
 void  State::_sub_Op_PrefetchRead(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6679 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6679 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 ReadPrefetchInstr==2
 #line 7391 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7394,7 +7394,7 @@ ReadPrefetchInstr==2
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6668 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6668 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 ReadPrefetchInstr==1
 #line 7400 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7405,7 +7405,7 @@ ReadPrefetchInstr==1
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6657 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6657 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 ReadPrefetchInstr==0
 #line 7411 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7416,7 +7416,7 @@ ReadPrefetchInstr==0
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6646 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6646 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 ReadPrefetchInstr==3
 #line 7422 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7429,7 +7429,7 @@ ReadPrefetchInstr==3
 void  State::_sub_Op_PrefetchWrite(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6723 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6723 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==2
 #line 7435 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7438,7 +7438,7 @@ AllocatePrefetchInstr==2
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6712 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6712 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==1
 #line 7444 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7449,7 +7449,7 @@ AllocatePrefetchInstr==1
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6701 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6701 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==0
 #line 7455 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7460,7 +7460,7 @@ AllocatePrefetchInstr==0
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) &&
         (
-#line 6690 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6690 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 AllocatePrefetchInstr==3
 #line 7466 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7850,7 +7850,7 @@ void  State::_sub_Op_RoundFloat(const Node *n){
 void  State::_sub_Op_SafePoint(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], RREGP) &&
         (
-#line 12406 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12406 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Assembler::is_polling_page_far()
 #line 7856 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7858,7 +7858,7 @@ Assembler::is_polling_page_far()
         DFA_PRODUCTION__SET_VALID(UNIVERSE, safePoint_poll_far_rule, c)
     }
     if(         (
-#line 12390 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 12390 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !Assembler::is_polling_page_far()
 #line 7864 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7919,7 +7919,7 @@ void  State::_sub_Op_StoreB(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 6942 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6942 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 7925 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7938,7 +7938,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 void  State::_sub_Op_StoreC(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI16) &&
         (
-#line 6929 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6929 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseStoreImmI16
 #line 7944 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7947,7 +7947,7 @@ UseStoreImmI16
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 6916 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6916 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 7953 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -7970,7 +7970,7 @@ void  State::_sub_Op_StoreCM(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 6994 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6994 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 7976 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8001,7 +8001,7 @@ void  State::_sub_Op_StoreLConditional(const Node *n){
 void  State::_sub_Op_StoreD(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMD0) &&
         (
-#line 7089 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7089 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 8007 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8010,7 +8010,7 @@ UseCompressedOops && (Universe::narrow_oop_base() == NULL)
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMD0) &&
         (
-#line 7077 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7077 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 !UseCompressedOops || (Universe::narrow_oop_base() != NULL)
 #line 8016 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8033,7 +8033,7 @@ void  State::_sub_Op_StoreF(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMF0) &&
         (
-#line 7040 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7040 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 8039 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8197,7 +8197,7 @@ void  State::_sub_Op_StoreI(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI_M1) &&
         (
-#line 7985 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7985 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 8203 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -8208,7 +8208,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDI__LOADI_MEMORY__IMMI1) &&
         (
-#line 7958 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 7958 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 8214 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -8246,7 +8246,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMI0) &&
         (
-#line 6866 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6866 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 8252 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8410,7 +8410,7 @@ void  State::_sub_Op_StoreL(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML_M1) &&
         (
-#line 8107 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8107 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 8416 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -8421,7 +8421,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], _ADDL__LOADL_MEMORY__IMML1) &&
         (
-#line 8080 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 8080 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseIncDec
 #line 8427 "../generated/adfiles/dfa_x86_64.cpp"
 ) && /*dst*/(_kids[0]->_leaf == _kids[1]->_kids[0]->_kids[0]->_leaf) ) {
@@ -8459,7 +8459,7 @@ UseIncDec
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMML0) &&
         (
-#line 6891 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6891 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 8465 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8482,7 +8482,7 @@ void  State::_sub_Op_StoreP(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMP0) &&
         (
-#line 6797 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6797 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseCompressedOops && (Universe::narrow_oop_base() == NULL)
 #line 8488 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8505,7 +8505,7 @@ void  State::_sub_Op_StoreN(const Node *n){
     }
     if( STATE__VALID_CHILD(_kids[0], MEMORY) && STATE__VALID_CHILD(_kids[1], IMMN0) &&
         (
-#line 6835 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 6835 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 Universe::narrow_oop_base() == NULL
 #line 8511 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8552,7 +8552,7 @@ void  State::_sub_Op_StrEquals(const Node *n){
 void  State::_sub_Op_StrIndexOf(const Node *n){
     if( STATE__VALID_CHILD(_kids[0], _BINARY_RDI_REGP_RDX_REGI) && STATE__VALID_CHILD(_kids[1], _BINARY_RSI_REGP_RAX_REGI) &&
         (
-#line 11551 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11551 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseSSE42Intrinsics
 #line 8558 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {
@@ -8569,7 +8569,7 @@ UseSSE42Intrinsics
     }
     if( STATE__VALID_CHILD(_kids[0], _BINARY_RDI_REGP_RDX_REGI) && STATE__VALID_CHILD(_kids[1], _BINARY_RSI_REGP_IMMI) &&
         (
-#line 11523 "/home/tandon/Projects/openjdk/hotspot/src/cpu/x86/vm/x86_64.ad"
+#line 11523 "/home/tandon/Projects/NVJVM/hotspot/src/cpu/x86/vm/x86_64.ad"
 UseSSE42Intrinsics
 #line 8575 "../generated/adfiles/dfa_x86_64.cpp"
 ) ) {

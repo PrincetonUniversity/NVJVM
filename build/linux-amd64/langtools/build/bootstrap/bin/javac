@@ -72,4 +72,4 @@ done
 unset DUALCASE
 
 IFS=$nl
-"/usr/java/latest/bin/java" "${bcp:+-Xbootclasspath/p:"$bcp"}" ${ea} ${javaOpts} -jar "${mylib}/javac.jar" ${toolOpts}
+"/usr/java/jdk1.6.0_38//bin/java" "${bcp:+-Xbootclasspath/p:"$bcp"}" ${ea} ${javaOpts} -jar "${mylib}/javac.jar" ${toolOpts}
