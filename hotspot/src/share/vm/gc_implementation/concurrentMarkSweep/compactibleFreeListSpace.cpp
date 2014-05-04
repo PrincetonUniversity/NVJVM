@@ -1001,15 +1001,15 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
       }
     } else {
       //printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
-      //printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
+      printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
       // must read from what 'p' points to in each loop.
       //uint64_t t = ((oopDesc*)p)->getCount();
       //printf("count = %" PRIu64 "\n", t);
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
       int offset = ((volatile oopDesc*)p)->klass_offset_in_bytes();
-      printf("klass offset = %d", offset);
+      printf("klass offset = %d", offset);fflush(stdout);
       int offset2 = FreeChunk::getOffset();
-      printf("_prev offset = %d", offset2);
+      printf("_prev offset = %d", offset2);fflush(stdout);
       if (k != NULL) {
     	//printf("k not null \n"); fflush(stdout);
         assert(k->is_oop(true /* ignore mark word */), "Should be klass oop");
