@@ -559,7 +559,8 @@ protected:
       /* prefetch beyond q */                                                \
       oop object = (oop)q; 													 \
       uint64_t count = object->getCount();  								 \
-      printf("count = %"PRIu64", hash = %d, size=%d\n", count, object->mark()->hash(), object->mark()->get_size());      \
+      printf("count =%" PRIu64 ",", count);									 \
+      printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
       object->resetCount();													 \
       Prefetch::write(q, interval);                                          \
       /* size_t size = oop(q)->size();  changing this for cms for perm gen */\
