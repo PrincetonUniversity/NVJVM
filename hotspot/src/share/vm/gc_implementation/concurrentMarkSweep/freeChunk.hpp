@@ -125,7 +125,10 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
     linkNext(ptr);
     ptr->linkPrev(this);
   }
-  void linkNext(FreeChunk* ptr) { _next = ptr; }
+  void linkNext(FreeChunk* ptr) {
+	   printf("setting _next ptr = %d\n", ptr);
+	  _next = ptr;
+  }
   void linkPrev(FreeChunk* ptr) {
 	//printf("Linking prev free chunk %02X\n", (unsigned char *)this);
 	//fflush(stdout);
