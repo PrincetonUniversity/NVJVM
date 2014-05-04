@@ -684,7 +684,7 @@ protected:
       size_t size = oop(q)->adjust_pointers();                                  \
       oop object = (oop)q; 													 \
       uint64_t count = object->getCount();  								 \
-      printf("count  = %" PRIu64 "\n", count);									 \
+      printf("countValue  = %" PRIu64 "\n", count);									 \
       printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
       object->resetCount();													 \
       size = adjust_obj_size(size);                                             \
