@@ -83,6 +83,9 @@ class oopDesc {
   void incrementCount() {
 	  count++;
   }
+  void resetCount(){
+	  count = 0;
+  }
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 

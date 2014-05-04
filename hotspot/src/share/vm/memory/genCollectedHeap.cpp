@@ -481,7 +481,7 @@ void GenCollectedHeap::do_collection(bool  full,
 
   const size_t perm_prev_used = perm_gen()->used();
 
-  if (true || PrintHeapAtGC) {
+  if (PrintHeapAtGC) {
     Universe::print_heap_before_gc();
     if (Verbose) {
       gclog_or_tty->print_cr("GC Cause: %s", GCCause::to_string(gc_cause()));
