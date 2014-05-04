@@ -559,7 +559,7 @@ protected:
       /* prefetch beyond q */                                                \
       oop object = (oop)q; 													 \
       uint64_t count = object->getCount();  								 \
-      printf("count =%" PRIu64 ",", count);									 \
+      printf("count =%d,", count);									 \
       printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
       object->resetCount();													 \
       Prefetch::write(q, interval);                                          \
