@@ -65,7 +65,7 @@ class oopDesc {
   objectCounter count;
   union _metadata {
     wideKlassOop    _klass;
-    narrowOop       _compressed_klass;
+    narrowOop	       _compressed_klass;
   } _metadata;
 
   // Fast access to barrier set.  Must be initialized.

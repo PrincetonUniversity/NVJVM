@@ -81,7 +81,7 @@ inline klassOop oopDesc::klass() const {
 inline klassOop oopDesc::klass_or_null() const volatile {
   // can be NULL in CMS
   if (UseCompressedOops) {
-	printf("Use Compressed Oops True\n");
+	printf("Use Compressed Oops True\n");fflush(stdout);
     return (klassOop)decode_heap_oop(_metadata._compressed_klass);
   } else {
     return _metadata._klass;
