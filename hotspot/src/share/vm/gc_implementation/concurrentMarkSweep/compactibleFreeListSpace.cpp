@@ -47,13 +47,8 @@
 //// CompactibleFreeListSpace
 /////////////////////////////////////////////////////////////////////////
 
-bool pFlag = true;
-void flprintf(char *msg){
-	if (pFlag){
-		printf(msg);
-		fflush (stdout);
-	}
-}
+//bool pFlag = true;
+//#define flprintf(msg) if (pFlag) {printf(msg); fflush(stdout);}
 
 // highest ranked  free list lock rank
 int CompactibleFreeListSpace::_lockRank = Mutex::leaf + 3;
@@ -995,10 +990,10 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   // will compile the code below into a sometimes-infinite loop, by keeping
   // the value read the first time in a register.
   while (true) {
-	//printf("start of the true loop\n"); fflush (stdout);
+	 flprintf("start of the true loop\n");
     // We must do this until we get a consistent view of the object.
     if (FreeChunk::indicatesFreeChunk(p)) {
-     //printf("In FreeChunk::indicatesFreeChunk\n"); fflush(stdout);
+     flprintf("In FreeChunk::indicatesFreeChunk\n");
      volatile FreeChunk* fc = (volatile FreeChunk*)p;
       size_t res = fc->size();
       // If the object is still a free chunk, return the size, else it
@@ -1008,16 +1003,16 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
         return res;
       }
     } else {
-      //printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
-      printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
+      //flprintf("In FreeChunk::indicatesFreeChunk, in else\n");
+      //flprintf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p);
       // must read from what 'p' points to in each loop.
-      //uint64_t t = ((oopDesc*)p)->getCount();
-      //printf("count = %" PRIu64 "\n", t);
+      uint64_t t = ((oopDesc*)p)->getCount();
+      //flprintf("count = %" PRIu64 "\n", t);
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
-      int offset = ((volatile oopDesc*)p)->klass_offset_in_bytes();
-      printf("klass offset = %d", offset);fflush(stdout);
-      int offset2 = FreeChunk::getOffset();
-      printf("_prev offset = %d", offset2);fflush(stdout);
+//    int offset = ((volatile oopDesc*)p)->klass_offset_in_bytes();
+      //printf("klass offset = %d", offset);fflush(stdout);
+      //int offset2 = FreeChunk::getOffset();
+      //printf("_prev offset = %d", offset2);fflush(stdout);
       if (k != NULL) {
     	//printf("k not null \n"); fflush(stdout);
         assert(k->is_oop(true /* ignore mark word */), "Should be klass oop");
