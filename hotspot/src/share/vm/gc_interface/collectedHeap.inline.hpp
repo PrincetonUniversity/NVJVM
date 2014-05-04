@@ -248,6 +248,7 @@ void CollectedHeap::init_obj(HeapWord* obj, size_t size) {
   const size_t hs = oopDesc::header_size();
   assert(size >= hs, "unexpected object size");
   ((oop)obj)->set_klass_gap(0);
+  ((oop)obj)->resetCount();
   Copy::fill_to_aligned_words(obj + hs, size - hs);
 }
 

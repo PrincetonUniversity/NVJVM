@@ -561,6 +561,7 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   }
 
   // print class
+  st->print(" - count: %d, ", obj->getCount());
   st->print(" - klass: ");
   obj->klass()->print_value_on(st);
   st->cr();
