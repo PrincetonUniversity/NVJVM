@@ -1016,7 +1016,7 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
         assert(o->is_parsable(), "Should be parsable");
         printf("checking if oop \n"); fflush(stdout);
         assert(o->is_oop(true /* ignore mark word */), "Should be an oop.");
-        printf("calculating size \n"); fflush(stdout);
+        printf("calculating size, is klass part null %d \n", (k->klass_part() == NULL)); fflush(stdout);
         size_t res = o->size_given_klass(k->klass_part());
         printf("calling adjust object size \n"); fflush(stdout);
         res = adjustObjectSize(res);
