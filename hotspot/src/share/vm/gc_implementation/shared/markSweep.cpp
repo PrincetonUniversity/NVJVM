@@ -121,6 +121,7 @@ void MarkSweep::follow_stack() {
       oop obj = _marking_stack.pop();
       assert (obj->is_gc_marked(), "p must be marked");
       if(obj->getCount() != 0) printf("access count = %" PRIu64 ", hash = %d\n", obj->getCount(), obj->mark()->hash());
+      obj->resetCount();
       obj->follow_contents();
     }
     // Process ObjArrays one at a time to avoid marking stack bloat.
