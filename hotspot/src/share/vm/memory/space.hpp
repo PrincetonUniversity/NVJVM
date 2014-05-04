@@ -35,6 +35,7 @@
 #include "runtime/mutexLocker.hpp"
 #include "runtime/prefetch.hpp"
 #include "utilities/workgroup.hpp"
+#include "inttypes.h"
 #ifdef TARGET_OS_FAMILY_linux
 # include "os_linux.inline.hpp"
 #endif
@@ -559,7 +560,7 @@ protected:
       /* prefetch beyond q */                                                \
       oop object = (oop)q; 													 \
       uint64_t count = object->getCount();  								 \
-      printf("count =%d,", count);									 \
+      printf("count  = %" PRIu64 "\n", count);									 \
       printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
       object->resetCount();													 \
       Prefetch::write(q, interval);                                          \
