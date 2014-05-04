@@ -47,6 +47,14 @@
 //// CompactibleFreeListSpace
 /////////////////////////////////////////////////////////////////////////
 
+bool pFlag = true;
+void flprintf(char *msg){
+	if (pFlag){
+		printf(msg);
+		fflush (stdout);
+	}
+}
+
 // highest ranked  free list lock rank
 int CompactibleFreeListSpace::_lockRank = Mutex::leaf + 3;
 
@@ -981,7 +989,7 @@ HeapWord* CompactibleFreeListSpace::block_start_careful(const void* p) const {
 }
 
 size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
-  //printf("In CompactibleFreeListSpace\n"); fflush (stdout);
+  flprintf("In CompactibleFreeListSpace\n");
   NOT_PRODUCT(verify_objects_initialized());
   // This must be volatile, or else there is a danger that the compiler
   // will compile the code below into a sometimes-infinite loop, by keeping
