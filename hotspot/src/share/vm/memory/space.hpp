@@ -683,9 +683,6 @@ protected:
       /* point all the oops to the new location */                              \
       size_t size = oop(q)->adjust_pointers();                                  \
       oop object = (oop)q; 													    \
-      uint64_t count = object->getCount();  								    \
-      printf("countValues  = %" PRIu64 ",", count);							    \
-      printf("hash = %d, size=%zd\n", object->mark()->hash(), object->mark()->get_size());      \
       size = adjust_obj_size(size);                                             \
       VALIDATE_MARK_SWEEP_ONLY(MarkSweep::check_interior_pointers());           \
       VALIDATE_MARK_SWEEP_ONLY(MarkSweep::validate_live_oop(oop(q), size));     \

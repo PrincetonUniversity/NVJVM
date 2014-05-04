@@ -24,7 +24,7 @@
 
 #ifndef SHARE_VM_GC_IMPLEMENTATION_SHARED_MARKSWEEP_INLINE_HPP
 #define SHARE_VM_GC_IMPLEMENTATION_SHARED_MARKSWEEP_INLINE_HPP
-
+#include "inttypes.h"
 #include "gc_implementation/shared/markSweep.hpp"
 #include "gc_interface/collectedHeap.hpp"
 #include "utilities/stack.inline.hpp"
@@ -37,7 +37,9 @@ inline void MarkSweep::mark_object(oop obj) {
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
   obj->set_mark(markOopDesc::prototype()->set_marked());
-
+  uint64_t count = obj->getCount();
+  printf("countValues  = %" PRIu64 ",", count);
+  printf("hash = %d, size=%zd\n", obj->mark()->hash(), obj->mark()->get_size());
   if (mark->must_be_preserved(obj)) {
     preserve_mark(obj, mark);
   }
