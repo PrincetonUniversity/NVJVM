@@ -129,7 +129,7 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
   }
   void linkNext(FreeChunk* ptr) { _next = ptr; }
   void linkPrev(FreeChunk* ptr) {
-	printf("linking prev free chunk %02X\n", (unsigned char *)this);
+	printf("*****Linking prev free chunk %02X*****\n", (unsigned char *)this);
 	fflush(stdout);
     LP64_ONLY(if (UseCompressedOops) _prev = ptr; else)
     _prev = (FreeChunk*)((intptr_t)ptr | 0x1);
