@@ -126,7 +126,8 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
     ptr->linkPrev(this);
   }
   void linkNext(FreeChunk* ptr) {
-	   printf("setting _next ptr = %d\n", ptr);
+	   printf("Setting _next ptr = %d\n", ptr);
+	   fflush (stdout);
 	  _next = ptr;
   }
   void linkPrev(FreeChunk* ptr) {
