@@ -121,7 +121,7 @@ void MarkSweep::follow_stack() {
       oop obj = _marking_stack.pop();
       assert (obj->is_gc_marked(), "p must be marked");
       if(obj->getCount() != 0) {
-    	 // printf("access count = %" PRIu64 ", hash = %d\n", obj->getCount(), obj->mark()->hash());
+    	  printf("access count = %" PRIu64 ",", obj->getCount());
     	  printf("size = %d\n", obj->size());
       }
       obj->resetCount();
