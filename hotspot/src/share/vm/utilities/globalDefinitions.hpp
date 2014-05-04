@@ -107,8 +107,7 @@ const int SerializePageShiftCount = 4;
 const int SerializePageShiftCount = 3;
 #endif
 
-#define fl_printf(msg) \
-	if (true) { printf(msg); fflush(stdout); }
+#define fl_printf(msg)  if (true) { printf(msg); fflush(stdout); }
 
 // An opaque struct of heap-word width, so that HeapWord* can be a generic
 // pointer into the heap.  We require that object sizes be measured in

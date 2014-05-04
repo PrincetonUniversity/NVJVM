@@ -1425,28 +1425,27 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload_0:
 	obj = local(0);
 	push( obj );
-
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
 	obj = local(1);
     push( obj );
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
     obj = local(2);
 	push( obj );
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_3:
     obj = local(3);
 	push( obj );
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
     push( obj );
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
 
   case Bytecodes::_fload_0:
