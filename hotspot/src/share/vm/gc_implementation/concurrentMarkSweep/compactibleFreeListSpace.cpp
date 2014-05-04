@@ -987,7 +987,7 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   // will compile the code below into a sometimes-infinite loop, by keeping
   // the value read the first time in a register.
   while (true) {
-	//printf("start of the true loop\n"); fflush (stdout);
+	printf("start of the true loop\n"); fflush (stdout);
     // We must do this until we get a consistent view of the object.
     if (FreeChunk::indicatesFreeChunk(p)) {
      //printf("In FreeChunk::indicatesFreeChunk\n"); fflush(stdout);
@@ -1010,9 +1010,13 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
       if (k != NULL) {
     	printf("k not null \n"); fflush(stdout);
         assert(k->is_oop(true /* ignore mark word */), "Should be klass oop");
+        printf("converting to oop \n"); fflush(stdout);
         oop o = (oop)p;
+        printf("checking if parsable \n"); fflush(stdout);
         assert(o->is_parsable(), "Should be parsable");
+        printf("checking if oop \n"); fflush(stdout);
         assert(o->is_oop(true /* ignore mark word */), "Should be an oop.");
+        printf("calculating size \n"); fflush(stdout);
         size_t res = o->size_given_klass(k->klass_part());
         printf("calling adjust object size \n"); fflush(stdout);
         res = adjustObjectSize(res);
