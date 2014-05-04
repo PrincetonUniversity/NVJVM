@@ -558,9 +558,9 @@ protected:
     if (block_is_obj(q) && oop(q)->is_gc_marked()) {                         \
       /* prefetch beyond q */                                                \
       oop object = (oop)q; 													 \
-      uint64_t count = q->getCount();  										 \
-      printf("count = %"PRIu64", hash = %d\n", q->mark()->hash()); 		     \
-      q->resetCounter();													 \
+      uint64_t count = object->getCount();  										 \
+      printf("count = %"PRIu64", hash = %d\n", object->mark()->hash()); 		     \
+      object->resetCounter();													 \
       Prefetch::write(q, interval);                                          \
       /* size_t size = oop(q)->size();  changing this for cms for perm gen */\
       size_t size = block_size(q);                                           \
