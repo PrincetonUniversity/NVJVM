@@ -558,11 +558,6 @@ protected:
            "these are the only valid states during a mark sweep");           \
     if (block_is_obj(q) && oop(q)->is_gc_marked()) {                         \
       /* prefetch beyond q */                                                \
-      oop object = (oop)q; 													 \
-      uint64_t count = object->getCount();  								 \
-      printf("count  = %" PRIu64 "\n", count);									 \
-      printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
-      object->resetCount();													 \
       Prefetch::write(q, interval);                                          \
       /* size_t size = oop(q)->size();  changing this for cms for perm gen */\
       size_t size = block_size(q);                                           \
@@ -687,6 +682,11 @@ protected:
       VALIDATE_MARK_SWEEP_ONLY(MarkSweep::track_interior_pointers(oop(q)));     \
       /* point all the oops to the new location */                              \
       size_t size = oop(q)->adjust_pointers();                                  \
+      oop object = (oop)q; 													 \
+      uint64_t count = object->getCount();  								 \
+      printf("count  = %" PRIu64 "\n", count);									 \
+      printf("hash = %d, size=%d\n", object->mark()->hash(), object->mark()->get_size());      \
+      object->resetCount();													 \
       size = adjust_obj_size(size);                                             \
       VALIDATE_MARK_SWEEP_ONLY(MarkSweep::check_interior_pointers());           \
       VALIDATE_MARK_SWEEP_ONLY(MarkSweep::validate_live_oop(oop(q), size));     \
