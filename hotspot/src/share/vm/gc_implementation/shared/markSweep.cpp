@@ -30,6 +30,9 @@
 #include "oops/objArrayKlass.inline.hpp"
 #include "oops/oop.inline.hpp"
 #include "inttypes.h"
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 Stack<oop>              MarkSweep::_marking_stack;
 Stack<DataLayout*>      MarkSweep::_revisit_mdo_stack;
@@ -123,6 +126,7 @@ void MarkSweep::follow_stack() {
       if(obj->getCount() != 0) {
     	  obj->print_on(tty);
     	  printf("access count = %" PRIu64 ",", obj->getCount());
+    	  printf("thread Id =%d,", getpid());
     	  printf("size = %d\n", obj->size());
       }
       obj->resetCount();
