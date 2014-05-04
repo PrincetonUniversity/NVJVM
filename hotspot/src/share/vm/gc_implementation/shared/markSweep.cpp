@@ -125,6 +125,7 @@ void MarkSweep::follow_stack() {
       assert (obj->is_gc_marked(), "p must be marked");
       if(obj->getCount() != 0) {
     	  obj->print_on(tty);
+    	  obj->print_value_on(tty);
     	  printf("access count = %" PRIu64 ",", obj->getCount());
     	  printf("thread Id =%d,", getpid());
     	  printf("size = %d\n", obj->size());
