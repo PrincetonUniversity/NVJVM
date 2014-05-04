@@ -984,16 +984,16 @@ HeapWord* CompactibleFreeListSpace::block_start_careful(const void* p) const {
 }
 
 size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
-  flprintf("In CompactibleFreeListSpace\n");
+  //flprintf("In CompactibleFreeListSpace\n");
   NOT_PRODUCT(verify_objects_initialized());
   // This must be volatile, or else there is a danger that the compiler
   // will compile the code below into a sometimes-infinite loop, by keeping
   // the value read the first time in a register.
   while (true) {
-	 flprintf("start of the true loop\n");
+	 //flprintf("start of the true loop\n");
     // We must do this until we get a consistent view of the object.
     if (FreeChunk::indicatesFreeChunk(p)) {
-     flprintf("In FreeChunk::indicatesFreeChunk\n");
+     //flprintf("In FreeChunk::indicatesFreeChunk\n");
      volatile FreeChunk* fc = (volatile FreeChunk*)p;
       size_t res = fc->size();
       // If the object is still a free chunk, return the size, else it
