@@ -145,7 +145,9 @@ class FreeChunk VALUE_OBJ_CLASS_SPEC {
 #endif
     assert(!isFree(), "Error");
   }
-
+  static int getOffset() {
+	  return offset_of((FreeChunk), _prev);
+  }
   // Return the address past the end of this chunk
   HeapWord* end() const { return ((HeapWord*) this) + size(); }
 
