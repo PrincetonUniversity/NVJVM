@@ -981,13 +981,13 @@ HeapWord* CompactibleFreeListSpace::block_start_careful(const void* p) const {
 }
 
 size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
-  printf("In CompactibleFreeListSpace\n"); fflush (stdout);
+  //printf("In CompactibleFreeListSpace\n"); fflush (stdout);
   NOT_PRODUCT(verify_objects_initialized());
   // This must be volatile, or else there is a danger that the compiler
   // will compile the code below into a sometimes-infinite loop, by keeping
   // the value read the first time in a register.
   while (true) {
-	printf("start of the true loop\n"); fflush (stdout);
+	//printf("start of the true loop\n"); fflush (stdout);
     // We must do this until we get a consistent view of the object.
     if (FreeChunk::indicatesFreeChunk(p)) {
      //printf("In FreeChunk::indicatesFreeChunk\n"); fflush(stdout);
@@ -1001,27 +1001,27 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
       }
     } else {
       //printf("In FreeChunk::indicatesFreeChunk, in else\n"); fflush(stdout);
-      printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
+      //printf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p); fflush(stdout);
       // must read from what 'p' points to in each loop.
       //uint64_t t = ((oopDesc*)p)->getCount();
       //printf("count = %" PRIu64 "\n", t);
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
 
       if (k != NULL) {
-    	printf("k not null \n"); fflush(stdout);
+    	//printf("k not null \n"); fflush(stdout);
         assert(k->is_oop(true /* ignore mark word */), "Should be klass oop");
-        printf("converting to oop \n"); fflush(stdout);
+        //printf("converting to oop \n"); fflush(stdout);
         oop o = (oop)p;
-        printf("checking if parsable \n"); fflush(stdout);
+        //printf("checking if parsable \n"); fflush(stdout);
         assert(o->is_parsable(), "Should be parsable");
-        printf("checking if oop \n"); fflush(stdout);
+        //printf("checking if oop \n"); fflush(stdout);
         assert(o->is_oop(true /* ignore mark word */), "Should be an oop.");
-        printf("calculating size, is klass part null %d \n", (k->klass_part() == NULL)); fflush(stdout);
+        //printf("calculating size, is klass part null %d \n", (k->klass_part() == NULL)); fflush(stdout);
         size_t res = o->size_given_klass(k->klass_part());
-        printf("calling adjust object size \n"); fflush(stdout);
+        ///printf("calling adjust object size \n"); fflush(stdout);
         res = adjustObjectSize(res);
         assert(res != 0, "Block size should not be 0");
-        printf("block size = %d", res);fflush(stdout);
+        //printf("block size = %d", res);fflush(stdout);
         return res;
       }
     }
