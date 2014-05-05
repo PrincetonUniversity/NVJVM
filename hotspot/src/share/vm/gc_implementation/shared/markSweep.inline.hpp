@@ -38,17 +38,17 @@ inline void MarkSweep::mark_object(oop obj) {
   markOop mark = obj->mark();
   printf("marking object %p\n", obj);
   if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
-	  printf("before mark, bug\t");fflush(stdout);
-	  ((oop)obj)->print_on(tty);
-	  ((oop)obj)->resetCount();
-	  fflush(stdout);
+	  printf("before mark, bug, %p\t", obj);fflush(stdout);
+	  //((oop)obj)->print_on(tty);
+	  //((oop)obj)->resetCount();
+	  //fflush(stdout);
   }
   obj->set_mark(markOopDesc::prototype()->set_marked());
-  if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
+  /*if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
 	  printf("after mark, bug\t");
 	  ((oop)obj)->print_on(tty);
 	  fflush(stdout);
-  }
+  }*/
   if (mark->must_be_preserved(obj)) {
     preserve_mark(obj, mark);
   }
