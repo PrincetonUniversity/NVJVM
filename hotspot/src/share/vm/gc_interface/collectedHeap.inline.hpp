@@ -51,6 +51,7 @@ void CollectedHeap::post_allocation_setup_common(KlassHandle klass,
                                                  size_t size) {
   post_allocation_setup_no_klass_install(klass, obj, size);
   post_allocation_install_obj_klass(klass, oop(obj), (int) size);
+  assert(((oop)obj)->getCount() == 0, 'CollectedHeap::post_allocation_setup_common');
 }
 
 void CollectedHeap::post_allocation_setup_no_klass_install(KlassHandle klass,
@@ -259,10 +260,12 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
   post_allocation_setup_obj(klass, obj, size);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  assert(((oop)obj)->getCount == 0, "object count not null, CollectedHeap::obj_allocate");
   if (((oop)obj)->getCount() != 0){
-	  printf("bug\t");
+	  printf("CollectedHeap::obj_allocate\t");
 	  ((oop)obj)->print_on(tty);
 	  fflush(stdout);
+	  exit(-1);
   }
   return (oop)obj;
 }
@@ -281,6 +284,7 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
 	  printf("bug\t");
 	  ((oop)obj)->print_on(tty);
 	  fflush(stdout);
+	  exit(-1);
   }
   return (oop)obj;
 }

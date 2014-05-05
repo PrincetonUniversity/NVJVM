@@ -123,6 +123,8 @@ inline int oopDesc::klass_gap() const {
 
 inline void oopDesc::set_klass_gap(int v) {
   if (UseCompressedOops) {
+	  printf("Using Compressed Oops \n"); fflush(stdout);
+	exit (1);
     *(int*)(((intptr_t)this) + klass_gap_offset_in_bytes()) = v;
   }
 }

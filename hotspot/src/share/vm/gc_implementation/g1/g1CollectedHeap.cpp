@@ -2242,6 +2242,7 @@ void G1CollectedHeap::collect_as_vm_thread(GCCause::Cause cause) {
 
 void G1CollectedHeap::collect(GCCause::Cause cause) {
   // The caller doesn't have the Heap_lock
+  printf("in G1CollectedHeap::collect()\n"); fflush(stdout);
   assert(!Heap_lock->owned_by_self(), "this thread should not own the Heap_lock");
 
   unsigned int gc_count_before;
@@ -2255,6 +2256,7 @@ void G1CollectedHeap::collect(GCCause::Cause cause) {
   }
 
   if (should_do_concurrent_full_gc(cause)) {
+	  printf("in should_do_concurrent_full_gc == true\n"); fflush(stdout);
     // Schedule an initial-mark evacuation pause that will start a
     // concurrent cycle. We're setting word_size to 0 which means that
     // we are not requesting a post-GC allocation.
@@ -4393,6 +4395,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
 
   oop forward_ptr = old->forward_to_atomic(obj);
+  printf("In copy_to_survivor_space, obj=%p, count=%p\n", obj, ((oop)obj)->getCount()); fflush(stdout);
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     if (g1p->track_object_age(alloc_purpose)) {
