@@ -193,6 +193,7 @@ inline narrowOop oopDesc::encode_heap_oop_not_null(oop v) {
   assert(!is_null(v), "oop value can never be zero");
   assert(check_obj_alignment(v), "Address not aligned");
   assert(Universe::heap()->is_in_reserved(v), "Address not in heap");
+
   address base = Universe::narrow_oop_base();
   int    shift = Universe::narrow_oop_shift();
   uint64_t  pd = (uint64_t)(pointer_delta((void*)v, (void*)base, 1));
@@ -326,7 +327,8 @@ inline oop oopDesc::atomic_compare_exchange_oop(oop exchange_value,
 // In order to put or get a field out of an instance, must first check
 // if the field has been compressed and uncompress it.
 inline oop oopDesc::obj_field(int offset) const {
-  return UseCompressedOops ?
+ printf("putting obj instance at %d, oop %p", offset, this);
+ return UseCompressedOops ?
     load_decode_heap_oop(obj_field_addr<narrowOop>(offset)) :
     load_decode_heap_oop(obj_field_addr<oop>(offset));
 }
