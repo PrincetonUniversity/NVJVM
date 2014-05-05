@@ -73,6 +73,7 @@ public:
     HeapWord* res = _top;
     if (pointer_delta(_end, _top) >= word_sz) {
       _top = _top + word_sz;
+      ((oop)res)->resetCount();
       return res;
     } else {
       return NULL;
