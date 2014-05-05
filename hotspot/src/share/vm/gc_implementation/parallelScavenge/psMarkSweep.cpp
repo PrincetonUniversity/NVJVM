@@ -511,7 +511,7 @@ void PSMarkSweep::mark_sweep_phase1(bool clear_all_softrefs) {
 
   ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
   assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "Sanity");
-
+  printf("mark_sweep_phase1\n");fflush(stdout);
   // General strong roots.
   {
     ParallelScavengeHeap::ParStrongRootsScope psrs;

@@ -107,10 +107,11 @@ void MarkSweep::push_objarray(oop obj, size_t index) {
 
 template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
   T heap_oop = oopDesc::load_heap_oop(p);
+  printf("In adjust pointer\n"); fflush(stdout);
   if (!oopDesc::is_null(heap_oop)) {
     oop obj     = oopDesc::decode_heap_oop_not_null(heap_oop);
     oop new_obj = oop(obj->mark()->decode_pointer());
-    new_obj->setCount(obj->getCount());
+//    new_obj->setCount(obj->getCount());
     assert(new_obj != NULL ||                         // is forwarding ptr?
            obj->mark() == markOopDesc::prototype() || // not gc marked?
            (UseBiasedLocking && obj->mark()->has_bias_pattern()) ||
