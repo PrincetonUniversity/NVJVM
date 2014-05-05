@@ -1427,6 +1427,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   // Finally, install the klass pointer (this should be volatile).
   OrderAccess::storestore();
   obj->set_klass(old->klass());
+  obj->setCount(old->getCount());
   // We should now be able to calculate the right size for this object
   assert(obj->is_oop() && obj->size() == (int)word_sz, "Error, incorrect size computed for promoted object");
 

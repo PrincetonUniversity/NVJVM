@@ -126,11 +126,11 @@ void MarkSweep::follow_stack() {
     while (!_marking_stack.is_empty()) {
       oop obj = _marking_stack.pop();
       assert (obj->is_gc_marked(), "p must be marked");
-      if(obj->getCount() != 0) {
-    	  printf("bug, in follow stack\n");fflush(stdout);
+      /*if(obj->getCount() != 0) {
+    	  //printf("bug, in follow stack\n");fflush(stdout);
     	  obj->print_on(tty);
     	  fflush (stdout);
-      }
+      }*/
       obj->follow_contents();
     }
     // Process ObjArrays one at a time to avoid marking stack bloat.
