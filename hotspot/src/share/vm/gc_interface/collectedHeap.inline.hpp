@@ -259,6 +259,11 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
   post_allocation_setup_obj(klass, obj, size);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  if (((oop)obj)->getCount() != 0){
+	  printf("bug\t");
+	  ((oop)obj)->print_on(tty);
+	  fflush(stdout);
+  }
   return (oop)obj;
 }
 
@@ -272,6 +277,11 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
   post_allocation_setup_array(klass, obj, size, length);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
+  if (((oop)obj)->getCount() != 0){
+	  printf("bug\t");
+	  ((oop)obj)->print_on(tty);
+	  fflush(stdout);
+  }
   return (oop)obj;
 }
 

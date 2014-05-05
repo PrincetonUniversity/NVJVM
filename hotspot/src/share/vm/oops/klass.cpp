@@ -34,6 +34,7 @@
 #include "oops/oop.inline.hpp"
 #include "oops/oop.inline2.hpp"
 #include "runtime/atomic.hpp"
+#include "inttypes.h"
 
 void Klass::set_name(Symbol* n) {
   _name = n;
@@ -561,7 +562,9 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   }
 
   // print class
-  st->print(" - count: %d, ", obj->getCount());
+  st->print("- address: %p,",(void *)obj);
+  st->print("- size: %d,", obj->size());
+  st->print(" - count: %" PRIu64 ",", obj->getCount());
   st->print(" - klass: ");
   obj->klass()->print_value_on(st);
   st->cr();
