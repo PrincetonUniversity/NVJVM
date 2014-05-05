@@ -41,7 +41,7 @@ inline void MarkSweep::mark_object(oop obj) {
   if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
 	  printf("before mark, bug, %p name %s, count = %p, klass = %p, mark = %p\n", obj,  obj->blueprint()->internal_name(), obj->getCount()
 			  ,obj->klass(), obj->mark());fflush(stdout);
-	  exit (1);
+	  //exit (1);
 	  //((oop)obj)->print_on(tty);
 	  //((oop)obj)->resetCount();
 	  //fflush(stdout);
