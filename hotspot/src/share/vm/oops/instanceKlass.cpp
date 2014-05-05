@@ -1689,7 +1689,7 @@ template <class T> void assert_nothing(T *p) {}
 }
 
 void instanceKlass::oop_follow_contents(oop obj) {
-  printf("in follow contents of instance class\n");fflush(stdout);
+  //printf("in follow contents of instance class\n");fflush(stdout);
   assert(obj != NULL, "can't follow the content of NULL object");
   obj->follow_header();
   InstanceKlass_OOP_MAP_ITERATE( \
