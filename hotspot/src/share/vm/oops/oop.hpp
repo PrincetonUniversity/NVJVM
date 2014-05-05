@@ -62,7 +62,7 @@ class oopDesc {
   friend class VMStructs;
  private:
   volatile markOop  _mark;
-  objectCounter count;
+
   union _metadata {
     wideKlassOop    _klass;
     narrowOop	       _compressed_klass;
@@ -70,7 +70,7 @@ class oopDesc {
 
   // Fast access to barrier set.  Must be initialized.
   static BarrierSet* _bs;
-
+  objectCounter count;
  public:
   enum ConcSafeType {
     IsUnsafeConc = false,
