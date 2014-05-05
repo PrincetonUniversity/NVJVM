@@ -760,7 +760,9 @@ bool instanceKlassKlass::oop_partially_loaded(oop obj) const {
 // The transitive_interfaces is the last field set when loading an object.
 void instanceKlassKlass::oop_set_partially_loaded(oop obj) {
   assert(obj->is_klass(), "object must be klass");
+  printf("instanceKlassKlass, count = %d, obj =%p,", obj->getCount(), obj);
   instanceKlass* ik = instanceKlass::cast(klassOop(obj));
+  printf("instanceKlassKlass, count = %d, obj = %p\n", obj->getCount(), obj);
   // Set the layout helper to a place-holder value, until fuller initialization.
   // (This allows asserts in oop_is_instance to succeed.)
   ik->set_layout_helper(Klass::instance_layout_helper(0, true));
