@@ -62,11 +62,6 @@ template <class T> inline void MarkSweep::follow_root(T* p) {
   }
 #endif
   T heap_oop = oopDesc::load_heap_oop(p);
-  if (((oop)heap_oop)->getCount() != 0){
-	  printf("load_heap_oop, bug\t");
-	  ((oop)heap_oop)->print_on(tty);
-	  fflush(stdout);
-  }
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (!obj->mark()->is_marked()) {
