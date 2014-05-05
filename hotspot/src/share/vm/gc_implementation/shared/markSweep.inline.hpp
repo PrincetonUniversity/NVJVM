@@ -36,9 +36,9 @@ inline void MarkSweep::mark_object(oop obj) {
   // some marks may contain information we need to preserve so we store them away
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
-  printf("marking object %p\n", obj);
+  printf("marking object %p, name %s\n", obj, obj->blueprint()->internal_name());
   if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
-	  printf("before mark, bug, %p\t", obj);fflush(stdout);
+	  printf("before mark, bug, %p name %s\n", obj,  obj->blueprint()->internal_name());fflush(stdout);
 	  exit (1);
 	  //((oop)obj)->print_on(tty);
 	  //((oop)obj)->resetCount();
