@@ -36,13 +36,13 @@ inline void MarkSweep::mark_object(oop obj) {
   // some marks may contain information we need to preserve so we store them away
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
-  if (((oop)obj)->getCount() != 0){
+  if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
 	  printf("before mark, bug\t");
 	  ((oop)obj)->print_on(tty);
 	  fflush(stdout);
   }
   obj->set_mark(markOopDesc::prototype()->set_marked());
-  if (((oop)obj)->getCount() != 0){
+  if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
 	  printf("after mark, bug\t");
 	  ((oop)obj)->print_on(tty);
 	  fflush(stdout);
@@ -53,7 +53,7 @@ inline void MarkSweep::mark_object(oop obj) {
 }
 
 template <class T> inline void MarkSweep::follow_root(T* p) {
- printf("in follow root \n"); fflush(stdout);
+ //printf("in follow root \n"); fflush(stdout);
   assert(!Universe::heap()->is_in_reserved(p),
          "roots shouldn't be things within the heap");
 #ifdef VALIDATE_MARK_SWEEP
@@ -76,7 +76,7 @@ template <class T> inline void MarkSweep::follow_root(T* p) {
 
 template <class T> inline void MarkSweep::mark_and_follow(T* p) {
 //  assert(Universe::heap()->is_in_reserved(p), "should be in object space");
-	printf("in mark_and_follow\n"); fflush(stdout);
+//	printf("in mark_and_follow\n"); fflush(stdout);
   T heap_oop = oopDesc::load_heap_oop(p);
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
