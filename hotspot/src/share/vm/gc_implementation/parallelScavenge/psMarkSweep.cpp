@@ -123,6 +123,7 @@ void PSMarkSweep::invoke_no_policy(bool clear_all_softrefs) {
 
   // Increment the invocation count
   heap->increment_total_collections(true /* full */);
+  printf("***** Collection Number: %d ****\n", heap->total_collections());
 
   // Save information needed to minimize mangling
   heap->record_gen_tops_before_GC();
@@ -515,6 +516,7 @@ void PSMarkSweep::mark_sweep_phase1(bool clear_all_softrefs) {
   // General strong roots.
   {
     ParallelScavengeHeap::ParStrongRootsScope psrs;
+    printf("calling Universe::oops_do \n"); fflush(stdout);
     Universe::oops_do(mark_and_push_closure());
     ReferenceProcessor::oops_do(mark_and_push_closure());
     JNIHandles::oops_do(mark_and_push_closure());   // Global (strong) JNI handles

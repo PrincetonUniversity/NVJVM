@@ -203,6 +203,11 @@ void Universe::system_classes_do(void f(klassOop)) {
 void Universe::oops_do(OopClosure* f, bool do_all) {
 
   f->do_oop((oop*) &_int_mirror);
+  if (_int_mirror != NULL){
+	  oop obj = _int_mirror;
+	  printf("_int_mirror=%d\n", obj->getCount());
+	  fflush(stdout);
+  }
   f->do_oop((oop*) &_float_mirror);
   f->do_oop((oop*) &_double_mirror);
   f->do_oop((oop*) &_byte_mirror);
