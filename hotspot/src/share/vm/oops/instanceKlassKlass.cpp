@@ -766,7 +766,9 @@ void instanceKlassKlass::oop_set_partially_loaded(oop obj) {
   // Set the layout helper to a place-holder value, until fuller initialization.
   // (This allows asserts in oop_is_instance to succeed.)
   ik->set_layout_helper(Klass::instance_layout_helper(0, true));
+  printf("instanceKlassKlass, count = %d, obj = %p\n", obj->getCount(), obj);
   assert(ik->oop_is_instance(), "object must be instanceKlass");
   assert(ik->transitive_interfaces() == NULL, "just checking");
   ik->set_transitive_interfaces((objArrayOop) obj);   // Temporarily set transitive_interfaces to point to self
+  printf("instanceKlassKlass, count = %d, obj = %p\n", obj->getCount(), obj);
 }
