@@ -86,6 +86,9 @@ class oopDesc {
   void resetCount(){
 	  count = 0;
   }
+  void setCount(int v){
+	  count = v;
+  }
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 

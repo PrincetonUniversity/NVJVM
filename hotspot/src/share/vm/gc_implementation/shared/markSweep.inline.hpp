@@ -76,6 +76,7 @@ template <class T> inline void MarkSweep::follow_root(T* p) {
 
 template <class T> inline void MarkSweep::mark_and_follow(T* p) {
 //  assert(Universe::heap()->is_in_reserved(p), "should be in object space");
+	printf("in mark_and_follow\n"); fflush(stdout);
   T heap_oop = oopDesc::load_heap_oop(p);
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
@@ -109,6 +110,7 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj     = oopDesc::decode_heap_oop_not_null(heap_oop);
     oop new_obj = oop(obj->mark()->decode_pointer());
+    new_obj->setCount(obj->getCount());
     assert(new_obj != NULL ||                         // is forwarding ptr?
            obj->mark() == markOopDesc::prototype() || // not gc marked?
            (UseBiasedLocking && obj->mark()->has_bias_pattern()) ||

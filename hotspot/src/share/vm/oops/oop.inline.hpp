@@ -221,7 +221,7 @@ inline oop oopDesc::decode_heap_oop(narrowOop v) {
 }
 
 inline oop oopDesc::decode_heap_oop_not_null(oop v) {
-	printf("calling decode_heap_oop_not_null, oop \n"); fflush(stdout);
+	//printf("calling decode_heap_oop_not_null, oop \n"); fflush(stdout);
 	return v;
 }
 inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
