@@ -132,7 +132,7 @@ void G1MarkSweep::mark_sweep_phase1(bool& marked_for_unloading,
   EventMark m("1 mark object");
   TraceTime tm("phase 1", PrintGC && Verbose, true, gclog_or_tty);
   GenMarkSweep::trace(" 1");
-
+  printf("in mark sweep phase 1\n"); fflush(stdout);
   SharedHeap* sh = SharedHeap::heap();
 
   sh->process_strong_roots(true,  // activeate StrongRootsScope
@@ -254,6 +254,7 @@ public:
 };
 
 void G1MarkSweep::mark_sweep_phase2() {
+	printf("in mark sweep phase 2\n"); fflush(stdout);
   // Now all live objects are marked, compute the new object addresses.
 
   // It is imperative that we traverse perm_gen LAST. If dead space is
