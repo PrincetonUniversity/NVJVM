@@ -101,6 +101,7 @@ inline oop* oopDesc::klass_addr() {
 }
 
 inline narrowOop* oopDesc::compressed_klass_addr() {
+  printf("in compressed_klass_addr\n"); fflush(stdout);
   assert(UseCompressedOops, "only called by compressed oops");
   return (narrowOop*) &_metadata._compressed_klass;
 }
