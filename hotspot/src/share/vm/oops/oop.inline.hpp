@@ -115,6 +115,7 @@ inline void oopDesc::set_klass(klassOop k) {
   } else {
     oop_store_without_check(klass_addr(), (oop) k);
   }
+  resetCount();
 }
 
 inline int oopDesc::klass_gap() const {
