@@ -329,7 +329,6 @@ inline oop oopDesc::atomic_compare_exchange_oop(oop exchange_value,
 // In order to put or get a field out of an instance, must first check
 // if the field has been compressed and uncompress it.
 inline oop oopDesc::obj_field(int offset) const {
- printf("putting obj instance at %d, oop %p", offset, this);
  return UseCompressedOops ?
     load_decode_heap_oop(obj_field_addr<narrowOop>(offset)) :
     load_decode_heap_oop(obj_field_addr<oop>(offset));
