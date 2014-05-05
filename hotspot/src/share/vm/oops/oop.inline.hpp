@@ -233,7 +233,10 @@ inline oop       oopDesc::load_heap_oop(oop* p)          { return *p; }
 inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 
 // Load and decode an oop out of the Java heap into a wide oop.
-inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       { return *p; }
+inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
+	printf("load_decode_heap_oop_not_null count= %p\n", (*p)->getCount()); fflush(stdout);
+	return *p;
+}
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
   return decode_heap_oop_not_null(*p);
 }
