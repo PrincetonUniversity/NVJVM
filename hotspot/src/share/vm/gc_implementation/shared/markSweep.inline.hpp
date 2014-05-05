@@ -37,8 +37,9 @@ inline void MarkSweep::mark_object(oop obj) {
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
   if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
-	  printf("before mark, bug\t");
+	  printf("before mark, bug\t");fflush(stdout);
 	  ((oop)obj)->print_on(tty);
+	  ((oop)obj)->resetCount();
 	  fflush(stdout);
   }
   obj->set_mark(markOopDesc::prototype()->set_marked());
