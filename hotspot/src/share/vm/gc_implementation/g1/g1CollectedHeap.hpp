@@ -1876,8 +1876,14 @@ public:
 
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
-    if (obj != NULL) return obj;
-    return allocate_slow(purpose, word_sz);
+    if (obj != NULL) {
+    	((oop)obj)->resetCount();
+    	return obj;
+    } else {
+    	obj = allocate_slow(purpose, word_sz);
+    	((oop)obj)->resetCount();
+    	return  obj;
+    }
   }
 
   void undo_allocation(GCAllocPurpose purpose, HeapWord* obj, size_t word_sz) {

@@ -4395,7 +4395,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
 
   oop forward_ptr = old->forward_to_atomic(obj);
-  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p, fwd_ptr_count=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
+  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     printf("old_count=%p, new_count=%p\n", old->getCount(), obj->getCount());
