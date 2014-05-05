@@ -121,15 +121,16 @@ void MarkSweep::MarkAndPushClosure::do_oop(oop* p){
 void MarkSweep::MarkAndPushClosure::do_oop(narrowOop* p) { mark_and_push(p); }
 
 void MarkSweep::follow_stack() {
-  do {
+	printf("in follow stack\n");fflush(stdout);
+	do {
     while (!_marking_stack.is_empty()) {
       oop obj = _marking_stack.pop();
       assert (obj->is_gc_marked(), "p must be marked");
       if(obj->getCount() != 0) {
+    	  printf("bug, in follow stack\n");fflush(stdout);
     	  obj->print_on(tty);
     	  fflush (stdout);
       }
-      obj->resetCount();
       obj->follow_contents();
     }
     // Process ObjArrays one at a time to avoid marking stack bloat.
