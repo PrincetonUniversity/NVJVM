@@ -651,7 +651,18 @@ inline void oopDesc::forward_to(oop p) {
          "forwarding to something not aligned");
   assert(Universe::heap()->is_in_reserved(p),
          "forwarding to something not in heap");
+  if (((oop)p)->getCount() != 0){
+	  printf("before encode bug\t");
+	  ((oop)p)->print_on(tty);
+	  fflush(stdout);
+  }
   markOop m = markOopDesc::encode_pointer_as_mark(p);
+  if (((oop)p)->getCount() != 0){
+	  printf("after encode bug\t");
+	  ((oop)p)->print_on(tty);
+	  fflush(stdout);
+  }
+
   assert(m->decode_pointer() == p, "encoding must be reversable");
   set_mark(m);
 }
