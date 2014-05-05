@@ -121,7 +121,7 @@ void MarkSweep::MarkAndPushClosure::do_oop(oop* p){
 void MarkSweep::MarkAndPushClosure::do_oop(narrowOop* p) { mark_and_push(p); }
 
 void MarkSweep::follow_stack() {
-	printf("in follow stack\n");fflush(stdout);
+	//printf("in follow stack\n");fflush(stdout);
 	do {
     while (!_marking_stack.is_empty()) {
       oop obj = _marking_stack.pop();
