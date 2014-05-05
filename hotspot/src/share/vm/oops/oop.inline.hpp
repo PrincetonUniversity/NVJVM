@@ -220,7 +220,10 @@ inline oop oopDesc::decode_heap_oop(narrowOop v) {
   return is_null(v) ? (oop)NULL : decode_heap_oop_not_null(v);
 }
 
-inline oop oopDesc::decode_heap_oop_not_null(oop v) { return v; }
+inline oop oopDesc::decode_heap_oop_not_null(oop v) {
+	printf("calling decode_heap_oop_not_null, oop \n"); fflush(stdout);
+	return v;
+}
 inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
 
 // Load an oop out of the Java heap as is without decoding.

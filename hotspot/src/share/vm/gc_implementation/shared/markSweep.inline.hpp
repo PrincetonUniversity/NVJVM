@@ -53,6 +53,7 @@ inline void MarkSweep::mark_object(oop obj) {
 }
 
 template <class T> inline void MarkSweep::follow_root(T* p) {
+ printf("in follow root \n"); fflush(stdout);
   assert(!Universe::heap()->is_in_reserved(p),
          "roots shouldn't be things within the heap");
 #ifdef VALIDATE_MARK_SWEEP
@@ -63,6 +64,7 @@ template <class T> inline void MarkSweep::follow_root(T* p) {
 #endif
   T heap_oop = oopDesc::load_heap_oop(p);
   if (!oopDesc::is_null(heap_oop)) {
+
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (!obj->mark()->is_marked()) {
       mark_object(obj);
