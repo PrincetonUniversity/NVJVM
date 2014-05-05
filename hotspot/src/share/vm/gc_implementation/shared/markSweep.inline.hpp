@@ -36,7 +36,17 @@ inline void MarkSweep::mark_object(oop obj) {
   // some marks may contain information we need to preserve so we store them away
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
+  if (((oop)obj)->getCount() != 0){
+	  printf("before mark, bug\t");
+	  ((oop)obj)->print_on(tty);
+	  fflush(stdout);
+  }
   obj->set_mark(markOopDesc::prototype()->set_marked());
+  if (((oop)obj)->getCount() != 0){
+	  printf("after mark, bug\t");
+	  ((oop)obj)->print_on(tty);
+	  fflush(stdout);
+  }
   if (mark->must_be_preserved(obj)) {
     preserve_mark(obj, mark);
   }
