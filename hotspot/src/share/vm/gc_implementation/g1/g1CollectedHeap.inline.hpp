@@ -76,6 +76,7 @@ G1CollectedHeap::attempt_allocation(size_t word_size,
   if (result != NULL) {
     dirty_young_block(result, word_size);
   }
+  printf("G1CollectedHeap::attempt_allocation, obj = %p \n", result);fflush(stdout);
   return result;
 }
 
