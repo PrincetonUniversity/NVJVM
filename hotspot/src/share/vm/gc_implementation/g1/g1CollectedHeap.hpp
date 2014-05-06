@@ -1970,6 +1970,7 @@ public:
       // humongous region.
       HeapRegion* r = _g1h->heap_region_containing_raw(ref_to_scan);
       _evac_cl->set_region(r);
+
       _evac_cl->do_oop_nv(ref_to_scan);
     }
   }

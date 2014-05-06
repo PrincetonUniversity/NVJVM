@@ -4370,6 +4370,7 @@ G1ParClosureSuper::G1ParClosureSuper(G1CollectedHeap* g1, G1ParScanThreadState* 
   _par_scan_state(par_scan_state) { }
 
 template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
+   printf("marking forwardee %p\n", p); fflush(stdout);
   // This is called _after_ do_oop_work has been called, hence after
   // the object has been relocated to its new location and *p points
   // to its new location.
@@ -4499,6 +4500,7 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     if (obj->is_forwarded()) {
       oopDesc::encode_store_heap_oop(p, obj->forwardee());
     } else {
+      printf("calling copy to survivor %p\n",obj);fflush(stdout);
       oop copy_oop = copy_to_survivor_space(obj);
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
@@ -4594,6 +4596,7 @@ void G1ParEvacuateFollowersClosure::do_void() {
   do {
     while (queues()->steal(pss->queue_num(), pss->hash_seed(), stolen_task)) {
       assert(pss->verify_task(stolen_task), "sanity");
+      printf("reference %p\n", stolen_task);
       if (stolen_task.is_narrow()) {
         pss->deal_with_reference((narrowOop*) stolen_task);
       } else {
