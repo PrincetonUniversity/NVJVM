@@ -4459,6 +4459,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   } else {
     _par_scan_state->undo_allocation(alloc_purpose, obj_ptr, word_sz);
     obj = forward_ptr;
+    if(!(old->getCount() == obj->getCount())){printf("mismatch\n"); fflush(stdout);}
   }
   return obj;
 }

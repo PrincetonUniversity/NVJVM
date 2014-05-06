@@ -161,6 +161,7 @@ HeapWord* CollectedHeap::allocate_from_tlab_slow(Thread* thread, size_t size) {
     Copy::zero_to_words(obj, size);
   }
   thread->tlab().fill(obj, obj + size, new_tlab_size);
+  printf("allocate_from_tlab_slow, allocating obj = %p\n", obj); fflush(stdout);
   return obj;
 }
 

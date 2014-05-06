@@ -792,6 +792,7 @@ HeapWord* MutableNUMASpace::allocate(size_t size) {
   if (p == NULL) {
     ls->set_allocation_failed();
   }
+  printf("MutableSpace, allocating %p\n", p); fflush(stdout);
   return p;
 }
 

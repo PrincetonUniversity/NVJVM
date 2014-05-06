@@ -48,6 +48,7 @@ inline HeapWord* ThreadLocalAllocBuffer::allocate(size_t size) {
     set_top(obj + size);
 
     invariants();
+    printf("ThreadLocalAllocBuffer, allocating obj = %p\n", obj); fflush(stdout);
     return obj;
   }
   return NULL;

@@ -238,7 +238,9 @@ HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size) {
   assert(UseTLAB, "should use UseTLAB");
 
   HeapWord* obj = thread->tlab().allocate(size);
+
   if (obj != NULL) {
+	  printf("allocate_from_tlab, allocating obj = %p\n", obj); fflush(stdout);
     return obj;
   }
   // Otherwise...
@@ -255,6 +257,7 @@ void CollectedHeap::init_obj(HeapWord* obj, size_t size) {
 }
 
 oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
+
   debug_only(check_for_valid_allocation_state());
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
@@ -268,6 +271,7 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
 	  fflush(stdout);
 	  exit(-1);
   }
+  printf("In collected Heap, obj_allocate, obj=%p\n", obj); fflush(stdout);
   return (oop)obj;
 }
 
@@ -287,6 +291,7 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
 	  fflush(stdout);
 	  exit(-1);
   }
+  printf("In collected Heap, array_allocate, obj=%p\n", obj); fflush(stdout);
   return (oop)obj;
 }
 
