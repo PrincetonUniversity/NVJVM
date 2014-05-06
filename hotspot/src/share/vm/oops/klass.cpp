@@ -568,6 +568,7 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   st->print(" - klass: ");
   obj->klass()->print_value_on(st);
   st->cr();
+  fflush(stdout);
 }
 
 void Klass::oop_print_value_on(oop obj, outputStream* st) {
