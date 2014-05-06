@@ -4415,8 +4415,9 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
-    printf("old_count=%p, old_address = %p, new_count=%p, new_address =%p\n", old->getCount(),old, obj->getCount(), obj);fflush(stdout);
+    printf("old_count=%p, old_address = %p, new_count=%p, new_address =%p\n", old->getCount(), old, obj->getCount(), obj);fflush(stdout);
     if (old->getCount() != 0) {
+    	old->print();
     	exit(1);
     }
     if (g1p->track_object_age(alloc_purpose)) {
