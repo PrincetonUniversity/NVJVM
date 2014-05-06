@@ -4398,6 +4398,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
                                            : m->age();
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz);
+  printf("pointer %p, from region = %d\n", old, from_region->is_young()); fflush(stdout);
   printf("pointer %p,purpose %d\n", old, alloc_purpose); fflush(stdout);
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
