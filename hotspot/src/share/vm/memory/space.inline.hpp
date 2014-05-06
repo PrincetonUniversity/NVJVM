@@ -31,7 +31,9 @@
 #include "runtime/safepoint.hpp"
 
 inline HeapWord* Space::block_start(const void* p) {
-  return block_start_const(p);
+  HeapWord* h = block_start_const(p);
+  printf("block start %p\n", h); fflush(stdout);
+  return h;
 }
 
 inline HeapWord* OffsetTableContigSpace::allocate(size_t size) {
@@ -39,6 +41,7 @@ inline HeapWord* OffsetTableContigSpace::allocate(size_t size) {
   if (res != NULL) {
     _offsets.alloc_block(res, size);
   }
+  printf("OffsetTableContigSpace :: allocate : %p\n", res); fflush(stdout);
   return res;
 }
 

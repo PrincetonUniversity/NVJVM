@@ -229,6 +229,7 @@ public:
     } else {
       res = allocate_slow(word_sz);
     }
+    printf("allocaton from ParGCAllocBufferWithBOT %p\n", res); fflush(stdout);
     return res;
   }
 

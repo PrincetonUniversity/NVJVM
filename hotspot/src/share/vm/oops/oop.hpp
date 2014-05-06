@@ -92,7 +92,10 @@ class oopDesc {
   markOop  mark() const         { return _mark; }
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 
-  void set_mark(volatile markOop m)      { _mark = m;   }
+  void set_mark(volatile markOop m)      {
+	  printf("calling set mark %p\n", this); fflush(stdout);
+	  _mark = m;
+  }
 
   void    release_set_mark(markOop m);
   markOop cas_set_mark(markOop new_mark, markOop old_mark);
