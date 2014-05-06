@@ -4596,7 +4596,7 @@ void G1ParEvacuateFollowersClosure::do_void() {
   do {
     while (queues()->steal(pss->queue_num(), pss->hash_seed(), stolen_task)) {
       assert(pss->verify_task(stolen_task), "sanity");
-      printf("reference %p\n", stolen_task);
+      printf("reference %p\n", stolen_task); fflush(stdout);
       if (stolen_task.is_narrow()) {
         pss->deal_with_reference((narrowOop*) stolen_task);
       } else {
@@ -4810,6 +4810,7 @@ void G1CollectedHeap::save_marks() {
 }
 
 void G1CollectedHeap::evacuate_collection_set() {
+  printf("in evacuate collection set \n"); fflush(stdout);
   set_evacuation_failed(false);
 
   g1_rem_set()->prepare_for_oops_into_collection_set_do();

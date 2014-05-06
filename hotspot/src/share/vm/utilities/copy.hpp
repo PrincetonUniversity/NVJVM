@@ -112,6 +112,7 @@ class Copy : AllStatic {
 
   // Object-aligned words,  disjoint, not atomic on each word
   static void aligned_disjoint_words(HeapWord* from, HeapWord* to, size_t count) {
+	printf("copy from %p ,to %p\n", from, to); fflush(stdout);
     assert_params_aligned(from, to);
     assert_disjoint(from, to, count);
     pd_aligned_disjoint_words(from, to, count);
