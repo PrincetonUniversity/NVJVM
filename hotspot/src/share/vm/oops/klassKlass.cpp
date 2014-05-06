@@ -59,6 +59,7 @@ klassOop klassKlass::create_klass(TRAPS) {
   // for bootstrapping, handles may not be available yet.
   klassOop k = base_create_klass_oop(h_this_klass, header_size(), o.vtbl_value(), CHECK_NULL);
   k->set_klass(k); // point to thyself
+  k->resetCount();
   // Do not try to allocate mirror, java.lang.Class not loaded at this point.
   // See Universe::fixup_mirrors()
   return k;

@@ -3925,6 +3925,7 @@ public:
     } else {
       // The object has been either evacuated or is dead. Fill it with a
       // dummy object.
+      obj->resetCount();
       MemRegion mr((HeapWord*)obj, obj_size);
       CollectedHeap::fill_with_object(mr);
       _cm->clearRangeBothMaps(mr);
