@@ -217,7 +217,7 @@ class ChunkPool {
     }
     if (p == NULL)
       vm_exit_out_of_memory(bytes, "ChunkPool::allocate");
-
+    printf("from chunk pool %p\n", p); fflush(stdout);
     return p;
   }
 
