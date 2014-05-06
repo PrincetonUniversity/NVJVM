@@ -4471,6 +4471,8 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
     if (obj->is_objArray() && arrayOop(obj)->length() >= ParGCArrayScanChunk) {
       arrayOop(old)->set_length(0);
       oop* old_p = set_partial_array_mask(old);
+      printf("setting partial array mask %p, %p", old_p, old); fflush(stdout);
+      printf("calling push on queue %p", old_p); fflush(stdout);
       _par_scan_state->push_on_queue(old_p);
     } else {
       // No point in using the slower heap_region_containing() method,
@@ -4490,7 +4492,6 @@ template <bool do_gen_barrier, G1Barrier barrier, bool do_mark_forwardee>
 template <class T>
 void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
 ::do_oop_work(T* p) {
-
   oop obj = oopDesc::load_decode_heap_oop(p);
   printf("do_oop_word T= %p, obj = %p\n", p, obj); fflush(stdout);
   assert(barrier != G1BarrierRS || obj != NULL,
@@ -4549,6 +4550,7 @@ template <class T> void G1ParScanPartialArrayClosure::do_oop_nv(T* p) {
     // Push remainder.
     oop* old_p = set_partial_array_mask(old);
     assert(arrayOop(old)->length() < obj->length(), "Empty push?");
+    printf("calling push_on_queue, G1ParScanPartialArrayClosure, old_p=%p, old=%p", old_p, old); fflush(stdout);
     _par_scan_state->push_on_queue(old_p);
   } else {
     // Restore length so that the heap remains parsable in
