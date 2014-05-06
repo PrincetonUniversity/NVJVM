@@ -1727,7 +1727,7 @@ public:
   { }
 
   inline bool mark(HeapWord* addr) {
-	  printf("marking in buffer %p\n", addr); fflush(stdout);
+	printf("marking in buffer %p\n", addr); fflush(stdout);
     guarantee(use_local_bitmaps, "invariant");
     assert(_during_marking, "invariant");
     return _bitmap.mark(addr);
@@ -1841,7 +1841,7 @@ public:
 
   template <class T> void push_on_queue(T* ref) {
     assert(verify_ref(ref), "sanity");
-    prntf("pushing on queue, %p\n", ref); fflush(stdout);
+    printf("pushing on queue, %p\n", ref); fflush(stdout);
     refs()->push(ref);
   }
 
