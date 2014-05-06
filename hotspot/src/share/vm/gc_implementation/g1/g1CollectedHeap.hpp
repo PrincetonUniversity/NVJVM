@@ -1727,7 +1727,7 @@ public:
   { }
 
   inline bool mark(HeapWord* addr) {
-	  printf("marking in buffer %p\n", printf("setting buffer %p\n", buf); fflush(stdout);); fflush(stdout);
+	  printf("marking in buffer %p\n", printf("setting buffer %p\n", buf); fflush(stdout);
     guarantee(use_local_bitmaps, "invariant");
     assert(_during_marking, "invariant");
     return _bitmap.mark(addr);
