@@ -1871,12 +1871,14 @@ public:
     } else {
       obj = _g1h->par_allocate_during_gc(purpose, word_sz);
     }
+    printf("allocate_slow, %p", obj); fflush(stdout);
     return obj;
   }
 
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
     if (obj != NULL) {
+    	printf("allocate, %p", obj); fflush(stdout);
     	return obj;
     } else {
     	obj = allocate_slow(purpose, word_sz);
