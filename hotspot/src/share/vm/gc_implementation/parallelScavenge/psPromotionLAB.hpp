@@ -98,6 +98,7 @@ class PSYoungPromotionLAB : public PSPromotionLAB {
     // Can't assert this, when young fills, we keep the LAB around, but flushed.
     // assert(_state != flushed, "Sanity");
     HeapWord* obj = top();
+    printf("PSYoungPromotionLAB,  obj %p\n", obj);fflush(stdout);
     HeapWord* new_top = obj + size;
     // The 'new_top>obj' check is needed to detect overflow of obj+size.
     if (new_top > obj && new_top <= end()) {
@@ -131,6 +132,7 @@ class PSOldPromotionLAB : public PSPromotionLAB {
     // assert(_state != flushed, "Sanity");
     assert(_start_array != NULL, "Sanity");
     HeapWord* obj = top();
+    printf("PSYoungPromotionLAB,  obj %p\n", obj);fflush(stdout);
     HeapWord* new_top = obj + size;
     // The 'new_top>obj' check is needed to detect overflow of obj+size.
     if (new_top > obj && new_top <= end()) {
