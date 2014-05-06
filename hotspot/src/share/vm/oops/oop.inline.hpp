@@ -137,6 +137,7 @@ inline void oopDesc::set_klass_to_list_ptr(oop k) {
   } else {
     _metadata._klass = (klassOop)k;
   }
+  printf("Set Class set_klass_to_list_ptr For for %p\n", this); fflush(stdout);
 }
 
 inline void   oopDesc::init_mark()                 { set_mark(markOopDesc::prototype_for_object(this)); }
