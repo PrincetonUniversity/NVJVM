@@ -78,6 +78,7 @@ void CollectedHeap::post_allocation_install_obj_klass(KlassHandle klass,
   assert(klass() == NULL || klass()->klass_part() != NULL, "not a klass");
   assert(obj != NULL, "NULL object pointer");
   obj->set_klass(klass());
+  obj->resetCount();
   assert(!Universe::is_fully_initialized() || obj->blueprint() != NULL,
          "missing blueprint");
 }

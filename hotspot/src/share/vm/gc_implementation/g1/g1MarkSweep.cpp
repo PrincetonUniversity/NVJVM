@@ -353,7 +353,6 @@ public:
         oop obj = oop(hr->bottom());
         if (obj->is_gc_marked()) {
           obj->init_mark();
-          obj->resetCount();
         } else {
           assert(hr->is_empty(), "Should have been cleared in phase 2.");
         }

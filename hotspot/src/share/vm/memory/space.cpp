@@ -840,6 +840,7 @@ inline HeapWord* ContiguousSpace::allocate_impl(size_t size,
     HeapWord* new_top = obj + size;
     set_top(new_top);
     assert(is_aligned(obj) && is_aligned(new_top), "checking alignment");
+    //((oop)obj)->resetCount();
     return obj;
   } else {
     return NULL;
@@ -906,6 +907,7 @@ void ContiguousSpace::allocate_temporary_filler(int factor) {
     obj->set_mark(markOopDesc::prototype());
     obj->set_klass_gap(0);
     obj->set_klass(SystemDictionary::Object_klass());
+    obj->resetCount();
   }
 }
 

@@ -73,6 +73,7 @@ constantPoolCacheOop constantPoolCacheKlass::allocate(int length,
 
   OrderAccess::storestore();
   obj->set_klass(klass());
+  obj->resetCount();
   assert(cache->size() == size, "Incorrect cache->size()");
   return cache;
 }
