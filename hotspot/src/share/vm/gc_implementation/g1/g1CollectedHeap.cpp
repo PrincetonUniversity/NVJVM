@@ -847,6 +847,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
       result = attempt_allocation_humongous(word_size, &gc_count_before);
     }
     if (result != NULL) {
+    printf("mem_allocate, return result %p\n", result);
       return result;
     }
 
@@ -866,6 +867,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
         // this for non-humongous allocations, though.
         dirty_young_block(result, word_size);
       }
+      printf("mem_allocate, return result %p\n", result);
       return result;
     } else {
       assert(op.result() == NULL,
@@ -909,6 +911,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
       if (result != NULL) {
+    	printf("mem_allocate_slow, return result %p\n", result);
         return result;
       }
 
@@ -921,6 +924,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
           result = _mutator_alloc_region.attempt_allocation_force(word_size,
                                                       false /* bot_updates */);
           if (result != NULL) {
+        	printf("mem_allocate_slow, return result %p\n", result);
             return result;
           }
         }
@@ -937,6 +941,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
+        printf("mem_allocate_slow, return result %p\n", result);
         return result;
       }
 
@@ -963,6 +968,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
     result = _mutator_alloc_region.attempt_allocation(word_size,
                                                       false /* bot_updates */);
     if (result != NULL ){
+    	printf("mem_allocate_slow, return result %p\n", result);
       return result;
     }
 
