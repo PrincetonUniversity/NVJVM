@@ -425,6 +425,7 @@ HeapWord* GenCollectedHeap::attempt_allocation(size_t size,
   for (int i = 0; i < _n_gens; i++) {
     if (_gens[i]->should_allocate(size, is_tlab)) {
       res = _gens[i]->allocate(size, is_tlab);
+      printf("GenCollectedHeap::attempt_allocation %p\n", res); fflush(stdout);
       if (res != NULL) return res;
       else if (first_only) break;
     }
@@ -437,9 +438,11 @@ HeapWord* GenCollectedHeap::mem_allocate(size_t size,
                                          bool is_large_noref,
                                          bool is_tlab,
                                          bool* gc_overhead_limit_was_exceeded) {
-  return collector_policy()->mem_allocate_work(size,
+  HeapWord *h = collector_policy()->mem_allocate_work(size,
                                                is_tlab,
                                                gc_overhead_limit_was_exceeded);
+  printf("GenCollectedHeap::mem_allocate %p\n", h); fflush(stdout);
+  return h;
 }
 
 bool GenCollectedHeap::must_clear_all_soft_refs() {
