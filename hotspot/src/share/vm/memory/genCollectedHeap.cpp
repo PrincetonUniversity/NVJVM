@@ -1452,6 +1452,7 @@ oop GenCollectedHeap::handle_failed_promotion(Generation* gen,
   if (result != NULL) {
     Copy::aligned_disjoint_words((HeapWord*)obj, result, obj_size);
   }
+  printf("result alloc handle_failed_promotion %p\n", result); fflush(stdout);
   return oop(result);
 }
 
