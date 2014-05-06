@@ -384,11 +384,15 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   inline HeapWord* par_allocate_no_bot_updates(size_t word_size) {
     assert(is_young(), "we can only skip BOT updates on young regions");
-    return ContiguousSpace::par_allocate(word_size);
+    HeapWord *h = ContiguousSpace::par_allocate(word_size);
+    printf("address=%p, par_allocate_no_bot_updates\n", h); fflush(stdout);
+    return h;
   }
   inline HeapWord* allocate_no_bot_updates(size_t word_size) {
     assert(is_young(), "we can only skip BOT updates on young regions");
-    return ContiguousSpace::allocate(word_size);
+    HeapWord *h= ContiguousSpace::allocate(word_size);
+    printf("address=%p, par_allocate_no_bot_updates\n", h); fflush(stdout);
+    return h;
   }
 
   // If this region is a member of a HeapRegionSeq, the index in that
