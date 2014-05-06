@@ -4490,7 +4490,9 @@ template <bool do_gen_barrier, G1Barrier barrier, bool do_mark_forwardee>
 template <class T>
 void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
 ::do_oop_work(T* p) {
+
   oop obj = oopDesc::load_decode_heap_oop(p);
+  printf("do_oop_word T= %p, obj = %p\n", p, obj); fflush(stdout);
   assert(barrier != G1BarrierRS || obj != NULL,
          "Precondition: G1BarrierRS implies obj is nonNull");
 

@@ -1962,7 +1962,9 @@ public:
   }
 
   template <class T> void deal_with_reference(T* ref_to_scan) {
+	printf("deal with reference %p\n", ref_to_scan); fflush(stdout);
     if (has_partial_array_mask(ref_to_scan)) {
+    	printf("has_partial_array_mask, calling do_oop_nv %p\n", ref_to_scan); fflush(stdout);
       _partial_scan_cl->do_oop_nv(ref_to_scan);
     } else {
       // Note: we can use "raw" versions of "region_containing" because
@@ -1970,7 +1972,7 @@ public:
       // humongous region.
       HeapRegion* r = _g1h->heap_region_containing_raw(ref_to_scan);
       _evac_cl->set_region(r);
-
+      printf("calling do_oop_nv %p\n", ref_to_scan); fflush(stdout);
       _evac_cl->do_oop_nv(ref_to_scan);
     }
   }
