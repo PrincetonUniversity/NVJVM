@@ -510,6 +510,7 @@ HeapWord* DefNewGeneration::allocate_from_space(size_t size) {
   if (PrintGC && Verbose) {
     gclog_or_tty->print_cr("  returns %s", result == NULL ? "NULL" : "object");
   }
+  printf("def new generation%p\n", result); fflush(stdout);
   return result;
 }
 
@@ -994,6 +995,7 @@ HeapWord* DefNewGeneration::allocate(size_t word_size,
   if (result == NULL) {
     result = allocate_from_space(word_size);
   }
+  printf("def new generation 2 %p\n", result); fflush(stdout);
   return result;
 }
 
