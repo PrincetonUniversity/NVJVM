@@ -92,7 +92,7 @@ inline HeapWord* G1AllocRegion::attempt_allocation_locked(size_t word_size,
   result = new_alloc_region_and_allocate(word_size, false /* force */);
   if (result != NULL) {
     trace("alloc locked (second attempt)", word_size, result);
-    printf("G1AllocRegion::attempt_allocation_locked, result %p\n", result);
+    printf("G1AllocRegion::attempt_allocation_locked, result %p\n", result);fflush(stdout);
     return result;
   }
   trace("alloc locked failed", word_size);
@@ -108,7 +108,7 @@ inline HeapWord* G1AllocRegion::attempt_allocation_force(size_t word_size,
   HeapWord* result = new_alloc_region_and_allocate(word_size, true /* force */);
   if (result != NULL) {
     trace("alloc forced", word_size, result);
-    printf("G1AllocRegion::attempt_allocation_force, result %p\n", result);
+    printf("G1AllocRegion::attempt_allocation_force, result %p\n", result);fflush(stdout);
     return result;
   }
   trace("alloc forced failed", word_size);

@@ -554,6 +554,7 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   ResourceMark rm;
   // print title
   st->print_cr("%s ", internal_name());
+  fflush(stdout);
   obj->print_address_on(st);
 
   if (WizardMode) {

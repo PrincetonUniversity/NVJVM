@@ -1192,6 +1192,7 @@ public:
   inline GCAllocPurpose
     evacuation_destination(HeapRegion* src_region, int age, size_t word_sz) {
       if (age < _tenuring_threshold && src_region->is_young()) {
+    	printf("");
         return GCAllocForSurvived;
       } else {
         return GCAllocForTenured;
