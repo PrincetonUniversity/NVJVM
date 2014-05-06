@@ -1727,12 +1727,14 @@ public:
   { }
 
   inline bool mark(HeapWord* addr) {
+	  printf("marking in buffer %p\n", printf("setting buffer %p\n", buf); fflush(stdout);); fflush(stdout);
     guarantee(use_local_bitmaps, "invariant");
     assert(_during_marking, "invariant");
     return _bitmap.mark(addr);
   }
 
   inline void set_buf(HeapWord* buf) {
+	 printf("setting buffer %p\n", buf); fflush(stdout);
     if (use_local_bitmaps && _during_marking)
       _bitmap.set_buffer(buf);
     ParGCAllocBuffer::set_buf(buf);
@@ -1839,6 +1841,7 @@ public:
 
   template <class T> void push_on_queue(T* ref) {
     assert(verify_ref(ref), "sanity");
+    prntf("pushing on queue, %p\n", ref); fflush(stdout);
     refs()->push(ref);
   }
 

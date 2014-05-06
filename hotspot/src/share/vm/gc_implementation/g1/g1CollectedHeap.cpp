@@ -1039,6 +1039,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
+        printf("attempt_allocation_humongous, alloc %p", result);
         return result;
       }
 
@@ -1074,16 +1075,21 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
 
 HeapWord* G1CollectedHeap::attempt_allocation_at_safepoint(size_t word_size,
                                        bool expect_null_mutator_alloc_region) {
+HeapWord *h;
   assert_at_safepoint(true /* should_be_vm_thread */);
   assert(_mutator_alloc_region.get() == NULL ||
                                              !expect_null_mutator_alloc_region,
          "the current alloc region was unexpectedly found to be non-NULL");
 
   if (!isHumongous(word_size)) {
-    return _mutator_alloc_region.attempt_allocation_locked(word_size,
+	printf("attempt_allocation_at_safepoint %p, isHumongous\n", h);
+    h = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
+    return h;
   } else {
-    return humongous_obj_allocate(word_size);
+    h = humongous_obj_allocate(word_size);
+    printf("attempt_allocation_at_safepoint %p, isNotHumongous\n", h);
+    return h;
   }
 
   ShouldNotReachHere();
@@ -4120,6 +4126,7 @@ HeapWord* G1CollectedHeap::par_allocate_during_gc(GCAllocPurpose purpose,
   if (block == NULL) {
     block = allocate_during_gc_slow(purpose, alloc_region, true, word_size);
   }
+  printf("par_allocate_during_gc, block alloc %p", block);
   return block;
 }
 
@@ -4183,6 +4190,7 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
         // Make an alias.
         _gc_alloc_regions[purpose] = _gc_alloc_regions[alt_purpose];
         if (block != NULL) {
+          printf("allocate_during_gc_slow, allocating block %p\n", block);
           return block;
         }
         retire_alloc_region(alt_region, par);
@@ -4219,6 +4227,7 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
     // This sets other apis using the same old alloc region to NULL, also.
     set_gc_alloc_region(purpose, NULL);
   }
+  printf("allocate_during_gc_slow, allocating block %p\n", block);
   return block;  // May be NULL.
 }
 
@@ -4406,6 +4415,9 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     printf("old_count=%p, old_address = %p, new_count=%p, new_address =%p\n", old->getCount(),old, obj->getCount(), obj);fflush(stdout);
+    if (old->getCount() != 0) {
+    	exit(1);
+    }
     if (g1p->track_object_age(alloc_purpose)) {
       // We could simply do obj->incr_age(). However, this causes a
       // performance issue. obj->incr_age() will first check whether
