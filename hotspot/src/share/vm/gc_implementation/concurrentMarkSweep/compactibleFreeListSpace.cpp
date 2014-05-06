@@ -1249,7 +1249,7 @@ HeapWord* CompactibleFreeListSpace::allocate(size_t size) {
     // mangle a just allocated object with a distinct pattern.
     debug_only(fc->mangleAllocated(size));
   }
-
+  printf("allocated from CompactibleFreeListSpace %p\n", res);fflush(stdout);
   return res;
 }
 
@@ -1270,7 +1270,7 @@ HeapWord* CompactibleFreeListSpace::allocate_non_adaptive_freelists(size_t size)
       res = (HeapWord*)getChunkFromDictionaryExact(size);
     }
   }
-
+  printf("allocated from allocate_non_adaptive_freelists %p\n", res);fflush(stdout);
   return res;
 }
 
@@ -1320,7 +1320,7 @@ HeapWord* CompactibleFreeListSpace::allocate_adaptive_freelists(size_t size) {
       res = getChunkFromSmallLinearAllocBlockRemainder(size);
     }
   }
-
+  printf("allocated from allocate_adaptive_freelists %p\n", res);fflush(stdout);
   return res;
 }
 

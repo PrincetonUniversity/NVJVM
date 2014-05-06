@@ -372,11 +372,13 @@ class ResourceObj ALLOCATION_SUPER_CLASS_SPEC {
   void* operator new(size_t size, allocation_type type);
   void* operator new(size_t size, Arena *arena) {
       address res = (address)arena->Amalloc(size);
+      printf("allocation.hpp1, res=%p\n", res);fflush(stdout);
       DEBUG_ONLY(set_allocation_type(res, ARENA);)
       return res;
   }
   void* operator new(size_t size) {
       address res = (address)resource_allocate_bytes(size);
+      printf("allocation.hpp2, res=%p\n", res);fflush(stdout);
       DEBUG_ONLY(set_allocation_type(res, RESOURCE_AREA);)
       return res;
   }
