@@ -4361,7 +4361,7 @@ void G1ParScanThreadState::trim_queue() {
      deal_with_reference(ref);
     }
     while (refs()->pop_local(ref)) {
-    	printf("in trim_queue,%p\n", ref); fflush(stdout)
+    	printf("in trim_queue,%p\n", ref); fflush(stdout);
       deal_with_reference(ref);
     }
   } while (!refs()->is_empty());
