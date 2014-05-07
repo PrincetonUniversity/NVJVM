@@ -3004,6 +3004,7 @@ Node* GraphKit::set_output_for_allocation(AllocateNode* alloc,
     }
   }
 
+
   // Cast raw oop to the real thing...
   Node* javaoop = new (C, 2) CheckCastPPNode(control(), rawoop, oop_type);
   javaoop = _gvn.transform(javaoop);

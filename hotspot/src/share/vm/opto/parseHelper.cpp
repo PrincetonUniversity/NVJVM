@@ -272,6 +272,10 @@ void Parse::do_new() {
   Node* kls = makecon(TypeKlassPtr::make(klass));
   Node* obj = new_instance(kls);
 
+  const TypePtr* adr_type = _gvn.type(obj)->is_ptr();
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+  store_to_memory(NULL, counter_addr, _gvn.intcon(0), T_INT, adr_type);
+
   // Push resultant oop onto stack
   push(obj);
 
