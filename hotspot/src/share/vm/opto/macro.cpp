@@ -1480,7 +1480,7 @@ PhaseMacroExpand::initialize_object(AllocateNode* alloc,
     mark_node = makecon(TypeRawPtr::make((address)markOopDesc::prototype()));
   }
   rawmem = make_store(control, rawmem, object, oopDesc::mark_offset_in_bytes(), mark_node, T_ADDRESS);
-  rawmem = make_store(control, rawmem, object, oopDesc::counter_offset_in_bytes(), intcon(1), T_INT);// Added Code to Initialize Object Count TO 0
+  rawmem = make_store(control, rawmem, object, oopDesc::counter_offset_in_bytes(), intcon(0), T_INT);// #Change, Added Code to Initialize Object Count TO 0
   rawmem = make_store(control, rawmem, object, oopDesc::klass_offset_in_bytes(), klass_node, T_OBJECT);
   int header_size = alloc->minimum_header_size();  // conservatively small
 
