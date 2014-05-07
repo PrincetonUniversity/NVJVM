@@ -40,7 +40,6 @@ VM_G1CollectForAllocation::VM_G1CollectForAllocation(
 void VM_G1CollectForAllocation::doit() {
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   _result = g1h->satisfy_failed_allocation(_word_size, &_pause_succeeded);
-  printf("VM_G1CollectForAllocation, %p\n", _result); fflush(stdout);
   assert(_result == NULL || _pause_succeeded,
          "if we get back a result, the pause should have succeeded");
 }

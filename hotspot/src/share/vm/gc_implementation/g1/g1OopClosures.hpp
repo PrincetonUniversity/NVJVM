@@ -118,7 +118,6 @@ public:
   G1ParCopyClosure(G1CollectedHeap* g1, G1ParScanThreadState* par_scan_state) :
     _scanner(g1, par_scan_state), G1ParCopyHelper(g1, par_scan_state, &_scanner) { }
   template <class T> void do_oop_nv(T* p) {
-    printf("do_oop_nv= %p\n", p);fflush(stdout);
 	do_oop_work(p);
     if (do_mark_forwardee)
       mark_forwardee(p);

@@ -517,33 +517,32 @@ void PSMarkSweep::mark_sweep_phase1(bool clear_all_softrefs) {
   // General strong roots.
   {
     ParallelScavengeHeap::ParStrongRootsScope psrs;
-    printf("calling Universe::oops_do \n"); fflush(stdout);
+
     Universe::oops_do(mark_and_push_closure());
-    printf("calling ReferenceProcessor::oops_do \n"); fflush(stdout);
+
     ReferenceProcessor::oops_do(mark_and_push_closure());
-    printf("calling JNIHandles::oops_do \n"); fflush(stdout);
+
     JNIHandles::oops_do(mark_and_push_closure());   // Global (strong) JNI handles
-    printf("calling CodeBlobToOopClosure::oops_do \n"); fflush(stdout);
+
     CodeBlobToOopClosure each_active_code_blob(mark_and_push_closure(), /*do_marking=*/ true);
-    printf("calling Threads::oops_do \n"); fflush(stdout);
+
     Threads::oops_do(mark_and_push_closure(), &each_active_code_blob);
-    printf("calling ObjectSynchronizer::oops_do \n"); fflush(stdout);
+
     ObjectSynchronizer::oops_do(mark_and_push_closure());
-    printf("calling FlatProfiler::oops_do \n"); fflush(stdout);
+
     FlatProfiler::oops_do(mark_and_push_closure());
-    printf("calling FlatProfiler::oops_do \n"); fflush(stdout);
+
     Management::oops_do(mark_and_push_closure());
-    printf("calling JvmtiExport::oops_do \n"); fflush(stdout);
+
     JvmtiExport::oops_do(mark_and_push_closure());
-    printf("calling SystemDictionary::oops_do \n"); fflush(stdout);
+
     SystemDictionary::always_strong_oops_do(mark_and_push_closure());
-    printf("calling ReferenceProcessor::oops_do \n"); fflush(stdout);
+
     // Do not treat nmethods as strong roots for mark/sweep, since we can unload them.
     //CodeCache::scavenge_root_nmethods_do(CodeBlobToOopClosure(mark_and_push_closure()));
   }
 
   // Flush marking stack.
-  printf("flushing marking stack\n");fflush(stdout);
   follow_stack();
 
   // Process reference objects found during marking
@@ -582,7 +581,9 @@ void PSMarkSweep::mark_sweep_phase2() {
   EventMark m("2 compute new addresses");
   TraceTime tm("phase 2", PrintGCDetails && Verbose, true, gclog_or_tty);
   trace("2");
-  printf("in mark sweep phase2 \n");fflush(stdout);
+  if (L_DEBUG){
+	  	  printf("in mark sweep phase2 \n");fflush(stdout);
+  }
   // Now all live objects are marked, compute the new object addresses.
 
   // It is imperative that we traverse perm_gen LAST. If dead space is

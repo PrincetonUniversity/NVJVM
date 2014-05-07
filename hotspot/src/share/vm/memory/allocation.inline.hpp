@@ -56,7 +56,6 @@ inline char* AllocateHeap(size_t size, const char* name = NULL) {
   Unused_Variable(name);
   #endif
   if (p == NULL) vm_exit_out_of_memory(size, name);
-  printf("allocate heap called for %p\n", p); fflush(stdout);
   return p;
 }
 

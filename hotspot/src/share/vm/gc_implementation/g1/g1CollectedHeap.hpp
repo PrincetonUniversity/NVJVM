@@ -1841,7 +1841,6 @@ public:
 
   template <class T> void push_on_queue(T* ref) {
     assert(verify_ref(ref), "sanity");
-    printf("pushing on queue, %p\n", ref); fflush(stdout);
     refs()->push(ref);
   }
 
@@ -1874,14 +1873,12 @@ public:
     } else {
       obj = _g1h->par_allocate_during_gc(purpose, word_sz);
     }
-    printf("allocate_slow, %p", obj); fflush(stdout);
     return obj;
   }
 
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
     if (obj != NULL) {
-    	printf("allocate, %p", obj); fflush(stdout);
     	return obj;
     } else {
     	obj = allocate_slow(purpose, word_sz);
@@ -1962,9 +1959,7 @@ public:
   }
 
   template <class T> void deal_with_reference(T* ref_to_scan) {
-	printf("deal with reference %p\n", ref_to_scan); fflush(stdout);
     if (has_partial_array_mask(ref_to_scan)) {
-    	printf("has_partial_array_mask, calling do_oop_nv %p\n", ref_to_scan); fflush(stdout);
       _partial_scan_cl->do_oop_nv(ref_to_scan);
     } else {
       // Note: we can use "raw" versions of "region_containing" because
@@ -1972,7 +1967,6 @@ public:
       // humongous region.
       HeapRegion* r = _g1h->heap_region_containing_raw(ref_to_scan);
       _evac_cl->set_region(r);
-      printf("calling do_oop_nv %p\n", ref_to_scan); fflush(stdout);
       _evac_cl->do_oop_nv(ref_to_scan);
     }
   }
