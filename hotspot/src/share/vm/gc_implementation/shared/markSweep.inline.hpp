@@ -36,12 +36,6 @@ inline void MarkSweep::mark_object(oop obj) {
   // some marks may contain information we need to preserve so we store them away
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
-  //printf("marking object, %p name %s, count = %p, klass = %p, mark = %p\n", obj,  obj->blueprint()->internal_name(), obj->getCount()
-		  ,obj->klass(), obj->mark());fflush(stdout);
-  if (((oop)obj)->getCount() != 0 && (oop)obj->is_instance()){
-	  printf("before mark, bug, %p name %s, count = %p, klass = %p, mark = %p, layout_helper = %p\n", obj,  obj->blueprint()->internal_name(), obj->getCount()
-			  ,obj->klass(), obj->mark(), obj->klass()->klass_part()->layout_helper());fflush(stdout);
-  }
   obj->set_mark(markOopDesc::prototype()->set_marked());
   if (mark->must_be_preserved(obj)) {
     preserve_mark(obj, mark);

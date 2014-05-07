@@ -1727,14 +1727,14 @@ public:
   { }
 
   inline bool mark(HeapWord* addr) {
-	printf("marking in buffer %p\n", addr); fflush(stdout);
+	//printf("marking in buffer %p\n", addr); fflush(stdout);
     guarantee(use_local_bitmaps, "invariant");
     assert(_during_marking, "invariant");
     return _bitmap.mark(addr);
   }
 
   inline void set_buf(HeapWord* buf) {
-	 printf("setting buffer %p\n", buf); fflush(stdout);
+	 //printf("setting buffer %p\n", buf); fflush(stdout);
     if (use_local_bitmaps && _during_marking)
       _bitmap.set_buffer(buf);
     ParGCAllocBuffer::set_buf(buf);
