@@ -156,6 +156,7 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, 
     assert(!HAS_PENDING_EXCEPTION,
            "Unexpected exception, will result in uninitialized storage");
     THREAD->incr_allocated_bytes(size * HeapWordSize);
+    printf("common_mem_allocate_noinit :: %p\n", result); fflush(stdout);
     return result;
   }
 
@@ -243,6 +244,7 @@ HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size) {
 	  printf("allocate_from_tlab, allocating obj = %p\n", obj); fflush(stdout);
     return obj;
   }
+  printf("allocate_from_tlab_slow, allocating obj = %p\n", obj); fflush(stdout);
   // Otherwise...
   return allocate_from_tlab_slow(thread, size);
 }

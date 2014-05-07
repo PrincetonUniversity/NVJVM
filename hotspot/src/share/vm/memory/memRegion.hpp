@@ -29,7 +29,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 
-// A very simple data structure representing a contigous region
+// A very simple data structure representing a contiguous region
 // region of address space.
 
 // Note that MemRegions are passed by value, not by reference.
@@ -100,13 +100,19 @@ public:
 class MemRegionClosureRO: public MemRegionClosure {
 public:
   void* operator new(size_t size, ResourceObj::allocation_type type) {
-        return ResourceObj::operator new(size, type);
+        void *res = ResourceObj::operator new(size, type);
+        printf("allocating from memory region %p\n", res);  fflush(stdout);
+        return res;
   }
   void* operator new(size_t size, Arena *arena) {
-        return ResourceObj::operator new(size, arena);
+	  void *res =  ResourceObj::operator new(size, arena);
+	  printf("allocating from memory region %p\n", res);  fflush(stdout);
+	  return res;
   }
   void* operator new(size_t size) {
-        return ResourceObj::operator new(size);
+	  void *res =   ResourceObj::operator new(size);
+	  printf("allocating from memory region %p\n", res);  fflush(stdout);
+	  return res;
   }
 
   void  operator delete(void* p) {} // nothing to do

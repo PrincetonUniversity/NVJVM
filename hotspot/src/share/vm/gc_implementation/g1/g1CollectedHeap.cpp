@@ -867,7 +867,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
         // this for non-humongous allocations, though.
         dirty_young_block(result, word_size);
       }
-      printf("mem_allocate, return result %p\n", result);
+      printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     } else {
       assert(op.result() == NULL,
@@ -924,7 +924,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
           result = _mutator_alloc_region.attempt_allocation_force(word_size,
                                                       false /* bot_updates */);
           if (result != NULL) {
-        	printf("mem_allocate_slow, return result %p\n", result);
+        	printf("mem_allocate_slow, return result %p\n", result); fflush(stdout);
             return result;
           }
         }
@@ -941,7 +941,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        printf("mem_allocate_slow, return result %p\n", result);
+        printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
         return result;
       }
 
@@ -968,7 +968,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
     result = _mutator_alloc_region.attempt_allocation(word_size,
                                                       false /* bot_updates */);
     if (result != NULL ){
-    	printf("mem_allocate_slow, return result %p\n", result);
+    	printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
       return result;
     }
 
@@ -1082,13 +1082,13 @@ HeapWord *h;
          "the current alloc region was unexpectedly found to be non-NULL");
 
   if (!isHumongous(word_size)) {
-	printf("attempt_allocation_at_safepoint %p, isHumongous\n", h);
+	printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
     h = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
     return h;
   } else {
     h = humongous_obj_allocate(word_size);
-    printf("attempt_allocation_at_safepoint %p, isNotHumongous\n", h);
+    printf("attempt_allocation_at_safepoint %p, isNotHumongous\n", h); fflush(stdout);
     return h;
   }
 
