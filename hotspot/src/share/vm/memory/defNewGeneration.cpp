@@ -752,7 +752,7 @@ oop DefNewGeneration::copy_to_survivor_space(oop old) {
 
   // Done, insert forward pointer to obj in this header
   old->forward_to(obj);
-
+  printf("copy_to_survivor_space, old %p, new %p\n", old, obj);
   return obj;
 }
 

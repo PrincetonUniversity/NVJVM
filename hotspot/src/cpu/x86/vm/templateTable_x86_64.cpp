@@ -3335,7 +3335,9 @@ void TemplateTable::_new() {
     } else {
       __ movptr(Address(rax, oopDesc::mark_offset_in_bytes()),
                (intptr_t) markOopDesc::prototype()); // header (address 0x1)
+
     }
+    __ movptr(Address(rax, oopDesc::counter_offset_in_bytes ()), 0); // Initializing the counter for new objects
     __ xorl(rcx, rcx); // use zero reg to clear memory (shorter code)
     __ store_klass_gap(rax, rcx);  // zero klass gap for compressed oops
     __ store_klass(rax, rsi);      // store klass last

@@ -4357,9 +4357,11 @@ void G1ParScanThreadState::trim_queue() {
   do {
     // Drain the overflow stack first, so other threads can steal.
     while (refs()->pop_overflow(ref)) {
-      deal_with_reference(ref);
+     printf("in trim_queue,%p\n", ref); fflush(stdout);
+     deal_with_reference(ref);
     }
     while (refs()->pop_local(ref)) {
+    	printf("in trim_queue,%p\n", ref); fflush(stdout)
       deal_with_reference(ref);
     }
   } while (!refs()->is_empty());
@@ -4598,6 +4600,7 @@ bool G1ParEvacuateFollowersClosure::offer_termination() {
 void G1ParEvacuateFollowersClosure::do_void() {
   StarTask stolen_task;
   G1ParScanThreadState* const pss = par_scan_state();
+  printf("calling trim queue\n");fflush(stdout);
   pss->trim_queue();
 
   do {

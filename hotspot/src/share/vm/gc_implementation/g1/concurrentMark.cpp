@@ -3494,6 +3494,7 @@ void CMTask::deal_with_reference(oop obj) {
 
 void CMTask::push(oop obj) {
   HeapWord* objAddr = (HeapWord*) obj;
+  printf("pushing %p, on task Queue\n", obj); fflush(stdout);
   assert(_g1h->is_in_g1_reserved(objAddr), "invariant");
   assert(!_g1h->is_on_master_free_list(
               _g1h->heap_region_containing((HeapWord*) objAddr)), "invariant");
