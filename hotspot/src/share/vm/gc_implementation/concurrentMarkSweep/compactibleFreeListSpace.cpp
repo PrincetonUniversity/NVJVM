@@ -1006,7 +1006,7 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
       //flprintf("In FreeChunk::indicatesFreeChunk, in else\n");
       //flprintf("getting klassOop, HeapWord Address %02X\n", (unsigned char *)p);
       // must read from what 'p' points to in each loop.
-      uint64_t t = ((oopDesc*)p)->getCount();
+      //uint64_t t = ((oopDesc*)p)->getCount();
       //flprintf("count = %" PRIu64 "\n", t);
       klassOop k = ((volatile oopDesc*)p)->klass_or_null();
 //    int offset = ((volatile oopDesc*)p)->klass_offset_in_bytes();
