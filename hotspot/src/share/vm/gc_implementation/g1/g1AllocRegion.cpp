@@ -130,7 +130,6 @@ HeapWord* G1AllocRegion::new_alloc_region_and_allocate(size_t word_size,
     // can never be empty.
     _alloc_region = new_alloc_region;
     trace("region allocation successful");
-    printf("new region and allocate, %p\n", result); fflush(stdout);
     return result;
   } else {
     trace("region allocation failed");
