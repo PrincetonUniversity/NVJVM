@@ -568,7 +568,7 @@ inline void oop_store_raw(HeapWord* addr, oop value) {
   } else {
     oopDesc::encode_store_heap_oop((oop*)addr, value);
   }
-  printf("calling oop store raw %p, %p, %p\n", addr, value, this); fflush(stdout);
+  printf("calling oop store raw %p, %p\n", addr, value); fflush(stdout);
 }
 
 // Used only for markSweep, scavenging
