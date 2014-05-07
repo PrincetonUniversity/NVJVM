@@ -1175,19 +1175,13 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse:: increment_access_counter(Node *obj){
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode( obj, null() )); // generate instructions for comparing the object with a null object
-	BoolTest::mask btest = BoolTest::eq;
+	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	float ok_prob =  PROB_LIKELY_MAG(3);
-	IfNode* iff = create_and_map_if(control(), tst, ok_prob, COUNT_UNKNOWN);
-	Node *not_null = _gvn.transform( new (C, 1) IfTrueNode(iff));
-	Node* null_true = _gvn.transform( new (C, 1) IfFalseNode(iff));
 	{
-	  PreserveJVMState pjvms(this);
-	  set_control(not_null);
-	  increment_count(obj, not_null);
+	  BuildCutout(this, tst, ok_prob);
+	  increment_count(obj, control());
 	}
-
-	set_control(null_true);
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
