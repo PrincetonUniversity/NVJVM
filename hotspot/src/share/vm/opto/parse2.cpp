@@ -1175,7 +1175,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse:: increment_access_counter(Node *obj){
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode( obj, null() )); // generate instructions for comparing the object with a null object
-	BoolTest::mask btest = BoolTest::e;
+	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	float ok_prob =  PROB_LIKELY_MAG(3);
 	IfNode* iff = create_and_map_if(control(), tst, ok_prob, COUNT_UNKNOWN);
