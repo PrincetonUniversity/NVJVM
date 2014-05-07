@@ -74,7 +74,6 @@ public:
     if (pointer_delta(_end, _top) >= word_sz) {
       _top = _top + word_sz;
       ((oop)res)->resetCount();
-      printf("allocating from thread buffer:%p\n", res);fflush(stdout);
       return res;
     } else {
       return NULL;
@@ -229,7 +228,6 @@ public:
     } else {
       res = allocate_slow(word_sz);
     }
-    printf("allocaton from ParGCAllocBufferWithBOT %p\n", res); fflush(stdout);
     return res;
   }
 

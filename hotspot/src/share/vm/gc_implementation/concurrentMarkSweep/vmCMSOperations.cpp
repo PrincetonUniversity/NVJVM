@@ -137,7 +137,6 @@ void VM_CMS_Initial_Mark::doit() {
   VM_CMS_Operation::verify_before_gc();
 
   IsGCActiveMark x; // stop-world GC active
-  printf("In VM_CMS_Initial_Mark::doit");
   _collector->do_CMS_operation(CMSCollector::CMS_op_checkpointRootsInitial);
 
 
