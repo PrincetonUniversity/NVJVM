@@ -649,6 +649,7 @@ int G1CollectedHeap::humongous_obj_allocate_find_first(size_t num_regions,
       }
     }
   }
+  printf("humongous_obj_allocate_find_first %p\n", first); fflush(stdout);
   return first;
 }
 
@@ -768,7 +769,7 @@ G1CollectedHeap::humongous_obj_allocate_initialize_regions(int first,
   assert(first_hr->used() == word_size * HeapWordSize, "invariant");
   _summary_bytes_used += first_hr->used();
   _humongous_set.add(first_hr);
-
+  printf("in  humongous_obj_allocate_initialize_regions %p\n", new_obj); fflush(stdout);
   return new_obj;
 }
 
@@ -815,7 +816,7 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
   }
 
   verify_region_sets_optional();
-
+  printf("in  humongous_obj_allocate %p\n", result); fflush(stdout);
   return result;
 }
 
@@ -824,7 +825,9 @@ HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
   assert(!isHumongous(word_size), "we do not allow humongous TLABs");
 
   unsigned int dummy_gc_count_before;
-  return attempt_allocation(word_size, &dummy_gc_count_before);
+  HeapWord* res = attempt_allocation(word_size, &dummy_gc_count_before);
+  printf("in  allocate_new_tlab %p\n", res); fflush(stdout);
+  return res;
 }
 
 HeapWord*
@@ -1018,6 +1021,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       // collection hoping that there's enough space in the heap.
       result = humongous_obj_allocate(word_size);
       if (result != NULL) {
+    	printf("attempt_allocation_humongous, alloc %p", result);fflush(stdout);
         return result;
       }
 
@@ -1039,7 +1043,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        printf("attempt_allocation_humongous, alloc %p", result);
+        printf("attempt_allocation_humongous, alloc %p", result); fflush(stdout);
         return result;
       }
 
