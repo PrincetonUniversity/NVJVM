@@ -67,7 +67,7 @@ inline void oopDesc::release_set_mark(markOop m) {
 }
 
 inline markOop oopDesc::cas_set_mark(markOop new_mark, markOop old_mark) {
-	printf("cas_set_mark, %p\n", this); fflush(stdout);
+	//printf("cas_set_mark, %p\n", this); fflush(stdout);
   return (markOop) Atomic::cmpxchg_ptr(new_mark, &_mark, old_mark);
 }
 
@@ -102,7 +102,7 @@ inline oop* oopDesc::klass_addr() {
 }
 
 inline narrowOop* oopDesc::compressed_klass_addr() {
-  printf("in compressed_klass_addr\n"); fflush(stdout);
+  //printf("in compressed_klass_addr\n"); fflush(stdout);
   assert(UseCompressedOops, "only called by compressed oops");
   return (narrowOop*) &_metadata._compressed_klass;
 }
@@ -116,7 +116,7 @@ inline void oopDesc::set_klass(klassOop k) {
   } else {
     oop_store_without_check(klass_addr(), (oop) k);
   }
-  printf("Set Class Called For for %p\n", this); fflush(stdout);
+  //printf("Set Class Called For for %p\n", this); fflush(stdout);
 }
 
 
@@ -138,7 +138,7 @@ inline void oopDesc::set_klass_to_list_ptr(oop k) {
   } else {
     _metadata._klass = (klassOop)k;
   }
-  printf("Set Class set_klass_to_list_ptr For for %p\n", this); fflush(stdout);
+  //printf("Set Class set_klass_to_list_ptr For for %p\n", this); fflush(stdout);
 }
 
 inline void   oopDesc::init_mark()                 { set_mark(markOopDesc::prototype_for_object(this)); }
@@ -213,7 +213,7 @@ inline narrowOop oopDesc::encode_heap_oop(oop v) {
 }
 
 inline oop oopDesc::decode_heap_oop_not_null(narrowOop v) {
-  printf("In decode_heap_oop_not_null, narrowOop \n"); fflush(stdout);
+  //printf("In decode_heap_oop_not_null, narrowOop \n"); fflush(stdout);
   assert(!is_null(v), "narrow oop value can never be zero");
   address base = Universe::narrow_oop_base();
   int    shift = Universe::narrow_oop_shift();
@@ -239,7 +239,7 @@ inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 
 // Load and decode an oop out of the Java heap into a wide oop.
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
-	printf("load_decode_heap_oop_not_null count= %p\n", (*p)->getCount()); fflush(stdout);
+	//printf("load_decode_heap_oop_not_null count= %p\n", (*p)->getCount()); fflush(stdout);
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
@@ -308,7 +308,7 @@ inline oop oopDesc::atomic_exchange_oop(oop exchange_value, volatile HeapWord *d
     // decode old from T to oop
     return decode_heap_oop(old);
   } else {
-	printf("atomic_exchange_oop, %p\n", dest); fflush(stdout);
+	//printf("atomic_exchange_oop, %p\n", dest); fflush(stdout);
     return (oop)Atomic::xchg_ptr(exchange_value, (oop*)dest);
   }
 }
@@ -568,7 +568,7 @@ inline void oop_store_raw(HeapWord* addr, oop value) {
   } else {
     oopDesc::encode_store_heap_oop((oop*)addr, value);
   }
-  printf("calling oop store raw %p, %p\n", addr, value); fflush(stdout);
+  //printf("calling oop store raw %p, %p\n", addr, value); fflush(stdout);
 }
 
 // Used only for markSweep, scavenging
@@ -666,18 +666,7 @@ inline void oopDesc::forward_to(oop p) {
          "forwarding to something not aligned");
   assert(Universe::heap()->is_in_reserved(p),
          "forwarding to something not in heap");
-  if (((oop)p)->getCount() != 0){
-	  printf("before encode bug\t");
-	  ((oop)p)->print_on(tty);
-	  fflush(stdout);
-  }
   markOop m = markOopDesc::encode_pointer_as_mark(p);
-  if (((oop)p)->getCount() != 0){
-	  printf("after encode bug\t");
-	  ((oop)p)->print_on(tty);
-	  fflush(stdout);
-  }
-
   assert(m->decode_pointer() == p, "encoding must be reversable");
   set_mark(m);
 }
@@ -766,7 +755,9 @@ inline void oopDesc::oop_iterate_header(OopClosure* blk, MemRegion mr) {
 inline int oopDesc::adjust_pointers() {
   debug_only(int check_size = size());
   int s = blueprint()->oop_adjust_pointers(this);
-  printf("calling adjust pointer %p\n", this); fflush(stdout);
+  if (L_DEBUG) {
+	  printf("calling adjust pointer %p\n", this); fflush(stdout);
+  }
   assert(s == check_size, "should be the same");
   return s;
 }
@@ -777,7 +768,9 @@ inline void oopDesc::adjust_header() {
   } else {
     MarkSweep::adjust_pointer(klass_addr());
   }
-  printf("calling adjust header %p\n", this); fflush(stdout);
+  if (L_DEBUG) {
+	  printf("calling adjust header %p\n", this); fflush(stdout);
+  }
 }
 
 #define OOP_ITERATE_DEFN(OopClosureType, nv_suffix)                        \

@@ -808,7 +808,6 @@ public:
     T heap_oop = oopDesc::load_heap_oop(p);
     if (!oopDesc::is_null(heap_oop)) {
       oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
-      printf("in do_oop_work\n");
       assert(obj->is_oop() || obj->mark() == NULL,
              "expected an oop, possibly with mark word displaced");
       HeapWord* addr = (HeapWord*)obj;
@@ -1094,7 +1093,6 @@ private:
 
 public:
   void work(int worker_i) {
-	printf("In ConcurrentMark::markFromRoots, work()");
     assert(Thread::current()->is_ConcurrentGC_thread(),
            "this should only be done by a conc GC thread");
     ResourceMark rm;
@@ -1162,7 +1160,6 @@ public:
 };
 
 void ConcurrentMark::markFromRoots() {
-	printf("In ConcurrentMark::markFromRoots");
   // we might be tempted to assert that:
   // assert(asynch == !SafepointSynchronize::is_at_safepoint(),
   //        "inconsistent argument?");
@@ -3494,7 +3491,6 @@ void CMTask::deal_with_reference(oop obj) {
 
 void CMTask::push(oop obj) {
   HeapWord* objAddr = (HeapWord*) obj;
-  printf("pushing %p, on task Queue\n", obj); fflush(stdout);
   assert(_g1h->is_in_g1_reserved(objAddr), "invariant");
   assert(!_g1h->is_on_master_free_list(
               _g1h->heap_region_containing((HeapWord*) objAddr)), "invariant");

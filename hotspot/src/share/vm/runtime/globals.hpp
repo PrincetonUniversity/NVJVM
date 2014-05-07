@@ -2820,6 +2820,8 @@ class CommandLineFlags {
   /* compilation */                                                         \
   product(bool, UseCompiler, true,                                          \
           "use compilation")                                                \
+  product(bool, L_DEBUG, false,												\
+		 "print to output")													\
                                                                             \
   develop(bool, TraceCompilationPolicy, false,                              \
           "Trace compilation policy")                                       \

@@ -52,7 +52,9 @@ G1CollectedHeap::heap_region_containing_raw(const void* addr) const {
 
   HeapRegion* res = _hrs->at(index);
 
-  printf("pointer = %p, index = %d, heap region = %p, pointer_delta = %p\n", addr, index, res, pointer_delta(addr, _g1_reserved.start(), 1)); fflush(stdout);
+  if (L_DEBUG){
+	  printf("pointer = %p, index = %d, heap region = %p, pointer_delta = %p\n", addr, index, res, pointer_delta(addr, _g1_reserved.start(), 1)); fflush(stdout);
+  }
   assert(res == _hrs->addr_to_region(addr), "sanity");
   return res;
 }
@@ -78,7 +80,9 @@ G1CollectedHeap::attempt_allocation(size_t word_size,
   if (result != NULL) {
     dirty_young_block(result, word_size);
   }
-  printf("G1CollectedHeap::attempt_allocation, obj = %p \n", result);fflush(stdout);
+  if (L_DEBUG){
+	  printf("G1CollectedHeap::attempt_allocation, obj = %p \n", result);fflush(stdout);
+  }
   return result;
 }
 

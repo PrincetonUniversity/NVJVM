@@ -91,7 +91,6 @@ public:
 
 
 void ConcurrentMarkThread::run() {
-  printf("in concurrent mark thread\n");
   initialize_in_thread();
   _vtime_start = os::elapsedVTime();
   wait_for_universe_init();
@@ -135,7 +134,6 @@ void ConcurrentMarkThread::run() {
         CMCheckpointRootsInitialClosure init_cl(_cm);
         strcpy(verbose_str, "GC initial-mark");
         VM_CGC_Operation op(&init_cl, verbose_str);
-        printf("!g1_policy->in_young_gc_mode, calling VMThread::execute");
         VMThread::execute(&op);
       }
 

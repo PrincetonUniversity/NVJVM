@@ -649,7 +649,7 @@ int G1CollectedHeap::humongous_obj_allocate_find_first(size_t num_regions,
       }
     }
   }
-  printf("humongous_obj_allocate_find_first %p\n", first); fflush(stdout);
+  //printf("humongous_obj_allocate_find_first %p\n", first); fflush(stdout);
   return first;
 }
 
@@ -769,7 +769,7 @@ G1CollectedHeap::humongous_obj_allocate_initialize_regions(int first,
   assert(first_hr->used() == word_size * HeapWordSize, "invariant");
   _summary_bytes_used += first_hr->used();
   _humongous_set.add(first_hr);
-  printf("in  humongous_obj_allocate_initialize_regions %p\n", new_obj); fflush(stdout);
+  //printf("in  humongous_obj_allocate_initialize_regions %p\n", new_obj); fflush(stdout);
   return new_obj;
 }
 
@@ -816,7 +816,7 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
   }
 
   verify_region_sets_optional();
-  printf("in  humongous_obj_allocate %p\n", result); fflush(stdout);
+  //printf("in  humongous_obj_allocate %p\n", result); fflush(stdout);
   return result;
 }
 
@@ -826,7 +826,7 @@ HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
 
   unsigned int dummy_gc_count_before;
   HeapWord* res = attempt_allocation(word_size, &dummy_gc_count_before);
-  printf("in  allocate_new_tlab %p\n", res); fflush(stdout);
+  //printf("in  allocate_new_tlab %p\n", res); fflush(stdout);
   return res;
 }
 
@@ -850,7 +850,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
       result = attempt_allocation_humongous(word_size, &gc_count_before);
     }
     if (result != NULL) {
-    printf("mem_allocate, return result %p\n", result); fflush(stdout);
+    //printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     }
 
@@ -870,7 +870,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
         // this for non-humongous allocations, though.
         dirty_young_block(result, word_size);
       }
-      printf("mem_allocate, return result %p\n", result); fflush(stdout);
+      //printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     } else {
       assert(op.result() == NULL,
@@ -914,7 +914,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
       if (result != NULL) {
-    	printf("mem_allocate_slow, return result %p\n", result);
+    	//printf("mem_allocate_slow, return result %p\n", result);
         return result;
       }
 
@@ -927,7 +927,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
           result = _mutator_alloc_region.attempt_allocation_force(word_size,
                                                       false /* bot_updates */);
           if (result != NULL) {
-        	printf("mem_allocate_slow, return result %p\n", result); fflush(stdout);
+        	//printf("mem_allocate_slow, return result %p\n", result); fflush(stdout);
             return result;
           }
         }
@@ -944,7 +944,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
+        //printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
         return result;
       }
 
@@ -971,7 +971,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
     result = _mutator_alloc_region.attempt_allocation(word_size,
                                                       false /* bot_updates */);
     if (result != NULL ){
-    	printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
+    	//printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
       return result;
     }
 
@@ -1021,7 +1021,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       // collection hoping that there's enough space in the heap.
       result = humongous_obj_allocate(word_size);
       if (result != NULL) {
-    	printf("attempt_allocation_humongous, alloc %p", result);fflush(stdout);
+    	//printf("attempt_allocation_humongous, alloc %p", result);fflush(stdout);
         return result;
       }
 
@@ -1043,7 +1043,7 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        printf("attempt_allocation_humongous, alloc %p", result); fflush(stdout);
+        //printf("attempt_allocation_humongous, alloc %p", result); fflush(stdout);
         return result;
       }
 
@@ -1088,11 +1088,11 @@ HeapWord *h;
   if (!isHumongous(word_size)) {
     h = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
-    printf("attempt_allocation_at_safepoint %p, isNotHumongous, %p\n", h); fflush(stdout);
+   // printf("attempt_allocation_at_safepoint %p, isNotHumongous, %p\n", h); fflush(stdout);
     return h;
   } else {
     h = humongous_obj_allocate(word_size);
-    printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
+    //printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
     return h;
   }
 
@@ -2258,7 +2258,7 @@ void G1CollectedHeap::collect_as_vm_thread(GCCause::Cause cause) {
 
 void G1CollectedHeap::collect(GCCause::Cause cause) {
   // The caller doesn't have the Heap_lock
-  printf("in G1CollectedHeap::collect()\n"); fflush(stdout);
+  //printf("in G1CollectedHeap::collect()\n"); fflush(stdout);
   assert(!Heap_lock->owned_by_self(), "this thread should not own the Heap_lock");
 
   unsigned int gc_count_before;
@@ -2272,7 +2272,7 @@ void G1CollectedHeap::collect(GCCause::Cause cause) {
   }
 
   if (should_do_concurrent_full_gc(cause)) {
-	  printf("in should_do_concurrent_full_gc == true\n"); fflush(stdout);
+	  //printf("in should_do_concurrent_full_gc == true\n"); fflush(stdout);
     // Schedule an initial-mark evacuation pause that will start a
     // concurrent cycle. We're setting word_size to 0 which means that
     // we are not requesting a post-GC allocation.
@@ -4130,7 +4130,7 @@ HeapWord* G1CollectedHeap::par_allocate_during_gc(GCAllocPurpose purpose,
   if (block == NULL) {
     block = allocate_during_gc_slow(purpose, alloc_region, true, word_size);
   }
-  printf("par_allocate_during_gc, block alloc %p", block);
+  //printf("par_allocate_during_gc, block alloc %p", block);
   return block;
 }
 
@@ -4194,7 +4194,7 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
         // Make an alias.
         _gc_alloc_regions[purpose] = _gc_alloc_regions[alt_purpose];
         if (block != NULL) {
-          printf("allocate_during_gc_slow, allocating block %p\n", block);
+          //printf("allocate_during_gc_slow, allocating block %p\n", block);
           return block;
         }
         retire_alloc_region(alt_region, par);
@@ -4231,7 +4231,7 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
     // This sets other apis using the same old alloc region to NULL, also.
     set_gc_alloc_region(purpose, NULL);
   }
-  printf("allocate_during_gc_slow, allocating block %p\n", block);
+ // printf("allocate_during_gc_slow, allocating block %p\n", block);
   return block;  // May be NULL.
 }
 
@@ -4361,11 +4361,11 @@ void G1ParScanThreadState::trim_queue() {
   do {
     // Drain the overflow stack first, so other threads can steal.
     while (refs()->pop_overflow(ref)) {
-     printf("in trim_queue,%p\n", ref); fflush(stdout);
+     //printf("in trim_queue,%p\n", ref); fflush(stdout);
      deal_with_reference(ref);
     }
     while (refs()->pop_local(ref)) {
-    	printf("in trim_queue,%p\n", ref); fflush(stdout);
+    	//printf("in trim_queue,%p\n", ref); fflush(stdout);
       deal_with_reference(ref);
     }
   } while (!refs()->is_empty());
@@ -4376,7 +4376,7 @@ G1ParClosureSuper::G1ParClosureSuper(G1CollectedHeap* g1, G1ParScanThreadState* 
   _par_scan_state(par_scan_state) { }
 
 template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
-   printf("marking forwardee %p\n", p); fflush(stdout);
+   //printf("marking forwardee %p\n", p); fflush(stdout);
   // This is called _after_ do_oop_work has been called, hence after
   // the object has been relocated to its new location and *p points
   // to its new location.
@@ -4419,10 +4419,10 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
 
   oop forward_ptr = old->forward_to_atomic(obj);
 
-  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
+  //printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
-    printf("old_count=%p, old_address = %p, age =%d, is_instance=%d, new_count=%p, new_address =%p\n", old->getCount(), old, age, old->is_instance(), obj->getCount(), obj);fflush(stdout);
+    //printf("old_count=%p, old_address = %p, age =%d, is_instance=%d, new_count=%p, new_address =%p\n", old->getCount(), old, age, old->is_instance(), obj->getCount(), obj);fflush(stdout);
     if (old->getCount() != 0) {
     	  //printf("pointer %p, from region = %d\n", old, from_region->is_young()); fflush(stdout);
     	  //printf("pointer %p,purpose %d\n", old, alloc_purpose); fflush(stdout);
@@ -4477,8 +4477,8 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
     if (obj->is_objArray() && arrayOop(obj)->length() >= ParGCArrayScanChunk) {
       arrayOop(old)->set_length(0);
       oop* old_p = set_partial_array_mask(old);
-      printf("setting partial array mask %p, %p", old_p, old); fflush(stdout);
-      printf("calling push on queue %p", old_p); fflush(stdout);
+      //printf("setting partial array mask %p, %p", old_p, old); fflush(stdout);
+      //printf("calling push on queue %p", old_p); fflush(stdout);
       _par_scan_state->push_on_queue(old_p);
     } else {
       // No point in using the slower heap_region_containing() method,
@@ -4499,7 +4499,7 @@ template <class T>
 void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
 ::do_oop_work(T* p) {
   oop obj = oopDesc::load_decode_heap_oop(p);
-  printf("do_oop_word T= %p, obj = %p\n", p, obj); fflush(stdout);
+  //printf("do_oop_word T= %p, obj = %p\n", p, obj); fflush(stdout);
   assert(barrier != G1BarrierRS || obj != NULL,
          "Precondition: G1BarrierRS implies obj is nonNull");
 
@@ -4512,7 +4512,7 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     if (obj->is_forwarded()) {
       oopDesc::encode_store_heap_oop(p, obj->forwardee());
     } else {
-      printf("calling copy to survivor %p\n",obj);fflush(stdout);
+     // printf("calling copy to survivor %p\n",obj);fflush(stdout);
       oop copy_oop = copy_to_survivor_space(obj);
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
@@ -4556,7 +4556,7 @@ template <class T> void G1ParScanPartialArrayClosure::do_oop_nv(T* p) {
     // Push remainder.
     oop* old_p = set_partial_array_mask(old);
     assert(arrayOop(old)->length() < obj->length(), "Empty push?");
-    printf("calling push_on_queue, G1ParScanPartialArrayClosure, old_p=%p, old=%p", old_p, old); fflush(stdout);
+    //printf("calling push_on_queue, G1ParScanPartialArrayClosure, old_p=%p, old=%p", old_p, old); fflush(stdout);
     _par_scan_state->push_on_queue(old_p);
   } else {
     // Restore length so that the heap remains parsable in
@@ -4604,13 +4604,13 @@ bool G1ParEvacuateFollowersClosure::offer_termination() {
 void G1ParEvacuateFollowersClosure::do_void() {
   StarTask stolen_task;
   G1ParScanThreadState* const pss = par_scan_state();
-  printf("calling trim queue\n");fflush(stdout);
+  //printf("calling trim queue\n");fflush(stdout);
   pss->trim_queue();
 
   do {
     while (queues()->steal(pss->queue_num(), pss->hash_seed(), stolen_task)) {
       assert(pss->verify_task(stolen_task), "sanity");
-      printf("reference %p\n", stolen_task); fflush(stdout);
+      //printf("reference %p\n", stolen_task); fflush(stdout);
       if (stolen_task.is_narrow()) {
         pss->deal_with_reference((narrowOop*) stolen_task);
       } else {
@@ -4824,7 +4824,7 @@ void G1CollectedHeap::save_marks() {
 }
 
 void G1CollectedHeap::evacuate_collection_set() {
-  printf("in evacuate collection set \n"); fflush(stdout);
+  //printf("in evacuate collection set \n"); fflush(stdout);
   set_evacuation_failed(false);
 
   g1_rem_set()->prepare_for_oops_into_collection_set_do();
