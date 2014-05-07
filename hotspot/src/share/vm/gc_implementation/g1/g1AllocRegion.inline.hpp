@@ -34,11 +34,11 @@ inline HeapWord* G1AllocRegion::allocate(HeapRegion* alloc_region,
   HeapWord *result;
   if (!bot_updates) {
     result = alloc_region->allocate_no_bot_updates(word_size);
-    printf("G1AllocRegion::allocate, result %p\n", result);
+
     return result;
   } else {
 	result = alloc_region->allocate(word_size);
-	printf("G1AllocRegion::allocate, result %p\n", result);
+
 	return result;
   }
 }
@@ -81,7 +81,7 @@ inline HeapWord* G1AllocRegion::attempt_allocation_locked(size_t word_size,
   // we were waiting to get the lock.
   HeapWord* result = attempt_allocation(word_size, bot_updates);
   if (result != NULL) {
-	printf("G1AllocRegion::attempt_allocation_locked, result %p\n", result);
+
     return result;
   }
 
@@ -89,7 +89,7 @@ inline HeapWord* G1AllocRegion::attempt_allocation_locked(size_t word_size,
   result = new_alloc_region_and_allocate(word_size, false /* force */);
   if (result != NULL) {
     trace("alloc locked (second attempt)", word_size, result);
-    printf("G1AllocRegion::attempt_allocation_locked, result %p\n", result);fflush(stdout);
+
     return result;
   }
   trace("alloc locked failed", word_size);

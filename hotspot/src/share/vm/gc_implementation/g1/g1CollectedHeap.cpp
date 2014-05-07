@@ -4130,7 +4130,6 @@ HeapWord* G1CollectedHeap::par_allocate_during_gc(GCAllocPurpose purpose,
   if (block == NULL) {
     block = allocate_during_gc_slow(purpose, alloc_region, true, word_size);
   }
-  //printf("par_allocate_during_gc, block alloc %p", block);
   return block;
 }
 
