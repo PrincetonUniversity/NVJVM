@@ -766,6 +766,7 @@ inline void oopDesc::oop_iterate_header(OopClosure* blk, MemRegion mr) {
 inline int oopDesc::adjust_pointers() {
   debug_only(int check_size = size());
   int s = blueprint()->oop_adjust_pointers(this);
+  printf("calling adjust pointer %p\n", this); fflush(stdout);
   assert(s == check_size, "should be the same");
   return s;
 }
@@ -776,6 +777,7 @@ inline void oopDesc::adjust_header() {
   } else {
     MarkSweep::adjust_pointer(klass_addr());
   }
+  printf("calling adjust header %p\n", this); fflush(stdout);
 }
 
 #define OOP_ITERATE_DEFN(OopClosureType, nv_suffix)                        \

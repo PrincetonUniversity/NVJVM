@@ -1082,13 +1082,13 @@ HeapWord *h;
          "the current alloc region was unexpectedly found to be non-NULL");
 
   if (!isHumongous(word_size)) {
-	printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
     h = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
+    printf("attempt_allocation_at_safepoint %p, isNotHumongous, %p\n", h); fflush(stdout);
     return h;
   } else {
     h = humongous_obj_allocate(word_size);
-    printf("attempt_allocation_at_safepoint %p, isNotHumongous\n", h); fflush(stdout);
+    printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
     return h;
   }
 
