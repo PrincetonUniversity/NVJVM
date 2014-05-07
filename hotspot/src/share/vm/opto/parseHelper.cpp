@@ -250,7 +250,6 @@ void Parse::emit_guard_for_new(ciInstanceKlass* klass) {
 //------------------------------do_new-----------------------------------------
 void Parse::do_new() {
   kill_dead_locals();
-  printf("in do_new\n"); fflush(stdout);
   bool will_link;
   ciInstanceKlass* klass = iter().get_klass(will_link)->as_instance_klass();
   assert(will_link, "_new: typeflow responsibility");

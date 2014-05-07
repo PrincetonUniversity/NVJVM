@@ -182,7 +182,6 @@ HeapWord* MutableSpace::allocate(size_t size) {
     set_top(new_top);
     assert(is_object_aligned((intptr_t)obj) && is_object_aligned((intptr_t)new_top),
            "checking alignment");
-    printf("allocating %p\n", obj); fflush(stdout);
     return obj;
   } else {
     return NULL;
@@ -204,7 +203,6 @@ HeapWord* MutableSpace::cas_allocate(size_t size) {
       }
       assert(is_object_aligned((intptr_t)obj) && is_object_aligned((intptr_t)new_top),
              "checking alignment");
-      printf("cas allocate %p\n", obj);fflush(stdout);
       return obj;
     } else {
       return NULL;

@@ -425,7 +425,6 @@ HeapWord* GenCollectedHeap::attempt_allocation(size_t size,
   for (int i = 0; i < _n_gens; i++) {
     if (_gens[i]->should_allocate(size, is_tlab)) {
       res = _gens[i]->allocate(size, is_tlab);
-      printf("GenCollectedHeap::attempt_allocation %p\n", res); fflush(stdout);
       if (res != NULL) return res;
       else if (first_only) break;
     }
@@ -441,7 +440,6 @@ HeapWord* GenCollectedHeap::mem_allocate(size_t size,
   HeapWord *h = collector_policy()->mem_allocate_work(size,
                                                is_tlab,
                                                gc_overhead_limit_was_exceeded);
-  printf("GenCollectedHeap::mem_allocate %p\n", h); fflush(stdout);
   return h;
 }
 
@@ -1455,7 +1453,6 @@ oop GenCollectedHeap::handle_failed_promotion(Generation* gen,
   if (result != NULL) {
     Copy::aligned_disjoint_words((HeapWord*)obj, result, obj_size);
   }
-  printf("result alloc handle_failed_promotion %p\n", result); fflush(stdout);
   return oop(result);
 }
 

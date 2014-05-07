@@ -840,7 +840,7 @@ inline HeapWord* ContiguousSpace::allocate_impl(size_t size,
     HeapWord* new_top = obj + size;
     set_top(new_top);
     assert(is_aligned(obj) && is_aligned(new_top), "checking alignment");
-    printf("ContiguousSpace::allocate_impl %p\n", obj); fflush(stdout);
+    //printf("ContiguousSpace::allocate_impl %p\n", obj); fflush(stdout);
     return obj;
   } else {
     return NULL;
@@ -852,7 +852,7 @@ inline HeapWord* ContiguousSpace::par_allocate_impl(size_t size,
                                                     HeapWord* const end_value) {
   do {
     HeapWord* obj = top();
-    printf("Contiguous Space, par allocate impl %p\n", obj); fflush(stdout);
+    //printf("Contiguous Space, par allocate impl %p\n", obj); fflush(stdout);
     if (pointer_delta(end_value, obj) >= size) {
       HeapWord* new_top = obj + size;
       HeapWord* result = (HeapWord*)Atomic::cmpxchg_ptr(new_top, top_addr(), obj);
@@ -861,7 +861,7 @@ inline HeapWord* ContiguousSpace::par_allocate_impl(size_t size,
       //  otherwise: the new value of the top is returned.
       if (result == obj) {
         assert(is_aligned(obj) && is_aligned(new_top), "checking alignment");
-        printf("Contiguous Space, par allocate impl %p\n", obj); fflush(stdout);
+        //printf("Contiguous Space, par allocate impl %p\n", obj); fflush(stdout);
         return obj;
       }
     } else {
@@ -947,7 +947,7 @@ HeapWord* ConcEdenSpace::par_allocate(size_t size)
       //  otherwise: the new value of the top is returned.
       if (result == obj) {
         assert(is_aligned(obj) && is_aligned(new_top), "checking alignment");
-        printf("ConcEdenSpace Space, par allocate impl %p\n", obj); fflush(stdout);
+       // printf("ConcEdenSpace Space, par allocate impl %p\n", obj); fflush(stdout);
         return obj;
       }
     } else {

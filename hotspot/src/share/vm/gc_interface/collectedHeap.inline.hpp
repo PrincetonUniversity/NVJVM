@@ -156,7 +156,7 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, 
     assert(!HAS_PENDING_EXCEPTION,
            "Unexpected exception, will result in uninitialized storage");
     THREAD->incr_allocated_bytes(size * HeapWordSize);
-    printf("common_mem_allocate_noinit :: %p\n", result); fflush(stdout);
+    //printf("common_mem_allocate_noinit :: %p\n", result); fflush(stdout);
     return result;
   }
 
@@ -241,11 +241,11 @@ HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size) {
   HeapWord* obj = thread->tlab().allocate(size);
 
   if (obj != NULL) {
-	  printf("allocate_from_tlab, allocating obj = %p\n", obj); fflush(stdout);
+	  //printf("allocate_from_tlab, allocating obj = %p\n", obj); fflush(stdout);
     return obj;
   }
   obj = allocate_from_tlab_slow(thread, size);
-  printf("allocate_from_tlab_slow, allocating obj = %p\n", obj); fflush(stdout);
+  //printf("allocate_from_tlab_slow, allocating obj = %p\n", obj); fflush(stdout);
   // Otherwise...
   return obj;
 }
@@ -268,7 +268,7 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   post_allocation_setup_obj(klass, obj, size);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   assert(((oop)obj)->getCount == 0, "object count not null, CollectedHeap::obj_allocate");
-  printf("In collected Heap, obj_allocate, obj=%p\n", obj); fflush(stdout);
+  //printf("In collected Heap, obj_allocate, obj=%p\n", obj); fflush(stdout);
   return (oop)obj;
 }
 
@@ -282,7 +282,7 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
   post_allocation_setup_array(klass, obj, size, length);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
-  printf("In collected Heap, array_allocate, obj=%p\n", obj); fflush(stdout);
+  //printf("In collected Heap, array_allocate, obj=%p\n", obj); fflush(stdout);
   return (oop)obj;
 }
 

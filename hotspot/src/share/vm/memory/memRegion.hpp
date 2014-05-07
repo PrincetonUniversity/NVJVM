@@ -101,17 +101,17 @@ class MemRegionClosureRO: public MemRegionClosure {
 public:
   void* operator new(size_t size, ResourceObj::allocation_type type) {
         void *res = ResourceObj::operator new(size, type);
-        printf("allocating from memory region %p\n", res);  fflush(stdout);
+
         return res;
   }
   void* operator new(size_t size, Arena *arena) {
 	  void *res =  ResourceObj::operator new(size, arena);
-	  printf("allocating from memory region %p\n", res);  fflush(stdout);
+
 	  return res;
   }
   void* operator new(size_t size) {
 	  void *res =   ResourceObj::operator new(size);
-	  printf("allocating from memory region %p\n", res);  fflush(stdout);
+
 	  return res;
   }
 

@@ -203,7 +203,6 @@ oop Generation::promote(oop obj, size_t obj_size) {
   HeapWord* result = allocate(obj_size, false);
 
   if (result != NULL) {
-	printf("result alloc old object %p, promote %p\n", obj, result); fflush(stdout);
     Copy::aligned_disjoint_words((HeapWord*)obj, result, obj_size);
     return oop(result);
   } else {

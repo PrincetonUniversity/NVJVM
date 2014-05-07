@@ -510,7 +510,6 @@ HeapWord* DefNewGeneration::allocate_from_space(size_t size) {
   if (PrintGC && Verbose) {
     gclog_or_tty->print_cr("  returns %s", result == NULL ? "NULL" : "object");
   }
-  printf("def new generation%p\n", result); fflush(stdout);
   return result;
 }
 
@@ -752,7 +751,6 @@ oop DefNewGeneration::copy_to_survivor_space(oop old) {
 
   // Done, insert forward pointer to obj in this header
   old->forward_to(obj);
-  printf("copy_to_survivor_space, old %p, new %p\n", old, obj);
   return obj;
 }
 
@@ -995,7 +993,6 @@ HeapWord* DefNewGeneration::allocate(size_t word_size,
   if (result == NULL) {
     result = allocate_from_space(word_size);
   }
-  printf("def new generation 2 %p\n", result); fflush(stdout);
   return result;
 }
 

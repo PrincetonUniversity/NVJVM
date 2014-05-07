@@ -171,7 +171,6 @@ class VM_GenCollectForAllocation: public VM_GC_Operation {
   virtual VMOp_Type type() const { return VMOp_GenCollectForAllocation; }
   virtual void doit();
   HeapWord* result() const       {
-	  printf("res: %p\n", _res); fflush(stdout);
 	  return _res;
   }
 };
@@ -212,7 +211,6 @@ class VM_GenCollectForPermanentAllocation: public VM_GC_Operation {
   virtual VMOp_Type type() const { return VMOp_GenCollectForPermanentAllocation; }
   virtual void doit();
   HeapWord* result() const       {
-	  printf("result %p\n", _res); fflush(stdout);
 	  return _res; }
 };
 

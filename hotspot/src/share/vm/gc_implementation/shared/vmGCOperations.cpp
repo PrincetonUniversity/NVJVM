@@ -203,7 +203,6 @@ void VM_GenCollectForPermanentAllocation::doit() {
       ShouldNotReachHere();
   }
   _res = heap->perm_gen()->allocate(_size, false);
- printf("%p\n", _res);fflush(stdout);
   assert(heap->is_in_reserved_or_null(_res), "result not in heap");
   if (_res == NULL && GC_locker::is_active_and_needs_gc()) {
     set_gc_locked();

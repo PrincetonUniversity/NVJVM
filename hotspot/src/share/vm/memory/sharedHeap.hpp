@@ -272,7 +272,7 @@ public:
   HeapWord* permanent_mem_allocate(size_t size) {
     assert(perm_gen(), "NULL perm gen");
     HeapWord *h = _perm_gen->mem_allocate(size);
-    printf("allocation from permanent gen %p\n", h); fflush(stdout);
+
     return h;//_perm_gen->mem_allocate(size);
   }
 

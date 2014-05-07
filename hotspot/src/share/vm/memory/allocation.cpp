@@ -49,7 +49,6 @@ void* CHeapObj::operator new (size_t size, const std::nothrow_t&  nothrow_consta
 #ifdef ASSERT
   if (PrintMallocFree) trace_heap_malloc(size, "CHeapObj-new", p);
 #endif
-  printf("CHeapObj, res=%p\n", p);fflush(stdout);
   return p;
 }
 
@@ -76,7 +75,6 @@ void* ResourceObj::operator new(size_t size, allocation_type type) {
    default:
     ShouldNotReachHere();
   }
-  printf("allocation.cpp, res=%p\n", res);fflush(stdout);
   return res;
 }
 
@@ -219,7 +217,6 @@ class ChunkPool {
     }
     if (p == NULL)
       vm_exit_out_of_memory(bytes, "ChunkPool::allocate");
-    printf("from chunk pool %p\n", p); fflush(stdout);
     return p;
   }
 

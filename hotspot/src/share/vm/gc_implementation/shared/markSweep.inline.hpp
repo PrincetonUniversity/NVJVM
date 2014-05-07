@@ -100,8 +100,9 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj     = oopDesc::decode_heap_oop_not_null(heap_oop);
     oop new_obj = oop(obj->mark()->decode_pointer());
-    printf("In adjust pointer, %p, %p, %p\n", new_obj, p, heap_oop); fflush(stdout);
-
+    if (L_DEBUG){
+    	printf("In adjust pointer, %p, %p, %p\n", new_obj, p, heap_oop); fflush(stdout);
+    }
 //    new_obj->setCount(obj->getCount());
     assert(new_obj != NULL ||                         // is forwarding ptr?
            obj->mark() == markOopDesc::prototype() || // not gc marked?
