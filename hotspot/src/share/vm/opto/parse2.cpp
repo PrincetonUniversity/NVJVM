@@ -1173,7 +1173,6 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
   }
 }
 
-
 void Parse:: increment_access_counter(Node *obj){
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode( obj, null() )); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
@@ -1191,11 +1190,11 @@ void Parse:: increment_access_counter(Node *obj){
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
-  const TypePtr* adr_type = _gvn.type(obj)->is_ptr();
+  const TypePtr* adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-  Node* count  = make_load(NULL, counter_addr, TypeInt::INT, T_INT, adr_type);
+  Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
-  store_to_memory(NULL, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+  store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------
@@ -1423,26 +1422,42 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_aload_0:
+#ifdef _L_DEBUG
+	  flprintf("in parse2: _aload_0\n"); fflush(stdout);
+#endif
 	obj = local(0);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
+#ifdef _L_DEBUG
+	  flprintf("in parse2: _aload_1\n"); fflush(stdout);
+#endif
 	obj = local(1);
     push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
+#ifdef _L_DEBUG
+	  flprintf("in parse2: _aload_2\n"); fflush(stdout);
+#endif
     obj = local(2);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_3:
+#ifdef _L_DEBUG
+	  flprintf("in parse2: _aload_3\n");
+#endif
     obj = local(3);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload:
+#ifdef _L_DEBUG
+	  flprintf("in parse2: _aload\n");
+#endif
+
 	obj = local(iter().get_index());
     push( obj );
     increment_access_counter(obj);

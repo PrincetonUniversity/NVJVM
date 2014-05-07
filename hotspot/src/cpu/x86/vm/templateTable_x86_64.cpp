@@ -582,9 +582,10 @@ void TemplateTable::aload() {
   __ movptr(rax,object);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  //__ movptr(rax, objectCounter);
-  //__ testptr(rax, rax);
-  //__ jcc(Assembler::zero, nullObj);
+/* __ movptr(rax, objectCounter);
+  __ testptr(rax, rax);
+  __ jcc(Assembler::zero, nullObj);
+ */
   __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
@@ -787,9 +788,9 @@ void TemplateTable::aload(int n) {
   __ movptr(rax,object);
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
-  //__ movptr(rax, objectCounter);
-  //__ testptr(rax, rax);
-  //__ jcc(Assembler::zero, nullObj);
+/*  __ movptr(rax, objectCounter);
+  __ testptr(rax, rax);
+  __ jcc(Assembler::zero, nullObj);*/
   __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
