@@ -556,7 +556,8 @@ inline void DiscoveredListIterator::remove() {
     oopDesc::encode_store_heap_oop_not_null((narrowOop*)_prev_next, _next);
   } else {
     // Remove Reference object from list.
-    oopDesc::store_heap_oop((oop*)_prev_next, _next);
+    printf("storing in heap,%p, %p\n", _prev_next, _next); fflush(stdout);
+	oopDesc::store_heap_oop((oop*)_prev_next, _next);
   }
   NOT_PRODUCT(_removed++);
   _refs_list.dec_length(1);
@@ -1164,6 +1165,7 @@ void ReferenceProcessor::verify_referent(oop obj) {
 //     and complexity in processing these references.
 //     We call this choice the "RefeferentBasedDiscovery" policy.
 bool ReferenceProcessor::discover_reference(oop obj, ReferenceType rt) {
+	printf("%p, discover_reference\n", obj); fflush(stdout);
   // We enqueue references only if we are discovering refs
   // (rather than processing discovered refs).
   if (!_discovering_refs || !RegisterReferences) {

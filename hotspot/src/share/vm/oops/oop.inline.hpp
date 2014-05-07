@@ -67,6 +67,7 @@ inline void oopDesc::release_set_mark(markOop m) {
 }
 
 inline markOop oopDesc::cas_set_mark(markOop new_mark, markOop old_mark) {
+	printf("cas_set_mark, %p\n", this); fflush(stdout);
   return (markOop) Atomic::cmpxchg_ptr(new_mark, &_mark, old_mark);
 }
 
@@ -307,6 +308,7 @@ inline oop oopDesc::atomic_exchange_oop(oop exchange_value, volatile HeapWord *d
     // decode old from T to oop
     return decode_heap_oop(old);
   } else {
+	printf("atomic_exchange_oop, %p\n", dest); fflush(stdout);
     return (oop)Atomic::xchg_ptr(exchange_value, (oop*)dest);
   }
 }
@@ -566,6 +568,7 @@ inline void oop_store_raw(HeapWord* addr, oop value) {
   } else {
     oopDesc::encode_store_heap_oop((oop*)addr, value);
   }
+  printf("calling oop store raw %p, %p, %p\n", addr, value, this); fflush(stdout);
 }
 
 // Used only for markSweep, scavenging
