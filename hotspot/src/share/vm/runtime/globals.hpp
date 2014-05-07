@@ -164,6 +164,7 @@ define_pd_global(uint64_t,MaxRAM,                    1ULL*G);
 
 #endif // no compilers
 
+#define _L_DEBUG 1
 
 // string type aliases used only in this file
 typedef const char* ccstr;
