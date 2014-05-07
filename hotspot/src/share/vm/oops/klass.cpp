@@ -554,7 +554,6 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   ResourceMark rm;
   // print title
   st->print_cr("%s ", internal_name());
-  fflush(stdout);
   obj->print_address_on(st);
 
   if (WizardMode) {
@@ -563,13 +562,12 @@ void Klass::oop_print_on(oop obj, outputStream* st) {
   }
 
   // print class
-  st->print("- address: %p,",(void *)obj);
-  st->print("- size: %d,", obj->size());
-  st->print(" - count: %" PRIu64 ",", obj->getCount());
+  //st->print("- address: %p,",(void *)obj);
+  //st->print("- size: %d,", obj->size());
+  //st->print(" - count: %" PRIu64 ",", obj->getCount());
   st->print(" - klass: ");
   obj->klass()->print_value_on(st);
   st->cr();
-  fflush(stdout);
 }
 
 void Klass::oop_print_value_on(oop obj, outputStream* st) {
