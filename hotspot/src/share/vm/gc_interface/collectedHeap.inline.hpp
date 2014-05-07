@@ -244,9 +244,10 @@ HeapWord* CollectedHeap::allocate_from_tlab(Thread* thread, size_t size) {
 	  printf("allocate_from_tlab, allocating obj = %p\n", obj); fflush(stdout);
     return obj;
   }
+  obj = allocate_from_tlab_slow(thread, size);
   printf("allocate_from_tlab_slow, allocating obj = %p\n", obj); fflush(stdout);
   // Otherwise...
-  return allocate_from_tlab_slow(thread, size);
+  return obj;
 }
 
 void CollectedHeap::init_obj(HeapWord* obj, size_t size) {
