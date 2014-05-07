@@ -51,7 +51,7 @@ size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 // turn it on so that the contents of the young list (scan-only /
 // to-be-collected) are printed at "strategic" points before / during
 // / after the collection --- this is useful for debugging
-#define YOUNG_LIST_VERBOSE 1
+#define YOUNG_LIST_VERBOSE 0
 // CURRENT STATUS
 // This file is under construction.  Search for "FIXME".
 

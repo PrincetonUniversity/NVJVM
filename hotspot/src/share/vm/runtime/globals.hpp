@@ -1949,7 +1949,7 @@ class CommandLineFlags {
   product_pd(bool, ResizeTLAB,                                              \
           "Dynamically resize tlab size for threads")                       \
                                                                             \
-  product(bool, ZeroTLAB, false,                                            \
+  product(bool, ZeroTLAB, true,                                            \
           "Zero out the newly created TLAB")                                \
                                                                             \
   product(bool, FastTLABRefill, true,                                       \
