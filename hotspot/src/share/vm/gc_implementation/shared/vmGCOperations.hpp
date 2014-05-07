@@ -170,7 +170,10 @@ class VM_GenCollectForAllocation: public VM_GC_Operation {
   ~VM_GenCollectForAllocation()  {}
   virtual VMOp_Type type() const { return VMOp_GenCollectForAllocation; }
   virtual void doit();
-  HeapWord* result() const       { return _res; }
+  HeapWord* result() const       {
+	  printf("res: %p\n", _res); fflush(stdout);
+	  return _res;
+  }
 };
 
 
@@ -208,7 +211,9 @@ class VM_GenCollectForPermanentAllocation: public VM_GC_Operation {
   ~VM_GenCollectForPermanentAllocation()  {}
   virtual VMOp_Type type() const { return VMOp_GenCollectForPermanentAllocation; }
   virtual void doit();
-  HeapWord* result() const       { return _res; }
+  HeapWord* result() const       {
+	  printf("result %p\n", _res); fflush(stdout);
+	  return _res; }
 };
 
 class SvcGCMarker : public StackObj {

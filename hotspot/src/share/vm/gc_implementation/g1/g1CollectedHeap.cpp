@@ -847,7 +847,7 @@ G1CollectedHeap::mem_allocate(size_t word_size,
       result = attempt_allocation_humongous(word_size, &gc_count_before);
     }
     if (result != NULL) {
-    printf("mem_allocate, return result %p\n", result);
+    printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     }
 
