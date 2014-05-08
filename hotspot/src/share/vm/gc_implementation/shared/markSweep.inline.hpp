@@ -103,7 +103,7 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
     if (L_DEBUG){
     	printf("In adjust pointer, new_obj = %p, old_obj = %p, old obj count =%d\n", new_obj, obj, obj->getCount()); fflush(stdout);
     }
-    new_obj->setCount(obj->getCount());
+
     assert(new_obj != NULL ||                         // is forwarding ptr?
            obj->mark() == markOopDesc::prototype() || // not gc marked?
            (UseBiasedLocking && obj->mark()->has_bias_pattern()) ||
@@ -114,9 +114,10 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
       assert(Universe::heap()->is_in_reserved(new_obj),
              "should be in object space");
       oopDesc::encode_store_heap_oop_not_null(p, new_obj);
+      new_obj->setCount(obj->getCount());
     }
   }
-  assert(new_obj->getCount() == obj->getCount(), "count mismatch in adjust pointer");
+  assert((new_obj == NULL) || (new_obj->getCount() == obj->getCount()), "count mismatch in adjust pointer");
   VALIDATE_MARK_SWEEP_ONLY(track_adjusted_pointer(p, isroot));
 }
 

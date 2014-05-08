@@ -4417,7 +4417,8 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
   oop forward_ptr = old->forward_to_atomic(obj);
   if (L_DEBUG){
-	  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
+	  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p, heap region is young %d,\n", obj, ((oop)obj)->getCount(), forward_ptr,
+			  from_region->is_young() ); fflush(stdout);
   }
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
