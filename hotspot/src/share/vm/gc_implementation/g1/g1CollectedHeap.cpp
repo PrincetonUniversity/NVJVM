@@ -4421,13 +4421,10 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   //printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
-    printf("old_count=%p, old_address = %p, name =%s\n", old->getCount(), old, old->klass()->blueprint()->internal_name());
-    fflush(stdout);
-    /*if (old->getCount() != 0) {
-    	  //printf("pointer %p, from region = %d\n", old, from_region->is_young()); fflush(stdout);
-    	  //printf("pointer %p,purpose %d\n", old, alloc_purpose); fflush(stdout);
-    	exit(1);
-    }*/
+    if (L_DEBUG){
+    	printf("old_count=%p, old_address = %p, name =%s\n", old->getCount(), old, old->klass()->blueprint()->internal_name());
+    	fflush(stdout);
+    }
     if (g1p->track_object_age(alloc_purpose)) {
       // We could simply do obj->incr_age(). However, this causes a
       // performance issue. obj->incr_age() will first check whether

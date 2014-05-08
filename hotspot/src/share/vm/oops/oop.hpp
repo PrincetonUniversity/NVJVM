@@ -93,7 +93,6 @@ class oopDesc {
   markOop* mark_addr() const    { return (markOop*) &_mark; }
 
   void set_mark(volatile markOop m)      {
-	  //printf("calling set mark %p\n", this); fflush(stdout);
 	  _mark = m;
   }
 
@@ -103,8 +102,6 @@ class oopDesc {
   // Used only to re-initialize the mark word (e.g., of promoted
   // objects during a GC) -- requires a valid klass pointer
   void init_mark();
-
-
 
   klassOop klass() const;
   klassOop klass_or_null() const volatile;
