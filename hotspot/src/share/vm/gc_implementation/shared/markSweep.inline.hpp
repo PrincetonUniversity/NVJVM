@@ -114,7 +114,7 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
       assert(Universe::heap()->is_in_reserved(new_obj),
              "should be in object space");
       oopDesc::encode_store_heap_oop_not_null(p, new_obj);
-      new_obj->setCount(obj->getCount());
+
     }
   }
   //assert((new_obj == NULL) || (new_obj->getCount() == obj->getCount()), "count mismatch in adjust pointer");

@@ -3941,7 +3941,7 @@ public:
     } else {
       // The object has been either evacuated or is dead. Fill it with a
       // dummy object.
-      obj->resetCount();
+      //obj->resetCount();
       MemRegion mr((HeapWord*)obj, obj_size);
       CollectedHeap::fill_with_object(mr);
       _cm->clearRangeBothMaps(mr);
@@ -4428,8 +4428,11 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     if (L_COUNT){
-    	printf("old_count=%d, old_address = %p, name =%s\n", old->getCount(), old, old->blueprint()->internal_name());
+    	if (old->getCount() != 0){
+    	//printf("old_count=%d, old_address = %p, name =%s\n", old->getCount(), old, old->blueprint()->internal_name());
+    	printf("%d,%p,%s\n", old->getCount(), old, old->blueprint()->internal_name());
     	fflush(stdout);
+    	}
     }
     if(L_ASSERT){
     	assert(old->getCount() == ((oop)obj)->getCount(), "object count mismatch, copy_to_survivor_space");
@@ -4835,6 +4838,9 @@ void G1CollectedHeap::save_marks() {
 
 void G1CollectedHeap::evacuate_collection_set() {
   //printf("in evacuate collection set \n"); fflush(stdout);
+  if (L_COUNT){
+	printf("starting evacuation collection cycle \n"); fflush(stdout);
+  }
   set_evacuation_failed(false);
 
   g1_rem_set()->prepare_for_oops_into_collection_set_do();

@@ -84,7 +84,7 @@ void PSPromotionLAB::flush() {
   typeArrayOop filler_oop = (typeArrayOop) top();
   filler_oop->set_mark(markOopDesc::prototype());
   filler_oop->set_klass(Universe::intArrayKlassObj());
-  filler_oop->resetCount();
+  //filler_oop->resetCount();
   const size_t array_length =
     pointer_delta(tlab_end, top()) - typeArrayOopDesc::header_size(T_INT);
   assert( (array_length * (HeapWordSize/sizeof(jint))) < (size_t)max_jint, "array too big in PSPromotionLAB");

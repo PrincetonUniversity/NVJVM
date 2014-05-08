@@ -73,7 +73,10 @@ public:
     HeapWord* res = _top;
     if (pointer_delta(_end, _top) >= word_sz) {
       _top = _top + word_sz;
-      ((oop)res)->resetCount();
+      if (L_DEBUG){
+    	  printf("allocating %p, from ParGCAllocBuffer \n", res); fflush(stdout);
+      }
+      //((oop)res)->resetCount();
       return res;
     } else {
       return NULL;
