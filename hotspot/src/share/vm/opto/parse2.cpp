@@ -59,12 +59,14 @@ void Parse::array_load(BasicType elem_type) {
 
 //--------------------------------array_store----------------------------------
 void Parse::array_store(BasicType elem_type) {
+  Node *array_adr = peek(1);
   Node* adr = array_addressing(elem_type, 1);
   if (stopped())  return;     // guaranteed null or range check
   Node* val = pop();
   _sp -= 2;                   // Pop array and index
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   store_to_memory(control(), adr, val, elem_type, adr_type);
+  increment_count(array_adr, control());
 }
 
 
@@ -1513,30 +1515,59 @@ void Parse::do_one_bytecode() {
     break;
   case Bytecodes::_fstore_0:
   case Bytecodes::_istore_0:
+	  set_local( 0, pop() );
+	  break;
+
   case Bytecodes::_astore_0:
-    set_local( 0, pop() );
+    Node *obj = pop();
+	set_local( 0, obj );
+	increment_access_counter(obj);
     break;
   case Bytecodes::_fstore_1:
   case Bytecodes::_istore_1:
+	  set_local( 1, pop() );
+	  break;
+
   case Bytecodes::_astore_1:
-    set_local( 1, pop() );
+	Node *obj = pop();
+	set_local( 1, obj );
+	increment_access_counter(obj);
     break;
+
   case Bytecodes::_fstore_2:
   case Bytecodes::_istore_2:
+	  set_local( 2, pop() );
+	  break;
+
   case Bytecodes::_astore_2:
-    set_local( 2, pop() );
-    break;
+	Node *obj = pop();
+	set_local( 2, obj );
+	increment_access_counter(obj);
+	break;
+
   case Bytecodes::_fstore_3:
   case Bytecodes::_istore_3:
+  set_local( 3, pop() );
+	  break;
+
   case Bytecodes::_astore_3:
-    set_local( 3, pop() );
-    break;
+	Node *obj = pop();
+	set_local( 3, obj );
+	increment_access_counter(obj);
+	break;
+
   case Bytecodes::_fstore:
   case Bytecodes::_istore:
+	set_local( iter().get_index(), pop() );
+	break;
+
   case Bytecodes::_astore:
-    set_local( iter().get_index(), pop() );
-    break;
-  // long stores
+	Node *obj = pop();
+	set_local( iter().get_index(), obj );
+	increment_access_counter(obj);
+	break;
+
+   // long stores
   case Bytecodes::_lstore_0:
     set_pair_local( 0, pop_pair() );
     break;
