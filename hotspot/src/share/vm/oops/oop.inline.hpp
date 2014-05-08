@@ -272,9 +272,6 @@ inline void oopDesc::store_heap_oop(narrowOop* p, narrowOop v)     { *p = v; }
 
 // Encode and store a heap oop.
 inline void oopDesc::encode_store_heap_oop_not_null(narrowOop* p, oop v) {
-	 if(L_DEBUG){
-		 printf("store_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
-	 }
  *p = encode_heap_oop_not_null(v);
 }
 inline void oopDesc::encode_store_heap_oop_not_null(oop* p, oop v) {
@@ -696,6 +693,10 @@ inline void oopDesc::forward_to(oop p) {
   markOop m = markOopDesc::encode_pointer_as_mark(p);
   assert(m->decode_pointer() == p, "encoding must be reversable");
   set_mark(m);
+  //p->setCount(getCount()); // Check Set Mark
+  if(L_DEBUG){
+	  printf("forwarding %p to %p\n",this, p); fflush(stdout);
+  }
 }
 
 // Used by parallel scavengers
@@ -707,12 +708,18 @@ inline bool oopDesc::cas_forward_to(oop p, markOop compare) {
   markOop m = markOopDesc::encode_pointer_as_mark(p);
   assert(m->decode_pointer() == p, "encoding must be reversable");
   return cas_set_mark(m, compare) == compare;
+  if(L_DEBUG){
+	  printf("forwarding %p to %p\n",this, p); fflush(stdout);
+  }
 }
 
 // Note that the forwardee is not the same thing as the displaced_mark.
 // The forwardee is used when copying during scavenge and mark-sweep.
 // It does need to clear the low two locking- and GC-related bits.
 inline oop oopDesc::forwardee() const {
+  if(L_DEBUG){
+	  printf("this %p, forwardee %p\n", this, mark()->decode_pointer());
+  }
   return (oop) mark()->decode_pointer();
 }
 
