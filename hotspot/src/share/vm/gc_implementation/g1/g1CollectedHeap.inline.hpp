@@ -52,9 +52,9 @@ G1CollectedHeap::heap_region_containing_raw(const void* addr) const {
 
   HeapRegion* res = _hrs->at(index);
 
-  if (L_DEBUG){
+  /*if (L_DEBUG){
 	  printf("pointer = %p, index = %d, heap region = %p, pointer_delta = %p\n", addr, index, res, pointer_delta(addr, _g1_reserved.start(), 1)); fflush(stdout);
-  }
+  }*/
   assert(res == _hrs->addr_to_region(addr), "sanity");
   return res;
 }
