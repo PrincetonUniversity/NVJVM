@@ -794,6 +794,7 @@ void TemplateTable::aload(int n) {
   int ce_offset = oopDesc::counter_offset_in_bytes();
   Address object = aaddress(n);
   __ movptr(r10, object);
+
   Address objectCounter = Address(r10, ce_offset);
   __ movptr(rax,object);
   __ testptr(rax, rax);
