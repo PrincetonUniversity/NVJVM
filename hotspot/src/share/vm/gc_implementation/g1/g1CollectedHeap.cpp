@@ -4518,11 +4518,10 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     if (obj->is_forwarded()) {
       oopDesc::encode_store_heap_oop(p, obj->forwardee());
     } else {
-     // printf("calling copy to survivor %p\n",obj);fflush(stdout);
       oop copy_oop = copy_to_survivor_space(obj);
       if (L_DEBUG){
     	  if (copy_oop != NULL){
-    		  flprintf("copy_to_survivor_space returned %p\n", copy_oop);
+    		  printf("copy_to_survivor_space returned %p\n", copy_oop); fflush(stdout);
     	  }
       }
       oopDesc::encode_store_heap_oop(p, copy_oop);
