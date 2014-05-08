@@ -2826,6 +2826,8 @@ class CommandLineFlags {
 		 "print to output")													\
   product(bool, L_COUNT, false,												\
 		 "print count to output")											\
+product(bool, L_ASSERT, true,												\
+		 "use of custom assertions")										\
                                                                             \
   develop(bool, TraceCompilationPolicy, false,                              \
           "Trace compilation policy")                                       \

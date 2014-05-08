@@ -570,9 +570,6 @@ void TemplateTable::dload() {
 }
 
 void TemplateTable::aload() {
-#ifdef _L_DEBUG
-	printf("in aload()\n");fflush(stdout);
-#endif
   transition(vtos, atos);
   locals_index(rbx);
   Label nullObj;
@@ -787,9 +784,6 @@ void TemplateTable::dload(int n) {
 }
 
 void TemplateTable::aload(int n) {
-#ifdef _L_DEBUG
-	printf("in aload(int %d)\n", n); fflush(stdout);
-#endif
  transition(vtos, atos);
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
@@ -811,7 +805,6 @@ void TemplateTable::aload(int n) {
 }
 
 void TemplateTable::aload_0() {
-  //printf("in aload_0");
   transition(vtos, atos);
   // According to bytecode histograms, the pairs:
   //

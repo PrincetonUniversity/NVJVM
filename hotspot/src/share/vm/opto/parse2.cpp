@@ -1421,42 +1421,26 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_aload_0:
-#ifdef _L_DEBUG
-	  flprintf("in parse2: _aload_0\n"); fflush(stdout);
-#endif
 	obj = local(0);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
-#ifdef _L_DEBUG
-	  flprintf("in parse2: _aload_1\n"); fflush(stdout);
-#endif
 	obj = local(1);
     push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
-#ifdef _L_DEBUG
-	  flprintf("in parse2: _aload_2\n"); fflush(stdout);
-#endif
     obj = local(2);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload_3:
-#ifdef _L_DEBUG
-	  flprintf("in parse2: _aload_3\n");
-#endif
     obj = local(3);
 	push( obj );
     increment_access_counter(obj);
     break;
   case Bytecodes::_aload:
-#ifdef _L_DEBUG
-	  flprintf("in parse2: _aload\n");
-#endif
-
 	obj = local(iter().get_index());
     push( obj );
     increment_access_counter(obj);

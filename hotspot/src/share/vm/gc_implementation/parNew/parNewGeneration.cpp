@@ -1501,7 +1501,11 @@ bool ParNewGeneration::take_from_overflow_list_work(ParScanThreadState* par_scan
     oop obj_to_push = cur->forwardee();
     oop next        = oop(cur->klass_or_null());
     cur->set_klass(obj_to_push->klass());
-    cur->setCount(obj_to_push->getCount());
+    obj_to_push->setCount(cur->getCount());
+    if (L_DEBUG){
+    	printf("cur %p, obj_to_push %p, cur_count = %d, obj_to_pus_count %d\n", cur, obj_to_push,
+    			cur->getCount(), obj_to_push->getCount()); fflush(stdout);
+    }
     // This may be an array object that is self-forwarded. In that case, the list pointer
     // space, cur, is not in the Java heap, but rather in the C-heap and should be freed.
     if (!is_in_reserved(cur)) {
@@ -1514,6 +1518,9 @@ bool ParNewGeneration::take_from_overflow_list_work(ParScanThreadState* par_scan
       obj_to_push = cur;
     }
     bool ok = work_q->push(obj_to_push);
+    if (L_DEBUG){
+    	printf("pushing obj_to_push %p, count %d\n", obj_to_push, obj_to_push->getCount()); fflush(stdout);
+    }
     assert(ok, "Should have succeeded");
     cur = next;
     n++;

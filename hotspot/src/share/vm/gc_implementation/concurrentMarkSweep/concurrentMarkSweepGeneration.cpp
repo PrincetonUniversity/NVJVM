@@ -1399,6 +1399,10 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   HeapWord* old_ptr = (HeapWord*)old;
   // Restore the mark word copied above.
   obj->set_mark(m);
+  obj->setCount(old->getCount());
+  if (L_DEBUG){
+	  printf("old_object=%p, promoted to new_object=%p \n", old, obj); fflush(stdout);
+  }
   assert(obj->klass_or_null() == NULL, "Object should be uninitialized here.");
   assert(!((FreeChunk*)obj_ptr)->isFree(), "Error, block will look free but show wrong size");
   OrderAccess::storestore();
@@ -1427,7 +1431,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   // Finally, install the klass pointer (this should be volatile).
   OrderAccess::storestore();
   obj->set_klass(old->klass());
-  obj->setCount(old->getCount());
+
   // We should now be able to calculate the right size for this object
   assert(obj->is_oop() && obj->size() == (int)word_sz, "Error, incorrect size computed for promoted object");
 
@@ -1438,7 +1442,9 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
     Atomic::inc_ptr(&_numObjectsPromoted);
     Atomic::add_ptr(alloc_sz, &_numWordsPromoted);
   )
-
+  if (L_ASSERT){
+	  assert(obj->getCount() == old->getCount(), "count assert");
+  }
   return obj;
 }
 

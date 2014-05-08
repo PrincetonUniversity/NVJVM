@@ -116,7 +116,9 @@ inline void oopDesc::set_klass(klassOop k) {
   } else {
     oop_store_without_check(klass_addr(), (oop) k);
   }
-  //printf("Set Class Called For for %p\n", this); fflush(stdout);
+  if (L_DEBUG){
+	  printf("Set Class Called For for %p\n", this); fflush(stdout);
+  }
 }
 
 

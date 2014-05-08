@@ -4415,15 +4415,18 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
 
   // We're going to allocate linearly, so might as well prefetch ahead.
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
-
   oop forward_ptr = old->forward_to_atomic(obj);
-
-  //printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
+  if (L_DEBUG){
+	  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p\n", obj, ((oop)obj)->getCount(), forward_ptr); fflush(stdout);
+  }
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     if (L_COUNT){
     	printf("old_count=%d, old_address = %p, name =%s\n", old->getCount(), old, old->blueprint()->internal_name());
     	fflush(stdout);
+    }
+    if(L_ASSERT){
+    	assert(old->getCount() == ((oop)obj)->getCount(), "object count mismatch, copy_to_survivor_space");
     }
     if (g1p->track_object_age(alloc_purpose)) {
       // We could simply do obj->incr_age(). However, this causes a
