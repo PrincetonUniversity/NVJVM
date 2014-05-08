@@ -59,7 +59,7 @@ void Parse::array_load(BasicType elem_type) {
 
 //--------------------------------array_store----------------------------------
 void Parse::array_store(BasicType elem_type) {
-  Node *array_adr = peek(1);
+  Node *array_adr = peek(2);
   Node* adr = array_addressing(elem_type, 1);
   if (stopped())  return;     // guaranteed null or range check
   Node* val = pop();
