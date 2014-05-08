@@ -196,6 +196,9 @@ inline bool check_obj_alignment(oop obj) {
 }
 
 inline narrowOop oopDesc::encode_heap_oop_not_null(oop v) {
+	if(L_DEBUG){
+		 printf("encode_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
+	 }
   assert(!is_null(v), "oop value can never be zero");
   assert(check_obj_alignment(v), "Address not aligned");
   assert(Universe::heap()->is_in_reserved(v), "Address not in heap");
@@ -211,6 +214,9 @@ inline narrowOop oopDesc::encode_heap_oop_not_null(oop v) {
 }
 
 inline narrowOop oopDesc::encode_heap_oop(oop v) {
+	if(L_DEBUG){
+		 printf("encode_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
+	 }
   return (is_null(v)) ? (narrowOop)0 : encode_heap_oop_not_null(v);
 }
 
@@ -255,14 +261,28 @@ inline oop oopDesc::load_decode_heap_oop(narrowOop* p) {
 }
 
 // Store already encoded heap oop into the heap.
-inline void oopDesc::store_heap_oop(oop* p, oop v)                 { *p = v; }
+inline void oopDesc::store_heap_oop(oop* p, oop v)                 {
+	 if(L_DEBUG){
+		 printf("store_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
+	 }
+
+	 *p = v;
+}
 inline void oopDesc::store_heap_oop(narrowOop* p, narrowOop v)     { *p = v; }
 
 // Encode and store a heap oop.
 inline void oopDesc::encode_store_heap_oop_not_null(narrowOop* p, oop v) {
-  *p = encode_heap_oop_not_null(v);
+	 if(L_DEBUG){
+		 printf("store_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
+	 }
+ *p = encode_heap_oop_not_null(v);
 }
-inline void oopDesc::encode_store_heap_oop_not_null(oop* p, oop v) { *p = v; }
+inline void oopDesc::encode_store_heap_oop_not_null(oop* p, oop v) {
+	 if(L_DEBUG){
+		 printf("encode_store_heap_oop_not_null, storing in heap oop = %p\n", v); fflush(stdout);
+	 }
+	*p = v;
+}
 
 // Encode and store a heap oop allowing for null.
 inline void oopDesc::encode_store_heap_oop(narrowOop* p, oop v) {

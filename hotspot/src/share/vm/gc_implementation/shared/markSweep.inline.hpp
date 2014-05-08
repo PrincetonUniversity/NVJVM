@@ -117,7 +117,7 @@ template <class T> inline void MarkSweep::adjust_pointer(T* p, bool isroot) {
       new_obj->setCount(obj->getCount());
     }
   }
-  assert((new_obj == NULL) || (new_obj->getCount() == obj->getCount()), "count mismatch in adjust pointer");
+  //assert((new_obj == NULL) || (new_obj->getCount() == obj->getCount()), "count mismatch in adjust pointer");
   VALIDATE_MARK_SWEEP_ONLY(track_adjusted_pointer(p, isroot));
 }
 
