@@ -268,7 +268,12 @@ inline void oopDesc::encode_store_heap_oop_not_null(oop* p, oop v) { *p = v; }
 inline void oopDesc::encode_store_heap_oop(narrowOop* p, oop v) {
   *p = encode_heap_oop(v);
 }
-inline void oopDesc::encode_store_heap_oop(oop* p, oop v) { *p = v; }
+inline void oopDesc::encode_store_heap_oop(oop* p, oop v) {
+ if(L_DEBUG){
+	 printf("storing in heap oop = %p\n", v); fflush(stdout);
+ }
+	*p = v;
+}
 
 // Store heap oop as is for volatile fields.
 inline void oopDesc::release_store_heap_oop(volatile oop* p, oop v) {

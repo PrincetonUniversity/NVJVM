@@ -4041,6 +4041,11 @@ G1CollectedHeap::handle_evacuation_failure_par(OopsInHeapRegionClosure* cl,
                  (HeapWord*) old));
   markOop m = old->mark();
   oop forward_ptr = old->forward_to_atomic(old);
+  if (L_DEBUG){
+	if (forward_ptr != NULL){
+		printf("mark set atomically %p\n", forward_ptr); fflush(stdout);
+	}
+  }
   if (forward_ptr == NULL) {
     // Forward-to-self succeeded.
     if (_evac_failure_closure != cl) {
@@ -4418,7 +4423,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   oop forward_ptr = old->forward_to_atomic(obj);
   if (L_DEBUG){
 	  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p, heap region is young %d,\n", obj, ((oop)obj)->getCount(), forward_ptr,
-			  from_region->is_young() ); fflush(stdout);
+			  from_region->is_young()); fflush(stdout);
   }
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
@@ -4515,6 +4520,11 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     } else {
      // printf("calling copy to survivor %p\n",obj);fflush(stdout);
       oop copy_oop = copy_to_survivor_space(obj);
+      if (L_DEBUG){
+    	  if (copy_oop != NULL){
+    		  flprintf("copy_to_survivor_space returned %p\n", copy_oop);
+    	  }
+      }
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
     // When scanning the RS, we only care about objs in CS.
