@@ -918,6 +918,18 @@ void TemplateTable::astore() {
   transition(vtos, vtos);
   __ pop_ptr(rax);
   locals_index(rbx);
+  Label nullObj;
+  int ce_offset = oopDesc::counter_offset_in_bytes();
+  Address object = aaddress(rbx);
+  __ movptr(r10, object);
+  Address objectCounter = Address(r10, ce_offset);
+  __ movptr(r11,object);
+  __ testptr(r11, r11);
+  __ jcc(Assembler::zero, nullObj);
+  __ movl(r11, objectCounter);        // load access counter
+  __ incrementl(r11, 1);       // increment access counter
+  __ movl(objectCounter, r11);        // store access counter
+  __ bind(nullObj);
   __ movptr(aaddress(rbx), rax);
 }
 
@@ -1123,6 +1135,18 @@ void TemplateTable::dstore(int n) {
 void TemplateTable::astore(int n) {
   transition(vtos, vtos);
   __ pop_ptr(rax);
+  Label nullObj;
+  int ce_offset = oopDesc::counter_offset_in_bytes();
+  Address object = aaddress(n);
+  __ movptr(r10, object);
+  Address objectCounter = Address(r10, ce_offset);
+  __ movptr(r11,object);
+  __ testptr(r11, r11);
+  __ jcc(Assembler::zero, nullObj);
+  __ movl(r11, objectCounter);        // load access counter
+  __ incrementl(r11, 1);       // increment access counter
+  __ movl(objectCounter, r11);        // store access counter
+  __ bind(nullObj);
   __ movptr(aaddress(n), rax);
 }
 
