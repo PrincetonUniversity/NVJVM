@@ -1519,17 +1519,18 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_0:
-    Node *obj = pop();
+    obj = pop();
 	set_local( 0, obj );
 	increment_access_counter(obj);
     break;
+
   case Bytecodes::_fstore_1:
   case Bytecodes::_istore_1:
 	  set_local( 1, pop() );
 	  break;
 
   case Bytecodes::_astore_1:
-	Node *obj = pop();
+	obj = pop();
 	set_local( 1, obj );
 	increment_access_counter(obj);
     break;
@@ -1540,7 +1541,7 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_2:
-	Node *obj = pop();
+	obj = pop();
 	set_local( 2, obj );
 	increment_access_counter(obj);
 	break;
@@ -1551,7 +1552,7 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_3:
-	Node *obj = pop();
+	obj = pop();
 	set_local( 3, obj );
 	increment_access_counter(obj);
 	break;
@@ -1562,7 +1563,7 @@ void Parse::do_one_bytecode() {
 	break;
 
   case Bytecodes::_astore:
-	Node *obj = pop();
+	obj = pop();
 	set_local( iter().get_index(), obj );
 	increment_access_counter(obj);
 	break;
