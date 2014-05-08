@@ -327,7 +327,7 @@ class TemplateTable: AllStatic {
 
   static void shouldnotreachhere();
 
-  static void increment_array_counter(Register, Register);
+  static void increment_array_counter(Register);
 
   // jvmti support
   static void jvmti_post_field_access(Register cache, Register index, bool is_static, bool has_tos);
