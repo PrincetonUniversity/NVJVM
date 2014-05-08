@@ -79,7 +79,9 @@ inline oop oopDesc::forward_to_atomic(oop p) {
   markOop oldMark = mark();
   markOop forwardPtrMark = markOopDesc::encode_pointer_as_mark(p);
   markOop curMark;
-
+  if (L_DEBUG){
+	  printf("atomically setting mark %p\n", p); fflush(stdout);
+  }
   assert(forwardPtrMark->decode_pointer() == p, "encoding must be reversable");
   assert(sizeof(markOop) == sizeof(intptr_t), "CAS below requires this.");
 

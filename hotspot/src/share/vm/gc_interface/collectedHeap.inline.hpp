@@ -268,7 +268,9 @@ oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
   post_allocation_setup_obj(klass, obj, size);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   assert(((oop)obj)->getCount == 0, "object count not null, CollectedHeap::obj_allocate");
-  //printf("In collected Heap, obj_allocate, obj=%p\n", obj); fflush(stdout);
+  if (L_DEBUG){
+	  printf("allocating obj, %p\n", obj); fflush(stdout);
+  }
   return (oop)obj;
 }
 
@@ -282,7 +284,9 @@ oop CollectedHeap::array_allocate(KlassHandle klass,
   HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
   post_allocation_setup_array(klass, obj, size, length);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
-  //printf("In collected Heap, array_allocate, obj=%p\n", obj); fflush(stdout);
+  if (L_DEBUG){
+	  printf("allocating array obj, %p\n", obj); fflush(stdout);
+  }
   return (oop)obj;
 }
 

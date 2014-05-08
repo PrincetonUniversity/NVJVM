@@ -1313,6 +1313,10 @@ inline void PSParallelCompact::adjust_pointer(T* p, bool isroot) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj     = oopDesc::decode_heap_oop_not_null(heap_oop);
     oop new_obj = (oop)summary_data().calc_new_pointer(obj);
+    if (L_DEBUG){
+    	printf("in adjust pointer, %p, %p\n", obj, new_obj); fflush(stdout);
+    }
+    new_obj->setCount(obj->getCount());
     assert(new_obj != NULL ||                     // is forwarding ptr?
            obj->is_shared(),                      // never forwarded?
            "should be forwarded");
