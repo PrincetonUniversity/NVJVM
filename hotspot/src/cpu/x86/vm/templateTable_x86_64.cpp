@@ -535,6 +535,7 @@ void TemplateTable::iload() {
   __ movl(rax, iaddress(rbx));
 }
 
+
 void TemplateTable::fast_iload2() {
   transition(vtos, itos);
   locals_index(rbx);
@@ -630,11 +631,20 @@ void TemplateTable::wide_aload() {
   __ movptr(rax, aaddress(rbx));
 }
 
+void increment_array_counter (Register array, Register ir){
+	 int ce_offset = oopDesc::counter_offset_in_bytes();
+	  Address objectCounter = Address(array, ce_offset);
+	  __ movl(ir, objectCounter);        // load access counter
+	  __ incrementl(ir, 1);       // increment access counter
+	  __ movl(objectCounter, ir);        // store access counter
+}
+
 void TemplateTable::index_check(Register array, Register index) {
   // destroys rbx
   // check array
   __ null_check(array, arrayOopDesc::length_offset_in_bytes());
   // sign extend index for use by indexed load
+  increment_array_counter (array, rbx);
   __ movl2ptr(index, index);
   // check index
   __ cmpl(index, Address(array, arrayOopDesc::length_offset_in_bytes()));
@@ -694,7 +704,7 @@ void TemplateTable::daload() {
 void TemplateTable::aaload() {
   transition(itos, atos);
   __ pop_ptr(rdx);
-  // eax: index
+  // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
   __ load_heap_oop(rax, Address(rdx, rax,
