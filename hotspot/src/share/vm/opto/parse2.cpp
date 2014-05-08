@@ -45,6 +45,7 @@ extern int explicit_null_checks_inserted,
 
 //---------------------------------array_load----------------------------------
 void Parse::array_load(BasicType elem_type) {
+  Node *array_adr = peek(1);
   const Type* elem = Type::TOP;
   Node* adr = array_addressing(elem_type, 0, &elem);
   if (stopped())  return;     // guaranteed null or range check
@@ -52,7 +53,7 @@ void Parse::array_load(BasicType elem_type) {
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
   push(ld);
-  increment_count(adr, control());
+  increment_count(array_adr, control());
 }
 
 
@@ -1653,19 +1654,21 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_faload: array_load(T_FLOAT);  break;
   case Bytecodes::_aaload: array_load(T_OBJECT); break;
   case Bytecodes::_laload: {
+	Node *array_adr = peek(1);
     a = array_addressing(T_LONG, 0);
     if (stopped())  return;     // guaranteed null or range check
     _sp -= 2;                   // Pop array and index
     push_pair( make_load(control(), a, TypeLong::LONG, T_LONG, TypeAryPtr::LONGS));
-    increment_count(a, control());
+    increment_count(array_adr, control());
     break;
   }
   case Bytecodes::_daload: {
+	Node *array_adr = peek(1);
     a = array_addressing(T_DOUBLE, 0);
     if (stopped())  return;     // guaranteed null or range check
     _sp -= 2;                   // Pop array and index
     push_pair( make_load(control(), a, Type::DOUBLE, T_DOUBLE, TypeAryPtr::DOUBLES));
-    increment_count(a, control());
+    increment_count(array_adr, control());
     break;
   }
   case Bytecodes::_bastore: array_store(T_BYTE);  break;
