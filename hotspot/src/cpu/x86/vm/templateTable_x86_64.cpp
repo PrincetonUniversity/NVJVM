@@ -631,7 +631,7 @@ void TemplateTable::wide_aload() {
   __ movptr(rax, aaddress(rbx));
 }
 
-void increment_array_counter (Register array, Register ir){
+void TemplateTable::increment_array_counter (Register array, Register ir){
 	 int ce_offset = oopDesc::counter_offset_in_bytes();
 	  Address objectCounter = Address(array, ce_offset);
 	  __ movl(ir, objectCounter);        // load access counter
@@ -644,7 +644,7 @@ void TemplateTable::index_check(Register array, Register index) {
   // check array
   __ null_check(array, arrayOopDesc::length_offset_in_bytes());
   // sign extend index for use by indexed load
-  increment_array_counter (array, rbx);
+  increment_array_counter (array, rbx); //#Change, to increment access counter, destroys rbx here, it is set later on by the index, rbx check
   __ movl2ptr(index, index);
   // check index
   __ cmpl(index, Address(array, arrayOopDesc::length_offset_in_bytes()));
