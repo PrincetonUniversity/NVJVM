@@ -4422,7 +4422,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     if (L_DEBUG){
-    	printf("old_count=%p, old_address = %p, name =%s\n", old->getCount(), old, old->klass()->blueprint()->internal_name());
+    	printf("old_count=%p, old_address = %p, name =%s\n", old->getCount(), old, old->klass()->blueprint()->external_name());
     	fflush(stdout);
     }
     if (g1p->track_object_age(alloc_purpose)) {
