@@ -1547,9 +1547,8 @@ void Parse::do_one_bytecode() {
 	break;
 
   case Bytecodes::_astore:
-	obj = pop();
-	increment_access_counter(obj);
-	set_local( iter().get_index(), obj );
+	increment_access_counter(peek(0));
+	set_local( iter().get_index(), pop() );
 	//increment_access_counter(obj);
 	break;
 
