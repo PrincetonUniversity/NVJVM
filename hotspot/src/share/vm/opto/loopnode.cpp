@@ -421,12 +421,13 @@ bool PhaseIdealLoop::is_counted_loop( Node *x, IdealLoopTree *loop ) {
     assert(check_iff->in(1)->Opcode() == Op_Conv2B &&
            check_iff->in(1)->in(1)->Opcode() == Op_Opaque1, "");
     Node* opq = check_iff->in(1)->in(1);
+    if (opq != NULL){
     _igvn.hash_delete(opq);
     opq->set_req(1, bol);
     // Update ctrl.
     set_ctrl(opq, check_iff->in(0));
     set_ctrl(check_iff->in(1), check_iff->in(0));
-
+    }
 #ifndef PRODUCT
     // report that the loop predication has been actually performed
     // for this loop
