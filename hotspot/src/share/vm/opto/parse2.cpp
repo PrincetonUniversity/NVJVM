@@ -53,7 +53,7 @@ void Parse::array_load(BasicType elem_type) {
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
   push(ld);
-  increment_count(array_adr, control());
+  //increment_count(array_adr, control());
 }
 
 
@@ -66,7 +66,7 @@ void Parse::array_store(BasicType elem_type) {
   _sp -= 2;                   // Pop array and index
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   store_to_memory(control(), adr, val, elem_type, adr_type);
-  increment_count(array_adr, control());
+  //increment_count(array_adr, control());
 }
 
 
