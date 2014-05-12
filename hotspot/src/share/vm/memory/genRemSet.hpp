@@ -27,7 +27,7 @@
 
 #include "oops/oop.hpp"
 
-// A GenRemSet provides ways of iterating over pointers accross generations.
+// A GenRemSet provides ways of iterating over pointers across generations.
 // (This is especially useful for older-to-younger.)
 
 class Generation;

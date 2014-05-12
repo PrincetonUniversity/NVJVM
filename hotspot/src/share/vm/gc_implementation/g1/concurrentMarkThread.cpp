@@ -141,7 +141,7 @@ void ConcurrentMarkThread::run() {
       do {
         iter++;
         if (!cm()->has_aborted()) {
-          _cm->markFromRoots();
+          _cm->markFromRoots(); // 2.5.2 Initial Marking Pause/Concurrent Marking
         }
 
         double mark_end_time = os::elapsedVTime();
@@ -162,7 +162,7 @@ void ConcurrentMarkThread::run() {
                                       mark_end_sec - mark_start_sec);
           }
 
-          CMCheckpointRootsFinalClosure final_cl(_cm);
+          CMCheckpointRootsFinalClosure final_cl(_cm); // 2.5.4 Final Marking Pause
           sprintf(verbose_str, "GC remark");
           VM_CGC_Operation op(&final_cl, verbose_str);
           VMThread::execute(&op);
@@ -223,7 +223,7 @@ void ConcurrentMarkThread::run() {
           os::sleep(current_thread, sleep_time_ms, false);
         }
 
-        CMCleanUp cl_cl(_cm);
+        CMCleanUp cl_cl(_cm); // 2.5.5 Live Data Counting and Cleanup
         sprintf(verbose_str, "GC cleanup");
         VM_CGC_Operation op(&cl_cl, verbose_str);
         VMThread::execute(&op);

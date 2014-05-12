@@ -70,6 +70,9 @@ VM_G1IncCollectionPause::VM_G1IncCollectionPause(
 }
 
 void VM_G1IncCollectionPause::doit() {
+  if (L_DEBUG){
+	  printf("in incremental collection pause\n"); fflush(stdout);
+  }
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   assert(!_should_initiate_conc_mark ||
   ((_gc_cause == GCCause::_gc_locker && GCLockerInvokesConcurrent) ||
@@ -91,7 +94,7 @@ void VM_G1IncCollectionPause::doit() {
   GCCauseSetter x(g1h, _gc_cause);
   if (_should_initiate_conc_mark) {
     // It's safer to read full_collections_completed() here, given
-    // that noone else will be updating it concurrently. Since we'll
+    // that no one else will be updating it concurrently. Since we'll
     // only need it if we're initiating a marking cycle, no point in
     // setting it earlier.
     _full_collections_completed_before = g1h->full_collections_completed();

@@ -914,7 +914,9 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
       if (result != NULL) {
-    	//printf("mem_allocate_slow, return result %p\n", result);
+    	if (L_DEBUG) {
+    		printf("mem_allocate_slow, from attempt_allocation_locked, return result %p\n", result); fflush(stdout);
+    	}
         return result;
       }
 
@@ -927,7 +929,9 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
           result = _mutator_alloc_region.attempt_allocation_force(word_size,
                                                       false /* bot_updates */);
           if (result != NULL) {
-        	//printf("mem_allocate_slow, return result %p\n", result); fflush(stdout);
+          	if (L_DEBUG) {
+          		printf("mem_allocate_slow, from attempt_allocation_force, return result %p\n", result); fflush(stdout);
+          	}
             return result;
           }
         }
@@ -936,6 +940,9 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
         // Read the GC count while still holding the Heap_lock.
         gc_count_before = SharedHeap::heap()->total_collections();
         should_try_gc = true;
+      	if (L_DEBUG) {
+      		printf("alocation failed, attempting GC, count = %d\n", gc_count_before); fflush(stdout);
+      	}
       }
     }
 
@@ -3043,6 +3050,9 @@ void G1CollectedHeap::gc_epilogue(bool full /* Ignored */) {
 HeapWord* G1CollectedHeap::do_collection_pause(size_t word_size,
                                                unsigned int gc_count_before,
                                                bool* succeeded) {
+  if (L_DEBUG){
+	  printf("in do_collection_pause\n"); fflush (stdout);
+  }
   assert_heap_not_locked_and_not_at_safepoint();
   g1_policy()->record_stop_world_start();
   VM_G1IncCollectionPause op(gc_count_before,
@@ -4422,13 +4432,16 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
   oop forward_ptr = old->forward_to_atomic(obj);
   if (L_DEBUG){
-	  printf("In copy_to_survivor_space, obj=%p, count=%p, fwd_ptr=%p, heap region is young %d,\n", obj, ((oop)obj)->getCount(), forward_ptr,
-			  from_region->is_young()); fflush(stdout);
+	  printf("In copy_to_survivor_space, old=%p, obj=%p, count=%p, fwd_ptr=%p, heap region is young %d, "
+			  "heap region is survivor %d\n",
+			  old, obj, ((oop)obj)->getCount(), forward_ptr,
+			  from_region->is_young(), from_region->is_survivor());
+	  fflush(stdout);
   }
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
     if (L_COUNT){
-    	if (old->getCount() != 0){
+    	if (true || old->getCount() != 0){
     	//printf("old_count=%d, old_address = %p, name =%s\n", old->getCount(), old, old->blueprint()->internal_name());
     	printf("%d,%p,%s\n", old->getCount(), old, old->blueprint()->internal_name());
     	fflush(stdout);

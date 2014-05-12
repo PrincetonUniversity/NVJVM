@@ -1879,8 +1879,14 @@ public:
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
     if (obj != NULL) {
+    if (L_DEBUG){
+    	printf("allocating from pss, GC thread, %p\n", obj); fflush(stdout);
+    }
     	return obj;
     } else {
+	if (L_DEBUG){
+		printf("allocating from pss, GC thread, %p\n", obj); fflush(stdout);
+	}
     	obj = allocate_slow(purpose, word_sz);
     	return  obj;
     }

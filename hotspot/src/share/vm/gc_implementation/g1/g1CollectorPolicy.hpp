@@ -1188,7 +1188,7 @@ protected:
   ageTable _survivors_age_table;
 
 public:
-
+// Here, the attribute count needs to be considered in order to select between a hot/cold region
   inline GCAllocPurpose
     evacuation_destination(HeapRegion* src_region, int age, size_t word_sz) {
       if (age < _tenuring_threshold && src_region->is_young()) {

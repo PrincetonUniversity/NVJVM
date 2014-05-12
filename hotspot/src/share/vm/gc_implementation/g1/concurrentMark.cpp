@@ -2269,7 +2269,7 @@ private:
 public:
   void work(int worker_i) {
     // Since all available tasks are actually started, we should
-    // only proceed if we're supposed to be actived.
+    // only proceed if we're supposed to be active.
     if ((size_t)worker_i < _cm->active_tasks()) {
       CMTask* task = _cm->task(worker_i);
       task->record_start_time();
