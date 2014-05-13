@@ -2825,7 +2825,7 @@ class CommandLineFlags {
   product(bool, L_DEBUG, false,												\
 		 "print to output")													\
   product(bool, L_SEGREGATION, false,										\
-		 		 "print to output")											\
+		 		 "printing segregation information")                        \
   product(bool, L_COUNT, false,												\
 		 "print count to output")											\
   product(bool, L_ASSERT, true,												\
