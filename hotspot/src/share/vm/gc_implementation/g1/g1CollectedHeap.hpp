@@ -70,6 +70,8 @@ typedef int CardIdx_t;     // needs to hold [ 0..CardsPerRegion )
 enum GCAllocPurpose {
   GCAllocForTenured,
   GCAllocForSurvived,
+  GCAllocForSurvivedCold,
+  GCAllocForTenuredCold,
   GCAllocPurposeCount
 };
 
@@ -223,7 +225,7 @@ private:
   void abandon_gc_alloc_regions();
 
   // The to-space memory regions into which objects are being copied during
-  // a GC.
+  // a GC. // _gc_alloc_regions are now extended to include cold regions too .
   HeapRegion* _gc_alloc_regions[GCAllocPurposeCount];
   size_t _gc_alloc_region_counts[GCAllocPurposeCount];
   // These are the regions, one per GCAllocPurpose, that are half-full
@@ -1876,6 +1878,7 @@ public:
     return obj;
   }
 
+// This is the place which allocates objects according to their age
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
     if (obj != NULL) {

@@ -1175,6 +1175,7 @@ protected:
   // Current tenuring threshold, set to 0 if the collector reaches the
   // maximum amount of suvivors regions.
   int _tenuring_threshold;
+  int _cold_threshold = 10;
 
   // The limit on the number of regions allocated for survivors.
   size_t _max_survivor_regions;
@@ -1190,10 +1191,16 @@ protected:
 public:
 // Here, the attribute count needs to be considered in order to select between a hot/cold region
   inline GCAllocPurpose
-    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz) {
+    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz, int access_count) {
       if (age < _tenuring_threshold && src_region->is_young()) {
+    	if (access_count < _cold_threshold){
+    		return GCAllocForSurvivedCold;
+    	}
         return GCAllocForSurvived;
       } else {
+      	if (access_count < _cold_threshold){
+      		return GCAllocForTenuredCold;
+      	}
         return GCAllocForTenured;
       }
   }

@@ -4416,8 +4416,9 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   markOop m = old->mark();
   int age = m->has_displaced_mark_helper() ? m->displaced_mark_helper()->age()
                                            : m->age();
+  // GCAllocPurpose now has a survived cold, tenured cold region for segregating objects by access count
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
-                                                             word_sz);
+                                                             word_sz, old->getCount());
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
 
