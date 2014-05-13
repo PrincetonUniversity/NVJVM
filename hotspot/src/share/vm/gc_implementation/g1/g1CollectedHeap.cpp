@@ -4430,7 +4430,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   if (L_SEGREGATION){
 	  char str [30];
 	  printf("L_SEGREGATION: moving object with address %p, count %d to region : %s\n", old, old->getCount(),
-			  g1p->region_name(alloc_purpose, str)) ; fflush ();
+			  g1p->region_name(alloc_purpose, str)) ; fflush (stdout);
   }
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
