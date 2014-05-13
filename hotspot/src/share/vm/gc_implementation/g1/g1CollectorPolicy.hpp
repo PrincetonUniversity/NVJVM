@@ -1206,22 +1206,27 @@ public:
   }
 
 
-  inline char * region_name(GCAllocPurpose purpose){
+  inline void region_name(GCAllocPurpose purpose, char * str){
 	  switch (purpose) {
 	  case GCAllocForSurvived:
-		  return "GCAllocForSurvived";
+		  strcpy(str, "GCAllocForSurvived");
+		  break;
 
 	  case GCAllocForTenured:
-		  return "GCAllocForTenured";
+		  strcpy(str, "GCAllocForTenured");
+		  break;
 
 	  case GCAllocForSurvivedCold:
-		  return "GCAllocForSurvivedCold";
+		  strcpy(str, "GCAllocForSurvivedCold");
+		  break;
 
 	  case GCAllocForTenuredCold:
-		  return "GCAllocForTenuredCold";
+		  strcpy(str, "GCAllocForTenuredCold");
+		  break;
 
 	  default:
-		  return "None";
+		  strcpy(str, "None");
+		  break;
 	  }
   }
 
