@@ -76,7 +76,6 @@ public:
       if (L_DEBUG){
     	  printf("allocating %p, from ParGCAllocBuffer \n", res); fflush(stdout);
       }
-      //((oop)res)->resetCount();
       return res;
     } else {
       return NULL;

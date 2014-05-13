@@ -1764,6 +1764,8 @@ protected:
 
   G1ParGCAllocBuffer  _surviving_alloc_buffer;
   G1ParGCAllocBuffer  _tenured_alloc_buffer;
+  G1ParGCAllocBuffer  _surviving_cold_alloc_buffer;
+  G1ParGCAllocBuffer  _tenured_cold_alloc_buffer;
   G1ParGCAllocBuffer* _alloc_buffers[GCAllocPurposeCount];
   ageTable            _age_table;
 

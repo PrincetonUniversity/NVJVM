@@ -3532,6 +3532,10 @@ size_t G1CollectedHeap::desired_plab_sz(GCAllocPurpose purpose)
     case GCAllocForTenured:
       gclab_word_size = OldPLABSize;
       break;
+    case GCAllocForSurvivedCold:
+    case GCAllocForTenuredCold:
+    	gclab_word_size = OldPLABSize;
+    	break;
     default:
       assert(false, "unknown GCAllocPurpose");
       gclab_word_size = OldPLABSize;
@@ -4280,6 +4284,8 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
     _term_attempts(0),
     _surviving_alloc_buffer(g1h->desired_plab_sz(GCAllocForSurvived)),
     _tenured_alloc_buffer(g1h->desired_plab_sz(GCAllocForTenured)),
+    _surviving_cold_alloc_buffer(g1h->desired_plab_sz(GCAllocForSurvivedCold)),
+    _tenured_cold_alloc_buffer(g1h->desired_plab_sz(GCAllocForTenuredCold)),
     _age_table(false),
     _strong_roots_time(0), _term_time(0),
     _alloc_buffer_waste(0), _undo_waste(0)
@@ -4302,6 +4308,8 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
 
   _alloc_buffers[GCAllocForSurvived] = &_surviving_alloc_buffer;
   _alloc_buffers[GCAllocForTenured]  = &_tenured_alloc_buffer;
+  _alloc_buffers[GCAllocForSurvivedCold]  = &_surviving_cold_alloc_buffer;
+  _alloc_buffers[GCAllocForTenuredCold]  = &_tenured_cold_alloc_buffer;
 
   _start = os::elapsedTime();
 }
