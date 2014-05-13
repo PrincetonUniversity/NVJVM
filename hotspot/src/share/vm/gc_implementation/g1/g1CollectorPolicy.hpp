@@ -1205,6 +1205,26 @@ public:
       }
   }
 
+
+  inline char * region_name(GCAllocPurpose purpose){
+	  switch (purpose) {
+	  case GCAllocForSurvived:
+		  return "GCAllocForSurvived";
+
+	  case GCAllocForTenured:
+		  return "GCAllocForTenured";
+
+	  case GCAllocForSurvivedCold:
+		  return "GCAllocForSurvivedCold";
+
+	  case GCAllocForTenuredCold:
+		  return "GCAllocForTenuredCold";
+
+	  default:
+		  return "None";
+	  }
+  }
+
   inline bool track_object_age(GCAllocPurpose purpose) {
     return purpose == GCAllocForSurvived;
   }

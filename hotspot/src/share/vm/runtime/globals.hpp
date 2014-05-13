@@ -2824,9 +2824,11 @@ class CommandLineFlags {
           "use compilation")                                                \
   product(bool, L_DEBUG, false,												\
 		 "print to output")													\
+  product(bool, L_SEGREGATION, false,										\
+		 		 "print to output")											\
   product(bool, L_COUNT, false,												\
 		 "print count to output")											\
-product(bool, L_ASSERT, true,												\
+  product(bool, L_ASSERT, true,												\
 		 "use of custom assertions")										\
                                                                             \
   develop(bool, TraceCompilationPolicy, false,                              \

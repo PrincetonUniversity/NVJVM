@@ -4427,6 +4427,10 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   // GCAllocPurpose now has a survived cold, tenured cold region for segregating objects by access count
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz, old->getCount());
+  if (L_SEGREGATION){
+	  printf("L_SEGREGATION: moving object with address %p, count %d to region : %s\n", old, old->getCount(),
+			  g1p->region_name(alloc_purpose)) ; fflush ();
+  }
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
 
