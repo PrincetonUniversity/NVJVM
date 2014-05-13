@@ -1175,7 +1175,7 @@ protected:
   // Current tenuring threshold, set to 0 if the collector reaches the
   // maximum amount of suvivors regions.
   int _tenuring_threshold;
-  int _cold_threshold = 10;
+  int _cold_threshold;
 
   // The limit on the number of regions allocated for survivors.
   size_t _max_survivor_regions;
