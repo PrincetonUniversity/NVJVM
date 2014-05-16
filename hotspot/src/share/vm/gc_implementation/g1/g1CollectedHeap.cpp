@@ -45,6 +45,7 @@
 #include "oops/oop.pcgc.inline.hpp"
 #include "runtime/aprofiler.hpp"
 #include "runtime/vmThread.hpp"
+#include "SSDSwap.h"
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
