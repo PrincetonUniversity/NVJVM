@@ -11,9 +11,9 @@
 #include "swap_global.h"
 #include "PageBuffer.h"
 
-typedef std::unordered_map<void *, SSDRange> swapMap;
+typedef std::tr1::unordered_map<void *, SSDRange> swapMap;
 typedef std::pair<void *, SSDRange> mapPair;
-typedef std::unordered_map<void *, SSDRange>::const_iterator swapMapIter;
+typedef std::tr1::unordered_map<void *, SSDRange>::const_iterator swapMapIter;
 
 class SwapManager {
 private:
