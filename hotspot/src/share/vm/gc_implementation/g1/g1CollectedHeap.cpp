@@ -1387,7 +1387,9 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
     assert( check_young_list_empty(true /* check_heap */),
             "young list should be empty at this point");
   }
-
+  // Swap Out A Heap Region
+  GCAllocPurpose purpose = GCAllocForTenuredCold;
+  swapOutRegion(purpose);
   // Update the number of full collections that have been completed.
   increment_full_collections_completed(false /* concurrent */);
 
@@ -1399,6 +1401,14 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
   g1mm()->update_counters();
 
   return true;
+}
+
+void swapOutRegion(GCAllocPurpose purpose){
+  if(L_SWAP){
+	  printf("swapping out buffer"); fflush(stdout);
+  }
+  G1ParGCAllocBuffer * buf = alloc_buffer(purpose);
+  ssdSwap->swapOut((void *)buf->get_hard_end(), (void *)buf->get_bottom());
 }
 
 void G1CollectedHeap::do_full_collection(bool clear_all_soft_refs) {

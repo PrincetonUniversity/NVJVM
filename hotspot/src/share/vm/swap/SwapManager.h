@@ -11,9 +11,9 @@
 #include "swap_global.h"
 #include "PageBuffer.h"
 
-typedef std::tr1::unordered_map<void *, SSDRange> swapMap;
+typedef std::map<void *, SSDRange> swapMap;
 typedef std::pair<void *, SSDRange> mapPair;
-typedef std::tr1::unordered_map<void *, SSDRange>::const_iterator swapMapIter;
+typedef std::map<void *, SSDRange>::const_iterator swapMapIter;
 
 class SwapManager {
 private:
@@ -23,11 +23,11 @@ private:
 public:
 	SwapManager();
 	virtual ~SwapManager();
-	SwapRange* swapRange(void *va);
-	static mapPair makePair(void *va, SSDRange ssdRange);
-	void mapRange(void *va, int offset_s, int offset_e);
-	static SwapRange* addressRegion(void *va);
-	static void* object_va_to_page_header(void *va);
+	SwapRange* swapRange(void *sa, void *ea);
+	void mapRange(void *va, SSDRange ssdRange);
+	static SwapRange* addressRegion(void *sa, void *ea);
+	static void* object_va_to_page_start(void *va);
+	static void* object_va_to_page_end(void *va);
 	void remapPage (void *address);
 
 };

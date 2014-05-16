@@ -17,49 +17,67 @@ SwapManager::~SwapManager() {
 	// TODO Auto-generated destructor stub
 }
 
+bool liesWithin(void *address, void *top, void *bottom){
+	return (((long)address >= (long)bottom) && ((long)address <= (long)top));
+}
+
 void SwapManager::remapPage (void *address){
-  SwapRange* swapRange = addressRegion(address);
-  void *page_header = swapRange->getStartAddress();
-  swapMapIter iter = _swap_map.find(page_header);
+  swapMapIter iter =_swap_map.lower_bound(address); // gets the page address
   if  (iter == _swap_map.end() ){
 	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
 	  exit(-1);
   }
+  void *top = iter->first;
   SSDRange ssdRange = iter->second;
-  if (DEBUG){
- 	  printf("seg_handler, page address on %p\n", page_header); fflush(stdout);
-   }
-  if (mprotect (page_header, PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
-  	printf ("error in protecting page %p\n", page_header);  fflush (stdout);
+  int numPages = ((ssdRange.getEnd() - ssdRange.getStart()) / PAGE_SIZE) + 1;
+  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - numPages * PAGE_SIZE));
+  if (liesWithin(address, top, bottom)){
+	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
+	  	printf ("error in protecting page %p\n", bottom);  fflush (stdout);
+	  } else {
+	  	SwapReader::swapIn(bottom, numPages, ssdRange.getStart());
+	  	_swap_map.erase (top);
+	  }
   } else {
-  	SwapReader::swapIn(page_header, swapRange->getNumPages(), ssdRange.getStart());
+	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
+	  exit(-1);
   }
 }
 
-SwapRange* SwapManager::swapRange(void *va) {
-	SwapRange* swap_range = addressRegion (va);
-	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getStartAddress(), swap_range->getNumPages());
-	mapRange(swap_range->getStartAddress(), ssdRange.getStart(), ssdRange.getEnd());
+SwapRange* SwapManager::swapRange(void *top, void *bot) {
+	SwapRange* swap_range = addressRegion (top, bot);
+	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages());
+	mapRange(swap_range->getTop(), ssdRange);
 	return swap_range;
 }
 
-void* SwapManager::object_va_to_page_header (void *object_va) {
+void* SwapManager::object_va_to_page_start (void *object_va) {
 	  return (void *)((long)object_va & (~(PAGE_SIZE-1)));
 }
 
-SwapRange* SwapManager::addressRegion(void *va){
-	SwapRange* swap_range = new SwapRange (1, object_va_to_page_header (va));
+void* SwapManager::object_va_to_page_end (void *object_va) {
+	  return (void *)((long)object_va | ((PAGE_SIZE-1)));
+}
+
+int abs(int x){
+	if (x < 0)
+		return -x;
+	return x;
+}
+
+SwapRange* SwapManager::addressRegion(void *top, void *bot){
+	void *top_h = object_va_to_page_end (top); // the largest address in the range
+	void *bot_l = object_va_to_page_start (bot); // the smallest address in the range
+	void *top_l = object_va_to_page_start (top); // the smallest address on the largest page
+	int num_pages = (((long)top_l - (long)bot_l)/(PAGE_SIZE)) + 1;
+	SwapRange* swap_range = new SwapRange (num_pages, top_h, bot_l);
 	return swap_range;
 }
 
-void SwapManager::mapRange(void *va, int offset_s, int offset_e){
-	SSDRange* ssdRange = new SSDRange (offset_s, offset_e);
-	mapPair mPair = makePair (va, *ssdRange);
+void SwapManager::mapRange(void *va, SSDRange ssdRange){
+	mapPair mPair = mapPair(va, ssdRange);
 	_swap_map.insert(mPair);
 }
 
-mapPair SwapManager::makePair(void *va, SSDRange ssdRange){
-	return mapPair(va, ssdRange);
-}
 
 

@@ -30,6 +30,6 @@ SSDRange SwapWriter::swapOut (void * va, int np){
 		  }
 	  }
 	  fclose (f);
-	  return SSDRange (off, off + np * PAGE_SIZE);
+	  return SSDRange (off, off + (np-1) * PAGE_SIZE);
 }
 

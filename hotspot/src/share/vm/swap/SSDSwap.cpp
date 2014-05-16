@@ -21,6 +21,6 @@ SSDSwap::~SSDSwap() {
 	// TODO Auto-generated destructor stub
 }
 
-void SSDSwap::swapOut(void *va){
-	_swap_manager->swapRange(va);
+void SSDSwap::swapOut(void *top, void *bot){
+	_swap_manager->swapRange(top, bot);
 }

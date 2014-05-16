@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include "string.h"
-#include <tr1/unordered_map>
-using namespace std::tr1;
+#include <map>
+using namespace std;
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
@@ -31,21 +31,27 @@ class SwapRange {
 
 private:
 	int _num_pages;
-	void *_start_address;
+	void *_top_address;
+	void *_bottom_address;
 public:
 	SwapRange(){
 		_num_pages = -1;
-		_start_address = NULL;
+		_top_address = NULL;
+		_bottom_address = NULL;
 	}
-	SwapRange(int n, void *a){
+	SwapRange(int n, void *top, void *bot){
 		_num_pages = n;
-		_start_address = a;
+		_top_address = top;
+		_bottom_address = bot;
 	}
 	int getNumPages (){
 		return _num_pages;
 	}
-	void *getStartAddress(){
-		return _start_address;
+	void *getTop(){
+		return _top_address;
+	}
+	void *getBot(){
+		return _bottom_address;
 	}
 };
 

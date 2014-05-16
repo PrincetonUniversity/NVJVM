@@ -29,7 +29,7 @@ public:
 	void* seg_handler (void *address);
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
-	void swapOut(void *va);
+	void swapOut(void *sa, void *ea);
 };
 
 #endif /* SSDSWAP_H_ */

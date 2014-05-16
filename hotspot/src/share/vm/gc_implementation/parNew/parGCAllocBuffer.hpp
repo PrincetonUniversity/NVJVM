@@ -65,6 +65,14 @@ public:
     return ThreadLocalAllocBuffer::max_size();
   }
 
+  HeapWord* get_hard_end(){
+	  return _hard_end;
+  }
+
+  HeapWord* get_bottom(){
+	  return _bottom;
+  }
+
   // If an allocation of the given "word_sz" can be satisfied within the
   // buffer, do the allocation, returning a pointer to the start of the
   // allocated block.  If the allocation request cannot be satisfied,
