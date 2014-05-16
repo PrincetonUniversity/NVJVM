@@ -23,7 +23,7 @@ void SwapManager::remapPage (void *address){
   swapMapIter iter = _swap_map.find(page_header);
   if  (iter == _swap_map.end() ){
 	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
-	  return;
+	  exit(-1);
   }
   SSDRange ssdRange = iter->second;
   if (DEBUG){
