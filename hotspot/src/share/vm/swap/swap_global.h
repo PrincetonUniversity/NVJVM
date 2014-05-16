@@ -13,7 +13,6 @@
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
-#include "assert.h"
 #include "string.h"
 #include <tr1/unordered_map>
 using namespace std::tr1;
