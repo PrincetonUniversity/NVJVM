@@ -18,16 +18,25 @@ SwapWriter::~SwapWriter() {
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np){
-	  int off = 0;
-	  FILE *f = fopen("/home/tandon/swap.txt", "w");
+	int off = 0;
+	if (L_SWAP){
+		  printf("In swapOut, writer writing out %d, top %p, offset %d\n", np, va, off); fflush(stdout);
+	}
+	  char file[] = "/home/tandon/swap.txt";
+	  FILE *f = fopen(file, "w");
+	  if (f == NULL){
+		  printf("Error opening swap file \n"); fflush(stdout);
+		  exit(-1);
+	  }
 	  fseek(f, off, SEEK_SET);
+	  if(ferror(f)){
+		  printf("Error seeking to %d of file %s\n", off, file);
+	  }
 	  size_t len = fwrite(va, sizeof(char), np * PAGE_SIZE, f);
 	  if (len == 0){
 		  fputs ("Error writing swap file\n", stderr); fflush(stdout);
 	  } else {
-		  if (DEBUG){
-			  printf("Writing %zd bytes from the file\n", len); fflush(stdout);
-		  }
+		printf("Written %zd bytes to the file\n", len); fflush(stdout);
 	  }
 	  fclose (f);
 	  return SSDRange (off, off + (np-1) * PAGE_SIZE);

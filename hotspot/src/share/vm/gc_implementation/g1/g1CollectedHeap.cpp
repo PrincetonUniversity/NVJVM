@@ -50,6 +50,36 @@
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
+struct sigaction sa;
+
+SSDSwap* ssdSwap;
+void seg_handler(int sig, siginfo_t *si, void *unused){
+	  if (L_SWAP){
+		  printf("seg_handler, fault on %p\n", si->si_addr); fflush(stdout);
+	  }
+	  if (si->si_code == SEGV_ACCERR){
+		  ssdSwap->seg_handler(si->si_addr);
+	  } else{
+		printf ("Segmentation fault, Code is different"); fflush(stdout);
+	  }
+}
+
+void sig_init (){
+	// defining the segmentation fault handler
+	  sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
+	  sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
+	  sa.sa_sigaction = seg_handler; // Assigning the fault handler
+	  if (sigaction(SIGSEGV, &sa, NULL) == -1){ // Installs the function in sa taken on a segmentation fault
+	    perror("error :");
+	  }
+}
+
+void init(){
+	sig_init();
+	ssdSwap = new SSDSwap();
+}
+void swapOutRegion(GCAllocPurpose purpose);
+
 // turn it on so that the contents of the young list (scan-only /
 // to-be-collected) are printed at "strategic" points before / during
 // / after the collection --- this is useful for debugging
@@ -1407,8 +1437,12 @@ void swapOutRegion(GCAllocPurpose purpose){
   if(L_SWAP){
 	  printf("swapping out buffer"); fflush(stdout);
   }
-  G1ParGCAllocBuffer * buf = alloc_buffer(purpose);
+  G1ParGCAllocBuffer * buf = _par_scan_state->alloc_buffer(purpose);
   ssdSwap->swapOut((void *)buf->get_hard_end(), (void *)buf->get_bottom());
+  // triggering a page fault
+  if(L_SWAP){
+	  printf("accessing the buffer after it has been deallocated %c", buf[0]);
+  }
 }
 
 void G1CollectedHeap::do_full_collection(bool clear_all_soft_refs) {
@@ -1756,33 +1790,6 @@ void G1CollectedHeap::shrink(size_t shrink_bytes) {
 #pragma warning( disable:4355 ) // 'this' : used in base member initializer list
 #endif // _MSC_VER
 
-struct sigaction sa;
-
-SSDSwap* ssdSwap;
-void seg_handler(int sig, siginfo_t *si, void *unused){
-	  if (DEBUG){
-		  printf("seg_handler, fault on %p\n", si->si_addr); fflush(stdout);
-	  }
-	  if (si->si_code == SEGV_ACCERR){
-		  ssdSwap->seg_handler(si->si_addr);
-	  } else
-		handle_error ("Segmentation fault, Code is different");
-}
-
-void sig_init (){
-	// defining the segmentation fault handler
-	  sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
-	  sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
-	  sa.sa_sigaction = seg_handler; // Assigning the fault handler
-	  if (sigaction(SIGSEGV, &sa, NULL) == -1){ // Installs the function in sa taken on a segmentation fault
-	    perror("error :");
-	  }
-}
-
-void init(){
-	sig_init();
-	ssdSwap = new SSDSwap();
-}
 
 G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   SharedHeap(policy_),

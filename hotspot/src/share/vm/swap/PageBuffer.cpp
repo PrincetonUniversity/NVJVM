@@ -18,7 +18,13 @@ PageBuffer::~PageBuffer() {
 
 SSDRange PageBuffer::pageOut(void *va, int np) {
 	// Writing the page out to swap
+	if (L_SWAP){
+		printf("In pageOut, paging out %d, top %p\n", np, va); fflush(stdout);
+	}
 	SSDRange ssdRange = SwapWriter::swapOut (va, np);
+	if (L_SWAP){
+		printf("In pageOut, ssdRange %d, %d", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
+	}
 	// Protecting the swapped out page
 	if (mprotect (va, np*PAGE_SIZE, PROT_NONE) == -1){
 		perror("error :");

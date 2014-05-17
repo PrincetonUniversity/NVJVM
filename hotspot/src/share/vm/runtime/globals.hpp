@@ -2824,6 +2824,8 @@ class CommandLineFlags {
           "use compilation")                                                \
   product(bool, L_DEBUG, false,												\
 		 "print to output")													\
+  product(bool, L_SWAP, false,												\
+          "print to output for swapping")									\
   product(bool, L_SEGREGATION, false,										\
 		 		 "printing segregation information")                        \
   product(bool, L_COUNT, false,												\

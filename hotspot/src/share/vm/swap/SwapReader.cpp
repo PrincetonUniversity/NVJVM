@@ -19,6 +19,10 @@ SwapReader::~SwapReader() {
 
 // Reads the page from the offset in the file, assumes the page to be unprotected
 size_t SwapReader::swapIn (void * va, int np, int off){
+	 if(L_SWAP){
+		 printf("swapping in address %p, number pages %d, from offset %d\n", va, np, off);
+		 fflush(stdout);
+	 }
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
 	  fseek(f, off, SEEK_SET);
 	  size_t len = fread(va, sizeof(char), np*PAGE_SIZE, f);

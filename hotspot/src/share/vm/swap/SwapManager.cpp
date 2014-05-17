@@ -22,6 +22,9 @@ bool liesWithin(void *address, void *top, void *bottom){
 }
 
 void SwapManager::remapPage (void *address){
+  if(L_SWAP){
+	  printf("In remapPage, segmentation called on address %p\n", address); fflush (stdout);
+  }
   swapMapIter iter =_swap_map.lower_bound(address); // gets the page address
   if  (iter == _swap_map.end() ){
 	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
@@ -29,8 +32,17 @@ void SwapManager::remapPage (void *address){
   }
   void *top = iter->first;
   SSDRange ssdRange = iter->second;
+  if(L_SWAP){
+	  printf("getting pair %p -> (%d, %d)\n", top, ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
+  }
   int numPages = ((ssdRange.getEnd() - ssdRange.getStart()) / PAGE_SIZE) + 1;
+  if(L_SWAP){
+	  printf("numPages %d\n", numPages); fflush(stdout);
+  }
   void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - numPages * PAGE_SIZE));
+  if(L_SWAP){
+	  printf("bottom %p\n", bottom); fflush(stdout);
+  }
   if (liesWithin(address, top, bottom)){
 	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
 	  	printf ("error in protecting page %p\n", bottom);  fflush (stdout);
@@ -45,6 +57,9 @@ void SwapManager::remapPage (void *address){
 }
 
 SwapRange* SwapManager::swapRange(void *top, void *bot) {
+	if(L_SWAP){
+		printf("In swapRange, swapping out range top = %p, bottom = %p\n", top, bot); fflush(stdout);
+	}
 	SwapRange* swap_range = addressRegion (top, bot);
 	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages());
 	mapRange(swap_range->getTop(), ssdRange);
@@ -77,6 +92,11 @@ SwapRange* SwapManager::addressRegion(void *top, void *bot){
 void SwapManager::mapRange(void *va, SSDRange ssdRange){
 	mapPair mPair = mapPair(va, ssdRange);
 	_swap_map.insert(mPair);
+	if(L_SWAP){
+		printf("inserted pair %p -> (%d, %d)\n", va, ssdRange.getStart(), ssdRange.getEnd());
+		fflush(stdout);
+	}
+
 }
 
 
