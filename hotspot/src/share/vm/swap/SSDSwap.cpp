@@ -37,7 +37,7 @@ void SSDSwap::swapOut(void *top, void *bot){
 	int off = _ssd_manager->get(swapRange->getNumPages()); // Synchronized method
 	_swap_manager->swapRange(swapRange, off);
 	if(L_SWAP){
-		printf("In swapOut, swapOut done successfully");
+		printf("In swapOut, swapOut done successfully\n");
 		fflush(stdout);
 	}
 }

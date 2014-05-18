@@ -21,6 +21,11 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off) {
 	if (L_SWAP){
 		printf("In pageOut, paging out %d, top %p\n", np, va); fflush(stdout);
 	}
+	// Write protecting the memory region
+	if (mprotect (va, np*PAGE_SIZE, PROT_READ) == -1){
+		perror("error :");
+		printf("Error In Write Protecting Page %p \n", va); fflush(stdout);
+	}
 	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
 		printf("In pageOut, ssdRange %d, %d", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
