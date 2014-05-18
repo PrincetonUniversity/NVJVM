@@ -1420,7 +1420,7 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
             "young list should be empty at this point");
   }
   // Swap Out A Heap Region
-  if(L_SWAP){
+  /*if(L_SWAP){
 	  GCAllocPurpose purpose = GCAllocForTenuredCold;
 	  HeapRegion *buf = _retained_gc_alloc_regions[purpose];
 	  if (buf == NULL){
@@ -1428,7 +1428,7 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
 		  exit(-1);
 	  }
 	  swapOutRegion(buf, purpose);
-  }
+  }*/
   // Update the number of full collections that have been completed.
   increment_full_collections_completed(false /* concurrent */);
 
@@ -4977,6 +4977,16 @@ void G1CollectedHeap::evacuate_collection_set() {
     G1IsAliveClosure is_alive(this);
     G1KeepAliveClosure keep_alive(this);
     JNIHandles::weak_oops_do(&is_alive, &keep_alive);
+  }
+  // Swap Out A Heap Region
+  if(L_SWAP){
+	  GCAllocPurpose purpose = GCAllocForTenuredCold;
+	  HeapRegion *buf = _gc_alloc_regions[purpose];
+	  if (buf == NULL){
+		  printf("buf is NULL\n"); fflush(stdout);
+		  exit(-1);
+	  }
+	  swapOutRegion(buf, purpose);
   }
   release_gc_alloc_regions(false /* totally */);
   g1_rem_set()->cleanup_after_oops_into_collection_set_do();
