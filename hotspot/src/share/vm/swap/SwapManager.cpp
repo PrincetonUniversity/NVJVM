@@ -28,7 +28,11 @@ void SwapManager::remapPage (void *address){
   swapMapIter iter =_swap_map.lower_bound(address); // gets the page address
   if  (iter == _swap_map.end() ){
 	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
-	  exit(-1);
+	  /* Two threads can read a single protected region from the address space
+	   * and one of them might have restored the address space and therefore
+	   * we let the thread run through as normal. This case will be rare.
+	   */
+	  return;
   }
   void *top = iter->first;
   SSDRange ssdRange = iter->second;
@@ -51,8 +55,11 @@ void SwapManager::remapPage (void *address){
 	  	_swap_map.erase (top);
 	  }
   } else {
-	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
-	  exit(-1);
+	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
+	  /* Two threads can read a single protected region from the address space
+	   * and one of them might have restored the address space and therefore
+	   * we let the thread run through as normal. This can occur often.
+	   */
   }
 }
 

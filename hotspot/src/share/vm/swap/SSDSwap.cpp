@@ -12,7 +12,10 @@ void* SSDSwap::seg_handler (void *addr){
 	if(L_SWAP){
 		printf("segmentation handler called on %p\n", addr); fflush(stdout);
 	}
-	_swap_manager->remapPage(addr);
+	pthread_mutex_lock(&_swap_map_mutex);
+		_swap_manager->remapPage(addr); // Currently we are synchronizing access to remapping pages
+    pthread_mutex_unlock(&_swap_map_mutex);
+
 }
 
 SSDSwap::SSDSwap() {

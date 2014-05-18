@@ -10,6 +10,7 @@
 #include "SwapManager.h"
 #include "SwapWriter.h"
 #include "SwapReader.h"
+#include <pthread.h>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ using namespace std;
 class SSDSwap {
 private:
 	SwapManager* _swap_manager;
+	pthread_mutex_t _swap_map_mutex;
 
 public:
 	SSDSwap();
