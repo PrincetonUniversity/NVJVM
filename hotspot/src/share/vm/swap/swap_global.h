@@ -5,6 +5,7 @@
  *      Author: ravitandon
  */
 
+#include "globals.hpp"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
