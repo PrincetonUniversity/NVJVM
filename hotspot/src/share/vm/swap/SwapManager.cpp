@@ -39,7 +39,7 @@ void SwapManager::remapPage (void *address){
   if(L_SWAP){
 	  printf("numPages %d\n", numPages); fflush(stdout);
   }
-  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - numPages * PAGE_SIZE));
+  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - (numPages-1) * PAGE_SIZE));
   if(L_SWAP){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
