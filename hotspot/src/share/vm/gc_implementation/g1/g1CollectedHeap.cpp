@@ -1421,8 +1421,8 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
   }
   // Swap Out A Heap Region
   if(L_SWAP){
-	  GCAllocPurpose purpose = GCAllocForTenured;
-	  HeapRegion *buf = _gc_alloc_regions[purpose];
+	  GCAllocPurpose purpose = GCAllocForTenuredCold;
+	  HeapRegion *buf = _retained_gc_alloc_regions[purpose];
 	  if (buf == NULL){
 		  printf("buf is NULL\n"); fflush(stdout);
 		  exit(-1);
