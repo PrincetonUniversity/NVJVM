@@ -80,7 +80,7 @@ void init(){
 	sig_init();
 	ssdSwap = new SSDSwap();
 }
-void swapOutRegion(GCAllocPurpose purpose);
+void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
 
 // turn it on so that the contents of the young list (scan-only /
 // to-be-collected) are printed at "strategic" points before / during
@@ -1421,7 +1421,8 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
   }
   // Swap Out A Heap Region
   GCAllocPurpose purpose = GCAllocForTenuredCold;
-  swapOutRegion(purpose);
+  HeapRegion *buf = _gc_alloc_regions[purpose];
+  swapOutRegion(buf, purpose);
   // Update the number of full collections that have been completed.
   increment_full_collections_completed(false /* concurrent */);
 
@@ -1435,18 +1436,17 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
   return true;
 }
 
-void swapOutRegion(GCAllocPurpose purpose){
+void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
   if(L_SWAP){
 	  printf("swapping out buffer"); fflush(stdout);
   }
-  HeapRegion *buf = _gc_alloc_regions[purpose];
   ssdSwap->swapOut((void *)buf->end(), (void *)buf->bottom());
   // triggering a page fault
   if(L_SWAP){
 	  char *c = (char *)malloc(1);
 	  printf("accessing the buffer after it has been deallocated"); fflush(stdout);
-	  memcpy((void *)c, (void *)buf->bottom, 1);
-	  print("copy done %c\n", c); fflush(stdout);
+	  memcpy((void *)c, (void *)buf->bottom(), 1);
+	  printf("copy done %c\n", c); fflush(stdout);
 	  printf("accessing the buffer done after it has been deallocated"); fflush(stdout);
 	  free(c);
   }
