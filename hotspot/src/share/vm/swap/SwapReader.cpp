@@ -30,7 +30,7 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  return -1;
 	  } else {
-		  if (DEBUG){
+		  if (L_SWAP){
 			  printf("Read %zd bytes from the file\n", len); fflush(stdout);
 			  return -1;
 		  }

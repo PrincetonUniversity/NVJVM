@@ -2826,6 +2826,8 @@ class CommandLineFlags {
 		 "print to output")													\
   product(bool, L_SWAP, false,												\
           "print to output for swapping")									\
+  product(bool, DO_SWAP, false,												\
+           "trigger swapping")									            \
   product(bool, L_SEGREGATION, false,										\
 		 		 "printing segregation information")                        \
   product(bool, L_COUNT, false,												\

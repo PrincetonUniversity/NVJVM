@@ -62,7 +62,10 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 	  if (si->si_code == SEGV_ACCERR){
 		  ssdSwap->seg_handler(si->si_addr);
 	  } else{
-		printf ("Segmentation fault, Code is different"); fflush(stdout);
+		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
+	  }
+	  if(L_SWAP){
+		  printf("Page Remapping Done at %p\n", si->si_addr); fflush(stdout);
 	  }
 }
 
@@ -1444,7 +1447,7 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
 
 void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
   if(L_SWAP){
-	  printf("swapping out buffer"); fflush(stdout);
+	  printf("swapping out buffer\n"); fflush(stdout);
   }
   void *end = (void *)buf->end();
   void *bottom = (void *)buf->bottom();
@@ -1455,14 +1458,14 @@ void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
   }
   ssdSwap->swapOut(end, bottom);
   // triggering a page fault
-  if(L_SWAP){
+  /*if(L_SWAP){
 	  char *c = (char *)malloc(1);
-	  printf("accessing the buffer after it has been deallocated"); fflush(stdout);
+	  printf("accessing the buffer after it has been deallocated\n"); fflush(stdout);
 	  memcpy((void *)c, (void *)buf->bottom(), 1);
 	  printf("copy done %c\n", c); fflush(stdout);
-	  printf("accessing the buffer done after it has been deallocated"); fflush(stdout);
 	  free(c);
-  }
+	  printf("access successful\n"); fflush(stdout);
+  }*/
 }
 
 void G1CollectedHeap::do_full_collection(bool clear_all_soft_refs) {
@@ -4979,7 +4982,7 @@ void G1CollectedHeap::evacuate_collection_set() {
     JNIHandles::weak_oops_do(&is_alive, &keep_alive);
   }
   // Swap Out A Heap Region
-  if(L_SWAP){
+  if(DO_SWAP){
 	  GCAllocPurpose purpose = GCAllocForTenuredCold;
 	  HeapRegion *buf = _gc_alloc_regions[purpose];
 	  if (buf == NULL){
