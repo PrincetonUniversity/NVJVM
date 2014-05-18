@@ -18,8 +18,7 @@ SwapWriter::~SwapWriter() {
 
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
-SSDRange SwapWriter::swapOut (void * va, int np){
-	int off = SSDManager::get(np); // This function is synchronized so that only a single thread writes on a given region on SSD.
+SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	if (L_SWAP){
 		  printf("In swapOut, writer writing out %d, top %p, offset %d\n", np, va, off); fflush(stdout);
 	}

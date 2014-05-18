@@ -23,7 +23,7 @@ private:
 public:
 	SwapManager();
 	virtual ~SwapManager();
-	SwapRange* swapRange(void *sa, void *ea);
+	void swapRange(SwapRange* swap_range, int off);
 	void mapRange(void *va, SSDRange ssdRange);
 	static SwapRange* addressRegion(void *sa, void *ea);
 	static void* object_va_to_page_start(void *va);

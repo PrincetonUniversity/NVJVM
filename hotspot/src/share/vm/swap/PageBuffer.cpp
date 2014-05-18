@@ -16,12 +16,12 @@ PageBuffer::~PageBuffer() {
 	// TODO Auto-generated destructor stub
 }
 
-SSDRange PageBuffer::pageOut(void *va, int np) {
+SSDRange PageBuffer::pageOut(void *va, int np, int off) {
 	// Writing the page out to swap
 	if (L_SWAP){
 		printf("In pageOut, paging out %d, top %p\n", np, va); fflush(stdout);
 	}
-	SSDRange ssdRange = SwapWriter::swapOut (va, np);
+	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
 		printf("In pageOut, ssdRange %d, %d", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
 	}

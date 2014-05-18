@@ -15,5 +15,9 @@ int SSDManager::get(int np){
 	return start;
 }
 
+SSDManager::SSDManager(){
+	_top = 0;
+}
+
 
 

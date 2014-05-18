@@ -63,14 +63,9 @@ void SwapManager::remapPage (void *address){
   }
 }
 
-SwapRange* SwapManager::swapRange(void *top, void *bot) {
-	if(L_SWAP){
-		printf("In swapRange, swapping out range top = %p, bottom = %p\n", top, bot); fflush(stdout);
-	}
-	SwapRange* swap_range = addressRegion (top, bot);
-	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages());
+void SwapManager::swapRange(SwapRange* swap_range, int off) {
+	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off);
 	mapRange(swap_range->getTop(), ssdRange);
-	return swap_range;
 }
 
 void* SwapManager::object_va_to_page_start (void *object_va) {

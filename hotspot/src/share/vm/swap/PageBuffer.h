@@ -20,7 +20,7 @@ private:
 public:
 	PageBuffer();
 	virtual ~PageBuffer();
-	static SSDRange pageOut (void *, int np);
+	static SSDRange pageOut (void *, int np, int off);
 };
 
 #endif /* PAGEBUFFER_H_ */

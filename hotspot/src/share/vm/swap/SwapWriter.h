@@ -16,7 +16,7 @@ class SwapWriter {
 public:
 	SwapWriter();
 	virtual ~SwapWriter();
-	static SSDRange swapOut (void * va, int np);
+	static SSDRange swapOut (void * va, int np, int off);
 };
 
 #endif /* SWAPWRITER_H_ */

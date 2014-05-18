@@ -23,6 +23,7 @@ using namespace std;
 class SSDSwap {
 private:
 	SwapManager* _swap_manager;
+	SSDManager* _ssd_manager;
 	pthread_mutex_t _swap_map_mutex;
 
 public:
