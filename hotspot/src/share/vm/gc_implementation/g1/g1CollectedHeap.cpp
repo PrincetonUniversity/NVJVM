@@ -1420,9 +1420,15 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
             "young list should be empty at this point");
   }
   // Swap Out A Heap Region
-  GCAllocPurpose purpose = GCAllocForTenuredCold;
-  HeapRegion *buf = _gc_alloc_regions[purpose];
-  swapOutRegion(buf, purpose);
+  if(L_SWAP){
+	  GCAllocPurpose purpose = GCAllocForTenuredCold;
+	  HeapRegion *buf = _gc_alloc_regions[purpose];
+	  if (buf == NULL){
+		  printf("buf is NULL\n"); fflush(stdout);
+		  exit(-1);
+	  }
+	  swapOutRegion(buf, purpose);
+  }
   // Update the number of full collections that have been completed.
   increment_full_collections_completed(false /* concurrent */);
 
@@ -1440,7 +1446,14 @@ void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
   if(L_SWAP){
 	  printf("swapping out buffer"); fflush(stdout);
   }
-  ssdSwap->swapOut((void *)buf->end(), (void *)buf->bottom());
+  void *end = (void *)buf->end();
+  void *bottom = (void *)buf->bottom();
+  if(L_SWAP){
+	  printf("bot %p\n", bottom);
+	  printf("end %p\n", end);
+	  fflush(stdout);
+  }
+  ssdSwap->swapOut(end, bottom);
   // triggering a page fault
   if(L_SWAP){
 	  char *c = (char *)malloc(1);
