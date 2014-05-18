@@ -48,11 +48,14 @@ void SwapManager::remapPage (void *address){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
   if (liesWithin(address, top, bottom)){
-	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
-	  	printf ("error in protecting page %p\n", bottom);  fflush (stdout);
+	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_WRITE) == -1){
+	  	printf ("error in protecting page, when allowing reads %p\n", bottom);  fflush (stdout);
 	  } else {
 	  	SwapReader::swapIn(bottom, numPages, ssdRange.getStart());
 	  	_swap_map.erase (top);
+	  }
+	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
+		  	printf ("error in protecting page, when allowing read & writes %p\n", bottom);  fflush (stdout);
 	  }
   } else {
 	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
