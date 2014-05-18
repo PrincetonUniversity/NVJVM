@@ -63,6 +63,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 		  ssdSwap->seg_handler(si->si_addr);
 	  } else{
 		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
+		exit (-1);
 	  }
 	  if(L_SWAP){
 		  printf("Page Remapping Done at %p\n", si->si_addr); fflush(stdout);

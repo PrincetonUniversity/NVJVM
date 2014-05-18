@@ -55,7 +55,10 @@ public:
 		return _bottom_address;
 	}
 };
-
+/** The SSDRange includes the range of pages over which a specific region of the address space is swapped out.
+ *  The offsets are set in terms of the page offsets.
+ *  These offsets are inclusive (the bottom and top page are included in the range).
+ */
 class SSDRange {
 private:
 	int _start_off;

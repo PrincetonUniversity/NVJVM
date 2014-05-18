@@ -20,7 +20,6 @@ using namespace std;
 
 // Stores the mapping from virtual address to file offset
 
-
 class SSDSwap {
 private:
 	SwapManager* _swap_manager;

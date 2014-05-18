@@ -39,7 +39,7 @@ void SwapManager::remapPage (void *address){
   if(L_SWAP){
 	  printf("getting pair %p -> (%d, %d)\n", top, ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
   }
-  int numPages = ((ssdRange.getEnd() - ssdRange.getStart()) / PAGE_SIZE) + 1;
+  int numPages = ((ssdRange.getEnd() - ssdRange.getStart())) + 1;
   if(L_SWAP){
 	  printf("numPages %d\n", numPages); fflush(stdout);
   }

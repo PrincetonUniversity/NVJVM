@@ -28,7 +28,7 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
 	  }
-	  fseek(f, off, SEEK_SET);
+	  fseek(f, off * PAGE_SIZE, SEEK_SET);
 	  if(ferror(f)){
 		  printf("Error seeking to %d of file %s\n", off, file);
 	  }
@@ -41,6 +41,6 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		printf("Written %zd bytes to the file\n", len); fflush(stdout);
 	  }
 	  fclose (f);
-	  return SSDRange (off, off + (np-1) * PAGE_SIZE);
+	  return SSDRange (off, off + (np-1));
 }
 
