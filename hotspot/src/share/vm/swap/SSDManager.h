@@ -19,7 +19,7 @@ private:
 	pthread_mutex_t _offset_mutex;
 public:
 	int get(int np);
-	void SSDManager();
+	SSDManager();
 };
 
 #endif /* SSDMANAGER_H_ */
