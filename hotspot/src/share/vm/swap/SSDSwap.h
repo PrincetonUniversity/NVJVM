@@ -11,6 +11,7 @@
 #include "SwapWriter.h"
 #include "SwapReader.h"
 #include <pthread.h>
+#include "SSDSwap.h"
 
 using namespace std;
 

@@ -5,7 +5,8 @@
  *      Author: ravitandon
  */
 
-#include "SSDSwap.h"
+
+#include "SSDManager.h"
 
 // The handler to catch SIGSEGV faults on memory access
 void* SSDSwap::seg_handler (void *addr){
