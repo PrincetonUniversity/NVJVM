@@ -47,6 +47,8 @@
 #include "runtime/vmThread.hpp"
 #include "swap/SSDSwap.h"
 #include "swap/swap_global.h"
+#include <stdio.h>
+#include <string.h>
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
@@ -1437,11 +1439,16 @@ void swapOutRegion(GCAllocPurpose purpose){
   if(L_SWAP){
 	  printf("swapping out buffer"); fflush(stdout);
   }
-  G1ParGCAllocBuffer * buf = _par_scan_state->alloc_buffer(purpose);
-  ssdSwap->swapOut((void *)buf->get_hard_end(), (void *)buf->get_bottom());
+  HeapRegion *buf = _gc_alloc_regions[purpose];
+  ssdSwap->swapOut((void *)buf->end(), (void *)buf->bottom());
   // triggering a page fault
   if(L_SWAP){
-	  printf("accessing the buffer after it has been deallocated %c", buf[0]);
+	  char *c = (char *)malloc(1);
+	  printf("accessing the buffer after it has been deallocated"); fflush(stdout);
+	  memcpy((void *)c, (void *)buf->bottom, 1);
+	  print("copy done %c\n", c); fflush(stdout);
+	  printf("accessing the buffer done after it has been deallocated"); fflush(stdout);
+	  free(c);
   }
 }
 
