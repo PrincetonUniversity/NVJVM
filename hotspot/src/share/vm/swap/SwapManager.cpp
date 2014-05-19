@@ -40,6 +40,7 @@ void SwapManager::remapPage (void *address){
 	  printf("getting pair %p -> (%d, %d)\n", top, ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
   }
   int numPages = ((ssdRange.getEnd() - ssdRange.getStart())) + 1;
+  int total_size = numPages* PAGE_SIZE;
   if(L_SWAP){
 	  printf("numPages %d\n", numPages); fflush(stdout);
   }
@@ -48,10 +49,15 @@ void SwapManager::remapPage (void *address){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
   if (liesWithin(address, top, bottom)){
-	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_WRITE) == -1){
+	  if (mprotect (bottom, total_size, PROT_WRITE) == -1){
 	  	printf ("error in protecting page, when allowing reads %p\n", bottom);  fflush (stdout);
 	  } else {
-	  	SwapReader::swapIn(bottom, numPages, ssdRange.getStart());
+	  	// page re-mapping done through mremap now
+		void *remap_bot;
+		posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size);
+		SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
+		mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
+		free(remap_bot);
 	  	_swap_map.erase (top);
 	  }
 	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){

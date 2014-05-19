@@ -10,13 +10,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "errno.h"
-#include <sys/mman.h>
 #include <iostream>
+#define _GNU_SOURCE_ 1
 #include <unistd.h>
+#include <sys/mman.h>
 #include <signal.h>
 #include "string.h"
 #include <map>
 using namespace std;
+
+#define MREMAP_MAYMOVE 1
+#define MREMAP_FIXED 2
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
