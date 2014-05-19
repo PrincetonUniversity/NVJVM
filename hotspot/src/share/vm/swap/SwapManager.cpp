@@ -62,7 +62,6 @@ void SwapManager::remapPage (void *address){
 		printf("error in remapping\n"); fflush(stdout);
 		perror("err:");fflush(stderr);exit(-1);
 	}
-	free(remap_bot);
 	if (L_SWAP){
 		printf("free done %p\n", remap_bot); fflush(stdout);
 	}
