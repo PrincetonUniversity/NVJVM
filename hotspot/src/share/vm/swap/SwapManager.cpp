@@ -49,20 +49,13 @@ void SwapManager::remapPage (void *address){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
   if (liesWithin(address, top, bottom)){
-	  if (mprotect (bottom, total_size, PROT_WRITE) == -1){
-	  	printf ("error in protecting page, when allowing reads %p\n", bottom);  fflush (stdout);
-	  } else {
-	  	// page re-mapping done through mremap now
-		void *remap_bot;
-		posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size);
-		SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
-		mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
-		free(remap_bot);
-	  	_swap_map.erase (top);
-	  }
-	  if (mprotect (bottom, numPages * PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
-		  	printf ("error in protecting page, when allowing read & writes %p\n", bottom);  fflush (stdout);
-	  }
+	// page re-mapping done through mremap now
+	void *remap_bot;
+	posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size);
+	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
+	mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
+	free(remap_bot);
+	_swap_map.erase (top);
   } else {
 	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
 	  /* Two threads can read a single protected region from the address space
