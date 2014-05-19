@@ -57,7 +57,7 @@ struct sigaction sa;
 SSDSwap* ssdSwap;
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  if (L_SWAP){
-		  printf("seg_handler, fault on %p\n", si->si_addr); fflush(stdout);
+		  printf("seg_handler, fault on %p, \n", si->si_addr, pid()); fflush(stdout);
 	  }
 	  if (si->si_code == SEGV_ACCERR){
 		  ssdSwap->seg_handler(si->si_addr);

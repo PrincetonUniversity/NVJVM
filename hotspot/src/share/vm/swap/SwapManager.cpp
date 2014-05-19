@@ -53,7 +53,10 @@ void SwapManager::remapPage (void *address){
 	void *remap_bot;
 	posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size);
 	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
-	mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
+	if(mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom) == -1){
+		printf("error in remapping\n"); fflush(stdout);
+		perror("err:");fflush(stderr);exit(-1);
+	}
 	free(remap_bot);
 	if (L_SWAP){
 		printf("free done %p\n", remap_bot); fflush(stdout);
