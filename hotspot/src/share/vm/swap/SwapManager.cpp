@@ -55,6 +55,9 @@ void SwapManager::remapPage (void *address){
 	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
 	mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
 	free(remap_bot);
+	if (L_SWAP){
+		printf("free done %p\n", remap_bot); fflush(stdout);
+	}
 	_swap_map.erase (top);
   } else {
 	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
