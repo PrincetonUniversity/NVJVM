@@ -81,8 +81,10 @@ void sig_init (){
 }
 
 void init(){
-	sig_init();
-	ssdSwap = new SSDSwap();
+	if(DO_SWAP{
+		sig_init();
+		ssdSwap = new SSDSwap();
+	}
 }
 void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
 

@@ -28,7 +28,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off) {
 	}
 	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
-		printf("In pageOut, ssdRange %d, %d", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
+		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
 	}
 	// Protecting the swapped out page
 	if (mprotect (va, np*PAGE_SIZE, PROT_NONE) == -1){
