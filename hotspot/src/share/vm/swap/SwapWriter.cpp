@@ -20,7 +20,7 @@ SwapWriter::~SwapWriter() {
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	if (L_SWAP){
-		  printf("In swapOut, writer writing out %d, top %p, offset %d\n", np, va, off); fflush(stdout);
+		  printf("In swapOut, writer writing out %d, bottom %p, offset %d\n", np, va, off); fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
 	  FILE *f = fopen(file, "w");
@@ -30,7 +30,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	  }
 	  fseek(f, off * PAGE_SIZE, SEEK_SET);
 	  if(ferror(f)){
-		  printf("Error seeking to %d of file %s\n", off, file);
+		  printf("Error seeking to %d of file %s\n", off, file);fflush(stdout);
+		  exit(-1);
 	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?

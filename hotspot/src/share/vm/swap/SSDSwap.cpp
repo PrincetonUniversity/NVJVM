@@ -30,8 +30,7 @@ SSDSwap::~SSDSwap() {
 
 void SSDSwap::swapOut(void *top, void *bot){
 	if(L_SWAP){
-		printf("In swapOut, swapping out %p, %p\n", top, bot);
-		fflush(stdout);
+		printf("In swapOut, swapping out %p, %p\n", bot, top); fflush(stdout);
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(top, bot); // Should move to SSDSwap class
 	int off = _ssd_manager->get(swapRange->getNumPages()); // Synchronized method
