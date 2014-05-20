@@ -10,7 +10,7 @@
 int SSDManager::get(int np){
 	pthread_mutex_lock(&_offset_mutex);
     int start = _top;
-	_top += np + 1;
+	_top += np;
 	pthread_mutex_unlock(&_offset_mutex);
 	return start;
 }

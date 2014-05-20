@@ -1441,7 +1441,7 @@ void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  printf("swapping out buffer\n"); fflush(stdout);
   }
   void *end = (void *)buf->end();
-  void *bottom = (void *)buf->bottom();
+  void *bottom = (void *)((char *)buf->bottom()-1);
   if(L_SWAP){
 	  printf("bot %p\n", bottom);
 	  printf("end %p\n", end);
