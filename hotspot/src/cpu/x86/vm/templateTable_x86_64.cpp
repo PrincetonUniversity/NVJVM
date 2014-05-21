@@ -574,6 +574,7 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
+  __ movptr(r10, object);
 /*  Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
   Address object = aaddress(rbx);
@@ -588,7 +589,6 @@ void TemplateTable::aload() {
   __ bind(nullObj);*/
   int ce_offset = oopDesc::counter_offset_in_bytes();
   Address objectCounter = Address(r10, ce_offset);
-  __ movptr(rax,object);
   __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
