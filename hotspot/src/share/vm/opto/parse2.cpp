@@ -1443,7 +1443,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
     push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
 
   case Bytecodes::_fload_0:
