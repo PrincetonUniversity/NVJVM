@@ -2820,7 +2820,7 @@ class CommandLineFlags {
           "Test only")                                                      \
                                                                             \
   /* compilation */                                                         \
-  product(bool, UseCompiler, false,                                         \
+  product(bool, UseCompiler, true,                                          \
           "use compilation")                                                \
   product(bool, L_DEBUG, false,												\
 		 "print to output")													\
