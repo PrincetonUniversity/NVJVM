@@ -2186,7 +2186,9 @@ void TemplateTable::resolve_cache_and_index(int byte_no,
     __ cmpl(temp, (int) bytecode());
     __ jcc(Assembler::equal, resolved);
   }
-
+  if (L_FUNC_CALL){
+	  printf("function call interpreter\n"); fflush(stdout);
+  }
   // resolve first time through
   address entry;
   switch (bytecode()) {

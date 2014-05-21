@@ -1178,6 +1178,8 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 }
 
 void Parse:: increment_access_counter(Node *obj){
+	if(!DO_INCREMENT)
+		return;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1443,7 +1445,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
     push( obj );
-    //increment_access_counter(obj);
+    increment_access_counter(obj);
     break;
 
   case Bytecodes::_fload_0:
