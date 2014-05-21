@@ -333,11 +333,11 @@ void InterpreterGenerator::generate_counter_incr(
     // Update standard invocation counters
     __ movl(rax, backedge_counter);   // load backedge counter
 
-    //__ incrementl(rcx, InvocationCounter::count_increment);
+    __ incrementl(rcx, InvocationCounter::count_increment);
     __ andl(rax, InvocationCounter::count_mask_value); // mask out the status bits
 
     __ movl(invocation_counter, rcx); // save invocation count
-   // __ addl(rcx, rax);                // add both counters
+    __ addl(rcx, rax);                // add both counters
 
     // profile_method is non-null only for interpreted method so
     // profile_method != NULL == !native_call
@@ -352,7 +352,7 @@ void InterpreterGenerator::generate_counter_incr(
     }
 
     __ cmp32(rcx, ExternalAddress((address)&InvocationCounter::InterpreterInvocationLimit));
-    //__ jcc(Assembler::aboveEqual, *overflow);
+    __ jcc(Assembler::aboveEqual, *overflow);
   }
 }
 

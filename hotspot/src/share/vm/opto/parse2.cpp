@@ -1178,15 +1178,14 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 }
 
 void Parse:: increment_access_counter(Node *obj){
-	/*Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
+	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	float ok_prob =  PROB_LIKELY_MAG(3);
 	{
 	  BuildCutout unless(this, tst, ok_prob);
 	  increment_count(obj, control());
-	}*/
-	increment_count(obj, control());
+	}
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){

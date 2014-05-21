@@ -135,10 +135,10 @@ define_pd_global(bool, ProfileInterpreter,           false);
 define_pd_global(bool, ProfileTraps,                 false);
 define_pd_global(bool, TieredCompilation,            false);
 
-define_pd_global(intx, CompileThreshold,             18446744073709551616);
+define_pd_global(intx, CompileThreshold,             0);
 define_pd_global(intx, BackEdgeThreshold,            0);
 
-define_pd_global(intx, OnStackReplacePercentage,     18446744073709551616);
+define_pd_global(intx, OnStackReplacePercentage,     0);
 define_pd_global(bool, ResizeTLAB,                   false);
 define_pd_global(intx, FreqInlineSize,               0);
 define_pd_global(intx, InlineSmallCode,              0);
