@@ -573,6 +573,7 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
+  if(DO_INCREMENT){
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
@@ -584,6 +585,7 @@ void TemplateTable::aload() {
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
+  }
   __ movptr(rax, object);
 }
 
@@ -783,9 +785,9 @@ void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
   Address object = aaddress(n);
+  if(DO_INCREMENT){
   int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
-
   Address objectCounter = Address(r10, ce_offset);
   __ movptr(rax,object);
   __ testptr(rax, rax);
@@ -794,6 +796,7 @@ void TemplateTable::aload(int n) {
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
+  }
   __ movptr(rax, object);
 }
 
@@ -2186,9 +2189,6 @@ void TemplateTable::resolve_cache_and_index(int byte_no,
     __ cmpl(temp, (int) bytecode());
     __ jcc(Assembler::equal, resolved);
   }
-  if (L_FUNC_CALL){
-	  printf("function call interpreter\n"); fflush(stdout);
-  }
   // resolve first time through
   address entry;
   switch (bytecode()) {
@@ -2960,6 +2960,9 @@ void TemplateTable::count_calls(Register method, Register temp) {
 }
 
 void TemplateTable::prepare_invoke(Register method, Register index, int byte_no) {
+  if (L_FUNC_CALL){
+   printf("function call interpreter\n"); fflush(stdout);
+  }
   // determine flags
   Bytecodes::Code code = bytecode();
   const bool is_invokeinterface  = code == Bytecodes::_invokeinterface;
