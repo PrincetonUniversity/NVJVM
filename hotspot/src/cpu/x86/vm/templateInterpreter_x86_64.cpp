@@ -337,7 +337,7 @@ void InterpreterGenerator::generate_counter_incr(
     __ andl(rax, InvocationCounter::count_mask_value); // mask out the status bits
 
     __ movl(invocation_counter, rcx); // save invocation count
-    __ addl(rcx, rax);                // add both counters
+   // __ addl(rcx, rax);                // add both counters
 
     // profile_method is non-null only for interpreted method so
     // profile_method != NULL == !native_call
