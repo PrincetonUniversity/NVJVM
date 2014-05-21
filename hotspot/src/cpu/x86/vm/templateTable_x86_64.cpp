@@ -784,8 +784,7 @@ void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
   Address object = aaddress(n);
- int ce_offset = oopDesc::counter_offset_in_bytes();
-  Address object = aaddress(n);
+  int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
 
   Address objectCounter = Address(r10, ce_offset);
