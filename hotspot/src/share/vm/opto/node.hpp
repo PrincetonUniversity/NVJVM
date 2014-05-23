@@ -990,7 +990,7 @@ private:
 
 //----------------- Printing, etc
 public:
-#ifndef PRODUCT
+//#ifndef PRODUCT
   Node* find(int idx) const;         // Search the graph for the given idx.
   Node* find_ctrl(int idx) const;    // Search control ancestors for the given idx.
   void dump() const;                 // Print this node,
@@ -1022,7 +1022,7 @@ public:
         tty->print(" NULL");
     tty->print("\n");
   }
-#endif
+//#endif
 #ifdef ASSERT
   void verify_construction();
   bool verify_jvms(const JVMState* jvms) const;
