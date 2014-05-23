@@ -2806,6 +2806,7 @@ bool Compile::final_graph_reshaping() {
       }
       // Recheck with a better notion of 'required_outcnt'
       if (n->outcnt() != required_outcnt) {
+    	printf("name = %s, node_out_count = %d, required_outcnt= %d", n->Name(), n->outcnt(), required_outcnt); fflush(stdout);
         record_method_not_compilable("malformed control flow");
         return true;            // Not all targets reachable!
       }
