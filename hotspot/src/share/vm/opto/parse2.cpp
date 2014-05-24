@@ -1189,7 +1189,7 @@ void Parse:: increment_access_counter(Node *obj){
   //{ PreserveJVMState pjvms(this);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
     //set_control( iftrue );
-    increment_count(obj, iftrue);
+    //increment_count(obj, iftrue);
     /*int target_bci = iter().next_bci();
     if(successor_for_bci(target_bci) != NULL) {
     	merge_new_path(target_bci);
