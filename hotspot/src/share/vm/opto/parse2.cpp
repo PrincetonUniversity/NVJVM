@@ -1184,12 +1184,26 @@ void Parse:: increment_access_counter(Node *obj){
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	float ok_prob =  PROB_LIKELY_MAG(3);
-	{
+	IfNode* iff = create_and_map_if(control(), tst, ok_prob, 0);
+	// True branch, use existing map info
+  { PreserveJVMState pjvms(this);
+    Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
+    set_control( iftrue );
+    increment_count(obj, control());
+    int target_bci = iter().next_bci();
+    if(successor_for_bci(target_bci)) {
+    	merge_new_path(target_bci);
+    }
+  }
+  // False branch
+  Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
+  set_control( iffalse );
+
+/*	{
 	  BuildCutout unless(this, tst, ok_prob);
-	  bool b = _map == this->map();
-	  printf("boolean = %d, %p, %p", b, _map, this->map());
+	  printf("%p, %p",_map, this->map()); fflush(stdout);
 	  increment_count(obj, control());
-	}
+	}*/
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
