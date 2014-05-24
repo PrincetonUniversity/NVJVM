@@ -1194,6 +1194,7 @@ void Parse:: increment_access_counter(Node *obj){
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
     set_control( iftrue );
     r->init_req(edges-1, control());
+    set_control(r);
     }
   // False branch
   Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
