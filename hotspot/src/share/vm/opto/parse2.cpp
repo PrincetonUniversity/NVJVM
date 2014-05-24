@@ -1186,6 +1186,8 @@ void Parse:: increment_access_counter(Node *obj){
 	float ok_prob =  PROB_LIKELY_MAG(3);
 	{
 	  BuildCutout unless(this, tst, ok_prob);
+	  bool b = _map == this->map();
+	  printf("boolean = %d, %p, %p", b, _map, this->map());
 	  increment_count(obj, control());
 	}
 }
