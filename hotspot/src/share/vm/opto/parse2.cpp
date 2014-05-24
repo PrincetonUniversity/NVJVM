@@ -1180,6 +1180,10 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
+	int edges = 2;
+	RegionNode *r = new (C, edges+1) RegionNode(edges+1);
+	_gvn.set_type(r, Type::CONTROL);
+	record_for_igvn(r);
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1189,12 +1193,14 @@ void Parse:: increment_access_counter(Node *obj){
   { PreserveJVMState pjvms(this);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
     set_control( iftrue );
-    //uncommon_trap(Deoptimization::Reason_age, Deoptimization::Action_reinterpret);
+    r->init_req(edges-1, control());
     }
   // False branch
   Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
   set_control( iffalse );
   increment_count(obj, control());
+  r->init_req(edges, control());
+  set_control(r);
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
