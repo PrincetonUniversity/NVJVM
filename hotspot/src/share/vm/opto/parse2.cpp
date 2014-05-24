@@ -1187,18 +1187,17 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
-	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
 	// True branch, use existing map info
-  { PreserveJVMState pjvms(this);
+  {
+	PreserveJVMState pjvms(this);
+    IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
-    set_control( iftrue );
-    r->init_req(edges-1, control());
-    }
+    r->init_req(edges-1, iftrue);
+    Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
+    increment_count(obj, iffalse);
+    r->init_req(edges, iffalse);
+  }
   // False branch
-  Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
-  set_control( iffalse );
-  increment_count(obj, control());
-  r->init_req(edges, control());
   set_control(r);
 }
 
