@@ -1189,17 +1189,12 @@ void Parse:: increment_access_counter(Node *obj){
   { PreserveJVMState pjvms(this);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
     set_control( iftrue );
-    uncommon_trap(Deoptimization::Reason_unhandled, Deoptimization::Action_reinterpret);
+    uncommon_trap(Deoptimization::Reason_unhandled, Deoptimization::Action_none);
     }
   // False branch
   Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
   set_control( iffalse );
   //increment_count(obj, control());
-/*	{
-	  BuildCutout unless(this, tst, ok_prob);
-	  printf("%p, %p",_map, this->map()); fflush(stdout);
-	  increment_count(obj, control());
-	}*/
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
