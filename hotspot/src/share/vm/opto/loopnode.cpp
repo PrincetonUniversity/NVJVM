@@ -2086,7 +2086,7 @@ void PhaseIdealLoop::build_and_optimize(bool do_split_ifs) {
 
   // Check for aggressive application of split-if and other transforms
   // that require basic-block info (like cloning through Phi's)
-  if( SplitIfBlocks && do_split_ifs ) {
+  if(false && SplitIfBlocks && do_split_ifs ) {
     visited.Clear();
     split_if_with_blocks( visited, nstack );
     NOT_PRODUCT( if( VerifyLoopOptimizations ) verify(); );
