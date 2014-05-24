@@ -1186,15 +1186,15 @@ void Parse:: increment_access_counter(Node *obj){
 	float ok_prob =  PROB_LIKELY_MAG(3);
 	IfNode* iff = create_and_map_if(control(), tst, ok_prob, 0);
 	// True branch, use existing map info
-  { PreserveJVMState pjvms(this);
+  //{ PreserveJVMState pjvms(this);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
-    set_control( iftrue );
-    increment_count(obj, control());
+    //set_control( iftrue );
+    increment_count(obj, iftrue);
     /*int target_bci = iter().next_bci();
     if(successor_for_bci(target_bci) != NULL) {
     	merge_new_path(target_bci);
     }*/
-  }
+  //}
   // False branch
   Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
   set_control( iffalse );
