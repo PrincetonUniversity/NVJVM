@@ -1190,10 +1190,10 @@ void Parse:: increment_access_counter(Node *obj){
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
     set_control( iftrue );
     increment_count(obj, control());
-    int target_bci = iter().next_bci();
-    if(successor_for_bci(target_bci)) {
+    /*int target_bci = iter().next_bci();
+    if(successor_for_bci(target_bci) != NULL) {
     	merge_new_path(target_bci);
-    }
+    }*/
   }
   // False branch
   Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );
