@@ -1200,6 +1200,7 @@ void Parse:: increment_access_counter(Node *obj){
     set_control(r);
   }
   set_control(r);
+  increment_count(obj, control());
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
