@@ -661,6 +661,10 @@ const Type *AddPNode::Value( PhaseTransform *phase ) const {
 
   // Left input is a pointer
   const TypePtr *p1 = t1->isa_ptr();
+  if (p1 == NULL){
+	  printf("_base = %d\n", t1->base());
+	  fflush(stdout);
+  }
   // Right input is an int
   const TypeX *p2 = t2->is_intptr_t();
   // Add 'em
