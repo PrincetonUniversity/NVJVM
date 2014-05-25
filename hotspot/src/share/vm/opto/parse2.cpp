@@ -1180,13 +1180,13 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-    const Type *t = _gvn.type( obj );
+    /*const Type *t = _gvn.type( obj );
 
     const TypeOopPtr* tp = t->isa_oopptr();
     if (tp != NULL && tp->klass() != NULL && !tp->klass()->is_loaded()){
     	return;
     }
-    increment_count(obj, control());
+    increment_count(obj, control());*/
 	  // Null check; get casted pointer; set region slot 3
 	  /*Node* null_ctl = top();
 	  Node* not_null_obj = null_check_oop(obj, &null_ctl, false);
@@ -1195,7 +1195,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  if (!stopped()) {              // Doing instance-of on a NULL?
 		  increment_count(obj, control());
 	  }*/
-	/*int edges = 2;
+	int edges = 2;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1210,10 +1210,10 @@ void Parse:: increment_access_counter(Node *obj){
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
-    Node *phi = PhiNode::make(r, NULL, TypePtr::NOTNULL);
+    Node *phi = PhiNode::make(r, NULL, TypePtr::NOTNULL, TypePtr::NOTNULL);
     phi->init_req(1, obj);
     phi->init_req(2, obj);
-    increment_count((Node *)phi, control());*/
+    increment_count((Node *)phi, control());
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl){
