@@ -1187,7 +1187,7 @@ void Parse:: increment_access_counter(Node *obj){
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    Node *dummy = new (C, edges+1) RegionNode(edges+1);
+    //Node *dummy = new (C, edges+1) RegionNode(edges+1);
     Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
     r->init_req(1, iffalse);
@@ -1197,7 +1197,7 @@ void Parse:: increment_access_counter(Node *obj){
     set_control(r);
     Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
     phi->init_req(1, obj);
-    phi->init_req(2, dummy);
+    phi->init_req(2, obj);
     increment_count(phi, control());
 }
 
