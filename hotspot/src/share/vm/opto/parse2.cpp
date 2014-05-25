@@ -1187,17 +1187,14 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
-	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);// True branch, use existing map info
+	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
   {
 	PreserveJVMState pjvms(this);
-    Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );
-    set_control(iftrue);
+    Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     r->init_req(edges-1, iftrue);
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    set_control(iffalse);
     increment_count(obj, iffalse);
     r->init_req(edges, iffalse);
-    set_control(r);
   }
   set_control(r);
   //increment_count(obj, control());
@@ -1205,7 +1202,7 @@ void Parse:: increment_access_counter(Node *obj){
 
 void Parse::increment_count(Node *obj, Node *ctrl){
   int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::klass_offset_in_bytes());
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
