@@ -1210,7 +1210,7 @@ void Parse:: increment_access_counter(Node *obj){
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
-    const Type *t = Type(Type::AnyPtr);
+    const Type *t =  Type::make(Type::AnyPtr);
     Node *phi = PhiNode::make(r, NULL,  t, TypePtr::NOTNULL);
     phi->init_req(1, obj);
     phi->init_req(2, obj);
