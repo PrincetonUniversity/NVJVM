@@ -1193,11 +1193,10 @@ void Parse:: increment_access_counter(Node *obj){
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     r->init_req(edges-1, iftrue);
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    increment_count(obj, iffalse);
     r->init_req(edges, iffalse);
   }
   set_control(r);
-  //increment_count(obj, control());
+  increment_count(obj, control());
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
