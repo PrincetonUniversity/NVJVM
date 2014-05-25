@@ -1190,13 +1190,12 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
     r->init_req(1, iffalse);
+    set_control(iffalse);
+    increment_count(obj, NULL);
     r->init_req(2, iftrue);
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
-    Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
-    // Negative path; negate/and/negate
-    phi->init_req(1, increment_count(obj, iffalse));
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl){
