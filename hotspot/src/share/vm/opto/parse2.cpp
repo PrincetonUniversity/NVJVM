@@ -1199,7 +1199,7 @@ void Parse:: increment_access_counter(Node *obj){
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    increment_count(obj, iffalse);
+    increment_count(obj, iftrue);
     r->init_req(1, iffalse);
     r->init_req(2, iftrue);
     _gvn.set_type(r, Type::CONTROL);
@@ -1209,7 +1209,7 @@ void Parse:: increment_access_counter(Node *obj){
 
 void Parse::increment_count(Node *obj, Node *ctrl){
   int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(obj, oopDesc::klass_offset_in_bytes());
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
