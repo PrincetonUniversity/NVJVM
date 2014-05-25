@@ -1180,16 +1180,6 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-	/*  Node *region  = new (C, 3) RegionNode(3); // 2 results
-  record_for_igvn(region);
-  region->init_req(1, iffalse);
-  region->init_req(2, iftrue );
-  _gvn.set_type(region, Type::CONTROL);
-  region = _gvn.transform(region);
-  set_control (region);
-  return region;
-	 *
-	 */
 	int edges = 2;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
@@ -1197,7 +1187,6 @@ void Parse:: increment_access_counter(Node *obj){
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    //increment_count(obj, iffalse);
 	Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
     r->init_req(1, iffalse);
@@ -1205,14 +1194,17 @@ void Parse:: increment_access_counter(Node *obj){
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
+    Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
+    // Negative path; negate/and/negate
+    phi->init_req(1, increment_count(obj, iffalse));
 }
 
-void Parse::increment_count(Node *obj, Node *ctrl){
+Node *Parse::increment_count(Node *obj, Node *ctrl){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
-  store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+  return store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 }
 
 //----------------------------adjust_map_after_if------------------------------
