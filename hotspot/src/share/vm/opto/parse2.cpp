@@ -1191,8 +1191,6 @@ void Parse:: increment_access_counter(Node *obj){
 	 *
 	 */
 	int edges = 2;
-	Node *r = new (C, edges+1) RegionNode(edges+1);
-	record_for_igvn(r);
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1200,11 +1198,15 @@ void Parse:: increment_access_counter(Node *obj){
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
     increment_count(obj, iffalse);
+	Node *r = new (C, edges+1) RegionNode(edges+1);
+	record_for_igvn(r);
     r->init_req(1, iffalse);
     r->init_req(2, iftrue);
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
+    Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
+
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
