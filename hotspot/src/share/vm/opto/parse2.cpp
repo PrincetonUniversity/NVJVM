@@ -1182,7 +1182,7 @@ void Parse:: increment_access_counter(Node *obj){
 		return;
 	int edges = 2;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
-	BoolTest::mask btest = BoolTest::eq;
+	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
@@ -1190,8 +1190,7 @@ void Parse:: increment_access_counter(Node *obj){
 	Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
     r->init_req(1, iffalse);
-    set_control(iffalse);
-    increment_count(obj, NULL);
+    increment_count(obj, iftrue);
     r->init_req(2, iftrue);
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
