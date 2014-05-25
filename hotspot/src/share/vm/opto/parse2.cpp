@@ -1191,7 +1191,7 @@ void Parse:: increment_access_counter(Node *obj){
 	 *
 	 */
 	int edges = 2;
-	RegionNode *r = new (C, edges+1) RegionNode(edges+1);
+	Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
