@@ -1180,23 +1180,31 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
+	/*  Node *region  = new (C, 3) RegionNode(3); // 2 results
+  record_for_igvn(region);
+  region->init_req(1, iffalse);
+  region->init_req(2, iftrue );
+  _gvn.set_type(region, Type::CONTROL);
+  region = _gvn.transform(region);
+  set_control (region);
+  return region;
+	 *
+	 */
 	int edges = 2;
 	RegionNode *r = new (C, edges+1) RegionNode(edges+1);
-	_gvn.set_type(r, Type::CONTROL);
 	record_for_igvn(r);
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::ne;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
-  {
-	PreserveJVMState pjvms(this);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
-    r->init_req(edges-1, iftrue);
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    r->init_req(edges, iffalse);
-  }
-  set_control(r);
-  increment_count(obj, control());
+    increment_count(obj, iffalse);
+    r->init_req(1, iffalse);
+    r->init_req(2, iftrue);
+    _gvn.set_type(r, Type::CONTROL);
+    r = _gvn.transform(r);
+    set_control(r);
 }
 
 void Parse::increment_count(Node *obj, Node *ctrl){
