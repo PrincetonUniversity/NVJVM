@@ -1180,7 +1180,15 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-	int edges = 2;
+	  // Null check; get casted pointer; set region slot 3
+	  Node* null_ctl = top();
+	  Node* not_null_obj = null_check_oop(obj, &null_ctl, false);
+
+	  // If not_null_obj is dead, only null-path is taken
+	  if (!stopped()) {              // Doing instance-of on a NULL?
+		  increment_count(obj, control());
+	  }
+	/*int edges = 2;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1198,7 +1206,7 @@ void Parse:: increment_access_counter(Node *obj){
     Node *phi = PhiNode::make(r, NULL, TypePtr::NOTNULL);
     phi->init_req(1, obj);
     phi->init_req(2, obj);
-    increment_count((Node *)phi, control());
+    increment_count((Node *)phi, control());*/
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl){
