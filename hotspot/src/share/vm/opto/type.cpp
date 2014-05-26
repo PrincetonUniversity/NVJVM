@@ -293,7 +293,7 @@ void Type::Initialize_shared(Compile* current) {
   floop[1] = TypeInt::INT;
   TypeTuple::LOOPBODY = TypeTuple::make( 2, floop );
 
-  TypePtr::NULL_PTR= TypePtr::make( AnyPtr, TypePtr::Null, OffsetBot );
+  TypePtr::NULL_PTR= TypePtr::make( AnyPtr, TypePtr::NotNull, OffsetBot );
   TypePtr::NOTNULL = TypePtr::make( AnyPtr, TypePtr::NotNull, OffsetBot );
   TypePtr::BOTTOM  = TypePtr::make( AnyPtr, TypePtr::BotPTR, OffsetBot );
 
