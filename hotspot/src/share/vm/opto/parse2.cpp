@@ -1221,12 +1221,12 @@ void Parse:: increment_access_counter(Node *obj){
     Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
 
-	 {  PreserveJVMState pjvms(this);
+	 {  PreserveJVMState pjvms(this); // saves the JVM State(_kit, _map, _sp)
 	    Node *iftrue = _gvn.transform( new (C, 1) IfTrueNode(iff) );
 	    set_control( iftrue );
 	    uncommon_trap(Deoptimization::Reason_unloaded, Deoptimization::Action_reinterpret);
 	    //merge_new_path(dest_bci_if_true);
-	  }
+	  } // resets the jvm state
 	  // False branch
 	  Node *iffalse  = _gvn.transform( new (C, 1) IfFalseNode (iff) );
 	  set_control( iffalse );
