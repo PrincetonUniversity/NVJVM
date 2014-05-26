@@ -1216,7 +1216,7 @@ void Parse:: increment_access_counter(Node *obj){
     increment_count(_gvn.transform(phi), control());*/
 
 	// True branch, use existing map info
-	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
+	Node *chk = _gvn.transform(new (C, 3) CmpUNode(obj, null())); // generate instructions for comparing the object with a null object
     BoolTest::mask btest = BoolTest::eq;
     Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
@@ -1230,7 +1230,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  // False branch
 	  Node *iffalse  = _gvn.transform( new (C, 1) IfFalseNode (iff) );
 	  set_control( iffalse );
-	  increment_count(obj, control());
+	  //increment_count(obj, control());
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl){
