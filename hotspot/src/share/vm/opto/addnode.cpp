@@ -653,33 +653,21 @@ const Type *AddPNode::bottom_type() const {
 
 //------------------------------Value------------------------------------------
 const Type *AddPNode::Value( PhaseTransform *phase ) const {
-  printf("in AddPNode::Value\n");fflush(stdout);
   // Either input is TOP ==> the result is TOP
   const Type *t1 = phase->type( in(Address) );
-  if (t1 == NULL){
-	  printf("t1 is null\n"); fflush(stdout);
-  }
-  printf("getting Type T1\n");fflush(stdout);
   const Type *t2 = phase->type( in(Offset) );
-  if (t2 == NULL){
-	printf("t2 is nULL\n"); fflush(stdout);
-  }
-  printf("getting Type T2\n");fflush(stdout);
+
   if( t1 == Type::TOP ) return Type::TOP;
   if( t2 == Type::TOP ) return Type::TOP;
 
   // Left input is a pointer
   const TypePtr *p1 = t1->isa_ptr();
-  if (p1 == NULL){
-	  printf("_base = %d\n", t1->base()); fflush(stdout);
-  }
+
   // Right input is an int
   const TypeX *p2 = t2->is_intptr_t();
   // Add 'em
   intptr_t p2offset = Type::OffsetBot;
-  if (p2 == NULL){
-	  printf("p2 is null"); fflush (stdout);
-  }
+
   if (p2->is_con()) {   // Left input is an add of a constant?
     p2offset = p2->get_con();
   }

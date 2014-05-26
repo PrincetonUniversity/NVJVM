@@ -1461,7 +1461,15 @@ void Parse::merge_new_path(int target_bci) {
   merge_common(target, pnum);
 }
 
-//void Parse::merge_
+/*void Parse::merge_same_block(int target_bci){
+ * Block* target = successor_for_bci(target_bci);
+ * if (target == NULL) {
+ * } else {
+ *   int pnum = target->add_new_path();
+ *   merge_common(target, pnum);
+ *
+ * }
+}*/
 
 //-------------------------merge_exception-------------------------------------
 // Merge the current mapping into the basic block starting at bci
