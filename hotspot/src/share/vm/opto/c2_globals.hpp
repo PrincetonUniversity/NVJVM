@@ -151,7 +151,7 @@
   develop(bool, PrintCFGBlockFreq, false,                                   \
           "Print CFG block freqencies")                                     \
                                                                             \
-  develop(bool, TraceOptoParse, false,                                      \
+  develop(bool, TraceOptoParse, true,                                       \
           "Trace bytecode parse and control-flow merge")                    \
                                                                             \
   product_pd(intx,  LoopUnrollLimit,                                        \
