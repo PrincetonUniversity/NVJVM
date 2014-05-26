@@ -1220,8 +1220,6 @@ void Parse:: increment_access_counter(Node *obj){
     BoolTest::mask btest = BoolTest::eq;
     Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
-	Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
-	Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
 
 	 {  PreserveJVMState pjvms(this);
 	    Node *iftrue = _gvn.transform( new (C, 1) IfTrueNode(iff) );

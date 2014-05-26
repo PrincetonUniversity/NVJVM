@@ -1461,6 +1461,8 @@ void Parse::merge_new_path(int target_bci) {
   merge_common(target, pnum);
 }
 
+//void Parse::merge_
+
 //-------------------------merge_exception-------------------------------------
 // Merge the current mapping into the basic block starting at bci
 // The ex_oop must be pushed on the stack, unlike throw_to_exit.
