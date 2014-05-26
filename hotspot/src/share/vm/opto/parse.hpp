@@ -420,6 +420,8 @@ class Parse : public GraphKit {
   void merge(          int target_bci);
   // Same as plain merge, except that it allocates a new path number.
   void merge_new_path( int target_bci);
+  void merge_same_block(int targe_bci);
+  void merge_same_common(Block *block, int num, int target_bci);
   // Merge the current mapping into an exception handler.
   void merge_exception(int target_bci);
   // Helper: Merge the current mapping into the given basic block

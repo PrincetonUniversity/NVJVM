@@ -622,7 +622,7 @@ void Parse::do_all_blocks() {
       }
 
       // Prepare to parse this block.
-      load_state_from(block);
+      load_state_from(block); // loads map, sp, block
 
       if (stopped()) {
         // Block is dead.
@@ -1353,15 +1353,15 @@ void Parse::do_one_block() {
   }
 
   assert(block()->is_merged(), "must be merged before being parsed");
-  block()->mark_parsed();
-  ++_blocks_parsed;
+  block()->mark_parsed(); // block is marked parsed
+  ++_blocks_parsed; // the count of parsed blocks increases
 
   // Set iterator to start of block.
   iter().reset_to_bci(block()->start());
 
   CompileLog* log = C->log();
 
-  // Parse bytecodes
+  // Parse byte codes
   while (!stopped() && !failing()) {
     iter().next();
 
@@ -1461,15 +1461,17 @@ void Parse::merge_new_path(int target_bci) {
   merge_common(target, pnum);
 }
 
-/*void Parse::merge_same_block(int target_bci){
- * Block* target = successor_for_bci(target_bci);
- * if (target == NULL) {
- * } else {
- *   int pnum = target->add_new_path();
- *   merge_common(target, pnum);
- *
- * }
-}*/
+void Parse::merge_same_block(int target_bci){
+  Block* target = successor_for_bci(target_bci);
+  if (target == NULL) {
+	  target = block();
+	  int pnum = target->add_new_path();
+	  merge_same_common(target, pnum, target_bci);
+  } else {
+    int pnum = target->add_new_path();
+    merge_common(target, pnum);
+  }
+}
 
 //-------------------------merge_exception-------------------------------------
 // Merge the current mapping into the basic block starting at bci
@@ -1491,6 +1493,15 @@ void Parse::handle_missing_successor(int target_bci) {
   tty->print_cr("### Missing successor at bci:%d for block #%d (trap_bci:%d)", target_bci, b->rpo(), trap_bci);
 #endif
   ShouldNotReachHere();
+}
+
+// Transfers control to the a particular byte code index, in the same block
+void Parse::merge_same_common(Parse::Block* target, int pnum, int target_bci){
+   printf("merge_same_common: block = %p, path number %d, target_bci %d \n", target, pnum, target_bci); fflush(stdout);
+   // clean_stack(sp()); avoided
+  // the target block is being parsed, therefore should currently be merged
+  // blocks_merged++; avoided
+
 }
 
 //--------------------------merge_common---------------------------------------
@@ -1530,7 +1541,7 @@ void Parse::merge_common(Parse::Block* target, int pnum) {
         DEBUG_ONLY( target->mark_merged_backedge(block()); )
         if (target->start() == 0) {
           // Add loop predicate for the special case when
-          // there are backbranches to the method entry.
+          // there are back branches to the method entry.
           add_predicate();
         }
       }
@@ -1549,7 +1560,7 @@ void Parse::merge_common(Parse::Block* target, int pnum) {
     }
 
     // Convert the existing Parser mapping into a mapping at this bci.
-    store_state_to(target);
+    store_state_to(target); //
     assert(target->is_merged(), "do not come here twice");
 
   } else {                      // Prior mapping at this bci
