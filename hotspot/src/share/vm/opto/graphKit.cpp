@@ -1382,6 +1382,7 @@ Node* GraphKit::memory(uint alias_idx) {
   if (mem == NULL){
 	  printf("mem is NULL\n"); fflush(stdout);
   }
+  printf("calling mem->memory_at\n"); fflush(stdout);
   Node* p = mem->memory_at(alias_idx);
   _gvn.set_type(p, Type::MEMORY);  // must be mapped
   return p;
