@@ -1377,8 +1377,8 @@ void GraphKit::replace_in_map(Node* old, Node* neww) {
 //=============================================================================
 //--------------------------------memory---------------------------------------
 Node* GraphKit::memory(uint alias_idx) {
-  MergeMemNode* mem = merged_memory();
   printf("in memory()\n"); fflush(stdout);
+  MergeMemNode* mem = merged_memory();
   if (mem == NULL){
 	  printf("mem is NULL\n"); fflush(stdout);
   }
