@@ -624,7 +624,7 @@ void Parse::do_all_blocks() {
 
       // Prepare to parse this block.
       load_state_from(block); // loads map, sp, block
-      _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
+      //_dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
       if (stopped()) {
         // Block is dead.
         continue;
