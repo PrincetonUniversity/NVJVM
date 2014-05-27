@@ -71,7 +71,8 @@ protected:
   ciObject(ciKlass* klass);
 
   jobject      handle()  const {
-	  return _handle; }
+	  return _handle;
+  }
   // Get the VM oop that this object holds.
   oop get_oop() const {
     assert(_handle != NULL, "null oop");
