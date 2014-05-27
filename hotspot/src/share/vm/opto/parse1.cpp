@@ -585,7 +585,7 @@ Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
   BytecodeParseHistogram *parse_histogram_obj = new (C->env()->arena()) BytecodeParseHistogram(this, C);
   set_parse_histogram( parse_histogram_obj );
 #endif
-  _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
+
   // Parse all the basic blocks.
   do_all_blocks();
 
@@ -624,7 +624,7 @@ void Parse::do_all_blocks() {
 
       // Prepare to parse this block.
       load_state_from(block); // loads map, sp, block
-
+      _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
       if (stopped()) {
         // Block is dead.
         continue;
