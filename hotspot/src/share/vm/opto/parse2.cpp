@@ -1238,7 +1238,7 @@ void Parse:: increment_access_counter(Node *obj){
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
-  printf("offset %ld\n", offset); fflush(stdout);
+  //printf("offset %ld\n", offset); fflush(stdout);
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(null(), offset);
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
