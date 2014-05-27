@@ -2936,6 +2936,7 @@ Node* GraphKit::get_layout_helper(Node* klass_node, jint& constant_value) {
   Node* lhp = basic_plus_adr(klass_node, klass_node, Klass::layout_helper_offset_in_bytes() + sizeof(oopDesc));
   printf("lhp=%p\n", lhp);fflush(stdout);
   printf("bottom_type = %p\n", lhp->bottom_type()); fflush(stdout);
+  printf("is_adr %p\n", lhp->bottom_type()->is_ptr()); fflush(stdout);
   return make_load(NULL, lhp, TypeInt::INT, T_INT);
 }
 
