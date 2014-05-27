@@ -1196,7 +1196,7 @@ void Parse:: increment_access_counter(Node *obj){
 		  increment_count(obj, control());
 	  }*/
 	int edges = 2;
-	Node *chk = _gvn.transform(new (C, 3) CmpPNode(null(), null())); // generate instructions for comparing the object with a null object
+	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
@@ -1240,7 +1240,7 @@ void Parse:: increment_access_counter(Node *obj){
 Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
   printf("offset %ld\n", offset); fflush(stdout);
   int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(obj, offset);
+  Node *counter_addr = basic_plus_adr(null(), offset);
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   return store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
