@@ -1418,6 +1418,9 @@ Node* GraphKit::make_load(Node* ctl, Node* adr, const Type* t, BasicType bt,
                           bool require_atomic_access) {
   assert(adr_idx != Compile::AliasIdxTop, "use other make_load factory" );
   const TypePtr* adr_type = NULL; // debug-mode-only argument
+  if(C == NULL){
+	  printf("C is NULL\n"); fflush(stdout);
+  }
   debug_only(adr_type = C->get_adr_type(adr_idx));
   Node* mem = memory(adr_idx);
   Node* ld;
