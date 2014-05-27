@@ -383,7 +383,7 @@ void Parse::load_interpreter_state(Node* osr_buf) {
 Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
   : _exits(caller)
 {
-  _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
+
    // Init some variables
   _caller = caller;
   _method = parse_method;
@@ -585,7 +585,7 @@ Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
   BytecodeParseHistogram *parse_histogram_obj = new (C->env()->arena()) BytecodeParseHistogram(this, C);
   set_parse_histogram( parse_histogram_obj );
 #endif
-
+  _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
   // Parse all the basic blocks.
   do_all_blocks();
 

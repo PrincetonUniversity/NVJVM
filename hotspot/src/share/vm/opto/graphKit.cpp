@@ -1430,7 +1430,6 @@ Node* GraphKit::make_load(Node* ctl, Node* adr, const Type* t, BasicType bt,
   }
   debug_only(adr_type = C->get_adr_type(adr_idx));
   printf("1, %d\n", adr_idx); fflush(stdout);
-
   Node* mem = memory(adr_idx);
   printf("2\n"); fflush(stdout);
   Node* ld;
