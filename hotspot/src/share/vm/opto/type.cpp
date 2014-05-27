@@ -40,6 +40,7 @@
 #include "opto/node.hpp"
 #include "opto/opcodes.hpp"
 #include "opto/type.hpp"
+#include "stdlib.h"
 
 // Portions of code courtesy of Clifford Click
 
@@ -293,7 +294,8 @@ void Type::Initialize_shared(Compile* current) {
   floop[1] = TypeInt::INT;
   TypeTuple::LOOPBODY = TypeTuple::make( 2, floop );
 
-  TypePtr::NULL_PTR= TypePtr::make( AnyPtr, TypePtr::Null, 0 );
+  void *mem=malloc(24);
+  TypePtr::NULL_PTR= TypePtr::make( AnyPtr, TypePtr::Null, (int)mem );
   TypePtr::NOTNULL = TypePtr::make( AnyPtr, TypePtr::NotNull, OffsetBot );
   TypePtr::BOTTOM  = TypePtr::make( AnyPtr, TypePtr::BotPTR, OffsetBot );
 
