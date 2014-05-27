@@ -453,6 +453,7 @@ class GraphKit : public Phase {
     if (mem == NULL){
     	printf("mem is null \n"); fflush(stdout);
     }
+    printf("calling mem->is_MergeMem()\n"); fflush(stdout);
     assert(mem->is_MergeMem(), "parse memory is always pre-split");
     printf("return %p",  mem->as_MergeMem());
     return mem->as_MergeMem();
