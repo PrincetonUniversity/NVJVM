@@ -1443,7 +1443,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_iconst_5: push(intcon( 5)); break;
   case Bytecodes::_bipush:   push(intcon(iter().get_constant_u1())); break;
   case Bytecodes::_sipush:   push(intcon(iter().get_constant_u2())); break;
-  case Bytecodes::_aconst_null: push(null());  break;
+  case Bytecodes::_aconst_null: push(_dummy);break;//null());  break;
   case Bytecodes::_ldc:
   case Bytecodes::_ldc_w:
   case Bytecodes::_ldc2_w:

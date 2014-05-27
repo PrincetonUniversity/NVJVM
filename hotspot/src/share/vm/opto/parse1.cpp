@@ -383,7 +383,8 @@ void Parse::load_interpreter_state(Node* osr_buf) {
 Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
   : _exits(caller)
 {
-  // Init some variables
+  _dummy = new_instance(makecon(TypeKlassPtr::OBJECT));
+   // Init some variables
   _caller = caller;
   _method = parse_method;
   _expected_uses = expected_uses;

@@ -127,6 +127,7 @@ public:
 // Parse bytecodes, build a Graph
 class Parse : public GraphKit {
  public:
+	static Node* _dummy;
   // Per-block information needed by the parser:
   class Block {
    private:
