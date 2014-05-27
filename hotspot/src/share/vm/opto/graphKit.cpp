@@ -1416,19 +1416,26 @@ void GraphKit::set_all_memory_call(Node* call, bool separate_io_proj) {
 Node* GraphKit::make_load(Node* ctl, Node* adr, const Type* t, BasicType bt,
                           int adr_idx,
                           bool require_atomic_access) {
+  printf("in make_load\n"); fflush(stdout);
   assert(adr_idx != Compile::AliasIdxTop, "use other make_load factory" );
+  printf("after assert\n"); fflush(stdout);
   const TypePtr* adr_type = NULL; // debug-mode-only argument
+  printf("adr_type NULL\n"); fflush(stdout);
   if(C == NULL){
 	  printf("C is NULL\n"); fflush(stdout);
   }
   debug_only(adr_type = C->get_adr_type(adr_idx));
+  printf("1\n"); fflush(stdout);
   Node* mem = memory(adr_idx);
+  printf("2\n"); fflush(stdout);
   Node* ld;
+  printf("3\n"); fflush(stdout);
   if (require_atomic_access && bt == T_LONG) {
     ld = LoadLNode::make_atomic(C, ctl, mem, adr, adr_type, t);
   } else {
     ld = LoadNode::make(_gvn, ctl, mem, adr, adr_type, t, bt);
   }
+  printf("4\n"); fflush(stdout);
   return _gvn.transform(ld);
 }
 
