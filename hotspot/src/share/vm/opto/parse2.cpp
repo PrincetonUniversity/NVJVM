@@ -1202,7 +1202,6 @@ void Parse:: increment_access_counter(Node *obj){
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
     Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
     Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-
     Node *r = new (C, edges+1) RegionNode(edges+1);
 	record_for_igvn(r);
     r->init_req(1, iffalse);
@@ -1214,7 +1213,7 @@ void Parse:: increment_access_counter(Node *obj){
     phi->init_req(1, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
     phi->init_req(2, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
     //phi->init_req(2, (Node *)_gvn.longcon((long)_add));
-    increment_count(obj, control(), phi);
+    increment_count(obj, control(), _gvn.transform(phi)->get_long());
 
 	// True branch, use existing map info
 	/*Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
@@ -1238,7 +1237,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  //increment_count(obj, control());
 }
 
-Node *Parse::increment_count(Node *obj, Node *ctrl, Node* offset){
+Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, offset);
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
