@@ -1210,11 +1210,10 @@ void Parse:: increment_access_counter(Node *obj){
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
-    Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
-    phi->init_req(1, (Node *)_gvn.intcon(oopDesc::counter_offset_in_bytes()));
-    printf("values %d, %d\n", _add, (jint)_add);
-    phi->init_req(2, (Node *)_gvn.intcon((jint)_add));
-    increment_count(obj, control(), (int)phi->get_int());
+    Node *phi = PhiNode::make(r, NULL, TypeLong::Long);
+    phi->init_req(1, (Node *)_gvn.intcon((jlong)oopDesc::counter_offset_in_bytes()));
+    phi->init_req(2, (Node *)_gvn.longcon((jlong)_add));
+    increment_count(obj, control(), phi);
 
 	// True branch, use existing map info
 	/*Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
@@ -1238,7 +1237,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  //increment_count(obj, control());
 }
 
-Node *Parse::increment_count(Node *obj, Node *ctrl, int offset){
+Node *Parse::increment_count(Node *obj, Node *ctrl, Node* offset){
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, offset);
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
