@@ -385,7 +385,8 @@ Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
 {
 
    // Init some variables
-  _caller = caller;
+   _add = (int)(long)malloc(sizeof(int));
+   _caller = caller;
   _method = parse_method;
   _expected_uses = expected_uses;
   _depth = 1 + (caller->has_method() ? caller->depth() : 0);

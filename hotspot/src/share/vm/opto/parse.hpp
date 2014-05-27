@@ -128,6 +128,7 @@ public:
 class Parse : public GraphKit {
  public:
    Node* _dummy;
+   int _add;
   // Per-block information needed by the parser:
   class Block {
    private:
@@ -370,7 +371,7 @@ class Parse : public GraphKit {
 
   // code to increment the access count
    void increment_access_counter(Node *obj);
-   Node * increment_count (Node *obj, Node *control);
+   Node * increment_count (Node *obj, Node *control, int offset);
 
   Block* rpo_at(int rpo) {
     assert(0 <= rpo && rpo < _block_count, "oob");
