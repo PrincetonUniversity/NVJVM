@@ -1210,8 +1210,8 @@ void Parse:: increment_access_counter(Node *obj){
     r = _gvn.transform(r);
     set_control(r);
     Node *phi = PhiNode::make(r, NULL, TypeLong::LONG);
-    phi->init_req(1, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
-    phi->init_req(2, (Node *)_gvn.longcon((long)_add));
+    phi->init_req(2, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
+    phi->init_req(1, (Node *)_gvn.longcon((long)_add));
     increment_count(obj, control(), _gvn.transform(phi)->get_long());
 
 	// True branch, use existing map info
@@ -1237,6 +1237,7 @@ void Parse:: increment_access_counter(Node *obj){
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
+  printf("offset %ld\n", offset); fflush(stdout);
   int adr_type = Compile::AliasIdxRaw;
   Node *counter_addr = basic_plus_adr(obj, offset);
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
