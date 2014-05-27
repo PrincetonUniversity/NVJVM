@@ -294,7 +294,7 @@ void Type::Initialize_shared(Compile* current) {
   floop[1] = TypeInt::INT;
   TypeTuple::LOOPBODY = TypeTuple::make( 2, floop );
 
-  void *mem=malloc(24);
+  long mem = (long)malloc(24);
   TypePtr::NULL_PTR= TypePtr::make( AnyPtr, TypePtr::Null, (int)mem );
   TypePtr::NOTNULL = TypePtr::make( AnyPtr, TypePtr::NotNull, OffsetBot );
   TypePtr::BOTTOM  = TypePtr::make( AnyPtr, TypePtr::BotPTR, OffsetBot );
