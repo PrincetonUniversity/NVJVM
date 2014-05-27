@@ -386,6 +386,7 @@ Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
 
    // Init some variables
    _add = (int)(long)malloc(sizeof(int));
+   printf("_add = %p", _add); fflush(stdout);
    _caller = caller;
   _method = parse_method;
   _expected_uses = expected_uses;
