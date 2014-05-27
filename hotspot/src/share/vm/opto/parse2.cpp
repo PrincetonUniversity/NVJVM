@@ -1212,7 +1212,8 @@ void Parse:: increment_access_counter(Node *obj){
     set_control(r);
     Node *phi = PhiNode::make(r, NULL, TypeInt::INT);
     phi->init_req(1, (Node *)_gvn.intcon(oopDesc::counter_offset_in_bytes()));
-    phi->init_req(2, (Node *)_gvn.intcon(_add));
+    printf("values %d, %d\n", _add, (jint)_add);
+    phi->init_req(2, (Node *)_gvn.intcon((jint)_add));
     increment_count(obj, control(), (int)phi->get_int());
 
 	// True branch, use existing map info
