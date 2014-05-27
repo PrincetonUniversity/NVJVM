@@ -449,14 +449,14 @@ class GraphKit : public Phase {
 
   // Get the entire memory state, asserted to be a MergeMemNode.
   MergeMemNode* merged_memory() {
-	printf("in merged_memory \n"); fflush(stdout);
+
     Node* mem = map_not_null()->memory();
-    if (mem == NULL){
-    	printf("mem is null \n"); fflush(stdout);
-    }
-    printf("calling mem->is_MergeMem()\n"); fflush(stdout);
+
+
+
+
     assert(mem->is_MergeMem(), "parse memory is always pre-split");
-    printf("return %p",  mem->as_MergeMem());
+
     return mem->as_MergeMem();
   }
 

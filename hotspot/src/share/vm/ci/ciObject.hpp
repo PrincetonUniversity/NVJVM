@@ -70,7 +70,9 @@ protected:
   ciObject(Handle h);
   ciObject(ciKlass* klass);
 
-  jobject      handle()  const { return _handle; }
+  jobject      handle()  const {
+	  printf("in handle()\n"); fflush(stdout);
+	  return _handle; }
   // Get the VM oop that this object holds.
   oop get_oop() const {
     assert(_handle != NULL, "null oop");

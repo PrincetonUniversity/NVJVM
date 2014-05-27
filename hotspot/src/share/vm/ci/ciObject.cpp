@@ -178,8 +178,10 @@ int ciObject::hash() {
 // This method should be changed to return an generified address
 // to discourage use of the JNI handle.
 jobject ciObject::constant_encoding() {
+  printf("in constant_encoding\n"); fflush(stdout);
   assert(is_null_object() || handle() != NULL, "cannot embed null pointer");
   assert(can_be_constant(), "oop must be NULL or perm");
+  printf("calling handle()\n"); fflush(stdout);
   return handle();
 }
 

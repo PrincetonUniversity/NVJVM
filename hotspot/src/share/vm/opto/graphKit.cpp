@@ -1377,12 +1377,7 @@ void GraphKit::replace_in_map(Node* old, Node* neww) {
 //=============================================================================
 //--------------------------------memory---------------------------------------
 Node* GraphKit::memory(uint alias_idx) {
-  printf("in memory()\n"); fflush(stdout);
   MergeMemNode* mem = merged_memory();
-  if (mem == NULL){
-	  printf("mem is NULL\n"); fflush(stdout);
-  }
-  printf("calling mem->memory_at\n"); fflush(stdout);
   Node* p = mem->memory_at(alias_idx);
   _gvn.set_type(p, Type::MEMORY);  // must be mapped
   return p;
@@ -1421,26 +1416,24 @@ void GraphKit::set_all_memory_call(Node* call, bool separate_io_proj) {
 Node* GraphKit::make_load(Node* ctl, Node* adr, const Type* t, BasicType bt,
                           int adr_idx,
                           bool require_atomic_access) {
-  printf("in make_load\n"); fflush(stdout);
+
   assert(adr_idx != Compile::AliasIdxTop, "use other make_load factory" );
-  printf("after assert\n"); fflush(stdout);
+
   const TypePtr* adr_type = NULL; // debug-mode-only argument
-  printf("adr_type NULL\n"); fflush(stdout);
-  if(C == NULL){
-	  printf("C is NULL\n"); fflush(stdout);
-  }
+
+
   debug_only(adr_type = C->get_adr_type(adr_idx));
-  printf("1, %d\n", adr_idx); fflush(stdout);
+
   Node* mem = memory(adr_idx);
-  printf("2\n"); fflush(stdout);
+
   Node* ld;
-  printf("3\n"); fflush(stdout);
+
   if (require_atomic_access && bt == T_LONG) {
     ld = LoadLNode::make_atomic(C, ctl, mem, adr, adr_type, t);
   } else {
     ld = LoadNode::make(_gvn, ctl, mem, adr, adr_type, t, bt);
   }
-  printf("4\n"); fflush(stdout);
+
   return _gvn.transform(ld);
 }
 
@@ -2949,9 +2942,9 @@ Node* GraphKit::get_layout_helper(Node* klass_node, jint& constant_value) {
   }
   constant_value = Klass::_lh_neutral_value;  // put in a known value
   Node* lhp = basic_plus_adr(klass_node, klass_node, Klass::layout_helper_offset_in_bytes() + sizeof(oopDesc));
-  printf("lhp=%p\n", lhp);fflush(stdout);
+  /*printf("lhp=%p\n", lhp);fflush(stdout);
   printf("bottom_type = %p\n", lhp->bottom_type()); fflush(stdout);
-  printf("is_adr %p\n", lhp->bottom_type()->is_ptr()); fflush(stdout);
+  printf("is_adr %p\n", lhp->bottom_type()->is_ptr()); fflush(stdout);*/
   return make_load(NULL, lhp, TypeInt::INT, T_INT);
 }
 
