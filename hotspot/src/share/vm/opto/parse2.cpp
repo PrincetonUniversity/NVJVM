@@ -1210,8 +1210,8 @@ void Parse:: increment_access_counter(Node *obj){
     _gvn.set_type(r, Type::CONTROL);
     r = _gvn.transform(r);
     set_control(r);
-    Node *phi = PhiNode::make(r, NULL, TypeLong::Long);
-    phi->init_req(1, (Node *)_gvn.intcon((jlong)oopDesc::counter_offset_in_bytes()));
+    Node *phi = PhiNode::make(r, NULL, TypeLong::LONG);
+    phi->init_req(1, (Node *)_gvn.longcon((jlong)oopDesc::counter_offset_in_bytes()));
     phi->init_req(2, (Node *)_gvn.longcon((jlong)_add));
     increment_count(obj, control(), phi);
 
