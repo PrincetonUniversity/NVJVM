@@ -1196,7 +1196,7 @@ void Parse:: increment_access_counter(Node *obj){
 		  increment_count(obj, control());
 	  }*/
 	int edges = 2;
-	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
+	Node *chk = _gvn.transform(new (C, 3) CmpPNode(null(), null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
 	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
@@ -1210,7 +1210,8 @@ void Parse:: increment_access_counter(Node *obj){
     r = _gvn.transform(r);
     set_control(r);
     Node *phi = PhiNode::make(r, NULL, TypeLong::LONG);
-    phi->init_req(1, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
+    //phi->init_req(1, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
+    phi->init_req(1, (Node *)_gvn.longcon((long)_add));
     phi->init_req(2, (Node *)_gvn.longcon((long)_add));
     increment_count(obj, control(), _gvn.transform(phi)->get_long());
 
