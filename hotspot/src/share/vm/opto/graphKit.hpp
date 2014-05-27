@@ -66,7 +66,6 @@ class GraphKit : public Phase {
 
  private:
   SafePointNode*     map_not_null() const {
-	printf("in map not null, _map = %p", _map); fflush(stdout);
     assert(_map != NULL, "must call stopped() to test for reset compiler map");
     return _map;
   }
