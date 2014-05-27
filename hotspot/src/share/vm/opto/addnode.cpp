@@ -665,6 +665,9 @@ const Type *AddPNode::Value( PhaseTransform *phase ) const {
 
   // Right input is an int
   const TypeX *p2 = t2->is_intptr_t();
+  if(p2 == NULL){
+	  printf("p2 is NULL \n"); fflush(stdout);
+  }
   // Add 'em
   intptr_t p2offset = Type::OffsetBot;
 
