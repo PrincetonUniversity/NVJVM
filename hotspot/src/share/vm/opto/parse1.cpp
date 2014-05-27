@@ -384,7 +384,7 @@ Parse::Parse(JVMState* caller, ciMethod* parse_method, float expected_uses)
   : _exits(caller)
 {
 
-   _add = (int *)malloc(sizeof(int));
+   _add = (intptr_t)malloc(sizeof(int));
    printf("address %p\n", _add); fflush(stdout);
    _caller = caller;
   _method = parse_method;

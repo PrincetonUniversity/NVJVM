@@ -128,7 +128,7 @@ public:
 class Parse : public GraphKit {
  public:
    Node* _dummy;
-   int* _add;
+   intptr_t _add;
   // Per-block information needed by the parser:
   class Block {
    private:
