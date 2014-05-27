@@ -1180,6 +1180,8 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
+	increment_count(obj, control(), (long)_add);
+
     /*const Type *t = _gvn.type( obj );
 
     const TypeOopPtr* tp = t->isa_oopptr();
@@ -1195,7 +1197,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  if (!stopped()) {              // Doing instance-of on a NULL?
 		  increment_count(obj, control());
 	  }*/
-	int edges = 2;
+	/*int edges = 2;
 	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
 	BoolTest::mask btest = BoolTest::eq;
 	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
@@ -1235,6 +1237,7 @@ void Parse:: increment_access_counter(Node *obj){
 	  Node *iffalse  = _gvn.transform( new (C, 1) IfFalseNode (iff) );
 	  set_control( iffalse );*/
 	  //increment_count(obj, control());
+
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
