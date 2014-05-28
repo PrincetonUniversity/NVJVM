@@ -1941,8 +1941,11 @@ jint G1CollectedHeap::initialize() {
   // temporarily think somethings in the heap.  (I've actually seen this
   // happen in asserts: DLD.)
   _reserved.set_word_size(0);
-  _reserved.set_start((HeapWord*)heap_rs.base());
+  _reserved.set_start((HeapWord*)heap_rs.base()); // we can use this as the start of the reserved space for the heap
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
+  // Setting the heap size, start values here
+  Universe::_heapStart = (uint64_t) heap_rs.base();
+  Universe::_heapSize = (uint64_t) heap_rs.size();
   if(P_INIT){
 	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
   }

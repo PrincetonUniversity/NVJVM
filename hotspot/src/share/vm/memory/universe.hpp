@@ -152,6 +152,8 @@ class Universe: AllStatic {
   static klassOop _compiledICHolderKlassObj;
   static klassOop _systemObjArrayKlassObj;
   static void *_regionTable; // table for storing region bitmap
+  static uint64_t _heapStart; // Start of the heap
+  static uint64_t _heapSize;  // Heap Size
 
   // Known objects in the VM
 

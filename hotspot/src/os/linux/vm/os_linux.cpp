@@ -2749,6 +2749,9 @@ static address _highest_vm_reserved_address = NULL;
 // may not start from the requested address. Unlike Linux mmap(), this
 // function returns NULL to indicate failure.
 static char* anon_mmap(char* requested_addr, size_t bytes, bool fixed) {
+  if(P_INIT){
+	  printf("In anon_mmap:: size:%ud, is_fixed = %d", bytes, fixed); fflush(stdout);
+  }
   char * addr;
   int flags;
 
