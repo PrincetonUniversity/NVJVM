@@ -35,6 +35,7 @@
 #include "runtime/stubRoutines.hpp"
 #include "runtime/synchronizer.hpp"
 
+
 #define REGION_MASK (~0L)<<20
 #define REGION_SIZE (1<<19)
 #define REGION_SHIFT (20)
@@ -577,10 +578,17 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
+  uint64_t offset = Universe::getHeapStart();
+  uint64_t base = Universe::getRegionTable();
 
-  if(FL_SWAP){ // registers r10, rax are free
-	  __ movptr(r10, object);
-	  __ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits
+  // Assuming registers r10, rax are free
+  if(FL_SWAP){
+	  __ movptr(rax, object); 	  // pointer to the object in memory
+	  __ subl(rax, offset);		  // offset of the region, got by subtracting
+	  __ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+	  __ addl(rax, base);		  // adding the offset to get the address of the location within memory for the
+	  __ movl(r10, rax);		  // moving the value at the byte into the register r10
+
   }
 
   if(DO_INCREMENT){

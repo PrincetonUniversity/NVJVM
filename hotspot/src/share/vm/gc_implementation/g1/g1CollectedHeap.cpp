@@ -49,6 +49,7 @@
 #include "swap/swap_global.h"
 #include <stdio.h>
 #include <string.h>
+#include "memory/universe.inline.hpp"
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
@@ -1944,8 +1945,9 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_start((HeapWord*)heap_rs.base()); // we can use this as the start of the reserved space for the heap
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
   // Setting the heap size, start values here
-  Universe::_heapStart = (uint64_t) heap_rs.base();
-  Universe::_heapSize = (uint64_t) heap_rs.size();
+  Universe::setHeapStart((uint64_t) heap_rs.base());
+  Universe::setHeapSize((uint64_t) heap_rs.size());
+
   if(P_INIT){
 	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
   }

@@ -152,6 +152,10 @@ class Universe: AllStatic {
   static klassOop _compiledICHolderKlassObj;
   static klassOop _systemObjArrayKlassObj;
 
+  static void *_regionTable; // table for storing region bitmap
+  static uint64_t _heapStart; // Start of the heap
+  static uint64_t _heapSize;  // Heap Size
+
   // Known objects in the VM
 
   // Primitive objects
@@ -250,9 +254,15 @@ class Universe: AllStatic {
   static void compute_verify_oop_data();
 
  public:
-  static void *_regionTable; // table for storing region bitmap
-  static uint64_t _heapStart; // Start of the heap
-  static uint64_t _heapSize;  // Heap Size
+
+  static void setHeapStart(uint64_t s)                 {_heapStart = s;}
+  static void setHeapSize(uint64_t s)                 {_heapSize = s;}
+
+  static uint64_t getHeapStart()                      {return _heapStart;}
+  static uint64_t getHeapSize()                 	  {return _heapSize;}
+
+  static void* getRegionTable()						  {return _regionTable;}
+  static void setRegionTable(void *start)			  {_regionTable = start;}
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
