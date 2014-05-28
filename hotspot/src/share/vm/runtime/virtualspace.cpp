@@ -251,7 +251,9 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
          "alignment not aligned to os::vm_allocation_granularity()");
   assert(alignment == 0 || is_power_of_2((intptr_t)alignment),
          "not a power of 2");
-
+  if(P_INIT){
+	  printf("ReservedSpace::initialize method, requested_address = %p\n", requested_address); fflush(stdout);
+  }
   _base = NULL;
   _size = 0;
   _special = false;
@@ -343,6 +345,11 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
   // Done
   _base = base;
   _size = size;
+  if (P_INIT){
+	  printf("ReservedSpace::initialize method, base = %p\n", base);
+	  printf("ReservedSpace::initialize method, size = %zu\n", size);
+	  fflush(stdout);
+  }
   _alignment = MAX2(alignment, (size_t) os::vm_page_size());
   _noaccess_prefix = noaccess_prefix;
 

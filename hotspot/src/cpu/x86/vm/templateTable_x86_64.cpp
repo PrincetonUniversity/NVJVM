@@ -35,6 +35,10 @@
 #include "runtime/stubRoutines.hpp"
 #include "runtime/synchronizer.hpp"
 
+#define REGION_MASK (~0L)<<20
+#define REGION_SIZE (1<<19)
+#define REGION_SHIFT (20)
+
 #ifndef CC_INTERP
 
 #define __ _masm->
@@ -573,6 +577,12 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
+
+  if(FL_SWAP){ // registers r10, rax are free
+	  __ movptr(r10, object);
+	  __ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits
+  }
+
   if(DO_INCREMENT){
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
@@ -582,7 +592,7 @@ void TemplateTable::aload() {
   __ testptr(rax, rax);
   __ jcc(Assembler::zero, nullObj);
   __ movl(rax, objectCounter);        // load access counter
-  __ incrementl(rax, 1);       // increment access counter
+  __ incrementl(rax, 1);       		  // increment access counter
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
   }

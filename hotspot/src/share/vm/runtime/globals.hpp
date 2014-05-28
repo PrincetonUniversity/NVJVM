@@ -475,6 +475,8 @@ class CommandLineFlags {
           "Percentage (0-100) used to weight the current sample when "      \
           "computing exponentially decaying average for "                   \
           "AdaptiveNUMAChunkSizing")                                        \
+  product(bool, FL_SWAP, false,											    \
+         "flag for faultless swap module")                                  \
                                                                             \
   product(intx, NUMASpaceResizeRate, 1*G,                                   \
           "Do not reallocate more that this amount per collection")         \
@@ -2830,6 +2832,8 @@ class CommandLineFlags {
           "print to output for swapping")									\
   product(bool, DO_INCREMENT, false,										\
            "print to output for swapping")									\
+  product(bool, P_INIT, false,												\
+		  "used for printing initialization constants")						\
   product(bool, DO_SWAP, false,												\
            "trigger swapping")									            \
   product(bool, L_SEGREGATION, false,										\

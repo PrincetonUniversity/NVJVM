@@ -151,6 +151,7 @@ class Universe: AllStatic {
   static klassOop _constantPoolCacheKlassObj;
   static klassOop _compiledICHolderKlassObj;
   static klassOop _systemObjArrayKlassObj;
+  static void *_regionTable; // table for storing region bitmap
 
   // Known objects in the VM
 

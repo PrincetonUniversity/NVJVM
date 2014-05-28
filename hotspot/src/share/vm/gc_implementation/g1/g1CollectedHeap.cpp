@@ -1943,6 +1943,9 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_word_size(0);
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
+  if(P_INIT){
+	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
+  }
 
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
