@@ -589,7 +589,7 @@ void TemplateTable::aload() {
 	  __ addl(rax, base);		  // adding the offset to get the address of the location within memory for the
 	  __ movl(r10, rax);		  // moving the value at the byte into the register r10
 	  __ testptr(r10, r10);
-	  jcc
+
 
   }
 
