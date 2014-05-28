@@ -578,8 +578,8 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  uint64_t offset = Universe::getHeapStart();
-  uint64_t base = Universe::getRegionTable();
+  uint64_t offset = (uint64_t) Universe::getHeapStart();
+  uint64_t base = (uint64_t) Universe::getRegionTable();
 
   // Assuming registers r10, rax are free
   if(FL_SWAP){
@@ -588,6 +588,8 @@ void TemplateTable::aload() {
 	  __ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
 	  __ addl(rax, base);		  // adding the offset to get the address of the location within memory for the
 	  __ movl(r10, rax);		  // moving the value at the byte into the register r10
+	  __ testptr(r10, r10);
+	  jcc
 
   }
 
