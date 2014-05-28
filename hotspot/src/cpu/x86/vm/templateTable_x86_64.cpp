@@ -583,14 +583,17 @@ void TemplateTable::aload() {
 
   // Assuming registers r10, rax are free
   if(FL_SWAP){
+	  Label isPresent;
 	  __ movptr(rax, object); 	  // pointer to the object in memory
 	  __ subl(rax, offset);		  // offset of the region, got by subtracting
 	  __ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
 	  __ addl(rax, base);		  // adding the offset to get the address of the location within memory for the
 	  __ movl(r10, rax);		  // moving the value at the byte into the register r10
-	  __ testptr(r10, r10);
+	  __ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
+	  __ jcc(Assembly::zero, isPresent);
+	  // Function call to implement the swapping in functionality
 
-
+	  __ bind(isPresent);		  // Avoids the call to get object in memory
   }
 
   if(DO_INCREMENT){

@@ -1180,7 +1180,11 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-	increment_count(obj, control(), (long)_add);
+	Bytecodes::Code bc = iter().next_bc();
+	if (bc == Bytecodes::_invokespecial){
+		return;
+	}
+	increment_count(obj, control());
 
     /*const Type *t = _gvn.type( obj );
 
@@ -1240,10 +1244,9 @@ void Parse:: increment_access_counter(Node *obj){
 
 }
 
-Node *Parse::increment_count(Node *obj, Node *ctrl, long offset){
-  //printf("offset %ld\n", offset); fflush(stdout);
+Node *Parse::increment_count(Node *obj, Node *ctrl){
   int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(null(), offset);
+  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
   Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
   Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
   return store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
