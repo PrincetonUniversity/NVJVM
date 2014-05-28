@@ -97,6 +97,10 @@
 #include "gc_implementation/parallelScavenge/parallelScavengeHeap.hpp"
 #endif
 
+void *Universe::_regionTable = NULL; // table for storing region bitmap
+uint64_t Universe::_heapStart = 0; // Start of the heap
+uint64_t Universe::_heapSize = 0;  // Heap Size
+
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;
 klassOop Universe::_byteArrayKlassObj                 = NULL;

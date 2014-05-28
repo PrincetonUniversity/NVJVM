@@ -255,13 +255,13 @@ class Universe: AllStatic {
 
  public:
 
-  static void setHeapStart(uint64_t s)                 {_heapStart = s;}
-  static void setHeapSize(uint64_t s)                 {_heapSize = s;}
+  static void setHeapStart(uint64_t s)                 { _heapStart = s;}
+  static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
 
-  static uint64_t getHeapStart()                      {return _heapStart;}
-  static uint64_t getHeapSize()                 	  {return _heapSize;}
+  static uint64_t getHeapStart()                      {  return _heapStart;}
+  static uint64_t getHeapSize()                 	  {  return _heapSize;}
 
-  static void* getRegionTable()						  {return _regionTable;}
+  static void* getRegionTable()						  {  return _regionTable;}
   static void setRegionTable(void *start)			  {_regionTable = start;}
 
   // Known classes in the VM
