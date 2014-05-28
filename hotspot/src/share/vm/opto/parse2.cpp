@@ -1180,10 +1180,6 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse:: increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-	Bytecodes::Code bc = iter().next_bc();
-	if (bc == Bytecodes::_invokespecial){
-		return;
-	}
 	increment_count(obj, control());
 
     /*const Type *t = _gvn.type( obj );
@@ -1484,22 +1480,22 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload_1:
 	obj = local(1);
     push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
     obj = local(2);
 	push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
   case Bytecodes::_aload_3:
     obj = local(3);
 	push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
     push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
 
   case Bytecodes::_fload_0:
