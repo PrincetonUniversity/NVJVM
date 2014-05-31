@@ -608,8 +608,6 @@ void TemplateTable::aload() {
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
   }
-  __ movptr(c_rarg1, aaddress(rbx));
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print), c_rarg1);
   __ movptr(rax, object);
 }
 

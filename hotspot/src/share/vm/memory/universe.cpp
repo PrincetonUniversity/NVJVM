@@ -748,6 +748,11 @@ void* Universe::non_oop_word() {
   return (void*)non_oop_bits;
 }
 
+void Universe::initialize_region(){
+	Universe::_regionTable = (void *) malloc(_U_MB);
+	memset(Universe::_regionTable, 0, _U_MB);
+}
+
 jint universe_init() {
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),
@@ -781,6 +786,7 @@ jint universe_init() {
   }
 
   jint status = Universe::initialize_heap();
+  Universe::initialize_region();
   if (status != JNI_OK) {
     return status;
   }

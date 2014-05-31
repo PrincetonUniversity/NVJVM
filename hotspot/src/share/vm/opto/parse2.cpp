@@ -1475,7 +1475,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_aload_0:
 	obj = local(0);
 	push( obj );
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
     break;
   case Bytecodes::_aload_1:
 	obj = local(1);

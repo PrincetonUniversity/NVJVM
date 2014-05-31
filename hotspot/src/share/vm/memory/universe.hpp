@@ -27,6 +27,10 @@
 
 #include "runtime/handles.hpp"
 #include "utilities/growableArray.hpp"
+#include <string.h>
+#include <stdio.h>
+
+#define _U_MB 1024*1024 // denotes 1 MB
 
 // Universe is a name space holding known system classes and objects in the VM.
 //
@@ -231,6 +235,7 @@ class Universe: AllStatic {
   static size_t _heap_used_at_last_gc;
 
   static jint initialize_heap();
+  static void initialize_region();
   static void initialize_basic_type_mirrors(TRAPS);
   static void fixup_mirrors(TRAPS);
 
