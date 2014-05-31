@@ -591,6 +591,8 @@ void TemplateTable::aload() {
 	  __ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
 	  __ jcc(Assembler::zero, isPresent);
 	  // Function call to implement the swapping in functionality
+	  __ movptr(c_rarg1, aaddress(rbx));
+	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print), c_rarg1);
 	  __ bind(isPresent);		  // Avoids the call to get object in memory
   }
   if(DO_INCREMENT){
@@ -606,7 +608,8 @@ void TemplateTable::aload() {
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
   }
-  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print));
+  __ movptr(c_rarg1, aaddress(rbx));
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print), c_rarg1);
   __ movptr(rax, object);
 }
 

@@ -151,8 +151,11 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 }
 IRT_END
 
-IRT_ENTRY(void, InterpreterRuntime::_print(JavaThread* thread))
+IRT_ENTRY(void, InterpreterRuntime::_print(JavaThread* thread, oopDesc* obj))
   printf("In IRT::_print \n"); fflush(stdout);
+  if(obj != NULL){
+	  printf("count = %d\n", obj->getCount());fflush(stdout);
+  }
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
