@@ -75,6 +75,8 @@
 #include "opto/runtime.hpp"
 #endif
 
+#define _R_SIZE 1024*1024
+
 class UnlockFlagSaver {
   private:
     JavaThread* _thread;
@@ -152,7 +154,15 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_print(JavaThread* thread, oopDesc* obj))
-  printf("In IRT::_print \n"); fflush(stdout);
+  uint64_t objOffset = (uint64_t)obj - Universe::getHeapStart();
+
+  uint64_t regionI = objOffset /(_R_SIZE);
+  uint64_t position = regionI + Universe::getRegionTable();
+  printf("%p, %p, %p, %p, %p, %p\n", obj, Universe::getHeapStart(), objOffset, regionI,Universe::getRegionTable(), position);
+  fflush(stdout);
+  if (*(int *)position > 0){
+	  printf("object does not exist in memory\n"); fflush(stdout);
+  }
   if(obj != NULL){
 	  printf("count = %d\n", obj->getCount());fflush(stdout);
   }
