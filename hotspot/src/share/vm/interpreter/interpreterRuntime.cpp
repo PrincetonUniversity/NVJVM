@@ -154,17 +154,15 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_print(JavaThread* thread, oopDesc* obj))
+  if(obj == NULL) return;
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
-
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
   printf("%p, %p, %p, %p, %p, %p\n", obj, Universe::getHeapStart(), objOffset, regionI,Universe::getRegionTable(), position);
   fflush(stdout);
   if (*(int *)position > 0){
 	  printf("object does not exist in memory\n"); fflush(stdout);
-  }
-  if(obj != NULL){
-	  printf("count = %d\n", obj->getCount());fflush(stdout);
+	  exit(-1);
   }
 IRT_END
 
