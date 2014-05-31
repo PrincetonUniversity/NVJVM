@@ -55,7 +55,7 @@ size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
 struct sigaction sa;
 
-SSDSwap* ssdSwap;
+/*SSDSwap* ssdSwap;
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  if (L_SWAP){
 		  printf("seg_handler, fault on %p\n", si->si_addr); fflush(stdout);
@@ -84,7 +84,8 @@ void sig_init (){
 void init(){
 		sig_init();
 		ssdSwap = new SSDSwap();
-}
+}*/
+
 void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
 
 // turn it on so that the contents of the young list (scan-only /
@@ -1448,7 +1449,7 @@ void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  printf("end %p\n", end);
 	  fflush(stdout);
   }
-  ssdSwap->swapOut(end, bottom);
+  SSDSwap::swapOut(end, bottom);
   // triggering a page fault
   /*if(L_SWAP){
 	  char *c = (char *)malloc(1);
@@ -1836,9 +1837,9 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   if (_process_strong_tasks == NULL || !_process_strong_tasks->valid()) {
     vm_exit_during_initialization("Failed necessary allocation.");
   }
-  if(DO_SWAP){
+  /*if(DO_SWAP){
    init();
-  }
+  }*/
   _humongous_object_threshold_in_words = HeapRegion::GrainWords / 2;
 
   int n_queues = MAX2((int)ParallelGCThreads, 1);

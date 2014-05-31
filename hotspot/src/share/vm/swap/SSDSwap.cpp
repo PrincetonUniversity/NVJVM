@@ -14,14 +14,19 @@ void* SSDSwap::seg_handler (void *addr){
 		printf("segmentation handler called on %p\n", addr); fflush(stdout);
 	}
 	pthread_mutex_lock(&_swap_map_mutex);
-		_swap_manager->remapPage(addr); // Currently we are synchronizing access to remapping pages
+	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
     pthread_mutex_unlock(&_swap_map_mutex);
+}
 
+void SSDSwap::handle_faults(void *addr) {
+	pthread_mutex_lock(&_swap_map_mutex);
+	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
+    pthread_mutex_unlock(&_swap_map_mutex);
 }
 
 SSDSwap::SSDSwap() {
-	_ssd_manager = new SSDManager();
-	_swap_manager = new SwapManager ();
+	//_ssd_manager = new SSDManager();
+	//_swap_manager = new SwapManager ();
 }
 
 SSDSwap::~SSDSwap() {
@@ -33,8 +38,8 @@ void SSDSwap::swapOut(void *top, void *bot){
 		printf("In swapOut, swapping out %p, %p\n", bot, top); fflush(stdout);
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(top, bot); // Should move to SSDSwap class
-	int off = _ssd_manager->get(swapRange->getNumPages()); // Synchronized method
-	_swap_manager->swapRange(swapRange, off);
+	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
+	SwapManager::swapRange(swapRange, off);
 	if(L_SWAP){
 		printf("In swapOut, swapOut done successfully\n");
 		fflush(stdout);

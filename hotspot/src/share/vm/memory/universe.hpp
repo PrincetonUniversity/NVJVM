@@ -29,6 +29,8 @@
 #include "utilities/growableArray.hpp"
 #include <string.h>
 #include <stdio.h>
+#include "swap/SSDSwap.h"
+#include "swap/swap_global.h"
 
 #define _U_MB 1024*1024 // denotes 1 MB
 

@@ -15,10 +15,10 @@
 // Currently the SSDManager abstracts the SSD as a log. Writes are serially
 class SSDManager {
 private:
-	int _top;
-	pthread_mutex_t _offset_mutex;
+	static int _top;
+	static pthread_mutex_t _offset_mutex;
 public:
-	int get(int np);
+	static int get(int np);
 	SSDManager();
 };
 

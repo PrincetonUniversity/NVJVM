@@ -17,19 +17,18 @@ typedef std::map<void *, SSDRange>::const_iterator swapMapIter;
 
 class SwapManager {
 private:
-	PageBuffer* _page_buffer;
-	swapMap _swap_map;
+	//PageBuffer* _page_buffer;
+	static swapMap _swap_map;
 
 public:
 	SwapManager();
 	virtual ~SwapManager();
-	void swapRange(SwapRange* swap_range, int off);
-	void mapRange(void *va, SSDRange ssdRange);
+	static void swapRange(SwapRange* swap_range, int off);
+	static void mapRange(void *va, SSDRange ssdRange);
 	static SwapRange* addressRegion(void *sa, void *ea);
 	static void* object_va_to_page_start(void *va);
 	static void* object_va_to_page_end(void *va);
-	void remapPage (void *address);
-
+	static void remapPage (void *address);
 };
 
 #endif /* SWAPMANAGER_H_ */

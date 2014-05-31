@@ -22,17 +22,18 @@ using namespace std;
 
 class SSDSwap {
 private:
-	SwapManager* _swap_manager;
-	SSDManager* _ssd_manager;
-	pthread_mutex_t _swap_map_mutex;
+	//SwapManager* _swap_manager;
+	//SSDManager* _ssd_manager;
+	static pthread_mutex_t _swap_map_mutex;
 
 public:
 	SSDSwap();
 	virtual ~SSDSwap();
 	void* seg_handler (void *address);
+	static void handle_faults(void *address);
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
-	void swapOut(void *sa, void *ea);
+	static void swapOut(void *sa, void *ea);
 };
 
 #endif /* SSDSWAP_H_ */

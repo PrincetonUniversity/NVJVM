@@ -10,7 +10,6 @@
 
 SwapManager::SwapManager() {
 	// TODO Auto-generated constructor stub
-	_page_buffer = new PageBuffer();
 }
 
 SwapManager::~SwapManager() {
@@ -49,22 +48,8 @@ void SwapManager::remapPage (void *address){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
   if (liesWithin(address, top, bottom)){
-	// page re-mapping done through mremap now
-	void *remap_bot;
-	if (posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size) == -1){
-		perror("error:"); fflush(stderr);
-		printf("error in posix_memalign\n"); fflush(stdout);
-	}
-	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
-	void * add = mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
-	if(L_SWAP){
-		printf("remapping to address add= %p, bot = %p\n", add, bottom);
-		fflush(stdout);
-	}
-	if (add != bottom){
-		printf("error in remapping\n"); fflush(stdout);
-		perror("err:");fflush(stderr);exit(-1);
-	}
+	// Fetching the region back into memory
+	SwapReader::swapIn(bottom, numPages, ssdRange.getStart());
 	_swap_map.erase (top);
   } else {
 	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
@@ -110,8 +95,23 @@ void SwapManager::mapRange(void *va, SSDRange ssdRange){
 		printf("inserted pair %p -> (%d, %d)\n", va, ssdRange.getStart(), ssdRange.getEnd());
 		fflush(stdout);
 	}
-
 }
 
 
-
+// Extra Code
+// If remapping
+/*void *remap_bot;	// page re-mapping done through "mremap" now
+	if (posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size) == -1){
+		perror("error:"); fflush(stderr);
+		printf("error in posix_memalign\n"); fflush(stdout);
+	}
+	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
+	void * add = mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
+	if(L_SWAP){
+		printf("remapping to address add= %p, bot = %p\n", add, bottom);
+		fflush(stdout);
+	}
+	if (add != bottom){
+		printf("error in remapping\n"); fflush(stdout);
+		perror("err:");fflush(stderr);exit(-1);
+	}*/

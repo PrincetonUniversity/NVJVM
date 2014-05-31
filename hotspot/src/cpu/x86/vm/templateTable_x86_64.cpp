@@ -592,7 +592,7 @@ void TemplateTable::aload() {
 	  //__ jcc(Assembler::zero, isPresent);
 	  // Function call to implement the swapping in functionality
 	  __ movptr(c_rarg1, aaddress(rbx));
-	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print), c_rarg1);
+	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
 	  //__ bind(isPresent);		  // Avoids the call to get object in memory
   }
   if(DO_INCREMENT){
