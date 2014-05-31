@@ -82,6 +82,9 @@ class InterpreterRuntime: AllStatic {
   static void    ldc           (JavaThread* thread, bool wide);
   static void    resolve_ldc   (JavaThread* thread, Bytecodes::Code bytecode);
 
+  // Test Method
+  static void _print (JavaThread* thread); // test method to check control transfer
+
   // Allocation
   static void    _new          (JavaThread* thread, constantPoolOopDesc* pool, int index);
   static void    newarray      (JavaThread* thread, BasicType type, jint size);

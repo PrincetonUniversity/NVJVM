@@ -1012,7 +1012,7 @@ void Assembler::call(Label& L, relocInfo::relocType rtype) {
     assert(offs <= 0, "assembler error");
     InstructionMark im(this);
     // 1110 1000 #32-bit disp
-    emit_byte(0xE8);
+    emit_byte(0xE8);// the call instruction
     emit_data(offs - long_size, rtype, operand);
   } else {
     InstructionMark im(this);
@@ -6059,7 +6059,7 @@ void MacroAssembler::call_VM_helper(Register oop_result, address entry_point, in
 
 #ifdef _LP64
   // We've pushed one address, correct last_Java_sp
-  lea(rax, Address(rsp, wordSize));
+  lea(rax, Address(rsp, wordSize)); // lea moves pointer in rax register rsp (rax = rax + rsp * wordSize) times
 #else
   lea(rax, Address(rsp, (1 + number_of_arguments) * wordSize));
 #endif // LP64

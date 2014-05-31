@@ -151,6 +151,9 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 }
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::_print(JavaThread* thread))
+  printf("In IRT::_print \n"); fflush(stdout);
+IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
 // Allocation

@@ -578,11 +578,10 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  uint64_t offset = (uint64_t) Universe::getHeapStart();
-  uint64_t base = (uint64_t) Universe::getRegionTable();
-
   // Assuming registers r10, rax are free
   if(FL_SWAP){
+	  uint64_t offset = (uint64_t) Universe::getHeapStart();
+	  uint64_t base = (uint64_t) Universe::getRegionTable();
 	  Label isPresent;
 	  __ movptr(rax, object); 	  // pointer to the object in memory
 	  __ subl(rax, offset);		  // offset of the region, got by subtracting
@@ -592,10 +591,8 @@ void TemplateTable::aload() {
 	  __ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
 	  __ jcc(Assembler::zero, isPresent);
 	  // Function call to implement the swapping in functionality
-
 	  __ bind(isPresent);		  // Avoids the call to get object in memory
   }
-
   if(DO_INCREMENT){
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
@@ -609,6 +606,7 @@ void TemplateTable::aload() {
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
   }
+  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_print));
   __ movptr(rax, object);
 }
 
