@@ -24,7 +24,7 @@ void SwapManager::remapPage (void *address){
   if(L_SWAP){
 	  printf("In remapPage, segmentation called on address %p\n", address); fflush (stdout);
   }
-  swapMapIter iter =_swap_map.lower_bound(address); // gets the page address
+  swapMapIter iter = _swap_map.lower_bound(address); // gets the page address
   if  (iter == _swap_map.end() ){
 	  printf("Error, cannot swap in page %p does not exist in the page buffer \n", address); fflush(stdout);
 	  /* Two threads can read a single protected region from the address space

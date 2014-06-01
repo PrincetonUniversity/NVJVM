@@ -36,4 +36,6 @@ public:
 	static void swapOut(void *sa, void *ea);
 };
 
+pthread_mutex_t SSDSwap::_swap_map_mutex;
+
 #endif /* SSDSWAP_H_ */

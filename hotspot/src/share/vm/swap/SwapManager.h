@@ -31,4 +31,6 @@ public:
 	static void remapPage (void *address);
 };
 
+swapMap SwapManager::_swap_map;
+
 #endif /* SWAPMANAGER_H_ */

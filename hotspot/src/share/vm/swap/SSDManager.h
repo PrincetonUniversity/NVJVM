@@ -22,4 +22,6 @@ public:
 	SSDManager();
 };
 
+int SSDManager::_top;
+
 #endif /* SSDMANAGER_H_ */
