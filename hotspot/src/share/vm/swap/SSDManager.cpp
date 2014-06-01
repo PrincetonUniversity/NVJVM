@@ -6,7 +6,9 @@
  *      Author: ravitandon
  */
 #include "SSDManager.h"
-int SSDManager::_top;
+
+int SSDManager::_top = 0;
+pthread_mutex_t SSDManager::_offset_mutex;
 
 int SSDManager::get(int np){
 	pthread_mutex_lock(&_offset_mutex);
@@ -17,7 +19,6 @@ int SSDManager::get(int np){
 }
 
 SSDManager::SSDManager(){
-	_top = 0;
 }
 
 
