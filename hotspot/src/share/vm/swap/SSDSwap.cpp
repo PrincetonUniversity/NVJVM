@@ -8,6 +8,8 @@
 
 #include "SSDSwap.h"
 
+pthread_mutex_t SSDSwap::_swap_map_mutex;
+
 // The handler to catch SIGSEGV faults on memory access
 void* SSDSwap::seg_handler (void *addr){
 	if(L_SWAP){

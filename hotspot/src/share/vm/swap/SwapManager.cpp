@@ -8,6 +8,8 @@
 #include "SwapManager.h"
 #include "SwapReader.h"
 
+swapMap SwapManager::_swap_map;
+
 SwapManager::SwapManager() {
 	// TODO Auto-generated constructor stub
 }
