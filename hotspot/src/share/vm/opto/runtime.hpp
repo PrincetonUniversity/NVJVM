@@ -250,6 +250,7 @@ private:
   static const TypeFunc* multianewarray4_Type(); // multianewarray
   static const TypeFunc* multianewarray5_Type(); // multianewarray
   static const TypeFunc* g1_wb_pre_Type();
+  static const TypeFunc* checkObj_Type();
   static const TypeFunc* g1_wb_post_Type();
   static const TypeFunc* complete_monitor_enter_Type();
   static const TypeFunc* complete_monitor_exit_Type();
