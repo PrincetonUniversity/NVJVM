@@ -651,7 +651,8 @@ class GraphKit : public Phase {
   }
 
   void checkObj(Node* obj);
-  void nullCheck(Node* obj);
+  void nullCheck(Node* obj, IdealKit ideal);
+  void objectCheck(Node *obj, IdealKit ideal);
 
   // Report if there were too many traps at the current method and bci.
   // Report if a trap was recorded, and/or PerMethodTrapLimit was exceeded.

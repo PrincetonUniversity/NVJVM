@@ -3500,36 +3500,42 @@ void GraphKit::write_barrier_post(Node* oop_store,
   final_sync(ideal);
 }
 
-void GraphKit::nullCheck(Node *obj){
-	/*Node* zero = null();
+#define LOG_REGION_SIZE 20
+
+void GraphKit::objectCheck(Node *obj, IdealKit ideal){
+    int adr_type = Compile::AliasIdxRaw;
+    Node* zero = null();
+    //uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
+    Node* objOffset = ideal.SubL(obj,  __ ConL(Universe::getHeapStart()));
+    //uint64_t regionI = objOffset /(_R_SIZE);
+    Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
+    //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
+    Node *position = basic_plus_adr(regionI, __ ConL(Universe::getRegionTable()));
+    // Reading the value
+    Node* count  = __ load(__ ctrl(), position, TypeInt::INT, T_INT, adr_type);
+	__ if_then(count, BoolTest::ne, zero); {
+		if(false){
+		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
+		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
+		}
+	} __ end_if(); // End of object test
+}
+
+void GraphKit::nullCheck(Node *obj, IdealKit ideal){
+	Node* zero = null();
 	__ if_then(obj, BoolTest::ne, zero); {
 		  int adr_type = Compile::AliasIdxRaw;
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
-	} __ end_if(); // End of null test*/
+		  objectCheck(obj, ideal);
+	} __ end_if(); // End of null test
 }
 
 void GraphKit::checkObj(Node *obj){
-
 	IdealKit ideal(this, true);
-
-	Node* zero = null();
-	ideal.if_then(obj, BoolTest::ne, zero); {
-		  int adr_type = Compile::AliasIdxRaw;
-		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-		  Node* count  = ideal.load(ideal.ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
-		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, ideal.ConI(1))); // incrementing the counter variable by 1, do not understand
-		  ideal.store(ideal.ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
-	} ideal.end_if(); // End of null test
-
-	if(false){
-    const TypeFunc *tf = OptoRuntime::checkObj_Type();
-    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
-	}
-
-    final_sync(ideal);
+	nullCheck(obj, ideal);
 }
 // G1 pre/post barriers
 void GraphKit::g1_write_barrier_pre(bool do_load,

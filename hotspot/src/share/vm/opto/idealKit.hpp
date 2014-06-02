@@ -180,13 +180,16 @@ class IdealKit: public StackObj {
 
   // Data
   Node* ConI(jint k) { return (Node*)gvn().intcon(k); }
+  Node* ConL(jint k) { return (Node*)gvn().longcon(k); }
   Node* makecon(const Type *t)  const { return _gvn.makecon(t); }
 
   Node* AddI(Node* l, Node* r) { return transform(new (C,3) AddINode(l, r)); }
+  Node* SubL(Node* l, Node* r) { return transform(new (C,3) SubLNode(l, r)); }
   Node* SubI(Node* l, Node* r) { return transform(new (C,3) SubINode(l, r)); }
   Node* AndI(Node* l, Node* r) { return transform(new (C,3) AndINode(l, r)); }
   Node* MaxI(Node* l, Node* r) { return transform(new (C,3) MaxINode(l, r)); }
   Node* LShiftI(Node* l, Node* r) { return transform(new (C,3) LShiftINode(l, r)); }
+  Node* URShiftL(Node* l, Node* r) { return transform(new (C,3) URShiftLNode(l, r)); }
   Node* CmpI(Node* l, Node* r) { return transform(new (C,3) CmpINode(l, r)); }
   Node* Bool(Node* cmp, BoolTest::mask relop) { return transform(new (C,2) BoolNode(cmp, relop)); }
   void  increment(IdealVariable& v, Node* j)  { set(v, AddI(value(v), j)); }
