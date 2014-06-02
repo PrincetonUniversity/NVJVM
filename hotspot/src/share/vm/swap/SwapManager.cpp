@@ -41,11 +41,11 @@ void SwapManager::remapPage (void *address){
 	  printf("getting pair %p -> (%d, %d)\n", top, ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
   }
   int numPages = ((ssdRange.getEnd() - ssdRange.getStart())) + 1;
-  int total_size = numPages* PAGE_SIZE;
+  int total_size = numPages* _PAGE_SIZE;
   if(L_SWAP){
 	  printf("numPages %d\n", numPages); fflush(stdout);
   }
-  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - (numPages-1) * PAGE_SIZE));
+  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - (numPages-1) * _PAGE_SIZE));
   if(L_SWAP){
 	  printf("bottom %p\n", bottom); fflush(stdout);
   }
@@ -68,11 +68,11 @@ void SwapManager::swapRange(SwapRange* swap_range, int off) {
 }
 
 void* SwapManager::object_va_to_page_start (void *object_va) {
-	  return (void *)((long)object_va & (~(PAGE_SIZE-1)));
+	  return (void *)((long)object_va & (~(_PAGE_SIZE-1)));
 }
 
 void* SwapManager::object_va_to_page_end (void *object_va) {
-	  return (void *)((long)object_va | ((PAGE_SIZE-1)));
+	  return (void *)((long)object_va | ((_PAGE_SIZE-1)));
 }
 
 int abs(int x){
@@ -85,7 +85,7 @@ SwapRange* SwapManager::addressRegion(void *top, void *bot){
 	void *top_h = object_va_to_page_end (top); // the largest address in the range
 	void *bot_l = object_va_to_page_start (bot); // the smallest address in the range
 	void *top_l = object_va_to_page_start (top); // the smallest address on the largest page
-	int num_pages = (((long)top_l - (long)bot_l)/(PAGE_SIZE)) + 1;
+	int num_pages = (((long)top_l - (long)bot_l)/(_PAGE_SIZE)) + 1;
 	SwapRange* swap_range = new SwapRange (num_pages, top_h, bot_l);
 	return swap_range;
 }
@@ -104,7 +104,7 @@ void SwapManager::mapRange(void *va, SSDRange ssdRange){
 // Extra Code
 // If remapping
 /*void *remap_bot;	// page re-mapping done through "mremap" now
-	if (posix_memalign((void **)(&remap_bot), PAGE_SIZE, total_size) == -1){
+	if (posix_memalign((void **)(&remap_bot), _PAGE_SIZE, total_size) == -1){
 		perror("error:"); fflush(stderr);
 		printf("error in posix_memalign\n"); fflush(stdout);
 	}
