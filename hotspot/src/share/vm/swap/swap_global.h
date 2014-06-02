@@ -5,8 +5,6 @@
  *      Author: ravitandon
  */
 
-#ifndef GLOBAL_H_
-#define GLOBAL_H_
 
 #include "memory/universe.inline.hpp"
 #include "runtime/globals.hpp"
@@ -21,6 +19,9 @@
 #include <signal.h>
 #include "string.h"
 #include <map>
+
+#ifndef GLOBAL_H_
+#define GLOBAL_H_
 
 
 using namespace std;

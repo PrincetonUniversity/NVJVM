@@ -5,11 +5,10 @@
  *      Author: ravitandon
  */
 
+#include "swap_global.h"
 
 #ifndef SWAPWRITER_H_
 #define SWAPWRITER_H_
-
-#include "swap_global.h"
 
 class SwapWriter {
 
