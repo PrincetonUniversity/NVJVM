@@ -3502,8 +3502,10 @@ void GraphKit::write_barrier_post(Node* oop_store,
 
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
+	if(false){
     const TypeFunc *tf = OptoRuntime::checkObj_Type();
     __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
+	}
     final_sync(ideal);
 }
 // G1 pre/post barriers

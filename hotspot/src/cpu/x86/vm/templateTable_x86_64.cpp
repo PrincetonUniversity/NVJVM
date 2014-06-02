@@ -651,9 +651,11 @@ void TemplateTable::wide_aload() {
 void TemplateTable::increment_array_counter (Register array){
 	 int ce_offset = oopDesc::counter_offset_in_bytes();
 	  Address objectCounter = Address(array, ce_offset);
+	  __ push(r10);
 	  __ movl(r10, objectCounter);        // load access counter
 	  __ incrementl(r10, 1);       // increment access counter
 	  __ movl(objectCounter, r10);        // store access counter
+	  __ pop(r10);
 }
 
 void TemplateTable::index_check(Register array, Register index) {
