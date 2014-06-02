@@ -1178,7 +1178,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 }
 
 void Parse::increment_access_counter(Node *obj){
-	if(FL_SWAP){
+	if(false){
 		checkObj(obj);
 	}
 
