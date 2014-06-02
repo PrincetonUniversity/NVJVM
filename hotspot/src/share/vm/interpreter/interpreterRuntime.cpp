@@ -152,7 +152,7 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 #endif
 }
 IRT_END
-
+#define _R_SIZE 1024*1024
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj))
   if(obj == NULL) return;
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();

@@ -23,6 +23,7 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
+#define _R_SIZE 1024*1024
 
 using namespace std;
 
