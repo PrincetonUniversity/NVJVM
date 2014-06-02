@@ -21,7 +21,12 @@
 #include <signal.h>
 #include "string.h"
 #include <map>
-
+#include "PageBuffer.h"
+#include "SSDManager.h"
+#include "SSDSwap.h"
+#include "SwapManager.h"
+#include "SwapReader.h"
+#include "SwapWriter.h"
 
 using namespace std;
 
