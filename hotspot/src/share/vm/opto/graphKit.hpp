@@ -298,9 +298,7 @@ class GraphKit : public Phase {
   Node* basic_plus_adr(Node* base, Node* offset) {
     return basic_plus_adr(base, base, offset);
   }
-  Node* basic_plus_adr(Node* base, long offset) {
-      return basic_plus_adr(base, base, MakeConX(offset));
-    }
+
   Node* basic_plus_adr(Node* base, Node* ptr, Node* offset);
 
 
