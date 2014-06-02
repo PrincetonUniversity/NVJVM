@@ -398,7 +398,7 @@ oop PSPromotionManager::copy_to_survivor_space(oop o) {
 #ifdef DEBUG
   // This code must come after the CAS test, or it will print incorrect
   // information.
-  if (TraceScavenge) {
+  if (false) {
     gclog_or_tty->print_cr("{%s %s " PTR_FORMAT " -> " PTR_FORMAT " (" SIZE_FORMAT ")}",
        PSScavenge::should_scavenge(&new_obj) ? "copying" : "tenuring",
        new_obj->blueprint()->internal_name(), o, new_obj, new_obj->size());
