@@ -650,6 +650,8 @@ class GraphKit : public Phase {
                   klass, reason_string, must_throw, keep_exact_action);
   }
 
+  void checkObj(Node* obj);
+
   // Report if there were too many traps at the current method and bci.
   // Report if a trap was recorded, and/or PerMethodTrapLimit was exceeded.
   // If there is no MDO at all, report no trap unless told to assume it.

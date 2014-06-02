@@ -672,8 +672,6 @@ const Type *AddPNode::Value( PhaseTransform *phase ) const {
   if (p2->is_con()) {   // Left input is an add of a constant?
     p2offset = p2->get_con();
   }
-  printf("In AddPNode, calling print \n"); fflush(stdout);
-  SharedRuntime::_print();
   return p1->add_offset(p2offset);
 }
 

@@ -28,14 +28,14 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
 	  }
-	  fseek(f, off * PAGE_SIZE, SEEK_SET);
+	  fseek(f, (long)(off * _PAGE_SIZE), SEEK_SET);
 	  if(ferror(f)){
 		  printf("Error seeking to %d of file %s\n", off, file);fflush(stdout);
 		  exit(-1);
 	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?
-	  size_t len = fwrite(va, sizeof(char), np * PAGE_SIZE, f);
+	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
 	  if (len == 0){
 		  fputs ("Error writing swap file\n", stderr); fflush(stdout);
 	  } else {

@@ -30,7 +30,7 @@ using namespace std;
 #define MREMAP_MAYMOVE 1
 #define MREMAP_FIXED 2
 
-#define PAGE_SIZE sysconf(_SC_PAGE_SIZE) // Each page in page buffer is of size 4KB
+#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE) // Each page in page buffer is of size 4KB
 
 #define handle_error(msg) \
   do {perror (msg); exit(EXIT_FAILURE);} while (0)

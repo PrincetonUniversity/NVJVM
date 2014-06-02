@@ -3500,6 +3500,13 @@ void GraphKit::write_barrier_post(Node* oop_store,
   final_sync(ideal);
 }
 
+void GraphKit::checkObj(Node *obj){
+
+    const TypeFunc *tf = OptoRuntime::g1_wb_pre_Type();
+    Node* tls = gvn().transform(new (C, 1) ThreadLocalNode()); // ThreadLocalStorage
+    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::_print), "_print", obj, tls);
+
+}
 // G1 pre/post barriers
 void GraphKit::g1_write_barrier_pre(bool do_load,
                                     Node* obj,
@@ -3600,6 +3607,8 @@ void GraphKit::g1_write_barrier_pre(bool do_load,
   // Final sync IdealKit and GraphKit.
   final_sync(ideal);
 }
+
+
 
 //
 // Update the card table and add card address to the queue

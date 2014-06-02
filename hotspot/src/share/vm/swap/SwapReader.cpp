@@ -24,8 +24,8 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 		 fflush(stdout);
 	 }
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
-	  fseek(f, off * PAGE_SIZE, SEEK_SET);
-	  size_t len = fread(va, sizeof(char), np*PAGE_SIZE, f);
+	  fseek(f, (long)(off * _PAGE_SIZE), SEEK_SET);
+	  size_t len = fread(va, sizeof(char), (long)(np*_PAGE_SIZE), f);
 	  if (len == 0){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  return -1;
