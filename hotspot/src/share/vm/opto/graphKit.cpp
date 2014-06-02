@@ -3503,7 +3503,6 @@ void GraphKit::write_barrier_post(Node* oop_store,
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
     const TypeFunc *tf = OptoRuntime::checkObj_Type();
-    printf("in checkObj \n"); fflush(stdout);
     __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::_print), "_print", obj);
     final_sync(ideal);
 }

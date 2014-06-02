@@ -445,8 +445,10 @@ JRT_END
 
 
 JRT_LEAF(void, SharedRuntime::_print(oopDesc* obj))
-  printf("hello world\n"); fflush(stdout);
-  return;
+  if(obj == NULL)
+	  return;
+  int *countHeader = (int *)((char *)obj + oopDesc::counter_offset_in_bytes());
+  *countHeader = *countHeader + 1;
 JRT_END
 
 
