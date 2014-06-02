@@ -31,6 +31,7 @@
 #include "memory/memRegion.hpp"
 #include "oops/oop.inline.hpp"
 #include "oops/oop.psgc.inline.hpp"
+#include "runtime/globals.hpp"
 
 PSPromotionManager**         PSPromotionManager::_manager_array = NULL;
 OopStarTaskQueueSet*         PSPromotionManager::_stack_array_depth = NULL;
@@ -398,7 +399,7 @@ oop PSPromotionManager::copy_to_survivor_space(oop o) {
 #ifdef DEBUG
   // This code must come after the CAS test, or it will print incorrect
   // information.
-  if (false) {
+  if (TraceScavenge) {
     gclog_or_tty->print_cr("{%s %s " PTR_FORMAT " -> " PTR_FORMAT " (" SIZE_FORMAT ")}",
        PSScavenge::should_scavenge(&new_obj) ? "copying" : "tenuring",
        new_obj->blueprint()->internal_name(), o, new_obj, new_obj->size());
