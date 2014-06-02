@@ -3396,7 +3396,7 @@ void GraphKit::add_predicate(int nargs) {
 }
 
 //----------------------------- store barriers ----------------------------
-#define __ ideal.
+#define __ ideal
 
 void GraphKit::sync_kit(IdealKit& ideal) {
   set_all_memory(__ merged_memory());
