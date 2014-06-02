@@ -3506,7 +3506,6 @@ void GraphKit::checkObj(Node *obj){
     Node* tls = gvn().transform(new (C, 1) ThreadLocalNode()); // ThreadLocalStorage
     __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::_print), "_print", obj, tls);
     final_sync(ideal);
-
 }
 // G1 pre/post barriers
 void GraphKit::g1_write_barrier_pre(bool do_load,

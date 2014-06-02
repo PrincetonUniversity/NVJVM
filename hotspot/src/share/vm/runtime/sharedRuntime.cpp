@@ -446,6 +446,7 @@ JRT_END
 
 JRT_LEAF(void, SharedRuntime::_print(oopDesc* obj))
   printf("hello world\n"); fflush(stdout);
+  return;
 JRT_END
 
 
