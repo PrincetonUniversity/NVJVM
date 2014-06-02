@@ -455,10 +455,9 @@ JRT_LEAF(void, SharedRuntime::checkObj(oopDesc* obj))
 	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
 	  SSDSwap::handle_faults((void *)obj);
   }
-  if(DO_INCREMENT){
+
   int *countHeader = (int *)((char *)obj + oopDesc::counter_offset_in_bytes());
     *countHeader = *countHeader + 1;
-  }
 
 JRT_END
 
