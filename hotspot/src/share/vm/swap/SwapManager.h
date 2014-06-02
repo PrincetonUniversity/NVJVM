@@ -5,11 +5,13 @@
  *      Author: ravitandon
  */
 
-#ifndef SWAPMANAGER_H_
-#define SWAPMANAGER_H_
+
 
 #include "swap_global.h"
 #include "PageBuffer.h"
+
+#ifndef SWAPMANAGER_H_
+#define SWAPMANAGER_H_
 
 typedef std::map<void *, SSDRange> swapMap;
 typedef std::pair<void *, SSDRange> mapPair;

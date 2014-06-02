@@ -5,11 +5,12 @@
  *      Author: ravitandon
  */
 
-#ifndef SSDMANAGER_H_
-#define SSDMANAGER_H_
 
 #include "swap_global.h"
 #include <pthread.h>
+
+#ifndef SSDMANAGER_H_
+#define SSDMANAGER_H_
 
 
 // Currently the SSDManager abstracts the SSD as a log. Writes are serially

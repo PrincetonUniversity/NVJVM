@@ -5,10 +5,11 @@
  *      Author: ravitandon
  */
 
-#ifndef PAGEBUFFER_H_
-#define PAGEBUFFER_H_
 
 #include "swap_global.h"
+
+#ifndef PAGEBUFFER_H_
+#define PAGEBUFFER_H_
 
 /* Page Buffer is the interface for maintaining the pages within the in memory buffer.
  * */
