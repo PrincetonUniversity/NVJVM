@@ -3510,7 +3510,7 @@ void GraphKit::objectCheck(Node *obj, IdealKit ideal){
     //uint64_t regionI = objOffset /(_R_SIZE);
     Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
     //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-    Node *position = basic_plus_adr(regionI, (long)Universe::getRegionTable());
+    Node *position = basic_plus_adr(regionI, regionI,  __ ConL((long)Universe::getRegionTable()));
     // Reading the value
     Node* count  = __ load(__ ctrl(), position, TypeInt::INT, T_INT, adr_type);
 	__ if_then(count, BoolTest::ne, zero); {
