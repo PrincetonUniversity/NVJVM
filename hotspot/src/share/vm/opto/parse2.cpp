@@ -1180,7 +1180,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse::increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
-
+	printf("In increment access counter \n"); fflush(stdout);
 	checkObj(obj);
 
     /*const Type *t = _gvn.type( obj );
