@@ -184,6 +184,7 @@ class IdealKit: public StackObj {
   Node* makecon(const Type *t)  const { return _gvn.makecon(t); }
 
   Node* AddI(Node* l, Node* r) { return transform(new (C,3) AddINode(l, r)); }
+  Node* AddL(Node* l, Node* r) { return transform(new (C,3) AddLNode(l, r)); }
   Node* SubL(Node* l, Node* r) { return transform(new (C,3) SubLNode(l, r)); }
   Node* SubI(Node* l, Node* r) { return transform(new (C,3) SubINode(l, r)); }
   Node* AndI(Node* l, Node* r) { return transform(new (C,3) AndINode(l, r)); }
