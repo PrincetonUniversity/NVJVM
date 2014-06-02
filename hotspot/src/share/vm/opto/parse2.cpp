@@ -1177,7 +1177,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
   }
 }
 
-void Parse:: increment_access_counter(Node *obj){
+void Parse::increment_access_counter(Node *obj){
 	if(!DO_INCREMENT)
 		return;
 	increment_count(obj, control());

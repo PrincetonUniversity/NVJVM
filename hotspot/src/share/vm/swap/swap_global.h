@@ -5,6 +5,10 @@
  *      Author: ravitandon
  */
 
+#ifndef GLOBAL_H_
+#define GLOBAL_H_
+
+#include "memory/universe.inline.hpp"
 #include "runtime/globals.hpp"
 #include <time.h>
 #include <stdio.h>
@@ -17,13 +21,13 @@
 #include <signal.h>
 #include "string.h"
 #include <map>
+
+
 using namespace std;
 
 #define MREMAP_MAYMOVE 1
 #define MREMAP_FIXED 2
 
-#ifndef GLOBAL_H_
-#define GLOBAL_H_
 
 #define DEBUG false
 

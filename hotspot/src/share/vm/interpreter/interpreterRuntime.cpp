@@ -75,7 +75,7 @@
 #include "opto/runtime.hpp"
 #endif
 
-#define _R_SIZE 1024*1024
+
 
 class UnlockFlagSaver {
   private:

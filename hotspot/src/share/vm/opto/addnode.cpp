@@ -665,15 +665,15 @@ const Type *AddPNode::Value( PhaseTransform *phase ) const {
 
   // Right input is an int
   const TypeX *p2 = t2->is_intptr_t();
-  if(p2 == NULL){
-	  printf("p2 is NULL \n"); fflush(stdout);
-  }
+
   // Add 'em
   intptr_t p2offset = Type::OffsetBot;
 
   if (p2->is_con()) {   // Left input is an add of a constant?
     p2offset = p2->get_con();
   }
+  printf("In AddPNode, calling print \n"); fflush(stdout);
+  SharedRuntime::_print();
   return p1->add_offset(p2offset);
 }
 

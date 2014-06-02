@@ -4,10 +4,12 @@
  *  Created on: May 14, 2014
  *      Author: ravitandon
  */
-#include "swap_global.h"
+
 
 #ifndef SWAPREADER_H_
 #define SWAPREADER_H_
+
+#include "swap_global.h"
 
 class SwapReader {
 public:

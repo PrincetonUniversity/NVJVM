@@ -4,6 +4,8 @@
  *  Created on: May 14, 2014
  *      Author: ravitandon
  */
+#ifndef SSDSWAP_H_
+#define SSDSWAP_H_
 
 #include "swap_global.h"
 #include "PageBuffer.h"
@@ -15,8 +17,6 @@
 
 using namespace std;
 
-#ifndef SSDSWAP_H_
-#define SSDSWAP_H_
 
 // Stores the mapping from virtual address to file offset
 
@@ -34,6 +34,7 @@ public:
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
 	static void swapOut(void *sa, void *ea);
+	static void markRegion(void *addr, int mark);
 };
 
 

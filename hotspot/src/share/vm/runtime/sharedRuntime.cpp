@@ -444,6 +444,12 @@ JRT_LEAF(jint, SharedRuntime::f2i(jfloat  x))
 JRT_END
 
 
+JRT_LEAF(void, SharedRuntime::_print())
+  printf("hello world\n"); fflush(stdout);
+JRT_END
+
+
+
 JRT_LEAF(jlong, SharedRuntime::f2l(jfloat  x))
   if (g_isnan(x))
     return 0;

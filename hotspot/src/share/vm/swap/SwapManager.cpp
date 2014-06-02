@@ -93,6 +93,7 @@ SwapRange* SwapManager::addressRegion(void *top, void *bot){
 void SwapManager::mapRange(void *va, SSDRange ssdRange){
 	mapPair mPair = mapPair(va, ssdRange);
 	_swap_map.insert(mPair);
+
 	if(L_SWAP){
 		printf("inserted pair %p -> (%d, %d)\n", va, ssdRange.getStart(), ssdRange.getEnd());
 		fflush(stdout);
