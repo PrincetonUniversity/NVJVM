@@ -580,9 +580,9 @@ void TemplateTable::aload() {
   Address object = aaddress(rbx);
   // Assuming registers r10, rax are free
   if(FL_SWAP){
-	  uint64_t offset = (uint64_t) Universe::getHeapStart();
-	  uint64_t base = (uint64_t) Universe::getRegionTable();
-	  Label isPresent;
+	  //uint64_t offset = (uint64_t) Universe::getHeapStart();
+	  //uint64_t base = (uint64_t) Universe::getRegionTable();
+	  //Label isPresent;
 	  //__ movptr(rax, object); 	  // pointer to the object in memory
 	  //__ subl(rax, offset);		  // offset of the region, got by subtracting
 	  //__ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
@@ -595,7 +595,7 @@ void TemplateTable::aload() {
 	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
 	  //__ bind(isPresent);		  // Avoids the call to get object in memory
   }
-  if(DO_INCREMENT){
+  /*if(DO_INCREMENT){
   Label nullObj;
   int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
@@ -607,7 +607,7 @@ void TemplateTable::aload() {
   __ incrementl(rax, 1);       		  // increment access counter
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
-  }
+  }*/
   __ movptr(rax, object);
 }
 

@@ -153,7 +153,7 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 }
 IRT_END
 
-#define _R_SIZE 1024*1024
+
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj))
   if(obj == NULL) return;
@@ -165,6 +165,8 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj))
 	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
 	  SSDSwap::handle_faults((void *)obj);
   }
+  int *countHeader = (int *)((char *)obj + oopDesc::counter_offset_in_bytes());
+      *countHeader = *countHeader + 1;
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
