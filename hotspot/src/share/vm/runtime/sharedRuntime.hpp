@@ -109,7 +109,7 @@ class SharedRuntime: AllStatic {
 #endif // __SOFTFP__
 
   // float conversion (needs to set appropriate rounding mode)
-  static void debug(void* a, void* b, long c, long d, long e, void* f);
+  static void debug(void* a, void* b, long c, long d, long e, long f);
   static void  checkObj(oopDesc* obj); 			// this is a test method to test whether we can transfer control to the compiler
   static jint    f2i (jfloat  x);
   static jlong   f2l (jfloat  x);
