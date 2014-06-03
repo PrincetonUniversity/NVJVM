@@ -3550,12 +3550,6 @@ void GraphKit::checkObj(Node *obj){
 		  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 		  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
 		  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
-
-		  /*const TypeFunc *tf = OptoRuntime::debug_Type(); // for debugging purpose
-		  printf("region = %p\n", (long)Universe::getRegionTable()); fflush(stdout);
-		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::debug), "_debug", obj,
-				  counter_addr, objCast, objOffset, objIndex, bitAddr, regionTable);*/
-
 		  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
 		  	__ if_then(val, BoolTest::ne, zeroInt); {
 		  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
@@ -3564,6 +3558,12 @@ void GraphKit::checkObj(Node *obj){
 	} __ end_if(); // End of null test
 	final_sync(ideal);
 }
+
+/*const TypeFunc *tf = OptoRuntime::debug_Type(); // for debugging purpose
+printf("region = %p\n", (long)Universe::getRegionTable()); fflush(stdout);
+__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::debug), "_debug", obj,
+		  counter_addr, objCast, objOffset, objIndex, bitAddr, regionTable);*/
+
 // G1 pre/post barriers
 void GraphKit::g1_write_barrier_pre(bool do_load,
                                     Node* obj,
