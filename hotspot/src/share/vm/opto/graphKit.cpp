@@ -3563,6 +3563,7 @@ void GraphKit::checkObj(Node *obj){
 
 void GraphKit::check_no_increment(Node *obj){
 	IdealKit ideal(this, true);
+	Node* zeroInt = zerocon(T_INT);
 	int adr_type = Compile::AliasIdxRaw;
 	Node* objCast =  __ CastPX(__ ctrl(), obj);
 	Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
