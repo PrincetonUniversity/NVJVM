@@ -1062,7 +1062,9 @@ const Type *CastX2PNode::Value( PhaseTransform *phase ) const {
     return TypeRawPtr::make((address) bits);
   }
   if(t && t->is_intptr_t()){
-	  printf("bits= %p\n", (uintptr_t)t->is_intptr_t()->get_con());fflush(stdout);
+	  printf("bits= %p\n", (uintptr_t)t->is_intptr_t()->get_con());
+	  printf("base = %d\n", t->base() == Type_X);
+	  printf("singleton = %d\n", t->singleton());fflush(stdout);
   }
   	 // printf("In objCast::Value, returning bottom_type()\n"); fflush(stdout);
   return CastX2PNode::bottom_type();
