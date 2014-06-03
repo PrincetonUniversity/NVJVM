@@ -3552,7 +3552,7 @@ void GraphKit::checkObj(Node *obj){
 		  Node* ptr =	__ CastXP(objCast);
 		  const TypeFunc *tf = OptoRuntime::debug_Type();
 		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::debug), "_debug", obj,
-				  counter_addr, objCast, objOffset, regionI, position, ptr);
+				  counter_addr, objCast, objOffset, regionI, __ CastXP(position), __ CastXP(objCast));
 		  /*Node* val  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
 		  	__ if_then(val, BoolTest::ne, zeroInt); {
 		  		if(false){

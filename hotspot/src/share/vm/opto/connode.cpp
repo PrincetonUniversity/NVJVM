@@ -1061,6 +1061,8 @@ const Type *CastX2PNode::Value( PhaseTransform *phase ) const {
     if (bits == 0)   return TypePtr::NULL_PTR;
     return TypeRawPtr::make((address) bits);
   }
+
+  	  printf("In objCast::Value, returning bottom_type()\n"); fflush(stdout);
   return CastX2PNode::bottom_type();
 }
 
