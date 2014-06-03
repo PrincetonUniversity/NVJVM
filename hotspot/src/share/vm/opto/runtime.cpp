@@ -471,10 +471,10 @@ const TypeFunc *OptoRuntime::debug_Type() {
   const Type **fields = TypeTuple::fields(7);
   fields[TypeFunc::Parms+0] = TypeInstPtr::NOTNULL; // original field value
   fields[TypeFunc::Parms+1] = TypeInstPtr::NOTNULL; // original field value
-  fields[TypeFunc::Parms+2] = TypeLong::Long; // original field value
-  fields[TypeFunc::Parms+3] = TypeLong::Long; // original field value
-  fields[TypeFunc::Parms+4] = TypeLong::Long; // original field value
-  fields[TypeFunc::Parms+5] = TypeLong::Long; // original field value
+  fields[TypeFunc::Parms+2] = TypeLong::LONG; // original field value
+  fields[TypeFunc::Parms+3] = TypeLong::LONG; // original field value
+  fields[TypeFunc::Parms+4] = TypeLong::LONG; // original field value
+  fields[TypeFunc::Parms+5] = TypeLong::LONG; // original field value
   fields[TypeFunc::Parms+6] = TypeInstPtr::NOTNULL; // original field value
   const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+7, fields);
 
