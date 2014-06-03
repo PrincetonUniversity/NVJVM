@@ -444,21 +444,8 @@ JRT_LEAF(jint, SharedRuntime::f2i(jfloat  x))
 JRT_END
 
 JRT_LEAF(void, SharedRuntime::checkObj(oopDesc* obj))
-  if(obj == NULL)
-	  return;
-
-  uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
-  uint64_t regionI = objOffset /(_R_SIZE);
-  uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-
-  if (*(int *)position > 0){
-	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
+  	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
 	  SSDSwap::handle_faults((void *)obj);
-  }
-
-  int *countHeader = (int *)((char *)obj + oopDesc::counter_offset_in_bytes());
-    *countHeader = *countHeader + 1;
-
 JRT_END
 
 JRT_LEAF(jlong, SharedRuntime::f2l(jfloat  x))

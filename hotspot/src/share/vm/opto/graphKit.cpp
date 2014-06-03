@@ -3548,8 +3548,8 @@ void GraphKit::checkObj(Node *obj){
 		  Node* objCast =  __ CastPX(__ ctrl(), obj);
 		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 		  Node* regionI = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
-		  Node *position = ideal.AddL(regionI, __ ConL((long)Universe::getRegionTable()));
-		  Node* ptr = new (C, 2) CastX2PNode(position);
+		  Node *position = __ AddL(regionI, __ ConL((long)Universe::getRegionTable()));
+		  Node* ptr = new (C, 2) CastP2XNode(position);
 		  Node* val  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
 		  	__ if_then(val, BoolTest::ne, zeroInt); {
 		  		if(false){
