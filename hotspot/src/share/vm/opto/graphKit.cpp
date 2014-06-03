@@ -3563,8 +3563,10 @@ void GraphKit::checkObj(Node *obj){
 
 void GraphKit::check_no_increment(Node *obj){
 	IdealKit ideal(this, true);
+	Node* zeroObj = null();
 	Node* zeroInt = zerocon(T_INT);
 	int adr_type = Compile::AliasIdxRaw;
+	__ if_then(obj, BoolTest::ne, zeroObj); {
 	Node* objCast =  __ CastPX(__ ctrl(), obj);
 	Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 	Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
@@ -3575,6 +3577,7 @@ void GraphKit::check_no_increment(Node *obj){
 				const TypeFunc *tf = OptoRuntime::checkObj_Type();
 				__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
     } __ end_if(); // End of object test
+	} __ end_if(); // End of object test
     final_sync(ideal);
 }
 
