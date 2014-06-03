@@ -475,7 +475,7 @@ const TypeFunc *OptoRuntime::debug_Type() {
   fields[TypeFunc::Parms+3] = TypeLong::LONG; // original field value
   fields[TypeFunc::Parms+4] = TypeLong::LONG; // original field value
   fields[TypeFunc::Parms+5] = TypeLong::LONG; // original field value
-  fields[TypeFunc::Parms+6] = TypeInstPtr::NOTNULL; // original field value
+  fields[TypeFunc::Parms+6] = TypeLong::LONG; // original field value
   const TypeTuple *domain = TypeTuple::make(TypeFunc::Parms+7, fields);
 
   // create result type (range)

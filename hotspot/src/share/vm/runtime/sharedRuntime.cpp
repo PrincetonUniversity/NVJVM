@@ -444,7 +444,7 @@ JRT_LEAF(jint, SharedRuntime::f2i(jfloat  x))
 JRT_END
 
 
-JRT_LEAF(void, SharedRuntime::debug(void* a, void* b, long c, long d, long e, void* f))
+JRT_LEAF(void, SharedRuntime::debug(void* a, void* b, long c, long d, long e, long f))
  printf(" %p, %p, %p, %p, %p, %p, %p\n", a, b, c, d, e, f); fflush(stdout);
  exit(-1);
 JRT_END

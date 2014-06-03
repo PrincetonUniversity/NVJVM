@@ -3549,7 +3549,7 @@ void GraphKit::checkObj(Node *obj){
 		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 		  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 		  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
-		  Node* bitAddr  = __ AddP(null(), regionTable, objIndex);
+		  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 
 		  const TypeFunc *tf = OptoRuntime::debug_Type();
 		  printf("region = %p\n", (long)Universe::getRegionTable()); fflush(stdout);
