@@ -748,12 +748,14 @@ void* Universe::non_oop_word() {
   return (void*)non_oop_bits;
 }
 
+
 void Universe::initialize_region(){
-	Universe::_regionTable = (void *) malloc(_U_MB);
+	Universe::_regionTable = (void *) memalign(_PAGE_SIZE, (size_t)_U_MB);
 	if(P_INIT){
 		printf("initializing region table %p\n", Universe::_regionTable); fflush(stdout);
 	}
 	memset(Universe::_regionTable, 0, _U_MB);
+	mprotect(Universe::_regionTable, _U_MB, PROT_READ);
 }
 
 jint universe_init() {
