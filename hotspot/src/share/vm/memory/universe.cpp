@@ -750,6 +750,9 @@ void* Universe::non_oop_word() {
 
 void Universe::initialize_region(){
 	Universe::_regionTable = (void *) malloc(_U_MB);
+	if(P_INIT){
+		printf("initializing region table %p\n", Universe::_regionTable); fflush(stdout);
+	}
 	memset(Universe::_regionTable, 0, _U_MB);
 }
 
