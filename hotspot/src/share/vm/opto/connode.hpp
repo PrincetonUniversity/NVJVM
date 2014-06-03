@@ -472,6 +472,7 @@ public:
 class CastX2PNode : public Node {
 public:
   CastX2PNode( Node *n ) : Node(NULL, n) {}
+  CastX2PNode( Node* ctrl, Node *n ) : Node(ctrl, n) {}
   virtual int Opcode() const;
   virtual const Type *Value( PhaseTransform *phase ) const;
   virtual Node *Ideal(PhaseGVN *phase, bool can_reshape);
