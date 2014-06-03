@@ -451,7 +451,7 @@ JRT_END
 
 
 JRT_LEAF(void, SharedRuntime::checkObj(oopDesc* obj))
-  	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
+  	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout); exit(-1);
 	  SSDSwap::handle_faults((void *)obj);
 JRT_END
 
