@@ -249,7 +249,10 @@ class IdealKit: public StackObj {
                       Node* parm0,
                       Node* parm1 = NULL,
                       Node* parm2 = NULL,
-                      Node* parm3 = NULL);
+                      Node* parm3 = NULL,
+                      Node* parm4 = NULL,
+                      Node* parm5 = NULL,
+                      Node* parm6 = NULL);
 
   void make_leaf_call_no_fp(const TypeFunc *slow_call_type,
                             address slow_call,

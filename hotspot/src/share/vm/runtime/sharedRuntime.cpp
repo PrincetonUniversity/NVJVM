@@ -443,6 +443,13 @@ JRT_LEAF(jint, SharedRuntime::f2i(jfloat  x))
   return (jint) x;
 JRT_END
 
+
+JRT_LEAF(void, SharedRuntime::debug(void* a, void* b, long c, long d, long e, void* f))
+ printf(" %p, %p, %p, %p, %p, %p, %p\n", a, b, c, d, e, f); fflush(stdout);
+ exit(-1);
+JRT_END
+
+
 JRT_LEAF(void, SharedRuntime::checkObj(oopDesc* obj))
   	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
 	  SSDSwap::handle_faults((void *)obj);

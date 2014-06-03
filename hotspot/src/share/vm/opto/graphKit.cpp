@@ -3548,9 +3548,12 @@ void GraphKit::checkObj(Node *obj){
 		  Node* objCast =  __ CastPX(__ ctrl(), obj);
 		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 		  Node* regionI = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
-		  Node *position = __ AddL(regionI, __ ConL((long)Universe::getRegionTable()));
-		  Node* ptr = new (C, 2) CastP2XNode(__ ctrl(), position);
-		  Node* val  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
+		  Node* position = __ AddL(regionI, __ ConL((long)Universe::getRegionTable()));
+		  Node* ptr = new (C, 2) CastX2PNode(position);
+		  const TypeFunc *tf = OptoRuntime::debug_Type();
+		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::debug), "_debug", obj,
+				  counter_addr, objCast, objOffset, regionI, position, ptr);
+		  /*Node* val  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
 		  	__ if_then(val, BoolTest::ne, zeroInt); {
 		  		if(false){
 		  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
