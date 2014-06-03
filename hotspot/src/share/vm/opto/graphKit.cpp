@@ -3537,14 +3537,16 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
+	int adr_type = Compile::AliasIdxRaw;
 	Node* zeroObj = null();
 	Node* zeroInt = zerocon(T_INT);
 	__ if_then(obj, BoolTest::ne, zeroObj); {
-		  int adr_type = Compile::AliasIdxRaw;
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
-		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
-		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+		  // incrementing the counter variable by 1, do not understand
+		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
+		  // Storing the result obtained after the increment operation to memory
+		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 		  Node* objCast =  __ CastPX(__ ctrl(), obj);
 		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 		  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
@@ -3557,6 +3559,22 @@ void GraphKit::checkObj(Node *obj){
 		  	} __ end_if(); // End of object test
 	} __ end_if(); // End of null test
 	final_sync(ideal);
+}
+
+void GraphKit::check_no_increment(Node *obj){
+	IdealKit ideal(this, true);
+	int adr_type = Compile::AliasIdxRaw;
+	Node* objCast =  __ CastPX(__ ctrl(), obj);
+	Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
+	Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
+	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
+	Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
+	Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
+    __ if_then(val, BoolTest::ne, zeroInt); {
+				const TypeFunc *tf = OptoRuntime::checkObj_Type();
+				__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
+    } __ end_if(); // End of object test
+    final_sync(ideal);
 }
 
 /*const TypeFunc *tf = OptoRuntime::debug_Type(); // for debugging purpose
