@@ -3549,12 +3549,12 @@ void GraphKit::checkObj(Node *obj){
 		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 		  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 		  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
-		  Node* bitAddr  = __ AddP(__ top(), regionTable, longcon(0L));
+		  Node* bitAddr  = __ AddP(null(), regionTable, objIndex);
 
 		  const TypeFunc *tf = OptoRuntime::debug_Type();
-		  printf("region = %p", (long)Universe::getRegionTable()); fflush(stdout);
+		  printf("region = %p\n", (long)Universe::getRegionTable()); fflush(stdout);
 		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::debug), "_debug", obj,
-				  counter_addr, objCast, objOffset, objIndex, regionTable, bitAddr);
+				  counter_addr, objCast, objOffset, objIndex, bitAddr, regionTable);
 
 		  /*Node* val  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
 		  	__ if_then(val, BoolTest::ne, zeroInt); {
