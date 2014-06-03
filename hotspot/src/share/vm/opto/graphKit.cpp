@@ -3504,21 +3504,22 @@ void GraphKit::write_barrier_post(Node* oop_store,
 
 void GraphKit::objectCheck(Node *obj, IdealKit ideal){
     int adr_type = Compile::AliasIdxRaw;
-    Node* zero = null();
+    Node* zero = zerocon(T_INT);
     //uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
     Node* objOffset = ideal.SubL(obj,  __ ConL(Universe::getHeapStart()));
     //uint64_t regionI = objOffset /(_R_SIZE);
     Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
     //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-    Node *position = basic_plus_adr(regionI, regionI,  __ ConL((long)Universe::getRegionTable()));
+    Node *position = ideal.AddL(regionI, __ ConL((long)Universe::getRegionTable()));
     // Reading the value
-    Node* count  = __ load(__ ctrl(), position, TypeInt::INT, T_INT, adr_type);
+    /*Node* ptr = new (C, 2) CastX2PNode(position);
+    Node* count  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
 	__ if_then(count, BoolTest::ne, zero); {
 		if(false){
 		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
 		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
 		}
-	} __ end_if(); // End of object test
+	} __ end_if(); // End of object test*/
 }
 
 void GraphKit::nullCheck(Node *obj, IdealKit ideal){
