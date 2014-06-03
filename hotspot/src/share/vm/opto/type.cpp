@@ -745,7 +745,7 @@ const char * const Type::msg[Type::lastype] = {
 // TRUE if Type is a singleton type, FALSE otherwise.   Singletons are simple
 // constants (Ldi nodes).  Singletons are integer, float or double constants.
 bool Type::singleton(void) const {
-  return _base == Top || _base == Half || _base == Long;
+  return _base == Top || _base == Half || _base == Long || _base = Int;
 }
 
 //------------------------------empty------------------------------------------
