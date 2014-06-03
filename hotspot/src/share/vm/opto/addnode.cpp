@@ -662,9 +662,17 @@ const Type *AddPNode::Value( PhaseTransform *phase ) const {
 
   // Left input is a pointer
   const TypePtr *p1 = t1->isa_ptr();
+  if(p1 == NULL){
+	  printf("p1 is null"); fflush(stdout);
+	  exit(-1);
+  }
 
-  // Right input is an int
+  // Right input is an int/long for 64 bit
   const TypeX *p2 = t2->is_intptr_t();
+  if(p2 == NULL){
+	  printf("p2 is null"); fflush(stdout);
+	  exit(-1);
+  }
 
   // Add 'em
   intptr_t p2offset = Type::OffsetBot;

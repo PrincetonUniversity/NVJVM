@@ -3536,7 +3536,16 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
-	nullCheck(obj, ideal);
+	//nullCheck(obj, ideal);
+	Node* zero = null();
+	__ if_then(obj, BoolTest::ne, zero); {
+		  int adr_type = Compile::AliasIdxRaw;
+		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
+		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
+		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
+		  //objectCheck(obj, ideal);
+	} __ end_if(); // End of null test
 	final_sync(ideal);
 }
 // G1 pre/post barriers
