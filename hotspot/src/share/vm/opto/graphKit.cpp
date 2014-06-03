@@ -3508,9 +3508,9 @@ void GraphKit::objectCheck(Node *obj, IdealKit ideal){
     //uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
     Node* objOffset = ideal.SubL(obj,  __ ConL(Universe::getHeapStart()));
     //uint64_t regionI = objOffset /(_R_SIZE);
-    Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
+    //Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
     //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-    Node *position = ideal.AddL(regionI, __ ConL((long)Universe::getRegionTable()));
+    //Node *position = ideal.AddL(regionI, __ ConL((long)Universe::getRegionTable()));
     // Reading the value
     /*Node* ptr = new (C, 2) CastX2PNode(position);
     Node* count  = __ load(__ ctrl(), ptr, TypeInt::INT, T_INT, adr_type);
