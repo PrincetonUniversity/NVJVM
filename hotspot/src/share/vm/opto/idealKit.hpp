@@ -212,6 +212,7 @@ class IdealKit: public StackObj {
   Node* URShiftX(Node* l, Node* r) { return transform(new (C,3) URShiftXNode(l, r)); }
   Node* ConX(jint k) { return (Node*)gvn().MakeConX(k); }
   Node* CastPX(Node* ctl, Node* p) { return transform(new (C,2) CastP2XNode(ctl, p)); }
+  Node* CastXP(Node* p) { return transform(new (C,2) CastX2PNode(p)); }
   // Add a fixed offset to a pointer
   Node* basic_plus_adr(Node* base, Node* ptr, intptr_t offset);
 
