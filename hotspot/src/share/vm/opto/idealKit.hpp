@@ -180,7 +180,7 @@ class IdealKit: public StackObj {
 
   // Data
   Node* ConI(jint k) { return (Node*)gvn().intcon(k); }
-  Node* ConL(jint k) { return (Node*)gvn().longcon(k); }
+  Node* ConL(jlong k) { return (Node*)gvn().longcon(k); }
   Node* makecon(const Type *t)  const { return _gvn.makecon(t); }
 
   Node* AddI(Node* l, Node* r) { return transform(new (C,3) AddINode(l, r)); }
