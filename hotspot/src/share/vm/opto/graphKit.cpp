@@ -3523,28 +3523,31 @@ void GraphKit::objectCheck(Node *obj, IdealKit ideal){
 }
 
 void GraphKit::nullCheck(Node *obj, IdealKit ideal){
-	Node* zero = null();
-	__ if_then(obj, BoolTest::ne, zero); {
+	Node* zeroObj = null();
+	Node* zeroInt = zerocon(T_INT);
+	__ if_then(obj, BoolTest::ne, zeroObj); {
 		  int adr_type = Compile::AliasIdxRaw;
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
 		  //objectCheck(obj, ideal);
+		  Node* objOffset = ideal.SubL(obj,  __ ConL(Universe::getHeapStart()));
+		  Node* regionI = ideal.URShiftL(objOffset, __ ConL(LOG_REGION_SIZE));
+		  Node *position = ideal.AddL(regionI, __ ConL((long)Universe::getRegionTable()));
 	} __ end_if(); // End of null test
 }
 
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
-	//nullCheck(obj, ideal);
-	Node* zero = null();
-	__ if_then(obj, BoolTest::ne, zero); {
+	Node* zeroObj = null();
+	__ if_then(obj, BoolTest::ne, zeroObj); {
 		  int adr_type = Compile::AliasIdxRaw;
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
-		  //objectCheck(obj, ideal);
+
 	} __ end_if(); // End of null test
 	final_sync(ideal);
 }
