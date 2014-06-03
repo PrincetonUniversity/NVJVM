@@ -3530,7 +3530,7 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1))); // incrementing the counter variable by 1, do not understand
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
-		  objectCheck(obj, ideal);
+		  //objectCheck(obj, ideal);
 	} __ end_if(); // End of null test
 }
 
