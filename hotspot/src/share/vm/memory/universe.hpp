@@ -269,7 +269,9 @@ class Universe: AllStatic {
   static uint64_t getHeapSize()                 	  {  return _heapSize;}
 
   static void* getRegionTable()						  {  return _regionTable;}
-  static void setRegionTable(void *start)			  {_regionTable = start;}
+  static void setRegionTable(void *start)			  {_regionTable = start;
+  	  	  	  printf("region table set at %p\n", start); fflush(stdout);
+  }
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
