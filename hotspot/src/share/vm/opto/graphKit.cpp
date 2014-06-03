@@ -3572,8 +3572,8 @@ void GraphKit::check_no_increment(Node *obj){
 	Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
 	Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
-	Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
-    __ if_then(val, BoolTest::ne, zeroInt); {
+	Node* val  = __ load(__ ctrl(), obj, TypeInt::INT, T_INT, adr_type);
+    __ if_then(zeroInt, BoolTest::ne, zeroInt); {
 				const TypeFunc *tf = OptoRuntime::checkObj_Type();
 				__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
     } __ end_if(); // End of object test
