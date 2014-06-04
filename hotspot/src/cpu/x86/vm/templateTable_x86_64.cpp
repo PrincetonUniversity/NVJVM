@@ -944,7 +944,7 @@ void TemplateTable::astore() {
   __ pop_ptr(rax);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  interceptObject(object);
+  //interceptObject(object);
   __ movptr(aaddress(rbx), rax);
 }
 
@@ -1151,7 +1151,7 @@ void TemplateTable::astore(int n) {
   transition(vtos, vtos);
   __ pop_ptr(rax);
   Address object = aaddress(n);
-  interceptObject(object);
+  //interceptObject(object);
   __ movptr(aaddress(n), rax);
 }
 
