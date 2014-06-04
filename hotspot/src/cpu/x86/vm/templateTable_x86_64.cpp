@@ -592,13 +592,14 @@ void TemplateTable::interceptObject(Address object) {
 
   Label nullObj, hotObject;
 
-  __ cmpl(object, 0);    // checking whether the object is null
-  __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
+  __ movptr(r10, object);
+  __ cmpl(r10, 0);
+  __ jcc(Assembler::equal, nullObj);
 
-  __ cmpl(object, coldRegionStart);
+  __ cmpl(r10, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
-  __ cmpl(object, coldRegionEnd);
+  __ cmpl(r10, coldRegionEnd);
   __ jcc(Assembler::greater, hotObject);
 
   __ movptr(r11, object); 	  // pointer to the object in memory
