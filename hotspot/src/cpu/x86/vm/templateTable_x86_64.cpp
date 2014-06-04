@@ -575,12 +575,57 @@ void TemplateTable::dload() {
 }
 
 
-void TemplateTable::interceptObject(Register reg) {
-	__ push(r12);
-	__ movptr(r12, reg);
-	interceptObject(Address(r12, 0));
-	__ pop(r12);
+void TemplateTable::interceptObject(Register object) {
+	if(!(INTER_INTERPRETER)){
+		  return;
+	  }
+	  int ce_offset = oopDesc::counter_offset_in_bytes();
+	  uint64_t offset = (uint64_t) Universe::getHeapStart();
+	  uint64_t base = (uint64_t) Universe::getRegionTable();
+	  uint64_t coldRegionStart = (uint64_t) Universe::getColdRegionStart();
+	  uint64_t coldRegionEnd = (uint64_t) Universe::getColdRegionEnd();
+
+	  // Saving variables which we would be needing later on
+	  __ push(r10);
+	  __ push(r11);
+
+	  Label nullObj, hotObject;
+
+	  __ cmpptr(object, 0);
+	  __ jcc(Assembler::equal, nullObj);
+
+
+	  __ cmpptr(object, coldRegionStart);
+	  __ jcc(Assembler::less, hotObject);
+
+	  __ cmpptr(object, coldRegionEnd);
+	  __ jcc(Assembler::greater, hotObject);
+
+	  __ movptr(r11, object); 	  // pointer to the object in memory
+	  __ subl(r11, offset);		  // offset of the region, got by subtracting
+	  __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+	  __ movptr(r10, (intptr_t)base);
+	  __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
+	  __ cmpl(Address(r11, 0), 0);
+	  __ jcc(Assembler::equal, hotObject); // moving the value at the byte into the register r10
+
+	  __ movptr(r10, object);
+	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+
+	  __ bind(hotObject); 				  // binding hot object to increment the access count
+
+	  __ movptr(r10, object);
+	     Address objectCounter = Address(r10, ce_offset);
+	  __ movl(r11, objectCounter);        // load access counter
+	  __ incrementl(r11, 1);       		  // increment access counter
+	  __ movl(objectCounter, r11);        // store access counter
+	  __ bind(nullObj);					  // binding the null label here
+
+	  // registers used intermediately are popped out
+	  __ pop(r11);
+	  __ pop(r10);
 }
+
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address object) {
