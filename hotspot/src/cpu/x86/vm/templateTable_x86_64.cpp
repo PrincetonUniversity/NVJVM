@@ -602,7 +602,7 @@ void TemplateTable::interceptObject(Address object) {
   __ subl(r11, offset);		  // offset of the region, got by subtracting
   __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
 
-  __ movptr(r10, base);
+  __ movptr(r10, (intptr_t)base);
   __ addptr(r10, r11);		  // adding the offset to get the address of the location within memory for the
   call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug), rax, r11);
 
