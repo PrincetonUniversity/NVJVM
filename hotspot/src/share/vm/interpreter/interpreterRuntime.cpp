@@ -155,7 +155,8 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread, void *a, void *b))
-	printf("address %p, %p\n", a, b);
+uint64_t base = (uint64_t) Universe::getRegionTable();
+	printf("address %p, %p, %p\n", a, base, b);
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
