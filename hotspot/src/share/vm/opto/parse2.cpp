@@ -72,9 +72,7 @@ void Parse::array_store(BasicType elem_type) {
 Node* Parse::array_addressing(BasicType type, int vals, const Type* *result2) {
   Node *idx   = peek(0+vals);   // Get from stack without popping
   Node *ary   = peek(1+vals);   // in case of exception
-  if(AR_INTERCEPT){
-	  increment_access_counter(ary);
-  }
+
   // Null check the array base, with correct stack contents
   ary = do_null_check(ary, T_ARRAY);
   // Compile-time detect of null-exception?
@@ -1491,7 +1489,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore_0:
     obj = pop();
-    increment_access_counter(obj);
+    //increment_access_counter(obj);
 	set_local( 0, obj );
     break;
 
@@ -1502,7 +1500,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore_1:
 	obj = pop();
-	increment_access_counter(obj);
+	//increment_access_counter(obj);
 	set_local( 1, obj );
     break;
 
@@ -1513,7 +1511,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore_2:
 	obj = pop();
-	increment_access_counter(obj);
+	//increment_access_counter(obj);
 	set_local( 2, obj );
 	break;
 
@@ -1524,7 +1522,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore_3:
 	obj = pop();
-	increment_access_counter(obj);
+	//increment_access_counter(obj);
 	set_local( 3, obj );
 	break;
 
@@ -1535,7 +1533,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore:
 	obj = pop();
-	increment_access_counter(obj);
+	//increment_access_counter(obj);
 	set_local( iter().get_index(), obj );
 	break;
 
@@ -1642,9 +1640,9 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_arraylength: {
     // Must do null-check with value on expression stack
-	if(AR_INTERCEPT){
+	/*if(AR_INTERCEPT){
 		increment_access_counter(peek());
-	}
+	}*/
     Node *ary = do_null_check(peek(), T_ARRAY);
     // Compile-time detect of null-exception?
     if (stopped())  return;
@@ -1658,9 +1656,14 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_iaload: array_load(T_INT);    break;
   case Bytecodes::_saload: array_load(T_SHORT);  break;
   case Bytecodes::_faload: array_load(T_FLOAT);  break;
-  case Bytecodes::_aaload: array_load(T_OBJECT); break;
+  case Bytecodes::_aaload: {
+	  if(AR_INTERCEPT){
+		  increment_access_counter(peek(1));
+	  }
+	  array_load(T_OBJECT);
+	  break;
+  }
   case Bytecodes::_laload: {
-	//Node *array_adr = peek(1);
     a = array_addressing(T_LONG, 0);
     if (stopped())  return;     // guaranteed null or range check
     _sp -= 2;                   // Pop array and index
@@ -2159,7 +2162,6 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_areturn:
-	  increment_access_counter(peek());
 	  return_current(pop());
 	  break;
 
@@ -2287,11 +2289,9 @@ void Parse::do_one_bytecode() {
     do_call();
     break;
   case Bytecodes::_checkcast:
-	increment_access_counter(peek());
 	do_checkcast();
     break;
   case Bytecodes::_instanceof:
-    increment_access_counter(peek());
 	do_instanceof();
     break;
   case Bytecodes::_anewarray:
@@ -2318,12 +2318,11 @@ void Parse::do_one_bytecode() {
 
 
   case Bytecodes::_monitorenter:
-    increment_access_counter(peek());
 	do_monitor_enter();
     break;
 
   case Bytecodes::_monitorexit:
-	increment_access_counter(peek());
+	//increment_access_counter(peek());
     do_monitor_exit();
     break;
 

@@ -108,7 +108,6 @@ void Parse::do_field_access(bool is_get, bool is_field) {
   Node* obj;
   if (is_field) {
     int obj_depth = is_get ? 0 : field->type()->size();
-//    increment_access_counter(obj);
     obj = do_null_check(peek(obj_depth), T_OBJECT);
     // Compile-time detect of null-exception?
     if (stopped())  return;

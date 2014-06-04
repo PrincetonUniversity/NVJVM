@@ -981,7 +981,6 @@ void TemplateTable::astore() {
   transition(vtos, vtos);
   __ pop_ptr(rax);
   locals_index(rbx);
-  interceptObject(rax);
   __ movptr(aaddress(rbx), rax);
 }
 
