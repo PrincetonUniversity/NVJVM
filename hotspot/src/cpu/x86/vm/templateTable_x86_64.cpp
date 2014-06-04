@@ -1157,8 +1157,6 @@ void TemplateTable::dstore(int n) {
 void TemplateTable::astore(int n) {
   transition(vtos, vtos);
   __ pop_ptr(rax);
-  Address object = aaddress(n);
-  //interceptObject(object);
   __ movptr(aaddress(n), rax);
 }
 
