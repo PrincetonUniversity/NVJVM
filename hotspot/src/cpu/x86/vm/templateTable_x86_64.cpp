@@ -588,11 +588,9 @@ void TemplateTable::interceptObject(Address object) {
   __ push(r11);
 
   Label nullObj, hotObject;
-  __ movptr(r10, object);
-  Address objectCounter = Address(r10, ce_offset);
-  __ movptr(r11,object);
-  __ testptr(r11, r11);				  // checking whether the object is null
-  __ jcc(Assembler::zero, nullObj);   // If null jump to nullObject
+
+  __ cmpl(object, 0);				  // checking whether the object is null
+  __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
 
   __ cmpl(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
@@ -604,6 +602,9 @@ void TemplateTable::interceptObject(Address object) {
   call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
 
   __ bind(hotObject); 				  // binding hot object to increment the access count
+
+  __ movptr(r10, object);
+     Address objectCounter = Address(r10, ce_offset);
   __ movl(r11, objectCounter);        // load access counter
   __ incrementl(r11, 1);       		  // increment access counter
   __ movl(objectCounter, r11);        // store access counter
