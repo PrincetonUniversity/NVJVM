@@ -577,14 +577,15 @@ void TemplateTable::dload() {
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address obj) {
-  int ce_offset = oopDesc::counter_offset_in_bytes();
+  /*int ce_offset = oopDesc::counter_offset_in_bytes();
   uint64_t offset = (uint64_t) Universe::getHeapStart();
   uint64_t base = (uint64_t) Universe::getRegionTable();
   uint64_t coldRegionStart = (uint64_t) Universe::getColdRegionStart();
   uint64_t coldRegionEnd = (uint64_t) Universe::getColdRegionEnd();
 
+  // Saving variables which we would be needing later on
   __ push(r10);
-  __ push(rax);
+  __ push(r11);
 
   Label nullObj;
 
@@ -598,8 +599,8 @@ void TemplateTable::interceptObject(Address obj) {
   __ movl(objectCounter, rax);        // store access counter
   __ bind(nullObj);
 
-  __ push(rax);
-  __ pop(r10);
+  __ pop(r11);
+  __ pop(r10);*/
 }
 
 void TemplateTable::aload() {
