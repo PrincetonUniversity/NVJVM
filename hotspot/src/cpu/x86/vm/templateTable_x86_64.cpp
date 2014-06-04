@@ -593,9 +593,10 @@ void TemplateTable::interceptObject(Address object) {
   Label nullObj, hotObject;
 
   __ movptr(r10, object);
-  __ cmpptr(r10, 0);
-  __ jcc(Assembler::equal, nullObj);
+  __ testptr(r10, r10);
+  __ jcc(Assembler::zero, nullObj);
 
+  __ movptr(r10, object);
   __ cmpptr(r10, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
