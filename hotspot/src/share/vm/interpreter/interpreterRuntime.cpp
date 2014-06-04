@@ -166,12 +166,18 @@ IRT_ENTRY(void, InterpreterRuntime::_incrementCount(JavaThread* thread, oopDesc*
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_interceptObj(JavaThread* thread, oopDesc* obj))
+  if(obj == NULL)
+	  return;
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
   //printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
   //printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
-  SSDSwap::handle_faults((void *)obj);
+  if(*(int *)position == 1){
+	  SSDSwap::handle_faults((void *)obj);
+  }
+  int* counterAdd = (int *)(obj + oopDesc::counter_offset_in_bytes());
+	*counterAdd = *counterAdd + 1;
 IRT_END
 
 
