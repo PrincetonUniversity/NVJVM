@@ -586,11 +586,12 @@ void TemplateTable::interceptObject(Address object) {
   // Saving variables which we would be needing later on
   __ push(r10);
   __ push(r11);
+  __ push(rax);
 
   Label nullObj, hotObject;
-
-  __ cmpl(object, 0);				  // checking whether the object is null
-  __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
+  __ movptr(rax, object);
+  __ testptr(rax, rax);                 // checking whether the object is null
+  __ jcc(Assembler::zero, nullObj);   // If null jump to nullObject
 
   __ cmpl(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
@@ -611,6 +612,7 @@ void TemplateTable::interceptObject(Address object) {
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
+  __ pop(rax);
   __ pop(r11);
   __ pop(r10);
 }
@@ -839,7 +841,8 @@ void TemplateTable::aload(int n) {
   Label nullObj;
   Address object = aaddress(n);
   if(INTER_INTERPRETER){
-  int ce_offset = oopDesc::counter_offset_in_bytes();
+  interceptObject(object);
+  /*int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
   Address objectCounter = Address(r10, ce_offset);
   __ movptr(rax,object);
@@ -848,7 +851,7 @@ void TemplateTable::aload(int n) {
   __ movl(rax, objectCounter);        // load access counter
   __ incrementl(rax, 1);       // increment access counter
   __ movl(objectCounter, rax);        // store access counter
-  __ bind(nullObj);
+  __ bind(nullObj);*/
   }
   __ movptr(rax, object);
 }
