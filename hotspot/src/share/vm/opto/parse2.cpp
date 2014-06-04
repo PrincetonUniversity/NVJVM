@@ -1730,7 +1730,7 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_putfield:
-	increment_access_counter(peek());
+	increment_access_counter(peek(1));
     do_putfield();
     break;
 
