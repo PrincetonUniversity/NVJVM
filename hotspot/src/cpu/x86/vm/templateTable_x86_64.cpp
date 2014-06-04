@@ -586,12 +586,11 @@ void TemplateTable::interceptObject(Address object) {
   // Saving variables which we would be needing later on
   __ push(r10);
   __ push(r11);
-  __ push(rax);
 
   Label nullObj, hotObject;
-  __ movptr(rax, object);
-  __ testptr(rax, rax);                 // checking whether the object is null
-  __ jcc(Assembler::zero, nullObj);   // If null jump to nullObject
+
+  __ cmpl(object, 0);    // checking whether the object is null
+  __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
 
   __ cmpl(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
@@ -612,7 +611,6 @@ void TemplateTable::interceptObject(Address object) {
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
-  __ pop(rax);
   __ pop(r11);
   __ pop(r10);
 }
@@ -635,8 +633,8 @@ void TemplateTable::aload() {
 	  //__ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
 	  //__ jcc(Assembler::zero, isPresent);
 	  // Function call to implement the swapping in functionality
-	  __ movptr(c_rarg1, aaddress(rbx));
-	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
+	  //__ movptr(c_rarg1, aaddress(rbx));
+	  //call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
 	  //__ bind(isPresent);		  // Avoids the call to get object in memory
   }
   __ movptr(rax, object);
