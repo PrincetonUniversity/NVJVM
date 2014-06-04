@@ -50,9 +50,9 @@ void Parse::array_load(BasicType elem_type) {
   if (stopped())  return;     // guaranteed null or range check
   _sp -= 2;                   // Pop array and index
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
+
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
   push(ld);
-
 }
 
 
@@ -1657,10 +1657,10 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_saload: array_load(T_SHORT);  break;
   case Bytecodes::_faload: array_load(T_FLOAT);  break;
   case Bytecodes::_aaload: {
-	  if(AR_INTERCEPT){
-		  increment_access_counter(peek(1));
-	  }
 	  array_load(T_OBJECT);
+	  if(AR_INTERCEPT){
+		  increment_access_counter(peek());
+	  }
 	  break;
   }
   case Bytecodes::_laload: {

@@ -788,9 +788,13 @@ void TemplateTable::aaload() {
   // rax: index
   // rdx: array
   index_check(rdx, rax); // kills rbx
-  __ load_heap_oop(rax, Address(rdx, rax,
-                                UseCompressedOops ? Address::times_4 : Address::times_8,
-                                arrayOopDesc::base_offset_in_bytes(T_OBJECT)));
+  Address object = Address(rdx, rax,
+          UseCompressedOops ? Address::times_4 : Address::times_8,
+          arrayOopDesc::base_offset_in_bytes(T_OBJECT));
+  interceptObject(object);
+  __ load_heap_oop(rax, object);
+  /*Address(rdx, rax, UseCompressedOops ? Address::times_4 : Address::times_8, arrayOopDesc::base_offset_in_bytes(T_OBJECT)));*/
+
 }
 
 void TemplateTable::baload() {
