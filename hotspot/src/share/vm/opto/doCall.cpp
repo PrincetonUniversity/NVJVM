@@ -550,6 +550,7 @@ void Parse::do_call() {
       }
       // If there is going to be a trap, put it at the next bytecode:
       set_bci(iter().next_bci());
+      increment_access_counter(peek());
       do_null_assert(peek(), T_OBJECT);
       set_bci(iter().cur_bci()); // put it back
     }

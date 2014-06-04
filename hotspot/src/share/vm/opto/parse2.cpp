@@ -1543,7 +1543,6 @@ void Parse::do_one_bytecode() {
 	break;
 
   case Bytecodes::_astore:
-	//increment_access_counter(peek(0));
 	obj = pop();
 	increment_access_counter(obj);
 	set_local( iter().get_index(), obj );
@@ -1719,7 +1718,8 @@ void Parse::do_one_bytecode() {
     break;
   }
   case Bytecodes::_getfield:
-    do_getfield();
+    increment_access_counter(peek());
+	do_getfield();
     break;
 
   case Bytecodes::_getstatic:
@@ -2167,8 +2167,13 @@ void Parse::do_one_bytecode() {
     return_current(NULL);
     break;
 
-  case Bytecodes::_ireturn:
   case Bytecodes::_areturn:
+	  obj = pop();
+	  increment_access_counter(obj);
+	  return_current(pop());
+	  break;
+
+  case Bytecodes::_ireturn:
   case Bytecodes::_freturn:
     return_current(pop());
     break;
@@ -2292,10 +2297,12 @@ void Parse::do_one_bytecode() {
     do_call();
     break;
   case Bytecodes::_checkcast:
-    do_checkcast();
+	increment_access_counter(peek());
+	do_checkcast();
     break;
   case Bytecodes::_instanceof:
-    do_instanceof();
+    increment_access_counter(peek());
+	do_instanceof();
     break;
   case Bytecodes::_anewarray:
     do_anewarray();
@@ -2321,10 +2328,12 @@ void Parse::do_one_bytecode() {
 
 
   case Bytecodes::_monitorenter:
-    do_monitor_enter();
+    increment_access_counter(peek());
+	do_monitor_enter();
     break;
 
   case Bytecodes::_monitorexit:
+	increment_access_counter(peek());
     do_monitor_exit();
     break;
 
