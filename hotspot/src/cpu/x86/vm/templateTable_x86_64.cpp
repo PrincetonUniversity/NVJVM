@@ -574,6 +574,13 @@ void TemplateTable::dload() {
   __ movdbl(xmm0, daddress(rbx));
 }
 
+
+void TemplateTable::interceptObject(Register reg) {
+	__ push(r12);
+	__ movptr(r12, reg);
+	interceptObject(Address(r12, 0));
+	__ pop(r12);
+}
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address object) {
@@ -592,15 +599,14 @@ void TemplateTable::interceptObject(Address object) {
 
   Label nullObj, hotObject;
 
-  __ movptr(r10, object);
-  __ testptr(r10, r10);
-  __ jcc(Assembler::zero, nullObj);
+  __ cmpptr(object, 0);
+  __ jcc(Assembler::equal, nullObj);
 
-  __ movptr(r10, object);
-  __ cmpptr(r10, coldRegionStart);
+
+  __ cmpptr(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
-  __ cmpptr(r10, coldRegionEnd);
+  __ cmpptr(object, coldRegionEnd);
   __ jcc(Assembler::greater, hotObject);
 
   __ movptr(r11, object); 	  // pointer to the object in memory
@@ -945,8 +951,7 @@ void TemplateTable::astore() {
   transition(vtos, vtos);
   __ pop_ptr(rax);
   locals_index(rbx);
-  Address object = aaddress(rax);
-  interceptObject(object);
+  interceptObject(rax);
   __ movptr(aaddress(rbx), rax);
 }
 
