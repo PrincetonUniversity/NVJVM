@@ -577,6 +577,9 @@ void TemplateTable::dload() {
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address object) {
+  if(!(INTER_INTERPRETER)){
+	  return;
+  }
   int ce_offset = oopDesc::counter_offset_in_bytes();
   uint64_t offset = (uint64_t) Universe::getHeapStart();
   uint64_t base = (uint64_t) Universe::getRegionTable();
@@ -592,11 +595,11 @@ void TemplateTable::interceptObject(Address object) {
   __ cmpl(object, 0);    // checking whether the object is null
   __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
 
-  /*__ cmpl(object, coldRegionStart);
+  __ cmpl(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
   __ cmpl(object, coldRegionEnd);
-  __ jcc(Assembler::greater, hotObject);*/
+  __ jcc(Assembler::greater, hotObject);
 
   __ movptr(r11, object); 	  // pointer to the object in memory
   __ subl(r11, offset);		  // offset of the region, got by subtracting
@@ -627,24 +630,7 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  // Assuming registers r10, rax are free
-  if(INTER_INTERPRETER){
-	  interceptObject(object);
-	  //uint64_t offset = (uint64_t) Universe::getHeapStart();
-	  //uint64_t base = (uint64_t) Universe::getRegionTable();
-	  //Label isPresent;
-	  //__ movptr(rax, object); 	  // pointer to the object in memory
-	  //__ subl(rax, offset);		  // offset of the region, got by subtracting
-	  //__ shrl(rax, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
-	  //__ addl(rax, base);		  // adding the offset to get the address of the location within memory for the
-	  //__ movl(r10, rax);		  // moving the value at the byte into the register r10
-	  //__ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
-	  //__ jcc(Assembler::zero, isPresent);
-	  // Function call to implement the swapping in functionality
-	  //__ movptr(c_rarg1, aaddress(rbx));
-	  //call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
-	  //__ bind(isPresent);		  // Avoids the call to get object in memory
-  }
+  interceptObject(object);
   __ movptr(rax, object);
 }
 
@@ -846,19 +832,7 @@ void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
   Address object = aaddress(n);
-  if(INTER_INTERPRETER){
   interceptObject(object);
-  /*int ce_offset = oopDesc::counter_offset_in_bytes();
-  __ movptr(r10, object);
-  Address objectCounter = Address(r10, ce_offset);
-  __ movptr(rax,object);
-  __ testptr(rax, rax);
-  __ jcc(Assembler::zero, nullObj);
-  __ movl(rax, objectCounter);        // load access counter
-  __ incrementl(rax, 1);       // increment access counter
-  __ movl(objectCounter, rax);        // store access counter
-  __ bind(nullObj);*/
-  }
   __ movptr(rax, object);
 }
 
@@ -969,18 +943,8 @@ void TemplateTable::astore() {
   transition(vtos, vtos);
   __ pop_ptr(rax);
   locals_index(rbx);
-  /*Label nullObj;
-  int ce_offset = oopDesc::counter_offset_in_bytes();
   Address object = aaddress(rbx);
-  __ movptr(r10, object);
-  Address objectCounter = Address(r10, ce_offset);
-  __ movptr(r11,object);
-  __ testptr(r11, r11);
-  __ jcc(Assembler::zero, nullObj);
-  __ movl(r11, objectCounter);        // load access counter
-  __ incrementl(r11, 1);       // increment access counter
-  __ movl(objectCounter, r11);        // store access counter
-  __ bind(nullObj);*/
+  interceptObject(object);
   __ movptr(aaddress(rbx), rax);
 }
 
@@ -1186,18 +1150,8 @@ void TemplateTable::dstore(int n) {
 void TemplateTable::astore(int n) {
   transition(vtos, vtos);
   __ pop_ptr(rax);
-  Label nullObj;
-  /*int ce_offset = oopDesc::counter_offset_in_bytes();
   Address object = aaddress(n);
-  __ movptr(r10, object);
-  Address objectCounter = Address(r10, ce_offset);
-  __ movptr(r11,object);
-  __ testptr(r11, r11);
-  __ jcc(Assembler::zero, nullObj);
-  __ movl(r11, objectCounter);        // load access counter
-  __ incrementl(r11, 1);       // increment access counter
-  __ movl(objectCounter, r11);        // store access counter
-  __ bind(nullObj);*/
+  interceptObject(object);
   __ movptr(aaddress(n), rax);
 }
 
