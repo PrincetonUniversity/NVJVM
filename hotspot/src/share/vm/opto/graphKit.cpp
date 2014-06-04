@@ -3575,7 +3575,7 @@ void GraphKit::checkObj(Node *obj){
 	final_sync(ideal);
 }
 
-void GraphKit::check_no_increment(Node *obj){
+/*void GraphKit::check_no_increment(Node *obj){
 	IdealKit ideal(this, true);
 	Node* zeroObj = null();
 	Node* zeroInt = zerocon(T_INT);
@@ -3589,11 +3589,11 @@ void GraphKit::check_no_increment(Node *obj){
 	Node* val  = __ load(__ ctrl(), obj, TypeInt::INT, T_INT, adr_type);
     __ if_then(zeroInt, BoolTest::ne, zeroInt); {
 				const TypeFunc *tf = OptoRuntime::checkObj_Type();
-				__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
+				__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_print", obj);
     } __ end_if(); // End of object test
 	} __ end_if(); // End of object test
     final_sync(ideal);
-}
+}*/
 
 /*const TypeFunc *tf = OptoRuntime::debug_Type(); // for debugging purpose
 printf("region = %p\n", (long)Universe::getRegionTable()); fflush(stdout);
