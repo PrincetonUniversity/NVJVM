@@ -944,8 +944,8 @@ void TemplateTable::astore() {
   __ pop_ptr(rax);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  //interceptObject(object);
-  __ movptr(aaddress(rbx), rax);
+  interceptObject(object);
+  __ movptr(object, rax);
 }
 
 void TemplateTable::wide_istore() {
