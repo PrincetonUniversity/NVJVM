@@ -592,14 +592,22 @@ void TemplateTable::interceptObject(Address object) {
   __ cmpl(object, 0);    // checking whether the object is null
   __ jcc(Assembler::equal, nullObj);   // If null jump to nullObject
 
-  __ cmpl(object, coldRegionStart);
+  /*__ cmpl(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
   __ cmpl(object, coldRegionEnd);
-  __ jcc(Assembler::greater, hotObject);
+  __ jcc(Assembler::greater, hotObject);*/
+
+  __ movptr(r11, object); 	  // pointer to the object in memory
+  __ subl(r11, offset);		  // offset of the region, got by subtracting
+  __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+  __ addl(r11, base);		  // adding the offset to get the address of the location within memory for the
+  __ movl(r10, r11);		  // moving the value at the byte into the register r10
+  __ testptr(r10, r10); 	  // testing for the presence of the object, 0 indicates isPresent, 1 indicates swapped Out
+  __ jcc(Assembler::zero, hotObject);
 
   __ movptr(c_rarg1, object);
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1, r11);
 
   __ bind(hotObject); 				  // binding hot object to increment the access count
 
