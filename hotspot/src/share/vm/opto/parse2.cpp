@@ -45,7 +45,6 @@ extern int explicit_null_checks_inserted,
 
 //---------------------------------array_load----------------------------------
 void Parse::array_load(BasicType elem_type) {
-  //Node *array_adr = peek(1);
   const Type* elem = Type::TOP;
   Node* adr = array_addressing(elem_type, 0, &elem);
   if (stopped())  return;     // guaranteed null or range check
@@ -53,13 +52,12 @@ void Parse::array_load(BasicType elem_type) {
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
   push(ld);
-  //increment_count(array_adr, control());
+
 }
 
 
 //--------------------------------array_store----------------------------------
 void Parse::array_store(BasicType elem_type) {
-  //Node *array_adr = peek(2);
   Node* adr = array_addressing(elem_type, 1);
   if (stopped())  return;     // guaranteed null or range check
   Node* val = pop();
@@ -75,7 +73,7 @@ void Parse::array_store(BasicType elem_type) {
 Node* Parse::array_addressing(BasicType type, int vals, const Type* *result2) {
   Node *idx   = peek(0+vals);   // Get from stack without popping
   Node *ary   = peek(1+vals);   // in case of exception
-
+  increment_access_counter(ary);
   // Null check the array base, with correct stack contents
   ary = do_null_check(ary, T_ARRAY);
   // Compile-time detect of null-exception?
@@ -1651,6 +1649,7 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_arraylength: {
     // Must do null-check with value on expression stack
+	increment_access_counter(peek());
     Node *ary = do_null_check(peek(), T_ARRAY);
     // Compile-time detect of null-exception?
     if (stopped())  return;
@@ -1727,6 +1726,7 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_putfield:
+	increment_access_counter(peek());
     do_putfield();
     break;
 
