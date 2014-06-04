@@ -1348,7 +1348,7 @@ void Parse::do_one_bytecode() {
     dump_bci(bci());
   }
 #endif
-  printf("current bc %d\n", bc()); fflush(stdout);
+  //printf("current bc %d\n", bc()); fflush(stdout);
 
   switch (bc()) {
   case Bytecodes::_nop:
@@ -1722,7 +1722,6 @@ void Parse::do_one_bytecode() {
     break;
   }
   case Bytecodes::_getfield:
-    increment_access_counter(peek());
 	do_getfield();
     break;
 
@@ -1731,7 +1730,6 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_putfield:
-	increment_access_counter(peek(1));
     do_putfield();
     break;
 
