@@ -156,7 +156,6 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj))
-  if(obj == NULL) return;
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
@@ -165,8 +164,6 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj))
 	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
 	  SSDSwap::handle_faults((void *)obj);
   }
-  int *countHeader = (int *)((char *)obj + oopDesc::counter_offset_in_bytes());
-      *countHeader = *countHeader + 1;
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------

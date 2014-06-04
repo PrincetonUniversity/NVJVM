@@ -64,7 +64,6 @@ void Parse::array_store(BasicType elem_type) {
   _sp -= 2;                   // Pop array and index
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   store_to_memory(control(), adr, val, elem_type, adr_type);
-  //increment_count(array_adr, control());
 }
 
 
@@ -1183,15 +1182,6 @@ void Parse::increment_access_counter(Node *obj){
 	}
 }
 
-Node *Parse::increment_count(Node *obj, Node *ctrl){
-
-  int adr_type = Compile::AliasIdxRaw;
-  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-  Node* count  = make_load(ctrl, counter_addr, TypeInt::INT, T_INT, adr_type);
-  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, _gvn.intcon(1))); // incrementing the counter variable by 1, do not understand
-  return store_to_memory(ctrl, counter_addr, incr_node, T_INT, adr_type); // Storing the result obtained after the increment operation to memory
-}
-
 //----------------------------adjust_map_after_if------------------------------
 // Adjust the JVM state to reflect the result of taking this path.
 // Basically, it means inspecting the CmpNode controlling this
@@ -1675,7 +1665,6 @@ void Parse::do_one_bytecode() {
     if (stopped())  return;     // guaranteed null or range check
     _sp -= 2;                   // Pop array and index
     push_pair( make_load(control(), a, TypeLong::LONG, T_LONG, TypeAryPtr::LONGS));
-    //increment_count(array_adr, control());
     break;
   }
   case Bytecodes::_daload: {
@@ -1684,7 +1673,6 @@ void Parse::do_one_bytecode() {
     if (stopped())  return;     // guaranteed null or range check
     _sp -= 2;                   // Pop array and index
     push_pair( make_load(control(), a, Type::DOUBLE, T_DOUBLE, TypeAryPtr::DOUBLES));
-    //increment_count(array_adr, control());
     break;
   }
   case Bytecodes::_bastore: array_store(T_BYTE);  break;

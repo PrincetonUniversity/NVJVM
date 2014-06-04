@@ -576,8 +576,8 @@ void TemplateTable::dload() {
 
 /* This is the code, within the interpreter that provides interception of objects.
  */
-void TemplateTable::interceptObject(Address obj) {
-  /*int ce_offset = oopDesc::counter_offset_in_bytes();
+void TemplateTable::interceptObject(Address object) {
+  int ce_offset = oopDesc::counter_offset_in_bytes();
   uint64_t offset = (uint64_t) Universe::getHeapStart();
   uint64_t base = (uint64_t) Universe::getRegionTable();
   uint64_t coldRegionStart = (uint64_t) Universe::getColdRegionStart();
@@ -587,20 +587,31 @@ void TemplateTable::interceptObject(Address obj) {
   __ push(r10);
   __ push(r11);
 
-  Label nullObj;
-
+  Label nullObj, hotObject;
   __ movptr(r10, object);
   Address objectCounter = Address(r10, ce_offset);
-  __ movptr(rax,object);
-  __ testptr(rax, rax);
-  __ jcc(Assembler::zero, nullObj);
-  __ movl(rax, objectCounter);        // load access counter
-  __ incrementl(rax, 1);       		  // increment access counter
-  __ movl(objectCounter, rax);        // store access counter
-  __ bind(nullObj);
+  __ movptr(r11,object);
+  __ testptr(r11, r11);				  // checking whether the object is null
+  __ jcc(Assembler::zero, nullObj);   // If null jump to nullObject
 
+  __ cmpl(object, coldRegionStart);
+  __ jcc(Assembler::less, hotObject);
+
+  __ cmpl(object, coldRegionEnd);
+  __ jcc(Assembler::greater, hotObject);
+
+  __ movptr(c_rarg1, object);
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
+
+  __ bind(hotObject); 				  // binding hot object to increment the access count
+  __ movl(r11, objectCounter);        // load access counter
+  __ incrementl(r11, 1);       		  // increment access counter
+  __ movl(objectCounter, r11);        // store access counter
+  __ bind(nullObj);					  // binding the null label here
+
+  // registers used intermediately are popped out
   __ pop(r11);
-  __ pop(r10);*/
+  __ pop(r10);
 }
 
 void TemplateTable::aload() {
@@ -609,6 +620,7 @@ void TemplateTable::aload() {
   Address object = aaddress(rbx);
   // Assuming registers r10, rax are free
   if(INTER_INTERPRETER){
+	  interceptObject(object);
 	  //uint64_t offset = (uint64_t) Universe::getHeapStart();
 	  //uint64_t base = (uint64_t) Universe::getRegionTable();
 	  //Label isPresent;
@@ -624,19 +636,6 @@ void TemplateTable::aload() {
 	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1);
 	  //__ bind(isPresent);		  // Avoids the call to get object in memory
   }
-  /*if(DO_INCREMENT){
-  Label nullObj;
-  int ce_offset = oopDesc::counter_offset_in_bytes();
-  __ movptr(r10, object);
-  Address objectCounter = Address(r10, ce_offset);
-  __ movptr(rax,object);
-  __ testptr(rax, rax);
-  __ jcc(Assembler::zero, nullObj);
-  __ movl(rax, objectCounter);        // load access counter
-  __ incrementl(rax, 1);       		  // increment access counter
-  __ movl(objectCounter, rax);        // store access counter
-  __ bind(nullObj);
-  }*/
   __ movptr(rax, object);
 }
 
