@@ -1348,6 +1348,7 @@ void Parse::do_one_bytecode() {
     dump_bci(bci());
   }
 #endif
+  printf("current bc %d\n", bc()); fflush(stdout);
 
   switch (bc()) {
   case Bytecodes::_nop:
