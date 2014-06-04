@@ -2168,8 +2168,7 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_areturn:
-	  obj = pop();
-	  increment_access_counter(obj);
+	  increment_access_counter(peek());
 	  return_current(pop());
 	  break;
 
