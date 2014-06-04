@@ -85,6 +85,8 @@ class InterpreterRuntime: AllStatic {
   // Test Method
   static void _debug (JavaThread* thread, void *add, void* b); // test method to check control transfer
   static void _checkObj (JavaThread* thread, oopDesc* obj, void *add); // test method to check control transfer
+  static void _interceptObj (JavaThread* thread, oopDesc* obj); // test method to check control transfer
+  static void _incrementCount(JavaThread* thread, oopDesc* obj);
 
   // Allocation
   static void    _new          (JavaThread* thread, constantPoolOopDesc* pool, int index);
