@@ -578,7 +578,10 @@ void TemplateTable::interceptObject(Register object) {
 	 if(!(INTER_INTERPRETER)){
 		  return;
 	  }
-	 call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_interceptObj), object);
+
+	 __ movptr(c_rarg1, object);
+	 call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_interceptObj), c_rarg1);
+
 
 	 /*__ push(rax);
 	  int ce_offset = oopDesc::counter_offset_in_bytes();

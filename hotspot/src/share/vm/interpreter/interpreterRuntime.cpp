@@ -166,6 +166,7 @@ IRT_ENTRY(void, InterpreterRuntime::_incrementCount(JavaThread* thread, oopDesc*
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_interceptObj(JavaThread* thread, oopDesc* obj))
+  printf("in intercept object function call, object = %p\n", obj);  fflush(stdout);
   if(obj == NULL)
 	  return;
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
