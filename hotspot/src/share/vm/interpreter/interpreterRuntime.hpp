@@ -83,7 +83,7 @@ class InterpreterRuntime: AllStatic {
   static void    resolve_ldc   (JavaThread* thread, Bytecodes::Code bytecode);
 
   // Test Method
-  static void _debug (JavaThread* thread, void *add); // test method to check control transfer
+  static void _debug (JavaThread* thread, void *add, void* b); // test method to check control transfer
   static void _checkObj (JavaThread* thread, oopDesc* obj, void *add); // test method to check control transfer
 
   // Allocation

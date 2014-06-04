@@ -154,8 +154,9 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 IRT_END
 
 
-IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread, void *add))
-	printf("address %p\n", add);
+IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread, void *a, void *b))
+	uint64_t offset = (uint64_t) Universe::getHeapStart();
+	printf("address %p, %p, %p\n", a, offset, b);
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
