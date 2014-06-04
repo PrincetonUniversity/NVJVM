@@ -477,6 +477,10 @@ class CommandLineFlags {
           "AdaptiveNUMAChunkSizing")                                        \
   product(bool, FL_SWAP, false,											    \
          "flag for faultless swap module")                                  \
+  product(bool, AR_INTERCEPT, false,									    \
+         "flag for interception in arrays")                                 \
+  product(bool, INTER_INTERPRETER, false,									\
+          "flag for interception in interpreter")                           \
                                                                             \
   product(intx, NUMASpaceResizeRate, 1*G,                                   \
           "Do not reallocate more that this amount per collection")         \

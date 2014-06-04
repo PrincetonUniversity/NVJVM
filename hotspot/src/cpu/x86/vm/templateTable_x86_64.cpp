@@ -579,7 +579,7 @@ void TemplateTable::aload() {
   locals_index(rbx);
   Address object = aaddress(rbx);
   // Assuming registers r10, rax are free
-  if(FL_SWAP){
+  if(INTER_INTERPRETER){
 	  //uint64_t offset = (uint64_t) Universe::getHeapStart();
 	  //uint64_t base = (uint64_t) Universe::getRegionTable();
 	  //Label isPresent;
@@ -809,7 +809,7 @@ void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Label nullObj;
   Address object = aaddress(n);
-  if(DO_INCREMENT){
+  if(INTER_INTERPRETER){
   int ce_offset = oopDesc::counter_offset_in_bytes();
   __ movptr(r10, object);
   Address objectCounter = Address(r10, ce_offset);

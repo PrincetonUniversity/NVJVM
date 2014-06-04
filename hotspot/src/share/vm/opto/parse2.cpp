@@ -73,7 +73,9 @@ void Parse::array_store(BasicType elem_type) {
 Node* Parse::array_addressing(BasicType type, int vals, const Type* *result2) {
   Node *idx   = peek(0+vals);   // Get from stack without popping
   Node *ary   = peek(1+vals);   // in case of exception
-  increment_access_counter(ary);
+  if(AR_INTERCEPT){
+	  increment_access_counter(ary);
+  }
   // Null check the array base, with correct stack contents
   ary = do_null_check(ary, T_ARRAY);
   // Compile-time detect of null-exception?
@@ -1649,7 +1651,9 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_arraylength: {
     // Must do null-check with value on expression stack
-	increment_access_counter(peek());
+	if(AR_INTERCEPT){
+		increment_access_counter(peek());
+	}
     Node *ary = do_null_check(peek(), T_ARRAY);
     // Compile-time detect of null-exception?
     if (stopped())  return;
