@@ -155,8 +155,7 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread, void *a, void *b))
-	uint64_t offset = (uint64_t) Universe::getHeapStart();
-	printf("address %p, %p, %p\n", a, offset, b);
+	printf("address %p, %p\n", a, b);
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))

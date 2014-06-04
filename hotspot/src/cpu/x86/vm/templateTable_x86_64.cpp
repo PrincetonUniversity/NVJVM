@@ -597,13 +597,14 @@ void TemplateTable::interceptObject(Address object) {
 
   __ cmpl(object, coldRegionEnd);
   __ jcc(Assembler::greater, hotObject);*/
-  __ movptr(c_rarg1, object);
+
   __ movptr(r11, object); 	  // pointer to the object in memory
 
   __ subl(r11, offset);		  // offset of the region, got by subtracting
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug), c_rarg1, r11);
 
+  __ movptr(r10, r11);
   __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug), r10, r11);
 
   __ addl(r11, base);		  // adding the offset to get the address of the location within memory for the
 
@@ -612,8 +613,8 @@ void TemplateTable::interceptObject(Address object) {
 
   __ jcc(Assembler::zero, hotObject);
 
-
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), c_rarg1, r11);
+  __ movptr(r10, object);
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
 
   __ bind(hotObject); 				  // binding hot object to increment the access count
 
