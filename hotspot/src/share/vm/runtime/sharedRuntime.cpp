@@ -450,7 +450,7 @@ JRT_LEAF(void, SharedRuntime::debug(void* a, void* b, long c, long d, long e, lo
 JRT_END
 
 
-JRT_LEAF(void, SharedRuntime::checkObj(oopDesc* obj))
+JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
   	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout); exit(-1);
 	  SSDSwap::handle_faults((void *)obj);
 JRT_END

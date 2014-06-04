@@ -1179,7 +1179,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse::increment_access_counter(Node *obj){
 	if(FL_SWAP){
-		check_no_increment(obj);
+		checkObj(obj);
 	}
 
     /*const Type *t = _gvn.type( obj );

@@ -3538,25 +3538,39 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
 	int adr_type = Compile::AliasIdxRaw;
+	// Node representing null object
 	Node* zeroObj = null();
+	// Node representing null integer
 	Node* zeroInt = zerocon(T_INT);
+	// Getting start of the cold region
+	Node* coldRegionStart = makecon(TypeRawPtr::make((address)Universe::getColdRegionStart()));
+	// Getting end of the cold region
+	Node* coldRegionEnd = makecon(TypeRawPtr::make((address)Universe::getColdRegionEnd()));
+	// If the object is null, no checks are performed, load of a null object
 	__ if_then(obj, BoolTest::ne, zeroObj); {
+		// Checking if the object's address is greater than the start of the cold region
+		__ if_then(obj, BoolTest::ge, coldRegionStart); {
+			// Checking if the object's address is greater than the start of the cold region
+			__ if_then(obj, BoolTest::le, coldRegionEnd); {
+				  Node* objCast =  __ CastPX(__ ctrl(), obj);
+				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
+				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
+				  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
+				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
+				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
+				  	__ if_then(val, BoolTest::ne, zeroInt); {
+				  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
+				  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
+				  	} __ end_if(); // End of object test
+			} __ end_if(); // End of cold region end test
+		} __ end_if(); // End of cold region start test
+		// Incrementing the object's header here
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  // incrementing the counter variable by 1, do not understand
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
 		  // Storing the result obtained after the increment operation to memory
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
-		  Node* objCast =  __ CastPX(__ ctrl(), obj);
-		  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
-		  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
-		  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
-		  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
-		  //Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
-		  	__ if_then(zeroInt, BoolTest::ne, zeroInt); {
-		  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
-		  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::checkObj), "_print", obj);
-		  	} __ end_if(); // End of object test
 	} __ end_if(); // End of null test
 	final_sync(ideal);
 }

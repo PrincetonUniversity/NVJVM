@@ -163,6 +163,8 @@ class Universe: AllStatic {
   static void *_regionTable; // table for storing region bitmap
   static uint64_t _heapStart; // Start of the heap
   static uint64_t _heapSize;  // Heap Size
+  static uint64_t _coldRegionStart; // Start of the cold region
+  static uint64_t _coldRegionEnd; // End of the cold region
 
   // Known objects in the VM
 
@@ -264,11 +266,16 @@ class Universe: AllStatic {
 
  public:
 
+
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
+  static void setColdRegionStart(uint64_t s)           {  _coldRegionStart = s;}
+  static void setColdRegionStop(uint64_t s)            {  _coldRegionStart = s;}
 
   static uint64_t getHeapStart()                      {  return _heapStart;}
   static uint64_t getHeapSize()                 	  {  return _heapSize;}
+  static uint64_t getColdRegionStart()				  {  return _coldRegionStart;}
+  static uint64_t getColdRegionEnd()				  {  return _coldRegionEnd; }
 
   static void* getRegionTable()						  {  return _regionTable;}
   static void setRegionTable(void *start)			  {_regionTable = start;
