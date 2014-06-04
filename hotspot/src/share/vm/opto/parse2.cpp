@@ -1181,63 +1181,6 @@ void Parse::increment_access_counter(Node *obj){
 	if(FL_SWAP){
 		checkObj(obj);
 	}
-
-    /*const Type *t = _gvn.type( obj );
-
-    const TypeOopPtr* tp = t->isa_oopptr();
-    if (tp != NULL && tp->klass() != NULL && !tp->klass()->is_loaded()){
-    	return;
-    }
-    increment_count(obj, control());*/
-	  // Null check; get casted pointer; set region slot 3
-	  /*Node* null_ctl = top();
-	  Node* not_null_obj = null_check_oop(obj, &null_ctl, false);
-
-	  // If not_null_obj is dead, only null-path is taken
-	  if (!stopped()) {              // Doing instance-of on a NULL?
-		  increment_count(obj, control());
-	  }*/
-	/*int edges = 2;
-	Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
-	BoolTest::mask btest = BoolTest::eq;
-	Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
-	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
-    Node *iftrue  = _gvn.transform( new (C, 1) IfTrueNode (iff) );  // True branch, use existing map info
-    Node *iffalse = _gvn.transform( new (C, 1) IfFalseNode(iff) );  // False branch
-    Node *r = new (C, edges+1) RegionNode(edges+1);
-	record_for_igvn(r);
-    r->init_req(1, iffalse);
-    r->init_req(2, iftrue);
-    _gvn.set_type(r, Type::CONTROL);
-    r = _gvn.transform(r);
-    set_control(r);
-    Node *phi = PhiNode::make(r, NULL, TypeLong::LONG);
-    //phi->init_req(1, (Node *)_gvn.longcon((long)oopDesc::counter_offset_in_bytes()));
-    phi->init_req(1, (Node *)_gvn.longcon((long)_add));
-    phi->init_req(2, (Node *)_gvn.longcon((long)_add));
-    increment_count(obj, control(), _gvn.transform(phi)->get_long());
-
-	// True branch, use existing map info
-	/*Node *chk = _gvn.transform(new (C, 3) CmpPNode(obj, null())); // generate instructions for comparing the object with a null object
-    BoolTest::mask btest = BoolTest::eq;
-    Node *tst = _gvn.transform(new (C, 2) BoolNode(chk, btest));
-	IfNode* iff = create_and_map_if(control(), tst, PROB_LIKELY_MAG(3), COUNT_UNKNOWN);
-
-	 {  PreserveJVMState pjvms(this); // saves the JVM State(_kit, _map, _sp)
-	    Node *iftrue = _gvn.transform( new (C, 1) IfTrueNode(iff) );
-	    set_control( iftrue );
-	    int target_bci = iter().next_bci();
-
-	      //uncommon_trap(Deoptimization::Reason_unhandled,
-	     //	                     Deoptimization::Action_make_not_compilable);
-	     //uncommon_trap(Deoptimization::Reason_unloaded, Deoptimization::Action_reinterpret);
-	    //merge_new_path(dest_bci_if_true);
-	  } // resets the jvm state
-	  // False branch
-	  Node *iffalse  = _gvn.transform( new (C, 1) IfFalseNode (iff) );
-	  set_control( iffalse );*/
-	  //increment_count(obj, control());
-
 }
 
 Node *Parse::increment_count(Node *obj, Node *ctrl){
@@ -1475,28 +1418,28 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
 	obj = local(0);
-	push( obj );
     increment_access_counter(obj);
+    push( obj );
     break;
   case Bytecodes::_aload_1:
 	obj = local(1);
+	increment_access_counter(obj);
     push( obj );
-    increment_access_counter(obj);
     break;
   case Bytecodes::_aload_2:
     obj = local(2);
-	push( obj );
     increment_access_counter(obj);
+    push( obj );
     break;
   case Bytecodes::_aload_3:
     obj = local(3);
-	push( obj );
     increment_access_counter(obj);
+	push( obj );
     break;
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
-    push( obj );
-    increment_access_counter(obj);
+	increment_access_counter(obj);
+	push( obj );
     break;
 
   case Bytecodes::_fload_0:
@@ -1556,9 +1499,9 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_0:
-    //obj = pop();
-    //increment_access_counter(obj);
-	set_local( 0, pop() );
+    obj = pop();
+    increment_access_counter(obj);
+	set_local( 0, obj );
     break;
 
   case Bytecodes::_fstore_1:
@@ -1567,9 +1510,9 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_1:
-	//obj = pop();
-	//increment_access_counter(obj);
-	set_local( 1, pop() );
+	obj = pop();
+	increment_access_counter(obj);
+	set_local( 1, obj );
     break;
 
   case Bytecodes::_fstore_2:
@@ -1578,9 +1521,9 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_2:
-	//obj = pop();
-	//increment_access_counter(obj);
-	set_local( 2, pop() );
+	obj = pop();
+	increment_access_counter(obj);
+	set_local( 2, obj );
 	break;
 
   case Bytecodes::_fstore_3:
@@ -1589,9 +1532,9 @@ void Parse::do_one_bytecode() {
 	  break;
 
   case Bytecodes::_astore_3:
-	//obj = pop();
-	//increment_access_counter(obj);
-	set_local( 3, pop() );
+	obj = pop();
+	increment_access_counter(obj);
+	set_local( 3, obj );
 	break;
 
   case Bytecodes::_fstore:
@@ -1601,8 +1544,9 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_astore:
 	//increment_access_counter(peek(0));
-	set_local( iter().get_index(), pop() );
-	//increment_access_counter(obj);
+	obj = pop();
+	increment_access_counter(obj);
+	set_local( iter().get_index(), obj );
 	break;
 
    // long stores
