@@ -574,43 +574,6 @@ void TemplateTable::dload() {
   __ movdbl(xmm0, daddress(rbx));
 }
 
-void TemplateTable::interceptObject(Register object) {
-	 if(!(INTER_INTERPRETER)){
-		  return;
-	  }
-
-	 __ movptr(c_rarg1, object);
-	 call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_interceptObj), c_rarg1);
-
-
-	 /*__ push(rax);
-	  int ce_offset = oopDesc::counter_offset_in_bytes();
-	  uint64_t offset = (uint64_t) Universe::getHeapStart();
-	  uint64_t base = (uint64_t) Universe::getRegionTable();
-	  uint64_t coldRegionStart = (uint64_t) Universe::getColdRegionStart();
-	  uint64_t coldRegionEnd = (uint64_t) Universe::getColdRegionEnd();
-
-	  Label nullObj, hotObject;
-
-	  __ cmpptr(object, 0);
-	  __ jcc(Assembler::equal, nullObj);
-
-	  __ cmpptr(object, coldRegionStart);
-	  __ jcc(Assembler::less, hotObject);
-
-	  __ cmpptr(object, coldRegionEnd);
-	  __ jcc(Assembler::greater, hotObject);
-
-	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_interceptObj), object);
-
-	  __ bind(hotObject); 				  // binding hot object to increment the access count
-
-	  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_incrementCount), object);
-
-	  __ bind(nullObj);					  // binding the null label here
-	  __ pop(rax);*/
-}
-
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address object) {

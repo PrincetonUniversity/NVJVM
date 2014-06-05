@@ -1175,7 +1175,7 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 }
 
 void Parse::increment_access_counter(Node *obj){
-	if(FL_SWAP){
+	if(INTER_COMPILER){
 		checkObj(obj);
 	}
 }
@@ -1658,9 +1658,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_faload: array_load(T_FLOAT);  break;
   case Bytecodes::_aaload: {
 	  array_load(T_OBJECT);
-	  if(AR_INTERCEPT){
-		  increment_access_counter(peek());
-	  }
+		increment_access_counter(peek());
 	  break;
   }
   case Bytecodes::_laload: {

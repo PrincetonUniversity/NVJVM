@@ -481,6 +481,8 @@ class CommandLineFlags {
          "flag for interception in arrays")                                 \
   product(bool, INTER_INTERPRETER, false,									\
           "flag for interception in interpreter")                           \
+  product(bool, INTER_COMPILER, false,									    \
+           "flag for interception in compiler")                             \
                                                                             \
   product(intx, NUMASpaceResizeRate, 1*G,                                   \
           "Do not reallocate more that this amount per collection")         \
