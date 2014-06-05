@@ -614,12 +614,13 @@ void TemplateTable::interceptObject(Address object) {
   call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
 
   __ bind(hotObject); 				  // binding hot object to increment the access count
-
+if(false){
   __ movptr(r10, object);
      Address objectCounter = Address(r10, ce_offset);
   __ movl(r11, objectCounter);        // load access counter
   __ incrementl(r11, 1);       		  // increment access counter
   __ movl(objectCounter, r11);        // store access counter
+}
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
