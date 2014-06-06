@@ -2150,7 +2150,7 @@ jint G1CollectedHeap::initialize() {
   if(R_SEG){ // printing the heap regions present in memory
 	  char* prg_end = perm_gen_rs.base() + perm_gen_rs.size();
 	  char* hot_end = g1_rs.base() + g1_rs.size();
-	  printf("Initializing g1CollectedHeap," + "Max_Size of the heap = %uz, "
+	  printf("Initializing g1CollectedHeap, Max_Size of the heap = %uz, "
 			  "Total Reserved Size = %uz, G1CollectedHeap Initialize, start = %p, end = %p, "
 			  "Permanent Generation, base = %p, end = %p, "
 			  "Cold Region, base = %p, end = %p, Hot Region, base = %p, end = %p\n",
