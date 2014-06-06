@@ -575,7 +575,7 @@ public:
   // Returns true if the heap was expanded by the requested amount;
   // false otherwise.
   // (Rounds up to a HeapRegion boundary.)
-  bool expand(size_t expand_bytes, bool isCold);
+  bool expand(size_t expand_bytes);
   bool expand_hybrid(size_t expand_bytes, bool isCold);
 
   // Do anything common to GC's.

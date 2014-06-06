@@ -655,7 +655,7 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
     		printf("Allocated region is NULL, purpose = isCold = %d\n", isCold); fflush(stdout);
     	} else {
     		void *bottom = alloc_region->bottom(); void *end = alloc_region->end();
-    		printf("Region bottom =%p, end=%p, purpose is Cold = %d, region is Cold = %d\n", top, end, isCold, alloc_region->isCold());
+    		printf("Region bottom =%p, end=%p, purpose is Cold = %d, region is Cold = %d\n", bottom, end, isCold, alloc_region->isCold());
     		fflush(stdout);
     	}
     }
@@ -1781,7 +1781,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
   return successful;
 }
 
-bool G1CollectedHeap::expand(size_t expand_bytes, bool isCold = false) {
+bool G1CollectedHeap::expand(size_t expand_bytes) {
   size_t old_mem_size = _g1_storage.committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
   aligned_expand_bytes = align_size_up(aligned_expand_bytes,
@@ -2096,10 +2096,8 @@ jint G1CollectedHeap::initialize() {
   Universe::setHeapSize((uint64_t) heap_rs.size());
 
   if(P_INIT || R_SEG){
-	  printf("G1CollectedHeap Initialize, start = %p, end = %p, "
-			  "ColdRegion start = %p, end = %p\n", _reserved.start(), _reserved.end(), start, end);
+	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end());
 	  fflush(stdout);
-
   }
 
   size_t hot_region_size = max_byte_size;
@@ -2144,18 +2142,20 @@ jint G1CollectedHeap::initialize() {
 
   // Setting the start and end for the cold region. Currently the cold region is taken to be half the
   // size of the initial size of the heap.
-  uint64_t start = (uint64_t)g1_rs_cold.base();
-  uint64_t end = start + (uint64_t)g1_rs_cold.size();
-  Universe::setColdRegionStart((void *)(start));
-  Universe::setColdRegionEnd((void *)(end));
+  char* start = g1_rs_cold.base();
+  char* end = start + g1_rs_cold.size();
+  Universe::setColdRegionStart((uint64_t)(start));
+  Universe::setColdRegionEnd((uint64_t)(end));
 
   if(R_SEG){ // printing the heap regions present in memory
+	  char* prg_end = perm_gen_rs.base() + perm_gen_rs.size();
+	  char* hot_end = g1_rs.base() + g1_rs.size();
 	  printf("Initializing g1CollectedHeap," + "Max_Size of the heap = %uz, "
 			  "Total Reserved Size = %uz, G1CollectedHeap Initialize, start = %p, end = %p, "
 			  "Permanent Generation, base = %p, end = %p, "
 			  "Cold Region, base = %p, end = %p, Hot Region, base = %p, end = %p\n",
 			  max_byte_size, total_reserved_size, _reserved.start(), _reserved.end(), perm_gen_rs.base(),
-			  (perm_gen_rs.base() + perm_gen_rs.size()), start, end, g1_rs.base(), (g1_rs.base()+g1_rs.size()));
+			  prg_end, start, end, g1_rs.base(), hot_end);
 	  fflush(stdout);
   }
 
