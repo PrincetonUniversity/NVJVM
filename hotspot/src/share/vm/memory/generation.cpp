@@ -353,10 +353,13 @@ void Generation::prepare_for_compaction(CompactPoint* cp) {
   // Generic implementation, can be specialized
   printf("In prepare_for_compaction\n"); fflush(stdout);
   CompactibleSpace* space = first_compaction_space();
-  printf("In prepare_for_compaction, space = %p\n", space); fflush(stdout);
+  printf("In prepare_for_compaction, space = %p, bottom = %p, end = %p\n", space, space->bottom(), space->end()); fflush(stdout);
   while (space != NULL) {
+	   printf("calling prepare_for_compaction \n"); fflush(stdout);
     space->prepare_for_compaction(cp);
+    	printf("calling next_compaction_space \n"); fflush(stdout);
     space = space->next_compaction_space();
+    printf("In prepare_for_compaction, space = %p, bottom = %p, end = %p\n", space, space->bottom(), space->end()); fflush(stdout);
   }
 }
 

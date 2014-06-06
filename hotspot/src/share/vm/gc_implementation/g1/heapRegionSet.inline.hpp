@@ -167,7 +167,8 @@ inline HeapRegion* HeapRegionLinkedList::getRegion(bool isCold){
 		if(curr){
 			void *bottom = curr->bottom();
 			void *end = curr->end();
-			printf("In getRegion. Returning heap region = %p. (bottom = %p, end =%p)\n", curr, curr->bottom(), curr->end());
+			printf("In getRegion. Returning heap region = %p. (bottom = %p, end =%p), isCold %d, region is cold = %d\n", curr,
+					curr->bottom(), curr->end(), isCold, curr->isCold());
 			fflush(stdout);
 		} else {
 			printf("In getRegion. Cold Region Not Found.\n"); fflush(stdout);
