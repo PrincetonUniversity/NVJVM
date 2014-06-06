@@ -99,7 +99,7 @@ class ReservedSpace VALUE_OBJ_CLASS_SPEC {
   ReservedSpace first_part(size_t partition_size, size_t alignment,
                            bool split = false, bool realloc = true);
   ReservedSpace last_part (size_t partition_size, size_t alignment);
-  ReservedSpace last_part_before_perm_gen (size_t partition_size, size_t alignment);
+  ReservedSpace last_part_before_perm_gen (size_t partition_size, size_t alignment, size_t perm_gen_size);
 
   // These simply call the above using the default alignment.
   inline ReservedSpace first_part(size_t partition_size,
