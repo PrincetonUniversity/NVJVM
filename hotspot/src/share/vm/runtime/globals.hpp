@@ -2847,7 +2847,9 @@ class CommandLineFlags {
   product(bool, DO_SWAP, false,												\
            "trigger swapping")									            \
   product(bool, L_SEGREGATION, false,										\
-		 		 "printing segregation information")                        \
+		  "printing segregation information")                               \
+  product(bool, Trigger_Segregation, false,									\
+		  "triggers segregation into cold regions")							\
   product(bool, L_COUNT, false,												\
 		 "print count to output")											\
   product(bool, L_ASSERT, true,												\
