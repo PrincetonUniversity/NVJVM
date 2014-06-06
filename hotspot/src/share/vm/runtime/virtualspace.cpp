@@ -388,6 +388,14 @@ ReservedSpace ReservedSpace::first_part(size_t partition_size, size_t alignment,
   return result;
 }
 
+ReservedSpace ReservedSpace::last_part_before_perm_gen(size_t partition_size, size_t alignment, size_t perm_gen_size) {
+  assert(partition_size <= size(), "partition failed");
+  ReservedSpace result(base() + partition_size, size() - partition_size - perm_gen_size,
+                       alignment, special(), executable());
+  return result;
+}
+
+
 
 ReservedSpace
 ReservedSpace::last_part(size_t partition_size, size_t alignment) {

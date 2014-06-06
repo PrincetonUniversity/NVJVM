@@ -98,8 +98,7 @@ public:
     _top = obj;
   }
 
-  // The total (word) size of the buffer, including both allocated and
-  // unallocted space.
+  // The total (word) size of the buffer, including both allocated and unallocated space.
   size_t word_sz() { return _word_sz; }
 
   // Should only be done if we are about to reset with a new buffer of the

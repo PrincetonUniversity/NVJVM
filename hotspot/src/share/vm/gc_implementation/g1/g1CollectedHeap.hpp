@@ -180,13 +180,20 @@ private:
 
   // Storage for the G1 heap (excludes the permanent generation).
   VirtualSpace _g1_storage;
+  // Storage for the G1 heap' cold region
+  VirtualSpace _g1_storage_cold;
+
   MemRegion    _g1_reserved;
 
-  // The part of _g1_storage that is currently committed.
+  // The part of _g1_storage that is currently committed. This region is currently being used by the hot region.
   MemRegion _g1_committed;
+  // The part of _g1_storage_cold that is currently committed. This region is currently being used by the cold segment.
+  MemRegion _g1_committed_cold;
 
   // The maximum part of _g1_storage that has ever been committed.
   MemRegion _g1_max_committed;
+  // The maximum part of _g1_storage_cold that has ever been committed.
+  MemRegion _g1_max_committed_cold;
 
   // The master free list. It will satisfy all new region allocations.
   MasterFreeRegionList      _free_list;
@@ -204,6 +211,9 @@ private:
 
   // The block offset table for the G1 heap.
   G1BlockOffsetSharedArray* _bot_shared;
+
+  // The block offset table for the G1 heap's cold region.
+  G1BlockOffsetSharedArray* _bot_shared_cold;
 
   // Move all of the regions off the free lists, then rebuild those free
   // lists, before and after full GC.
@@ -237,7 +247,7 @@ private:
   // collection (this is specified per GCAllocPurpose)
   bool _retain_gc_alloc_region[GCAllocPurposeCount];
 
-  // A list of the regions that have been set to be alloc regions in the
+  // A list of the regions that have been set to be allocation regions in the
   // current collection.
   HeapRegion* _gc_alloc_region_list;
 
@@ -394,13 +404,13 @@ protected:
   // check whether there's anything available on the
   // secondary_free_list and/or wait for more regions to appear on
   // that list, if _free_regions_coming is set.
-  HeapRegion* new_region_try_secondary_free_list();
+  HeapRegion* new_region_try_secondary_free_list(bool isCold);
 
   // Try to allocate a single non-humongous HeapRegion sufficient for
   // an allocation of the given word_size. If do_expand is true,
   // attempt to expand the heap if necessary to satisfy the allocation
   // request.
-  HeapRegion* new_region(size_t word_size, bool do_expand);
+  HeapRegion* new_region(size_t word_size, bool do_expand, bool getCold);
 
   // Try to allocate a new region to be used for allocation by
   // a GC thread. It will try to expand the heap if no region is
@@ -565,7 +575,8 @@ public:
   // Returns true if the heap was expanded by the requested amount;
   // false otherwise.
   // (Rounds up to a HeapRegion boundary.)
-  bool expand(size_t expand_bytes);
+  bool expand(size_t expand_bytes, bool isCold);
+  bool expand_hybrid(size_t expand_bytes, bool isCold);
 
   // Do anything common to GC's.
   virtual void gc_prologue(bool full);
@@ -634,6 +645,7 @@ protected:
   // (Rounds down to a HeapRegion boundary.)
   virtual void shrink(size_t expand_bytes);
   void shrink_helper(size_t expand_bytes);
+  void shrink_helper_hybrid(size_t expand_bytes, bool isCold);
 
   #if TASKQUEUE_STATS
   static void print_taskqueue_stats_hdr(outputStream* const st = gclog_or_tty);

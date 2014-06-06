@@ -288,6 +288,7 @@ public:
   // It removes and returns the head of the list. It assumes that the
   // list is not empty so it will return a non-NULL value.
   inline HeapRegion* remove_head();
+  inline HeapRegion* getRegion(bool isCold);
 
   // Convenience method.
   inline HeapRegion* remove_head_or_null();

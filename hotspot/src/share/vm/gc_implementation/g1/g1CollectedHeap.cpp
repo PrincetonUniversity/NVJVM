@@ -551,7 +551,7 @@ G1CollectedHeap* G1CollectedHeap::_g1h;
 // Private methods.
 
 HeapRegion*
-G1CollectedHeap::new_region_try_secondary_free_list() {
+G1CollectedHeap::new_region_try_secondary_free_list(bool isCold = false) {
   MutexLockerEx x(SecondaryFreeList_lock, Mutex::_no_safepoint_check_flag);
   while (!_secondary_free_list.is_empty() || free_regions_coming()) {
     if (!_secondary_free_list.is_empty()) {
@@ -567,7 +567,10 @@ G1CollectedHeap::new_region_try_secondary_free_list() {
 
       assert(!_free_list.is_empty(), "if the secondary_free_list was not "
              "empty we should have moved at least one entry to the free_list");
-      HeapRegion* res = _free_list.remove_head();
+      HeapRegion* res = NULL;
+    	  res = _free_list.getRegion(isCold);
+//    	  res = _free_list.remove_head();
+
       if (G1ConcRegionFreeingVerbose) {
         gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
                                "allocated "HR_FORMAT" from secondary_free_list",
@@ -589,7 +592,7 @@ G1CollectedHeap::new_region_try_secondary_free_list() {
   return NULL;
 }
 
-HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand) {
+HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool getCold = false) {
   assert(!isHumongous(word_size) ||
                                   word_size <= (size_t) HeapRegion::GrainWords,
          "the only time we use this to allocate a humongous region is "
@@ -608,19 +611,24 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand) {
       }
     }
   }
-  res = _free_list.remove_head_or_null();
+  // Getting the cold region if specifically cold region is requested
+	  res = _free_list.getRegion(isCold); // call for getting a cold region
+//	  res = _free_list.remove_head_or_null();
+  }
   if (res == NULL) {
     if (G1ConcRegionFreeingVerbose) {
       gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
                              "res == NULL, trying the secondary_free_list");
     }
-    res = new_region_try_secondary_free_list();
+    res = new_region_try_secondary_free_list(isCold);
   }
   if (res == NULL && do_expand) {
-    if (expand(word_size * HeapWordSize)) {
+    size_t expand_bytes = word_size * HeapWordSize;
+	if (expand_hybrid(expand_bytes, expand_bytes)) {
       // The expansion succeeded and so we should have at least one
       // region on the free list.
-      res = _free_list.remove_head();
+	  res = _free_list.getRegion(isCold);
+//    res = _free_list.remove_head();
     }
   }
   if (res != NULL) {
@@ -636,9 +644,23 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand) {
 HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
                                                  size_t word_size) {
   HeapRegion* alloc_region = NULL;
+  /* If the purpose of allocation is to allocate a new region for Tenured Cold Region,
+   * then we mark the isCold flag as true.
+   */
+  bool isCold = (purpose == GCAllocForTenuredCold);
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
-    alloc_region = new_region(word_size, true /* do_expand */);
-    if (purpose == GCAllocForSurvived && alloc_region != NULL) {
+    alloc_region = new_region(word_size, true /* do_expand */, isCold);
+    if(R_SEG){
+    	if(alloc_region == NULL){
+    		printf("Allocated region is NULL, purpose = isCold = %d\n", isCold); fflush(stdout);
+    	} else {
+    		void *bottom = alloc_region->bottom(); void *end = alloc_region->end();
+    		printf("Region bottom =%p, end=%p, purpose is Cold = %d, region is Cold = %d\n", top, end, isCold, alloc_region->isCold());
+    		fflush(stdout);
+    	}
+    }
+    /* Setting the survivor region property for GCAllocForSurvived / GCAllocForSurvivedCold to be true. */
+    if ((purpose == GCAllocForSurvived || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
       alloc_region->set_survivor();
     }
     ++_gc_alloc_region_counts[purpose];
@@ -1681,13 +1703,91 @@ HeapWord* G1CollectedHeap::expand_and_allocate(size_t word_size) {
   return NULL;
 }
 
-bool G1CollectedHeap::expand(size_t expand_bytes) {
+bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
+  if(R_SEG){
+	  printf("In expand_cold. isCold == %d\n", isCold); fflush(stdout);
+  }
+  VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
+  MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
+  MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
+
+  size_t old_mem_size = storage->committed_size();
+  size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
+  aligned_expand_bytes = align_size_up(aligned_expand_bytes,
+                                       HeapRegion::GrainBytes);
+
+  if (Verbose && PrintGC || R_SEG) {
+    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
+                           old_mem_size/K, aligned_expand_bytes/K);
+  }
+
+  HeapWord* old_end = (HeapWord*)storage->high();
+  bool successful = storage->expand_by(aligned_expand_bytes);
+  if (successful) {
+    HeapWord* new_end = (HeapWord*)storage->high();
+
+    // Expand the committed region.
+    memRegion->set_end(new_end);
+
+    // Tell the cardtable about the expansion.
+    Universe::heap()->barrier_set()->resize_covered_region(*memRegion); // Not sure about it.
+
+    // And the offset table as well.
+    _bot_shared->resize(memRegion->word_size());
+
+    expand_bytes = aligned_expand_bytes;
+    HeapWord* base = old_end;
+
+    // Create the heap regions for [old_end, new_end)
+    while (expand_bytes > 0) {
+      HeapWord* high = base + HeapRegion::GrainWords;
+
+      // Create a new HeapRegion.
+      MemRegion mr(base, high);
+      bool is_zeroed =  !maxCMemRegion->contains(base);
+      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+
+      // Add it to the HeapRegionSeq.
+      _hrs->insert(hr);
+      _free_list.add_as_tail(hr);
+
+      // And we used up an expansion region to create it.
+      _expansion_regions--;
+
+      expand_bytes -= HeapRegion::GrainBytes;
+      base += HeapRegion::GrainWords;
+    }
+    assert(base == new_end, "sanity");
+
+    // Now update max_committed if necessary. If the region requested is a cold region, then the max committed of the cold region is selected.
+    maxCMemRegion->set_end(MAX2(maxCMemRegion->end(), new_end));
+
+  } else {
+    // The expansion of the virtual storage space was unsuccessful.
+    // Let's see if it was because we ran out of swap.
+    if (G1ExitOnExpansionFailure &&
+        storage->uncommitted_size() >= aligned_expand_bytes) {
+      // We had head room...
+      vm_exit_out_of_memory(aligned_expand_bytes, "G1 heap expansion");
+    }
+  }
+
+  if (Verbose && PrintGC) {
+    size_t new_mem_size = storage->committed_size();
+    gclog_or_tty->print_cr("...%s, expanded to %ldK",
+                           (successful ? "Successful" : "Failed"),
+                           new_mem_size/K);
+  }
+  return successful;
+}
+
+bool G1CollectedHeap::expand(size_t expand_bytes, bool isCold = false) {
   size_t old_mem_size = _g1_storage.committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
   aligned_expand_bytes = align_size_up(aligned_expand_bytes,
                                        HeapRegion::GrainBytes);
 
-  if (Verbose && PrintGC) {
+  if (Verbose && PrintGC || R_SEG) {
     gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
                            old_mem_size/K, aligned_expand_bytes/K);
   }
@@ -1752,6 +1852,46 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
   return successful;
 }
 
+void G1CollectedHeap::shrink_helper_hybrid(size_t shrink_bytes, bool isCold = false)
+{
+  if(R_SEG){
+	  printf("In shrink_helper_hybrid. isCold == %d\n", isCold); fflush(stdout);
+  }
+  VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
+  MemRegion* committed = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
+
+  size_t old_mem_size = storage->committed_size();
+  size_t aligned_shrink_bytes =
+    ReservedSpace::page_align_size_down(shrink_bytes);
+  aligned_shrink_bytes = align_size_down(aligned_shrink_bytes,
+                                         HeapRegion::GrainBytes);
+  size_t num_regions_deleted = 0;
+  MemRegion mr = _hrs->shrink_by(aligned_shrink_bytes, num_regions_deleted);
+
+  assert(mr.end() == (HeapWord*)_g1_storage.high(), "Bad shrink!");
+  if (mr.byte_size() > 0)
+	  storage->shrink_by(mr.byte_size());
+  assert(mr.start() == (HeapWord*)_g1_storage.high(), "Bad shrink!");
+
+  committed->set_end(mr.start());
+  _expansion_regions += num_regions_deleted;
+
+  // Tell the cardtable about it.
+  Universe::heap()->barrier_set()->resize_covered_region(*committed);
+
+  // And the offset table as well.
+  _bot_shared->resize(committed->word_size());
+
+  HeapRegionRemSet::shrink_heap(n_regions());
+
+  if (Verbose && PrintGC) {
+    size_t new_mem_size = storage->committed_size();
+    gclog_or_tty->print_cr("Shrinking garbage-first heap from %ldK by %ldK to %ldK",
+                           old_mem_size/K, aligned_shrink_bytes/K,
+                           new_mem_size/K);
+  }
+}
+
 void G1CollectedHeap::shrink_helper(size_t shrink_bytes)
 {
   size_t old_mem_size = _g1_storage.committed_size();
@@ -1806,6 +1946,9 @@ void G1CollectedHeap::shrink(size_t shrink_bytes) {
 #pragma warning( disable:4355 ) // 'this' : used in base member initializer list
 #endif // _MSC_VER
 
+void print_flags(){
+	printf("flags (G1StressConcRegionFreeing = %d)\n", G1StressConcRegionFreeing); fflush(stdout);
+}
 
 G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   SharedHeap(policy_),
@@ -1836,6 +1979,9 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _g1h = this; // To catch bugs.
   if (_process_strong_tasks == NULL || !_process_strong_tasks->valid()) {
     vm_exit_during_initialization("Failed necessary allocation.");
+  }
+  if(Print_Flags){
+	  print_flags();
   }
   /*if(DO_SWAP){
    init();
@@ -1949,11 +2095,23 @@ jint G1CollectedHeap::initialize() {
   Universe::setHeapStart((uint64_t) heap_rs.base());
   Universe::setHeapSize((uint64_t) heap_rs.size());
 
-  if(P_INIT){
-	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
+  if(P_INIT || R_SEG){
+	  printf("G1CollectedHeap Initialize, start = %p, end = %p, "
+			  "ColdRegion start = %p, end = %p\n", _reserved.start(), _reserved.end(), start, end);
+	  fflush(stdout);
+
   }
 
-  _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
+  size_t hot_region_size = max_byte_size;
+  size_t cold_region_size = max_byte_size;
+  size_t total_reserved_size = hot_region_size + cold_region_size;
+
+  _expansion_regions = total_reserved_size/HeapRegion::GrainBytes; // new definition of the expansion regions
+  if(R_SEG){
+	  printf("The total number of expansion regions = %uz, total reserved size = %uz, grain_bytes = %d"
+			  "\n", _expansion_regions, total_reserved_size, HeapRegion::GrainBytes); fflush(stdout);
+  }
+  //_expansion_regions = max_byte_size/HeapRegion::GrainBytes; // old definition of the expansion regions
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 2);
@@ -1978,13 +2136,43 @@ jint G1CollectedHeap::initialize() {
   ReservedSpace g1_rs   = heap_rs.first_part(max_byte_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
                            g1_rs.size()/HeapWordSize);
-  ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
 
+  ReservedSpace perm_gen_rs = heap_rs.last_part(total_reserved_size);
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());
 
+  ReservedSpace g1_rs_cold = heap_rs.last_part_before_perm_gen(hot_region_size, perm_gen_rs.size());
+
+  // Setting the start and end for the cold region. Currently the cold region is taken to be half the
+  // size of the initial size of the heap.
+  uint64_t start = (uint64_t)g1_rs_cold.base();
+  uint64_t end = start + (uint64_t)g1_rs_cold.size();
+  Universe::setColdRegionStart((void *)(start));
+  Universe::setColdRegionEnd((void *)(end));
+
+  if(R_SEG){ // printing the heap regions present in memory
+	  printf("Initializing g1CollectedHeap," + "Max_Size of the heap = %uz, "
+			  "Total Reserved Size = %uz, G1CollectedHeap Initialize, start = %p, end = %p, "
+			  "Permanent Generation, base = %p, end = %p, "
+			  "Cold Region, base = %p, end = %p, Hot Region, base = %p, end = %p\n",
+			  max_byte_size, total_reserved_size, _reserved.start(), _reserved.end(), perm_gen_rs.base(),
+			  (perm_gen_rs.base() + perm_gen_rs.size()), start, end, g1_rs.base(), (g1_rs.base()+g1_rs.size()));
+	  fflush(stdout);
+  }
+
+  // Initializing the hot storage
   _g1_storage.initialize(g1_rs, 0);
   _g1_committed = MemRegion((HeapWord*)_g1_storage.low(), (size_t) 0);
+  // Initializing the cold storage
+  if(R_SEG){
+	  printf("Initializing the cold storage.\n"); fflush(stdout);
+  }
+  _g1_storage_cold.initialize(g1_rs_cold, 0);
+  _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
+
+  // Setting the maximum committed for the two regions according to the respective storage usage now.
   _g1_max_committed = _g1_committed;
+  _g1_max_committed_cold = _g1_committed_cold;
+
   _hrs = new HeapRegionSeq(_expansion_regions);
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 
@@ -2027,8 +2215,8 @@ jint G1CollectedHeap::initialize() {
   // Initialize the from_card cache structure of HeapRegionRemSet.
   HeapRegionRemSet::init_heap(max_regions());
 
-  // Now expand into the initial heap size.
-  if (!expand(init_byte_size)) {
+  // Now expand into the initial heap size. Expanding both the regions.
+  if (!expand(init_byte_size) || !expand_hybrid(init_byte_size, true)) {
     vm_exit_during_initialization("Failed to allocate initial heap.");
     return JNI_ENOMEM;
   }
@@ -2100,7 +2288,7 @@ jint G1CollectedHeap::initialize() {
 
   // Do create of the monitoring and management support so that
   // values in the heap have been properly initialized.
-  _g1mm = new G1MonitoringSupport(this, &_g1_storage);
+  _g1mm = new G1MonitoringSupport(this, &_g1_storage); // This needs to be fixed later on.
 
   return JNI_OK;
 }
@@ -4506,6 +4694,15 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   }
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
+  if(R_SEG && obj && alloc_purpose == GCAllocForTenuredCold){
+	  HeapRegion* from_region = _g1->heap_region_containing_raw(old);
+	  if(from_region){
+	  bool isCold = from_region->isCold();
+		  if(!isCold){
+			  printf("cold object not allocated to a cold region\n"); fflush(stdout);
+		  }
+	  }
+  }
 
   if (obj_ptr == NULL) {
     // This will either forward-to-self, or detect that someone else has
