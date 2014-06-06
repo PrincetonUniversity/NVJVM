@@ -477,6 +477,10 @@ class CommandLineFlags {
           "AdaptiveNUMAChunkSizing")                                        \
   product(bool, FL_SWAP, false,											    \
          "flag for faultless swap module")                                  \
+  product(bool, Print_Flags, false,										    \
+  	     "flag for printing flags")											\
+  product(bool, R_SEG, false,												\
+		"debugging region segregation")										\
   product(bool, AR_INTERCEPT, false,									    \
          "flag for interception in arrays")                                 \
   product(bool, INTER_INTERPRETER, false,									\
