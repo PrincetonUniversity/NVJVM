@@ -2106,8 +2106,8 @@ jint G1CollectedHeap::initialize() {
 
   _expansion_regions = total_reserved_size/HeapRegion::GrainBytes; // new definition of the expansion regions
   if(R_SEG){
-	  printf("The total number of expansion regions = %uz, total reserved size = %uz, grain_bytes = %d"
-			  "\n", _expansion_regions, total_reserved_size, HeapRegion::GrainBytes); fflush(stdout);
+	  printf("The total number of expansion regions = %u\n total reserved size = %u\n initial_size = %u\n grain_bytes = %d\n",
+			  _expansion_regions, total_reserved_size, init_byte_size, HeapRegion::GrainBytes); fflush(stdout);
   }
   //_expansion_regions = max_byte_size/HeapRegion::GrainBytes; // old definition of the expansion regions
 
@@ -2150,10 +2150,11 @@ jint G1CollectedHeap::initialize() {
   if(R_SEG){ // printing the heap regions present in memory
 	  char* prg_end = perm_gen_rs.base() + perm_gen_rs.size();
 	  char* hot_end = g1_rs.base() + g1_rs.size();
-	  printf("Initializing g1CollectedHeap, Max_Size of the heap = %u, "
-			  "Total Reserved Size = %u, G1CollectedHeap Initialize, start = %p, end = %p, "
-			  "Permanent Generation, base = %p, end = %p, "
-			  "Cold Region, base = %p, end = %p, Hot Region, base = %p, end = %p\n",
+	  printf("Initializing g1CollectedHeap, Max_Size of the heap = %u\n"
+			  "Total Reserved Size = %u\n G1CollectedHeap Initialize, start = %p, end = %p\n"
+			  "Permanent Generation, base = %p, end = %p\n"
+			  "Cold Region, base = %p, end = %p\n "
+			  "Hot Region, base = %p, end = %p\n",
 			  max_byte_size, total_reserved_size, _reserved.start(), _reserved.end(), perm_gen_rs.base(),
 			  prg_end, start, end, g1_rs.base(), hot_end);
 	  fflush(stdout);
