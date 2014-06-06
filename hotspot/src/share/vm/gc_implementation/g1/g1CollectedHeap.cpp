@@ -592,7 +592,7 @@ G1CollectedHeap::new_region_try_secondary_free_list(bool isCold = false) {
   return NULL;
 }
 
-HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool getCold = false) {
+HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool isCold = false) {
   assert(!isHumongous(word_size) ||
                                   word_size <= (size_t) HeapRegion::GrainWords,
          "the only time we use this to allocate a humongous region is "
