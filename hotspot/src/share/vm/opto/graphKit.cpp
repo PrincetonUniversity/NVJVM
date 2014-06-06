@@ -3565,14 +3565,12 @@ void GraphKit::checkObj(Node *obj){
 			} __ end_if(); // End of cold region end test
 		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
-		if(false){
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 		  // incrementing the counter variable by 1, do not understand
 		  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
 		  // Storing the result obtained after the increment operation to memory
 		  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
-		}
 	} __ end_if(); // End of null test
 	final_sync(ideal);
 }
