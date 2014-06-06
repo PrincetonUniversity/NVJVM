@@ -614,7 +614,7 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool i
   // Getting the cold region if specifically cold region is requested
 	  res = _free_list.getRegion(isCold); // call for getting a cold region
 //	  res = _free_list.remove_head_or_null();
-  }
+
   if (res == NULL) {
     if (G1ConcRegionFreeingVerbose) {
       gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
