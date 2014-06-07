@@ -113,7 +113,7 @@ class Space: public CHeapObj {
   HeapWord* _saved_mark_word;
 
   MemRegionClosure* _preconsumptionDirtyCardClosure;
-  bool _isCold;
+
   // A sequential tasks done structure. This supports
   // parallel GC, where we have threads dynamically
   // claiming sub-tasks from a larger parallel task.
@@ -126,8 +126,10 @@ class Space: public CHeapObj {
   // Accessors
   HeapWord* bottom() const         { return _bottom; }
   HeapWord* end() const            { return _end;    }
-  bool get_cold() const				   { return _isCold; }
-  virtual void set_cold(bool isCold)	   { _isCold = isCold;}
+  bool get_cold() const				   {
+	  bool isCold = ((uint64_t)_bottom >= Universe::getColdRegionStart() && (uint64_t)_end <= Universe::getColdRegionEnd());
+	  return isCold;
+  }
 
   virtual void set_bottom(HeapWord* value) { _bottom = value; }
   virtual void set_end(HeapWord* value)    { _end = value; }
