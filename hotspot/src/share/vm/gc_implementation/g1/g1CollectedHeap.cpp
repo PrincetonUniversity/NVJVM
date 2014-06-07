@@ -1959,7 +1959,7 @@ jint G1CollectedHeap::initialize() {
   if(total_reserved_size != max_byte_size){
 	  printf("total_reserved_size != max_byte_size");
 	  fflush(stdout);
-	  exit("-1");
+	  exit(-1);
   }
 
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
