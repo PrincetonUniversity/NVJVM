@@ -274,7 +274,7 @@ void Space::initialize(MemRegion mr,
   set_end(end);
   /* Setting the Cold Parameter for a space to be true or false depending on the location of the region.
       * This sets the heap region derived from this space as cold. */
-     if ((bottom >= Universe::getColdRegionStart()) && (end <= Universe::getColdRegionEnd()))
+     if (((uint64_t)bottom >= Universe::getColdRegionStart()) && ((uint64_t)end <= Universe::getColdRegionEnd()))
    	  set_isCold(true);
      else
    	  set_isCold(false);
