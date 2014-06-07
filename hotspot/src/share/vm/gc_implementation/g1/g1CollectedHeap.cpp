@@ -1717,7 +1717,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
                                        HeapRegion::GrainBytes);
 
   if (Verbose && PrintGC || R_SEG) {
-    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
+    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK \n",
                            old_mem_size/K, aligned_expand_bytes/K);
   }
 
@@ -1745,8 +1745,13 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       // Create a new HeapRegion.
       MemRegion mr(base, high);
       bool is_zeroed =  !maxCMemRegion->contains(base);
+      if(R_SEG){
+    	  printf("In expand_hybrid. Creating a HeapRegion.\n"); fflush(stdout);
+      }
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
-
+      if(R_SEG){
+    	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
+      }
       // Add it to the HeapRegionSeq.
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
@@ -1788,7 +1793,7 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
                                        HeapRegion::GrainBytes);
 
   if (Verbose && PrintGC || R_SEG) {
-    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
+    gclog_or_tty->print("In expand(). Expanding garbage-first heap from %ldK by %ldK\n",
                            old_mem_size/K, aligned_expand_bytes/K);
   }
 
@@ -1816,7 +1821,16 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
       // Create a new HeapRegion.
       MemRegion mr(base, high);
       bool is_zeroed = !_g1_max_committed.contains(base);
+//      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+
+      if(R_SEG){
+    	  printf("In expand(). Creating a HeapRegion.\n"); fflush(stdout);
+      }
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+      if(R_SEG){
+    	  printf("In expand(). HeapRegion = %p created.\n", hr); fflush(stdout);
+      }
+
 
       // Add it to the HeapRegionSeq.
       _hrs->insert(hr);
@@ -2151,9 +2165,10 @@ jint G1CollectedHeap::initialize() {
 	  char* prg_end = perm_gen_rs.base() + perm_gen_rs.size();
 	  char* hot_end = g1_rs.base() + g1_rs.size();
 	  printf("Initializing g1CollectedHeap, Max_Size of the heap = %u\n"
-			  "Total Reserved Size = %u\n G1CollectedHeap Initialize, start = %p, end = %p\n"
+			  "Total Reserved Size = %u\n"
+			  "G1CollectedHeap Initialize, start = %p, end = %p\n"
 			  "Permanent Generation, base = %p, end = %p\n"
-			  "Cold Region, base = %p, end = %p\n "
+			  "Cold Region, base = %p, end = %p\n"
 			  "Hot Region, base = %p, end = %p\n",
 			  max_byte_size, total_reserved_size, _reserved.start(), _reserved.end(), perm_gen_rs.base(),
 			  prg_end, start, end, g1_rs.base(), hot_end);
