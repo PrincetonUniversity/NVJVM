@@ -2169,7 +2169,7 @@ jint G1CollectedHeap::initialize() {
   HeapRegionRemSet::init_heap(max_regions());
 
   // Now expand into the initial heap size.
-  if (!expand(init_byte_size)){// || !expand_hybrid(init_byte_size, true) ) {
+  if (!expand_hybrid(init_byte_size, false)){//|| !expand_hybrid(init_byte_size, true) ) {
     vm_exit_during_initialization("Failed to allocate initial heap.");
     return JNI_ENOMEM;
   }
