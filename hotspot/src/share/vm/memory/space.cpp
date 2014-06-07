@@ -272,6 +272,16 @@ void Space::initialize(MemRegion mr,
          "invalid space boundaries");
   set_bottom(bottom);
   set_end(end);
+  /* Setting the Cold Parameter for a space to be true or false depending on the location of the region.
+      * This sets the heap region derived from this space as cold. */
+     if ((bottom >= Universe::getColdRegionStart()) && (end <= Universe::getColdRegionEnd()))
+   	  set_isCold(true);
+     else
+   	  set_isCold(false);
+     /*if(R_SEG){
+   	  printf("Initializing a new region. bottom = %p, end = %p. Is_Cold = %d\n", bottom, end, isCold());
+   	  fflush(stdout);
+     }*/
   if (clear_space) clear(mangle_space);
 }
 

@@ -2130,6 +2130,11 @@ jint G1CollectedHeap::initialize() {
   _hrs = new HeapRegionSeq(_expansion_regions);
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 
+   uint64_t start = (uint64_t)g1_rs_cold.base();
+   uint64_t end = start + (uint64_t)g1_rs_cold.size();
+   Universe::setColdRegionStart((start));
+   Universe::setColdRegionEnd((end));
+
   // 6843694 - ensure that the maximum region index can fit
   // in the remembered set structures.
   const size_t max_region_idx = ((size_t)1 << (sizeof(RegionIdx_t)*BitsPerByte-1)) - 1;
