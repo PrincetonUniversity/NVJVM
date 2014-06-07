@@ -108,6 +108,7 @@ class Space: public CHeapObj {
  protected:
   HeapWord* _bottom;
   HeapWord* _end;
+  bool _isCold;
 
   // Used in support of save_marks()
   HeapWord* _saved_mark_word;
@@ -126,6 +127,9 @@ class Space: public CHeapObj {
   // Accessors
   HeapWord* bottom() const         { return _bottom; }
   HeapWord* end() const            { return _end;    }
+  bool get_cold()				   { return _isCold; }
+  void set_cold(bool isCold)	   { _isCold = isCold;}
+
   virtual void set_bottom(HeapWord* value) { _bottom = value; }
   virtual void set_end(HeapWord* value)    { _end = value; }
 
