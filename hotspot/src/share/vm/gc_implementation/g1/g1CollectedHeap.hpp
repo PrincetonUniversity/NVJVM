@@ -572,6 +572,7 @@ public:
   // false otherwise.
   // (Rounds up to a HeapRegion boundary.)
   bool expand(size_t expand_bytes);
+  bool expand_hybrid(size_t expand_bytes, bool isCold);
 
   // Do anything common to GC's.
   virtual void gc_prologue(bool full);
@@ -640,6 +641,7 @@ protected:
   // (Rounds down to a HeapRegion boundary.)
   virtual void shrink(size_t expand_bytes);
   void shrink_helper(size_t expand_bytes);
+  void shrink_helper_hybrid(size_t expand_bytes, bool isCold);
 
   #if TASKQUEUE_STATS
   static void print_taskqueue_stats_hdr(outputStream* const st = gclog_or_tty);

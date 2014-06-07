@@ -1681,6 +1681,86 @@ HeapWord* G1CollectedHeap::expand_and_allocate(size_t word_size) {
   return NULL;
 }
 
+bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
+  if(R_SEG){
+	  printf("In expand_cold. isCold == %d\n", isCold); fflush(stdout);
+  }
+  VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
+  MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
+  MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
+
+  size_t old_mem_size = storage->committed_size();
+  size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
+  aligned_expand_bytes = align_size_up(aligned_expand_bytes,
+                                       HeapRegion::GrainBytes);
+
+  if (Verbose && PrintGC || R_SEG) {
+    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK \n",
+                           old_mem_size/K, aligned_expand_bytes/K);
+  }
+
+  HeapWord* old_end = (HeapWord*)storage->high();
+  bool successful = storage->expand_by(aligned_expand_bytes);
+  if (successful) {
+    HeapWord* new_end = (HeapWord*)storage->high();
+
+    // Expand the committed region.
+    memRegion->set_end(new_end);
+
+    // Tell the cardtable about the expansion.
+    Universe::heap()->barrier_set()->resize_covered_region(*memRegion); // Not sure about it.
+
+    // And the offset table as well.
+    _bot_shared->resize(memRegion->word_size());
+
+    expand_bytes = aligned_expand_bytes;
+    HeapWord* base = old_end;
+
+    // Create the heap regions for [old_end, new_end)
+    while (expand_bytes > 0) {
+      HeapWord* high = base + HeapRegion::GrainWords;
+
+      // Create a new HeapRegion.
+      MemRegion mr(base, high);
+      bool is_zeroed =  !maxCMemRegion->contains(base);
+      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+      if(R_SEG){
+    	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
+      }
+      // Add it to the HeapRegionSeq.
+      _hrs->insert(hr);
+      _free_list.add_as_tail(hr);
+
+      // And we used up an expansion region to create it.
+      _expansion_regions--;
+
+      expand_bytes -= HeapRegion::GrainBytes;
+      base += HeapRegion::GrainWords;
+    }
+    assert(base == new_end, "sanity");
+
+    // Now update max_committed if necessary. If the region requested is a cold region, then the max committed of the cold region is selected.
+    maxCMemRegion->set_end(MAX2(maxCMemRegion->end(), new_end));
+
+  } else {
+    // The expansion of the virtual storage space was unsuccessful.
+    // Let's see if it was because we ran out of swap.
+    if (G1ExitOnExpansionFailure &&
+        storage->uncommitted_size() >= aligned_expand_bytes) {
+      // We had head room...
+      vm_exit_out_of_memory(aligned_expand_bytes, "G1 heap expansion");
+    }
+  }
+
+  if (Verbose && PrintGC) {
+    size_t new_mem_size = storage->committed_size();
+    gclog_or_tty->print_cr("...%s, expanded to %ldK",
+                           (successful ? "Successful" : "Failed"),
+                           new_mem_size/K);
+  }
+  return successful;
+}
+
 bool G1CollectedHeap::expand(size_t expand_bytes) {
   size_t old_mem_size = _g1_storage.committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
@@ -1780,6 +1860,46 @@ void G1CollectedHeap::shrink_helper(size_t shrink_bytes)
 
   if (Verbose && PrintGC) {
     size_t new_mem_size = _g1_storage.committed_size();
+    gclog_or_tty->print_cr("Shrinking garbage-first heap from %ldK by %ldK to %ldK",
+                           old_mem_size/K, aligned_shrink_bytes/K,
+                           new_mem_size/K);
+  }
+}
+
+void G1CollectedHeap::shrink_helper_hybrid(size_t shrink_bytes, bool isCold = false)
+{
+  if(R_SEG){
+	  printf("In shrink_helper_hybrid. isCold == %d\n", isCold); fflush(stdout);
+  }
+  VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
+  MemRegion* committed = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
+
+  size_t old_mem_size = storage->committed_size();
+  size_t aligned_shrink_bytes =
+    ReservedSpace::page_align_size_down(shrink_bytes);
+  aligned_shrink_bytes = align_size_down(aligned_shrink_bytes,
+                                         HeapRegion::GrainBytes);
+  size_t num_regions_deleted = 0;
+  MemRegion mr = _hrs->shrink_by(aligned_shrink_bytes, num_regions_deleted);
+
+  assert(mr.end() == (HeapWord*)_g1_storage.high(), "Bad shrink!");
+  if (mr.byte_size() > 0)
+	  storage->shrink_by(mr.byte_size());
+  assert(mr.start() == (HeapWord*)_g1_storage.high(), "Bad shrink!");
+
+  committed->set_end(mr.start());
+  _expansion_regions += num_regions_deleted;
+
+  // Tell the cardtable about it.
+  Universe::heap()->barrier_set()->resize_covered_region(*committed);
+
+  // And the offset table as well.
+  _bot_shared->resize(committed->word_size());
+
+  HeapRegionRemSet::shrink_heap(n_regions());
+
+  if (Verbose && PrintGC) {
+    size_t new_mem_size = storage->committed_size();
     gclog_or_tty->print_cr("Shrinking garbage-first heap from %ldK by %ldK to %ldK",
                            old_mem_size/K, aligned_shrink_bytes/K,
                            new_mem_size/K);
@@ -1962,6 +2082,7 @@ jint G1CollectedHeap::initialize() {
 	  exit(-1);
   }
 
+  // changed added total_reserved_size to expansion regions as well
   _expansion_regions = total_reserved_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
@@ -2007,8 +2128,6 @@ jint G1CollectedHeap::initialize() {
 
   _hrs = new HeapRegionSeq(_expansion_regions);
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
-
-
 
   // 6843694 - ensure that the maximum region index can fit
   // in the remembered set structures.
