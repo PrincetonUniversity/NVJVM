@@ -359,7 +359,9 @@ void Generation::prepare_for_compaction(CompactPoint* cp) {
     space->prepare_for_compaction(cp);
     	printf("calling next_compaction_space \n"); fflush(stdout);
     space = space->next_compaction_space();
-    printf("In prepare_for_compaction, space = %p, bottom = %p, end = %p\n", space, space->bottom(), space->end()); fflush(stdout);
+    if(space != NULL){
+    	printf("In prepare_for_compaction, space = %p, bottom = %p, end = %p\n", space, space->bottom(), space->end()); fflush(stdout);
+    }
   }
 }
 

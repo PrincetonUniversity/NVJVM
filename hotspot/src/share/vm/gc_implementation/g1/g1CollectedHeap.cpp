@@ -1745,9 +1745,6 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       // Create a new HeapRegion.
       MemRegion mr(base, high);
       bool is_zeroed =  !maxCMemRegion->contains(base);
-      if(R_SEG){
-    	  printf("In expand_hybrid. Creating a HeapRegion.\n"); fflush(stdout);
-      }
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
       if(R_SEG){
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
@@ -1822,10 +1819,6 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
       MemRegion mr(base, high);
       bool is_zeroed = !_g1_max_committed.contains(base);
 //      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
-
-      if(R_SEG){
-    	  printf("In expand(). Creating a HeapRegion.\n"); fflush(stdout);
-      }
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
       if(R_SEG){
     	  printf("In expand(). HeapRegion = %p created.\n", hr); fflush(stdout);

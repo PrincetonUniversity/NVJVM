@@ -347,7 +347,7 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
   _size = size;
   if (P_INIT){
 	  printf("ReservedSpace::initialize method, base = %p\n", base);
-	  printf("ReservedSpace::initialize method, size = %zu\n", size);
+	  printf("ReservedSpace::initialize method, size = %u\n", size);
 	  fflush(stdout);
   }
   _alignment = MAX2(alignment, (size_t) os::vm_page_size());

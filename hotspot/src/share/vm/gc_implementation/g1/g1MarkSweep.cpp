@@ -256,7 +256,7 @@ public:
 };
 
 void G1MarkSweep::mark_sweep_phase2() {
-	if (L_DEBUG) {
+	if (L_DEBUG || R_SEG) {
 		printf("in mark sweep phase 2\n"); fflush(stdout);
 	}
   // Now all live objects are marked, compute the new object addresses.
@@ -283,6 +283,9 @@ void G1MarkSweep::mark_sweep_phase2() {
   g1h->heap_region_iterate(&cl);
   HeapRegion *r = cl.result();
   CompactibleSpace* sp = r;
+  if(R_SEG){
+	  printf("Is Heap Region Humongous %d.\n", r->isHumongous()); fflush(stdout);
+  }
   if (r->isHumongous() && oop(r->bottom())->is_gc_marked()) {
     sp = r->next_compaction_space();
   }
