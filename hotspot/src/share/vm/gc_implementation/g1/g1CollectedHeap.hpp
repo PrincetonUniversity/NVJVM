@@ -207,6 +207,7 @@ private:
 
   // The number of regions we could create by expansion.
   size_t _expansion_regions;
+  size_t _expansion_regions_cold;
 
   // The block offset table for the G1 heap.
   G1BlockOffsetSharedArray* _bot_shared;
