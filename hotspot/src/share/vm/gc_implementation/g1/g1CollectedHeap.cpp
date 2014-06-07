@@ -2109,7 +2109,7 @@ jint G1CollectedHeap::initialize() {
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
                            g1_rs.size()/HeapWordSize);
 
-  ReservedSpace g1_rs_cold   = heap_rs.first_part(cold_region_size); // changed the size of the first part of the heap space
+  ReservedSpace g1_rs_cold   = heap_rs.second_part(hot_region_size, cold_region_size); // changed the size of the first part of the heap space
   _g1_reserved_cold = MemRegion((HeapWord*)g1_rs_cold.base(),
                              g1_rs_cold.size()/HeapWordSize);
 

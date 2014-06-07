@@ -98,11 +98,17 @@ class ReservedSpace VALUE_OBJ_CLASS_SPEC {
   // Splitting
   ReservedSpace first_part(size_t partition_size, size_t alignment,
                            bool split = false, bool realloc = true);
+  ReservedSpace second_part(size_t pre_partition_size, size_t partition_size, size_t alignment,
+                           bool split = false, bool realloc = true);
   ReservedSpace last_part (size_t partition_size, size_t alignment);
 
   // These simply call the above using the default alignment.
   inline ReservedSpace first_part(size_t partition_size,
                                   bool split = false, bool realloc = true);
+
+  inline ReservedSpace second_part(size_t pre_partition_size, size_t suf_partition_size,
+                                    bool split = false, bool realloc = true);
+
   inline ReservedSpace last_part (size_t partition_size);
 
   // Alignment
@@ -117,6 +123,13 @@ ReservedSpace::first_part(size_t partition_size, bool split, bool realloc)
 {
   return first_part(partition_size, alignment(), split, realloc);
 }
+
+ReservedSpace
+ReservedSpace::second_part(size_t prefix_partition_size, size_t partition_size, bool split, bool realloc)
+{
+  return second_part(prefix_partition_size, suffix_partition_size, alignment(), split, realloc);
+}
+
 
 ReservedSpace ReservedSpace::last_part(size_t partition_size)
 {

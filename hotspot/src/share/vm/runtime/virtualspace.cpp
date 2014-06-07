@@ -388,6 +388,14 @@ ReservedSpace ReservedSpace::first_part(size_t partition_size, size_t alignment,
   return result;
 }
 
+ReservedSpace ReservedSpace::second_part(size_t first_partition_size, size_t partition_size, size_t alignment,
+                                        bool split, bool realloc) {
+  assert(partition_size <= size(), "partition failed");
+  ReservedSpace result(base() + first_partition_size, partition_size,
+                       alignment, special(), executable());
+return result;
+}
+
 
 ReservedSpace
 ReservedSpace::last_part(size_t partition_size, size_t alignment) {
