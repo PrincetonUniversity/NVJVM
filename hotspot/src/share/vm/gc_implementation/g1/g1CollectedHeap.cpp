@@ -1689,6 +1689,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
   MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
   MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
 
+
   size_t old_mem_size = storage->committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
   aligned_expand_bytes = align_size_up(aligned_expand_bytes,
@@ -1728,11 +1729,19 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
       }*/
       // Add it to the HeapRegionSeq.
+     if(false){
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
 
       // And we used up an expansion region to create it.
       _expansion_regions--;
+     } else {
+         _hrs_cold->insert(hr);
+         _free_list_cold.add_as_tail(hr);
+
+         // And we used up an expansion region to create it.
+         _expansion_regions_cold--;
+     }
 
       expand_bytes -= HeapRegion::GrainBytes;
       base += HeapRegion::GrainWords;
@@ -2085,6 +2094,7 @@ jint G1CollectedHeap::initialize() {
 
   // changed added total_reserved_size to expansion regions as well
   _expansion_regions = hot_region_size/HeapRegion::GrainBytes;
+  _expansion_regions_cold = cold_region_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 2);
@@ -2128,6 +2138,7 @@ jint G1CollectedHeap::initialize() {
   _g1_max_committed_cold = _g1_committed_cold;
 
   _hrs = new HeapRegionSeq(_expansion_regions);
+  _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
 
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 
