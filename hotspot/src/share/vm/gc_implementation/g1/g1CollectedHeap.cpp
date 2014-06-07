@@ -1956,13 +1956,13 @@ jint G1CollectedHeap::initialize() {
   size_t hot_region_size = max_byte_size/2;
   size_t cold_region_size = max_byte_size/2;
   size_t total_reserved_size = hot_region_size + cold_region_size;
-  if(total_reserved_size != max_byte_size){
+  if(total_reserved_size != max_byte_size){ // TODO remove
 	  printf("total_reserved_size != max_byte_size");
 	  fflush(stdout);
 	  exit(-1);
   }
 
-  _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
+  _expansion_regions = total_reserved_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 2);
@@ -1999,8 +1999,16 @@ jint G1CollectedHeap::initialize() {
   _g1_storage.initialize(g1_rs, 0);
   _g1_committed = MemRegion((HeapWord*)_g1_storage.low(), (size_t) 0);
   _g1_max_committed = _g1_committed;
+
+  // changed initializing the cold region
+  _g1_storage_cold.initialize(g1_rs_cold, 0);
+  _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
+  _g1_max_committed_cold = _g1_committed_cold;
+
   _hrs = new HeapRegionSeq(_expansion_regions);
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
+
+
 
   // 6843694 - ensure that the maximum region index can fit
   // in the remembered set structures.
