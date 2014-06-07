@@ -108,13 +108,13 @@ class Space: public CHeapObj {
  protected:
   HeapWord* _bottom;
   HeapWord* _end;
-  bool _isCold;
+
 
   // Used in support of save_marks()
   HeapWord* _saved_mark_word;
 
   MemRegionClosure* _preconsumptionDirtyCardClosure;
-
+  bool _isCold;
   // A sequential tasks done structure. This supports
   // parallel GC, where we have threads dynamically
   // claiming sub-tasks from a larger parallel task.
