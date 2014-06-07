@@ -459,12 +459,13 @@ bool CompactibleSpace::insert_deadspace(size_t& allowed_deadspace_words,
 #define adjust_obj_size(s) s
 
 void CompactibleSpace::prepare_for_compaction(CompactPoint* cp) {
-  printf("In prepare for compaction\n"); fflush(stdout);
+  printf("CompactibleSpace, In prepare for compaction\n"); fflush(stdout);
   SCAN_AND_FORWARD(cp, end, block_is_obj, block_size);
 }
 
 // Faster object search.
 void ContiguousSpace::prepare_for_compaction(CompactPoint* cp) {
+	printf("ContiguousSpace, In prepare for compaction\n"); fflush(stdout);
   SCAN_AND_FORWARD(cp, top, block_is_always_obj, obj_size);
 }
 

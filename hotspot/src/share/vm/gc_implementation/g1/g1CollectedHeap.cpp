@@ -624,7 +624,7 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool i
   }
   if (res == NULL && do_expand) {
     size_t expand_bytes = word_size * HeapWordSize;
-	if (expand_hybrid(expand_bytes, expand_bytes)) {
+	if (expand_hybrid(expand_bytes, isCold)) {
       // The expansion succeeded and so we should have at least one
       // region on the free list.
 	  res = _free_list.getRegion(isCold);
@@ -2225,7 +2225,7 @@ jint G1CollectedHeap::initialize() {
   HeapRegionRemSet::init_heap(max_regions());
 
   // Now expand into the initial heap size. Expanding both the regions.
-  if (!expand(init_byte_size) || !expand_hybrid(init_byte_size, true)) {
+  if (!expand(init_byte_size)){// || !expand_hybrid(init_byte_size, true)) {
     vm_exit_during_initialization("Failed to allocate initial heap.");
     return JNI_ENOMEM;
   }
