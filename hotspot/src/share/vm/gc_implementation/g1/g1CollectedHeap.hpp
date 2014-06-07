@@ -195,6 +195,7 @@ private:
 
   // The master free list. It will satisfy all new region allocations.
   MasterFreeRegionList      _free_list;
+  MasterFreeRegionList 		_free_list_cold;
 
   // The secondary free list which contains regions that have been
   // freed up during the cleanup process. This will be appended to the
@@ -218,6 +219,7 @@ private:
 
   // The sequence of all heap regions in the heap.
   HeapRegionSeq* _hrs;
+  HeapRegionSeq* _hrs_cold;
 
   // Alloc region used to satisfy mutator allocation requests.
   MutatorAllocRegion _mutator_alloc_region;

@@ -1943,6 +1943,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _refine_cte_cl(NULL),
   _full_collection(false),
   _free_list("Master Free List"),
+  _free_list_cold("Master Cold Free List"),
   _secondary_free_list("Secondary Free List"),
   _humongous_set("Master Humongous Set"),
   _free_regions_coming(false),
