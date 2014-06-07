@@ -182,6 +182,10 @@ private:
   VirtualSpace _g1_storage;
   MemRegion    _g1_reserved;
 
+  VirtualSpace _g1_storage_cold;
+  MemRegion _g1_committed_cold;
+  MemRegion _g1_max_committed_cold;
+
   // The part of _g1_storage that is currently committed.
   MemRegion _g1_committed;
 
@@ -204,6 +208,7 @@ private:
 
   // The block offset table for the G1 heap.
   G1BlockOffsetSharedArray* _bot_shared;
+  G1BlockOffsetSharedArray* _bot_shared_cold;
 
   // Move all of the regions off the free lists, then rebuild those free
   // lists, before and after full GC.
