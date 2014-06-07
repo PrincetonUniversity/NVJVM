@@ -568,8 +568,8 @@ G1CollectedHeap::new_region_try_secondary_free_list(bool isCold = false) {
       assert(!_free_list.is_empty(), "if the secondary_free_list was not "
              "empty we should have moved at least one entry to the free_list");
       HeapRegion* res = NULL;
-    	  res = _free_list.getRegion(isCold);
-//    	  res = _free_list.remove_head();
+//    	  res = _free_list.getRegion(isCold);
+    	  res = _free_list.remove_head();
 
       if (G1ConcRegionFreeingVerbose) {
         gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
@@ -612,8 +612,8 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool i
     }
   }
   // Getting the cold region if specifically cold region is requested
-	  res = _free_list.getRegion(isCold); // call for getting a cold region
-//	  res = _free_list.remove_head_or_null();
+//	  res = _free_list.getRegion(isCold); // call for getting a cold region
+	  res = _free_list.remove_head_or_null();
 
   if (res == NULL) {
     if (G1ConcRegionFreeingVerbose) {
@@ -628,8 +628,8 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool i
     //if (expand_hybrid(expand_bytes, isCold)) {
       // The expansion succeeded and so we should have at least one
       // region on the free list.
-	  res = _free_list.getRegion(isCold);
-//    res = _free_list.remove_head();
+//	  res = _free_list.getRegion(isCold);
+    res = _free_list.remove_head();
     }
   }
   if (res != NULL) {
@@ -2112,12 +2112,12 @@ jint G1CollectedHeap::initialize() {
   size_t cold_region_size = max_byte_size/2;
   size_t total_reserved_size = hot_region_size + cold_region_size;
 
-  _expansion_regions = total_reserved_size/HeapRegion::GrainBytes; // new definition of the expansion regions
+  //_expansion_regions = total_reserved_size/HeapRegion::GrainBytes; // new definition of the expansion regions
+  _expansion_regions = max_byte_size/HeapRegion::GrainBytes; // old definition of the expansion regions
   if(R_SEG){
 	  printf("The total number of expansion regions = %u\n total reserved size = %u\n initial_size = %u\n grain_bytes = %d\n",
 			  _expansion_regions, total_reserved_size, init_byte_size, HeapRegion::GrainBytes); fflush(stdout);
   }
-  //_expansion_regions = max_byte_size/HeapRegion::GrainBytes; // old definition of the expansion regions
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 2);
