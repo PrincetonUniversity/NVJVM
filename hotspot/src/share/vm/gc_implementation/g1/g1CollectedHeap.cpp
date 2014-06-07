@@ -1724,9 +1724,9 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       MemRegion mr(base, high);
       bool is_zeroed =  !maxCMemRegion->contains(base);
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
-      if(R_SEG){
+      /*if(R_SEG){
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
-      }
+      }*/
       // Add it to the HeapRegionSeq.
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
@@ -1752,7 +1752,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     }
   }
 
-  if (Verbose && PrintGC) {
+  if (Verbose && PrintGC || R_SEG) {
     size_t new_mem_size = storage->committed_size();
     gclog_or_tty->print_cr("...%s, expanded to %ldK",
                            (successful ? "Successful" : "Failed"),
@@ -2243,6 +2243,10 @@ jint G1CollectedHeap::initialize() {
   // values in the heap have been properly initialized.
   _g1mm = new G1MonitoringSupport(this, &_g1_storage);
 
+  if(R_SEG){
+	printf("finishing off g1CollectedHeap initialization successfully.\n");
+	fflush(stdout);
+  }
   return JNI_OK;
 }
 
