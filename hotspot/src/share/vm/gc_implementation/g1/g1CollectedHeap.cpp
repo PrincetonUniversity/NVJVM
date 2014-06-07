@@ -1953,6 +1953,10 @@ jint G1CollectedHeap::initialize() {
 	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
   }
 
+  size_t hot_region_size = max_byte_size/2;
+  size_t cold_region_size = max_byte_size/2;
+  size_t total_reserved_size = hot_region_size + cold_region_size;
+
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
@@ -1975,7 +1979,7 @@ jint G1CollectedHeap::initialize() {
 
   // Carve out the G1 part of the heap.
 
-  ReservedSpace g1_rs   = heap_rs.first_part(max_byte_size);
+  ReservedSpace g1_rs   = heap_rs.first_part(hot_region_size); // changed the size of the first part of the heap space
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
                            g1_rs.size()/HeapWordSize);
   ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
