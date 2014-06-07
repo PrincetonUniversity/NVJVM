@@ -274,6 +274,8 @@ void G1MarkSweep::mark_sweep_phase2() {
 
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   Generation* pg = g1h->perm_gen();
+  bool isNull = (pg->first_compaction_space()->next_compaction_space() == NULL);
+  printf("Compaction Space Next to first compaction space is Null %d", isNull);
 
   EventMark m("2 compute new addresses");
   TraceTime tm("phase 2", PrintGC && Verbose, true, gclog_or_tty);

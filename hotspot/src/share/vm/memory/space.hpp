@@ -433,7 +433,9 @@ public:
   }
 
   void set_next_compaction_space(CompactibleSpace* csp) {
-	printf("setting next compaction region this = %p, to = %p", this, csp); fflush(stdout);
+	if(R_SEG){
+		printf("setting next compaction region this = %p, to = %p", this, csp); fflush(stdout);
+	}
     _next_compaction_space = csp;
   }
 
