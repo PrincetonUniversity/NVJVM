@@ -1688,6 +1688,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
   VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
   MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
   MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
+  G1BlockOffsetSharedArray bot_shared_local = (isCold == true) ? _bot_shared_cold : _bot_shared;
 
   size_t old_mem_size = storage->committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
@@ -1711,7 +1712,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     Universe::heap()->barrier_set()->resize_covered_region(*memRegion); // Not sure about it.
 
     // And the offset table as well.
-    _bot_shared->resize(memRegion->word_size());
+    bot_shared_local->resize(memRegion->word_size()); // Not sure about it. Changed to bot_shared for the respective regions.
 
     expand_bytes = aligned_expand_bytes;
     HeapWord* base = old_end;
@@ -1723,7 +1724,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       // Create a new HeapRegion.
       MemRegion mr(base, high);
       bool is_zeroed =  !maxCMemRegion->contains(base);
-      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+      HeapRegion* hr = new HeapRegion(bot_shared_local, mr, is_zeroed);
       /*if(R_SEG){
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
       }*/
@@ -2169,7 +2170,7 @@ jint G1CollectedHeap::initialize() {
   HeapRegionRemSet::init_heap(max_regions());
 
   // Now expand into the initial heap size.
-  if (!expand_hybrid(init_byte_size, false)){//|| !expand_hybrid(init_byte_size, true) ) {
+  if (!expand_hybrid(init_byte_size, false) || !expand_hybrid(init_byte_size, true)) {
     vm_exit_during_initialization("Failed to allocate initial heap.");
     return JNI_ENOMEM;
   }
