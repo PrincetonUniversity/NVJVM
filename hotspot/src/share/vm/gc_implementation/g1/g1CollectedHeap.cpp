@@ -1739,7 +1739,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
        _free_list.add_as_tail(hr);
       } else {
        _expansion_regions_cold--;
-       _free_list_cold.add(hr);
+       _free_list_cold.add_as_tail(hr);
       }
 
       expand_bytes -= HeapRegion::GrainBytes;
