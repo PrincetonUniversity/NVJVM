@@ -1949,13 +1949,18 @@ jint G1CollectedHeap::initialize() {
   Universe::setHeapStart((uint64_t) heap_rs.base());
   Universe::setHeapSize((uint64_t) heap_rs.size());
 
-  if(P_INIT){
+  if(P_INIT || R_SEG){
 	  printf("G1CollectedHeap Initialize, start = %p, end = %p\n", _reserved.start(), _reserved.end()); fflush(stdout);
   }
 
   size_t hot_region_size = max_byte_size/2;
   size_t cold_region_size = max_byte_size/2;
   size_t total_reserved_size = hot_region_size + cold_region_size;
+  if(total_reserved_size != max_byte_size){
+	  printf("total_reserved_size != max_byte_size");
+	  fflush(stdout);
+	  exit("-1");
+  }
 
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
@@ -1982,7 +1987,12 @@ jint G1CollectedHeap::initialize() {
   ReservedSpace g1_rs   = heap_rs.first_part(hot_region_size); // changed the size of the first part of the heap space
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
                            g1_rs.size()/HeapWordSize);
-  ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
+
+  ReservedSpace g1_rs_cold   = heap_rs.first_part(cold_region_size); // changed the size of the first part of the heap space
+  _g1_reserved_cold = MemRegion((HeapWord*)g1_rs_cold.base(),
+                             g1_rs_cold.size()/HeapWordSize);
+
+  ReservedSpace perm_gen_rs = heap_rs.last_part(total_reserved_size);// changed, though, should remain the same
 
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());
 

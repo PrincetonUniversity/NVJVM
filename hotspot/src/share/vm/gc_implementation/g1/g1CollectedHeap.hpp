@@ -182,6 +182,7 @@ private:
   VirtualSpace _g1_storage;
   MemRegion    _g1_reserved;
 
+  MemRegion _g1_reserved_cold;
   VirtualSpace _g1_storage_cold;
   MemRegion _g1_committed_cold;
   MemRegion _g1_max_committed_cold;
