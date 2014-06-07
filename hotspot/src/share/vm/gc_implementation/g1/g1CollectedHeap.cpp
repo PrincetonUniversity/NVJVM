@@ -1739,7 +1739,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
        _free_list.add_as_tail(hr);
       } else {
        _expansion_regions_cold--;
-       _free_list_cold.add_as_tail(hr);
+       //_free_list_cold.add_as_tail(hr);
       }
 
       expand_bytes -= HeapRegion::GrainBytes;
@@ -1951,7 +1951,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _refine_cte_cl(NULL),
   _full_collection(false),
   _free_list("Master Free List"),
-  _free_list_cold("Master Free List Cold"),
+  //_free_list_cold("Master Free List Cold"),
   _secondary_free_list("Secondary Free List"),
   _humongous_set("Master Humongous Set"),
   _free_regions_coming(false),
