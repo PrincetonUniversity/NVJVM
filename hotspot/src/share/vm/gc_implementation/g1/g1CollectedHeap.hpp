@@ -195,7 +195,7 @@ private:
 
   // The master free list. It will satisfy all new region allocations.
   MasterFreeRegionList      _free_list;
-  MasterFreeRegionList 		_free_list_cold;
+//  MasterFreeRegionList 		_free_list_cold;
 
   // The secondary free list which contains regions that have been
   // freed up during the cleanup process. This will be appended to the
