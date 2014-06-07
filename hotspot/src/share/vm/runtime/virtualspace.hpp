@@ -127,7 +127,7 @@ ReservedSpace::first_part(size_t partition_size, bool split, bool realloc)
 ReservedSpace
 ReservedSpace::second_part(size_t prefix_partition_size, size_t partition_size, bool split, bool realloc)
 {
-  return second_part(prefix_partition_size, suffix_partition_size, alignment(), split, realloc);
+  return second_part(prefix_partition_size, partition_size, alignment(), split, realloc);
 }
 
 
