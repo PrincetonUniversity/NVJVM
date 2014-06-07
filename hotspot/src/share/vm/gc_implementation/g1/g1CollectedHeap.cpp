@@ -624,7 +624,8 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand, bool i
   }
   if (res == NULL && do_expand) {
     size_t expand_bytes = word_size * HeapWordSize;
-	if (expand_hybrid(expand_bytes, isCold)) {
+	if(expand(expand_bytes)){
+    //if (expand_hybrid(expand_bytes, isCold)) {
       // The expansion succeeded and so we should have at least one
       // region on the free list.
 	  res = _free_list.getRegion(isCold);
@@ -2138,21 +2139,23 @@ jint G1CollectedHeap::initialize() {
 
   // Carve out the G1 part of the heap.
 
-  ReservedSpace g1_rs   = heap_rs.first_part(hot_region_size);
+  ReservedSpace g1_rs   = heap_rs.first_part(total_reserved_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
                            g1_rs.size()/HeapWordSize);
 
   ReservedSpace perm_gen_rs = heap_rs.last_part(total_reserved_size);
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());
 
-  ReservedSpace g1_rs_cold = heap_rs.last_part_before_perm_gen(hot_region_size, perm_gen_rs.size());
+  //ReservedSpace g1_rs_cold = heap_rs.last_part_before_perm_gen(hot_region_size, perm_gen_rs.size());
 
   // Setting the start and end for the cold region. Currently the cold region is taken to be half the
   // size of the initial size of the heap.
-  char* start = g1_rs_cold.base();
+  /*char* start = g1_rs_cold.base();
   char* end = start + g1_rs_cold.size();
   Universe::setColdRegionStart((uint64_t)(start));
-  Universe::setColdRegionEnd((uint64_t)(end));
+  Universe::setColdRegionEnd((uint64_t)(end));*/
+  char* start = (char *)Universe::getColdRegionStart();
+  char* end = (char *)Universe::getColdRegionEnd();
 
   if(R_SEG){ // printing the heap regions present in memory
 	  char* prg_end = perm_gen_rs.base() + perm_gen_rs.size();
@@ -2175,12 +2178,12 @@ jint G1CollectedHeap::initialize() {
   if(R_SEG){
 	  printf("Initializing the cold storage.\n"); fflush(stdout);
   }
-  _g1_storage_cold.initialize(g1_rs_cold, 0);
-  _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
+  //_g1_storage_cold.initialize(g1_rs_cold, 0);
+  //_g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
 
   // Setting the maximum committed for the two regions according to the respective storage usage now.
   _g1_max_committed = _g1_committed;
-  _g1_max_committed_cold = _g1_committed_cold;
+  //_g1_max_committed_cold = _g1_committed_cold;
 
   _hrs = new HeapRegionSeq(_expansion_regions);
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
