@@ -1729,7 +1729,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
       }*/
       // Add it to the HeapRegionSeq.
-     if(false){
+     if(isCold = false){
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
 
@@ -2136,6 +2136,10 @@ jint G1CollectedHeap::initialize() {
   _g1_storage_cold.initialize(g1_rs_cold, 0);
   _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
   _g1_max_committed_cold = _g1_committed_cold;
+
+  Universe::setColdRegionStart((uint64_t)g1_rs_cold.base());
+  uint64_t end = (uint64_t)g1_rs_cold.base() + (uint64_t)g1_rs_cold.size();
+  Universe::setColdRegionEnd(end);
 
   _hrs = new HeapRegionSeq(_expansion_regions);
   _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
