@@ -345,7 +345,7 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
   // Done
   _base = base;
   _size = size;
-  if (P_INIT){
+  if (L_DEBUG){
 	  printf("ReservedSpace::initialize method, base = %p\n", base);
 	  printf("ReservedSpace::initialize method, size = %zu\n", size);
 	  fflush(stdout);
