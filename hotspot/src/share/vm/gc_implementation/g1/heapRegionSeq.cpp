@@ -223,9 +223,6 @@ void HeapRegionSeq::iterate_from(HeapRegion* r, HeapRegionClosure* blk) {
   static int cached_j = 0;
 #endif
   int len = _regions.length();
-  if(R_SEG){
-	  printf("The length of HeapRegSeq = %d\n", len); fflush(stdout);
-  }
   int j = 0;
   // Find the index of r.
   if (r != NULL) {

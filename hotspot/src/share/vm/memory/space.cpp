@@ -272,16 +272,6 @@ void Space::initialize(MemRegion mr,
          "invalid space boundaries");
   set_bottom(bottom);
   set_end(end);
-  /* Setting the Cold Parameter for a space to be true or false depending on the location of the region.
-   * This sets the heap region derived from this space as cold. */
-  if (((uint64_t)bottom >= Universe::getColdRegionStart()) && ((uint64_t)end <= Universe::getColdRegionEnd())){
-	  set_isCold(true);
-  } else
-	  set_isCold(false);
-  if(R_SEG){
-	  printf("Initializing a new region. bottom = %p, end = %p. Is_Cold = %d\n", bottom, end, isCold());
-	  fflush(stdout);
-  }
   if (clear_space) clear(mangle_space);
 }
 
@@ -459,13 +449,11 @@ bool CompactibleSpace::insert_deadspace(size_t& allowed_deadspace_words,
 #define adjust_obj_size(s) s
 
 void CompactibleSpace::prepare_for_compaction(CompactPoint* cp) {
-  printf("CompactibleSpace, In prepare for compaction\n"); fflush(stdout);
   SCAN_AND_FORWARD(cp, end, block_is_obj, block_size);
 }
 
 // Faster object search.
 void ContiguousSpace::prepare_for_compaction(CompactPoint* cp) {
-	printf("ContiguousSpace, In prepare for compaction\n"); fflush(stdout);
   SCAN_AND_FORWARD(cp, top, block_is_always_obj, obj_size);
 }
 

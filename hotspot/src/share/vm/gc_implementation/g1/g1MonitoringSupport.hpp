@@ -55,9 +55,9 @@ class G1SpaceMonitoringSupport;
 // collection.
 //
 // Also provided are counters for G1 concurrent collections
-// and stop-the-world full heap collections.
+// and stop-the-world full heap collecitons.
 //
-// Below is a description of how "used" and "capacity"
+// Below is a description of how "used" and "capactiy"
 // (or committed) is calculated for the logical spaces.
 //
 // 1) The used space calculation for a pool is not necessarily

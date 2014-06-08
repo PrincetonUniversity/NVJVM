@@ -99,13 +99,11 @@ class ReservedSpace VALUE_OBJ_CLASS_SPEC {
   ReservedSpace first_part(size_t partition_size, size_t alignment,
                            bool split = false, bool realloc = true);
   ReservedSpace last_part (size_t partition_size, size_t alignment);
-  ReservedSpace last_part_before_perm_gen (size_t partition_size, size_t alignment, size_t perm_gen_size);
 
   // These simply call the above using the default alignment.
   inline ReservedSpace first_part(size_t partition_size,
                                   bool split = false, bool realloc = true);
   inline ReservedSpace last_part (size_t partition_size);
-  inline ReservedSpace last_part_before_perm_gen (size_t partition_size, size_t perm_gen_size);
 
   // Alignment
   static size_t page_align_size_up(size_t size);
@@ -119,12 +117,6 @@ ReservedSpace::first_part(size_t partition_size, bool split, bool realloc)
 {
   return first_part(partition_size, alignment(), split, realloc);
 }
-
-ReservedSpace ReservedSpace::last_part_before_perm_gen(size_t partition_size, size_t perm_gen_size)
-{
-  return last_part_before_perm_gen(partition_size, alignment(), perm_gen_size);
-}
-
 
 ReservedSpace ReservedSpace::last_part(size_t partition_size)
 {

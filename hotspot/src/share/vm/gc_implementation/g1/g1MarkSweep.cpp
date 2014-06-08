@@ -256,7 +256,7 @@ public:
 };
 
 void G1MarkSweep::mark_sweep_phase2() {
-	if (L_DEBUG || R_SEG) {
+	if (L_DEBUG) {
 		printf("in mark sweep phase 2\n"); fflush(stdout);
 	}
   // Now all live objects are marked, compute the new object addresses.
@@ -274,9 +274,6 @@ void G1MarkSweep::mark_sweep_phase2() {
 
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   Generation* pg = g1h->perm_gen();
-  bool isNull = (pg->first_compaction_space()->next_compaction_space() == NULL);
-  printf("Compaction Space Next to first compaction space is Null %d\n", isNull);
-  fflush(stdout);
 
   EventMark m("2 compute new addresses");
   TraceTime tm("phase 2", PrintGC && Verbose, true, gclog_or_tty);
@@ -286,9 +283,6 @@ void G1MarkSweep::mark_sweep_phase2() {
   g1h->heap_region_iterate(&cl);
   HeapRegion *r = cl.result();
   CompactibleSpace* sp = r;
-  if(R_SEG){
-	  printf("Is Heap Region Humongous %d.\n", r->isHumongous()); fflush(stdout);
-  }
   if (r->isHumongous() && oop(r->bottom())->is_gc_marked()) {
     sp = r->next_compaction_space();
   }
