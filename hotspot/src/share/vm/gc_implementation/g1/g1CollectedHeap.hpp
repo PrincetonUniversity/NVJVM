@@ -984,6 +984,7 @@ public:
 
   // The total number of regions in the heap.
   size_t n_regions();
+  size_t n_regions_cold();
 
   // The number of regions that are completely free.
   size_t max_regions();
