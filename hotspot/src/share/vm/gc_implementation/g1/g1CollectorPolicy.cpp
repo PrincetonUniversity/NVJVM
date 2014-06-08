@@ -2922,6 +2922,9 @@ G1CollectorPolicy_BestRegionsFirst::choose_collection_set(
     hr = _g1->young_list()->first_survivor_region();
     while (hr != NULL) {
       assert(hr->is_survivor(), "badly formed young list");
+      if(hr->get_cold()) { // Check  TODO remove it later on
+    	  printf("Cold Heap Region Found In the survivor list. Should Not Happen. \n"); fflush(stdout); exit(1);
+      }
       hr->set_young();
       hr = hr->get_next_young_region();
     }
