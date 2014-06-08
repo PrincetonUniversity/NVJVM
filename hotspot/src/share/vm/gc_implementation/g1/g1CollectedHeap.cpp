@@ -5712,6 +5712,10 @@ size_t G1CollectedHeap::n_regions() {
   return _hrs->length();
 }
 
+size_t G1CollectedHeap::n_regions_cold(){
+	return _hrs_cold->length();
+}
+
 size_t G1CollectedHeap::max_regions() {
   return
     (size_t)align_size_up(max_capacity(), HeapRegion::GrainBytes) /
