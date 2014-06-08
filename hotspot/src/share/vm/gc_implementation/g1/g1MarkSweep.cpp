@@ -316,7 +316,9 @@ class G1AdjustPointersClosure: public HeapRegionClosure {
 };
 
 void G1MarkSweep::mark_sweep_phase3() {
-  printf("In mark sweep phase 3\n"); fflush(stdout);
+  if(L_DEBUG || R_SEG){
+	  printf("In mark sweep phase 3\n"); fflush(stdout);
+  }
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   Generation* pg = g1h->perm_gen();
 
