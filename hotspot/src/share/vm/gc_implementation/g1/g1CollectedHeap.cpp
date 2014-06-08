@@ -1729,7 +1729,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
       }*/
       // Add it to the HeapRegionSeq.
-     if(isCold = false){
+     if(isCold == false){
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
 
