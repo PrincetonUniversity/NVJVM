@@ -739,6 +739,7 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
   HeapRegion* alloc_region = NULL;
   // Checking if an object is from GCAllocForTenuredCold and marking the isCold flag, when allocating a new region
   bool isCold = (purpose == GCAllocForTenuredCold);
+  printf("new_gc_alloc_region called. IsCold = %d\n", isCold); fflush(stdout);
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
 //    alloc_region = new_region(word_size, true /* do_expand */);
 	  alloc_region = new_region_hybrid(word_size, true, isCold); // allocating region from the hybrid region allocator
@@ -1793,7 +1794,6 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
   VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
   MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
   MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
-
 
   size_t old_mem_size = storage->committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
@@ -3703,7 +3703,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 
       g1_policy()->choose_collection_set(target_pause_time_ms);
       printf("Number of used regions = %d\nNumber of collection regions =%d\n"
-    		  "Number of used regions cold = %d", used_regions(), g1_policy()->collection_set_size(), used_regions_cold());
+    		  "Number of used regions cold = %d\n", used_regions(), g1_policy()->collection_set_size(), used_regions_cold());
       fflush(stdout);
 
       // We have chosen the complete collection set. If marking is
