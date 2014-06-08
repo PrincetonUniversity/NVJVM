@@ -3702,7 +3702,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 #endif // YOUNG_LIST_VERBOSE
 
       g1_policy()->choose_collection_set(target_pause_time_ms);
-      printf("Number of used regions = %d\n Number of collection regions =%d\n", g1_policy()->used_regions(), g1_policy()->collection_set_size());
+      printf("Number of used regions = %d\n Number of collection regions =%d\n", used_regions(), g1_policy()->collection_set_size());
       fflush(stdout);
 
       // We have chosen the complete collection set. If marking is
