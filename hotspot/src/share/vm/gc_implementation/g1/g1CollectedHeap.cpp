@@ -589,6 +589,105 @@ G1CollectedHeap::new_region_try_secondary_free_list() {
   return NULL;
 }
 
+HeapRegion*
+G1CollectedHeap::new_region_try_secondary_free_list_hybrid(bool isCold = false) {
+  MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
+  SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
+  if(freeList == NULL || secondaryFreeList == NULL){
+	  printf("Either of freeList, secondaryFreeList is null.... Exiting\n"); fflush(stdout); exit(1);
+  }
+
+  MutexLockerEx x(SecondaryFreeList_lock, Mutex::_no_safepoint_check_flag);
+  while (!secondaryFreeList->is_empty() || free_regions_coming()) {
+    if (!secondaryFreeList->is_empty()) {
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "secondary_free_list has "SIZE_FORMAT" entries",
+                               secondaryFreeList->length());
+      }
+      // It looks as if there are free regions available on the
+      // secondary_free_list. Let's move them to the free_list and try
+      // again to allocate from it.
+      if(isCold == false){
+    	  append_secondary_free_list();
+      } else {
+    	  append_secondary_free_list_cold();
+      }
+
+      assert(!freeList->is_empty(), "if the secondary_free_list was not "
+             "empty we should have moved at least one entry to the free_list");
+      HeapRegion* res = freeList->remove_head();
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "allocated "HR_FORMAT" from secondary_free_list",
+                               HR_FORMAT_PARAMS(res));
+      }
+      return res;
+    }
+
+    // Wait here until we get notifed either when (a) there are no
+    // more free regions coming or (b) some regions have been moved on
+    // the secondary_free_list.
+    SecondaryFreeList_lock->wait(Mutex::_no_safepoint_check_flag);
+  }
+
+  if (G1ConcRegionFreeingVerbose) {
+    gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                           "could not allocate from secondary_free_list");
+  }
+  return NULL;
+}
+
+HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand, bool isCold = false) {
+  assert(!isHumongous(word_size) ||
+                                  word_size <= (size_t) HeapRegion::GrainWords,
+         "the only time we use this to allocate a humongous region is "
+         "when we are allocating a single humongous region");
+  MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
+  SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
+
+  if(freeList == NULL || secondaryFreeList == NULL){ // TODO remove later
+	  printf("freelist, secondaryFreeList is null in new_region_hybrid\n");fflush(stdout);exit(-1);
+  }
+
+  HeapRegion* res;
+  if (G1StressConcRegionFreeing) {
+    if (!secondaryFreeList->is_empty()) {
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "forced to look at the secondary_free_list");
+      }
+      res = new_region_try_secondary_free_list_hybrid(isCold);
+      if (res != NULL) {
+        return res;
+      }
+    }
+  }
+  res = freeList->remove_head_or_null();
+  if (res == NULL) {
+    if (G1ConcRegionFreeingVerbose) {
+      gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                             "res == NULL, trying the secondary_free_list");
+    }
+    res = new_region_try_secondary_free_list_hybrid(isCold);
+  }
+  if (res == NULL && do_expand) {
+    if (expand_hybrid(word_size * HeapWordSize, isCold)) {
+      // The expansion succeeded and so we should have at least one
+      // region on the free list.
+      res = freeList->remove_head();
+    }
+  }
+  if (res != NULL) {
+    if (G1PrintHeapRegions) {
+      gclog_or_tty->print_cr("new alloc region %d:["PTR_FORMAT","PTR_FORMAT"], "
+                             "top "PTR_FORMAT, res->hrs_index(),
+                             res->bottom(), res->end(), res->top());
+    }
+  }
+  return res;
+}
+
 HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand) {
   assert(!isHumongous(word_size) ||
                                   word_size <= (size_t) HeapRegion::GrainWords,

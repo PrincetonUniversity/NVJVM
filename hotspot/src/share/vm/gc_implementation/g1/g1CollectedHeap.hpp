@@ -201,6 +201,10 @@ private:
   // freed up during the cleanup process. This will be appended to the
   // master free list when appropriate.
   SecondaryFreeRegionList   _secondary_free_list;
+  // The secondary free list which contains regions that have been
+  // freed up during the cleanup process. This will be appended to the
+  // master free list when appropriate.
+  SecondaryFreeRegionList   _secondary_free_list_cold;
 
   // It keeps track of the humongous regions.
   MasterHumongousRegionSet  _humongous_set;
@@ -1035,6 +1039,10 @@ public:
 
   void append_secondary_free_list() {
     _free_list.add_as_head(&_secondary_free_list);
+  }
+
+  void append_secondary_free_list_cold(){
+	  _free_list_cold.add_as_head(&_secondary_free_list_cold);
   }
 
   void append_secondary_free_list_if_not_empty_with_lock() {
