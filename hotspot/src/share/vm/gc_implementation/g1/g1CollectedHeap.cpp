@@ -636,8 +636,11 @@ HeapRegion* G1CollectedHeap::new_region(size_t word_size, bool do_expand) {
 HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
                                                  size_t word_size) {
   HeapRegion* alloc_region = NULL;
+  // Checking if an object is from GCAllocForTenuredCold and marking the isCold flag, when allocating a new region
+  bool isCold = (purpose == GCAllocForTenuredCold);
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
     alloc_region = new_region(word_size, true /* do_expand */);
+    // Change, GCAllocForSurvivedCold is now set as a survivor space
     if ((purpose == GCAllocForSurvived || GCAllocForSurvivedCold) && alloc_region != NULL) {
       alloc_region->set_survivor();
     }

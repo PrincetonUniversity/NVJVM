@@ -404,12 +404,24 @@ protected:
   // secondary_free_list and/or wait for more regions to appear on
   // that list, if _free_regions_coming is set.
   HeapRegion* new_region_try_secondary_free_list();
+  // This is the second level of trying to allocate a new region. If
+  // new_region() didn't find a region on the free_list, this call will
+  // check whether there's anything available on the
+  // secondary_free_list and/or wait for more regions to appear on
+  // that list, if _free_regions_coming is set. This takes into account
+  // the cold region that has been segregated.
+  HeapRegion* new_region_try_secondary_free_list_hybrid(bool isCold);
 
   // Try to allocate a single non-humongous HeapRegion sufficient for
   // an allocation of the given word_size. If do_expand is true,
   // attempt to expand the heap if necessary to satisfy the allocation
   // request.
   HeapRegion* new_region(size_t word_size, bool do_expand);
+  // Try to allocate a single non-humongous HeapRegion sufficient for
+  // an allocation of the given word_size. If do_expand is true,
+  // attempt to expand the heap if necessary to satisfy the allocation
+  // request. This takes into account the cold regions that have been segregated as well.
+  HeapRegion* new_region_hybrid(size_t word_size, bool do_expand, bool isCold);
 
   // Try to allocate a new region to be used for allocation by
   // a GC thread. It will try to expand the heap if no region is

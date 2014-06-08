@@ -251,7 +251,7 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
          "alignment not aligned to os::vm_allocation_granularity()");
   assert(alignment == 0 || is_power_of_2((intptr_t)alignment),
          "not a power of 2");
-  if(P_INIT){
+  if(L_DEBUG){
 	  printf("ReservedSpace::initialize method, requested_address = %p\n", requested_address); fflush(stdout);
   }
   _base = NULL;
