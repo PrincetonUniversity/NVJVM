@@ -2093,7 +2093,7 @@ jint G1CollectedHeap::initialize() {
   }
 
   // changed added total_reserved_size to expansion regions as well
-  _expansion_regions = hot_region_size/HeapRegion::GrainBytes;
+  _expansion_regions = total_reserved_size/HeapRegion::GrainBytes;
   _expansion_regions_cold = cold_region_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
