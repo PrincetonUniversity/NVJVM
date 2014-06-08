@@ -1736,7 +1736,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       // And we used up an expansion region to create it.
       _expansion_regions--;
      } else {
-    	 printf("here"); fflush(stdout);
+//    	 printf("here"); fflush(stdout);
          _hrs_cold->insert(hr);
          _free_list_cold.add_as_tail(hr);
 
@@ -2187,7 +2187,7 @@ jint G1CollectedHeap::initialize() {
   HeapRegionRemSet::init_heap(max_regions());
 
   // Now expand into the initial heap size.
-  if (!expand_hybrid(init_byte_size, false)){//|| !expand_hybrid(init_byte_size, true) ) {
+  if (!expand_hybrid(init_byte_size, false) || !expand_hybrid(init_byte_size, true)) {
     vm_exit_during_initialization("Failed to allocate initial heap.");
     return JNI_ENOMEM;
   }
