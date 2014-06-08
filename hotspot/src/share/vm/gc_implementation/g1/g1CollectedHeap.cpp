@@ -2057,6 +2057,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _free_list("Master Free List"),
   _free_list_cold("Master Cold Free List"),
   _secondary_free_list("Secondary Free List"),
+  _secondary_free_list_cold("Secondary Free List Cold"),
   _humongous_set("Master Humongous Set"),
   _free_regions_coming(false),
   _young_list(new YoungList(this)),
