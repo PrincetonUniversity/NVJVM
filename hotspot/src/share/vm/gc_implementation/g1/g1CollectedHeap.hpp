@@ -995,6 +995,7 @@ public:
 
   // The number of regions that are not completely free.
   size_t used_regions() { return n_regions() - free_regions(); }
+  size_t used_regions_cold() { return _hrs_cold->length() - _free_list_cold.length(); }
 
   // The number of regions available for "regular" expansion.
   size_t expansion_regions() { return _expansion_regions; }
