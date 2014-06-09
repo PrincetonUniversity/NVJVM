@@ -3538,7 +3538,6 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
 	float likely  = PROB_LIKELY(0.999);
-	float unlikely  = PROB_UNLIKELY(0.999);
 	int adr_type = Compile::AliasIdxRaw;
 	// Node representing null object
 	Node* zeroObj = null();
@@ -3575,6 +3574,7 @@ void GraphKit::checkObj(Node *obj){
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
 	} __ end_if(); // End of null test
+	Node* countObj  = __ load(__ ctrl(), obj, TypeInt::INT, T_INT, adr_type);
 	final_sync(ideal);
 }
 
