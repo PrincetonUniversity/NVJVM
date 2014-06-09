@@ -3551,9 +3551,9 @@ void GraphKit::checkObj(Node *obj){
 	// If the object is null, no checks are performed, load of a null object
 	__ if_then(obj, BoolTest::ne, zeroObj, likely); {
 		// Checking if the object's address is greater than the start of the cold region
-		__ if_then(obj, BoolTest::ge, coldRegionStart, unlikely); {
+//		__ if_then(obj, BoolTest::ge, coldRegionStart, unlikely); {
 			// Checking if the object's address is greater than the start of the cold region
-			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
+//			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
 				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
@@ -3564,8 +3564,8 @@ void GraphKit::checkObj(Node *obj){
 				  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
 				  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
 				  	} __ end_if(); // End of object test
-			} __ end_if(); // End of cold region end test
-		} __ end_if(); // End of cold region start test
+//			} __ end_if(); // End of cold region end test
+//		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
 		  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 		  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);

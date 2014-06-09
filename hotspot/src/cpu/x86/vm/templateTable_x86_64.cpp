@@ -587,13 +587,13 @@ void TemplateTable::interceptObject(Address object) {
   uint64_t coldRegionEnd = (uint64_t) Universe::getColdRegionEnd();
 
   // Saving variables which we would be needing later on
-  __ push(r10);
-  __ push(r11);
+//  __ push(r10);
+//  __ push(r11);
 
-  Label nullObj, coldObject, coldTest1;
+  Label nullObj, isPresent;
 
-//  __ cmpptr(object, 0);
-//  __ jcc(Assembler::equal, nullObj);
+  __ cmpptr(object, 0);
+  __ jcc(Assembler::equal, nullObj);
 //
 //  __ cmpptr(object, coldRegionStart);
 //  __ jcc(Assembler::greater, coldTest1);
@@ -617,12 +617,13 @@ void TemplateTable::interceptObject(Address object) {
   __ movptr(r10, (intptr_t)base);
   __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
   __ cmpl(Address(r11, 0), 0);
-  __ jcc(Assembler::equal, nullObj); // moving the value at the byte into the register r10
+  __ jcc(Assembler::equal, isPresent); // moving the value at the byte into the register r10
 
   __ movptr(r10, object);
   call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
 
-   __ movptr(r10, object);
+  __ bind(isPresent);
+  __ movptr(r10, object);
       Address objectCounter = Address(r10, ce_offset);
    __ movl(r11, objectCounter);        // load access counter
    __ incrementl(r11, 1);       		  // increment access counter
@@ -631,8 +632,8 @@ void TemplateTable::interceptObject(Address object) {
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
-  __ pop(r11);
-  __ pop(r10);
+//  __ pop(r11);
+//  __ pop(r10);
 }
 
 void TemplateTable::aload() {
