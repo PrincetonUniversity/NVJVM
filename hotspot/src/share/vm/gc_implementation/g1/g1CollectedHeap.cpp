@@ -670,7 +670,7 @@ HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand,
   }
   res = freeList->remove_head_or_null();
   if(isCold != res->get_cold()){
-	  printf("isCold = %d, region is cold = %d, freeList = %p, address of _free_list_cold =%p, add of _free_list=%p\n",
+	  printf("isCold = %d, region is cold = %d, freeList = %p, add of _free_list_cold =%p, add of _free_list=%p\n",
 			  isCold, res->get_cold(), freeList, &_free_list_cold, &_free_list);
 	  fflush(stdout);
   }
@@ -1849,7 +1849,9 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
      if(isCold == false){
       _hrs->insert(hr);
       _free_list.add_as_tail(hr);
-
+      if(hr->get_cold()){
+    	  printf("Bug, adding a cold region to the hot region list.\n"); fflush(stdout); exit(-1);
+      }
       // And we used up an expansion region to create it.
       _expansion_regions--;
      } else {
