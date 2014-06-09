@@ -3539,6 +3539,7 @@ void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
 	float likely  = PROB_LIKELY(0.999);
 	int adr_type = Compile::AliasIdxRaw;
+	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
 	// Node representing null object
 	Node* zeroObj = null();
 	// Node representing null integer
@@ -3556,11 +3557,12 @@ void GraphKit::checkObj(Node *obj){
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
 				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
-				  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
+
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
-				  Node *incr_node = _gvn.transform(new (C, 3) AddINode(val, __ ConI(1)));
-				  __ store(__ ctrl(), bitAddr, incr_node, T_INT, adr_type);
+		  		  const TypeFunc *tf = OptoRuntime::checkObj_Type();
+		  		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", val);
+
 
 				  	__ if_then(val, BoolTest::eq, zeroInt, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
