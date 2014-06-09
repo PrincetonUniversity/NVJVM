@@ -451,6 +451,7 @@ JRT_END
 
 
 JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
+printf("in swapIn\n");fflush(stdout);
 //uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
 //uint64_t regionI = objOffset /(_R_SIZE);
 //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
@@ -459,9 +460,9 @@ JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
 //if(*(int *)position == 1){
 //	  SSDSwap::handle_faults((void *)obj);
 //}
-int* counterAdd = (int *)(obj + oopDesc::counter_offset_in_bytes());
+int* counterAdd = (int *)((uint64_t)obj + oopDesc::counter_offset_in_bytes());
 	*counterAdd = *counterAdd + 1;
-	  return;
+return;
 //  	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout); exit(-1);
 //	  SSDSwap::handle_faults((void *)obj);
 JRT_END
