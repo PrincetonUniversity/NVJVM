@@ -3537,6 +3537,8 @@ void GraphKit::nullCheck(Node *obj, IdealKit ideal){
 
 void GraphKit::checkObj(Node *obj){
 	IdealKit ideal(this, true);
+	float likely  = PROB_LIKELY(0.999);
+	float unlikely  = PROB_UNLIKELY(0.999);
 	int adr_type = Compile::AliasIdxRaw;
 	// Node representing null object
 	Node* zeroObj = null();
@@ -3547,7 +3549,7 @@ void GraphKit::checkObj(Node *obj){
 	// Getting end of the cold region
 	Node* coldRegionEnd = makecon(TypeRawPtr::make((address)Universe::getColdRegionEnd()));
 	// If the object is null, no checks are performed, load of a null object
-	__ if_then(obj, BoolTest::ne, zeroObj); {
+	__ if_then(obj, BoolTest::ne, zeroObj, likely); {
 		// Checking if the object's address is greater than the start of the cold region
 //		__ if_then(obj, BoolTest::ge, coldRegionStart); {
 			// Checking if the object's address is greater than the start of the cold region
@@ -3558,7 +3560,7 @@ void GraphKit::checkObj(Node *obj){
 				  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
-				  	__ if_then(val, BoolTest::ne, zeroInt); {
+				  	__ if_then(val, BoolTest::ne, zeroInt, unlikely); {
 				  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
 				  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
 				  	} __ end_if(); // End of object test
