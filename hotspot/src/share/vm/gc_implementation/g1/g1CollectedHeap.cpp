@@ -3502,6 +3502,8 @@ size_t G1CollectedHeap::desired_plab_sz(GCAllocPurpose purpose)
       gclab_word_size = YoungPLABSize;
       break;
     case GCAllocForTenured:
+    case GCAllocForSurvivedCold:
+    case GCAllocForTenuredCold:
       gclab_word_size = OldPLABSize;
       break;
     default:
@@ -4243,6 +4245,8 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
     _hash_seed(17), _queue_num(queue_num),
     _term_attempts(0),
     _surviving_alloc_buffer(g1h->desired_plab_sz(GCAllocForSurvived)),
+    _surviving_alloc_buffer_cold(g1h->desired_plab_sz(GCAllocForSurvivedCold)),
+    _tenured_alloc_buffer_cold(g1h->desired_plab_sz(GCAllocForTenuredCold)),
     _tenured_alloc_buffer(g1h->desired_plab_sz(GCAllocForTenured)),
     _age_table(false),
     _strong_roots_time(0), _term_time(0),

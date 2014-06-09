@@ -70,6 +70,8 @@ typedef int CardIdx_t;     // needs to hold [ 0..CardsPerRegion )
 enum GCAllocPurpose {
   GCAllocForTenured,
   GCAllocForSurvived,
+  GCAllocForSurvivedCold,
+  GCAllocForTenuredCold,
   GCAllocPurposeCount
 };
 
@@ -1759,6 +1761,8 @@ protected:
   G1RemSet* _g1_rem;
 
   G1ParGCAllocBuffer  _surviving_alloc_buffer;
+  G1ParGCAllocBuffer  _surviving_alloc_buffer_cold;
+  G1ParGCAllocBuffer  _tenured_alloc_buffer_cold;
   G1ParGCAllocBuffer  _tenured_alloc_buffer;
   G1ParGCAllocBuffer* _alloc_buffers[GCAllocPurposeCount];
   ageTable            _age_table;
