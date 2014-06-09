@@ -2315,9 +2315,9 @@ size_t G1CollectorPolicy::max_regions(int purpose) {
       return _max_survivor_regions;
     case GCAllocForTenured:
       return REGIONS_UNLIMITED;
-    case GCAllocForSurvivedCold:
-    case GCAllocForTenuredCold:
-    	return REGIONS_UNLIMITED;
+//    case GCAllocForSurvivedCold:
+//    case GCAllocForTenuredCold:
+//    	return REGIONS_UNLIMITED;
 
     default:
       ShouldNotReachHere();
