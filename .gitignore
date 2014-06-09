@@ -1,4 +1,6 @@
+.gitignore
 build/
+scripts/
 .autotools
 .project
 .cproject
