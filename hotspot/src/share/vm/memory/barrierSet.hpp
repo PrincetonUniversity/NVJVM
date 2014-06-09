@@ -166,7 +166,7 @@ public:
   // normally reserve space for such tables, and commit parts of the table
   // "covering" parts of the heap that are committed.  The constructor is
   // passed the maximum number of independently committable subregions to
-  // be covered, and the "resize_covoered_region" function allows the
+  // be covered, and the "resize_covered_region" function allows the
   // sub-parts of the heap to inform the barrier set of changes of their
   // sizes.
   BarrierSet(int max_covered_regions) :

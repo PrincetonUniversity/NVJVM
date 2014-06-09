@@ -743,11 +743,11 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
   bool isCold = (purpose == GCAllocForTenuredCold);
 //  printf("new_gc_alloc_region called. IsCold = %d\n", isCold); fflush(stdout);
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
-//    alloc_region = new_region(word_size, true /* do_expand */);
-	  alloc_region = new_region_hybrid(word_size, true, isCold); // allocating region from the hybrid region allocator
-//	  if(isCold == true && alloc_region->get_cold() == false){
-//		  printf("hot region allocated for a cold region."); fflush(stdout); exit(1);
-//	  }
+    alloc_region = new_region(word_size, true /* do_expand */);
+//	  alloc_region = new_region_hybrid(word_size, true, isCold); // allocating region from the hybrid region allocator
+	  if(isCold != alloc_region->get_cold()){
+		  printf("Bug in new_gc_allocation_region code\n."); fflush(stdout); exit(1);
+	  }
     // Change, GCAllocForSurvivedCold is now set as a survivor space
     if ((purpose == GCAllocForSurvived || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
       alloc_region->set_survivor();
@@ -2209,7 +2209,7 @@ jint G1CollectedHeap::initialize() {
   _expansion_regions_cold = cold_region_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
-  _rem_set = collector_policy()->create_rem_set(_reserved, 2);
+  _rem_set = collector_policy()->create_rem_set(_reserved, 3);
   set_barrier_set(rem_set()->bs());
   if (barrier_set()->is_a(BarrierSet::ModRef)) {
     _mr_bs = (ModRefBarrierSet*)_barrier_set;
