@@ -3486,6 +3486,8 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
+  printf("In minor collection pause. Total Collections = %zu, Total Full Collections = %zu\n", total_collections(), total_full_collections());
+  fflush(stdout);
   assert_at_safepoint(true /* should_be_vm_thread */);
   guarantee(!is_gc_active(), "collection is not reentrant");
 
@@ -3731,6 +3733,9 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       double pause_time_ms = (end_time_sec - start_time_sec) * MILLIUNITS;
       g1_policy()->record_pause_time_ms(pause_time_ms);
       g1_policy()->record_collection_pause_end();
+      printf("Number of used regions = %d\nNumber of collection regions =%d\n"
+         		  "", used_regions(), g1_policy()->collection_set_size());//, used_regions_cold());
+           fflush(stdout);
 
       MemoryService::track_memory_usage();
 
