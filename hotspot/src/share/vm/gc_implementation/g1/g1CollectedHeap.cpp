@@ -648,9 +648,9 @@ HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand,
          "when we are allocating a single humongous region");
   MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
   SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
-  if (isCold == true){
-	  printf("In new_region_hybrid(). IsCold = %d\n", isCold); fflush(stdout);
-  }
+//  if (isCold == true){
+//	  printf("In new_region_hybrid(). IsCold = %d\n", isCold); fflush(stdout);
+//  }
   if(freeList == NULL || secondaryFreeList == NULL){ // TODO remove later
 	  printf("freelist, secondaryFreeList is null in new_region_hybrid\n");fflush(stdout);exit(-1);
   }
@@ -4134,7 +4134,8 @@ void G1CollectedHeap::release_gc_alloc_regions(bool totally) {
 
       if (r->is_empty()) {
         // We didn't actually allocate anything in it; let's just put
-        // it back on the free list.
+        // it back on the free list. If the heap region is cold, it is
+    	// put back to the cold list, else added to the hot list.
     	if(r->get_cold())
     	  _free_list_cold.add_as_head(r);
     	else
@@ -4788,9 +4789,9 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   // GCAllocPurpose now has a survived cold, tenured cold region for segregating objects by access count
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz, old->getCount());
-  if(alloc_purpose == GCAllocForTenuredCold){
-	  printf("in copy_to_survivor_space. Copying object to cold region.\n"); fflush(stdout);
-  }
+//  if(alloc_purpose == GCAllocForTenuredCold){
+//	  printf("in copy_to_survivor_space. Copying object to cold region.\n"); fflush(stdout);
+//  }
   if (L_SEGREGATION){
 	  char str [30];
 	  g1p->region_name(alloc_purpose, str);
