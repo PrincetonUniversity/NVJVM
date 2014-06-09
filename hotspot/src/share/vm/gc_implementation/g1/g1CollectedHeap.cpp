@@ -1822,7 +1822,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
     Universe::heap()->barrier_set()->resize_covered_region(*memRegion); // Not sure about it.
 
     // And the offset table as well.
-    _bot_shared->resize(memRegion->word_size());
+    _bot_shared->resize(memRegion->word_size());// Not sure about it.
 
     expand_bytes = aligned_expand_bytes;
     HeapWord* base = old_end;
@@ -4776,6 +4776,9 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   // GCAllocPurpose now has a survived cold, tenured cold region for segregating objects by access count
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz, old->getCount());
+  if(alloc_purpose == GCAllocForTenuredCold){
+	  printf("in copy_to_survivor_space. Copying object to cold region.\n"); fflush(stdout);
+  }
   if (L_SEGREGATION){
 	  char str [30];
 	  g1p->region_name(alloc_purpose, str);
