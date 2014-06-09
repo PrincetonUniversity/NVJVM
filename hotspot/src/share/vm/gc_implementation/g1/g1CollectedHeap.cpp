@@ -1861,10 +1861,15 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
 
-  _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
+   size_t hot_space_size = max_byte_size/2;
+   size_t cold_space_size = max_byte_size/2;
+   size_t total_space_size = hot_space_size + cold_space_size;
+
+  _expansion_regions = hot_space_size/HeapRegion::GrainBytes;
+  _expansion_regions_cold = cold_space_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
-  _rem_set = collector_policy()->create_rem_set(_reserved, 2);
+  _rem_set = collector_policy()->create_rem_set(_reserved, 3);
   set_barrier_set(rem_set()->bs());
   if (barrier_set()->is_a(BarrierSet::ModRef)) {
     _mr_bs = (ModRefBarrierSet*)_barrier_set;
@@ -1882,13 +1887,13 @@ jint G1CollectedHeap::initialize() {
   }
 
   // Carve out the G1 part of the heap.
-  size_t hot_space_size = max_byte_size/2;
-  size_t cold_space_size = max_byte_size/2;
-  size_t total_space_size = hot_space_size + cold_space_size;
+
 
   ReservedSpace g1_rs   = heap_rs.first_part(hot_space_size);
+//  ReservedSpace g1_rs_cold = heap_rs.second_part(hot_region_size, cold_region_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
 		  g1_rs.size()/HeapWordSize);
+
   ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
 
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());
