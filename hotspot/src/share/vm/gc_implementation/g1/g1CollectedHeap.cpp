@@ -1738,7 +1738,9 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _refine_cte_cl(NULL),
   _full_collection(false),
   _free_list("Master Free List"),
+  _free_list_cold("Master Free List Cold"),
   _secondary_free_list("Secondary Free List"),
+  _secondary_free_list_cold("Secondary Free List"),
   _humongous_set("Master Humongous Set"),
   _free_regions_coming(false),
   _young_list(new YoungList(this)),
@@ -1880,10 +1882,13 @@ jint G1CollectedHeap::initialize() {
   }
 
   // Carve out the G1 part of the heap.
+  size_t hot_space_size = max_byte_size/2;
+  size_t cold_space_size = max_byte_size/2;
+  size_t total_space_size = hot_space_size + cold_space_size;
 
-  ReservedSpace g1_rs   = heap_rs.first_part(max_byte_size);
+  ReservedSpace g1_rs   = heap_rs.first_part(hot_space_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
-                           g1_rs.size()/HeapWordSize);
+		  	  	  	  total_space_size/HeapWordSize);
   ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
 
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());

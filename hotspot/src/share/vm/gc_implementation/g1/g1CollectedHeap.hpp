@@ -180,27 +180,34 @@ private:
 
   // Storage for the G1 heap (excludes the permanent generation).
   VirtualSpace _g1_storage;
+  VirtualSpace _g1_storage_cold;
+
   MemRegion    _g1_reserved;
 
   // The part of _g1_storage that is currently committed.
   MemRegion _g1_committed;
+  MemRegion _g1_committed_cold;
 
   // The maximum part of _g1_storage that has ever been committed.
   MemRegion _g1_max_committed;
+  MemRegion _g1_max_committed_cold;
 
   // The master free list. It will satisfy all new region allocations.
   MasterFreeRegionList      _free_list;
+  MasterFreeRegionList 		_free_list_cold;
 
   // The secondary free list which contains regions that have been
   // freed up during the cleanup process. This will be appended to the
   // master free list when appropriate.
   SecondaryFreeRegionList   _secondary_free_list;
+  SecondaryFreeRegionList	_secondary_free_list_cold;
 
   // It keeps track of the humongous regions.
   MasterHumongousRegionSet  _humongous_set;
 
   // The number of regions we could create by expansion.
   size_t _expansion_regions;
+  size_t _expansion_regions_cold;
 
   // The block offset table for the G1 heap.
   G1BlockOffsetSharedArray* _bot_shared;
