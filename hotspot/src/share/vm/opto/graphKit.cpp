@@ -3559,6 +3559,8 @@ void GraphKit::checkObj(Node *obj){
 				  Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
+				  __ store(__ ctrl(), bitAddr, val, T_INT, adr_type);
+
 				  	__ if_then(val, BoolTest::eq, zeroInt, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
