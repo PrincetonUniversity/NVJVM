@@ -273,6 +273,7 @@ class Universe: AllStatic {
   static void setColdRegionEnd(uint64_t s)             {  _coldRegionEnd = s;}
 
   static uint64_t getHeapStart()                      {  return _heapStart;}
+  static uint64_t getHeapEnd()						  {  return _heapStart + _heapSize;}
   static uint64_t getHeapSize()                 	  {  return _heapSize;}
   static uint64_t getColdRegionStart()				  {  return _coldRegionStart;}
   static uint64_t getColdRegionEnd()				  {  return _coldRegionEnd; }
