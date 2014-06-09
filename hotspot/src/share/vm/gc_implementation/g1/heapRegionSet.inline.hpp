@@ -144,43 +144,7 @@ inline void HeapRegionLinkedList::add_as_tail(HeapRegion* hr) {
   _tail = hr;
 }
 
-inline HeapRegion* HeapRegionLinkedList::getRegion(bool isCold){
-	HeapRegion* curr, *prev;
-	prev = curr = _head;
-	while (curr != NULL){
-		if (curr->isCold() == isCold){
-			if(curr == _head){
-				_head = curr->next();
-				if(_head == NULL)
-					_tail == NULL;
-			} else {
-				prev->set_next(curr->next());
-			}
-			curr->set_next(NULL);
-			remove_internal(curr);
-			break;
-		}
-		prev = curr;
-		curr = curr->next();
-	}
-	if(R_SEG){
-		if(curr){
-			void *bottom = curr->bottom();
-			void *end = curr->end();
-			printf("In getRegion. Returning heap region = %p. (bottom = %p, end =%p), isCold %d, region is cold = %d\n", curr,
-					curr->bottom(), curr->end(), isCold, curr->isCold());
-			fflush(stdout);
-		} else {
-			printf("In getRegion. Cold Region Not Found.\n"); fflush(stdout);
-		}
-	}
-	return curr;
-}
-
 inline HeapRegion* HeapRegionLinkedList::remove_head() {
-  if(Trigger_Segregation){ 	 // when we want to trigger segregation
-		return getRegion(false); // get a non-cold region from the old flow
-  }
   hrs_assert_mt_safety_ok(this);
   assert(!is_empty(), hrs_ext_msg(this, "the list should not be empty"));
   assert(length() > 0 && _head != NULL && _tail != NULL,
@@ -203,7 +167,7 @@ inline HeapRegion* HeapRegionLinkedList::remove_head_or_null() {
   hrs_assert_mt_safety_ok(this);
 
   if (!is_empty()) {
-	return remove_head();
+    return remove_head();
   } else {
     return NULL;
   }

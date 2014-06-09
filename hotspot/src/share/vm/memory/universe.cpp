@@ -895,6 +895,9 @@ char* Universe::preferred_heap_base(size_t heap_size, NARROW_OOP_MODE mode) {
   }
 #endif
   if (P_INIT){
+	  printf("sizeof intptr_t = %d", sizeof(intptr_t));
+	  printf("sizeof int = %d", sizeof(int));
+	  printf("sizeof long = %d", sizeof(long));fflush(stdout);
 	  printf("preferred_heap_base():preferred heap base: %p, heap_size: %zu\n", (char *)base, heap_size); fflush(stdout);
   }
   return (char*)base; // also return NULL (don't care) for 32-bit VM

@@ -347,7 +347,7 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
   _size = size;
   if (P_INIT){
 	  printf("ReservedSpace::initialize method, base = %p\n", base);
-	  printf("ReservedSpace::initialize method, size = %u\n", size);
+	  printf("ReservedSpace::initialize method, size = %zu\n", size);
 	  fflush(stdout);
   }
   _alignment = MAX2(alignment, (size_t) os::vm_page_size());
@@ -387,14 +387,6 @@ ReservedSpace ReservedSpace::first_part(size_t partition_size, size_t alignment,
                        executable());
   return result;
 }
-
-ReservedSpace ReservedSpace::last_part_before_perm_gen(size_t partition_size, size_t alignment, size_t perm_gen_size) {
-  assert(partition_size <= size(), "partition failed");
-  ReservedSpace result(base() + partition_size, size() - partition_size - perm_gen_size,
-                       alignment, special(), executable());
-  return result;
-}
-
 
 
 ReservedSpace

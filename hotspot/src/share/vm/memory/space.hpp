@@ -108,7 +108,6 @@ class Space: public CHeapObj {
  protected:
   HeapWord* _bottom;
   HeapWord* _end;
-  bool _isCold;	// Field added. On creation of a heap region, the region is classified as being cold or not.
 
   // Used in support of save_marks()
   HeapWord* _saved_mark_word;
@@ -127,10 +126,6 @@ class Space: public CHeapObj {
   // Accessors
   HeapWord* bottom() const         { return _bottom; }
   HeapWord* end() const            { return _end;    }
-
-  bool isCold() 				   { return _isCold; }
-  void set_isCold(bool isCold)	   { _isCold = isCold; }
-
   virtual void set_bottom(HeapWord* value) { _bottom = value; }
   virtual void set_end(HeapWord* value)    { _end = value; }
 
@@ -433,9 +428,6 @@ public:
   }
 
   void set_next_compaction_space(CompactibleSpace* csp) {
-	if(R_SEG){
-		printf("setting next compaction region this = %p, to = %p", this, csp); fflush(stdout);
-	}
     _next_compaction_space = csp;
   }
 

@@ -270,7 +270,7 @@ class Universe: AllStatic {
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
   static void setColdRegionStart(uint64_t s)           {  _coldRegionStart = s;}
-  static void setColdRegionEnd(uint64_t s)            {  _coldRegionEnd = s;}
+  static void setColdRegionStop(uint64_t s)            {  _coldRegionStart = s;}
 
   static uint64_t getHeapStart()                      {  return _heapStart;}
   static uint64_t getHeapSize()                 	  {  return _heapSize;}
