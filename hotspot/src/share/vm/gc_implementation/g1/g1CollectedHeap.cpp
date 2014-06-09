@@ -1888,7 +1888,7 @@ jint G1CollectedHeap::initialize() {
 
   ReservedSpace g1_rs   = heap_rs.first_part(hot_space_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
-		  	  	  	  total_space_size/HeapWordSize);
+		  g1_rs.size()/HeapWordSize);
   ReservedSpace perm_gen_rs = heap_rs.last_part(max_byte_size);
 
   _perm_gen = pgs->init(perm_gen_rs, pgs->init_size(), rem_set());
