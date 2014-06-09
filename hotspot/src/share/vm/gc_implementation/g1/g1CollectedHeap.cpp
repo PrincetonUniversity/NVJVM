@@ -4270,6 +4270,8 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
 
   _alloc_buffers[GCAllocForSurvived] = &_surviving_alloc_buffer;
   _alloc_buffers[GCAllocForTenured]  = &_tenured_alloc_buffer;
+  _alloc_buffers[GCAllocForSurvivedCold] = &_surviving_alloc_buffer_cold;
+  _alloc_buffers[GCAllocForTenuredCold]  = &_tenured_alloc_buffer_cold;
 
   _start = os::elapsedTime();
 }
