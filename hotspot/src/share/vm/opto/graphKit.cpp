@@ -3576,7 +3576,7 @@ void GraphKit::checkObj(Node *obj){
 	} __ end_if(); // End of null test
 	Node* countObj  = __ load(__ ctrl(), null(), TypeInt::INT, T_INT, adr_type);
 	Node *incr_node = _gvn.transform(new (C, 3) AddINode(countObj, __ ConI(1)));
-	__ store(__ ctrl(), obj, countObj, T_INT, adr_type);
+	__ store(__ ctrl(), null(), countObj, T_INT, adr_type);
 	final_sync(ideal);
 }
 
