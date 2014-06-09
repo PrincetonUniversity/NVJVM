@@ -139,7 +139,7 @@ class Space: public CHeapObj {
   void setPreconsumptionDirtyCardClosure(MemRegionClosure* cl) {
     _preconsumptionDirtyCardClosure = cl;
   }
-  bool getCold(){
+  bool get_cold(){
 	  return ((uint64_t)_bottom >= Universe::getColdRegionStart() && (uint64_t)_end <= Universe::getColdRegionEnd());
   }
 
