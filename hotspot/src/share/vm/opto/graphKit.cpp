@@ -3565,7 +3565,7 @@ void GraphKit::checkObj(Node *obj){
 						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 						  // incrementing the counter variable by 1, do not understand
 						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
-						   Storing the result obtained after the increment operation to memory
+						   //Storing the result obtained after the increment operation to memory
 						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 				  	}__ end_if(); /*__ else_(); { // End of object test
 			  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
