@@ -3570,7 +3570,7 @@ void GraphKit::checkObj(Node *obj){
 				  	} __ else_(); { // End of object test
 			  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
 			  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
-				  	}
+				  	} __ end_if();
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
