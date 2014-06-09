@@ -451,7 +451,10 @@ JRT_END
 
 
 JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
-printf("in swapIn\n");fflush(stdout);
+if(obj == NULL){
+	printf("obj is null\n"); fflush(stdout);
+	exit(1);
+}
 //uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
 //uint64_t regionI = objOffset /(_R_SIZE);
 //uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
