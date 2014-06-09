@@ -1596,6 +1596,204 @@ HeapWord* G1CollectedHeap::expand_and_allocate(size_t word_size) {
   return NULL;
 }
 
+HeapRegion*
+G1CollectedHeap::new_region_try_secondary_free_list_hybrid(bool isCold = false) {
+  printf("In new_region_try_secondary_free_list_hybrid\n"); fflush(stdout);
+  MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
+  SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
+  if(freeList == NULL || secondaryFreeList == NULL){
+	  printf("Either of freeList, secondaryFreeList is null.... Exiting\n"); fflush(stdout); exit(1);
+  }
+
+  MutexLockerEx x(SecondaryFreeList_lock, Mutex::_no_safepoint_check_flag);
+  while (!secondaryFreeList->is_empty() || free_regions_coming()) {
+    if (!secondaryFreeList->is_empty()) {
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "secondary_free_list has "SIZE_FORMAT" entries",
+                               secondaryFreeList->length());
+      }
+      // It looks as if there are free regions available on the
+      // secondary_free_list. Let's move them to the free_list and try
+      // again to allocate from it.
+      if(isCold == false){
+    	  append_secondary_free_list();
+      } else {
+    	  append_secondary_free_list_cold();
+      }
+
+      assert(!freeList->is_empty(), "if the secondary_free_list was not "
+             "empty we should have moved at least one entry to the free_list");
+      HeapRegion* res = freeList->remove_head();
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "allocated "HR_FORMAT" from secondary_free_list",
+                               HR_FORMAT_PARAMS(res));
+      }
+      return res;
+    }
+
+    // Wait here until we get notifed either when (a) there are no
+    // more free regions coming or (b) some regions have been moved on
+    // the secondary_free_list.
+    SecondaryFreeList_lock->wait(Mutex::_no_safepoint_check_flag);
+  }
+
+  if (G1ConcRegionFreeingVerbose) {
+    gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                           "could not allocate from secondary_free_list");
+  }
+  return NULL;
+}
+
+HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand, bool isCold = false) {
+  assert(!isHumongous(word_size) ||
+                                  word_size <= (size_t) HeapRegion::GrainWords,
+         "the only time we use this to allocate a humongous region is "
+         "when we are allocating a single humongous region");
+  MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
+  SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
+//  if (isCold == true){
+//	  printf("In new_region_hybrid(). IsCold = %d\n", isCold); fflush(stdout);
+//  }
+  if(freeList == NULL || secondaryFreeList == NULL){ // TODO remove later
+	  printf("freelist, secondaryFreeList is null in new_region_hybrid\n");fflush(stdout);exit(-1);
+  }
+
+  HeapRegion* res;
+  if (G1StressConcRegionFreeing) {
+    if (!secondaryFreeList->is_empty()) {
+      if (G1ConcRegionFreeingVerbose) {
+        gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                               "forced to look at the secondary_free_list");
+      }
+      res = new_region_try_secondary_free_list_hybrid(isCold);
+      if (res != NULL) {
+        return res;
+      }
+    }
+  }
+  res = freeList->remove_head_or_null();
+  if(isCold != res->get_cold()){
+	  printf("isCold = %d, region is cold = %d, freeList = %p, add of _free_list_cold =%p, add of _free_list=%p\n",
+			  isCold, res->get_cold(), freeList, &_free_list_cold, &_free_list);
+	  fflush(stdout);
+  }
+  if (res == NULL) {
+    if (G1ConcRegionFreeingVerbose) {
+      gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
+                             "res == NULL, trying the secondary_free_list");
+    }
+    res = new_region_try_secondary_free_list_hybrid(isCold);
+  }
+  if (res == NULL && do_expand) {
+    if (expand_hybrid(word_size * HeapWordSize, isCold)) {
+      // The expansion succeeded and so we should have at least one
+      // region on the free list.
+      res = freeList->remove_head();
+    }
+  }
+  if (res != NULL) {
+    if (G1PrintHeapRegions) {
+      gclog_or_tty->print_cr("new alloc region %d:["PTR_FORMAT","PTR_FORMAT"], "
+                             "top "PTR_FORMAT, res->hrs_index(),
+                             res->bottom(), res->end(), res->top());
+    }
+  }
+  return res;
+}
+
+bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
+  if(R_SEG){
+	  printf("In expand_cold. isCold == %d\n", isCold); fflush(stdout);
+  }
+  VirtualSpace* storage = (isCold == true) ? &_g1_storage_cold : &_g1_storage;
+  MemRegion* memRegion = (isCold == true) ?  &_g1_committed_cold: &_g1_committed;
+  MemRegion* maxCMemRegion = (isCold == true) ? &_g1_max_committed_cold: &_g1_max_committed;
+
+  size_t old_mem_size = storage->committed_size();
+  size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
+  aligned_expand_bytes = align_size_up(aligned_expand_bytes,
+                                       HeapRegion::GrainBytes);
+
+  if (Verbose && PrintGC || R_SEG) {
+    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK \n",
+                           old_mem_size/K, aligned_expand_bytes/K);
+  }
+
+  HeapWord* old_end = (HeapWord*)storage->high();
+  bool successful = storage->expand_by(aligned_expand_bytes);
+  if (successful) {
+    HeapWord* new_end = (HeapWord*)storage->high();
+
+    // Expand the committed region.
+    memRegion->set_end(new_end);
+
+    // Tell the cardtable about the expansion.
+    Universe::heap()->barrier_set()->resize_covered_region(*memRegion); // Not sure about it.
+
+    // And the offset table as well.
+    _bot_shared->resize(memRegion->word_size());// Not sure about it.
+
+    expand_bytes = aligned_expand_bytes;
+    HeapWord* base = old_end;
+
+    // Create the heap regions for [old_end, new_end)
+    while (expand_bytes > 0) {
+      HeapWord* high = base + HeapRegion::GrainWords;
+
+      // Create a new HeapRegion.
+      MemRegion mr(base, high);
+      bool is_zeroed =  !maxCMemRegion->contains(base);
+      HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
+      /*if(R_SEG){
+    	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
+      }*/
+      // Add it to the HeapRegionSeq.
+     if(isCold == false){
+      _hrs->insert(hr);
+      _free_list.add_as_tail(hr);
+      if(hr->get_cold()){
+    	  printf("Bug, adding a cold region to the hot region list.\n"); fflush(stdout); exit(-1);
+      }
+      // And we used up an expansion region to create it.
+      _expansion_regions--;
+     } else {
+//    	 printf("here"); fflush(stdout);
+         _hrs_cold->insert(hr);
+         _free_list_cold.add_as_tail(hr);
+
+         // And we used up an expansion region to create it.
+         _expansion_regions_cold--;
+     }
+
+      expand_bytes -= HeapRegion::GrainBytes;
+      base += HeapRegion::GrainWords;
+    }
+    assert(base == new_end, "sanity");
+
+    // Now update max_committed if necessary. If the region requested is a cold region, then the max committed of the cold region is selected.
+    maxCMemRegion->set_end(MAX2(maxCMemRegion->end(), new_end));
+
+  } else {
+    // The expansion of the virtual storage space was unsuccessful.
+    // Let's see if it was because we ran out of swap.
+    if (G1ExitOnExpansionFailure &&
+        storage->uncommitted_size() >= aligned_expand_bytes) {
+      // We had head room...
+      vm_exit_out_of_memory(aligned_expand_bytes, "G1 heap expansion");
+    }
+  }
+
+  if (Verbose && PrintGC || R_SEG) {
+    size_t new_mem_size = storage->committed_size();
+    gclog_or_tty->print_cr("...%s, expanded to %ldK",
+                           (successful ? "Successful" : "Failed"),
+                           new_mem_size/K);
+  }
+  return successful;
+}
+
 bool G1CollectedHeap::expand(size_t expand_bytes) {
   size_t old_mem_size = _g1_storage.committed_size();
   size_t aligned_expand_bytes = ReservedSpace::page_align_size_up(expand_bytes);
