@@ -3540,6 +3540,7 @@ void GraphKit::checkObj(Node *obj){
 	float likely  = PROB_LIKELY(0.999);
 	int adr_type = Compile::AliasIdxRaw;
 	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
+	const TypeFunc *tf = OptoRuntime::checkObj_Type();
 	// Node representing null object
 	Node* zeroObj = null();
 	// Node representing null integer
@@ -3557,13 +3558,9 @@ void GraphKit::checkObj(Node *obj){
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
 				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
-
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::INT, T_INT, adr_type);
-		  		  const TypeFunc *tf = OptoRuntime::checkObj_Type();
-		  		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", val);
-
-
+//		  		  __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", val);
 				  	__ if_then(val, BoolTest::eq, zeroInt, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
@@ -3579,9 +3576,6 @@ void GraphKit::checkObj(Node *obj){
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
 	} __ end_if(); // End of null test
-//	Node* countObj  = __ load(__ ctrl(), null(), TypeInt::INT, T_INT, adr_type);
-//	Node *incr_node = _gvn.transform(new (C, 3) AddINode(countObj, __ ConI(1)));
-//	__ store(__ ctrl(), null(), countObj, T_INT, adr_type);
 	final_sync(ideal);
 }
 
