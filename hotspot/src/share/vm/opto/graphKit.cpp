@@ -3544,9 +3544,9 @@ void GraphKit::checkObj(Node *obj){
 	// Node representing null integer
 	Node* zeroInt = zerocon(T_INT);
 	// Getting start of the cold region
-	Node* coldRegionStart = makecon(TypeRawPtr::make((address)Universe::getColdRegionStart()));
+//	Node* coldRegionStart = makecon(TypeRawPtr::make((address)Universe::getColdRegionStart()));
 	// Getting end of the cold region
-	Node* coldRegionEnd = makecon(TypeRawPtr::make((address)Universe::getColdRegionEnd()));
+//	Node* coldRegionEnd = makecon(TypeRawPtr::make((address)Universe::getColdRegionEnd()));
 	// If the object is null, no checks are performed, load of a null object
 	__ if_then(obj, BoolTest::ne, zeroObj, likely); {
 		// Checking if the object's address is greater than the start of the cold region
@@ -3575,6 +3575,7 @@ void GraphKit::checkObj(Node *obj){
 		// Incrementing the object's header here
 	} __ end_if(); // End of null test
 	Node* countObj  = __ load(__ ctrl(), obj, TypeInt::INT, T_INT, adr_type);
+	__ store(__ ctrl(), obj, countObj, T_INT, adr_type);
 	final_sync(ideal);
 }
 
