@@ -70,8 +70,6 @@ typedef int CardIdx_t;     // needs to hold [ 0..CardsPerRegion )
 enum GCAllocPurpose {
   GCAllocForTenured,
   GCAllocForSurvived,
-  GCAllocForSurvivedCold,
-  GCAllocForTenuredCold,
   GCAllocPurposeCount
 };
 
@@ -225,7 +223,7 @@ private:
   void abandon_gc_alloc_regions();
 
   // The to-space memory regions into which objects are being copied during
-  // a GC. // _gc_alloc_regions are now extended to include cold regions too .
+  // a GC.
   HeapRegion* _gc_alloc_regions[GCAllocPurposeCount];
   size_t _gc_alloc_region_counts[GCAllocPurposeCount];
   // These are the regions, one per GCAllocPurpose, that are half-full
@@ -1729,14 +1727,12 @@ public:
   { }
 
   inline bool mark(HeapWord* addr) {
-	//printf("marking in buffer %p\n", addr); fflush(stdout);
     guarantee(use_local_bitmaps, "invariant");
     assert(_during_marking, "invariant");
     return _bitmap.mark(addr);
   }
 
   inline void set_buf(HeapWord* buf) {
-	 //printf("setting buffer %p\n", buf); fflush(stdout);
     if (use_local_bitmaps && _during_marking)
       _bitmap.set_buffer(buf);
     ParGCAllocBuffer::set_buf(buf);
@@ -1764,8 +1760,6 @@ protected:
 
   G1ParGCAllocBuffer  _surviving_alloc_buffer;
   G1ParGCAllocBuffer  _tenured_alloc_buffer;
-  G1ParGCAllocBuffer  _surviving_cold_alloc_buffer;
-  G1ParGCAllocBuffer  _tenured_cold_alloc_buffer;
   G1ParGCAllocBuffer* _alloc_buffers[GCAllocPurposeCount];
   ageTable            _age_table;
 
@@ -1880,21 +1874,10 @@ public:
     return obj;
   }
 
-// This is the place which allocates objects according to their age
   HeapWord* allocate(GCAllocPurpose purpose, size_t word_sz) {
     HeapWord* obj = alloc_buffer(purpose)->allocate(word_sz);
-    if (obj != NULL) {
-    if (L_DEBUG){
-    	printf("allocating from pss, GC thread, %p\n", obj); fflush(stdout);
-    }
-    	return obj;
-    } else {
-	if (L_DEBUG){
-		printf("allocating from pss, GC thread, %p\n", obj); fflush(stdout);
-	}
-    	obj = allocate_slow(purpose, word_sz);
-    	return  obj;
-    }
+    if (obj != NULL) return obj;
+    return allocate_slow(purpose, word_sz);
   }
 
   void undo_allocation(GCAllocPurpose purpose, HeapWord* obj, size_t word_sz) {
