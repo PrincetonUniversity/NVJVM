@@ -670,8 +670,8 @@ HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand,
   }
   res = freeList->remove_head_or_null();
   if(isCold != res->get_cold()){
-	  printf("isCold = %d, region is cold = %d, freeList = %p, address of _free_list_cold =%p, add of _free_list=%p",
-			  isCold, res->get_cold(), &_free_list_cold, &_free_list);
+	  printf("isCold = %d, region is cold = %d, freeList = %p, address of _free_list_cold =%p, add of _free_list=%p\n",
+			  isCold, res->get_cold(), freeList, &_free_list_cold, &_free_list);
 	  fflush(stdout);
   }
   if (res == NULL) {
