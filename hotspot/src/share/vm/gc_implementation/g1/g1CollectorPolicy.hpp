@@ -1191,16 +1191,16 @@ protected:
 public:
 // Here, the attribute count needs to be considered in order to select between a hot/cold region
   inline GCAllocPurpose
-    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz) {
+    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz, int access_count) {
       if (age < _tenuring_threshold && src_region->is_young()) {
-//    	if (access_count < _cold_threshold){
-//    		return GCAllocForSurvivedCold;
-//    	}
+    	if (access_count < _cold_threshold){
+    		return GCAllocForSurvivedCold;
+    	}
         return GCAllocForSurvived;
       } else {
-//      	if (access_count < _cold_threshold){
-//      		return GCAllocForTenuredCold;
-//      	}
+      	if (access_count < _cold_threshold){
+      		return GCAllocForTenuredCold;
+      	}
         return GCAllocForTenured;
       }
   }
@@ -1216,13 +1216,13 @@ public:
 		  strcpy(str, "GCAllocForTenured");
 		  break;
 
-//	  case GCAllocForSurvivedCold:
-//		  strcpy(str, "GCAllocForSurvivedCold");
-//		  break;
-//
-//	  case GCAllocForTenuredCold:
-//		  strcpy(str, "GCAllocForTenuredCold");
-//		  break;
+	  case GCAllocForSurvivedCold:
+		  strcpy(str, "GCAllocForSurvivedCold");
+		  break;
+
+	  case GCAllocForTenuredCold:
+		  strcpy(str, "GCAllocForTenuredCold");
+		  break;
 
 	  default:
 		  strcpy(str, "None");
