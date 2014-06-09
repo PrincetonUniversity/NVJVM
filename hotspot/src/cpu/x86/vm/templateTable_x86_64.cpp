@@ -595,15 +595,11 @@ void TemplateTable::interceptObject(Address object) {
   __ cmpptr(object, 0);
   __ jcc(Assembler::equal, nullObj);
 
-
   __ cmpptr(object, coldRegionStart);
   __ jcc(Assembler::less, hotObject);
 
-  __ cmpptr(object, coldRegionEnd);
-  __ jcc(Assembler::greater, hotObject);
-
-  __ movptr(r10, object);
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug), r10, r11);
+//  __ cmpptr(object, coldRegionEnd);
+//  __ jcc(Assembler::greater, hotObject);
 
   __ movptr(r11, object); 	  // pointer to the object in memory
   __ subl(r11, offset);		  // offset of the region, got by subtracting
