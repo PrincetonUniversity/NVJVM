@@ -593,6 +593,7 @@ G1CollectedHeap::new_region_try_secondary_free_list() {
 
 HeapRegion*
 G1CollectedHeap::new_region_try_secondary_free_list_hybrid(bool isCold = false) {
+  printf("In new_region_try_secondary_free_list_hybrid\n"); fflush(stdout);
   MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
   SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
   if(freeList == NULL || secondaryFreeList == NULL){
@@ -668,6 +669,11 @@ HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand,
     }
   }
   res = freeList->remove_head_or_null();
+  if(isCold != res->get_cold()){
+	  printf("isCold = %d, region is cold = %d, freeList = %p, address of _free_list_cold =%p, add of _free_list=%p",
+			  isCold, res->get_cold(), &_free_list_cold, &_free_list);
+	  fflush(stdout);
+  }
   if (res == NULL) {
     if (G1ConcRegionFreeingVerbose) {
       gclog_or_tty->print_cr("G1ConcRegionFreeing [region alloc] : "
