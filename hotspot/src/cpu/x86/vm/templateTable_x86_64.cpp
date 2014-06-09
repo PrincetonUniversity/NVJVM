@@ -592,25 +592,25 @@ void TemplateTable::interceptObject(Address object) {
 
   Label nullObj, coldObject, coldTest1;
 
-  __ cmpptr(object, 0);
-  __ jcc(Assembler::equal, nullObj);
+//  __ cmpptr(object, 0);
+//  __ jcc(Assembler::equal, nullObj);
+//
+//  __ cmpptr(object, coldRegionStart);
+//  __ jcc(Assembler::greater, coldTest1);
+//
+//   __ movptr(r10, object);
+//      Address objectCounter = Address(r10, ce_offset);
+//   __ movl(r11, objectCounter);        // load access counter
+//   __ incrementl(r11, 1);       		  // increment access counter
+//   __ movl(objectCounter, r11);        // store access counter
+//   __ jmp(nullObj);
 
-  __ cmpptr(object, coldRegionStart);
-  __ jcc(Assembler::greater, coldTest1);
+//  __ bind(coldTest1);
+//  __ cmpptr(object, coldRegionEnd);
+//  __ jcc(Assembler::less, coldObject);
+//  __ jmp(nullObj);
 
-   __ movptr(r10, object);
-      Address objectCounter = Address(r10, ce_offset);
-   __ movl(r11, objectCounter);        // load access counter
-   __ incrementl(r11, 1);       		  // increment access counter
-   __ movl(objectCounter, r11);        // store access counter
-   __ jmp(nullObj);
-
-  __ bind(coldTest1);
-  __ cmpptr(object, coldRegionEnd);
-  __ jcc(Assembler::less, coldObject);
-  __ jmp(nullObj);
-
-  __ bind(coldObject);
+//  __ bind(coldObject);
   __ movptr(r11, object); 	  // pointer to the object in memory
   __ subl(r11, offset);		  // offset of the region, got by subtracting
   __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
@@ -621,6 +621,12 @@ void TemplateTable::interceptObject(Address object) {
 
   __ movptr(r10, object);
   call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+
+   __ movptr(r10, object);
+      Address objectCounter = Address(r10, ce_offset);
+   __ movl(r11, objectCounter);        // load access counter
+   __ incrementl(r11, 1);       		  // increment access counter
+   __ movl(objectCounter, r11);        // store access counter
 
   __ bind(nullObj);					  // binding the null label here
 
