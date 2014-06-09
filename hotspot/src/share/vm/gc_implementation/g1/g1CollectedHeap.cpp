@@ -1890,7 +1890,7 @@ jint G1CollectedHeap::initialize() {
 
 
   ReservedSpace g1_rs   = heap_rs.first_part(hot_space_size);
-//  ReservedSpace g1_rs_cold = heap_rs.second_part(hot_region_size, cold_region_size);
+  ReservedSpace g1_rs_cold = heap_rs.second_part(hot_region_size, cold_region_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
 		  g1_rs.size()/HeapWordSize);
 
@@ -1902,6 +1902,13 @@ jint G1CollectedHeap::initialize() {
   _g1_committed = MemRegion((HeapWord*)_g1_storage.low(), (size_t) 0);
   _g1_max_committed = _g1_committed;
   _hrs = new HeapRegionSeq(_expansion_regions);
+
+  // Initializing the cold regions
+  _g1_storage_cold.initialize(g1_rs_cold, 0);
+  _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
+  _g1_max_committed_cold = _g1_committed_cold;
+  _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
+
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 
   // 6843694 - ensure that the maximum region index can fit

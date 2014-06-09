@@ -219,6 +219,7 @@ private:
 
   // The sequence of all heap regions in the heap.
   HeapRegionSeq* _hrs;
+  HeapRegionSeq* _hrs_cold;
 
   // Alloc region used to satisfy mutator allocation requests.
   MutatorAllocRegion _mutator_alloc_region;
