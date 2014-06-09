@@ -4135,7 +4135,10 @@ void G1CollectedHeap::release_gc_alloc_regions(bool totally) {
       if (r->is_empty()) {
         // We didn't actually allocate anything in it; let's just put
         // it back on the free list.
-        _free_list.add_as_head(r);
+    	if(r->get_cold())
+    	  _free_list_cold.add_as_head(r);
+    	else
+         _free_list.add_as_head(r);
       } else if (_retain_gc_alloc_region[ap] && !totally) {
         // retain it so that we can use it at the beginning of the next GC
         _retained_gc_alloc_regions[ap] = r;
