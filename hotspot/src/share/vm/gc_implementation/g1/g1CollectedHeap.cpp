@@ -746,7 +746,8 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
 //    alloc_region = new_region(word_size, true /* do_expand */);
 	  alloc_region = new_region_hybrid(word_size, true, isCold); // allocating region from the hybrid region allocator
 	  if(isCold != alloc_region->get_cold()){
-		  printf("Bug in new_gc_allocation_region code\n."); fflush(stdout); exit(1);
+		  printf("Bug in new_gc_allocation_region code\n. (isCold =%d, alloc_region =%d)",isCold, alloc_region->get_cold());
+		  fflush(stdout); exit(1);
 	  }
     // Change, GCAllocForSurvivedCold is now set as a survivor space
     if ((purpose == GCAllocForSurvived || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
