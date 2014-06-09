@@ -3574,8 +3574,8 @@ void GraphKit::checkObj(Node *obj){
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
 	} __ end_if(); // End of null test
-	Node* countObj  = __ load(__ ctrl(), obj, TypeInt::INT, T_INT, adr_type);
-	__ store(__ ctrl(), obj, countObj, T_INT, adr_type);
+	Node* countObj  = __ load(__ ctrl(), null(), TypeInt::INT, T_INT, adr_type);
+//	__ store(__ ctrl(), obj, countObj, T_INT, adr_type);
 	final_sync(ideal);
 }
 
