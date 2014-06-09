@@ -647,7 +647,9 @@ HeapRegion* G1CollectedHeap::new_region_hybrid(size_t word_size, bool do_expand,
          "when we are allocating a single humongous region");
   MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
   SecondaryFreeRegionList* secondaryFreeList = (isCold == true) ? &_secondary_free_list_cold: &_secondary_free_list;
-
+  if (isCold == true){
+	  printf("In new_region_hybrid(). IsCold = %d\n", isCold); fflush(stdout);
+  }
   if(freeList == NULL || secondaryFreeList == NULL){ // TODO remove later
 	  printf("freelist, secondaryFreeList is null in new_region_hybrid\n");fflush(stdout);exit(-1);
   }
@@ -3558,6 +3560,7 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
+  printf("In Minor collection pause at safepoint \n"); fflush(stdout);
   assert_at_safepoint(true /* should_be_vm_thread */);
   guarantee(!is_gc_active(), "collection is not reentrant");
 

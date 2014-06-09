@@ -1219,6 +1219,11 @@ void G1CollectorPolicy::record_collection_pause_end() {
   _mmu_tracker->add_pause(end_time_sec - elapsed_ms/1000.0,
                           end_time_sec, false);
 
+  if(_cur_collection_pause_used_regions_at_start < collection_set_size()){
+	  printf("Error. _cur_collection_pause_used_regions_at_start = %d, collection_set_size =%d\n",
+			  _cur_collection_pause_used_regions_at_start, collection_set_size());
+	  fflush(stdout); exit(-1);
+  }
   guarantee(_cur_collection_pause_used_regions_at_start >=
             collection_set_size(),
             "Negative RS size?");
