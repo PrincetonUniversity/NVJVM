@@ -155,8 +155,10 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread, void *a, void *b))
-	uint64_t base = (uint64_t) Universe::getRegionTable();
-	printf("address %p, %p, %p\n", a, base, b);exit(-1);
+	uint64_t start = (uint64_t) Universe::getColdRegionStart();
+	uint64_t end = (uint64_t) Universe::getColdRegionEnd();
+	printf("address of the object %p, start %p, end %p\n", a, start, end); fflush(stdout);
+	exit(-1);
 IRT_END
 
 // Increments the header count, of the object. It assumes that the object is not null.

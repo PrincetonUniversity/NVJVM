@@ -602,6 +602,9 @@ void TemplateTable::interceptObject(Address object) {
   __ cmpptr(object, coldRegionEnd);
   __ jcc(Assembler::greater, hotObject);
 
+  __ movptr(r10, object);
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug), r10, r11);
+
   __ movptr(r11, object); 	  // pointer to the object in memory
   __ subl(r11, offset);		  // offset of the region, got by subtracting
   __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
