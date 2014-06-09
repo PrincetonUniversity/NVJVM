@@ -617,10 +617,10 @@ void TemplateTable::interceptObject(Address object) {
   __ movptr(r10, (intptr_t)base);
   __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
   __ cmpl(Address(r11, 0), 0);
-  __ jcc(Assembler::equal, isPresent); // moving the value at the byte into the register r10
+//  __ jcc(Assembler::equal, isPresent); // moving the value at the byte into the register r10
 
-  __ movptr(r10, object);
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+//  __ movptr(r10, object);
+//  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
 
   __ bind(isPresent);
   __ movptr(r10, object);
