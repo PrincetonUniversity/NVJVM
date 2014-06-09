@@ -1025,6 +1025,10 @@ public:
     _free_list.add_as_head(&_secondary_free_list);
   }
 
+  void append_secondary_free_list_cold() {
+    _free_list_cold.add_as_head(&_secondary_free_list_cold);
+  }
+
   void append_secondary_free_list_if_not_empty_with_lock() {
     // If the secondary free list looks empty there's no reason to
     // take the lock and then try to append it.

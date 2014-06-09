@@ -2085,8 +2085,7 @@ jint G1CollectedHeap::initialize() {
   }
 
   // Carve out the G1 part of the heap.
-
-  ReservedSpace g1_rs   = heap_rs.first_part(hot_space_size);
+  ReservedSpace g1_rs = heap_rs.first_part(hot_space_size);
   ReservedSpace g1_rs_cold = heap_rs.second_part(hot_space_size, cold_space_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
 		  g1_rs.size()/HeapWordSize);
@@ -2105,6 +2104,10 @@ jint G1CollectedHeap::initialize() {
   _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
   _g1_max_committed_cold = _g1_committed_cold;
   _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
+
+  Universe::setColdRegionStart((uint64_t)g1_rs_cold.base());
+  uint64_t end = (uint64_t)g1_rs_cold.base() + (uint64_t)g1_rs_cold.size();
+  Universe::setColdRegionEnd(end);
 
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 

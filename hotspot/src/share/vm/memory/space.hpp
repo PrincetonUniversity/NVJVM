@@ -139,6 +139,9 @@ class Space: public CHeapObj {
   void setPreconsumptionDirtyCardClosure(MemRegionClosure* cl) {
     _preconsumptionDirtyCardClosure = cl;
   }
+  bool getCold(){
+	  return ((uint64_t)_bottom >= Universe::getColdRegionStart() && (uint64_t)_end <= Universe::getColdRegionEnd());
+  }
 
   // Returns a subregion of the space containing all the objects in
   // the space.
