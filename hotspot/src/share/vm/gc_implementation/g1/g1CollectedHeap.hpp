@@ -403,14 +403,14 @@ protected:
   // secondary_free_list and/or wait for more regions to appear on
   // that list, if _free_regions_coming is set.
   HeapRegion* new_region_try_secondary_free_list();
-  HeapRegion* new_region_try_secondary_free_list_hybrid(bool isCold);
+//  HeapRegion* new_region_try_secondary_free_list_hybrid(bool isCold);
 
   // Try to allocate a single non-humongous HeapRegion sufficient for
   // an allocation of the given word_size. If do_expand is true,
   // attempt to expand the heap if necessary to satisfy the allocation
   // request.
   HeapRegion* new_region(size_t word_size, bool do_expand);
-  HeapRegion* new_region_hybrid(size_t word_size, bool do_expand, bool isCold);
+//  HeapRegion* new_region_hybrid(size_t word_size, bool do_expand, bool isCold);
 
   // Try to allocate a new region to be used for allocation by
   // a GC thread. It will try to expand the heap if no region is
@@ -576,7 +576,7 @@ public:
   // false otherwise.
   // (Rounds up to a HeapRegion boundary.)
   bool expand(size_t expand_bytes);
-  bool expand_hybrid(size_t expand_bytes, bool isCold);
+//  bool expand_hybrid(size_t expand_bytes, bool isCold);
 
   // Do anything common to GC's.
   virtual void gc_prologue(bool full);
@@ -1025,9 +1025,11 @@ public:
     _free_list.add_as_head(&_secondary_free_list);
   }
 
+/*
   void append_secondary_free_list_cold() {
     _free_list_cold.add_as_head(&_secondary_free_list_cold);
   }
+*/
 
   void append_secondary_free_list_if_not_empty_with_lock() {
     // If the secondary free list looks empty there's no reason to

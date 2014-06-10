@@ -450,7 +450,7 @@ JRT_LEAF(void, SharedRuntime::debug(void* a, void* b, long c, long d, long e, lo
 JRT_END
 
 
-JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
+JRT_LEAF(void, SharedRuntime::swapIn(void* obj))
 //if(obj == NULL){
 //	printf("obj is null\n"); fflush(stdout);
 //	exit(1);
