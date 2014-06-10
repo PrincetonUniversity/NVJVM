@@ -3556,7 +3556,7 @@ void GraphKit::checkObj(Node *obj){
 			// Checking if the object's address is greater than the start of the cold region
 //			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
-//				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
+				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::INT, T_INT, adr_type);
