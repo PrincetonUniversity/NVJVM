@@ -1176,8 +1176,8 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse::increment_access_counter(Node *obj){
 	if(INTER_COMPILER){
-		checkObj(obj);
-//		incrementObjCount(obj);
+//		checkObj(obj);
+		incrementObjCount(obj);
 	}
 }
 
@@ -1408,27 +1408,27 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
 	obj = local(0);
-    increment_access_counter(obj);
+//    increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_1:
 	obj = local(1);
-	increment_access_counter(obj);
+//	increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_2:
     obj = local(2);
-    increment_access_counter(obj);
+//    increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_3:
     obj = local(3);
-    increment_access_counter(obj);
+//    increment_access_counter(obj);
 	push( obj );
     break;
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
-	increment_access_counter(obj);
+//	increment_access_counter(obj);
 	push( obj );
     break;
 
