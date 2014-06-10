@@ -79,6 +79,10 @@ CollectedHeap::CollectedHeap() : _n_par_threads(0)
   _defer_initial_card_mark = false; // strengthened by subclass in pre_initialize() below.
 }
 
+size_t CollectedHeap::max_heap_size(){
+	return collector_policy()->max_heap_byte_size() + collector_policy()->permanent_generation()->max_size();
+}
+
 void CollectedHeap::pre_initialize() {
   // Used for ReduceInitialCardMarks (when COMPILER2 is used);
   // otherwise remains unused.
