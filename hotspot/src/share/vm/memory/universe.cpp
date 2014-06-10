@@ -754,8 +754,11 @@ void* Universe::non_oop_word() {
 
 
 void Universe::allocateRegionTable(size_t size){
-	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), allocateRegionTable);
-	memset(regionTableBase, 0, allocateRegionTable);
+	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
+	size_t regionTableSize = size / (1024*1024);
+	printf("RegiontableSize = %d MB\n", regionTableSize); fflush(stdout);
+	printf("initializing region table %p\n", regionTableBase); fflush(stdout);
+	memset(regionTableBase, 0, size);
 	Universe::setRegionTable(regionTableBase);
 	if(P_INIT) {
 		printf("initializing region table %p\n", regionTableBase); fflush(stdout);
