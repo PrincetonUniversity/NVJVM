@@ -164,6 +164,7 @@ class Universe: AllStatic {
   static uint64_t _heapEnd; // Start of the heap
   static uint64_t _heapStart; // Start of the heap
   static uint64_t _heapSize;  // Heap Size
+  static uint64_t _maxHeapSize;  // Heap Size
   static uint64_t _coldRegionStart; // Start of the cold region
   static uint64_t _coldRegionEnd; // End of the cold region
 
@@ -273,6 +274,8 @@ class Universe: AllStatic {
   static void setHeapEnd(uint64_t s)                   {  _heapEnd = s;}
   static void setColdRegionStart(uint64_t s)           {  _coldRegionStart = s;}
   static void setColdRegionEnd(uint64_t s)             {  _coldRegionEnd = s;}
+  static size_t getMaxHeapSize()					   {  return _maxHeapSize;}
+  static void setMaxHeapSize(size_t s)				   {  _maxHeapSize = s; }
 
   static uint64_t getHeapStart()                      {  return _heapStart;}
   static uint64_t getHeapEnd()						  {  return _heapEnd;}

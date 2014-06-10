@@ -101,6 +101,7 @@ void *Universe::_regionTable = NULL; // table for storing region bitmap
 uint64_t Universe::_heapEnd = 0; // Start of the heap
 uint64_t Universe::_heapStart = 0; // Start of the heap
 uint64_t Universe::_heapSize = 0;  // Heap Size
+uint64_t Universe::_maxHeapSize = 0;  // Heap Size
 uint64_t Universe::_coldRegionStart = 0; // Start of the cold region
 uint64_t Universe::_coldRegionEnd = 0; // End of the cold region
 
@@ -798,7 +799,7 @@ jint universe_init() {
   }
 
   jint status = Universe::initialize_heap();
-  size_t heapSize = 1024*1024*1024*10;
+  size_t heapSize = Universe::getMaxHeapSize();
   size_t regionTableSize = heapSize/(sysconf(_SC_PAGE_SIZE) * 256);
   Universe::allocateRegionTable(regionTableSize);
   if (status != JNI_OK) {
@@ -923,6 +924,7 @@ jint Universe::initialize_heap() {
     G1CollectorPolicy* g1p = new G1CollectorPolicy_BestRegionsFirst();
     G1CollectedHeap* g1h = new G1CollectedHeap(g1p);
     Universe::_collectedHeap = g1h;
+    Universe::setMaxHeapSize(g1h->max_heap_size());
 #else  // SERIALGC
     fatal("UseG1GC not supported in java kernel vm.");
 #endif // SERIALGC

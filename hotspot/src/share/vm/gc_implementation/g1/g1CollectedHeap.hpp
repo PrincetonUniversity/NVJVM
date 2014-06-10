@@ -581,6 +581,7 @@ public:
   // Do anything common to GC's.
   virtual void gc_prologue(bool full);
   virtual void gc_epilogue(bool full);
+  size_t max_heap_size();
 
   // We register a region with the fast "in collection set" test. We
   // simply set to true the array slot corresponding to this region.
