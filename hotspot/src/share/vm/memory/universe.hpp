@@ -280,6 +280,7 @@ class Universe: AllStatic {
   static uint64_t getColdRegionStart()				  {  return _coldRegionStart;}
   static uint64_t getColdRegionEnd()				  {  return _coldRegionEnd; }
 
+  static void allocateRegionTable(size_t size);
   static void* getRegionTable()						  {  return _regionTable;}
   static void setRegionTable(void *start)			  {_regionTable = start;
   	  	  	  printf("region table set at %p\n", start); fflush(stdout);

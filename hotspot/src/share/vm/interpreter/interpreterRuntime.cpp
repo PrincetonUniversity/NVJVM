@@ -188,6 +188,11 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
+  if(position != add){
+	  printf("Region table lookup is incorrect. Object =%p, add =%p, position =%p\n.", obj, add, position);
+	  fflush(stdout);
+	  exit(1);
+  }
   printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
   printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
   SSDSwap::handle_faults((void *)obj);

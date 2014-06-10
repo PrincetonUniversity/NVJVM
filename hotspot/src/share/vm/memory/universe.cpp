@@ -753,13 +753,13 @@ void* Universe::non_oop_word() {
 }
 
 
-void Universe::initialize_region(){
-	Universe::_regionTable = (void *) memalign(sysconf(_SC_PAGE_SIZE), (size_t)_U_MB);
-	if(P_INIT){
-		printf("initializing region table %p\n", Universe::_regionTable); fflush(stdout);
+void Universe::allocateRegionTable(size_t size){
+	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), allocateRegionTable);
+	memset(regionTableBase, 0, allocateRegionTable);
+	Universe::setRegionTable(regionTableBase);
+	if(P_INIT) {
+		printf("initializing region table %p\n", regionTableBase); fflush(stdout);
 	}
-	memset(Universe::_regionTable, 0, _U_MB);
-	//mprotect(Universe::_regionTable, _U_MB, PROT_READ);
 }
 
 jint universe_init() {
@@ -795,7 +795,7 @@ jint universe_init() {
   }
 
   jint status = Universe::initialize_heap();
-  Universe::initialize_region();
+
   if (status != JNI_OK) {
     return status;
   }
