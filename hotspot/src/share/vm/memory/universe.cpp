@@ -755,8 +755,8 @@ void* Universe::non_oop_word() {
 
 void Universe::allocateRegionTable(size_t size){
 	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
-	size_t regionTableSize = size / (1024*1024);
-	printf("RegiontableSize = %d MB\n", regionTableSize); fflush(stdout);
+	size_t regionTableSize = size / (1024);
+	printf("RegiontableSize = %zu KB\n", regionTableSize); fflush(stdout);
 	printf("initializing region table %p\n", regionTableBase); fflush(stdout);
 	memset(regionTableBase, 0, size);
 	Universe::setRegionTable(regionTableBase);
@@ -927,7 +927,7 @@ jint Universe::initialize_heap() {
     G1CollectedHeap* g1h = new G1CollectedHeap(g1p);
     Universe::_collectedHeap = g1h;
     Universe::setMaxHeapSize(g1h->max_heap_size());
-    printf("heap size =%d\n", g1h->max_heap_size());
+    printf("heap size =%zu\n", g1h->max_heap_size());
     fflush(stdout);
 #else  // SERIALGC
     fatal("UseG1GC not supported in java kernel vm.");
