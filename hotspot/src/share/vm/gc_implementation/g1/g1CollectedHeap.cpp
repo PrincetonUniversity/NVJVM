@@ -1596,7 +1596,7 @@ HeapWord* G1CollectedHeap::expand_and_allocate(size_t word_size) {
   return NULL;
 }
 
-HeapRegion*
+/*HeapRegion*
 G1CollectedHeap::new_region_try_secondary_free_list_hybrid(bool isCold = false) {
   printf("In new_region_try_secondary_free_list_hybrid\n"); fflush(stdout);
   MasterFreeRegionList* freeList = (isCold == true) ? &_free_list_cold : &_free_list;
@@ -1746,9 +1746,9 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
       MemRegion mr(base, high);
       bool is_zeroed =  !maxCMemRegion->contains(base);
       HeapRegion* hr = new HeapRegion(_bot_shared, mr, is_zeroed);
-      /*if(R_SEG){
+      if(R_SEG){
     	  printf("In expand_hybrid. HeapRegion = %p created.\n", hr); fflush(stdout);
-      }*/
+      }
       // Add it to the HeapRegionSeq.
      if(isCold == false){
       _hrs->insert(hr);
@@ -1792,7 +1792,7 @@ bool G1CollectedHeap::expand_hybrid(size_t expand_bytes, bool isCold = false) {
                            new_mem_size/K);
   }
   return successful;
-}
+}*/
 
 bool G1CollectedHeap::expand(size_t expand_bytes) {
   size_t old_mem_size = _g1_storage.committed_size();
@@ -1936,9 +1936,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   _refine_cte_cl(NULL),
   _full_collection(false),
   _free_list("Master Free List"),
-  _free_list_cold("Master Free List Cold"),
   _secondary_free_list("Secondary Free List"),
-  _secondary_free_list_cold("Secondary Free List"),
   _humongous_set("Master Humongous Set"),
   _free_regions_coming(false),
   _young_list(new YoungList(this)),
@@ -2060,12 +2058,8 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
 
    Universe::setHeapEnd((uint64_t)(heap_rs.base() + heap_rs.size()));
-   size_t hot_space_size = max_byte_size/2;
-   size_t cold_space_size = max_byte_size/2;
-   size_t total_space_size = hot_space_size + cold_space_size;
 
   _expansion_regions = hot_space_size/HeapRegion::GrainBytes;
-  _expansion_regions_cold = cold_space_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 3);
@@ -2086,8 +2080,7 @@ jint G1CollectedHeap::initialize() {
   }
 
   // Carve out the G1 part of the heap.
-  ReservedSpace g1_rs = heap_rs.first_part(hot_space_size);
-  ReservedSpace g1_rs_cold = heap_rs.second_part(hot_space_size, cold_space_size);
+  ReservedSpace g1_rs = heap_rs.first_part(max_byte_size);
   _g1_reserved = MemRegion((HeapWord*)g1_rs.base(),
 		  g1_rs.size()/HeapWordSize);
 
@@ -2099,20 +2092,6 @@ jint G1CollectedHeap::initialize() {
   _g1_committed = MemRegion((HeapWord*)_g1_storage.low(), (size_t) 0);
   _g1_max_committed = _g1_committed;
   _hrs = new HeapRegionSeq(_expansion_regions);
-
-  // Initializing the cold regions
-  _g1_storage_cold.initialize(g1_rs_cold, 0);
-  _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
-  _g1_max_committed_cold = _g1_committed_cold;
-  _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
-
-  uint64_t start = (uint64_t)g1_rs_cold.base();
-  Universe::setColdRegionStart((uint64_t)g1_rs_cold.base());
-  uint64_t end = (uint64_t)g1_rs_cold.base() + (uint64_t)g1_rs_cold.size();
-  Universe::setColdRegionEnd(end);
-
-  printf("Start of the cold region %p, End of the cold region %p.\n", start, end);
-  fflush(stdout);
 
   guarantee(_hrs != NULL, "Couldn't allocate HeapRegionSeq");
 
