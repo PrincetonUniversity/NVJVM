@@ -2059,7 +2059,7 @@ jint G1CollectedHeap::initialize() {
 
    Universe::setHeapEnd((uint64_t)(heap_rs.base() + heap_rs.size()));
 
-  _expansion_regions = hot_space_size/HeapRegion::GrainBytes;
+  _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
   _rem_set = collector_policy()->create_rem_set(_reserved, 3);
