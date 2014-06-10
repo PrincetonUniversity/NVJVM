@@ -287,7 +287,7 @@ class Universe: AllStatic {
   static void allocateRegionTable(size_t size);
   static void* getRegionTable()						  {  return _regionTable;}
   static size_t getRegionTableSize()				  {  return _regionTableSize; }
-  static void Universe::setRegionTableSize(size_t size)	  { _regionTableSize = size; }
+  static void setRegionTableSize(size_t size)	      { _regionTableSize = size; }
   static void setRegionTable(void *start)			  {_regionTable = start;
   	  	  	  printf("region table set at %p\n", start); fflush(stdout);
   }
