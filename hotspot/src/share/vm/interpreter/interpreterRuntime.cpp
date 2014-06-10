@@ -185,8 +185,8 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
-  uint64_t addCast = (uint64_t)add;
-  uint64_t objCast = (uint64_t)obj;
+  return;
+  /*uint64_t objCast = (uint64_t)obj;
   uint64_t objOffset = objCast - Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
@@ -197,14 +197,18 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
 	  fflush(stdout);
 	  exit(1);
   }
-  if (addCast < regionTableStart || addCast > regionTableEnd){
+  if (addCast < regionTableStart || (uint64_t)addCast > regionTableEnd){
 	  printf("Access lies out of the region table. Error.\n");
+	  fflush(stdout);exit(1);
+  }
+  if(*(int *)position != 0){
+	  printf("Error, Value != 0.\n");
 	  fflush(stdout);exit(1);
   }
   return;
   printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
   printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
-  SSDSwap::handle_faults((void *)obj);
+  SSDSwap::handle_faults((void *)obj);*/
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
