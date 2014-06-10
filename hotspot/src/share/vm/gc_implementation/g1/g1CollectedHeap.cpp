@@ -2059,7 +2059,7 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
 
-   Universe::setHeapEnd((uint64_t)(heap_rs.base() + heap_rs.size());
+   Universe::setHeapEnd((uint64_t)(heap_rs.base() + heap_rs.size()));
    size_t hot_space_size = max_byte_size/2;
    size_t cold_space_size = max_byte_size/2;
    size_t total_space_size = hot_space_size + cold_space_size;
