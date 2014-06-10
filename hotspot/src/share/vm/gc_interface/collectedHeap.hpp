@@ -102,6 +102,8 @@ class CollectedHeap : public CHeapObj {
   // Reinitialize tlabs before resuming mutators.
   virtual void resize_all_tlabs();
 
+  virtual size_t max_heap_size() const = 0;
+
  protected:
   // Allocate from the current thread's TLAB, with broken-out slow path.
   inline static HeapWord* allocate_from_tlab(Thread* thread, size_t size);

@@ -2214,6 +2214,10 @@ jint G1CollectedHeap::initialize() {
   return JNI_OK;
 }
 
+size_t G1CollectedHeap::max_heap_size(){
+	  return collector_policy()->max_heap_byte_size() + collector_policy()->permanent_generation()->max_size();
+}
+
 void G1CollectedHeap::ref_processing_init() {
   // Reference processing in G1 currently works as follows:
   //

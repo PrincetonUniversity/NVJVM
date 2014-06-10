@@ -269,6 +269,8 @@ private:
   // Check well-formedness of alloc region list.
   bool check_gc_alloc_regions();
 
+
+
   // Outside of GC pauses, the number of bytes used in all regions other
   // than the current allocation region.
   size_t _summary_bytes_used;
