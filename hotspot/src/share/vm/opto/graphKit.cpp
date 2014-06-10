@@ -3556,7 +3556,6 @@ void GraphKit::checkObj(Node *obj){
 			// Checking if the object's address is greater than the start of the cold region
 //			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
 //				  Node* objCast =  __ CastPX(__ ctrl(), obj);
-//				  Node* pCast =  __ CastPX(__ ctrl(), heapEnd);
 //				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 //				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 //				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
@@ -3578,7 +3577,7 @@ void GraphKit::checkObj(Node *obj){
 						   //Storing the result obtained after the increment operation to memory
 //						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 
-				  	} __ end_if();
+//				  	} __ end_if();
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
