@@ -185,6 +185,7 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
+  uint64_t addCast = (uint64_t)add;
   uint64_t objCast = (uint64_t)obj;
   uint64_t objOffset = objCast - Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
@@ -196,7 +197,7 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
 	  fflush(stdout);
 	  exit(1);
   }
-  if (add < regionTableStart || add > regionTableEnd){
+  if (addCast < regionTableStart || addCast > regionTableEnd){
 	  printf("Access lies out of the region table. Error.\n");
 	  fflush(stdout);exit(1);
   }
