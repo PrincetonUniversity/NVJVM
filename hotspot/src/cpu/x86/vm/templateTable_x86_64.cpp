@@ -604,7 +604,7 @@ void TemplateTable::interceptObject(Address object) {
 //  __ jcc(Assembler::equal, isPresent); // moving the value at the byte into the register r10
 
   __ movptr(r10, object);
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+//  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
   __ jmp(nullObj);
 
   __ bind(isPresent);
