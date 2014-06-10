@@ -1176,8 +1176,8 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 
 void Parse::increment_access_counter(Node *obj){
 	if(INTER_COMPILER){
-//		checkObj(obj);
-		incrementObjCount(obj);
+		checkObj(obj);
+//		incrementObjCount(obj);
 	}
 }
 
