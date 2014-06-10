@@ -3567,10 +3567,10 @@ void GraphKit::checkObj(Node *obj){
 						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
 						   //Storing the result obtained after the increment operation to memory
 						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
-				  	}__ end_if(); /*__ else_(); { // End of object test
+				  	} __ else_(); { // End of object test
 			  		    const TypeFunc *tf = OptoRuntime::checkObj_Type();
 			  		    __ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
-				  	} __ end_if();*/
+				  	} __ end_if();
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
