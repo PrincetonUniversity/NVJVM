@@ -3555,12 +3555,13 @@ void GraphKit::checkObj(Node *obj){
 //		__ if_then(obj, BoolTest::le, coldRegionStart, likely); {
 			// Checking if the object's address is greater than the start of the cold region
 //			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
-//				  Node* objCast =  __ CastPX(__ ctrl(), obj);
+				  Node* objCast =  __ CastPX(__ ctrl(), obj);
+				  Node* pCast =  __ CastPX(__ ctrl(), heapEnd);
 //				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 //				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 //				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 //				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::INT, T_INT, adr_type);
-				  	__ if_then(obj, BoolTest::le, heapEnd, likely); {
+				  	__ if_then(objCast, BoolTest::le, pCast, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 						  // incrementing the counter variable by 1, do not understand
