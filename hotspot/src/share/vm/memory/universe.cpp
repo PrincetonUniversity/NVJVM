@@ -799,7 +799,7 @@ jint universe_init() {
 
   jint status = Universe::initialize_heap();
   size_t heapSize = Universe::_collectedHeap->collector_policy()->max_heap_byte_size() +
-    		 	 	 	   Universe::_collectedHeap->collector_policy()->permanent_generation()->max_size();
+    		 	 	 	   ((PermanentGenerationSpec* )Universe::_collectedHeap->collector_policy()->permanent_generation())->max_size();
   size_t regionTableSize = heapSize/(sysconf(_SC_PAGE_SIZE) * 256);
   Universe::allocateRegionTable(regionTableSize);
   if (status != JNI_OK) {
