@@ -799,6 +799,7 @@ jint universe_init() {
 
   jint status = Universe::initialize_heap();
   size_t heapSize = Universe::getMaxHeapSize();
+//  printf("max size of the heap = %zu MB\n", heapSize/(1024*1024));fflush(stdout);
   size_t regionTableSize = heapSize/(sysconf(_SC_PAGE_SIZE) * 256);
   if(heapSize == 0){
 	  regionTableSize = 1024*1024;
@@ -927,8 +928,8 @@ jint Universe::initialize_heap() {
     G1CollectedHeap* g1h = new G1CollectedHeap(g1p);
     Universe::_collectedHeap = g1h;
     Universe::setMaxHeapSize(g1h->max_heap_size());
-    printf("heap size =%zu\n", g1h->max_heap_size());
-    fflush(stdout);
+//    printf("heap size =%zu\n", g1h->max_heap_size());
+//    fflush(stdout);
 #else  // SERIALGC
     fatal("UseG1GC not supported in java kernel vm.");
 #endif // SERIALGC
