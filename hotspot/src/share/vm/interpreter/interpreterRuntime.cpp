@@ -185,7 +185,6 @@ IRT_END
 
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
-  return;
   /*uint64_t objCast = (uint64_t)obj;
   uint64_t objOffset = objCast - Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
