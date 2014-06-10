@@ -188,7 +188,7 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
   uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-  if(position != add){
+  if(position != (uint64_t)add){
 	  printf("Region table lookup is incorrect. Object =%p, add =%p, position =%p\n.", obj, add, position);
 	  fflush(stdout);
 	  exit(1);
