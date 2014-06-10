@@ -98,6 +98,7 @@
 #endif
 
 void *Universe::_regionTable = NULL; // table for storing region bitmap
+uint64_t Universe::_heapEnd = 0; // Start of the heap
 uint64_t Universe::_heapStart = 0; // Start of the heap
 uint64_t Universe::_heapSize = 0;  // Heap Size
 uint64_t Universe::_coldRegionStart = 0; // Start of the cold region

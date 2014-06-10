@@ -2059,6 +2059,7 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
 
+   Universe::setHeapEnd((uint64_t)(heap_rs.base() + heap_rs.size());
    size_t hot_space_size = max_byte_size/2;
    size_t cold_space_size = max_byte_size/2;
    size_t total_space_size = hot_space_size + cold_space_size;
@@ -2104,6 +2105,9 @@ jint G1CollectedHeap::initialize() {
   _g1_committed_cold = MemRegion((HeapWord*)_g1_storage_cold.low(), (size_t) 0);
   _g1_max_committed_cold = _g1_committed_cold;
   _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
+
+  Universe::setHeapStart((uint64_t));
+  Universe::setHeapSize((uint64_t));
 
   uint64_t start = (uint64_t)g1_rs_cold.base();
   Universe::setColdRegionStart((uint64_t)g1_rs_cold.base());

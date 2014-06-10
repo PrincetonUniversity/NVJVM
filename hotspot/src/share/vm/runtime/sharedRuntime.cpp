@@ -466,7 +466,8 @@ JRT_LEAF(void, SharedRuntime::swapIn(oopDesc* obj))
 //int* counterAdd = (int *)((uint64_t)obj + oopDesc::counter_offset_in_bytes());
 //	*counterAdd = *counterAdd + 1;
 //return;
-  	  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout); exit(-1);
+  	  printf("object does not exist in memory, fetching it from swap, obj = %p. End of heap =%p.\n",
+  			  obj, Universe::getHeapEnd()); fflush(stdout); exit(-1);
 //	  SSDSwap::handle_faults((void *)obj);
 JRT_END
 
