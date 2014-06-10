@@ -98,6 +98,7 @@
 #endif
 
 void *Universe::_regionTable = NULL; // table for storing region bitmap
+size_t Universe::_regionTableSize = 0;
 uint64_t Universe::_heapEnd = 0; // Start of the heap
 uint64_t Universe::_heapStart = 0; // Start of the heap
 uint64_t Universe::_heapSize = 0;  // Heap Size
@@ -760,6 +761,7 @@ void Universe::allocateRegionTable(size_t size){
 	printf("initializing region table %p\n", regionTableBase); fflush(stdout);
 	memset(regionTableBase, 0, size);
 	Universe::setRegionTable(regionTableBase);
+	Universe::setRegionTableSize(size);
 	if(P_INIT) {
 		printf("initializing region table %p\n", regionTableBase); fflush(stdout);
 	}
@@ -799,7 +801,6 @@ jint universe_init() {
 
   jint status = Universe::initialize_heap();
   size_t heapSize = Universe::getMaxHeapSize();
-//  printf("max size of the heap = %zu MB\n", heapSize/(1024*1024));fflush(stdout);
   size_t regionTableSize = heapSize/(sysconf(_SC_PAGE_SIZE) * 256);
   if(heapSize == 0){
 	  regionTableSize = 1024*1024;

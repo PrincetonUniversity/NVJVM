@@ -1990,8 +1990,6 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
 }
 
 jint G1CollectedHeap::initialize() {
-  printf("In g1CollectedHeap::initialize\n");
-  fflush(stdout);
   CollectedHeap::pre_initialize();
   os::enable_vtime();
 
@@ -2027,8 +2025,6 @@ jint G1CollectedHeap::initialize() {
                         UseLargePages, addr);
 
   Universe::setHeapStart((uint64_t)heap_rs.base());
-  printf("Heap start set at %p", Universe::getHeapStart());
-  fflush(stdout);
 
   if (UseCompressedOops) {
     if (addr != NULL && !heap_rs.is_reserved()) {
