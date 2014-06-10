@@ -652,6 +652,7 @@ class GraphKit : public Phase {
   }
 
   void checkObj(Node* obj);
+  void incrementObjCount(Node* obj);
   void check_no_increment(Node *obj);
   void nullCheck(Node* obj, IdealKit ideal);
   void objectCheck(Node *obj, IdealKit ideal);
