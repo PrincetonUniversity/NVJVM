@@ -110,7 +110,7 @@ class SharedRuntime: AllStatic {
 
   // float conversion (needs to set appropriate rounding mode)
   static void debug(void* a, void* b, long c, long d, long e, long f);
-  static void  swapIn(oopDesc* obj); 			// this is a test method to test whether we can transfer control to the compiler
+  static void  swapIn(void* obj); 			// this is a test method to test whether we can transfer control to the compiler
   static jint    f2i (jfloat  x);
   static jlong   f2l (jfloat  x);
   static jint    d2i (jdouble x);
