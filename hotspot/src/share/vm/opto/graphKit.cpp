@@ -3541,7 +3541,6 @@ void GraphKit::checkObj(Node *obj){
 	float unlikely  = PROB_UNLIKELY(0.999);
 	int adr_type = Compile::AliasIdxRaw;
 	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getRegionTable()));
-	const TypeFunc *tf = OptoRuntime::checkObj_Type();
 	// Node representing null object
 	Node* zeroObj = null();
 	// Node representing null integer
