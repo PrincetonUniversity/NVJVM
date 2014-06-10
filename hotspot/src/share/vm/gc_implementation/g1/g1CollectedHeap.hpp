@@ -269,6 +269,7 @@ private:
   // Check well-formedness of alloc region list.
   bool check_gc_alloc_regions();
 
+  size_t max_heap_size();
 
 
   // Outside of GC pauses, the number of bytes used in all regions other
