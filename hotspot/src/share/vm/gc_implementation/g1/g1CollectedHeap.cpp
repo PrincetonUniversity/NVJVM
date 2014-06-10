@@ -2057,9 +2057,9 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
 
-   size_t universeSize = heap_rs.size();
-   size_t regionTableSize = universeSize/(sysconf(_SC_PAGE_SIZE) * 256);
-   Universe::allocateRegionTable(regionTableSize);
+//   size_t universeSize = heap_rs.size();
+//   size_t regionTableSize = universeSize/(sysconf(_SC_PAGE_SIZE) * 256);
+//   Universe::allocateRegionTable(regionTableSize);
 
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
