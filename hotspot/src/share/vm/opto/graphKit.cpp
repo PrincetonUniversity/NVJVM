@@ -3577,7 +3577,7 @@ void GraphKit::checkObj(Node *obj){
 //						   Storing the result obtained after the increment operation to memory
 						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 
-//				  	} __ end_if();
+				  	} __ end_if();
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
