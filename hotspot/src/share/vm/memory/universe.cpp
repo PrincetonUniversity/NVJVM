@@ -758,7 +758,7 @@ void Universe::initialize_region(){
 	if(P_INIT){
 		printf("initializing region table %p\n", Universe::_regionTable); fflush(stdout);
 	}
-	memset(Universe::_regionTable, 1, _U_MB);
+	memset(Universe::_regionTable, 0, _U_MB);
 	//mprotect(Universe::_regionTable, _U_MB, PROT_READ);
 }
 
