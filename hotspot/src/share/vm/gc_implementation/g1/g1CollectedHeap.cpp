@@ -2106,9 +2106,6 @@ jint G1CollectedHeap::initialize() {
   _g1_max_committed_cold = _g1_committed_cold;
   _hrs_cold = new HeapRegionSeq(_expansion_regions_cold);
 
-  Universe::setHeapStart((uint64_t));
-  Universe::setHeapSize((uint64_t));
-
   uint64_t start = (uint64_t)g1_rs_cold.base();
   Universe::setColdRegionStart((uint64_t)g1_rs_cold.base());
   uint64_t end = (uint64_t)g1_rs_cold.base() + (uint64_t)g1_rs_cold.size();
