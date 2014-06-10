@@ -102,7 +102,7 @@ class CollectedHeap : public CHeapObj {
   // Reinitialize tlabs before resuming mutators.
   virtual void resize_all_tlabs();
 
-  virtual size_t max_heap_size() const = 0;
+
 
  protected:
   // Allocate from the current thread's TLAB, with broken-out slow path.
@@ -180,6 +180,7 @@ class CollectedHeap : public CHeapObj {
    * and JNI_OK on success.
    */
   virtual jint initialize() = 0;
+  virtual size_t max_heap_size() const = 0;
 
   // In many heaps, there will be a need to perform some initialization activities
   // after the Universe is fully formed, but before general heap allocation is allowed.
