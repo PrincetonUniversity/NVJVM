@@ -180,7 +180,7 @@ class CollectedHeap : public CHeapObj {
    * and JNI_OK on success.
    */
   virtual jint initialize() = 0;
-  size_t max_heap_size();
+//  size_t max_heap_size();
 
   // In many heaps, there will be a need to perform some initialization activities
   // after the Universe is fully formed, but before general heap allocation is allowed.
