@@ -3561,7 +3561,7 @@ void GraphKit::checkObj(Node *obj){
 //				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 //				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 //				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::INT, T_INT, adr_type);
-				  	__ if_then(obj, BoolTest::le, heapEnd, likely); {
+				  	__ if_then(obj, BoolTest::ge, heapEnd, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 						  // incrementing the counter variable by 1, do not understand
