@@ -3562,9 +3562,9 @@ void GraphKit::checkObj(Node *obj){
 				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::INT, T_INT, adr_type);
 //				  	__ if_then(obj, BoolTest::le, heapEnd, likely); {
 						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
+//						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 						  // incrementing the counter variable by 1, do not understand
-						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, val));
+						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(val, __ ConI(1)));
 						   //Storing the result obtained after the increment operation to memory
 						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 //				  	} __ else_(); { // End of object test
