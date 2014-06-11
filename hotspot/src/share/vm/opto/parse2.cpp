@@ -1658,7 +1658,7 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_saload: array_load(T_SHORT);  break;
   case Bytecodes::_faload: array_load(T_FLOAT);  break;
   case Bytecodes::_aaload: {
-//	  increment_access_counter(peek());
+	  increment_access_counter(peek(1));
 	  array_load(T_OBJECT);
 	  break;
   }
