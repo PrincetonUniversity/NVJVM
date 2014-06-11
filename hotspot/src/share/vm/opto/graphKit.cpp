@@ -3551,7 +3551,7 @@ void GraphKit::checkObj(Node *obj){
 	// Getting end of the cold region
 //	Node* coldRegionEnd = makecon(TypeRawPtr::make((address)Universe::getColdRegionEnd()));
 	// If the object is null, no checks are performed, load of a null object
-//	__ if_then(obj, BoolTest::ne, zeroObj, likely); {
+	__ if_then(obj, BoolTest::ne, zeroObj, likely); {
 		// Checking if the object's address is greater than the start of the cold region
 //		__ if_then(obj, BoolTest::le, coldRegionStart, likely); {
 			// Checking if the object's address is greater than the start of the cold region
@@ -3581,7 +3581,7 @@ void GraphKit::checkObj(Node *obj){
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test
 		// Incrementing the object's header here
-//	} __ end_if(); // End of null test
+	} __ end_if(); // End of null test
 	final_sync(ideal);
 }
 
