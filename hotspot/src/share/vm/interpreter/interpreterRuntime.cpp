@@ -184,6 +184,9 @@ IRT_ENTRY(void, InterpreterRuntime::_interceptObj(JavaThread* thread, oopDesc* o
 IRT_END
 
 
+IRT_ENTRY(void, InterpreterRuntime::_void(JavaThread* thread))
+IRT_END
+
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
   /*uint64_t objCast = (uint64_t)obj;
   uint64_t objOffset = objCast - Universe::getHeapStart();
