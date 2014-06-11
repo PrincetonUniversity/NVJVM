@@ -580,8 +580,8 @@ void TemplateTable::interceptObject(Address object) {
   if(!(INTER_INTERPRETER)){
 	  return;
   }
-  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_void));
-  return;
+//  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_void));
+//  return;
 
   int ce_offset = oopDesc::counter_offset_in_bytes();
   uint64_t offset = (uint64_t) Universe::getHeapStart();
