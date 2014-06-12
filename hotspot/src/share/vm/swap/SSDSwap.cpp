@@ -54,7 +54,8 @@ void SSDSwap::markRegion(void *addr, int mark){
 	  uint64_t objOffset = (uint64_t)addr - (uint64_t)Universe::getHeapStart();
 	  uint64_t regionI = objOffset /(_R_SIZE);
 	  uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-	  *((int *)position) = mark;
+	  char val = *((char *)position);
+	  *((char *)position) = val | 1;
 	  if(L_SWAP){
 		  printf("SSDSwap::markRegion() - Marking position (%p), in the region table.\n", position);
 		  fflush(stdout);
