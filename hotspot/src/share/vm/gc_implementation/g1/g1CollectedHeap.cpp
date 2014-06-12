@@ -3413,6 +3413,7 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
+  printf("In do_collection_pause_at_safepoint. Minor Collection.\n"); fflush(stdout);
   assert_at_safepoint(true /* should_be_vm_thread */);
   guarantee(!is_gc_active(), "collection is not reentrant");
 
@@ -3532,7 +3533,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       if (g1_policy()->during_initial_mark_pause()) {
         concurrent_mark()->checkpointRootsInitialPre();
       }
-      save_marks();
+      save_marks(); // saves the top() of each of the region in the heap region sequence
 
       // We must do this before any possible evacuation that should propagate
       // marks.

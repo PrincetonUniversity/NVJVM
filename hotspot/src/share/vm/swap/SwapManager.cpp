@@ -7,8 +7,22 @@
 
 #include "SwapManager.h"
 #include "SwapReader.h"
+#include <list>
 
 swapMap SwapManager::_swap_map;
+
+void SwapManager::swapInRegions(){
+	typedef std::map<void *, SSDRange>::iterator it_type;
+	std::list<void*> mylist;
+	for(it_type iterator = _swap_map.begin(); iterator != _swap_map.end(); iterator++) {
+		   mylist.push_back(iterator->first);
+	}
+	for (std::list<void *>::iterator it = mylist.begin(); it != mylist.end(); it++){
+		void *address = *it;
+		printf("Generating a fault at address %p\n", address); fflush(stdout);
+		SSDSwap::handle_faults(address);
+	}
+}
 
 SwapManager::SwapManager() {
 	// TODO Auto-generated constructor stub

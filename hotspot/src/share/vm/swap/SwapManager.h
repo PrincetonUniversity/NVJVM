@@ -31,6 +31,7 @@ public:
 	static void* object_va_to_page_start(void *va);
 	static void* object_va_to_page_end(void *va);
 	static void remapPage (void *address);
+	static void swapInRegions();
 };
 
 
