@@ -3560,7 +3560,7 @@ void GraphKit::checkObj(Node *obj){
 				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
-				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::INT, T_INT, adr_type);
+				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::UBYTE, T_BYTE, adr_type);
 				  	__ if_then(val, BoolTest::eq, __ ConI(1), unlikely); {
 				  		__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
 //						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
