@@ -827,6 +827,12 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
 }
 
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
+	  if(buf == NULL){
+		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
+	  }
+	  if(buf->is_empty()){
+		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty."); fflush(stdout);
+	  }
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
 	  if(L_SWAP){
@@ -5070,7 +5076,8 @@ void G1CollectedHeap::evacuate_collection_set() {
   		  printf("buf is NULL\n"); fflush(stdout);
   		  exit(-1);
   	  }
-  	  swapOutRegion(buf, purpose);
+  	  if(!buf->is_empty())
+  		  swapOutRegion(buf, purpose);
     }
 
   release_gc_alloc_regions(false /* totally */);
