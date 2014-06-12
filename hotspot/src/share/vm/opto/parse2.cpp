@@ -2317,11 +2317,12 @@ void Parse::do_one_bytecode() {
 
 
   case Bytecodes::_monitorenter:
-	do_monitor_enter();
+	 increment_access_counter(peek());
+	 do_monitor_enter();
     break;
 
   case Bytecodes::_monitorexit:
-	//increment_access_counter(peek());
+	increment_access_counter(peek());
     do_monitor_exit();
     break;
 

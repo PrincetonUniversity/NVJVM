@@ -570,6 +570,7 @@ protected:
 public:
 
   G1MonitoringSupport* g1mm() { return _g1mm; }
+  void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
 
   // Expand the garbage-first heap by at least the given size (in bytes!).
   // Returns true if the heap was expanded by the requested amount;

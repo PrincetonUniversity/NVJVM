@@ -208,9 +208,10 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
 	  fflush(stdout);exit(1);
   }
   return;
-  printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
-  printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
-  SSDSwap::handle_faults((void *)obj);*/
+  printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);*/
+  printf("Object does not exist in memory, fetching the region from swap. The address = %p.\n", obj);
+  fflush(stdout);
+  SSDSwap::handle_faults((void *)obj);
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------

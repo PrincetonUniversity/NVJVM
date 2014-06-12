@@ -45,6 +45,13 @@
 #include "oops/oop.pcgc.inline.hpp"
 #include "runtime/aprofiler.hpp"
 #include "runtime/vmThread.hpp"
+#include "swap/SSDSwap.h"
+#include "swap/swap_global.h"
+
+/*
+ *  Methods for the implementation of the swapouts.
+ */
+
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
@@ -818,6 +825,16 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
 
   return result;
 }
+
+void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
+	  void *end = (void *)((char *)buf->end()-1);
+	  void *bottom = (void *)(buf->bottom());
+	  if(L_SWAP){
+		  printf("In swapOutRegion. Swapping out buffer (%p). Buffer End's = %p, Buffer's Bottom %p.\n", end, bottom); fflush(stdout);
+	  }
+	  SSDSwap::swapOut(end, bottom);
+}
+
 
 HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
   assert_heap_not_locked_and_not_at_safepoint();
@@ -5041,6 +5058,17 @@ void G1CollectedHeap::evacuate_collection_set() {
     G1KeepAliveClosure keep_alive(this);
     JNIHandles::weak_oops_do(&is_alive, &keep_alive);
   }
+
+  if(DO_SWAP){
+  	  GCAllocPurpose purpose = GCAllocForTenuredCold;
+  	  HeapRegion *buf = _gc_alloc_regions[purpose];
+  	  if (buf == NULL){
+  		  printf("buf is NULL\n"); fflush(stdout);
+  		  exit(-1);
+  	  }
+  	  swapOutRegion(buf, purpose);
+    }
+
   release_gc_alloc_regions(false /* totally */);
   g1_rem_set()->cleanup_after_oops_into_collection_set_do();
 
