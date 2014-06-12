@@ -13,7 +13,7 @@ pthread_mutex_t SSDSwap::_swap_map_mutex;
 // The handler to catch SIGSEGV faults on memory access
 void* SSDSwap::seg_handler (void *addr){
 	if(L_SWAP){
-		printf("segmentation handler called on %p\n", addr); fflush(stdout);
+		printf("SSDSwap:segmentation handler called on %p\n", addr); fflush(stdout);
 	}
 	pthread_mutex_lock(&_swap_map_mutex);
 	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
@@ -38,7 +38,7 @@ SSDSwap::~SSDSwap() {
 
 void SSDSwap::swapOut(void *top, void *bot){
 	if(L_SWAP){
-		printf("In swapOut, swapping out %p, %p\n", bot, top); fflush(stdout);
+		printf("SSDSwap::In swapOut, swapping out bottom = %p, end = %p\n", bot, top); fflush(stdout);
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(top, bot); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
@@ -55,4 +55,8 @@ void SSDSwap::markRegion(void *addr, int mark){
 	  uint64_t regionI = objOffset /(_R_SIZE);
 	  uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
 	  *((int *)position) = mark;
+	  if(L_SWAP){
+		  printf("SSDSwap::markRegion() - Marking position (%p), in the region table.\n", position);
+		  fflush(stdout);
+	  }
 }

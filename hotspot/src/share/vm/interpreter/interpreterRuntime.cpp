@@ -188,28 +188,29 @@ IRT_ENTRY(void, InterpreterRuntime::_void(JavaThread* thread))
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
-  /*uint64_t objCast = (uint64_t)obj;
+  uint64_t objCast = (uint64_t)obj;
   uint64_t objOffset = objCast - Universe::getHeapStart();
   uint64_t regionI = objOffset /(_R_SIZE);
   uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-  uint64_t regionTableStart = (uint64_t)Universe::getRegionTable();
-  uint64_t regionTableEnd = (uint64_t)Universe::getRegionTable() + (uint64_t)Universe::getRegionTableSize();
+//  uint64_t regionTableStart = (uint64_t)Universe::getRegionTable();
+//  uint64_t regionTableEnd = (uint64_t)Universe::getRegionTable() + (uint64_t)Universe::getRegionTableSize();
   if(position != (uint64_t)add){
 	  printf("Region table lookup is incorrect. Object =%p, add =%p, position =%p\n.", obj, add, position);
 	  fflush(stdout);
 	  exit(1);
   }
-  if (addCast < regionTableStart || (uint64_t)addCast > regionTableEnd){
+  /*if (addCast < regionTableStart || (uint64_t)addCast > regionTableEnd){
 	  printf("Access lies out of the region table. Error.\n");
 	  fflush(stdout);exit(1);
   }
   if(*(int *)position != 0){
 	  printf("Error, Value != 0.\n");
 	  fflush(stdout);exit(1);
-  }
-  return;
-  printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);*/
-  printf("Object does not exist in memory, fetching the region from swap. The address = %p.\n", obj);
+  }*/
+
+//  printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
+  printf("InterpreterRuntime:: Miss on an object lookup called from the Interpreter."
+		  "Object does not exist in memory, fetching the region from swap. The address = %p, position = %p.\n", obj, position);
   fflush(stdout);
   SSDSwap::handle_faults((void *)obj);
 IRT_END
