@@ -4724,7 +4724,7 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     } else {
       oop copy_oop = copy_to_survivor_space(obj);
 //  Copy_oop is the pointer to the new location, where the object is copied to.
-  Universe::markPrefetchTable(void* copy_oop, obj->size() * HeapWordSize);
+      Universe::markPrefetchTable((void*)copy_oop, obj->size() * HeapWordSize);
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
     // When scanning the RS, we only care about objs in CS.
