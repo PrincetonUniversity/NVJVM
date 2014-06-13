@@ -161,13 +161,16 @@ class Universe: AllStatic {
   static klassOop _systemObjArrayKlassObj;
 
   static void *_regionTable; // table for storing region bitmap
+  static void *_prefetchTable; // number of consecutive pages to be fetched in for each page
   static size_t _regionTableSize;
+  static size_t _prefetchTableSize;
   static uint64_t _heapEnd; // Start of the heap
   static uint64_t _heapStart; // Start of the heap
   static uint64_t _heapSize;  // Heap Size
   static uint64_t _maxHeapSize;  // Heap Size
   static uint64_t _coldRegionStart; // Start of the cold region
   static uint64_t _coldRegionEnd; // End of the cold region
+  static size_t _swapChunkSize;
 
   // Known objects in the VM
 
@@ -290,11 +293,23 @@ class Universe: AllStatic {
   static uint64_t getColdRegionEnd()				  {  return _coldRegionEnd; }
 
   static void allocateRegionTable(size_t size);
+  static void allocatePrefetchTable(size_t size);
+
+  static size_t getSwapChunkSize()						  {  return _swapChunkSize; }
+  static void* getPrefetchTable()						  {  return _prefetchTable;}
+  static size_t getPrefetchTableSize()					  {	 return _prefetchTableSize;}
+  static void setPrefetchTableSize(size_t size)			  { _prefetchTableSize = size; }
+  static void setPrefetchTable(void *start){
+	  _prefetchTable = start;
+  	  printf("Prefetch table's base set at %p\n", start); fflush(stdout);
+  }
+
+
   static void* getRegionTable()						  {  return _regionTable;}
   static size_t getRegionTableSize()				  {  return _regionTableSize; }
   static void setRegionTableSize(size_t size)	      { _regionTableSize = size; }
   static void setRegionTable(void *start)			  {_regionTable = start;
-  	  	  	  printf("region table set at %p\n", start); fflush(stdout);
+  	  	  	  printf("Region table's base set at %p\n", start); fflush(stdout);
   }
 
   // Known classes in the VM

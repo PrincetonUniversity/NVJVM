@@ -99,6 +99,7 @@
 
 void *Universe::_regionTable = NULL; // table for storing region bitmap
 size_t Universe::_regionTableSize = 0;
+size_t Universe::_prefetchTableSize = 0;
 uint64_t Universe::_heapEnd = 0; // Start of the heap
 uint64_t Universe::_heapStart = 0; // Start of the heap
 uint64_t Universe::_heapSize = 0;  // Heap Size
@@ -110,6 +111,7 @@ unsigned int Universe::_numArrays = 0;
 unsigned int Universe::_numInstances = 0;
 unsigned int Universe::_csArrays = 0;
 unsigned int Universe::_csInstances = 0;
+size_t Universe::_swapChunkSize = sysconf(_SC_PAGE_SIZE);
 
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;
@@ -778,6 +780,19 @@ void Universe::allocateRegionTable(size_t size){
 	}
 }
 
+void Universe::allocatePrefetchTable(size_t size){
+	void* prefetchTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
+	size_t prefetchTableSize = size / (1024);
+	printf("RegiontableSize = %zu KB\n", prefetchTableSize); fflush(stdout);
+	printf("initializing region table %p\n", prefetchTableBase); fflush(stdout);
+	memset(prefetchTableBase, 0, size);
+	Universe::setPrefetchTable(prefetchTableBase);
+	Universe::setPrefetchTableSize(size);
+	if(P_INIT) {
+		printf("initializing prefetch table %p\n", prefetchTableBase); fflush(stdout);
+	}
+}
+
 jint universe_init() {
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),
@@ -812,11 +827,12 @@ jint universe_init() {
 
   jint status = Universe::initialize_heap();
   size_t heapSize = Universe::getMaxHeapSize();
-  size_t regionTableSize = heapSize/(sysconf(_SC_PAGE_SIZE) * 256);
+  size_t tableSize = heapSize/(Universe::getSwapChunkSize());
   if(heapSize == 0){
-	  regionTableSize = 1024*1024;
+	  tableSize = 1024*1024;
   }
-  Universe::allocateRegionTable(regionTableSize);
+  Universe::allocateRegionTable(tableSize);
+  Universe::allocatePrefetchTable(tableSize);
   if (status != JNI_OK) {
     return status;
   }
