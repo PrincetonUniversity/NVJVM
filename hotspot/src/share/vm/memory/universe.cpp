@@ -795,9 +795,9 @@ void Universe::allocatePrefetchTable(size_t size){
 }
 
 void Universe::markPrefetchTable(void *obj, int size){
-	char* end = (char *)obj + size;
-	uint64_t endPage = end / sysconf(_SC_PAGE_SIZE);
-	uint64_t startPage = obj / sysconf(_SC_PAGE_SIZE);
+	uint64_t end = (uint64_t)obj + size;
+	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
+	uint64_t startPage = (uint64_t)obj / sysconf(_SC_PAGE_SIZE);
 	char diff = (char)(endPage - startPage);
     if (endPage == startPage){
     	return;
