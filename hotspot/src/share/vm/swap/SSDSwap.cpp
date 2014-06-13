@@ -43,6 +43,8 @@ SSDSwap::~SSDSwap() {
 }
 
 void SSDSwap::swapOut(void *top, void *bot){
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	if(L_SWAP){
 		printf("SSDSwap::In swapOut, swapping out bottom = %p, end = %p\n", bot, top); fflush(stdout);
 	}
@@ -54,6 +56,8 @@ void SSDSwap::swapOut(void *top, void *bot){
 		printf("In swapOut, swapOut done successfully\n");
 		fflush(stdout);
 	}
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapOutTime(time1, time2);
 	SwapMetric::incrementSwapOuts();
 }
 
