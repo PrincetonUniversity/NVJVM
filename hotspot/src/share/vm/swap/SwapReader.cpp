@@ -25,12 +25,14 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 	 }
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
 	  fseek(f, (long)(off * _PAGE_SIZE), SEEK_SET);
+/*
 		if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
 			perror("error :");
 			printf("Error In Removing Protection From Page %p \n", va);
 			fflush(stdout);
 			exit(1);
 		}
+*/
 	  size_t len = fread(va, sizeof(char), (long)(np*_PAGE_SIZE), f);
 	  if (len == 0){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
