@@ -7,6 +7,7 @@
 
 
 #include "SSDSwap.h"
+#include "SwapMetric.h"
 
 pthread_mutex_t SSDSwap::_swap_map_mutex;
 
