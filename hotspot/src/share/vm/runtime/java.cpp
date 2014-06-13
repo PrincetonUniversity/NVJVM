@@ -481,6 +481,7 @@ void before_exit(JavaThread * thread) {
     AdaptiveSizePolicyOutput(0);
   }
 
+  printf("Largest object size = %u\n", Universe::_mObjSize);
 
   if (Arguments::has_alloc_profile()) {
     HandleMark hm;

@@ -105,7 +105,7 @@ uint64_t Universe::_heapSize = 0;  // Heap Size
 uint64_t Universe::_maxHeapSize = 0;  // Heap Size
 uint64_t Universe::_coldRegionStart = 0; // Start of the cold region
 uint64_t Universe::_coldRegionEnd = 0; // End of the cold region
-
+unsigned int Universe::_mObjSize = 0;
 
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;

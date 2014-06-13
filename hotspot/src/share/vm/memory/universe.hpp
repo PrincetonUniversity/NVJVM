@@ -267,8 +267,9 @@ class Universe: AllStatic {
 
   static void compute_verify_oop_data();
 
- public:
 
+ public:
+  static unsigned int _mObjSize;
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
   static void setHeapEnd(uint64_t s)                   {  _heapEnd = s;}
