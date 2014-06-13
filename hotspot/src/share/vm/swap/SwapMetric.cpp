@@ -9,6 +9,8 @@
 
 long int SwapMetric::_swapOuts = 0;
 long int SwapMetric::_swapIns = 0;
+timespec SwapMetric::_swapInTime;
+timespec SwapMetric::_swapOutTime;
 
 void SwapMetric::incrementSwapOuts(){
 		_swapOuts++;
