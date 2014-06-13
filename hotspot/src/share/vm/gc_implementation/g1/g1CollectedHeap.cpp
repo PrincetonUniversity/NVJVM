@@ -4610,9 +4610,9 @@ template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
 
 oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   size_t    word_sz = old->size();
- if (word_sz < Universe::_mObjSize){
-	  Universe::_mObjSize = word_sz;
-  }
+// if (word_sz < Universe::_mObjSize){
+//	  Universe::_mObjSize = word_sz;
+//  }
 
   HeapRegion* from_region = _g1->heap_region_containing_raw(old);
   // +1 to make the -1 indexes valid...
@@ -4723,6 +4723,8 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
       oopDesc::encode_store_heap_oop(p, obj->forwardee());
     } else {
       oop copy_oop = copy_to_survivor_space(obj);
+//  Copy_oop is the pointer to the new location, where the object is copied to.
+  Universe::markPrefetchTable(void* copy_oop, obj->size() * HeapWordSize);
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
     // When scanning the RS, we only care about objs in CS.

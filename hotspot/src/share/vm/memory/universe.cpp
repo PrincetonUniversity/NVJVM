@@ -794,6 +794,21 @@ void Universe::allocatePrefetchTable(size_t size){
 	}
 }
 
+void Universe::markPrefetchTable(void *obj, int size){
+	char* end = (char *)obj + size;
+	uint64_t endPage = end / sysconf(_SC_PAGE_SIZE);
+	uint64_t startPage = obj / sysconf(_SC_PAGE_SIZE);
+	char diff = (char)(endPage - startPage);
+    if (endPage == startPage){
+    	return;
+    }
+    uint64_t objCast = (uint64_t)obj;
+    uint64_t objOffset = objCast - Universe::getHeapStart();
+    uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
+    uint64_t position = regionI + (uint64_t)Universe::getPrefetchTable();
+    *(char *)position = diff;
+}
+
 jint universe_init() {
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),

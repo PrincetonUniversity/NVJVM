@@ -294,6 +294,7 @@ class Universe: AllStatic {
 
   static void allocateRegionTable(size_t size);
   static void allocatePrefetchTable(size_t size);
+  static void markPrefetchTable(void *new_obj, int objSize);
 
   static size_t getSwapChunkSize()						  {  return _swapChunkSize; }
   static void* getPrefetchTable()						  {  return _prefetchTable;}
