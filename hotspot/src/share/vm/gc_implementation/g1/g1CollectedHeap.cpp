@@ -4610,7 +4610,7 @@ template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
 
 oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   size_t    word_sz = old->size();
-  if (word_sz > Universe::_mObjSize){
+  if (word_sz > Universe::_mObjSize && !old->is_array()){
 	  Universe::_mObjSize = word_sz;
   }
 
