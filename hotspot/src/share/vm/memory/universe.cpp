@@ -98,6 +98,7 @@
 #endif
 
 void *Universe::_regionTable = NULL; // table for storing region bitmap
+void *Universe::_prefetchTable = NULL; // table for storing region bitmap
 size_t Universe::_regionTableSize = 0;
 size_t Universe::_prefetchTableSize = 0;
 uint64_t Universe::_heapEnd = 0; // Start of the heap
