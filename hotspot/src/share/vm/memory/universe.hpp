@@ -269,7 +269,6 @@ class Universe: AllStatic {
 
  public:
 
-
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
   static void setHeapEnd(uint64_t s)                   {  _heapEnd = s;}

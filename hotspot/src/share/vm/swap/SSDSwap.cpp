@@ -21,10 +21,15 @@ void* SSDSwap::seg_handler (void *addr){
 }
 
 void SSDSwap::handle_faults(void *addr) {
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	pthread_mutex_lock(&_swap_map_mutex);
 	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
 	SSDSwap::markRegion(addr, 0); // Marking the region as swapped in, region bitmap
-    pthread_mutex_unlock(&_swap_map_mutex);
+	SwapMetric::incrementSwapIns();
+	pthread_mutex_unlock(&_swap_map_mutex);
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapInTime(time1, time2);
 }
 
 SSDSwap::SSDSwap() {
@@ -48,6 +53,7 @@ void SSDSwap::swapOut(void *top, void *bot){
 		printf("In swapOut, swapOut done successfully\n");
 		fflush(stdout);
 	}
+	SwapMetric::incrementSwapOuts();
 }
 
 void SSDSwap::markRegion(void *addr, int mark){

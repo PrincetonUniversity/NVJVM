@@ -39,7 +39,9 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	  if (len == 0){
 		  fputs ("Error writing swap file\n", stderr); fflush(stdout);
 	  } else {
-		printf("Written %zd bytes to the file\n", len); fflush(stdout);
+		  if(L_SWAP){
+			  printf("Written %zd bytes to the file\n", len); fflush(stdout);
+		  }
 	  }
 	  fclose (f);
 	  return SSDRange (off, off + (np-1));
