@@ -270,6 +270,11 @@ class Universe: AllStatic {
 
  public:
   static unsigned int _mObjSize;
+  static unsigned int _numArrays;
+  static unsigned int _numInstances;
+  static unsigned int _csArrays;
+  static unsigned int _csInstances;
+
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
   static void setHeapEnd(uint64_t s)                   {  _heapEnd = s;}
@@ -437,6 +442,9 @@ class Universe: AllStatic {
   // Apply "f" to all klasses for basic types (classes not present in
   // SystemDictionary).
   static void basic_type_classes_do(void f(klassOop));
+
+  // Method that prints object statistics.
+  static void printObjectStats();
 
   // Apply "f" to all system klasses (classes not present in SystemDictionary).
   static void system_classes_do(void f(klassOop));

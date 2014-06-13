@@ -480,8 +480,7 @@ void before_exit(JavaThread * thread) {
     Universe::print();
     AdaptiveSizePolicyOutput(0);
   }
-
-  printf("Largest object size = %u\n", Universe::_mObjSize);
+  Universe::printObjectStats();
 
   if (Arguments::has_alloc_profile()) {
     HandleMark hm;

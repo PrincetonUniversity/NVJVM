@@ -4610,9 +4610,17 @@ template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
 
 oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   size_t    word_sz = old->size();
-  if (word_sz > Universe::_mObjSize && !old->is_array()){
+/*  if (word_sz > Universe::_mObjSize){
 	  Universe::_mObjSize = word_sz;
+  }*/
+  if(old->is_array() || old->is_objArray()){
+	  Universe::_numArrays++;
+	  Universe::_csArrays += word_sz;
   }
+  if(old->is_instance()){
+  	  Universe::_numInstances++;
+  	  Universe::_csInstances += word_sz;
+    }
 
   HeapRegion* from_region = _g1->heap_region_containing_raw(old);
   // +1 to make the -1 indexes valid...
