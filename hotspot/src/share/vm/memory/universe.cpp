@@ -188,11 +188,6 @@ CollectedHeap*  Universe::_collectedHeap = NULL;
 
 NarrowOopStruct Universe::_narrow_oop = { NULL, 0, true };
 
-unsigned int Universe::_numArrays = 0;
-unsigned int Universe::_numInstances = 0;
-unsigned int Universe::_csArrays = 0;
-unsigned int Universe::_csInstances = 0;
-
 void Universe::printObjectStats(){
 //	printf("Largest object size = %u\n", Universe::_mObjSize);
 	printf("Number of copied instances = %u\n", Universe::_numInstances);
