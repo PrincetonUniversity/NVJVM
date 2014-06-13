@@ -107,7 +107,7 @@ uint64_t Universe::_heapSize = 0;  // Heap Size
 uint64_t Universe::_maxHeapSize = 0;  // Heap Size
 uint64_t Universe::_coldRegionStart = 0; // Start of the cold region
 uint64_t Universe::_coldRegionEnd = 0; // End of the cold region
-unsigned int Universe::_mObjSize = 0;
+unsigned int Universe::_mObjSize = 100000;
 unsigned int Universe::_numArrays = 0;
 unsigned int Universe::_numInstances = 0;
 unsigned int Universe::_csArrays = 0;
@@ -192,11 +192,11 @@ CollectedHeap*  Universe::_collectedHeap = NULL;
 NarrowOopStruct Universe::_narrow_oop = { NULL, 0, true };
 
 void Universe::printObjectStats(){
-//	printf("Largest object size = %u\n", Universe::_mObjSize);
-	printf("Number of copied instances = %u\n", Universe::_numInstances);
-	printf("Number of copied arrays = %u\n", Universe::_numArrays);
-	printf("Cumulative Size of instances = %u\n", Universe::_csInstances);
-	printf("Cumulative Size of arrays = %u\n", Universe::_csArrays);
+	printf("Smallest object size = %u\n", Universe::_mObjSize);
+//	printf("Number of copied instances = %u\n", Universe::_numInstances);
+//	printf("Number of copied arrays = %u\n", Universe::_numArrays);
+//	printf("Cumulative Size of instances = %u\n", Universe::_csInstances);
+//	printf("Cumulative Size of arrays = %u\n", Universe::_csArrays);
 }
 
 void Universe::basic_type_classes_do(void f(klassOop)) {
