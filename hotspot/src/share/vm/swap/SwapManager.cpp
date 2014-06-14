@@ -97,6 +97,7 @@ void SwapManager::remapPage (void *address){
 
   // Reading the pages from SSD.
   SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
+  SwapMetric::incrementSwapInBytes((int)numberBytes);
   // Marking the current page fetched
   if (numPages == 1){
 	  Universe::markPageFetched(address);
