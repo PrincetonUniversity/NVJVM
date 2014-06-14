@@ -35,10 +35,10 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off) {
 		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
 	}
 	// Protecting the swapped out page
-	if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
+	/*if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
 		perror("error :");
 		printf("Error In Protecting Page %p \n", va); fflush(stdout);
-	}
+	}*/
 
 	// Marking the region as not needed so that the OS can free the resources
 	if (madvise (va, (unsigned long)(np * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
