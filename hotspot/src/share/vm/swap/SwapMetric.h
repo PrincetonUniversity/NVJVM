@@ -17,6 +17,8 @@ private:
 	static long int _swapIns;
 	static timespec _swapOutTime;
 	static timespec _swapInTime;
+	static long int _swapOutBytes;
+	static long int _swapInBytes;
 
 public:
 	static void incrementSwapOuts();
@@ -29,6 +31,8 @@ public:
 	static void incrementSwapOutTime(timespec start, timespec end);
 	static timespec diff(timespec start, timespec end);
 	static void print_on();
+	static void incrementSwapOutBytes(int bytes);
+	static void incrementSwapInBytes(int bytes);
 
 };
 

@@ -11,6 +11,9 @@ long int SwapMetric::_swapOuts = 0;
 long int SwapMetric::_swapIns = 0;
 timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
+long int SwapMetric::_swapOutBytes = 0;
+long int SwapMetric::_swapInBytes = 0;
+
 
 void SwapMetric::incrementSwapOuts(){
 		_swapOuts++;
@@ -63,9 +66,19 @@ timespec SwapMetric::diff(timespec start, timespec end){
 void SwapMetric::print_on(){
 	printf("The overall SwapMetrics. The number of swapIns = %ld.\n"
 			"The number of swapOuts =%ld.\n"
-			"Total time taken for swapIn = %lld.%.9ld.\n",
-			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec);
+			"Total time taken for swapIn = %lld.%.9ld."
+			"Total swapout bytes = %ld\n"
+			"Total swapin bytes = %ld",
+			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec, _swapOutBytes, _swapInBytes);
 	fflush(stdout);
+}
+
+void SwapMetric::incrementSwapOutBytes(int bytes){
+	_swapOutBytes += (long int)bytes;
+}
+
+void SwapMetric::incrementSwapInBytes(int bytes){
+	_swapInBytes += (long int)bytes;
 }
 
 
