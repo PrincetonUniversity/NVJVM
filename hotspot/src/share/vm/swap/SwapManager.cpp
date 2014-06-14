@@ -49,7 +49,7 @@ void SwapManager::remapPage (void *address){
 	  printf("SwapManager::remapPage::The page is already present in memory. Probably two different threads accessed the same page. One of the threads "
 			  "fetched in the page. Therefore, this thread can proceed safely.\n");
 	  fflush(stdout);
-	  goto out;
+	  return;
   }
 
   SSDRange ssdRange = iter->second;
@@ -100,7 +100,7 @@ void SwapManager::remapPage (void *address){
   // Marking the current page fetched
   if (numPages == 1){
 	  Universe::markPageFetched(address);
-	  goto out;
+	  return;
   }
   char* curr = (char *)object_va_to_page_start(address) + _PAGE_SIZE;
   // Marking all the intermediate pages as fetched in.
@@ -111,7 +111,7 @@ void SwapManager::remapPage (void *address){
 
  // If the last page is already fetched in, no need to do any mark update
  if(lastPageIsPresent)
-	 goto out;
+	 return;
 
 // Else update the last page
  // Checking the condition for the last page
