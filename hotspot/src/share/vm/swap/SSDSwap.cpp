@@ -67,7 +67,7 @@ void SSDSwap::markRegionSwappedOut(void *addr){
 		*(position) = Universe::_notPresentMask;
 		position += 1;
 	}
-	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p", (char *)Universe::getRegionTablePosition(addr), position);
+	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n", (char *)Universe::getRegionTablePosition(addr), position);
 	fflush(stdout);
 }
 
