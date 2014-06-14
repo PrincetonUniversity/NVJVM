@@ -277,6 +277,9 @@ class Universe: AllStatic {
   static unsigned int _numInstances;
   static unsigned int _csArrays;
   static unsigned int _csInstances;
+  static char _partiallyFilledMask;
+  static char _presentMask;
+  static char _notPresentMask;
 
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}
@@ -295,6 +298,13 @@ class Universe: AllStatic {
   static void allocateRegionTable(size_t size);
   static void allocatePrefetchTable(size_t size);
   static void markPrefetchTable(void *new_obj, int objSize);
+  static bool Universe::isPartiallyFilled(void* address);
+  static bool Universe::isPresent(void* address);
+  static void Universe::markPageFetched(void* address);
+  static void Universe::markPartiallyFetched(void* address);
+  static uint64_t Universe::getPrefetchTablePosition(void *address);
+  static uint64_t Universe::getRegionTablePosition(void *address);
+  static int Universe::getNumberOfPrefetches(void *address);
 
   static size_t getSwapChunkSize()						  {  return _swapChunkSize; }
   static void* getPrefetchTable()						  {  return _prefetchTable;}

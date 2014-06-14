@@ -113,6 +113,10 @@ unsigned int Universe::_numInstances = 0;
 unsigned int Universe::_csArrays = 0;
 unsigned int Universe::_csInstances = 0;
 size_t Universe::_swapChunkSize = sysconf(_SC_PAGE_SIZE);
+char Universe::_partiallyFilledMask = 2;
+char Universe::_presentMask = 0;
+char Universe::_notPresentMask = 1;
+
 
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;
@@ -794,6 +798,50 @@ void Universe::allocatePrefetchTable(size_t size){
 	}
 }
 
+int Universe::getNumberOfPrefetches(void* address){
+	char* position = (char *)getPrefetchTablePosition(address);
+	char numberOfPrefetches = *position;
+	return (int)numberOfPrefetches;
+}
+
+bool Universe::isPartiallyFilled(void* address){
+	uint64_t position = getRegionTablePosition(address);
+	char value = *(char *)position;
+	return (value == _partiallyFilledMask);
+}
+
+bool Universe::isPresent(void* address){
+	uint64_t position = getRegionTablePosition(address);
+	char value = *(char *)position;
+	return (value == _presentMask);
+}
+
+void Universe::markPageFetched(void* address){
+	uint64_t position = getRegionTablePosition(address);
+	*(char *)position = Universe::_presentMask;
+}
+
+void Universe::markPartiallyFetched(void* address){
+	uint64_t position = getRegionTablePosition(address);
+	*(char *)position = Universe::_partiallyFilledMask;
+}
+
+uint64_t Universe::getRegionTablePosition(void *object){
+    uint64_t objCast = (uint64_t)object;
+    uint64_t objOffset = objCast - Universe::getHeapStart();
+    uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
+    uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
+    return position;
+}
+
+uint64_t Universe::getPrefetchTablePosition(void *object){
+    uint64_t objCast = (uint64_t)object;
+    uint64_t objOffset = objCast - Universe::getHeapStart();
+    uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
+    uint64_t position = regionI + (uint64_t)Universe::getPrefetchTable();
+    return position;
+}
+
 void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t end = (uint64_t)obj + size;
 	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
@@ -802,10 +850,7 @@ void Universe::markPrefetchTable(void *obj, int size){
     if (endPage == startPage){
     	return;
     }
-    uint64_t objCast = (uint64_t)obj;
-    uint64_t objOffset = objCast - Universe::getHeapStart();
-    uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
-    uint64_t position = regionI + (uint64_t)Universe::getPrefetchTable();
+    uint64_t position = getPrefetchTablePosition(obj);
     *(char *)position = diff;
 }
 

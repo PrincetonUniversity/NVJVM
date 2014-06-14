@@ -39,6 +39,7 @@
 #define REGION_MASK (~0L)<<20
 #define REGION_SIZE (1<<19)
 #define REGION_SHIFT (20)
+#define PAGE_SHIFT (12)
 
 #ifndef CC_INTERP
 
@@ -600,7 +601,7 @@ void TemplateTable::interceptObject(Address object) {
 
   __ movptr(r11, object); 	  // pointer to the object in memory
   __ subl(r11, offset);		  // offset of the region, got by subtracting
-  __ shrl(r11, REGION_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+  __ shrl(r11, PAGE_SHIFT); // shifting the register by 20 bits - getting the pointer to region
   __ movptr(r10, (intptr_t)base);
   __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
   __ cmpb(Address(r11, 0), 0);

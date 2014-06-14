@@ -15,7 +15,8 @@ class SwapReader {
 public:
 	SwapReader();
 	virtual ~SwapReader();
-	static size_t swapIn (void * va,  int np, int off);
+	static size_t swapIn (void* va,  int np, int off);
+	static size_t swapInOffset (void* va,  int nb, int offSSD);
 };
 
 #endif /* SWAPREADER_H_ */

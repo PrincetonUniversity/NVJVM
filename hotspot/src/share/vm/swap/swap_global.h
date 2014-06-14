@@ -7,6 +7,7 @@
 
 
 #include "memory/universe.inline.hpp"
+#include "vm/oops/OopsHierarchy.hpp"
 #include "runtime/globals.hpp"
 #include <time.h>
 #include <stdio.h>
@@ -30,7 +31,10 @@ using namespace std;
 #define MREMAP_MAYMOVE 1
 #define MREMAP_FIXED 2
 
-#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE) // Each page in page buffer is of size 4KB
+// Each page in page buffer is of size 4KB
+#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
+// Size of a region is 1 MB
+#define _REGION_SIZE (sysconf(_SC_PAGE_SIZE) * 256)
 
 #define handle_error(msg) \
   do {perror (msg); exit(EXIT_FAILURE);} while (0)
@@ -86,6 +90,34 @@ public:
 	}
 	int getEnd(){
 		return _end_off;
+	}
+};
+
+class PageMetaData {
+private:
+	int _prefilledBytes;
+//	int _ssdLocation;
+
+public:
+	PageMetaData(){
+//		_ssdLocation = -1;
+		_prefilledBytes = 0;
+	}
+	PageMetaData(int pB){
+		_prefilledBytes = pB;
+	}
+//	int getssdLocation(){
+//		return _ssdLocation;
+//	}
+//	void setSsdLocation(int loc){
+//		_ssdLocation = loc;
+//	}
+
+	int getPrefilledBytes(){
+		return _prefilledBytes;
+	}
+	void setPrefilledBytes(int bytes){
+		_prefilledBytes = bytes;
 	}
 };
 

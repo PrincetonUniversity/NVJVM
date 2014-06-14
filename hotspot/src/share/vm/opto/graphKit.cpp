@@ -3501,6 +3501,7 @@ void GraphKit::write_barrier_post(Node* oop_store,
 }
 
 #define LOG_REGION_SIZE 20
+#define LOG_PAGE_SIZE	12
 
 void GraphKit::objectCheck(Node *obj, IdealKit ideal){
     int adr_type = Compile::AliasIdxRaw;
@@ -3558,7 +3559,7 @@ void GraphKit::checkObj(Node *obj){
 //			__ if_then(obj, BoolTest::le, coldRegionEnd, unlikely); {
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
 				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapStart()));
-				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_REGION_SIZE));
+				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_PAGE_SIZE));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::UBYTE, T_BYTE, adr_type);
 				  	__ if_then(val, BoolTest::eq, __ ConI(1), unlikely); {

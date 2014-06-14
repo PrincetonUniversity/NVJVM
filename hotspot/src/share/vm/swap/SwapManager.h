@@ -14,13 +14,22 @@
 #define SWAPMANAGER_H_
 
 typedef std::map<void *, SSDRange> swapMap;
+/* This map is used to keep metadata information about each page.
+ * This contains an entry in the table, only when the page has been pre-filled,
+ * while being fetched in.
+ */
+typedef std::map<void *, PageMetaData> metaDataMap;
+typedef std::map<void *, PageMetaData>::const_iterator metadataMapIter;
+
 typedef std::pair<void *, SSDRange> mapPair;
+typedef std::pair<void *, PageMetaData> pageMetaDataPair;
 typedef std::map<void *, SSDRange>::const_iterator swapMapIter;
 
 class SwapManager {
 private:
 	//PageBuffer* _page_buffer;
 	static swapMap _swap_map;
+	static metaDataMap _metaDataMap;
 
 public:
 	SwapManager();
@@ -32,6 +41,8 @@ public:
 	static void* object_va_to_page_end(void *va);
 	static void remapPage (void *address);
 	static void swapInRegions();
+	static void* getRegionStart(void* address);
+	static int getPageNumInRegion(void* address);
 };
 
 

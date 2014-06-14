@@ -3258,6 +3258,7 @@ void G1CollectedHeap::gc_epilogue(bool full /* Ignored */) {
 HeapWord* G1CollectedHeap::do_collection_pause(size_t word_size,
                                                unsigned int gc_count_before,
                                                bool* succeeded) {
+  printf("In do_collection_pause_at_safepoint. Major Collection.\n"); fflush(stdout);
   assert_heap_not_locked_and_not_at_safepoint();
   g1_policy()->record_stop_world_start();
   VM_G1IncCollectionPause op(gc_count_before,
