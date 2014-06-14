@@ -101,6 +101,7 @@
 #include "opto/indexSet.hpp"
 #include "opto/runtime.hpp"
 #endif
+#include "swap/SwapMetric.h"
 
 HS_DTRACE_PROBE_DECL(hotspot, vm__shutdown);
 
@@ -481,6 +482,7 @@ void before_exit(JavaThread * thread) {
     AdaptiveSizePolicyOutput(0);
   }
   Universe::printObjectStats();
+  SwapMetric::print_on();
 
   if (Arguments::has_alloc_profile()) {
     HandleMark hm;

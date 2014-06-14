@@ -61,7 +61,7 @@ timespec SwapMetric::diff(timespec start, timespec end){
 }
 
 void SwapMetric::print_on(){
-	printf("The overall.\n");
+	printf("The overall SwapMetrics. The number of swapIns = %ld.\nThe number of swapOuts =%ld.\n", _swapIns, _swapOuts);
 	fflush(stdout);
 }
 
