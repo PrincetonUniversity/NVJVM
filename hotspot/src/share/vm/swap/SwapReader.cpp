@@ -49,7 +49,7 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 
 size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 	 if(L_SWAP){
-		 printf("swapping in address %p, number pages %d, from offset %d\n", va, numberBytes, ssdOffset);
+		 printf("swapping in address %p, number of bytes = %d, from offset %d\n", va, numberBytes, ssdOffset);
 		 fflush(stdout);
 	 }
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
@@ -63,13 +63,12 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		}
 */
 	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
-	  if (len == 0){
+	  if (len != numberBytes){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
-		  return -1;
+		  exit(1);
 	  } else {
 		  if (L_SWAP){
 			  printf("Read %zd bytes from the file\n", len); fflush(stdout);
-			  return -1;
 		  }
 	  }
 	  fclose (f);

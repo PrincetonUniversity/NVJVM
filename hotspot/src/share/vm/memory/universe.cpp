@@ -113,8 +113,8 @@ unsigned int Universe::_numInstances = 0;
 unsigned int Universe::_csArrays = 0;
 unsigned int Universe::_csInstances = 0;
 size_t Universe::_swapChunkSize = sysconf(_SC_PAGE_SIZE);
-char Universe::_partiallyFilledMask = 2;
 char Universe::_presentMask = 0;
+char Universe::_partiallyFilledMask = 2;
 char Universe::_notPresentMask = 1;
 
 

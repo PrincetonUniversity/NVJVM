@@ -36,6 +36,7 @@ public:
 	static void *object_va_to_page_header(void *object_va);
 	static void swapOut(void *sa, void *ea);
 	static void markRegion(void *addr, int mark);
+	static void markRegionSwappedOut(void *addr);
 };
 
 

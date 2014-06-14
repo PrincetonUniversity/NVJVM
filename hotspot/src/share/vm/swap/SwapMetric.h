@@ -28,6 +28,7 @@ public:
 	static timespec getTotalSwapOutTime();
 	static void incrementSwapOutTime(timespec start, timespec end);
 	static timespec diff(timespec start, timespec end);
+	static void print_on();
 
 };
 

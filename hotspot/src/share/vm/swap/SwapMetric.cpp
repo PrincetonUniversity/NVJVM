@@ -59,3 +59,13 @@ timespec SwapMetric::diff(timespec start, timespec end){
 		}
 		return temp;
 }
+
+void SwapMetric::print_on(){
+	printf("The overall.\n");
+	fflush(stdout);
+}
+
+
+
+
+
