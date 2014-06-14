@@ -49,7 +49,7 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 
 size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 	 if(L_SWAP){
-		 printf("swapping in address %p, number pages %d, from offset %d\n", va, numberBytes, offset);
+		 printf("swapping in address %p, number pages %d, from offset %d\n", va, numberBytes, ssdOffset);
 		 fflush(stdout);
 	 }
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
