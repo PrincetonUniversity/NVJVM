@@ -8,7 +8,7 @@
 #include "SwapManager.h"
 #include "SwapReader.h"
 #include <list>
-
+#include "SwapMetric.h"
 
 swapMap SwapManager::_swap_map;
 metaDataMap SwapManager::_metaDataMap;
