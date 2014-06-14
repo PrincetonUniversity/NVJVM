@@ -63,7 +63,7 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		}
 */
 	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
-	  if (len != numberBytes){
+	  if ((int)len != numberBytes){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  exit(1);
 	  } else {
