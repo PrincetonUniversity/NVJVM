@@ -3562,8 +3562,13 @@ void GraphKit::checkObj(Node *obj){
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_PAGE_SIZE));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), regionTable, TypeInt::UBYTE, T_BYTE, adr_type);
-				  	__ if_then(val, BoolTest::eq, __ ConI(1), unlikely); {
-				  		__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
+				  	__ if_then(val, BoolTest::eq, __ ConI(0), likely); {
+				  		Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
+						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
+//						   incrementing the counter variable by 1, do not understand
+						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
+//						   Storing the result obtained after the increment operation to memory
+						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 //						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
 //						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
 						  // incrementing the counter variable by 1, do not understand
@@ -3571,13 +3576,7 @@ void GraphKit::checkObj(Node *obj){
 						   //Storing the result obtained after the increment operation to memory
 //						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
 				  	} __ else_(); { // End of object test
-						  Node *counter_addr = basic_plus_adr(obj, oopDesc::counter_offset_in_bytes());
-						  Node* count  = __ load(__ ctrl(), counter_addr, TypeInt::INT, T_INT, adr_type);
-//						   incrementing the counter variable by 1, do not understand
-						  Node *incr_node = _gvn.transform(new (C, 3) AddINode(count, __ ConI(1)));
-//						   Storing the result obtained after the increment operation to memory
-						  __ store(__ ctrl(), counter_addr, incr_node, T_INT, adr_type);
-
+				  		__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
 				  	} __ end_if();
 //			} __ end_if(); // End of cold region end test
 //		} __ end_if(); // End of cold region start test

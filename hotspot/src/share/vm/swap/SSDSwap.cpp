@@ -46,14 +46,14 @@ void SSDSwap::swapOut(void *top, void *bot){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	if(L_SWAP){
-		printf("SSDSwap::In swapOut, swapping out bottom = %p, end = %p\n", bot, top); fflush(stdout);
+		printf("SSDSwap::swapOut::In swapOut, swapping out bottom = %p, end = %p\n", bot, top); fflush(stdout);
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(top, bot); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
 	SwapManager::swapRange(swapRange, off);
 	SSDSwap::markRegionSwappedOut(bot); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
-		printf("In swapOut, swapOut done successfully\n");
+		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");
 		fflush(stdout);
 	}
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
@@ -64,9 +64,11 @@ void SSDSwap::swapOut(void *top, void *bot){
 void SSDSwap::markRegionSwappedOut(void *addr){
 	char* position = (char *)Universe::getRegionTablePosition(addr);
 	for (int count = 0; count < 256; count++){
-		*((char *)position) = Universe::_notPresentMask;
+		*(position) = Universe::_notPresentMask;
 		position += 1;
 	}
+	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p", (char *)Universe::getRegionTablePosition(addr), position);
+	fflush(stdout);
 }
 
 void SSDSwap::markRegion(void *addr, int mark){
