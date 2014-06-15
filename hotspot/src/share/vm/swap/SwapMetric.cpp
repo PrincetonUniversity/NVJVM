@@ -67,8 +67,8 @@ void SwapMetric::print_on(){
 	printf("The overall SwapMetrics. The number of swapIns = %ld.\n"
 			"The number of swapOuts =%ld.\n"
 			"Total time taken for swapIn = %lld.%.9ld."
-			"Total swapout bytes = %ld\n"
-			"Total swapin bytes = %ld",
+			"Total swap-out bytes = %ld\n"
+			"Total swap-in bytes = %ld.\n",
 			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec, _swapOutBytes, _swapInBytes);
 	fflush(stdout);
 }
