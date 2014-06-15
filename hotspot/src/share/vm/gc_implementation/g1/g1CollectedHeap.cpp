@@ -21,7 +21,7 @@
  * questions.
  *
  */
-
+#include "swap/SwapMetric.h"
 #include "precompiled.hpp"
 #include "code/icBuffer.hpp"
 #include "gc_implementation/g1/bufferingOopClosure.hpp"
