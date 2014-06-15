@@ -1903,6 +1903,10 @@ public:
     return allocate_slow(purpose, word_sz);
   }
 
+  size_t bufferSize(GCAllocPurpose purpose){
+	  return alloc_buffer(purpose)->bufSize();
+  }
+
   void undo_allocation(GCAllocPurpose purpose, HeapWord* obj, size_t word_sz) {
     if (alloc_buffer(purpose)->contains(obj)) {
       assert(alloc_buffer(purpose)->contains(obj + word_sz - 1),
