@@ -31,7 +31,7 @@ public:
 	static void incrementSwapOutTime(timespec start, timespec end);
 	static timespec diff(timespec start, timespec end);
 	static void print_on();
-	static void incrementSwapOutBytes(int bytes);
+	static void incrementSwapOutBytes(long bytes);
 	static void incrementSwapInBytes(int bytes);
 
 };
