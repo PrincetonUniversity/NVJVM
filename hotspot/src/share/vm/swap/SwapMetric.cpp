@@ -73,7 +73,7 @@ void SwapMetric::print_on(){
 	fflush(stdout);
 }
 
-void SwapMetric::incrementSwapOutBytes(int bytes){
+void SwapMetric::incrementSwapOutBytes(long bytes){
 	_swapOutBytes += (long int)bytes;
 }
 

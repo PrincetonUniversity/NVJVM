@@ -840,7 +840,8 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 				  "In swapOutRegion. Swapping out buffer (%p). Buffer End's = %p, Buffer's Bottom %p.\n", buf, end, bottom); fflush(stdout);
 	  }
 	  SSDSwap::swapOut(end, bottom);
-	  SwapMetric::incrementSwapOutBytes((int)buf->size());
+	  long bufSize = (long)(buf->top() - buf->bottom());
+	  SwapMetric::incrementSwapOutBytes(bufSize);
 }
 
 
