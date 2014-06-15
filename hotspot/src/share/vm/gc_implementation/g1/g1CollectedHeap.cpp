@@ -835,13 +835,15 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
-	  if(L_SWAP){
-		  printf("G1CollectedHeap::"
-				  "In swapOutRegion. Swapping out buffer (%p). Buffer End's = %p, Buffer's Bottom %p.\n", buf, end, bottom); fflush(stdout);
-	  }
-	  SSDSwap::swapOut(end, bottom);
 	  long bufSize = (long)(buf->top() - buf->bottom());
 	  SwapMetric::incrementSwapOutBytes(bufSize);
+	  if(L_SWAP){
+		  printf("G1CollectedHeap::"
+				  "In swapOutRegion. Swapping out buffer (%p). Buffer End's = %p, "
+				  "Buffer's Bottom %p. The size of the buffer is %ld."
+				  "\n", buf, end, bottom, bufSize); fflush(stdout);
+	  }
+	  SSDSwap::swapOut(end, bottom);
 }
 
 
