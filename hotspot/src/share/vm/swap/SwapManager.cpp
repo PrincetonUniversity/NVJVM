@@ -96,6 +96,14 @@ void SwapManager::remapPage (void *address){
   }
 
   // Reading the pages from SSD.
+	if(Swap_Protect){
+		if (mprotect (bufferStart, numberBytes, PROT_READ | PROT_WRITE) == -1){
+			perror("error :");
+			printf("Error In Removing Protecting Page = %p.\n", bufferStart);
+			fflush(stdout);
+		}
+	}
+
   SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
   SwapMetric::incrementSwapInBytes((int)numberBytes);
   // Marking the current page fetched
