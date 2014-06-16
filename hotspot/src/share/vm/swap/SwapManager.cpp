@@ -36,7 +36,7 @@ bool liesWithin(void *address, void *top, void *bottom){
  * The address is the address of the header of the object here.
  */
 void SwapManager::remapPage (void *address){
-  if(L_SWAP){
+  if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage:: In remapPage, swapping in page address %p.\n", address); fflush (stdout);
   }
 
@@ -61,7 +61,7 @@ void SwapManager::remapPage (void *address){
   int ssdStartIndex = ssdRangeStart + pageIndex;
   long int ssdStartOffset = ssdStartIndex * _PAGE_SIZE;
 
-  if(L_SWAP){
+  if(L_SWAP && REMAP){
 	  void *top = iter->first;
 	  printf("SwapManager::remapPage::Getting pair %p -> (%d, %d)\n", top, ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
 	  printf("SwapManager::remapPage::The start offset on the SSD = %ld.\n", ssdStartOffset); fflush(stdout);
@@ -70,7 +70,7 @@ void SwapManager::remapPage (void *address){
   // Find the number of pages to be prefetched
   int numPrefetches = Universe::getNumberOfPrefetches(address);
   int numPages = numPrefetches + 1;
-  if(L_SWAP){
+  if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p.\n", numPages, address);
 	  fflush(stdout);
   }

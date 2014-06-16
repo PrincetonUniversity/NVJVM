@@ -45,7 +45,6 @@ void SSDSwap::swapInRegion(void *addr) {
 		prefetchPosition++;
 		regionPos = regionPos + _PAGE_SIZE;
 	}
-	exit(1);
 }
 
 void SSDSwap::handle_faults(void *addr) {
