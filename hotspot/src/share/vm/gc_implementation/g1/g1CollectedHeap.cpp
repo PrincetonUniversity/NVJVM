@@ -60,8 +60,12 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
       printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
 		  char *position = (char *)Universe::getRegionTablePosition(addr);
+		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
+		  char prefetchValue = *prefetchPosition;
 		  char value = *position;
-		  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);fflush(stdout);
+		  printf("Segmentation fault. IsSwappedOut Value = %d, Prefetch Value = %d, at position = %p.\n",
+				  value, prefetchValue, position);
+		  fflush(stdout);
 	  }
 	  (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
