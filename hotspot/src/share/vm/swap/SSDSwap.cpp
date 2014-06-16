@@ -92,6 +92,16 @@ void SSDSwap::markRegionSwappedOut(void *addr){
 	memset(position, Universe::_notPresentMask, Universe::_regionPages);
 	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n", (char *)Universe::getRegionTablePosition(addr), position);
 	fflush(stdout);
+	char value;
+	char *startRegionTable =  (char *)Universe::getRegionTablePosition(addr);
+	char *regionPos = (char *)SwapManager::getRegionStart(addr);
+	for(int count = 0; count < Universe::_regionPages; count++){
+		value = *startRegionTable;
+		printf("SSDSwap::swapOutRegion::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
+		fflush(stdout);
+		regionPos++;
+		startRegionTable++;
+	}
 }
 
 void SSDSwap::markRegion(void *addr, int mark){
