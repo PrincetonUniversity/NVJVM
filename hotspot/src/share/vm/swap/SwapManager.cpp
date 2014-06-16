@@ -142,19 +142,13 @@ void SwapManager::remapPage (void *address){
 	 oop obj = (oop) (address);
 	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
 	 int objSize = obj->size() * HeapWordSize;
-	 char* objEnd = (char *)address + objSize;
+	 char* objEnd = (char *)address + objSize - 1;
 	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
 	 long offset = (long)(objEnd - objEndPageSt);
-	 if(offset == 0){
-		 printf("Offset == 0. Inconsistent. Exiting.\n");
-		 fflush (stdout);
-		 exit(1);
-	 } else{
-		 PageMetaData* p = new PageMetaData((int)offset);
-		 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
-		 _metaDataMap.insert(pair);
-		 Universe::markPartiallyFetched((void*) lastPage);
-	 }
+	 PageMetaData* p = new PageMetaData((int)offset);
+	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
+	 _metaDataMap.insert(pair);
+	 Universe::markPartiallyFetched((void*) lastPage);
  } else {
 	 Universe::markPageFetched(lastPage);
  }
@@ -229,7 +223,8 @@ int SwapManager::getPageNumInRegion(void* address){
 	void* regionStart = getRegionStart(address);
 	int index = ((char *)pageStart - (char *)regionStart)/(_PAGE_SIZE);
 	if(L_SWAP && false){
-		printf("Index = %d, for address = %p.\n", index, address); fflush(stdout);
+		printf("Index = %d, for address = %p.\n", index, address);
+		fflush(stdout);
 	}
 	return index;
 }
