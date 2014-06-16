@@ -60,7 +60,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
       printf("Segmentation fault on %p\n", addr);
       fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
-	  char *position = Universe::getRegionTablePosition(addr);
+	  char *position = Universe::getRegionTablePosition((void *)addr);
 	  char value = *position;
 	  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);
 	  fflush(stdout);
