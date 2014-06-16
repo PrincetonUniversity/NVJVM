@@ -1191,14 +1191,14 @@ protected:
 public:
 // Here, the attribute count needs to be considered in order to select between a hot/cold region
   inline GCAllocPurpose
-    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz, int access_count) {
+    evacuation_destination(HeapRegion* src_region, int age, size_t word_sz, int access_count, bool isArray) {
       if (age < _tenuring_threshold && src_region->is_young()) {
     	if (access_count < _cold_threshold){
     		return GCAllocForSurvivedCold;
     	}
         return GCAllocForSurvived;
       } else {
-      	if (access_count < _cold_threshold){
+      	if (access_count < _cold_threshold && !isArray){
       		return GCAllocForTenuredCold;
       	}
         return GCAllocForTenured;
