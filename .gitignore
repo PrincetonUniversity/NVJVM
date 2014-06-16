@@ -1,3 +1,6 @@
+.DS_Store
+jdk/build
+.hgtags
 build/
 .autotools
 .project
