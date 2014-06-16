@@ -31,6 +31,8 @@ void SSDSwap::swapInRegion(void *addr) {
 	char value;
 	for(int count = 0; count < Universe::_regionPages; count++){
 		value = *startRegionTable;
+		printf("SSDSwap::swapInRegion::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
+		fflush(stdout);
 		if(value == Universe::_notPresentMask || value == Universe::_partiallyFilledMask ){
 			SwapManager::remapPage((void *)regionPos);
 		} else if(value != Universe::_presentMask){
@@ -42,6 +44,7 @@ void SSDSwap::swapInRegion(void *addr) {
 		prefetchPosition++;
 		regionPos = regionPos + _PAGE_SIZE;
 	}
+	exit(1);
 }
 
 void SSDSwap::handle_faults(void *addr) {
@@ -86,10 +89,7 @@ void SSDSwap::swapOut(void *top, void *bot){
 
 void SSDSwap::markRegionSwappedOut(void *addr){
 	char* position = (char *)Universe::getRegionTablePosition(addr);
-	for (int count = 0; count < 256; count++){
-		*(position) = Universe::_notPresentMask;
-		position += 1;
-	}
+	memset(position, Universe::_notPresentMask, Universe::_regionPages);
 	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n", (char *)Universe::getRegionTablePosition(addr), position);
 	fflush(stdout);
 }
