@@ -25,6 +25,7 @@ void* SSDSwap::seg_handler (void *addr){
 //char Universe::_notPresentMask = 1;
 
 void SSDSwap::swapInRegion(void *addr) {
+	printRegionTable(addr);
 	char *regionPos = (char *)SwapManager::getRegionStart(addr);
 	char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 	char *startRegionTable = (char *)Universe::getRegionTablePosition(addr);
@@ -87,21 +88,25 @@ void SSDSwap::swapOut(void *top, void *bot){
 	SwapMetric::incrementSwapOuts();
 }
 
-void SSDSwap::markRegionSwappedOut(void *addr){
-	char* position = (char *)Universe::getRegionTablePosition(addr);
-	memset(position, Universe::_notPresentMask, Universe::_regionPages);
-	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n", (char *)Universe::getRegionTablePosition(addr), position);
-	fflush(stdout);
+void SSDSwap::printRegionTable(void *addr){
 	char value;
 	char *startRegionTable =  (char *)Universe::getRegionTablePosition(addr);
 	char *regionPos = (char *)SwapManager::getRegionStart(addr);
 	for(int count = 0; count < Universe::_regionPages; count++){
 		value = *startRegionTable;
-		printf("SSDSwap::swapOutRegion::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
+		printf("SSDSwap::printRegionTable()::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
 		fflush(stdout);
-		regionPos++;
+		regionPos = regionPos + _PAGE_SIZE;
 		startRegionTable++;
 	}
+}
+
+void SSDSwap::markRegionSwappedOut(void *addr){
+	char* position = (char *)Universe::getRegionTablePosition(addr);
+	memset(position, Universe::_notPresentMask, Universe::_regionPages);
+	printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n", (char *)Universe::getRegionTablePosition(addr), position);
+	fflush(stdout);
+	printRegionTable(addr);
 }
 
 void SSDSwap::markRegion(void *addr, int mark){
