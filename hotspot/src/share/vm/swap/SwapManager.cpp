@@ -76,7 +76,7 @@ void SwapManager::remapPage (void *address){
   }
   int numberBytes = numPages * _PAGE_SIZE;
   char* bufferStart = (char *)object_va_to_page_start(address);
-  char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes);
+  char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes -1);
 
   // Checking if the first page is partially filled.
   if (Universe::isPartiallyFilled((void *)bufferStart)){
@@ -97,7 +97,7 @@ void SwapManager::remapPage (void *address){
 
   // If the last page is present, we do not fetch the last page.
   bool lastPageIsPresent = Universe::isPresent((void *)bufferEnd);
-  if (lastPageIsPresent && numPages > 1){
+  if (lastPageIsPresent){
 	  numberBytes -= _PAGE_SIZE;
   }
   if(numberBytes == 0){
