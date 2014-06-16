@@ -20,6 +20,29 @@ void* SSDSwap::seg_handler (void *addr){
 	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
     pthread_mutex_unlock(&_swap_map_mutex);
 }
+//char Universe::_presentMask = 0;
+//char Universe::_partiallyFilledMask = 2;
+//char Universe::_notPresentMask = 1;
+
+void SSDSwap::swapInRegion(void *addr) {
+	char *regionStart = (char *)SwapManager::getRegionStart(addr);
+	char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
+	char *startRegionTable = (char *)Universe::getRegionTablePosition(addr);
+	char value;
+	for(int count = 0; count < 256; count++){
+		value = *startRegionTable;
+		if(value == Universe::_notPresentMask || value == Universe::_partiallyFilledMask ){
+			SwapManager::remapPage(addr);
+		} else if(value != Universe::_presentMask){
+			printf("Error, value in the region table different from 0,1,2. Exiting.\n");
+			fflush(stdout);
+			exit(1);
+		}
+		startRegionTable++;
+		prefetchPosition++;
+		addr = (void*) ((char *)addr + _PAGE_SIZE);
+	}
+}
 
 void SSDSwap::handle_faults(void *addr) {
 	timespec time1, time2;

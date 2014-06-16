@@ -22,7 +22,7 @@ void SwapManager::swapInRegions(){
 	for (std::list<void *>::iterator it = mylist.begin(); it != mylist.end(); it++){
 		void *address = *it;
 		printf("Generating a fault at address %p\n", address); fflush(stdout);
-		SSDSwap::handle_faults(address);
+		SSDSwap::swapInRegion(addr);
 	}
 }
 

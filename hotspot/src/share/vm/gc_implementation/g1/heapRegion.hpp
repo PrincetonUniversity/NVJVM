@@ -370,7 +370,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  return (_isSwappedOut == false);
   }
   void swappedOut(){
-	  _isSwappedOut = true;
+//	  _isSwappedOut = true;
+	  _isSwappedOut = false;
   }
 
   // It sets up the heap region size (GrainBytes / GrainWords), as
