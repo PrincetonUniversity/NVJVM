@@ -45,48 +45,8 @@
 #include "oops/oop.pcgc.inline.hpp"
 #include "runtime/aprofiler.hpp"
 #include "runtime/vmThread.hpp"
-#include "swap/SSDSwap.h"
-#include "swap/swap_global.h"
-#include <stdio.h>
-#include <string.h>
-#include "memory/universe.inline.hpp"
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
-
-struct sigaction sa;
-
-/*SSDSwap* ssdSwap;
-void seg_handler(int sig, siginfo_t *si, void *unused){
-	  if (L_SWAP){
-		  printf("seg_handler, fault on %p\n", si->si_addr); fflush(stdout);
-	  }
-	  if (si->si_code == SEGV_ACCERR){
-		  ssdSwap->seg_handler(si->si_addr);
-	  } else{
-		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
-		exit (-1);
-	  }
-	  if(L_SWAP){
-		  printf("Page Remapping Done at %p\n", si->si_addr); fflush(stdout);
-	  }
-}
-
-void sig_init (){
-	// defining the segmentation fault handler
-	  sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
-	  sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
-	  sa.sa_sigaction = seg_handler; // Assigning the fault handler
-	  if (sigaction(SIGSEGV, &sa, NULL) == -1){ // Installs the function in sa taken on a segmentation fault
-	    perror("error :");
-	  }
-}
-
-void init(){
-		sig_init();
-		ssdSwap = new SSDSwap();
-}*/
-
-void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
 
 // turn it on so that the contents of the young list (scan-only /
 // to-be-collected) are printed at "strategic" points before / during
@@ -689,7 +649,6 @@ int G1CollectedHeap::humongous_obj_allocate_find_first(size_t num_regions,
       }
     }
   }
-  //printf("humongous_obj_allocate_find_first %p\n", first); fflush(stdout);
   return first;
 }
 
@@ -809,7 +768,7 @@ G1CollectedHeap::humongous_obj_allocate_initialize_regions(int first,
   assert(first_hr->used() == word_size * HeapWordSize, "invariant");
   _summary_bytes_used += first_hr->used();
   _humongous_set.add(first_hr);
-  //printf("in  humongous_obj_allocate_initialize_regions %p\n", new_obj); fflush(stdout);
+
   return new_obj;
 }
 
@@ -856,7 +815,7 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
   }
 
   verify_region_sets_optional();
-  //printf("in  humongous_obj_allocate %p\n", result); fflush(stdout);
+
   return result;
 }
 
@@ -865,9 +824,7 @@ HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
   assert(!isHumongous(word_size), "we do not allow humongous TLABs");
 
   unsigned int dummy_gc_count_before;
-  HeapWord* res = attempt_allocation(word_size, &dummy_gc_count_before);
-  //printf("in  allocate_new_tlab %p\n", res); fflush(stdout);
-  return res;
+  return attempt_allocation(word_size, &dummy_gc_count_before);
 }
 
 HeapWord*
@@ -890,7 +847,6 @@ G1CollectedHeap::mem_allocate(size_t word_size,
       result = attempt_allocation_humongous(word_size, &gc_count_before);
     }
     if (result != NULL) {
-    //printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     }
 
@@ -910,7 +866,6 @@ G1CollectedHeap::mem_allocate(size_t word_size,
         // this for non-humongous allocations, though.
         dirty_young_block(result, word_size);
       }
-      //printf("mem_allocate, return result %p\n", result); fflush(stdout);
       return result;
     } else {
       assert(op.result() == NULL,
@@ -954,9 +909,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
       if (result != NULL) {
-    	if (L_DEBUG) {
-    		printf("mem_allocate_slow, from attempt_allocation_locked, return result %p\n", result); fflush(stdout);
-    	}
         return result;
       }
 
@@ -969,9 +921,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
           result = _mutator_alloc_region.attempt_allocation_force(word_size,
                                                       false /* bot_updates */);
           if (result != NULL) {
-          	if (L_DEBUG) {
-          		printf("mem_allocate_slow, from attempt_allocation_force, return result %p\n", result); fflush(stdout);
-          	}
             return result;
           }
         }
@@ -980,9 +929,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
         // Read the GC count while still holding the Heap_lock.
         gc_count_before = SharedHeap::heap()->total_collections();
         should_try_gc = true;
-      	if (L_DEBUG) {
-      		printf("alocation failed, attempting GC, count = %d\n", gc_count_before); fflush(stdout);
-      	}
       }
     }
 
@@ -991,7 +937,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        //printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
         return result;
       }
 
@@ -1018,7 +963,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_slow(size_t word_size,
     result = _mutator_alloc_region.attempt_allocation(word_size,
                                                       false /* bot_updates */);
     if (result != NULL ){
-    	//printf("mem_allocate_slow, return result %p\n", result);fflush(stdout);
       return result;
     }
 
@@ -1068,7 +1012,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       // collection hoping that there's enough space in the heap.
       result = humongous_obj_allocate(word_size);
       if (result != NULL) {
-    	//printf("attempt_allocation_humongous, alloc %p", result);fflush(stdout);
         return result;
       }
 
@@ -1090,7 +1033,6 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
       result = do_collection_pause(word_size, gc_count_before, &succeeded);
       if (result != NULL) {
         assert(succeeded, "only way to get back a non-NULL result");
-        //printf("attempt_allocation_humongous, alloc %p", result); fflush(stdout);
         return result;
       }
 
@@ -1126,21 +1068,16 @@ HeapWord* G1CollectedHeap::attempt_allocation_humongous(size_t word_size,
 
 HeapWord* G1CollectedHeap::attempt_allocation_at_safepoint(size_t word_size,
                                        bool expect_null_mutator_alloc_region) {
-HeapWord *h;
   assert_at_safepoint(true /* should_be_vm_thread */);
   assert(_mutator_alloc_region.get() == NULL ||
                                              !expect_null_mutator_alloc_region,
          "the current alloc region was unexpectedly found to be non-NULL");
 
   if (!isHumongous(word_size)) {
-    h = _mutator_alloc_region.attempt_allocation_locked(word_size,
+    return _mutator_alloc_region.attempt_allocation_locked(word_size,
                                                       false /* bot_updates */);
-   // printf("attempt_allocation_at_safepoint %p, isNotHumongous, %p\n", h); fflush(stdout);
-    return h;
   } else {
-    h = humongous_obj_allocate(word_size);
-    //printf("attempt_allocation_at_safepoint %p, isHumongous\n", h); fflush(stdout);
-    return h;
+    return humongous_obj_allocate(word_size);
   }
 
   ShouldNotReachHere();
@@ -1425,6 +1362,7 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
     assert( check_young_list_empty(true /* check_heap */),
             "young list should be empty at this point");
   }
+
   // Update the number of full collections that have been completed.
   increment_full_collections_completed(false /* concurrent */);
 
@@ -1436,29 +1374,6 @@ bool G1CollectedHeap::do_collection(bool explicit_gc,
   g1mm()->update_counters();
 
   return true;
-}
-
-void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
-  if(L_SWAP){
-	  printf("swapping out buffer\n"); fflush(stdout);
-  }
-  void *end = (void *)((char *)buf->end()-1);
-  void *bottom = (void *)(buf->bottom());
-  if(L_SWAP){
-	  printf("bot %p\n", bottom);
-	  printf("end %p\n", end);
-	  fflush(stdout);
-  }
-  SSDSwap::swapOut(end, bottom);
-  // triggering a page fault
-  /*if(L_SWAP){
-	  char *c = (char *)malloc(1);
-	  printf("accessing the buffer after it has been deallocated\n"); fflush(stdout);
-	  memcpy((void *)c, (void *)buf->bottom(), 1);
-	  printf("copy done %c\n", c); fflush(stdout);
-	  free(c);
-	  printf("access successful\n"); fflush(stdout);
-  }*/
 }
 
 void G1CollectedHeap::do_full_collection(bool clear_all_soft_refs) {
@@ -1968,9 +1883,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   if (_process_strong_tasks == NULL || !_process_strong_tasks->valid()) {
     vm_exit_during_initialization("Failed necessary allocation.");
   }
-  /*if(DO_SWAP){
-   init();
-  }*/
+
   _humongous_object_threshold_in_words = HeapRegion::GrainWords / 2;
 
   int n_queues = MAX2((int)ParallelGCThreads, 1);
@@ -2074,7 +1987,7 @@ jint G1CollectedHeap::initialize() {
   // temporarily think somethings in the heap.  (I've actually seen this
   // happen in asserts: DLD.)
   _reserved.set_word_size(0);
-  _reserved.set_start((HeapWord*)heap_rs.base()); // we can use this as the start of the reserved space for the heap
+  _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
   // Setting the heap size, start values here
   Universe::setHeapStart((uint64_t) heap_rs.base());
@@ -2499,7 +2412,6 @@ void G1CollectedHeap::collect_as_vm_thread(GCCause::Cause cause) {
 
 void G1CollectedHeap::collect(GCCause::Cause cause) {
   // The caller doesn't have the Heap_lock
-  //printf("in G1CollectedHeap::collect()\n"); fflush(stdout);
   assert(!Heap_lock->owned_by_self(), "this thread should not own the Heap_lock");
 
   unsigned int gc_count_before;
@@ -2513,7 +2425,6 @@ void G1CollectedHeap::collect(GCCause::Cause cause) {
   }
 
   if (should_do_concurrent_full_gc(cause)) {
-	  //printf("in should_do_concurrent_full_gc == true\n"); fflush(stdout);
     // Schedule an initial-mark evacuation pause that will start a
     // concurrent cycle. We're setting word_size to 0 which means that
     // we are not requesting a post-GC allocation.
@@ -3284,9 +3195,6 @@ void G1CollectedHeap::gc_epilogue(bool full /* Ignored */) {
 HeapWord* G1CollectedHeap::do_collection_pause(size_t word_size,
                                                unsigned int gc_count_before,
                                                bool* succeeded) {
-  if (L_DEBUG){
-	  printf("in do_collection_pause\n"); fflush (stdout);
-  }
   assert_heap_not_locked_and_not_at_safepoint();
   g1_policy()->record_stop_world_start();
   VM_G1IncCollectionPause op(gc_count_before,
@@ -3766,10 +3674,6 @@ size_t G1CollectedHeap::desired_plab_sz(GCAllocPurpose purpose)
     case GCAllocForTenured:
       gclab_word_size = OldPLABSize;
       break;
-    case GCAllocForSurvivedCold:
-    case GCAllocForTenuredCold:
-    	gclab_word_size = OldPLABSize;
-    	break;
     default:
       assert(false, "unknown GCAllocPurpose");
       gclab_word_size = OldPLABSize;
@@ -4189,7 +4093,6 @@ public:
     } else {
       // The object has been either evacuated or is dead. Fill it with a
       // dummy object.
-      //obj->resetCount();
       MemRegion mr((HeapWord*)obj, obj_size);
       CollectedHeap::fill_with_object(mr);
       _cm->clearRangeBothMaps(mr);
@@ -4289,11 +4192,6 @@ G1CollectedHeap::handle_evacuation_failure_par(OopsInHeapRegionClosure* cl,
                  (HeapWord*) old));
   markOop m = old->mark();
   oop forward_ptr = old->forward_to_atomic(old);
-  if (L_DEBUG){
-	if (forward_ptr != NULL){
-		printf("mark set atomically %p\n", forward_ptr); fflush(stdout);
-	}
-  }
   if (forward_ptr == NULL) {
     // Forward-to-self succeeded.
     if (_evac_failure_closure != cl) {
@@ -4446,7 +4344,6 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
         // Make an alias.
         _gc_alloc_regions[purpose] = _gc_alloc_regions[alt_purpose];
         if (block != NULL) {
-          //printf("allocate_during_gc_slow, allocating block %p\n", block);
           return block;
         }
         retire_alloc_region(alt_region, par);
@@ -4483,7 +4380,6 @@ G1CollectedHeap::allocate_during_gc_slow(GCAllocPurpose purpose,
     // This sets other apis using the same old alloc region to NULL, also.
     set_gc_alloc_region(purpose, NULL);
   }
- // printf("allocate_during_gc_slow, allocating block %p\n", block);
   return block;  // May be NULL.
 }
 
@@ -4518,8 +4414,6 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
     _term_attempts(0),
     _surviving_alloc_buffer(g1h->desired_plab_sz(GCAllocForSurvived)),
     _tenured_alloc_buffer(g1h->desired_plab_sz(GCAllocForTenured)),
-    _surviving_cold_alloc_buffer(g1h->desired_plab_sz(GCAllocForSurvivedCold)),
-    _tenured_cold_alloc_buffer(g1h->desired_plab_sz(GCAllocForTenuredCold)),
     _age_table(false),
     _strong_roots_time(0), _term_time(0),
     _alloc_buffer_waste(0), _undo_waste(0)
@@ -4542,8 +4436,6 @@ G1ParScanThreadState::G1ParScanThreadState(G1CollectedHeap* g1h, int queue_num)
 
   _alloc_buffers[GCAllocForSurvived] = &_surviving_alloc_buffer;
   _alloc_buffers[GCAllocForTenured]  = &_tenured_alloc_buffer;
-  _alloc_buffers[GCAllocForSurvivedCold]  = &_surviving_cold_alloc_buffer;
-  _alloc_buffers[GCAllocForTenuredCold]  = &_tenured_cold_alloc_buffer;
 
   _start = os::elapsedTime();
 }
@@ -4617,11 +4509,9 @@ void G1ParScanThreadState::trim_queue() {
   do {
     // Drain the overflow stack first, so other threads can steal.
     while (refs()->pop_overflow(ref)) {
-     //printf("in trim_queue,%p\n", ref); fflush(stdout);
-     deal_with_reference(ref);
+      deal_with_reference(ref);
     }
     while (refs()->pop_local(ref)) {
-    	//printf("in trim_queue,%p\n", ref); fflush(stdout);
       deal_with_reference(ref);
     }
   } while (!refs()->is_empty());
@@ -4632,7 +4522,6 @@ G1ParClosureSuper::G1ParClosureSuper(G1CollectedHeap* g1, G1ParScanThreadState* 
   _par_scan_state(par_scan_state) { }
 
 template <class T> void G1ParCopyHelper::mark_forwardee(T* p) {
-   //printf("marking forwardee %p\n", p); fflush(stdout);
   // This is called _after_ do_oop_work has been called, hence after
   // the object has been relocated to its new location and *p points
   // to its new location.
@@ -4658,15 +4547,8 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   markOop m = old->mark();
   int age = m->has_displaced_mark_helper() ? m->displaced_mark_helper()->age()
                                            : m->age();
-  // GCAllocPurpose now has a survived cold, tenured cold region for segregating objects by access count
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
-                                                             word_sz, old->getCount());
-  if (L_SEGREGATION){
-	  char str [30];
-	  g1p->region_name(alloc_purpose, str);
-	  printf("L_SEGREGATION: moving object with address %p, count %d to region : %s\n", old, old->getCount(),str);
-	  fflush (stdout);
-  }
+                                                             word_sz);
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
 
@@ -4679,26 +4561,10 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
 
   // We're going to allocate linearly, so might as well prefetch ahead.
   Prefetch::write(obj_ptr, PrefetchCopyIntervalInBytes);
+
   oop forward_ptr = old->forward_to_atomic(obj);
-  if (L_DEBUG){
-	  printf("In copy_to_survivor_space, old=%p, obj=%p, count=%p, fwd_ptr=%p, heap region is young %d, "
-			  "heap region is survivor %d\n",
-			  old, obj, ((oop)obj)->getCount(), forward_ptr,
-			  from_region->is_young(), from_region->is_survivor());
-	  fflush(stdout);
-  }
   if (forward_ptr == NULL) {
     Copy::aligned_disjoint_words((HeapWord*) old, obj_ptr, word_sz);
-    if (L_COUNT){
-    	if (true || old->getCount() != 0){
-    	//printf("old_count=%d, old_address = %p, name =%s\n", old->getCount(), old, old->blueprint()->internal_name());
-    	printf("%d,%p,%s\n", old->getCount(), old, old->blueprint()->internal_name());
-    	fflush(stdout);
-    	}
-    }
-    if(L_ASSERT){
-    	assert(old->getCount() == ((oop)obj)->getCount(), "object count mismatch, copy_to_survivor_space");
-    }
     if (g1p->track_object_age(alloc_purpose)) {
       // We could simply do obj->incr_age(). However, this causes a
       // performance issue. obj->incr_age() will first check whether
@@ -4748,8 +4614,6 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
     if (obj->is_objArray() && arrayOop(obj)->length() >= ParGCArrayScanChunk) {
       arrayOop(old)->set_length(0);
       oop* old_p = set_partial_array_mask(old);
-      //printf("setting partial array mask %p, %p", old_p, old); fflush(stdout);
-      //printf("calling push on queue %p", old_p); fflush(stdout);
       _par_scan_state->push_on_queue(old_p);
     } else {
       // No point in using the slower heap_region_containing() method,
@@ -4760,7 +4624,6 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
   } else {
     _par_scan_state->undo_allocation(alloc_purpose, obj_ptr, word_sz);
     obj = forward_ptr;
-    //if(!(old->getCount() == obj->getCount())){printf("mismatch\n"); fflush(stdout);}
   }
   return obj;
 }
@@ -4770,7 +4633,6 @@ template <class T>
 void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
 ::do_oop_work(T* p) {
   oop obj = oopDesc::load_decode_heap_oop(p);
-  //printf("do_oop_word T= %p, obj = %p\n", p, obj); fflush(stdout);
   assert(barrier != G1BarrierRS || obj != NULL,
          "Precondition: G1BarrierRS implies obj is nonNull");
 
@@ -4784,11 +4646,6 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
       oopDesc::encode_store_heap_oop(p, obj->forwardee());
     } else {
       oop copy_oop = copy_to_survivor_space(obj);
-      if (L_DEBUG){
-    	  if (copy_oop != NULL){
-    		  printf("copy_to_survivor_space returned %p\n", copy_oop); fflush(stdout);
-    	  }
-      }
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
     // When scanning the RS, we only care about objs in CS.
@@ -4831,7 +4688,6 @@ template <class T> void G1ParScanPartialArrayClosure::do_oop_nv(T* p) {
     // Push remainder.
     oop* old_p = set_partial_array_mask(old);
     assert(arrayOop(old)->length() < obj->length(), "Empty push?");
-    //printf("calling push_on_queue, G1ParScanPartialArrayClosure, old_p=%p, old=%p", old_p, old); fflush(stdout);
     _par_scan_state->push_on_queue(old_p);
   } else {
     // Restore length so that the heap remains parsable in
@@ -4879,13 +4735,11 @@ bool G1ParEvacuateFollowersClosure::offer_termination() {
 void G1ParEvacuateFollowersClosure::do_void() {
   StarTask stolen_task;
   G1ParScanThreadState* const pss = par_scan_state();
-  //printf("calling trim queue\n");fflush(stdout);
   pss->trim_queue();
 
   do {
     while (queues()->steal(pss->queue_num(), pss->hash_seed(), stolen_task)) {
       assert(pss->verify_task(stolen_task), "sanity");
-      //printf("reference %p\n", stolen_task); fflush(stdout);
       if (stolen_task.is_narrow()) {
         pss->deal_with_reference((narrowOop*) stolen_task);
       } else {
@@ -5099,10 +4953,6 @@ void G1CollectedHeap::save_marks() {
 }
 
 void G1CollectedHeap::evacuate_collection_set() {
-  //printf("in evacuate collection set \n"); fflush(stdout);
-  if (L_COUNT){
-	printf("starting evacuation collection cycle \n"); fflush(stdout);
-  }
   set_evacuation_failed(false);
 
   g1_rem_set()->prepare_for_oops_into_collection_set_do();
@@ -5145,16 +4995,6 @@ void G1CollectedHeap::evacuate_collection_set() {
     G1IsAliveClosure is_alive(this);
     G1KeepAliveClosure keep_alive(this);
     JNIHandles::weak_oops_do(&is_alive, &keep_alive);
-  }
-  // Swap Out A Heap Region
-  if(DO_SWAP){
-	  GCAllocPurpose purpose = GCAllocForTenuredCold;
-	  HeapRegion *buf = _gc_alloc_regions[purpose];
-	  if (buf == NULL){
-		  printf("buf is NULL\n"); fflush(stdout);
-		  exit(-1);
-	  }
-	  swapOutRegion(buf, purpose);
   }
   release_gc_alloc_regions(false /* totally */);
   g1_rem_set()->cleanup_after_oops_into_collection_set_do();
