@@ -57,17 +57,15 @@ struct sigaction sa;
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
-      printf("Segmentation fault on %p\n", addr);
-      fflush(stdout);
+      printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
 	  char *position = (char *)Universe::getRegionTablePosition(addr);
 	  char value = *position;
-	  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);
-	  fflush(stdout);
-	  exit(1);
+	  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);fflush(stdout);
+//	  exit(1);
 	  } else{
 		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
-		exit (1);
+//		exit (1);
 	  }
 }
 
