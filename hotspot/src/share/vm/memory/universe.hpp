@@ -280,6 +280,7 @@ class Universe: AllStatic {
   static char _partiallyFilledMask;
   static char _presentMask;
   static char _notPresentMask;
+  static int _regionPages;
 
   static void setHeapStart(uint64_t s)                 { _heapStart = s;}
   static void setHeapSize(uint64_t s)                  {  _heapSize = s;}

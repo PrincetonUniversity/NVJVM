@@ -116,6 +116,7 @@ size_t Universe::_swapChunkSize = sysconf(_SC_PAGE_SIZE);
 char Universe::_presentMask = 0;
 char Universe::_partiallyFilledMask = 2;
 char Universe::_notPresentMask = 1;
+int Universe::_regionPages = 256;
 
 
 // Known objects
