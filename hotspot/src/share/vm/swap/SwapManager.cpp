@@ -107,8 +107,8 @@ void SwapManager::remapPage (void *address){
   SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
   SwapMetric::incrementSwapInBytes((int)numberBytes);
   // Marking the current page fetched
+  Universe::markPageFetched(address);
   if (numPages == 1){
-	  Universe::markPageFetched(address);
 	  return;
   }
   char* curr = (char *)object_va_to_page_start(address) + _PAGE_SIZE;
