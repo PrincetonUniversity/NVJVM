@@ -53,20 +53,17 @@
  */
 
 struct sigaction sa;
-
+struct sigaction oldSigAct;
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
       printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
-	  char *position = (char *)Universe::getRegionTablePosition(addr);
-	  char value = *position;
-	  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);fflush(stdout);
-//	  exit(1);
-	  } else{
-		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
-//		exit (1);
+		  char *position = (char *)Universe::getRegionTablePosition(addr);
+		  char value = *position;
+		  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);fflush(stdout);
 	  }
+	  (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
 
 void sig_init (){
@@ -74,7 +71,7 @@ void sig_init (){
 	  sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
 	  sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
 	  sa.sa_sigaction = seg_handler; // Assigning the fault handler
-	  if (sigaction(SIGSEGV, &sa, NULL) == -1){ // Installs the function in sa taken on a segmentation fault
+	  if (sigaction(SIGSEGV, &sa, &oldSigAct) == -1){ // Installs the function in sa taken on a segmentation fault
 	    perror("error :");
 	  }
 }
@@ -2010,7 +2007,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   if (_process_strong_tasks == NULL || !_process_strong_tasks->valid()) {
     vm_exit_during_initialization("Failed necessary allocation.");
   }
-//  init();
+  init();
   _humongous_object_threshold_in_words = HeapRegion::GrainWords / 2;
 
   int n_queues = MAX2((int)ParallelGCThreads, 1);
