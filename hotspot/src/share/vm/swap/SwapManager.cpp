@@ -228,7 +228,7 @@ int SwapManager::getPageNumInRegion(void* address){
 	void* pageStart = object_va_to_page_start(address);
 	void* regionStart = getRegionStart(address);
 	int index = ((char *)pageStart - (char *)regionStart)/(_PAGE_SIZE);
-	if(L_SWAP){
+	if(L_SWAP && false){
 		printf("Index = %d, for address = %p.\n", index, address); fflush(stdout);
 	}
 	return index;
