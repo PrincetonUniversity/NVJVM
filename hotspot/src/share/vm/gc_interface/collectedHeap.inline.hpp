@@ -138,7 +138,8 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, 
   // We may want to update this, is_noref objects might not be allocated in TLABs.
   HeapWord* result = NULL;
   if (UseTLAB) {
-    result = CollectedHeap::allocate_from_tlab(THREAD, size);
+//    printf("UseTLAB = true.\n");fflush(stdout);
+	result = CollectedHeap::allocate_from_tlab(THREAD, size);
     if (result != NULL) {
       assert(!HAS_PENDING_EXCEPTION,
              "Unexpected exception, will result in uninitialized storage");

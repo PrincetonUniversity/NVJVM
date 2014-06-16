@@ -66,7 +66,7 @@ timespec SwapMetric::diff(timespec start, timespec end){
 void SwapMetric::print_on(){
 	printf("The overall SwapMetrics. The number of swapIns = %ld.\n"
 			"The number of swapOuts =%ld.\n"
-			"Total time taken for swapIn = %lld.%.9ld."
+			"Total time taken for swapIn = %lld.%.9ld.\n"
 			"Total swap-out bytes = %ld\n"
 			"Total swap-in bytes = %ld.\n",
 			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec, _swapOutBytes, _swapInBytes);

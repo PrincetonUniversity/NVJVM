@@ -364,6 +364,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
   static int GrainBytes;
   static int GrainWords;
   static int CardsPerRegion;
+  bool _isSwappedOut;
+
+  bool isInMemory(){
+	  return (_isSwappedOut == false);
+  }
+  void swappedOut(){
+	  _isSwappedOut = true;
+  }
 
   // It sets up the heap region size (GrainBytes / GrainWords), as
   // well as other related fields that are based on the heap region

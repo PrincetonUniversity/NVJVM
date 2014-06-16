@@ -844,6 +844,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 				  "\n", buf, end, bottom, bufSize); fflush(stdout);
 	  }
 	  SSDSwap::swapOut(end, bottom);
+	  buf->swappedOut();
 }
 
 
@@ -3262,7 +3263,6 @@ void G1CollectedHeap::gc_epilogue(bool full /* Ignored */) {
 HeapWord* G1CollectedHeap::do_collection_pause(size_t word_size,
                                                unsigned int gc_count_before,
                                                bool* succeeded) {
-  printf("In do_collection_pause_at_safepoint. Major Collection.\n"); fflush(stdout);
   assert_heap_not_locked_and_not_at_safepoint();
   g1_policy()->record_stop_world_start();
   VM_G1IncCollectionPause op(gc_count_before,
@@ -3424,8 +3424,8 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 #endif // TASKQUEUE_STATS
 
 bool
-G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
-  printf("In do_collection_pause_at_safepoint. Minor Collection.\n"); fflush(stdout);
+	G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
+  printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
 
   assert_at_safepoint(true /* should_be_vm_thread */);
 //  SwapManager::swapInRegions();
@@ -3547,7 +3547,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       if (g1_policy()->during_initial_mark_pause()) {
         concurrent_mark()->checkpointRootsInitialPre();
       }
-      save_marks(); // saves the top() of each of the region in the heap region sequence
+      save_marks(); // saves the top() of each of each region in the heap region sequence
 
       // We must do this before any possible evacuation that should propagate
       // marks.
@@ -4881,7 +4881,7 @@ public:
     HandleMark   hm;
 
     G1ParScanThreadState            pss(_g1h, i);
-    G1ParScanHeapEvacClosure        scan_evac_cl(_g1h, &pss);
+G1ParScanHeapEvacClosure        scan_evac_cl(_g1h, &pss);
     G1ParScanHeapEvacFailureClosure evac_failure_cl(_g1h, &pss);
     G1ParScanPartialArrayClosure    partial_scan_cl(_g1h, &pss);
 
