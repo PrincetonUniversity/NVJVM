@@ -25,6 +25,7 @@ void* SSDSwap::seg_handler (void *addr){
 //char Universe::_notPresentMask = 1;
 
 void SSDSwap::swapInRegion(void *addr) {
+	addr = SwapManager::getRegionStart(addr);
 	printRegionTable(addr);
 	char *regionPos = (char *)SwapManager::getRegionStart(addr);
 	char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
