@@ -70,6 +70,10 @@ void SwapManager::remapPage (void *address){
   // Find the number of pages to be prefetched
   int numPrefetches = Universe::getNumberOfPrefetches(address);
   int numPages = numPrefetches + 1;
+  if(L_SWAP){
+	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p.\n", numPages, address);
+	  fflush(stdout);
+  }
   int numberBytes = numPages * _PAGE_SIZE;
   char* bufferStart = (char *)object_va_to_page_start(address);
   char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes);
