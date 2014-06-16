@@ -97,7 +97,7 @@ void SwapManager::remapPage (void *address){
 
   // If the last page is present, we do not fetch the last page.
   bool lastPageIsPresent = Universe::isPresent((void *)bufferEnd);
-  if (lastPageIsPresent){
+  if (lastPageIsPresent && numPages > 1){
 	  numberBytes -= _PAGE_SIZE;
   }
   if(numberBytes == 0){

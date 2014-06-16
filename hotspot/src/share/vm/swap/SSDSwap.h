@@ -38,7 +38,6 @@ public:
 	static void swapOut(void *sa, void *ea);
 	static void markRegion(void *addr, int mark);
 	static void markRegionSwappedOut(void *addr);
-	static void printRegionTable(void *addr);
 };
 
 
