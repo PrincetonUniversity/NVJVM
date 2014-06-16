@@ -40,7 +40,7 @@ void SSDSwap::swapInRegion(void *addr) {
 		}
 		startRegionTable++;
 		prefetchPosition++;
-		addr = (void*) ((char *)regionPos + _PAGE_SIZE);
+		regionPos = (void*) ((char *)regionPos + _PAGE_SIZE);
 	}
 }
 
