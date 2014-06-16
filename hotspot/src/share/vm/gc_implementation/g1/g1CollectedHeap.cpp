@@ -52,6 +52,39 @@
  *  Methods for the implementation of the swapouts.
  */
 
+struct sigaction sa;
+
+
+void seg_handler(int sig, siginfo_t *si, void *unused){
+	  char *addr = si->si_addr;
+      printf("Segmentation fault on %p\n", addr);
+      fflush(stdout);
+	  if (si->si_code == SEGV_ACCERR){
+	  char *position = Universe::getRegionTablePosition(addr);
+	  char value = *position;
+	  printf("Segmentation fault. Value = %d, at position = %p.\n", value, position);
+	  fflush(stdout);
+	  exit(1);
+	  } else{
+		printf ("Segmentation fault, Code is different\n"); fflush(stdout);
+		exit (1);
+	  }
+}
+
+void sig_init (){
+	// defining the segmentation fault handler
+	  sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
+	  sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
+	  sa.sa_sigaction = seg_handler; // Assigning the fault handler
+	  if (sigaction(SIGSEGV, &sa, NULL) == -1){ // Installs the function in sa taken on a segmentation fault
+	    perror("error :");
+	  }
+}
+
+void init(){
+		sig_init();
+}
+
 
 size_t G1CollectedHeap::_humongous_object_threshold_in_words = 0;
 
@@ -1979,7 +2012,7 @@ G1CollectedHeap::G1CollectedHeap(G1CollectorPolicy* policy_) :
   if (_process_strong_tasks == NULL || !_process_strong_tasks->valid()) {
     vm_exit_during_initialization("Failed necessary allocation.");
   }
-
+  init();
   _humongous_object_threshold_in_words = HeapRegion::GrainWords / 2;
 
   int n_queues = MAX2((int)ParallelGCThreads, 1);
