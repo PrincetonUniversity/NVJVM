@@ -17,7 +17,7 @@ void* SSDSwap::seg_handler (void *addr){
 		printf("SSDSwap:segmentation handler called on %p\n", addr); fflush(stdout);
 	}
 	pthread_mutex_lock(&_swap_map_mutex);
-	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
+	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
     pthread_mutex_unlock(&_swap_map_mutex);
 }
 //char Universe::_presentMask = 0;
@@ -49,7 +49,7 @@ void SSDSwap::handle_faults(void *addr) {
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	pthread_mutex_lock(&_swap_map_mutex);
-	SwapManager::remapPage(addr); // Currently we are synchronizing access to remapping pages
+	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
 //	SSDSwap::markRegion(addr, 0); // Marking the region as swapped in, region bitmap
 	SwapMetric::incrementSwapIns();
 	pthread_mutex_unlock(&_swap_map_mutex);
