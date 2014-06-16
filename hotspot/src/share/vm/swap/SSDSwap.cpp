@@ -25,14 +25,14 @@ void* SSDSwap::seg_handler (void *addr){
 //char Universe::_notPresentMask = 1;
 
 void SSDSwap::swapInRegion(void *addr) {
-	char *regionStart = (char *)SwapManager::getRegionStart(addr);
+	char *regionPos = (char *)SwapManager::getRegionStart(addr);
 	char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 	char *startRegionTable = (char *)Universe::getRegionTablePosition(addr);
 	char value;
-	for(int count = 0; count < 256; count++){
+	for(int count = 0; count < Universe::_regionPages; count++){
 		value = *startRegionTable;
 		if(value == Universe::_notPresentMask || value == Universe::_partiallyFilledMask ){
-			SwapManager::remapPage(addr);
+			SwapManager::remapPage(regionPos);
 		} else if(value != Universe::_presentMask){
 			printf("Error, value in the region table different from 0,1,2. Exiting.\n");
 			fflush(stdout);
@@ -40,7 +40,7 @@ void SSDSwap::swapInRegion(void *addr) {
 		}
 		startRegionTable++;
 		prefetchPosition++;
-		addr = (void*) ((char *)addr + _PAGE_SIZE);
+		addr = (void*) ((char *)regionPos + _PAGE_SIZE);
 	}
 }
 

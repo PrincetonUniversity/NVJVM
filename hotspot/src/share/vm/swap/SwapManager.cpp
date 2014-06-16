@@ -13,6 +13,7 @@
 swapMap SwapManager::_swap_map;
 metaDataMap SwapManager::_metaDataMap;
 
+// This is a helper method that is used for bringing in all the regions whenever garbage collection kicks in.
 void SwapManager::swapInRegions(){
 	typedef std::map<void *, SSDRange>::iterator it_type;
 	std::list<void*> mylist;
@@ -23,7 +24,7 @@ void SwapManager::swapInRegions(){
 		void *address = *it;
 		printf("Generating a fault at address %p\n", address); fflush(stdout);
 		SSDSwap::swapInRegion(address);
-		_swap_map.erase(address);
+		_swap_map.erase(address); // Removing the region from the swap map
 	}
 }
 
