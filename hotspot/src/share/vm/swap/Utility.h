@@ -12,6 +12,8 @@
 class Utility {
 public:
 	static void printRegionTable(void *addr);
+	static void* getRegionStart(void *address);
+	static void* getRegionEnd(void *address);
 };
 
 #endif /* UTILITY_H_ */

@@ -3461,6 +3461,7 @@ bool
 
   assert_at_safepoint(true /* should_be_vm_thread */);
   SwapManager::swapInRegions();
+
   guarantee(!is_gc_active(), "collection is not reentrant");
 
   if (GC_locker::check_active_before_gc()) {

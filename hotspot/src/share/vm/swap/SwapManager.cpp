@@ -24,8 +24,21 @@ void SwapManager::swapInRegions(){
 		void *address = *it;
 		printf("Generating a fault at address %p\n", address); fflush(stdout);
 		SSDSwap::swapInRegion(address);
-		_swap_map.erase(address); // Removing the region from the swap map
+		removeRegion(address); // Removing the region from the swap map
 	}
+}
+
+void SwapManager::removeRegion(void *address){
+	void *end = Utility::getRegionEnd(address);
+	_swap_map.erase(end);
+}
+
+bool SwapManager::isSwappedOut(void *address){
+	swapMapIter iter = _swap_map.lower_bound(address);
+	if  (iter == _swap_map.end()){
+		return false;
+	}
+	return true;
 }
 
 bool liesWithin(void *address, void *top, void *bottom){

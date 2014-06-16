@@ -35,6 +35,7 @@
 #include "memory/iterator.hpp"
 #include "oops/oop.inline.hpp"
 #include "utilities/intHisto.hpp"
+#include "swap/swap_global.h"
 
 #define CARD_REPEAT_HISTO 0
 
@@ -700,6 +701,11 @@ bool G1RemSet::concurrentRefineOneCard_impl(jbyte* card_ptr, int worker_i,
   HeapWord* start = _ct_bs->addr_for(card_ptr);
   // And find the region containing it.
   HeapRegion* r = _g1->heap_region_containing(start);
+  void *bottom = (void *)r->bottom();
+  if(SwapManager::isSwappedOut(bottom)){
+	  SSDSwap::swapInRegion(bottom);
+	  SwapManager::removeRegion(bottom);
+  }
   assert(r != NULL, "unexpected null");
 
   HeapWord* end   = _ct_bs->addr_for(card_ptr + 1);

@@ -43,6 +43,8 @@ public:
 	static void swapInRegions();
 	static void* getRegionStart(void* address);
 	static int getPageNumInRegion(void* address);
+	static bool isSwappedOut(void *addr);
+	static void removeRegion(void *address);
 };
 
 

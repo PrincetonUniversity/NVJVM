@@ -19,3 +19,11 @@ void Utility::printRegionTable(void *addr){
 		startRegionTable++;
 	}
 }
+
+void* Utility::getRegionStart(void *address){
+	return (void *)((long)address & (~(_REGION_SIZE-1)));
+}
+
+void* Utility::getRegionEnd(void *address){
+	return (void *)((long)address | ((_REGION_SIZE-1)));
+}
