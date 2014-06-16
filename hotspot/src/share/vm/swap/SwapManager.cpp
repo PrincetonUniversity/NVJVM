@@ -94,6 +94,11 @@ void SwapManager::remapPage (void *address){
   if (lastPageIsPresent){
 	  numberBytes -= _PAGE_SIZE;
   }
+  if(numberBytes == 0){
+	  printf("The number of bytes to be fetched is 0. There is some problem. Exiting.\n");
+	  fflush(stdout);
+	  exit(1);
+  }
 
   // Reading the pages from SSD.
 	if(Swap_Protect){
@@ -128,16 +133,22 @@ void SwapManager::remapPage (void *address){
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0){
-	 Universe::markPartiallyFetched((void*) lastPage);
 	 oop obj = (oop) (address);
 	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
 	 int objSize = obj->size() * HeapWordSize;
 	 char* objEnd = (char *)address + objSize;
 	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
 	 long offset = (long)(objEnd - objEndPageSt);
-	 PageMetaData* p = new PageMetaData((int)offset);
-	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
-	 _metaDataMap.insert(pair);
+	 if(offset == 0){
+		 printf("Offset == 0. Inconsistent. Exiting.\n");
+		 fflush (stdout);
+		 exit(1);
+	 } else{
+		 PageMetaData* p = new PageMetaData((int)offset);
+		 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
+		 _metaDataMap.insert(pair);
+		 Universe::markPartiallyFetched((void*) lastPage);
+	 }
  } else {
 	 Universe::markPageFetched(lastPage);
  }
