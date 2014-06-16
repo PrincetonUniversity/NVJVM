@@ -35,7 +35,7 @@ bool liesWithin(void *address, void *top, void *bottom){
  * This function fetches in an object, whenever there is a object level fault.
  * The address is the address of the header of the object here.
  */
-void SwapManager::remapPage (void *address){
+void SwapManager::remapPage (void *address, bool partialCheck = true){
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage:: In remapPage, swapping in page address %p.\n", address); fflush (stdout);
   }
@@ -138,7 +138,7 @@ void SwapManager::remapPage (void *address){
  char* lastPage = curr;
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
- if(lPre > 0){
+ if(lPre > 0 && partialCheck){
 	 oop obj = (oop) (address);
 	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
 	 int objSize = obj->size() * HeapWordSize;

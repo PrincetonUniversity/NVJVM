@@ -33,7 +33,7 @@ void SSDSwap::swapInRegion(void *addr) {
 	for(int count = 0; count < Universe::_regionPages; count++){
 		value = *startRegionTable;
 		if(value == Universe::_notPresentMask || value == Universe::_partiallyFilledMask ){
-			SwapManager::remapPage((void *)regionPos);
+			SwapManager::remapPage((void *)regionPos, false);
 		} else if(value != Universe::_presentMask){
 			printf("Error, value in the region table different from 0,1,2. Exiting.\n");
 			fflush(stdout);
