@@ -48,7 +48,7 @@ size_t SwapReader::swapIn (void * va, int np, int off){
 }
 
 size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
-	 if(L_SWAP){
+	 if(L_SWAP && REMAP){
 		 printf("swapping in address %p, number of bytes = %d, from offset %d\n", va, numberBytes, ssdOffset);
 		 fflush(stdout);
 	 }
@@ -67,7 +67,7 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  exit(1);
 	  } else {
-		  if (L_SWAP){
+		  if (L_SWAP && REMAP){
 			  printf("Read %zd bytes from the file\n", len); fflush(stdout);
 		  }
 	  }
