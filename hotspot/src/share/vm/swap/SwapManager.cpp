@@ -59,7 +59,8 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
   if  (iter == _swap_map.end()){ /* Error condition. */
 	  printf("Cannot swap in page %p does not exist in the page buffer. Exiting.\n", address);
 	  fflush(stdout);
-	  exit(1);
+	  return;
+//	  exit(1);
   }
   if(Universe::isPresent(address)){
 	  printf("SwapManager::remapPage::The page is already present in memory. Probably two different threads accessed the same page. One of the threads "

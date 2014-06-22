@@ -67,7 +67,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 				  value, prefetchValue, position);
 		  fflush(stdout);
 // Fall back option, when we cannot detect object accesses
-		  SSDSwap::handle_faults(addr);
+		 SSDSwap::handle_faults(addr);
 	  }
 	  (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
