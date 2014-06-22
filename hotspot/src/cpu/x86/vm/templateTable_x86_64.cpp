@@ -832,7 +832,6 @@ void TemplateTable::dload(int n) {
 
 void TemplateTable::aload(int n) {
  transition(vtos, atos);
-  Label nullObj;
   Address object = aaddress(n);
   interceptObject(object);
   __ movptr(rax, object);
