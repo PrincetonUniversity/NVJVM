@@ -68,6 +68,8 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 		  fflush(stdout);
 // Fall back option, when we cannot detect object accesses
 		 SSDSwap::handle_faults(addr);
+		 printf("Segmentation fault at position =%p, handled.\n", position);
+		 fflush(stdout);
 	  }
 	  (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
