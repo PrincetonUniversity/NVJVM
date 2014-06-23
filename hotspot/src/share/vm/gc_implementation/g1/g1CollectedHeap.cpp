@@ -875,7 +875,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
 	  void *top = (void *)buf->top();
-	  long bufSize = (long)(buf->top() - buf->bottom());
+	  long bufSize = (long)(top - bottom);
 	  SwapMetric::incrementSwapOutBytes(bufSize);
 	  if(L_SWAP){
 		  printf("G1CollectedHeap::"
