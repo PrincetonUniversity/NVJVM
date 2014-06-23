@@ -85,6 +85,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 }
 
 // Here, we mark only those pages as paged out that have objects within the page.
+// Here, n denotes the number of pages that have been swapped out.
 
 void SSDSwap::markRegionSwappedOut(void *addr, int n){
 	char* position = (char *)Universe::getRegionTablePosition(addr);

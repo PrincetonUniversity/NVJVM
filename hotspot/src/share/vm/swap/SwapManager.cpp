@@ -47,7 +47,8 @@ bool liesWithin(void *address, void *top, void *bottom){
 }
 /*
  * This function fetches in an object, whenever there is a object level fault.
- * The address is the address of the header of the object here.
+ * The address is the address of the header of the object here. The accesses could
+ * come from zero filled pages also. For those pages there is no
  */
 void SwapManager::remapPage (void *address, bool partialCheck = true){
   if(L_SWAP && REMAP){
@@ -124,7 +125,8 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 	  exit(1);
   }
 
-  if(pageIndex < numPagesSwappedOut){
+  int lastPageIndex = pageIndex + (numberBytes-1)/_PAGE_SIZE;
+  if(lastPageIndex < numPagesSwappedOut){
 	  // Reading the pages from SSD.
 		if(Swap_Protect){
 			if (mprotect (bufferStart, numberBytes, PROT_READ | PROT_WRITE) == -1){
@@ -136,8 +138,13 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 
 	  SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
 	  SwapMetric::incrementSwapInBytes((int)numberBytes);
-  } else {
-	 ;// memset (bufferStart, 0, numberBytes);
+  }
+
+  if (lastPageIndex >= numPagesSwappedOut) {
+	 printf("LastPageIndex = %d. NumberBytes = %d. NumPagesSwappedOut = %d. Something is not as expected.\n", lastPageIndex,
+			 numberBytes, numPagesSwappedOut);
+	 fflush(stdout);
+	 exit(1);
   }
 
   // Marking the current page fetched
