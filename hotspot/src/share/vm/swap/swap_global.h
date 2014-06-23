@@ -98,7 +98,7 @@ public:
 	}
 
 	int getNumPages(){
-		retun _num_pages;
+		return _num_pages;
 	}
 
 	int getStart(){
