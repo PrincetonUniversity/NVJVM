@@ -67,7 +67,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 				  value, prefetchValue, position);
 		  fflush(stdout);
 // Fall back option, when we cannot detect object accesses
-		 if(value != 0){
+		 if(value != Universe:: _presentMask){
 			 SSDSwap::handle_faults(addr);
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 fflush(stdout);
@@ -874,6 +874,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
+	  void *top = (void *)buf->top();
 	  long bufSize = (long)(buf->top() - buf->bottom());
 	  SwapMetric::incrementSwapOutBytes(bufSize);
 	  if(L_SWAP){
@@ -882,7 +883,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 				  "Buffer's Bottom %p. The size of the buffer is %ld."
 				  "\n", buf, end, bottom, bufSize); fflush(stdout);
 	  }
-	  SSDSwap::swapOut(end, bottom);
+	  SSDSwap::swapOut(end, bottom, top);
 	  buf->swappedOut();
 }
 

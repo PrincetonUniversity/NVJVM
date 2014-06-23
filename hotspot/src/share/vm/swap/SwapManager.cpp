@@ -72,7 +72,10 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
   SSDRange ssdRange = iter->second;
   // Getting the starting address of the Page on the SSD.
   int ssdRangeStart = ssdRange.getStart();
+  int numPagesInRegion = ssdRange.getNumPages();
+
   int pageIndex = getPageNumInRegion(address);
+
   int ssdStartIndex = ssdRangeStart + pageIndex;
   long int ssdStartOffset = ssdStartIndex * _PAGE_SIZE;
 
@@ -82,7 +85,7 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 	  printf("SwapManager::remapPage::The start offset on the SSD = %ld.\n", ssdStartOffset); fflush(stdout);
   }
 
-  // Find the number of pages to be prefetched
+  // Find the number of pages to be pre-fetched
   int numPrefetches = Universe::getNumberOfPrefetches(address);
   int numPages = numPrefetches + 1;
   if(L_SWAP && REMAP){
@@ -130,8 +133,14 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 		}
 	}
 
-  SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
-  SwapMetric::incrementSwapInBytes((int)numberBytes);
+  if(pageIndex < numPagesInRegion){
+	  SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
+	  SwapMetric::incrementSwapInBytes((int)numberBytes);
+  } else {
+	  memset (bufferStart, 0, numberBytes);
+  }
+
+
   // Marking the current page fetched
   Universe::markPageFetched(address);
   if (numPages == 1){
@@ -217,7 +226,7 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 
 void SwapManager::swapRange(SwapRange* swap_range, int off) {
 	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off);
-	mapRange(swap_range->getTop(), ssdRange);
+	mapRange(swap_range->getEnd(), ssdRange);
 }
 
 void* SwapManager::object_va_to_page_start (void *object_va) {
@@ -250,12 +259,13 @@ int abs(int x){
 	return x;
 }
 
-SwapRange* SwapManager::addressRegion(void *top, void *bot){
+SwapRange* SwapManager::addressRegion(void *end, void *bot, void *top){
 	void *top_h = object_va_to_page_end (top); // the largest address in the range
 	void *bot_l = object_va_to_page_start (bot); // the smallest address in the range
 	void *top_l = object_va_to_page_start (top); // the smallest address on the largest page
+	void *end_h = object_va_to_page_end(end);
 	int num_pages = (((long)top_l - (long)bot_l)/(_PAGE_SIZE)) + 1;
-	SwapRange* swap_range = new SwapRange (num_pages, top_h, bot_l);
+	SwapRange* swap_range = new SwapRange (num_pages, top_h, bot_l, end_h);
 	return swap_range;
 }
 

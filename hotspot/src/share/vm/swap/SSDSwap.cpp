@@ -20,9 +20,6 @@ void* SSDSwap::seg_handler (void *addr){
 	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
     pthread_mutex_unlock(&_swap_map_mutex);
 }
-//char Universe::_presentMask = 0;
-//char Universe::_partiallyFilledMask = 2;
-//char Universe::_notPresentMask = 1;
 
 void SSDSwap::swapInRegion(void *addr) {
 	addr = SwapManager::getRegionStart(addr);
@@ -66,13 +63,13 @@ SSDSwap::~SSDSwap() {
 	// TODO Auto-generated destructor stub
 }
 
-void SSDSwap::swapOut(void *top, void *bot){
+void SSDSwap::swapOut(void *end, void *bot, void *top){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	if(L_SWAP){
-		printf("SSDSwap::swapOut::In swapOut, swapping out bottom = %p, end = %p\n", bot, top); fflush(stdout);
+		printf("SSDSwap::swapOut::In swapOut, swapping out bottom = %p, end = %p\n", bot, end); fflush(stdout);
 	}
-	SwapRange* swapRange = SwapManager::addressRegion(top, bot); // Should move to SSDSwap class
+	SwapRange* swapRange = SwapManager::addressRegion(end, bot, top); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
 	SwapManager::swapRange(swapRange, off);
 	SSDSwap::markRegionSwappedOut(bot); // Marking the region as swapped out, in the region bitmap

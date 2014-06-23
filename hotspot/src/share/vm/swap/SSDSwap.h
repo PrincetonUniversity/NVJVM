@@ -35,7 +35,7 @@ public:
 	static void swapInRegion(void *addr);
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
-	static void swapOut(void *sa, void *ea);
+	static void swapOut(void *sa, void *ea, void *top);
 	static void markRegion(void *addr, int mark);
 	static void markRegionSwappedOut(void *addr);
 };

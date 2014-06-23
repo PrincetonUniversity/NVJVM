@@ -44,6 +44,6 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  }
 	  }
 	  fclose (f);
-	  return SSDRange (off, off + (np-1));
+	  return SSDRange (off, off + (np-1), np);
 }
 

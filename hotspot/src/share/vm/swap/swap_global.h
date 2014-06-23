@@ -45,16 +45,20 @@ private:
 	int _num_pages;
 	void *_top_address;
 	void *_bottom_address;
+	void *_end_address;
+
 public:
 	SwapRange(){
 		_num_pages = -1;
 		_top_address = NULL;
 		_bottom_address = NULL;
+		_end_address = NULL;
 	}
-	SwapRange(int n, void *top, void *bot){
+	SwapRange(int n, void *top, void *bot, void *end){
 		_num_pages = n;
 		_top_address = top;
 		_bottom_address = bot;
+		_end_address = end;
 	}
 	int getNumPages (){
 		return _num_pages;
@@ -65,26 +69,38 @@ public:
 	void *getBot(){
 		return _bottom_address;
 	}
+	void *getEnd(){
+		return _end_address;
+	}
 };
 /** The SSDRange includes the range of pages over which a specific region of the address space is swapped out.
  *  The offsets are set in terms of the page offsets.
  *  These offsets are inclusive (the bottom and top page are included in the range).
  */
 class SSDRange {
+
 private:
 	int _start_off;
 	int _end_off;
+	int _num_pages;
 
 public:
 	SSDRange(){
 		_start_off = -1;
 		_end_off = -1;
+		_num_pages = -1;
 	}
 
-	SSDRange(int s, int e){
+	SSDRange(int s, int e, int p){
 		_start_off = s;
 		_end_off = e;
+		_num_pages = p;
 	}
+
+	int getNumPages(){
+		retun _num_pages;
+	}
+
 	int getStart(){
 		return _start_off;
 	}

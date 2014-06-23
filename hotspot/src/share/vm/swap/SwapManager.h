@@ -36,7 +36,7 @@ public:
 	virtual ~SwapManager();
 	static void swapRange(SwapRange* swap_range, int off);
 	static void mapRange(void *va, SSDRange ssdRange);
-	static SwapRange* addressRegion(void *sa, void *ea);
+	static SwapRange* addressRegion(void *sa, void *ea, void *top);
 	static void* object_va_to_page_start(void *va);
 	static void* object_va_to_page_end(void *va);
 	static void remapPage (void *address, bool partialCheck);
