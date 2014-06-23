@@ -14,6 +14,9 @@ public:
 	static void printRegionTable(void *addr);
 	static void* getRegionStart(void *address);
 	static void* getRegionEnd(void *address);
+	static void* getPageStart(void *address);
+	static void* getPageEnd(void *address);
+	static int getNumPages(void *s, void *e);
 };
 
 #endif /* UTILITY_H_ */

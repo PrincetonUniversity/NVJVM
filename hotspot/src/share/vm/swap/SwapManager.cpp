@@ -72,7 +72,7 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
   SSDRange ssdRange = iter->second;
   // Getting the starting address of the Page on the SSD.
   int ssdRangeStart = ssdRange.getStart();
-  int numPagesInRegion = ssdRange.getNumPages();
+  int numPagesSwappedOut = ssdRange.getNumPages();
 
   int pageIndex = getPageNumInRegion(address);
 
@@ -124,22 +124,21 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 	  exit(1);
   }
 
-  // Reading the pages from SSD.
-	if(Swap_Protect){
-		if (mprotect (bufferStart, numberBytes, PROT_READ | PROT_WRITE) == -1){
-			perror("error :");
-			printf("Error In Removing Protecting Page = %p.\n", bufferStart);
-			fflush(stdout);
+  if(pageIndex < numPagesSwappedOut){
+	  // Reading the pages from SSD.
+		if(Swap_Protect){
+			if (mprotect (bufferStart, numberBytes, PROT_READ | PROT_WRITE) == -1){
+				perror("error :");
+				printf("Error In Removing Protecting Page = %p.\n", bufferStart);
+				fflush(stdout);
+			}
 		}
-	}
 
-  if(pageIndex < numPagesInRegion){
 	  SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
 	  SwapMetric::incrementSwapInBytes((int)numberBytes);
   } else {
-	  memset (bufferStart, 0, numberBytes);
+	 ;// memset (bufferStart, 0, numberBytes);
   }
-
 
   // Marking the current page fetched
   Universe::markPageFetched(address);
@@ -224,8 +223,8 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
   out: return;
 }
 
-void SwapManager::swapRange(SwapRange* swap_range, int off) {
-	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off);
+void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {
+	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off, numPagesToRelease);
 	mapRange(swap_range->getEnd(), ssdRange);
 }
 

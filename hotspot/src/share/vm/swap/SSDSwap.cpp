@@ -8,6 +8,7 @@
 
 #include "SSDSwap.h"
 #include "SwapMetric.h"
+#include "Utility.h"
 
 pthread_mutex_t SSDSwap::_swap_map_mutex;
 
@@ -71,8 +72,9 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(end, bot, top); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
-	SwapManager::swapRange(swapRange, off);
-	SSDSwap::markRegionSwappedOut(bot); // Marking the region as swapped out, in the region bitmap
+	int numPagesToRelease = Utility::getNumPages(end, bot);
+	SwapManager::swapRange(swapRange, off, numPagesToRelease);
+	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
 		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");
 		fflush(stdout);
@@ -82,9 +84,11 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	SwapMetric::incrementSwapOuts();
 }
 
-void SSDSwap::markRegionSwappedOut(void *addr){
+// Here, we mark only those pages as paged out that have objects within the page.
+
+void SSDSwap::markRegionSwappedOut(void *addr, int n){
 	char* position = (char *)Universe::getRegionTablePosition(addr);
-	memset(position, Universe::_notPresentMask, Universe::_regionPages);
+	memset(position, Universe::_notPresentMask, n);
 	if(L_SWAP){
 		printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n",
 				(char *)Universe::getRegionTablePosition(addr), position);

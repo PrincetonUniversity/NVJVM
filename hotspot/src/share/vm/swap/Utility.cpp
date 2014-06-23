@@ -27,3 +27,17 @@ void* Utility::getRegionStart(void *address){
 void* Utility::getRegionEnd(void *address){
 	return (void *)((long)address | ((_REGION_SIZE-1)));
 }
+
+void* Utility::getPageStart(void *address){
+	return (void *)((long)address & (~(_PAGE_SIZE-1)));
+}
+
+void* Utility::getPageEnd(void *address){
+	return (void *)((long)address | ((_PAGE_SIZE-1)));
+}
+
+int Utility::getNumPages(void *top, void*bot){
+	void *top_l = getPageStart(top);
+	void *bot_l = getPageStart(bot);
+	return (((long)top_l - (long)bot_l)/(_PAGE_SIZE)) + 1;
+}
