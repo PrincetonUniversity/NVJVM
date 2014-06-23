@@ -7,6 +7,7 @@
 
 #include "SwapWriter.h"
 #include "SSDManager.h"
+#include "SwapMetric.h"
 
 SwapWriter::SwapWriter() {
 	// TODO Auto-generated constructor stub
@@ -44,6 +45,10 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  }
 	  }
 	  fclose (f);
+
+	  SwapMetric::incrementSwapOutsV(np);
+	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
+
 	  return SSDRange (off, off + (np-1), np);
 }
 

@@ -19,12 +19,20 @@ void SwapMetric::incrementSwapOuts(){
 		_swapOuts++;
 }
 
+void SwapMetric::incrementSwapOutsV(int v){
+	_swapOuts += v;
+}
+
 long int SwapMetric::getSwapOuts(){
 	return _swapOuts;
 }
 
 void SwapMetric::incrementSwapIns(){
 	_swapIns++;
+}
+
+void SwapMetric::incrementSwapInsV(int v){
+	_swapIns +=v;
 }
 
 long int SwapMetric::getSwapIns(){

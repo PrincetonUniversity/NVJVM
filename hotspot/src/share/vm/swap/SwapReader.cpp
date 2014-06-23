@@ -6,6 +6,7 @@
  */
 
 #include "SwapReader.h"
+#include "SwapMetric.h"
 
 
 SwapReader::SwapReader() {
@@ -63,6 +64,11 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		}
 */
 	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
+	  int numPages = (numberBytes-1)/_PAGE_SIZE + 1;
+
+	  SwapMetric::incrementSwapInsV(numPages);
+	  SwapMetric::incrementSwapInBytes((int)numberBytes);
+
 	  if ((int)len != numberBytes){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  exit(1);

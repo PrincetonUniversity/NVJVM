@@ -135,9 +135,7 @@ void SwapManager::remapPage (void *address, bool partialCheck = true){
 				fflush(stdout);
 			}
 		}
-
-	  SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
-	  SwapMetric::incrementSwapInBytes((int)numberBytes);
+		SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
   }
 
   if (lastPageIndex >= numPagesSwappedOut) {

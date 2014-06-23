@@ -22,8 +22,10 @@ private:
 
 public:
 	static void incrementSwapOuts();
+	static void incrementSwapOutsV(int value);
 	static long int getSwapOuts();
 	static void incrementSwapIns();
+	static void incrementSwapInsV(int value);
 	static long int getSwapIns();
 	static timespec getTotalSwapInTime();
 	static void incrementSwapInTime(timespec start, timespec end);

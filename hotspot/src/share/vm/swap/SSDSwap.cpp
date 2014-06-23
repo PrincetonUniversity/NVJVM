@@ -49,7 +49,7 @@ void SSDSwap::handle_faults(void *addr) {
 	pthread_mutex_lock(&_swap_map_mutex);
 	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
 //	SSDSwap::markRegion(addr, 0); // Marking the region as swapped in, region bitmap
-	SwapMetric::incrementSwapIns();
+//	SwapMetric::incrementSwapIns();
 	pthread_mutex_unlock(&_swap_map_mutex);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
@@ -81,7 +81,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	}
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapOutTime(time1, time2);
-	SwapMetric::incrementSwapOuts();
+
 }
 
 // Here, we mark only those pages as paged out that have objects within the page.
