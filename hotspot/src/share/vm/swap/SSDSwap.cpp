@@ -72,7 +72,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(end, bot, top); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
-	int numPagesToRelease = Utility::getNumPages(end, bot);
+	int numPagesToRelease = Utility::getNumPages(top, bot);
 	SwapManager::swapRange(swapRange, off, numPagesToRelease);
 	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
