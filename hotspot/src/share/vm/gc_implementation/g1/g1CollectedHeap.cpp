@@ -3463,7 +3463,7 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 #endif // TASKQUEUE_STATS
 
 bool
-	G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
+G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
 
   assert_at_safepoint(true /* should_be_vm_thread */);

@@ -197,7 +197,7 @@ CollectedHeap*  Universe::_collectedHeap = NULL;
 NarrowOopStruct Universe::_narrow_oop = { NULL, 0, true };
 
 void Universe::printObjectStats(){
-	printf("Smallest object size = %u\n", Universe::_mObjSize);
+//	printf("Smallest object size = %u\n", Universe::_mObjSize);
 //	printf("Number of copied instances = %u\n", Universe::_numInstances);
 //	printf("Number of copied arrays = %u\n", Universe::_numArrays);
 //	printf("Cumulative Size of instances = %u\n", Universe::_csInstances);

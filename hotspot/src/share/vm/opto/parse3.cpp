@@ -111,7 +111,7 @@ void Parse::do_field_access(bool is_get, bool is_field) {
     obj = do_null_check(peek(obj_depth), T_OBJECT);
     // Compile-time detect of null-exception?
     if (stopped())  return;
-//    increment_access_counter(obj);
+    increment_access_counter(obj);
 
 #ifdef ASSERT
     const TypeInstPtr *tjp = TypeInstPtr::make(TypePtr::NotNull, iter().get_declared_field_holder());
