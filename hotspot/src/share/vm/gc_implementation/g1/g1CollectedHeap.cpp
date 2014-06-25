@@ -644,6 +644,9 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
   HeapRegion* alloc_region = NULL;
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
     alloc_region = new_region(word_size, true /* do_expand */);
+    if(purpose == GCAllocForTenuredCold || purpose == GCAllocForSurvivedCold){
+    	madvise(alloc_region, 1024*1024, MADV_DONTNEED);
+    }
     if (purpose == GCAllocForSurvived && alloc_region != NULL) {
       alloc_region->set_survivor();
     }
