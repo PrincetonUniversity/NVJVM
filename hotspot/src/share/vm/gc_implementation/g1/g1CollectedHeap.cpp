@@ -866,7 +866,6 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
 }
 
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
-
 	  if(buf == NULL){
 		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
 	  }
