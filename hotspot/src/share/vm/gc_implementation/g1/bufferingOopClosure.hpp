@@ -34,12 +34,12 @@
 // from the cost of applying closures to them.  It maintains an array of
 // ref-containing locations.  Until the array is full, applying the closure
 // to an oop* merely records that location in the array.  Since this
-// closure app cost is small, an elapsed timer can approximately attribute
+// closure application cost is small, an elapsed timer can approximately attribute
 // all of this cost to the cost of finding the roots.  When the array fills
 // up, the wrapped closure is applied to all elements, keeping track of
 // this elapsed time of this process, and leaving the array empty.
 // The caller must be sure to call "done" to process any unprocessed
-// buffered entriess.
+// buffered entries.
 
 class Generation;
 class HeapRegion;
