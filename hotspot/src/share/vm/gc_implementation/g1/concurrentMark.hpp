@@ -1246,5 +1246,24 @@ public:
   virtual bool doHeapRegion(HeapRegion* r);
   ~G1PrintRegionLivenessInfoClosure();
 };
+/* The BMOopClosure class is used to mark bookmarked objects. */
+
+class BMOopClosure : public OopClosure {
+private:
+   ConcurrentMark* _cm;
+
+public:
+  virtual void do_oop(narrowOop* p) { do_oop_work(p); }
+  virtual void do_oop(oop* p) { do_oop_work(p); }
+  template <class T> void do_oop_work(T* p) {
+      oop obj = oopDesc::load_decode_heap_oop(p);
+      // Need to mark the object so that we can trace objects references to objects
+      CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
+      bookMarkBitMap->mark((HeapWord *)obj);
+    }
+  BMOopClosure(ConcurrentMark* cm){
+	  _cm = cm;
+  }
+};
 
 #endif // SHARE_VM_GC_IMPLEMENTATION_G1_CONCURRENTMARK_HPP
