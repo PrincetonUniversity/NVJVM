@@ -984,7 +984,6 @@ HeapWord* CompactibleFreeListSpace::block_start_careful(const void* p) const {
 }
 
 size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
-  //flprintf("In CompactibleFreeListSpace\n");
   NOT_PRODUCT(verify_objects_initialized());
   // This must be volatile, or else there is a danger that the compiler
   // will compile the code below into a sometimes-infinite loop, by keeping
