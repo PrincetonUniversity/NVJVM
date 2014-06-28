@@ -391,6 +391,7 @@ protected:
   // CMS marking support structures
   CMBitMap                _markBitMap1;
   CMBitMap                _markBitMap2;
+  CMBitMap                _markBitMap3;
   CMBitMapRO*             _prevMarkBitMap; // completed mark bitmap
   CMBitMap*               _nextMarkBitMap; // under-construction mark bitmap
   // Bookmark bitmap that marks objects.

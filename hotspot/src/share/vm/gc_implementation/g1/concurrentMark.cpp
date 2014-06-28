@@ -452,7 +452,7 @@ ConcurrentMark::ConcurrentMark(ReservedSpace rs,
                                int max_regions) :
   _markBitMap1(rs, MinObjAlignment - 1),
   _markBitMap2(rs, MinObjAlignment - 1),
-
+  _markBitMap3(rs, MinObjAlignment - 1),
   _parallel_marking_threads(0),
   _sleep_factor(0.0),
   _marking_task_overhead(1.0),
@@ -465,6 +465,7 @@ ConcurrentMark::ConcurrentMark(ReservedSpace rs,
            false /* in_resource_area*/),
   _prevMarkBitMap(&_markBitMap1),
   _nextMarkBitMap(&_markBitMap2),
+  _bookMarkBitMap(&_markBitMap3),
   _at_least_one_mark_complete(false),
 
   _markStack(this),
