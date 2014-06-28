@@ -2840,6 +2840,7 @@ class CommandLineFlags {
 		 "print to output")													\
   product(bool, L_SWAP, false,												\
           "print to output for swapping")									\
+  product(bool, L_ITERATE, false, "")										\
   product(bool, REMAP, false,												\
 		  "print to output for remapping logs")								\
   product(bool, L_FUNC_CALL, false,										    \

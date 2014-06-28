@@ -393,6 +393,10 @@ protected:
   CMBitMap                _markBitMap2;
   CMBitMapRO*             _prevMarkBitMap; // completed mark bitmap
   CMBitMap*               _nextMarkBitMap; // under-construction mark bitmap
+  // Bookmark bitmap that marks objects.
+  // Objects which are referenced by objects that are out-of-core are bookmarked.
+  CMBitMap*				  _bookMarkBitMap;
+
   bool                    _at_least_one_mark_complete;
 
   BitMap                  _region_bm;
@@ -708,6 +712,7 @@ public:
 
   CMBitMapRO* prevMarkBitMap() const { return _prevMarkBitMap; }
   CMBitMap*   nextMarkBitMap() const { return _nextMarkBitMap; }
+  CMBitMap*   bookMarkBitMap() const { return _bookMarkBitMap; }
 
   // The following three are interaction between CM and
   // G1CollectedHeap

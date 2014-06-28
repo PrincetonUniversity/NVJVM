@@ -40,10 +40,10 @@
 // all JavaThreads forward to a safepoint.
 //
 // JavaThreads must use the ThreadSafepointState abstraction (defined in
-// thread.hpp) to indicate that that they are at a safepoint.
+// thread.hpp) to indicate that they are at a safepoint.
 //
 // The Mutex/Condition variable and ObjectLocker classes calls the enter/
-// exit safepoint methods, when a thread is blocked/restarted. Hence, all mutex exter/
+// exit safepoint methods, when a thread is blocked/restarted. Hence, all mutex enter/
 // exit points *must* be at a safepoint.
 
 

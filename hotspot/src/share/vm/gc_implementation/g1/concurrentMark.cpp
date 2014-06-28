@@ -3254,6 +3254,27 @@ public:
   CMObjectClosure(CMTask* task) : _task(task) { }
 };
 
+/* The BMOopClosure class is used to mark bookmarked objects. */
+
+class BMOopClosure : public OopClosure {
+private:
+   ConcurrentMark* _cm;
+
+public:
+  virtual void do_oop(narrowOop* p) { do_oop_work(p); }
+  virtual void do_oop(oop* p) { do_oop_work(p); }
+  template <class T> void do_oop_work(T* p) {
+      oop obj = oopDesc::load_decode_heap_oop(p);
+      // Need to mark the object so that we can trace objects references to objects
+      CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
+      bookMarkBitMap->mark(obj);
+    }
+  BMOopClosure(ConcurrentMark* cm){
+	  _cm = cm;
+  }
+};
+
+
 // Closure for iterating over object fields
 class CMOopClosure : public OopClosure {
 private:

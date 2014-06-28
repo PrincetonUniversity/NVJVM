@@ -866,11 +866,18 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
 }
 
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
+
 	  if(buf == NULL){
 		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
 	  }
 	  if(buf->is_empty()){
-		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty."); fflush(stdout);
+		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty. Therefore we return."); fflush(stdout);
+		  return;
+	  }
+	  // This would result in iteration over all the objects present in the region which is being swapped out.
+	  if(L_ITERATE){
+		  BMOopClosure bmOopClosure(concurrent_mark());
+		  buf->oop_iterate(&bmOopClosure);
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
@@ -3632,8 +3639,10 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       print();
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
+      // Sets the blocks claimed through iteration for each region to be 0
       collection_set_iterate(&prepare_for_rs_scan);
 
+      // Sets up space for _surviving_young_words data structure
       setup_surviving_young_words();
 
       // Set up the gc allocation regions.
@@ -4921,7 +4930,7 @@ public:
     HandleMark   hm;
 
     G1ParScanThreadState            pss(_g1h, i);
-G1ParScanHeapEvacClosure        scan_evac_cl(_g1h, &pss);
+    G1ParScanHeapEvacClosure        scan_evac_cl(_g1h, &pss);
     G1ParScanHeapEvacFailureClosure evac_failure_cl(_g1h, &pss);
     G1ParScanPartialArrayClosure    partial_scan_cl(_g1h, &pss);
 
