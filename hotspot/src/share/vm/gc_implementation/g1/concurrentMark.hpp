@@ -1279,6 +1279,7 @@ public:
       oop obj = oopDesc::load_decode_heap_oop(p);
       // Need to mark the object so that we can trace objects references to objects
       CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
+      // Checking whether the referenced object is not null, before marking them.
       if(!obj)
     	  bookMarkBitMap->mark((HeapWord *)obj);
     }
