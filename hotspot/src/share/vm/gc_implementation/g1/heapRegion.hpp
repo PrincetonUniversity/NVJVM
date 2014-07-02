@@ -358,7 +358,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  char *bottomP = (char *)bottom();
 	  size_t length = topP - bottomP;
 	  int numPages = (length + sysconf(_SC_PAGESIZE) - 1)/(sysconf(_SC_PAGESIZE));
-	  unsigned char *vec = (unsigned char *)malloc(numPages);
+	  unsigned char *vec = (unsigned char *)os::malloc(numPages);
 	  if(mincore(bottomP, length, vec) == 0){
 		  int count;
 		  for(count = 0; count < numPages; count++){
@@ -366,7 +366,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 				  sum++;
 		  }
 	  }
-	  realloc(vec, 0);
+	  os::free(vec);
 	  return sum;
   }
 
