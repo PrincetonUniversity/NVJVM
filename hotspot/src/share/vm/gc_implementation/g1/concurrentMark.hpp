@@ -1279,7 +1279,8 @@ public:
       oop obj = oopDesc::load_decode_heap_oop(p);
       // Need to mark the object so that we can trace objects references to objects
       CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
-      bookMarkBitMap->mark((HeapWord *)obj);
+      if(!obj)
+    	  bookMarkBitMap->mark((HeapWord *)obj);
     }
   BMOopClosure(ConcurrentMark* cm){
 	  _cm = cm;
