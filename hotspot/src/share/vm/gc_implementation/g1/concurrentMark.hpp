@@ -75,6 +75,11 @@ class CMBitMapRO VALUE_OBJ_CLASS_SPEC {
   // the following is one past the last word in space
   HeapWord* endWord()     const { return _bmStartWord + _bmWordSize; }
 
+  // returning the bitmap itself
+  BitMap* getBitMap(){
+	  return &_bm;
+  }
+
   // read marks
 
   bool isMarked(HeapWord* addr) const {
@@ -714,6 +719,16 @@ public:
   CMBitMapRO* prevMarkBitMap() const { return _prevMarkBitMap; }
   CMBitMap*   nextMarkBitMap() const { return _nextMarkBitMap; }
   CMBitMap*   bookMarkBitMap() const { return _bookMarkBitMap; }
+  void unionBitMaps(){
+  // Thereafter we get take the union of the _bookMarkBitMap and _nextBitMap
+	  // This function gets the next mark bit map.
+	  BitMap* nBM  = nextMarkBitMap()->getBitMap();
+	  // This function gets the book mark bitmap.
+	  BitMap* bmBM = bookMarkBitMap()->getBitMap();
+	  // This function takes the union of the nextbitmap and the bookmark bitmap.
+	  // This would ensure that bookmarked objects are marked within the next bitmap.
+	  nBM->set_union(*bmBM);
+  }
 
   // The following three are interaction between CM and
   // G1CollectedHeap
@@ -1144,9 +1159,13 @@ public:
       gclog_or_tty->print_cr("[%d] we're scanning object "PTR_FORMAT,
                              _task_id, (void*) obj);
 
+    if (L_ITERATE){
+    	if(!(Universe::isPresent((void*)obj))) {
+    		return;
+    	}
+    }
     size_t obj_size = obj->size();
     _words_scanned += obj_size;
-
     obj->oop_iterate(_oop_closure);
     statsOnly( ++_objs_scanned );
     check_limits();

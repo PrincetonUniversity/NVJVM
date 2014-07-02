@@ -70,9 +70,6 @@ VM_G1IncCollectionPause::VM_G1IncCollectionPause(
 }
 
 void VM_G1IncCollectionPause::doit() {
-  if (L_DEBUG){
-	  printf("in incremental collection pause\n"); fflush(stdout);
-  }
   G1CollectedHeap* g1h = G1CollectedHeap::heap();
   assert(!_should_initiate_conc_mark ||
   ((_gc_cause == GCCause::_gc_locker && GCLockerInvokesConcurrent) ||

@@ -53,7 +53,7 @@ public:
 
   // These are for dynamic downcasts.  Unfortunately that it names the
   // possible subtypes (but not that they are subtypes!)  Return NULL if
-  // the cast is invalide.
+  // the cast is invalid.
   virtual CardTableRS* as_CardTableRS() { return NULL; }
 
   // Return the barrier set associated with "this."

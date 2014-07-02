@@ -829,8 +829,8 @@ void ConcurrentMark::checkpointRootsInitialPost() {
 
   // If we force an overflow during remark, the remark operation will
   // actually abort and we'll restart concurrent marking. If we always
-  // force an oveflow during remark we'll never actually complete the
-  // marking phase. So, we initilize this here, at the start of the
+  // force an overflow during remark we'll never actually complete the
+  // marking phase. So, we initialize this here, at the start of the
   // cycle, so that at the remaining overflow number will decrease at
   // every remark and we'll eventually not need to cause one.
   force_overflow_stw()->init();
@@ -1182,6 +1182,7 @@ void ConcurrentMark::markFromRoots() {
   print_stats();
 }
 
+// This method is called during the final marking phase.
 void ConcurrentMark::checkpointRootsFinal(bool clear_all_soft_refs) {
   // world is stopped at this checkpoint
   assert(SafepointSynchronize::is_at_safepoint(),
@@ -1895,7 +1896,7 @@ void ConcurrentMark::completeCleanup() {
                            _cleanup_list.length());
   }
 
-  // Noone else should be accessing the _cleanup_list at this point,
+  // No one else should be accessing the _cleanup_list at this point,
   // so it's not necessary to take any locks
   while (!_cleanup_list.is_empty()) {
     HeapRegion* hr = _cleanup_list.remove_head();

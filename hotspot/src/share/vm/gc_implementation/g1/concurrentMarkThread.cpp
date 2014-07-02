@@ -88,8 +88,6 @@ public:
   }
 };
 
-
-
 void ConcurrentMarkThread::run() {
   initialize_in_thread();
   _vtime_start = os::elapsedVTime();
@@ -141,7 +139,10 @@ void ConcurrentMarkThread::run() {
       do {
         iter++;
         if (!cm()->has_aborted()) {
-          _cm->markFromRoots(); // 2.5.2 Initial Marking Pause/Concurrent Marking
+        	if(L_ITERATE){
+        		_cm->unionBitMaps();  // Taking the union of the bitmaps before the marking phase begins
+        	}
+        	_cm->markFromRoots(); // 2.5.2 Initial Marking Pause/Concurrent Marking
         }
 
         double mark_end_time = os::elapsedVTime();

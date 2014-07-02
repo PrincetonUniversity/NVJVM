@@ -134,14 +134,14 @@ typedef G1ParCopyClosure<true,  G1BarrierNone, true> G1ParScanAndMarkPermClosure
 typedef G1ParCopyClosure<false, G1BarrierRS,   true> G1ParScanAndMarkHeapRSClosure;
 
 // This is the only case when we set skip_cset_test. Basically, this
-// closure is (should?) only be called directly while we're draining
+// closure is (should only be?) called directly while we're draining
 // the overflow and task queues. In that case we know that the
 // reference in question points into the collection set, otherwise we
 // would not have pushed it on the queue. The following is defined in
 // g1_specialized_oop_closures.hpp.
 // typedef G1ParCopyClosure<false, G1BarrierEvac, false, true> G1ParScanHeapEvacClosure;
 // We need a separate closure to handle references during evacuation
-// failure processing, as we cannot asume that the reference already
+// failure processing, as we cannot assume that the reference already
 // points into the collection set (like G1ParScanHeapEvacClosure does).
 typedef G1ParCopyClosure<false, G1BarrierEvac, false> G1ParScanHeapEvacFailureClosure;
 

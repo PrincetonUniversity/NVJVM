@@ -865,6 +865,10 @@ HeapWord* G1CollectedHeap::humongous_obj_allocate(size_t word_size) {
   return result;
 }
 
+void G1CollectedHeap::unionBitmaps(){
+    concurrent_mark()->unionBitMaps();
+}
+
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
 	  if(buf == NULL){
 		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
@@ -1235,6 +1239,9 @@ public:
 bool G1CollectedHeap::do_collection(bool explicit_gc,
                                     bool clear_all_soft_refs,
                                     size_t word_size) {
+  printf("In do_collection(), for full collection.\n");
+  fflush(stdout);
+
   assert_at_safepoint(true /* should_be_vm_thread */);
 
   if (GC_locker::check_active_before_gc()) {
@@ -3473,7 +3480,9 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
 
   assert_at_safepoint(true /* should_be_vm_thread */);
-  SwapManager::swapInRegions();
+  // Swapping in regions when we did not have bookmarking implemented.
+  // Due to bookmarks the collector would not touch swapped out regions and hence swapping in of regions is unnecessary.
+  //  SwapManager::swapInRegions();
 
   guarantee(!is_gc_active(), "collection is not reentrant");
 
@@ -3562,13 +3571,14 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       // Please see comment in G1CollectedHeap::ref_processing_init()
       // to see how reference processing currently works in G1.
       //
-      // We want to turn off ref discovery, if necessary, and turn it back on
+      // We want to turn off ref discovery, if necessary, and turn it back
       // on again later if we do. XXX Dubious: why is discovery disabled?
       bool was_enabled = ref_processor()->discovery_enabled();
       if (was_enabled) ref_processor()->disable_discovery();
 
-      // Forget the current alloc region (we might even choose it to be part
-      // of the collection set!).
+      // Forgets the current alloc region (we might even choose it to be part
+      // of the collection set!). Rest of the region is filled up with zeros.
+      // The region is added (LHS) to incremental collection set.
       release_mutator_alloc_region();
 
       // The elapsed time induced by the start time below deliberately elides
@@ -3704,6 +3714,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
         // running. Note: of course, the actual marking work will
         // not start until the safepoint itself is released in
         // ConcurrentGCThread::safepoint_desynchronize().
+        // This triggers the concurrent mark thread.
         doConcurrentMark();
       }
 
@@ -4778,6 +4789,16 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
       oop copy_oop = copy_to_survivor_space(obj);
 //  Copy_oop is the pointer to the new location, where the object is copied to.
       Universe::markPrefetchTable((void*)copy_oop, obj->size() * HeapWordSize);
+      if(L_ITERATE){
+    	  //  Updating the bookMark. Getting the bookMarkBitMap
+    	  CMBitMap* _bMBitMap = concurrent_mark()->bookMarkBitMap();
+    	  // Checking if the old object was marked on the bookMarkBitMap
+    	  if(_bMBitMap->isMarked((HeapWord *)obj)){
+    		  // Marking the new object for the object that was copied
+    		  _bMBitMap->clear((HeapWord *)obj);
+    		  _bMBitMap->mark((HeapWord *)copy_oop);
+    	  }
+      }
       oopDesc::encode_store_heap_oop(p, copy_oop);
     }
     // When scanning the RS, we only care about objs in CS.
@@ -4939,7 +4960,10 @@ public:
 
     G1ParScanExtRootClosure         only_scan_root_cl(_g1h, &pss);
     G1ParScanPermClosure            only_scan_perm_cl(_g1h, &pss);
+
     G1ParScanHeapRSClosure          only_scan_heap_rs_cl(_g1h, &pss);
+
+    // Pushes object references into an overflow stack. Handles overflow.
     G1ParPushHeapRSClosure          push_heap_rs_cl(_g1h, &pss);
 
     G1ParScanAndMarkExtRootClosure  scan_mark_root_cl(_g1h, &pss);

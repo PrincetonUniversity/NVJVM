@@ -176,6 +176,14 @@ public:
       // scans (the rsets of the regions in the cset can intersect).
       _ct_bs->set_card_claimed(index);
       _cards_done++;
+      // While scanning each card, we check whether the card is present in memory.
+      // If the card is not present in memory, then references from the region must already
+      // book marked and therefore should not be scanned.
+      if(L_ITERATE){
+      	if(!Universe::isPresent((void *)card_start)){
+      		return;
+      	}
+      }
       cl->do_MemRegion(mr);
     }
   }
@@ -443,7 +451,7 @@ void G1RemSet::oops_into_collection_set_do(OopsInHeapRegionClosure* oc,
   assert(worker_i < (int)n_workers(), "sanity");
   _cset_rs_update_cl[worker_i] = oc;
 
-  // A DirtyCardQueue that is used to hold cards containing references
+  // A DirtyCardQueue is used to hold cards containing references
   // that point into the collection set. This DCQ is associated with a
   // special DirtyCardQueueSet (see g1CollectedHeap.hpp).  Under normal
   // circumstances (i.e. the pause successfully completes), these cards

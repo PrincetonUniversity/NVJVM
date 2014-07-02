@@ -35,6 +35,7 @@
 #include "memory/barrierSet.hpp"
 #include "memory/memRegion.hpp"
 #include "memory/sharedHeap.hpp"
+#include "utilities/bitMap.hpp"
 
 // A "G1CollectedHeap" is an implementation of a java heap for HotSpot.
 // It uses the "Garbage First" heap organization and algorithm, which
@@ -571,6 +572,7 @@ public:
 
   G1MonitoringSupport* g1mm() { return _g1mm; }
   void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
+  void unionBitmaps();
 
   // Expand the garbage-first heap by at least the given size (in bytes!).
   // Returns true if the heap was expanded by the requested amount;
