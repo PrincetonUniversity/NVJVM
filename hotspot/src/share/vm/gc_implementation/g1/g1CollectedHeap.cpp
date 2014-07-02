@@ -4791,7 +4791,7 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
       Universe::markPrefetchTable((void*)copy_oop, obj->size() * HeapWordSize);
       if(L_ITERATE){
     	  //  Updating the bookMark. Getting the bookMarkBitMap
-    	  CMBitMap* _bMBitMap = concurrent_mark()->bookMarkBitMap();
+    	  CMBitMap* _bMBitMap = _g1->concurrent_mark()->bookMarkBitMap();
     	  // Checking if the old object was marked on the bookMarkBitMap
     	  if(_bMBitMap->isMarked((HeapWord *)obj)){
     		  // Marking the new object for the object that was copied
