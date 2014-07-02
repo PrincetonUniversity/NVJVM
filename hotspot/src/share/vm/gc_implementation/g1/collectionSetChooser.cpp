@@ -153,8 +153,28 @@ static inline int orderRegions(HeapRegion* hr1, HeapRegion* hr2) {
   else return 0;
 }
 
+static inline int orderRegionsMemPressure(HeapRegion* hr1, HeapRegion* hr2){
+  if (hr1 == NULL) {
+	if (hr2 == NULL) return 0;
+	else return 1;
+  } else if (hr2 == NULL) {
+	return -1;
+  }
+  if(hr2->getSwappedPageCount() == hr1->getSwappedPageCount()){
+	  return orderRegions(hr1, hr2);
+  }
+  if(hr2->getSwappedPageCount() <  hr1->getSwappedPageCount()){
+	  return 1;
+  }
+  return -1;
+}
+
 static int orderRegions(HeapRegion** hr1p, HeapRegion** hr2p) {
   return orderRegions(*hr1p, *hr2p);
+}
+
+static int orderRegionsMemPressure(HeapRegion** hr1p, HeapRegion** hr2p){
+	return orderRegionsMemPressure(*hr1p, *hr2p);
 }
 
 CollectionSetChooser::CollectionSetChooser() :
@@ -248,7 +268,8 @@ CollectionSetChooser::sortMarkedHeapRegions() {
            "Or we didn't reserved enough length");
     _markedRegions.trunc_to(_first_par_unreserved_idx);
   }
-  _markedRegions.sort(orderRegions);
+  _markedRegions.sort(orderRegionsMemPressure);
+// _markedRegions.sort(orderRegions);
   assert(_numMarkedRegions <= _markedRegions.length(), "Requirement");
   assert(_numMarkedRegions == 0
          || _markedRegions.at(_numMarkedRegions-1) != NULL,

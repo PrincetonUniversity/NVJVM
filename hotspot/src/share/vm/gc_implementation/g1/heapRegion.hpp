@@ -32,6 +32,8 @@
 #include "gc_implementation/shared/spaceDecorator.hpp"
 #include "memory/space.inline.hpp"
 #include "memory/watermark.hpp"
+#include <unistd.h>
+#include <sys/mman.h>
 
 #ifndef SERIALGC
 
@@ -350,6 +352,24 @@ class HeapRegion: public G1OffsetTableContigSpace {
   size_t _predicted_bytes_to_copy;
 
  public:
+  int getSwappedPageCount(){
+	  int sum = 0;
+	  char *top = (char *)top();
+	  char *bottom = (char *)bottom();
+	  size_t length = top - bottom;
+	  int numPages = (length + sysconf(_SC_PAGESIZE) - 1)/(sysconf(_SC_PAGESIZE));
+	  char *vec = (char *)malloc(numPages);
+	  if(mincore(bottom, length, vec) == 0){
+		  int count;
+		  for(count = 0; count < numPages; count++){
+			  if(vec[count] == 0)
+				  sum++;
+		  }
+	  }
+	  realloc(vec, 0);
+	  return sum;
+  }
+
   // If "is_zeroed" is "true", the region "mr" can be assumed to contain zeros.
   HeapRegion(G1BlockOffsetSharedArray* sharedOffsetArray,
              MemRegion mr, bool is_zeroed);
