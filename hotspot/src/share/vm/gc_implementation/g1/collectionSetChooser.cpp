@@ -272,8 +272,11 @@ CollectionSetChooser::sortMarkedHeapRegions() {
            "Or we didn't reserved enough length");
     _markedRegions.trunc_to(_first_par_unreserved_idx);
   }
-  _markedRegions.sort(orderRegions);
-  //  _markedRegions.sort(orderRegionsMemPressure);
+  if(pressureTest){
+	  _markedRegions.sort(orderRegionsMemPressure);
+  } else {
+	  _markedRegions.sort(orderRegions);
+  }
   assert(_numMarkedRegions <= _markedRegions.length(), "Requirement");
   assert(_numMarkedRegions == 0
          || _markedRegions.at(_numMarkedRegions-1) != NULL,

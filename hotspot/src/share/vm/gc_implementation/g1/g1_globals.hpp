@@ -177,6 +177,7 @@
   product(intx, G1RSetUpdatingPauseTimePercent, 10,                         \
           "A target percentage of time that is allowed to be spend on "     \
           "process RS update buffers during the collection pause.")         \
+  product(bool, pressureTest, false, "")									\
                                                                             \
   product(bool, G1UseAdaptiveConcRefinement, true,                          \
           "Select green, yellow and red zones adaptively to meet the "      \
