@@ -354,12 +354,12 @@ class HeapRegion: public G1OffsetTableContigSpace {
  public:
   int getSwappedPageCount(){
 	  int sum = 0;
-	  char *top = (char *)top();
-	  char *bottom = (char *)bottom();
-	  size_t length = top - bottom;
+	  char *topP = (char *)top();
+	  char *bottomP = (char *)bottom();
+	  size_t length = topP - bottomP;
 	  int numPages = (length + sysconf(_SC_PAGESIZE) - 1)/(sysconf(_SC_PAGESIZE));
 	  char *vec = (char *)malloc(numPages);
-	  if(mincore(bottom, length, vec) == 0){
+	  if(mincore(bottomP, length, vec) == 0){
 		  int count;
 		  for(count = 0; count < numPages; count++){
 			  if(vec[count] == 0)
