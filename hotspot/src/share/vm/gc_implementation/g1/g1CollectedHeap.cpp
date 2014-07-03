@@ -2538,6 +2538,19 @@ void G1CollectedHeap::collection_set_iterate(HeapRegionClosure* cl) {
   }
 }
 
+void G1CollectedHeap::collection_set_swapOutCount() {
+  printf("Printing SwapOut Count::");
+  int count;
+  HeapRegion* r = g1_policy()->collection_set();
+  while (r != NULL) {
+    HeapRegion* next = r->next_in_collection_set();
+    count++;
+    printf("Count , SwapOut = (%d, %d),", count, r->getSwappedPageCount());
+    r = next;
+  }
+  printf("\n");
+}
+
 void G1CollectedHeap::collection_set_iterate_from(HeapRegion* r,
                                                   HeapRegionClosure *cl) {
   if (r == NULL) {
@@ -3333,7 +3346,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       g1_policy()->print_collection_set(g1_policy()->inc_cset_head(), gclog_or_tty);
 #endif // YOUNG_LIST_VERBOSE
 
-      ((G1CollectorPolicy_BestRegionsFirst*)g1_policy())->printSwapOuts();
+//      ((G1CollectorPolicy_BestRegionsFirst*)g1_policy())->printSwapOuts();
       g1_policy()->choose_collection_set(target_pause_time_ms);
 
 
@@ -3353,6 +3366,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       print();
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
+      collection_set_swapOutCount();
       collection_set_iterate(&prepare_for_rs_scan);
 
       setup_surviving_young_words();

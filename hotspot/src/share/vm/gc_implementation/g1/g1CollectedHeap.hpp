@@ -1169,6 +1169,7 @@ public:
 
   // Iterate over the regions (if any) in the current collection set.
   void collection_set_iterate(HeapRegionClosure* blk);
+  void collection_set_swapOutCount();
 
   // As above but starting from region r
   void collection_set_iterate_from(HeapRegion* r, HeapRegionClosure *blk);
