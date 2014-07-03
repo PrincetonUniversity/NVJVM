@@ -2539,7 +2539,7 @@ void G1CollectedHeap::collection_set_iterate(HeapRegionClosure* cl) {
 }
 
 void G1CollectedHeap::collection_set_swapOutCount() {
-	_hrs->swapOutRegions();
+  _hrs->swapOutRegions();
   /*printf("Printing SwapOut Count::");
   int count = 0;
   int s;

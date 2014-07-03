@@ -352,6 +352,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
   size_t _predicted_bytes_to_copy;
 
  public:
+  int getNumPages(){
+	  char *topP = (char *)top();
+	  char *bottomP = (char *)bottom();
+	  size_t length = topP - bottomP;
+	  int numPages = (length + sysconf(_SC_PAGESIZE) - 1)/(sysconf(_SC_PAGESIZE));
+	  return numPages;
+  }
+
   int getSwappedPageCount(){
 	  int sum = 0;
 	  char *topP = (char *)top();

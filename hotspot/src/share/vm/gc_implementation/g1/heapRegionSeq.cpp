@@ -204,15 +204,16 @@ int HeapRegionSeq::find_contiguous(size_t num) {
 
 void HeapRegionSeq::swapOutRegions(){
 	  int len = _regions.length();
-	  int j, s;
+	  int j, s, t;
 	  HeapRegion *hr ;
 	  printf("Printing swapped out pages. Total Number of Heap Regions = %d.", len);
 	  for (j = 0; j < len; j++){
 		  hr = _regions.at(j);
 		  if (hr != NULL) {
 			 s = hr->getSwappedPageCount();
+			 t = hr->getNumPages();
 			 if(s > 0)
-				 printf("(%d, %d),", j, s);
+				 printf("(%d, %d, %d),", j, s, t);
 		  }
 	  }
 	  printf("\n");
