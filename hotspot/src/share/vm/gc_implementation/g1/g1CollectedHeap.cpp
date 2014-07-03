@@ -2545,7 +2545,9 @@ void G1CollectedHeap::collection_set_swapOutCount() {
   while (r != NULL) {
     HeapRegion* next = r->next_in_collection_set();
     count++;
-    printf("Count , SwapOut = (%d, %d),", count, r->getSwappedPageCount());
+    s = r->getSwappedPageCount();
+    if(s > 0)
+    	printf("Count , SwapOut = (%d, %d),", count, r->getSwappedPageCount());
     r = next;
   }
   printf("\n");
@@ -3364,7 +3366,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       print();
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
-//      collection_set_swapOutCount();
+      collection_set_swapOutCount();
       collection_set_iterate(&prepare_for_rs_scan);
 
       setup_surviving_young_words();
