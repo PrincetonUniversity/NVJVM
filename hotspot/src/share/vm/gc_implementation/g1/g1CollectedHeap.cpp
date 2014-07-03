@@ -2539,7 +2539,8 @@ void G1CollectedHeap::collection_set_iterate(HeapRegionClosure* cl) {
 }
 
 void G1CollectedHeap::collection_set_swapOutCount() {
-  _hrs->swapOutRegions();
+  if(P_SWAPOUT_REGIONS)
+	  _hrs->swapOutRegions();
   /*printf("Printing SwapOut Count::");
   int count = 0;
   int s;
@@ -3206,7 +3207,7 @@ bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   assert_at_safepoint(true /* should_be_vm_thread */);
   guarantee(!is_gc_active(), "collection is not reentrant");
-  collection_set_swapOutCount();
+//  collection_set_swapOutCount();
   if (GC_locker::check_active_before_gc()) {
     return false;
   }
@@ -3368,7 +3369,8 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       print();
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
-//      collection_set_swapOutCount();
+//    collection_set_swapOutCount();
+      printf("Number of regions in the collection set %d.\n", g1_policy()->collection_set()->length());
       collection_set_iterate(&prepare_for_rs_scan);
 
       setup_surviving_young_words();

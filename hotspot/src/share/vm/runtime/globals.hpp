@@ -485,6 +485,7 @@ class CommandLineFlags {
                                                                             \
   product(intx, NUMAPageScanRate, 256,                                      \
           "Maximum number of pages to include in the page scan procedure")  \
+  product(bool, P_SWAPOUT_REGIONS, false, "")								\
                                                                             \
   product_pd(bool, NeedsDeoptSuspend,                                       \
           "True for register window machines (sparc/ia64)")                 \
