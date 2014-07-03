@@ -3364,7 +3364,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       print();
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
-      collection_set_swapOutCount();
+//      collection_set_swapOutCount();
       collection_set_iterate(&prepare_for_rs_scan);
 
       setup_surviving_young_words();
