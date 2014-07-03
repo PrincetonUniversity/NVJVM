@@ -362,9 +362,12 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(mincore(bottomP, length, vec) == 0){
 		  int count;
 		  for(count = 0; count < numPages; count++){
-			  if(vec[count] == 0)
+			  if((vec[count] & 1) == 0)
 				  sum++;
 		  }
+	  } else {
+		  printf("Error\n");
+		  exit(-1);
 	  }
 	  os::free(vec);
 	  return sum;
