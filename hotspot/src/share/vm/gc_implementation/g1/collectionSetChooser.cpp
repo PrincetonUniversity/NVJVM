@@ -306,7 +306,7 @@ void CollectionSetChooser::printSwapOuts(){
 	printf("Length = %d, SwappedPageCount =", _markedRegions.length());
 	for(count = 0; count < _markedRegions.length(); count++){
 		HeapRegion *hr = _markedRegions.at(count);
-		if(hr)
+//		if(hr)
 			printf("Region (%d, %d),", count, hr->getSwappedPageCount());
 	}
 	printf("\n");
