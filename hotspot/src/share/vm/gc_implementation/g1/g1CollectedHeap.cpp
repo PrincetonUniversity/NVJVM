@@ -2540,14 +2540,14 @@ void G1CollectedHeap::collection_set_iterate(HeapRegionClosure* cl) {
 
 void G1CollectedHeap::collection_set_swapOutCount() {
   printf("Printing SwapOut Count::");
-  int count = 0;
+  int count = 0; int s;
   HeapRegion* r = g1_policy()->collection_set();
   while (r != NULL) {
     HeapRegion* next = r->next_in_collection_set();
     count++;
     s = r->getSwappedPageCount();
     if(s > 0)
-    	printf("Count , SwapOut = (%d, %d),", count, r->getSwappedPageCount());
+    	printf("(Count,SwapOut) = (%d, %d),", count, s);
     r = next;
   }
   printf("\n");
