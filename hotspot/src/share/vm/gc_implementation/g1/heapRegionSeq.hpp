@@ -84,6 +84,7 @@ class HeapRegionSeq: public CHeapObj {
   // in address order, terminating the iteration early
   // if the "doHeapRegion" method returns "true".
   void iterate(HeapRegionClosure* blk);
+  void swapOutRegions();
 
   // Apply the "doHeapRegion" method of "blk" to all regions in "this",
   // starting at "r" (or first region, if "r" is NULL), in a circular
