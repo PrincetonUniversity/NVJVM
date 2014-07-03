@@ -2549,8 +2549,8 @@ void G1CollectedHeap::collection_set_swapOutCount() {
     HeapRegion* next = r->next_in_collection_set();
     count++;
     s = r->getSwappedPageCount();
-    if(s > 0)
-    	printf("(Count,SwapOut) = (%d, %d),", count, s);
+//    if(s > 0)
+//    	printf("(Count,SwapOut) = (%d, %d),", count, s);
     r = next;
   }
   printf(".Number of regions in collection set  %d.\n", count);
