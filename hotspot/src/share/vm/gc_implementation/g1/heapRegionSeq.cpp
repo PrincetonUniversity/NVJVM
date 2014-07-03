@@ -206,7 +206,7 @@ void HeapRegionSeq::swapOutRegions(){
 	  int len = _regions.length();
 	  int j, s, t, count = 0;
 	  HeapRegion *hr ;
-	  printf("Printing swapped out pages. ");
+	  //printf("Printing swapped out pages. ");
 	  for (j = 0; j < len; j++){
 		  hr = _regions.at(j);
 		  if (hr != NULL) {
@@ -214,11 +214,11 @@ void HeapRegionSeq::swapOutRegions(){
 			 t = hr->getNumPages();
 			 if(t > 0)
 				 count++;
-			 if(s > 0)
-				 printf("(%d, %d, %d),", j, s, t);
+			 //if(s > 0)
+				// printf("(%d, %d, %d),", j, s, t);
 		  }
 	  }
-	  printf(".Total Number of Heap Regions Occupied = %d.\n", count);
+	  printf("Total Number of Heap Regions Occupied = %d.\n", count);
 }
 
 void HeapRegionSeq::iterate(HeapRegionClosure* blk) {

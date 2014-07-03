@@ -178,9 +178,6 @@ static int orderRegionsMemPressure(HeapRegion** hr1p, HeapRegion** hr2p){
 	return orderRegionsMemPressure(*hr1p, *hr2p);
 }
 
-
-
-
 CollectionSetChooser::CollectionSetChooser() :
   // The line below is the worst bit of C++ hackery I've ever written
   // (Detlefs, 11/23).  You should think of it as equivalent to

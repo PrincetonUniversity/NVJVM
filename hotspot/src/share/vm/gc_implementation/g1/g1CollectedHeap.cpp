@@ -2539,9 +2539,9 @@ void G1CollectedHeap::collection_set_iterate(HeapRegionClosure* cl) {
 }
 
 void G1CollectedHeap::collection_set_swapOutCount() {
-  if(P_SWAPOUT_REGIONS)
+  if(P_SWAPOUT_REGIONS){
 	  _hrs->swapOutRegions();
-  /*printf("Printing SwapOut Count::");
+//  printf("Printing SwapOut Count::");
   int count = 0;
   int s;
   HeapRegion* r = g1_policy()->collection_set();
@@ -2553,7 +2553,8 @@ void G1CollectedHeap::collection_set_swapOutCount() {
     	printf("(Count,SwapOut) = (%d, %d),", count, s);
     r = next;
   }
-  printf("\n");*/
+  printf(".Number of regions in collection set  %d.\n", count);
+  }
 }
 
 void G1CollectedHeap::collection_set_iterate_from(HeapRegion* r,
