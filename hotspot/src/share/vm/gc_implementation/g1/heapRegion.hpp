@@ -372,7 +372,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(mincore(bottomP, length, vec) == 0){
 		  int count;
 		  for(count = 0; count < numPages; count++){
-			  if((vec[count] & 1) == 0)
+			  if((vec[count] & 1) == 1)
 				  sum++;
 		  }
 	  } else {
