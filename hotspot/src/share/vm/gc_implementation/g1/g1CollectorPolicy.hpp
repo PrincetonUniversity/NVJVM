@@ -1274,6 +1274,9 @@ class G1CollectorPolicy_BestRegionsFirst: public G1CollectorPolicy {
   CollectionSetChooser* _collectionSetChooser;
   // If the estimated is less then desirable, resize if possible.
   void expand_if_possible(size_t numRegions);
+  void printSwapOuts(){
+	  _collectionSetChooser->printSwapOuts();
+  }
 
   virtual void choose_collection_set(double target_pause_time_ms);
   virtual void record_collection_pause_start(double start_time_sec,

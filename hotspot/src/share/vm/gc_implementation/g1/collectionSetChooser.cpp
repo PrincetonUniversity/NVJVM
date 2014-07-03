@@ -301,6 +301,17 @@ CollectionSetChooser::sortMarkedHeapRegions() {
   assert(verify(), "should now be sorted");
 }
 
+void CollectionSetChooser::printSwapOuts(){
+	int count;
+	printf("SwappedPageCount =");
+	for(count = 0; count < _markedRegions.length(); count++){
+		HeapRegion *hr = _markedRegions.at(count);
+		if(hr)
+			printf("Region (%d, %d),", count, hr->getSwappedPageCount());
+	}
+	printf("\n");
+}
+
 void
 CollectionSetChooser::addMarkedHeapRegion(HeapRegion* hr) {
   assert(!hr->isHumongous(),

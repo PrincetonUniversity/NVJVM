@@ -104,6 +104,7 @@ public:
   void fillCache();
   bool addRegionToCache(void);
   void addMarkedHeapRegion(HeapRegion *hr);
+  void printSwapOuts();
 
   // Must be called before calls to getParMarkedHeapRegionChunk.
   // "n_regions" is the number of regions, "chunkSize" the chunk size.

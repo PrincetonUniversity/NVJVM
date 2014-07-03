@@ -3334,6 +3334,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 #endif // YOUNG_LIST_VERBOSE
 
       g1_policy()->choose_collection_set(target_pause_time_ms);
+      g1_policy()->printSwapOuts();
 
       // We have chosen the complete collection set. If marking is
       // active then, we clear the region fields of any of the
