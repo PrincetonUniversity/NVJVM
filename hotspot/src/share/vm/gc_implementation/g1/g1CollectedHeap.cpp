@@ -3370,7 +3370,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 #endif
       PrepareForRSScanningClosure prepare_for_rs_scan;
 //    collection_set_swapOutCount();
-      printf("Number of regions in the collection set %d.\n", g1_policy()->collection_set()->length());
+//      printf("Number of regions in the collection set %d.\n", g1_policy()->collection_set()->length());
       collection_set_iterate(&prepare_for_rs_scan);
 
       setup_surviving_young_words();
