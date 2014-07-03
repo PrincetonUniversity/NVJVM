@@ -2548,7 +2548,7 @@ void G1CollectedHeap::collection_set_swapOutCount() {
   while (r != NULL) {
     HeapRegion* next = r->next_in_collection_set();
     count++;
-    s = r->getSwappedPageCount();
+//    s = r->getSwappedPageCount();
 //    if(s > 0)
 //    	printf("(Count,SwapOut) = (%d, %d),", count, s);
     r = next;
