@@ -1,1 +1,6 @@
 *.html
+.gitignore
+Data/
+scripts/
+.settings/
+.autotools
