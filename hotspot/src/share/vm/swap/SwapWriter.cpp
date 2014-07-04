@@ -17,8 +17,19 @@ SwapWriter::~SwapWriter() {
 	// TODO Auto-generated destructor stub
 }
 
+int get_file_size(char* filename) // path to file
+{
+    FILE *p_file = fopen(filename,"rb");
+    fseek(p_file,0,SEEK_END);
+    int size = ftell(p_file);
+    fclose(p_file);
+    return size;
+}
+
 void check(){
 	char file[] = "/home/tandon/swap.txt";
+	if(get_file_size(file) == 0)
+		return;
 	FILE *f = fopen(file, "r");
 	fseek(f, (long)(0), SEEK_SET);
 	char va ;
@@ -40,6 +51,7 @@ void check(){
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, int off){
+	check();
 	if (L_SWAP){
 		  printf("In swapOut, writer writing out %d, bottom %p, offset %d. Page Size = %d\n", np, va, off, _PAGE_SIZE);
 		  fflush(stdout);
@@ -74,7 +86,9 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  }
 	  }
 	  fclose (f);
-	  check();
+	  printf("File Size %d.\n", get_file_size(file));
+	  fflush(stdout);
+
 	  SwapMetric::incrementSwapOutsV(np);
 	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
 
