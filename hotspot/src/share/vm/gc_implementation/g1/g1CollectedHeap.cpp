@@ -3493,8 +3493,8 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 
 void G1CollectedHeap::getRegionStatistics(){
     GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
-    int regionTypes = 5, count;
-    int regionSizeCount[5];
+    int regionTypes = 5, count, purpose;
+    int regionSizeCount[regionTypes];
     HeapRegion *hr;
     for (count = 0; count < regionTypes; count++)
     	regionSizeCount[count] = 0;
@@ -3506,7 +3506,7 @@ void G1CollectedHeap::getRegionStatistics(){
 				if(purpose == -1){
 					regionSizeCount[4] += hr->used();
 				} else
-					regionSizeCount[purpose] += hr->size();
+					regionSizeCount[purpose] += hr->used();
 		}
     }
 }
