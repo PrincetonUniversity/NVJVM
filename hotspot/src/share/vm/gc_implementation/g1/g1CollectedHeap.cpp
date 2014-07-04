@@ -893,7 +893,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
-	  void *top = (void *)buf->top();
+	  void *top = (void *)((char *)buf->top() - 1);
 	  long bufSize = (long)buf->used() / 1024;
 	  if(L_SWAP){
 		  printf("G1CollectedHeap::"
