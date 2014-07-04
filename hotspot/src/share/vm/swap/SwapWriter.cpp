@@ -26,15 +26,15 @@ void check(){
 	for (count = 0; count < 4096 * 256; count++){
 		fread(&va, sizeof(char),  1, f);
 		if(va){
-			printf("%d,", va);
+//			printf("%d,", va);
 			sum++;
 		}
 	}
 	fclose(f);
 	if(sum == 0){
 		printf("All zeros. Something is wrong.\n");
+		exit(-1);
 	}
-	exit(-1);
 }
 
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
@@ -52,7 +52,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	  }
 	  fseek(f, (long)(off * _PAGE_SIZE), SEEK_SET);
 	  if(ferror(f)){
-		  printf("Error seeking to %d of file %s\n", off, file);fflush(stdout);
+		  printf("Error seeking to %d of file %s\n", off, file);
+		  fflush(stdout);
 		  exit(-1);
 	  }
 
