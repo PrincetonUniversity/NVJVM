@@ -255,6 +255,7 @@ private:
 
   // Determines PLAB size for a particular allocation purpose.
   static size_t desired_plab_sz(GCAllocPurpose purpose);
+  void getRegionStatistics();
 
   // When called by par thread, requires the FreeList_lock to be held.
   void push_gc_alloc_region(HeapRegion* hr);
