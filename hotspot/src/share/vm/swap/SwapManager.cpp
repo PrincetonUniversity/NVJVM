@@ -50,7 +50,7 @@ bool liesWithin(void *address, void *top, void *bottom){
  * The address is the address of the header of the object here. The accesses could
  * come from zero filled pages also. For those pages there is no
  */
-void SwapManager::remapPage (void *address, bool partialCheck = true){
+void SwapManager::remapPage(void *address, bool partialCheck = true){
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage:: In remapPage, swapping in page address %p.\n", address); fflush (stdout);
   }

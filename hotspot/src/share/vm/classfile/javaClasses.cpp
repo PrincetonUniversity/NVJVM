@@ -2257,7 +2257,6 @@ void java_lang_boxing_object::print(BasicType type, jvalue* value, outputStream*
   }
 }
 
-
 // Support for java_lang_ref_Reference
 oop java_lang_ref_Reference::pending_list_lock() {
   instanceKlass* ik = instanceKlass::cast(SystemDictionary::Reference_klass());

@@ -24,12 +24,14 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 	// Write protecting the memory region - only a single thread must have control over the region
 
-	/*if (mprotect (va, np*_PAGE_SIZE, PROT_READ) == -1){
+	if(Swap_Protect) {
+	  if (mprotect (va, np*_PAGE_SIZE, PROT_READ) == -1){
 		perror("error :");
 		printf("Error In Write Protecting Page %p \n", va);
 		fflush(stdout);
 		exit(1);
-	}*/
+		}
+	}
 
 	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
