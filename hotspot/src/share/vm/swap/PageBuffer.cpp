@@ -19,7 +19,8 @@ PageBuffer::~PageBuffer() {
 SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	// Writing the page out to swap
 	if (L_SWAP){
-		printf("In pageOut, paging out %d, top %p\n", np, va); fflush(stdout);
+		printf("In pageOut, paging out %d pages, from %p. Number of pages released = %d.\n", np, va, numPagesToRelease);
+		fflush(stdout);
 	}
 	// Write protecting the memory region - only a single thread must have control over the region
 
@@ -32,7 +33,8 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 
 	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
-		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd()); fflush(stdout);
+		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd());
+		fflush(stdout);
 	}
 	// Protecting the swapped out page
 	if(Swap_Protect){

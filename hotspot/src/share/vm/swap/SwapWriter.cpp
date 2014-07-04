@@ -21,7 +21,8 @@ SwapWriter::~SwapWriter() {
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	if (L_SWAP){
-		  printf("In swapOut, writer writing out %d, bottom %p, offset %d\n", np, va, off); fflush(stdout);
+		  printf("In swapOut, writer writing out %d, bottom %p, offset %d\n", np, va, off);
+		  fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
 	  FILE *f = fopen(file, "w");
