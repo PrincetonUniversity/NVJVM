@@ -2265,6 +2265,11 @@ oop java_lang_ref_Reference::pending_list_lock() {
   if (UseCompressedOops) {
     return oopDesc::load_decode_heap_oop((narrowOop *)addr);
   } else {
+	  oop obj = oopDesc::load_decode_heap_oop((oop*)addr);
+	  if(obj == NULL){
+		  printf("Pending list lock. static_lock_offset = %d. Address = %p.\n", static_lock_offset, addr);
+		  fflush(stdout);
+	  }
     return oopDesc::load_decode_heap_oop((oop*)addr);
   }
 }
