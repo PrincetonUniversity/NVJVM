@@ -88,6 +88,7 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	  fclose (f);
 	  printf("File Size %d.\n", get_file_size(file));
 	  fflush(stdout);
+	  check();
 
 	  SwapMetric::incrementSwapOutsV(np);
 	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
