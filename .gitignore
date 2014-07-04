@@ -1,4 +1,6 @@
 *.html
+.gitignore
+sample/
 build/
 .gitignore
 Data/
