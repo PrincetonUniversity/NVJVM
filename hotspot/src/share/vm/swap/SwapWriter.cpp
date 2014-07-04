@@ -41,7 +41,7 @@ void check(){
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, int off){
 	if (L_SWAP){
-		  printf("In swapOut, writer writing out %d, bottom %p, offset %d\n", np, va, off);
+		  printf("In swapOut, writer writing out %d, bottom %p, offset %d. Page Size = %d\n", np, va, off, _PAGE_SIZE);
 		  fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
@@ -50,7 +50,12 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
 	  }
-	  fseek(f, (long)(off * _PAGE_SIZE), SEEK_SET);
+	  long seekOff = (long)(off * _PAGE_SIZE);
+	  fseek(f, seekOff, SEEK_SET);
+	  if(L_SWAP){
+		  printf("Seeking to %d.\n", seekOff);
+		  fflush(stdout);
+	  }
 	  if(ferror(f)){
 		  printf("Error seeking to %d of file %s\n", off, file);
 		  fflush(stdout);
