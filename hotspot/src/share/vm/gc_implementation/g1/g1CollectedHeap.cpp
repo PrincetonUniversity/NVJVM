@@ -3678,6 +3678,18 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       free_collection_set(g1_policy()->collection_set());
       g1_policy()->clear_collection_set();
 
+//      GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
+//      	  int regionSizeCount[4];
+//
+//          int len = _regions.length();
+//      	  int count;
+//      	  for (count = 0; count < len; count++){
+//      		  hr = _regions.at(count);
+//      		  if(hr != NULL){
+//      			  purpose = hr->getPurpose();
+//
+//      		  }
+
       cleanup_surviving_young_words();
 
       // Start a new incremental collection set for the next pause.
@@ -5186,6 +5198,7 @@ void G1CollectedHeap::evacuate_collection_set() {
 			  }
 		  }
 	  }
+  }
 
 //	  GCAllocPurpose purpose = GCAllocForTenuredCold;
 //
