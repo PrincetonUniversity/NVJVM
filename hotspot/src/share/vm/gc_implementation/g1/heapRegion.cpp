@@ -482,7 +482,6 @@ void HeapRegion::initialize(MemRegion mr, bool clear_space, bool mangle_space) {
 #pragma warning( disable:4355 ) // 'this' : used in base member initializer list
 #endif // _MSC_VER
 
-
 HeapRegion::
 HeapRegion(G1BlockOffsetSharedArray* sharedOffsetArray,
                      MemRegion mr, bool is_zeroed)

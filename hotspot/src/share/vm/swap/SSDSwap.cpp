@@ -68,7 +68,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	if(L_SWAP){
-		printf("SSDSwap::swapOut::In swapOut, swapping out bottom = %p, end = %p\n", bot, end); fflush(stdout);
+		printf("SSDSwap::swapOut::In swapOut, swapping out top = %p, bottom = %p, end = %p\n", top, bot, end); fflush(stdout);
 	}
 	SwapRange* swapRange = SwapManager::addressRegion(end, bot, top); // Should move to SSDSwap class
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method

@@ -877,10 +877,13 @@ void G1CollectedHeap::unionBitmaps(){
 
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  if(buf == NULL){
-		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
+		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf);
+		  fflush(stdout);
+		  exit(1);
 	  }
 	  if(buf->is_empty()){
-		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty. Therefore we return."); fflush(stdout);
+		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty. Therefore we return.");
+		  fflush(stdout);
 		  return;
 	  }
 	  // This would result in iteration over all the objects present in the region which is being swapped out.
@@ -891,11 +894,11 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  void *end = (void *)((char *)buf->end()-1);
 	  void *bottom = (void *)(buf->bottom());
 	  void *top = (void *)buf->top();
-	  long bufSize = (long)top - (long)bottom;
+	  long bufSize = (long)buf->used() / 1024;
 	  if(L_SWAP){
 		  printf("G1CollectedHeap::"
 				  "In swapOutRegion. Swapping out buffer (%p). Buffer End's = %p, "
-				  "Buffer's Bottom %p. The size of the buffer is %ld."
+				  "Buffer's Bottom %p. The size of the buffer is %ldKB."
 				  "\n", buf, end, bottom, bufSize); fflush(stdout);
 	  }
 	  SSDSwap::swapOut(end, bottom, top);
@@ -3488,6 +3491,25 @@ void G1CollectedHeap::reset_taskqueue_stats() {
 }
 #endif // TASKQUEUE_STATS
 
+void G1CollectedHeap::getRegionStatistics(){
+    GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
+    int regionTypes = 5, count;
+    int regionSizeCount[5];
+    for (count = 0; count < regionTypes; count++)
+    	regionSizeCount[count] = 0;
+    int len = _regions.length();
+    for (count = 0; count < len; count++){
+    	hr = _regions.at(count);
+		if(hr != NULL){
+			purpose = hr->getPurpose();
+				if(purpose == -1){
+					regionSizeCount[4] += hr->used();
+				} else
+					regionSizeCount[purpose] += hr->size();
+		}
+    }
+}
+
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
@@ -3678,17 +3700,8 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       free_collection_set(g1_policy()->collection_set());
       g1_policy()->clear_collection_set();
 
-//      GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
-//      	  int regionSizeCount[4];
-//
-//          int len = _regions.length();
-//      	  int count;
-//      	  for (count = 0; count < len; count++){
-//      		  hr = _regions.at(count);
-//      		  if(hr != NULL){
-//      			  purpose = hr->getPurpose();
-//
-//      		  }
+//      getRegionStatistics();
+
 
       cleanup_surviving_young_words();
 

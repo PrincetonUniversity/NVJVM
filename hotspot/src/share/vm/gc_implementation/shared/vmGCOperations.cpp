@@ -63,7 +63,6 @@ void VM_GC_Operation::acquire_pending_list_lock() {
 
 
 void VM_GC_Operation::release_and_notify_pending_list_lock() {
-
   instanceRefKlass::release_and_notify_pending_list_lock(&_pending_list_basic_lock);
 }
 
