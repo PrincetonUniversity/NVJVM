@@ -47,6 +47,7 @@
 #include "runtime/vmThread.hpp"
 #include "swap/SSDSwap.h"
 #include "swap/swap_global.h"
+#include "utilities/growableArray.hpp"
 
 /*
  *  Methods for the implementation of the swapouts.
@@ -644,7 +645,12 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
   HeapRegion* alloc_region = NULL;
   if (_gc_alloc_region_counts[purpose] < g1_policy()->max_regions(purpose)) {
     alloc_region = new_region(word_size, true /* do_expand */);
-    if (purpose == GCAllocForSurvived && alloc_region != NULL) {
+    // We set the purpose of the allocated region if it is not NULL
+    if(alloc_region != NULL){
+    	alloc_region->setPurpose(purpose);
+    }
+    // Setting the region as survivor in case the region is a cold region
+    if ((purpose == GCAllocForSurvived  || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
       alloc_region->set_survivor();
     }
     ++_gc_alloc_region_counts[purpose];
@@ -869,7 +875,7 @@ void G1CollectedHeap::unionBitmaps(){
     concurrent_mark()->unionBitMaps();
 }
 
-void G1CollectedHeap::swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose){
+void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  if(buf == NULL){
 		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf); fflush(stdout); exit(1);
 	  }
@@ -2374,6 +2380,13 @@ size_t G1CollectedHeap::used_unlocked() const {
   size_t result = _summary_bytes_used;
   return result;
 }
+
+//class SwapOutClosure: public HeapRegionClosure {
+//public:
+//	bool doHeapRegion(HeapRegion* r){
+//		return false;
+//	}
+//};
 
 class SumUsedClosure: public HeapRegionClosure {
   size_t _used;
@@ -5156,15 +5169,34 @@ void G1CollectedHeap::evacuate_collection_set() {
   }
 
   if(DO_SWAP){
-  	  GCAllocPurpose purpose = GCAllocForTenuredCold;
-  	  HeapRegion *buf = _gc_alloc_regions[purpose];
-  	  if (buf == NULL){
-  		  printf("buf is NULL\n"); fflush(stdout);
-  		  exit(-1);
-  	  }
-  	  if(!buf->is_empty())
-  		  swapOutRegion(buf, purpose);
-    }
+  	  // Iterate over the collection set and swap out
+	  HeapRegion *hr;
+	  int purpose = -1;
+	  GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
+	  int len = _regions->length();
+	  int count;
+	  for (count = 0; count < len; count++){
+		  hr = _regions->at(count);
+		  if(hr != NULL){
+			  purpose = hr->getPurpose();
+			  if((purpose == GCAllocForSurvivedCold || purpose == GCAllocForTenuredCold) &&
+					  (hr->isInMemory()) && (!(hr->is_empty()))){
+				  swapOutRegion(hr);
+				  _swappedOutMem += hr->used();
+			  }
+		  }
+	  }
+
+//	  GCAllocPurpose purpose = GCAllocForTenuredCold;
+//
+//  	  HeapRegion *buf = _gc_alloc_regions[purpose];
+//  	  if (buf == NULL){
+//  		  printf("buf is NULL\n"); fflush(stdout);
+//  		  exit(-1);
+//  	  }
+//  	  if(!buf->is_empty())
+//  		  swapOutRegion(buf, purpose);
+//    }
 
   release_gc_alloc_regions(false /* totally */);
   g1_rem_set()->cleanup_after_oops_into_collection_set_do();

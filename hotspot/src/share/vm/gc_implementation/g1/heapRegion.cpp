@@ -497,6 +497,7 @@ HeapRegion(G1BlockOffsetSharedArray* sharedOffsetArray,
     _young_type(NotYoung), _next_young_region(NULL),
     _next_dirty_cards_region(NULL), _next(NULL), _pending_removal(false),
     _isSwappedOut(false),
+    _purpose(-1),
 #ifdef ASSERT
     _containing_set(NULL),
 #endif // ASSERT

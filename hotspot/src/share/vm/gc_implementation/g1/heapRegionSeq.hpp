@@ -66,6 +66,8 @@ class HeapRegionSeq: public CHeapObj {
   // or returns -1 if not found.
   int find(HeapRegion* hr);
 
+  GrowableArray<HeapRegion*> getRegions() { return _regions; }
+
   // Requires the index to be valid, and return the region at the index.
   HeapRegion* at(size_t i) { return _regions.at((int)i); }
 

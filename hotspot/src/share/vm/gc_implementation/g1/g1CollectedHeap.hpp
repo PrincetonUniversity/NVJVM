@@ -323,6 +323,9 @@ private:
   // this method will be found dead by the marking cycle).
   void allocate_dummy_regions() PRODUCT_RETURN;
 
+  // This is used for accounting
+  long int _swappedOutMem;
+
   // These are macros so that, if the assert fires, we get the correct
   // line number, file, etc.
 
@@ -571,7 +574,7 @@ protected:
 public:
 
   G1MonitoringSupport* g1mm() { return _g1mm; }
-  void swapOutRegion(HeapRegion *buf, GCAllocPurpose purpose);
+  void swapOutRegion(HeapRegion *buf);
   void unionBitmaps();
 
   // Expand the garbage-first heap by at least the given size (in bytes!).

@@ -2986,7 +2986,7 @@ G1CollectorPolicy_BestRegionsFirst::choose_collection_set(
     do {
       hr = _collectionSetChooser->getNextMarkedRegion(time_remaining_ms,
                                                       avg_prediction);
-      if (hr != NULL && hr->isInMemory()) {
+      if (hr != NULL) {
         double predicted_time_ms = predict_region_elapsed_time_ms(hr, false);
         time_remaining_ms -= predicted_time_ms;
         predicted_pause_time_ms += predicted_time_ms;
