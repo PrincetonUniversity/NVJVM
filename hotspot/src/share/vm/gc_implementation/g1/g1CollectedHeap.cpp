@@ -3495,6 +3495,7 @@ void G1CollectedHeap::getRegionStatistics(){
     GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
     int regionTypes = 5, count;
     int regionSizeCount[5];
+    HeapRegion *hr;
     for (count = 0; count < regionTypes; count++)
     	regionSizeCount[count] = 0;
     int len = _regions.length();
