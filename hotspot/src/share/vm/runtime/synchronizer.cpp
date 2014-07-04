@@ -156,8 +156,8 @@ void ObjectSynchronizer::fast_enter(Handle obj, BasicLock* lock, bool attempt_re
 }
 
 void ObjectSynchronizer::fast_exit(oop object, BasicLock* lock, TRAPS) {
-  printf("In Object Synchronizer, fast_exit, Object %p.\n", object);
-  fflush(stdout);
+//  printf("In Object Synchronizer, fast_exit, Object %p.\n", object);
+//  fflush(stdout);
 
   assert(!object->mark()->has_bias_pattern(), "should not see bias pattern here");
   // if displaced header is null, the previous enter is recursive enter, no-op
