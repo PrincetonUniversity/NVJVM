@@ -172,6 +172,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){
+	 printf("Partially marking page.\n"); fflush(stdout);
 	 oop obj = (oop) (address);
 	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
 	 int objSize = obj->size() * HeapWordSize;
@@ -183,6 +184,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	 _metaDataMap.insert(pair);
 	 Universe::markPartiallyFetched((void*) lastPage);
  } else {
+	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
 	 Universe::markPageFetched(lastPage);
  }
 
@@ -230,7 +232,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //  }
 
   // Finishing the SwapIn process
-  out: return;
+//  out: return;
 }
 
 void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {

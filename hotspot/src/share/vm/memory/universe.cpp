@@ -813,14 +813,11 @@ void Universe::accessCheck(void *address){
 	if(!UseG1GC || !Universe::heap()->is_in_reserved(address))
 			return;
 	if(!(Universe::isPresent(address))){
-//	uint64_t position = getRegionTablePosition(address);
-//	char value = *(char *)position;
-//	bool isPresentV = (value == _presentMask);
-//	if(!(isPresentV)){
 		printf("In accessCheck %p not present.\n", address);
 		fflush(stdout);
 		SSDSwap::handle_faults(address);
-		printf("In accessCheck %p not present. The address has now been fetched.\n", address);
+		printf("In accessCheck %p not present. The address has now been fetched. "
+				"The value = %d.\n", address, *(oop *)address);
 		fflush(stdout);
 	}
 }
@@ -840,6 +837,8 @@ void Universe::markPageFetched(void* address){
 
 void Universe::markPartiallyFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
+	printf("Marking Address %p, Position %p, as partially fetched.\n", address, position);
+	fflush(stdout);
 	*(char *)position = Universe::_partiallyFilledMask;
 }
 
