@@ -807,10 +807,6 @@ bool Universe::isPartiallyFilled(void* address){
 	return (value == _partiallyFilledMask);
 }
 
-bool Universe::liesInHeap(){
-
-}
-
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
 	// Since, our interception mechanism is limited only to the G1GC case.
@@ -911,11 +907,12 @@ jint universe_init() {
   }
 
   jint status = Universe::initialize_heap();
-  size_t heapSize = 4*1024*1024*1024;//Universe::getMaxHeapSize();
-  size_t tableSize = heapSize/(Universe::getSwapChunkSize());
-  if(heapSize == 0){
-	  tableSize = 1024*1024;
-  }
+//  size_t heapSize = 4*1024*1024*1024;//Universe::getMaxHeapSize();
+  size_t tableSize = 1024*1024;
+  //heapSize/(Universe::getSwapChunkSize());
+//  if(heapSize == 0){
+//	  tableSize = 1024*1024;
+//  }
   Universe::allocateRegionTable(tableSize);
   Universe::allocatePrefetchTable(tableSize);
   if(true){
