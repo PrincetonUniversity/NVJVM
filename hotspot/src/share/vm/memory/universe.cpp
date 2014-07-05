@@ -901,7 +901,7 @@ jint universe_init() {
   Universe::allocateRegionTable(tableSize);
   Universe::allocatePrefetchTable(tableSize);
   if(true){
-	  printf("Heap Start %p, Heap End %p.\n", getHeapStart(), getHeapEnd());
+	  printf("Heap Start %p, Heap End %p.\n", Universe::getHeapStart(), Universe::getHeapEnd());
 	  fflush(stdout);
   }
   if (status != JNI_OK) {
