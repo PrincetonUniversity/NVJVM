@@ -66,7 +66,7 @@ void SSDSwap::handle_faults(void *addr) {
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
 	if(L_SWAP){
-		printf("SSDSwap:handle_faults called on address = %p. RemapPage Done.\n", addr);
+		printf("SSDSwap:handle_faults called on address = %p. handle_faults Done.\n", addr);
 		fflush(stdout);
 	}
 }
