@@ -807,11 +807,16 @@ bool Universe::isPartiallyFilled(void* address){
 	return (value == _partiallyFilledMask);
 }
 
+bool Universe::liesInHeap(){
+
+}
+
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
 	// Since, our interception mechanism is limited only to the G1GC case.
 	if(!UseG1GC)
 			return;
+
 	uint64_t position = getRegionTablePosition(address);
 	char value = *(char *)position;
 	bool isPresentV = (value == _presentMask);
@@ -846,7 +851,7 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
     uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
     uint64_t regionTableStart = (uint64_t)Universe::getRegionTable();
-    uint64_t regionTableEnd = regionTableStart +   (uint64_t)Universe::getRegionTableSize();
+    uint64_t regionTableEnd = regionTableStart +   (uint64_t)Universe::getRegionTableSize() - 1;
     if(!((position >= regionTableStart) && (position <= regionTableEnd))){
     	printf("Access on region table out of range."
     			"Getting Region Table Position %p for address %p.\n", position, object);
@@ -906,7 +911,7 @@ jint universe_init() {
   }
 
   jint status = Universe::initialize_heap();
-  size_t heapSize = Universe::getMaxHeapSize();
+  size_t heapSize = 4*1024*1024*1024;//Universe::getMaxHeapSize();
   size_t tableSize = heapSize/(Universe::getSwapChunkSize());
   if(heapSize == 0){
 	  tableSize = 1024*1024;
