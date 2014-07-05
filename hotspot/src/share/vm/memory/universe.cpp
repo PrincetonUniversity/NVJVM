@@ -817,8 +817,8 @@ void Universe::accessCheck(void *address){
 //	char value = *(char *)position;
 //	bool isPresentV = (value == _presentMask);
 //	if(!(isPresentV)){
-//		printf("In accessCheck %p not present.\n", address);
-//		fflush(stdout);
+		printf("In accessCheck %p not present.\n", address);
+		fflush(stdout);
 		SSDSwap::handle_faults(address);
 	}
 }
