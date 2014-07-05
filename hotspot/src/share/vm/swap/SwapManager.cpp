@@ -172,8 +172,9 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){
-	 printf("Partially marking page for address %p.\n", address); fflush(stdout);
+	 printf("Partially marking page for address %p. lPre = %d\n", address, lPre); fflush(stdout);
 	 oop obj = (oop) (address);
+	 printf("Partially marking page for address %p. Reading Object Size.\n", address); fflush(stdout);
 	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
 	 int objSize = obj->size() * HeapWordSize;
 	 printf("Partially marking page for address %p. Object Size = %d.\n", address, objSize); fflush(stdout);
