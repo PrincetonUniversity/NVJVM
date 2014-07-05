@@ -135,7 +135,11 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 				fflush(stdout);
 			}
 		}
-		SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
+		size_t len = SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
+		if(L_SWAP && REMAP){
+			printf("SwapReader, swapInDone. Read %d bytes.\n", len);
+			fflush(stdout);
+		}
   }
 
   if (lastPageIndex >= numPagesSwappedOut) {
@@ -150,6 +154,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   if (numPages == 1){
 	  return;
   }
+
   char* curr = (char *)object_va_to_page_start(address) + _PAGE_SIZE;
   // Marking all the intermediate pages as fetched in.
   for (int count = 1; count < numPages - 1; count++){

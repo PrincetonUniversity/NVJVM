@@ -51,7 +51,7 @@ void check(){
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, int off){
-	check();
+//	check();
 	if (L_SWAP){
 		  printf("In swapOut, writer writing out %d, bottom %p, offset %d. Page Size = %d\n", np, va, off, _PAGE_SIZE);
 		  fflush(stdout);
