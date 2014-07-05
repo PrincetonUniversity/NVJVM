@@ -2266,8 +2266,12 @@ oop java_lang_ref_Reference::pending_list_lock() {
   } else {
 	  oop obj = oopDesc::load_decode_heap_oop((oop*)addr);
 	  if(obj == NULL){
-		  printf("Pending list lock. static_lock_offset = %d. Address = %p.\n", static_lock_offset, addr);
+		  printf("Pending list lock. static_lock_offset = %d. Address = %p."
+				  "The address lies within the reserved area = %d."
+				  "The address is present %d.\n",
+				  static_lock_offset, addr, Universe::heap()->is_in_reserved(addr), Universe::isPresent(addr));
 		  fflush(stdout);
+		  exit(-1);
 	  }
     return oopDesc::load_decode_heap_oop((oop*)addr);
   }
