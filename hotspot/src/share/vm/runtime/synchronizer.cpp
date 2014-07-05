@@ -183,10 +183,10 @@ void ObjectSynchronizer::fast_exit(oop object, BasicLock* lock, TRAPS) {
   }
 
   mark = object->mark() ;
-  if(mark == NULL){
-	  printf("mark is null, Object %p.\n", object);
-	  fflush(stdout);
-  }
+//  if(mark == NULL){
+//	  printf("mark is null, Object %p.\n", object);
+//	  fflush(stdout);
+//  }
   // If the object is stack-locked by the current thread, try to
   // swing the displaced header from the box back to the mark.
   if (mark == (markOop) lock) {

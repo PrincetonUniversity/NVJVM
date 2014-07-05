@@ -44,10 +44,22 @@ void SSDSwap::swapInRegion(void *addr) {
 }
 
 void SSDSwap::handle_faults(void *addr) {
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p.\n", addr);
+		fflush(stdout);
+	}
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	pthread_mutex_lock(&_swap_map_mutex);
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p. Entering RemapPage.\n", addr);
+		fflush(stdout);
+	}
 	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p. RemapPage Done.\n", addr);
+		fflush(stdout);
+	}
 //	SSDSwap::markRegion(addr, 0); // Marking the region as swapped in, region bitmap
 //	SwapMetric::incrementSwapIns();
 	pthread_mutex_unlock(&_swap_map_mutex);
