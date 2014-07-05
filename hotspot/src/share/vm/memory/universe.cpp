@@ -850,7 +850,7 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t regionTableEnd = regionTableStart +   (uint64_t)Universe::getRegionTableSize() - 1;
     if(!((position >= regionTableStart) && (position <= regionTableEnd))){
     	printf("Access on region table out of range."
-    			"Getting Region Table Position %p for address %p.\n", position, object);
+    			"Getting Region Table Position %p for address %p.\n", position, object, Universe::heap()->base());
     	fflush(stdout);
     	exit(-1);
     }
