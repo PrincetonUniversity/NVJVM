@@ -58,6 +58,7 @@
 #ifdef TARGET_ARCH_ppc
 # include "bytes_ppc.hpp"
 #endif
+#include "swap/SSDSwap.h"
 
 // Implementation of all inlined member functions defined in oop.hpp
 // We need a separate file to avoid circular references
@@ -242,12 +243,19 @@ inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
 
 // Load an oop out of the Java heap as is without decoding.
 // Called by GC to check for null before decoding.
-inline oop       oopDesc::load_heap_oop(oop* p)          { return *p; }
+inline oop       oopDesc::load_heap_oop(oop* p)          {
+	if(!Universe::isPresent((void *)p)){
+		SSDSwap::handle_faults((void *)p);
+	}
+	return *p;
+}
 inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 
 // Load and decode an oop out of the Java heap into a wide oop.
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
-	//printf("load_decode_heap_oop_not_null count= %p\n", (*p)->getCount()); fflush(stdout);
+	if(!Universe::isPresent((void *)p)){
+		SSDSwap::handle_faults((void *)p);
+	}
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
