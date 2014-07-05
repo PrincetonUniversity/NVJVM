@@ -808,6 +808,8 @@ bool Universe::isPartiallyFilled(void* address){
 }
 
 void Universe::accessCheck(void *address){
+	if(!UseG1GC)
+			return;
 	if(!(isPresent(address))){
 		SSDSwap::handle_faults(address);
 	}
