@@ -812,9 +812,14 @@ void Universe::accessCheck(void *address){
 	// Since, our interception mechanism is limited only to the G1GC case.
 	if(!UseG1GC)
 			return;
-//	if(!(Universe::isPresent(address))){
-//		SSDSwap::handle_faults(address);
-//	}
+	uint64_t position = getRegionTablePosition(address);
+	char value = *(char *)position;
+	bool isPresentV = (value == _presentMask);
+	if(!(isPresentV)){
+		printf("In accessCheck %p not present.\n", address);
+		fflush(stdout);
+		SSDSwap::handle_faults(address);
+	}
 }
 
 bool Universe::isPresent(void* address){
@@ -840,9 +845,13 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t objOffset = objCast - Universe::getHeapStart();
     uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
     uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-    if(position <= 0){
-    	printf("Getting Region Table Position %p for address %p.\n", position, object);
+    uint64_t regionTableStart = (uint64_t)Universe::getRegionTable();
+    uint64_t regionTableEnd = regionTableStart +   (uint64_t)Universe::getRegionTableSize();
+    if(!((position >= regionTableStart) && (position <= regionTableEnd))){
+    	printf("Access on region table out of range."
+    			"Getting Region Table Position %p for address %p.\n", position, object);
     	fflush(stdout);
+    	exit(-1);
     }
     return position;
 }
