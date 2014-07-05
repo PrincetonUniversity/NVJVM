@@ -819,7 +819,8 @@ bool Universe::isPresent(void* address){
 
 void Universe::markPageFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking the position %p as fetched\n", address);fflush(stdout);
+	printf("Marking the position %p for address %p as fetched\n", position, address);
+	fflush(stdout);
 	*(char *)position = Universe::_presentMask;
 }
 
