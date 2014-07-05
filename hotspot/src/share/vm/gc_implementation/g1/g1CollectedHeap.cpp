@@ -1890,7 +1890,7 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
   aligned_expand_bytes = align_size_up(aligned_expand_bytes,
                                        HeapRegion::GrainBytes);
 
-  if (Verbose && PrintGC) {
+  if ((Verbose && PrintGC) || true) {
     gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
                            old_mem_size/K, aligned_expand_bytes/K);
   }

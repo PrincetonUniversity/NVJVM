@@ -810,15 +810,15 @@ bool Universe::isPartiallyFilled(void* address){
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
 	// Since, our interception mechanism is limited only to the G1GC case.
-	if(!UseG1GC)
+	if(!UseG1GC || !Universe::heap()->is_in_reserved(address))
 			return;
-
-	uint64_t position = getRegionTablePosition(address);
-	char value = *(char *)position;
-	bool isPresentV = (value == _presentMask);
-	if(!(isPresentV)){
-		printf("In accessCheck %p not present.\n", address);
-		fflush(stdout);
+	if(!(Universe::isPresent(address))){
+//	uint64_t position = getRegionTablePosition(address);
+//	char value = *(char *)position;
+//	bool isPresentV = (value == _presentMask);
+//	if(!(isPresentV)){
+//		printf("In accessCheck %p not present.\n", address);
+//		fflush(stdout);
 		SSDSwap::handle_faults(address);
 	}
 }
