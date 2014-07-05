@@ -812,9 +812,9 @@ void Universe::accessCheck(void *address){
 	// Since, our interception mechanism is limited only to the G1GC case.
 	if(!UseG1GC)
 			return;
-	if(!(Universe::isPresent(address))){
-		SSDSwap::handle_faults(address);
-	}
+//	if(!(Universe::isPresent(address))){
+//		SSDSwap::handle_faults(address);
+//	}
 }
 
 bool Universe::isPresent(void* address){
