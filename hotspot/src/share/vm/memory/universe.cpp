@@ -775,27 +775,23 @@ void* Universe::non_oop_word() {
 
 void Universe::allocateRegionTable(size_t size){
 	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
-	size_t regionTableSize = size / (1024);
-	printf("RegiontableSize = %zu KB\n", regionTableSize); fflush(stdout);
-	printf("initializing region table %p\n", regionTableBase); fflush(stdout);
 	memset(regionTableBase, 0, size);
 	Universe::setRegionTable(regionTableBase);
 	Universe::setRegionTableSize(size);
-	if(P_INIT) {
-		printf("initializing region table %p\n", regionTableBase); fflush(stdout);
+	if(P_INIT || true) {
+		size_t regionTableSize = size / (1024);
+		printf("Initializing Region Table %p. Size = %zu KB.\n", regionTableBase, regionTableSize); fflush(stdout);
 	}
 }
 
 void Universe::allocatePrefetchTable(size_t size){
 	void* prefetchTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
-	size_t prefetchTableSize = size / (1024);
-	printf("RegiontableSize = %zu KB\n", prefetchTableSize); fflush(stdout);
-	printf("initializing region table %p\n", prefetchTableBase); fflush(stdout);
 	memset(prefetchTableBase, 0, size);
 	Universe::setPrefetchTable(prefetchTableBase);
 	Universe::setPrefetchTableSize(size);
-	if(P_INIT) {
-		printf("initializing prefetch table %p\n", prefetchTableBase); fflush(stdout);
+	if(P_INIT || true) {
+		size_t prefetchTableSize = size / (1024);
+		printf("Initializing Prefetch Table %p. Size = %zu.\n", prefetchTableBase, prefetchTableSize); fflush(stdout);
 	}
 }
 
@@ -809,6 +805,12 @@ bool Universe::isPartiallyFilled(void* address){
 	uint64_t position = getRegionTablePosition(address);
 	char value = *(char *)position;
 	return (value == _partiallyFilledMask);
+}
+
+void Universe::accessCheck(void *address){
+	if(!(isPresent(address))){
+		SSDSwap::handle_faults(address);
+	}
 }
 
 bool Universe::isPresent(void* address){
@@ -834,6 +836,10 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t objOffset = objCast - Universe::getHeapStart();
     uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
     uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
+    if(position == NULL){
+    	printf("Getting Region Table Position %p for address %p.\n", position, object);
+    	fflush(stdout);
+    }
     return position;
 }
 
@@ -894,6 +900,10 @@ jint universe_init() {
   }
   Universe::allocateRegionTable(tableSize);
   Universe::allocatePrefetchTable(tableSize);
+  if(true){
+	  printf("Heap Start %p, Heap End %p.\n", getHeapStart(), getHeapEnd());
+	  fflush(stdout);
+  }
   if (status != JNI_OK) {
     return status;
   }
@@ -1017,8 +1027,6 @@ jint Universe::initialize_heap() {
     G1CollectedHeap* g1h = new G1CollectedHeap(g1p);
     Universe::_collectedHeap = g1h;
     Universe::setMaxHeapSize(g1h->max_heap_size());
-//    printf("heap size =%zu\n", g1h->max_heap_size());
-//    fflush(stdout);
 #else  // SERIALGC
     fatal("UseG1GC not supported in java kernel vm.");
 #endif // SERIALGC

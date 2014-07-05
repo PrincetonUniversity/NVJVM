@@ -33,6 +33,7 @@
 #include "swap/swap_global.h"
 #include "stdlib.h"
 #include <malloc.h>
+#include "swap/SSDSwap.h"
 
 #define _U_MB 1024*1024 // denotes 1 MB
 
@@ -300,6 +301,7 @@ class Universe: AllStatic {
   static void allocatePrefetchTable(size_t size);
   static void markPrefetchTable(void *new_obj, int objSize);
   static bool isPartiallyFilled(void* address);
+  static void accessCheck(void *address);
   static bool isPresent(void* address);
   static void markPageFetched(void* address);
   static void markPartiallyFetched(void* address);

@@ -2114,7 +2114,7 @@ jint G1CollectedHeap::initialize() {
                         HeapRegion::GrainBytes,
                         UseLargePages, addr);
 
-  Universe::setHeapStart((uint64_t)heap_rs.base());
+
 
   if (UseCompressedOops) {
     if (addr != NULL && !heap_rs.is_reserved()) {
@@ -2148,6 +2148,8 @@ jint G1CollectedHeap::initialize() {
   _reserved.set_word_size(0);
   _reserved.set_start((HeapWord*)heap_rs.base());
   _reserved.set_end((HeapWord*)(heap_rs.base() + heap_rs.size()));
+  Universe::setHeapStart((uint64_t)heap_rs.base());
+  Universe::setHeapEnd((uint64_t)heap_rs.base() + heap_rs.size());
 
 //   size_t universeSize = heap_rs.size();
 //   size_t regionTableSize = universeSize/(sysconf(_SC_PAGE_SIZE) * 256);

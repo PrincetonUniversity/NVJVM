@@ -243,19 +243,15 @@ inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
 
 // Load an oop out of the Java heap as is without decoding.
 // Called by GC to check for null before decoding.
-inline oop       oopDesc::load_heap_oop(oop* p)          {
-	if(!Universe::isPresent((void *)p)){
-		SSDSwap::handle_faults((void *)p);
-	}
+inline oop  oopDesc::load_heap_oop(oop* p) {
+	Universe::accessCheck((void *)p);
 	return *p;
 }
 inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 
 // Load and decode an oop out of the Java heap into a wide oop.
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
-	if(!Universe::isPresent((void *)p)){
-		SSDSwap::handle_faults((void *)p);
-	}
+	Universe::accessCheck((void *)p);
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
@@ -263,17 +259,16 @@ inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
 }
 
 // Load and decode an oop out of the heap accepting null
-inline oop oopDesc::load_decode_heap_oop(oop* p) { return *p; }
+inline oop oopDesc::load_decode_heap_oop(oop* p) {
+	Universe::accessCheck((void *)p);
+	return *p;
+}
 inline oop oopDesc::load_decode_heap_oop(narrowOop* p) {
   return decode_heap_oop(*p);
 }
 
 // Store already encoded heap oop into the heap.
-inline void oopDesc::store_heap_oop(oop* p, oop v)                 {
-	 if(L_DEBUG){
-		 printf("store_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
-	 }
-
+inline void oopDesc::store_heap_oop(oop* p, oop v){
 	 *p = v;
 }
 inline void oopDesc::store_heap_oop(narrowOop* p, narrowOop v)     { *p = v; }
