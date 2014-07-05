@@ -840,10 +840,10 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t objOffset = objCast - Universe::getHeapStart();
     uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
     uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-    if(position == 0){
+//    if(position == 0){
     	printf("Getting Region Table Position %p for address %p.\n", position, object);
     	fflush(stdout);
-    }
+//    }
     return position;
 }
 
