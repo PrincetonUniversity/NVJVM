@@ -57,22 +57,22 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
-	  FILE *f = fopen(file, "w");
+	  FILE *f = fopen(file, "a");
 	  if (f == NULL){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
 	  }
-	  long seekOff = (long)(off * _PAGE_SIZE);
-	  fseek(f, seekOff, SEEK_SET);
-	  if(L_SWAP){
-		  printf("Seeking to %d.\n", seekOff);
-		  fflush(stdout);
-	  }
-	  if(ferror(f)){
-		  printf("Error seeking to %d of file %s\n", off, file);
-		  fflush(stdout);
-		  exit(-1);
-	  }
+	  //long seekOff = (long)(off * _PAGE_SIZE);
+	  //fseek(f, seekOff, SEEK_SET);
+//	  if(L_SWAP){
+//		  printf("Seeking to %d.\n", seekOff);
+//		  fflush(stdout);
+//	  }
+//	  if(ferror(f)){
+//		  printf("Error seeking to %d of file %s\n", off, file);
+//		  fflush(stdout);
+//		  exit(-1);
+//	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?
 	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
@@ -86,9 +86,9 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 		  }
 	  }
 	  fclose (f);
-	  printf("File Size %d.\n", get_file_size(file));
-	  fflush(stdout);
-	  check();
+//	  printf("File Size %d.\n", get_file_size(file));
+//	  fflush(stdout);
+//	  check();
 
 	  SwapMetric::incrementSwapOutsV(np);
 	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
