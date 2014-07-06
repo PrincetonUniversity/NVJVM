@@ -5216,16 +5216,6 @@ void G1CollectedHeap::evacuate_collection_set() {
  	  }
    }
 
-//	  GCAllocPurpose purpose = GCAllocForTenuredCold;
-//
-//  	  HeapRegion *buf = _gc_alloc_regions[purpose];
-//  	  if (buf == NULL){
-//  		  printf("buf is NULL\n"); fflush(stdout);
-//  		  exit(-1);
-//  	  }
-//  	  if(!buf->is_empty())
-//  		  swapOutRegion(buf, purpose);
-//    }
 
   release_gc_alloc_regions(false /* totally */);
   g1_rem_set()->cleanup_after_oops_into_collection_set_do();
