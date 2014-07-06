@@ -877,12 +877,12 @@ void G1CollectedHeap::unionBitmaps(){
 
 void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  if(buf == NULL){
-		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is NULL.", buf);
+		  printf("G1CollectedHeap::swapOutRegion. Cannot swap out the buffer (%p). It is NULL.", buf);
 		  fflush(stdout);
 		  exit(1);
 	  }
 	  if(buf->is_empty()){
-		  printf("G1CollectedHeap::swapOutRegion(). Cannot swap out the buffer (%p). It is empty. Therefore we return.");
+		  printf("G1CollectedHeap::swapOutRegion. Cannot swap out the buffer (%p). It is empty. Therefore we return.");
 		  fflush(stdout);
 		  return;
 	  }
