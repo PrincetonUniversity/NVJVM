@@ -5210,7 +5210,7 @@ void G1CollectedHeap::evacuate_collection_set() {
 			  purpose = hr->getPurpose();
 			  if((purpose == GCAllocForSurvivedCold || purpose == GCAllocForTenuredCold) &&
 					  (hr->isInMemory()) && (!(hr->is_empty()))){
-				  swapOutRegion(hr);
+//				  swapOutRegion(hr);
 				  _swappedOutMem += hr->used();
 			  }
 		  }
