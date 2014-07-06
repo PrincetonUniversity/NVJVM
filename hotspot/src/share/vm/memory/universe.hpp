@@ -301,6 +301,7 @@ class Universe: AllStatic {
 
   static void allocateRegionTable(size_t size);
   static void allocatePrefetchTable(size_t size);
+  static void allocatePartialPageTable(size_t size);
   static void markPrefetchTable(void *new_obj, int objSize);
   static bool isPartiallyFilled(void* address);
   static void accessCheck(void *address);
