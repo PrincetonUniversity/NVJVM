@@ -252,6 +252,10 @@ inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 // Load and decode an oop out of the Java heap into a wide oop.
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
 	Universe::accessCheck((void *)p);
+	if(*p == NULL){
+		printf("In load_decode_heap_oop_not_null(), Oop is null. Oop address = %p.\n", p);
+		fflush(stdout);
+	}
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
