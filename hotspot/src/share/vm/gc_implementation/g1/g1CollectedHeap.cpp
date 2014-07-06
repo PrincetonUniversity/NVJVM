@@ -3521,7 +3521,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   // Swapping in regions when we did not have bookmarking implemented.
   // Due to bookmarks the collector would not touch swapped out regions and hence swapping in of regions is unnecessary.
   if(!(L_ITERATE)){
-	  SwapManager::swapInRegions();
+//	  SwapManager::swapInRegions();
   }
 
   guarantee(!is_gc_active(), "collection is not reentrant");
