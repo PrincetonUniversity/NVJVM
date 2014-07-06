@@ -803,10 +803,24 @@ void *nextPageInc (void *address, int count){
 	return((void *)((char *)address + count * sysconf(_SC_PAGE_SIZE)));
 }
 
+void Universe::check(void* st, int count){
+	void* curr = st;
+	while (count > 0){
+		if(isPresent(curr)){
+			printf("An intermediate page with address = %p is present.\n", curr);
+			fflush(stdout);
+			exit(-1);
+		}
+		count--;
+		curr = nextPage(curr);
+	}
+}
+
 int Universe::getContiguousPageFetches(void *address){
 	int pageFetchesRequired, count = 0;
 	void *nextPageAdd = address;
 	pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+	check(nextPageAdd, pageFetchesRequired - 1);
 	count += pageFetchesRequired;
     nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
 	while(true){
@@ -815,8 +829,9 @@ int Universe::getContiguousPageFetches(void *address){
 		}
 		if(pageFetchesRequired == 1)
 			return count;
-		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
 		pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+		check(nextPageAdd, pageFetchesRequired - 1);
+		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
 		count += pageFetchesRequired;
 	}
 }

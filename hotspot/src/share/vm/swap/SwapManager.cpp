@@ -99,21 +99,21 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes -1);
 
   // Checking if the first page is partially filled.
-  if (Universe::isPartiallyFilled((void *)bufferStart)){
-   metadataMapIter mIter = _metaDataMap.find(bufferStart);
-   if(mIter == _metaDataMap.end()){
-	   printf("SwapManager::remapPage::Entry for page (address = %p, pageStart = %p) not found within"
-			   " the metadata map. Exiting.\n", address, bufferStart);
-	   fflush(stdout);
-	   exit(1);
-   }
-   PageMetaData pMetadata = mIter->second;
-   int prefilledBytes = pMetadata.getPrefilledBytes();
-   bufferStart += prefilledBytes;
-   numberBytes -= prefilledBytes;
-   ssdStartOffset += prefilledBytes;
-   _metaDataMap.erase(bufferStart);
-  }
+//  if (Universe::isPartiallyFilled((void *)bufferStart)){
+//   metadataMapIter mIter = _metaDataMap.find(bufferStart);
+//   if(mIter == _metaDataMap.end()){
+//	   printf("SwapManager::remapPage::Entry for page (address = %p, pageStart = %p) not found within"
+//			   " the metadata map. Exiting.\n", address, bufferStart);
+//	   fflush(stdout);
+//	   exit(1);
+//   }
+//   PageMetaData pMetadata = mIter->second;
+//   int prefilledBytes = pMetadata.getPrefilledBytes();
+//   bufferStart += prefilledBytes;
+//   numberBytes -= prefilledBytes;
+//   ssdStartOffset += prefilledBytes;
+//   _metaDataMap.erase(bufferStart);
+//  }
 
   // If the last page is present, we do not fetch the last page.
   bool lastPageIsPresent = Universe::isPresent((void *)bufferEnd);
@@ -151,14 +151,14 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   }
 
   // Marking the current page fetched
-  Universe::markPageFetched(address);
-  if (numPages == 1){
-	  return;
-  }
+//  Universe::markPageFetched(address);
+//  if (numPages == 1){
+//	  return;
+//  }
 
-  char* curr = (char *)object_va_to_page_start(address) + _PAGE_SIZE;
+  char* curr = (char *)object_va_to_page_start(address) ;//+ _PAGE_SIZE;
   // Marking all the intermediate pages as fetched in.
-  for (int count = 1; count < numPages; count++){
+  for (int count = 0; count < numPages; count++){
 	  Universe::markPageFetched(curr);
 	  curr += _PAGE_SIZE;
   }
