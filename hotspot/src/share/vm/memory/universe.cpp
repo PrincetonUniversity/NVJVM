@@ -803,27 +803,35 @@ void *nextPageInc (void *address, int count){
 	return((void *)((char *)address + count * sysconf(_SC_PAGE_SIZE)));
 }
 
-void Universe::check(void* st, int count){
+int Universe::check(void* st, int count){
 	void* curr = st;
 	int initialCount = count;
+	int fetches = 0 ;
 	while (count > 0){
 		if(isPresent(curr)){
 			printf("An intermediate page with address = %p is present, "
 					"start address  = %p, "
 					"initial count = %d.\n", curr, st, initialCount);
 			fflush(stdout);
-			exit(-1);
+			break;
 		}
 		count--;
 		curr = nextPage(curr);
+		fetches++;
 	}
+	return fetches;
 }
 
 int Universe::getContiguousPageFetches(void *address){
-	int pageFetchesRequired, count = 0;
+	int pageFetchesRequired, count = 0, val;
 	void *nextPageAdd = address;
 	pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
-	check(nextPageAdd, pageFetchesRequired - 1);
+	// If an intermediate
+	val = check(nextPageAdd, pageFetchesRequired - 1);
+	if(val == (pageFetchesRequired - 1)){
+		count += val;
+		return count;
+	}
 	count += pageFetchesRequired;
     nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
 	while(true){
@@ -833,7 +841,11 @@ int Universe::getContiguousPageFetches(void *address){
 		if(pageFetchesRequired == 1)
 			return count;
 		pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
-		check(nextPageAdd, pageFetchesRequired - 1);
+		val = check(nextPageAdd, pageFetchesRequired - 1);
+		if(val == (pageFetchesRequired - 1)){
+			count += val;
+			return count;
+		}
 		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
 		count += pageFetchesRequired;
 	}
@@ -923,7 +935,11 @@ void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t startPage = (uint64_t)obj / sysconf(_SC_PAGE_SIZE);
 	char diff = (char)(endPage - startPage);
     uint64_t position = getPrefetchTablePosition(obj);
-    *(char *)position = diff;
+    while(diff > 0){
+    	*(char *)position = diff;
+    	position++;
+    	diff--;
+    }
 }
 
 jint universe_init() {
