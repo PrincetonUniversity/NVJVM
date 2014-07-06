@@ -45,7 +45,6 @@ void SSDSwap::swapInRegion(void *addr) {
 
 
 void SSDSwap::handle_faults(void *addr) {
-
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p.\n", addr);
 		fflush(stdout);
@@ -57,7 +56,6 @@ void SSDSwap::handle_faults(void *addr) {
 		printf("SSDSwap:handle_faults called on address = %p. Entering RemapPage.\n", addr);
 		fflush(stdout);
 	}
-
 	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p. RemapPage Done.\n", addr);
