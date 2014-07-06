@@ -5198,24 +5198,23 @@ void G1CollectedHeap::evacuate_collection_set() {
   }
 
   if(DO_SWAP){
-  	  // Iterate over the collection set and swap out
-	  HeapRegion *hr;
-	  int purpose = -1;
-	  GrowableArray<HeapRegion*> regionsL = _hrs->getRegions();
-	  int len = regionsL.length();
-//	  int count;
-//	  for (count = len; count < len; count++){
-//		  hr = _regions.at(count);
-//		  if(hr != NULL){
-//			  purpose = hr->getPurpose();
-//			  if((purpose == GCAllocForSurvivedCold || purpose == GCAllocForTenuredCold) &&
-//					  (hr->isInMemory()) && (!(hr->is_empty()))){
-//				  swapOutRegion(hr);
-//				  _swappedOutMem += hr->used();
-//			  }
-//		  }
-//	  }
-  }
+   	  // Iterate over the collection set and swap out
+ 	  HeapRegion *hr;
+ 	  int purpose = -1;
+ 	  int len = _hrs->length();
+ 	  int count;
+ 	  for (count = 0; count < len; count++){
+ 		  hr = _hrs->at(count);
+ 		  if(hr != NULL){
+ 			  purpose = hr->getPurpose();
+ 			  if((purpose == GCAllocForSurvivedCold || purpose == GCAllocForTenuredCold) &&
+ 					  (hr->isInMemory()) && (!(hr->is_empty()))){
+ 				  swapOutRegion(hr);
+ 				  _swappedOutMem += hr->used();
+ 			  }
+ 		  }
+ 	  }
+   }
 
 //	  GCAllocPurpose purpose = GCAllocForTenuredCold;
 //
