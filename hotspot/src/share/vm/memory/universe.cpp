@@ -842,7 +842,7 @@ int Universe::getContiguousPageFetches(void *address){
 int Universe::getNumberOfPrefetches(void* address){
 	char* position = (char *)getPrefetchTablePosition(address);
 	char numberOfPrefetches = *position;
-	printf("getNumberOfPrefetches::Address = %p, %d.\n", numberOfPrefetches);
+	printf("getNumberOfPrefetches::Address = %p, %d.\n", address, numberOfPrefetches);
 	fflush(stdout);
 	return (int)numberOfPrefetches;
 }
