@@ -97,7 +97,7 @@
 #include "gc_implementation/parallelScavenge/parallelScavengeHeap.hpp"
 #endif
 
-void *Universe::_partialPageTable = NULL; // table for storing region bitmap
+void *Universe::_partialPageTable = NULL; // table for storing offsets occupied on partial pages
 void *Universe::_regionTable = NULL; // table for storing region bitmap
 void *Universe::_prefetchTable = NULL; // table for storing region bitmap
 size_t Universe::_regionTableSize = 0;
@@ -958,13 +958,14 @@ void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
 	uint64_t startPage = (uint64_t)obj / sysconf(_SC_PAGE_SIZE);
 	char diff = (char)(endPage - startPage);
+	char initDiff = diff;
     uint64_t position = getPrefetchTablePosition(obj);
     while(diff > 0){
     	*(char *)position = diff;
     	position++;
     	diff--;
     }
-   if(diff > 0){
+   if(initDiff > 0){
 	   uint64_t endPageStart = (uint64_t)getPageStart((void *)end);
 	   uint16_t *ppPosition = (uint16_t *)getPartialPageTablePosition((void *)end);
    	   uint16_t offset = (uint16_t)(end - endPageStart + 1);
