@@ -99,7 +99,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes -1);
 
   // Checking if the first page is partially filled.
-//  if (Universe::isPartiallyFilled((void *)bufferStart)){
+  if (Universe::isPartiallyFilled((void *)bufferStart)){
 //   metadataMapIter mIter = _metaDataMap.find(bufferStart);
 //   if(mIter == _metaDataMap.end()){
 //	   printf("SwapManager::remapPage::Entry for page (address = %p, pageStart = %p) not found within"
@@ -108,12 +108,12 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	   exit(1);
 //   }
 //   PageMetaData pMetadata = mIter->second;
-//   int prefilledBytes = pMetadata.getPrefilledBytes();
-//   bufferStart += prefilledBytes;
-//   numberBytes -= prefilledBytes;
-//   ssdStartOffset += prefilledBytes;
+   int prefilledBytes = (int)(*(uint16_t *)Universe::getPartialPageTablePosition(address));
+   bufferStart += prefilledBytes;
+   numberBytes -= prefilledBytes;
+   ssdStartOffset += prefilledBytes;
 //   _metaDataMap.erase(bufferStart);
-//  }
+  }
 
   // If the last page is present, we do not fetch the last page.
   bool lastPageIsPresent = Universe::isPresent((void *)bufferEnd);
@@ -163,17 +163,16 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  curr += _PAGE_SIZE;
   }
 
- return;
 // // If the last page is already fetched in, no need to do any mark update
-// if(lastPageIsPresent)
-//	 return;
+ if(lastPageIsPresent)
+	 return;
 //
-//// Else update the last page
-// // Checking the condition for the last page
-// char* lastPage = curr;
-// int lPre = Universe::getNumberOfPrefetches(lastPage);
-// // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
-// if(lPre > 0 && partialCheck){
+// Else update the last page
+ // Checking the condition for the last page
+ char* lastPage = curr;
+ int lPre = Universe::getNumberOfPrefetches(lastPage);
+ // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
+ if(lPre > 0 && partialCheck){
 //	 printf("Partially marking page for address %p. lPre = %d\n", address, lPre); fflush(stdout);
 //	 oop obj = (oop) (address);
 //	 printf("Partially marking page for address %p. Reading Object Size.\n", address); fflush(stdout);
@@ -182,16 +181,16 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	 printf("Partially marking page for address %p. Object Size = %d.\n", address, objSize); fflush(stdout);
 //	 char* objEnd = (char *)address + objSize - 1;
 //	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
-//	 long offset = (long)(objEnd - objEndPageSt);
+//	 uint16_t offset = *(uint16_t *)getPartialPageTablePosition(lastPage);
 //	 printf("Partially marking page for address %p. Offset = %ld\n", address, offset); fflush(stdout);
 //	 PageMetaData* p = new PageMetaData((int)offset);
 //	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
 //	 _metaDataMap.insert(pair);
-//	 Universe::markPartiallyFetched((void*) lastPage);
-// } else {
-//	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
-//	 Universe::markPageFetched(lastPage);
-// }
+	 Universe::markPartiallyFetched((void*) lastPage);
+ } else {
+	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
+	 Universe::markPageFetched(lastPage);
+ }
 
 /*  bool lastPagePartiallyFilled =
   if(!lastPageIsPresent && )

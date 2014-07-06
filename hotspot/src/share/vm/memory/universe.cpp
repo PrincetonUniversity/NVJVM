@@ -837,30 +837,43 @@ bool Universe::check(void* st, int count, int *fetches){
 }
 
 int Universe::getContiguousPageFetches(void *address){
-	int pageFetchesRequired, count = 0, val;
-	void *nextPageAdd = address;
-	pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+	int pageFetchesRequired, count = 0;
+	void *curr = address;
+	pageFetchesRequired = getNumberOfPrefetches(address) + 1;
+	while (pageFetchesRequired > 0){
+			if(isPresent(curr)){
+				printf("An intermediate page with address = %p is present, "
+						"start address  = %p, Count = %d."
+						"\n", curr, address, count);
+				fflush(stdout);
+				break;
+			}
+			count++;
+			curr = nextPage(curr);
+			pageFetchesRequired--;
+		}
+	return count;
 	// If an intermediate page is present
-	if(check(nextPageAdd, pageFetchesRequired - 1, &val)){
-		count += val;
-		return count;
-	}
-	count += pageFetchesRequired;
-    nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
-	while(true){
-		if(isPresent(nextPageAdd)){
-			return (count - 1);
-		}
-		if(pageFetchesRequired == 1)
-			return count;
-		pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
-		if(check(nextPageAdd, pageFetchesRequired - 1, &val)){
-			count += val;
-			return count;
-		}
-		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
-		count += pageFetchesRequired;
-	}
+//	if(check(nextPageAdd, pageFetchesRequired - 1, &val)){
+//		count += val;
+//		return count;
+//	}
+//	count += pageFetchesRequired;
+//    nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
+//	while(true){
+//		if(isPresent(nextPageAdd)){
+//			return (count - 1);
+//		}
+//		if(pageFetchesRequired == 1)
+//			return count;
+//		pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+//		if(check(nextPageAdd, pageFetchesRequired - 1, &val)){
+//			count += val;
+//			return count;
+//		}
+//		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
+//		count += pageFetchesRequired;
+//	}
 }
 
 int Universe::getNumberOfPrefetches(void* address){
