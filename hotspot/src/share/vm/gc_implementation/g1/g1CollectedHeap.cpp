@@ -902,9 +902,8 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 				  "\n", buf, end, bottom, bufSize); fflush(stdout);
 	  }
 	  SSDSwap::swapOut(end, bottom, top);
-	  buf->swappedOut();
+//	  buf->swappedOut();
 }
-
 
 HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
   assert_heap_not_locked_and_not_at_safepoint();
