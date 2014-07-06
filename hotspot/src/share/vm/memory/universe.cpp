@@ -795,6 +795,32 @@ void Universe::allocatePrefetchTable(size_t size){
 	}
 }
 
+void *nextPage (void *address){
+	return((void *)((char *)address + sysconf(_SC_PAGE_SIZE)));
+}
+
+void *nextPageInc (void *address, int count){
+	return((void *)((char *)address + count * sysconf(_SC_PAGE_SIZE)));
+}
+
+int Universe::getContiguousPageFetches(void *address){
+	int pageFetchesRequired, count = 0;
+	void *nextPageAdd = address;
+	pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+	count += pageFetchesRequired;
+    nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
+	while(true){
+		if(isPresent(nextPageAdd)){
+			return (count - 1);
+		}
+		if(pageFetchesRequired == 1)
+			return count;
+		nextPageAdd = nextPageInc(nextPageAdd, pageFetchesRequired - 1);
+		pageFetchesRequired = getNumberOfPrefetches(nextPageAdd) + 1;
+		count += pageFetchesRequired;
+	}
+}
+
 int Universe::getNumberOfPrefetches(void* address){
 	char* position = (char *)getPrefetchTablePosition(address);
 	char numberOfPrefetches = *position;

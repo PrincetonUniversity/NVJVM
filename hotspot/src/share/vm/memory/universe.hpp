@@ -308,6 +308,7 @@ class Universe: AllStatic {
   static uint64_t getPrefetchTablePosition(void *address);
   static uint64_t getRegionTablePosition(void *address);
   static int getNumberOfPrefetches(void *address);
+  static int getContiguousPageFetches(void *address);
 
   static size_t getSwapChunkSize()						  {  return _swapChunkSize; }
   static void* getPrefetchTable()						  {  return _prefetchTable;}

@@ -87,8 +87,9 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   }
 
   // Find the number of pages to be pre-fetched
-  int numPrefetches = Universe::getNumberOfPrefetches(address);
-  int numPages = numPrefetches + 1;
+  int numPages = Universe::getContiguousPageFetches(address);
+//  int numPages = numPrefetches + 1;
+
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p.\n", numPages, address);
 	  fflush(stdout);
@@ -162,34 +163,35 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  curr += _PAGE_SIZE;
   }
 
- // If the last page is already fetched in, no need to do any mark update
- if(lastPageIsPresent)
-	 return;
-
-// Else update the last page
- // Checking the condition for the last page
- char* lastPage = curr;
- int lPre = Universe::getNumberOfPrefetches(lastPage);
- // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
- if(lPre > 0 && partialCheck){
-	 printf("Partially marking page for address %p. lPre = %d\n", address, lPre); fflush(stdout);
-	 oop obj = (oop) (address);
-	 printf("Partially marking page for address %p. Reading Object Size.\n", address); fflush(stdout);
-	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
-	 int objSize = obj->size() * HeapWordSize;
-	 printf("Partially marking page for address %p. Object Size = %d.\n", address, objSize); fflush(stdout);
-	 char* objEnd = (char *)address + objSize - 1;
-	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
-	 long offset = (long)(objEnd - objEndPageSt);
-	 printf("Partially marking page for address %p. Offset = %ld\n", address, offset); fflush(stdout);
-	 PageMetaData* p = new PageMetaData((int)offset);
-	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
-	 _metaDataMap.insert(pair);
-	 Universe::markPartiallyFetched((void*) lastPage);
- } else {
-	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
-	 Universe::markPageFetched(lastPage);
- }
+ return;
+// // If the last page is already fetched in, no need to do any mark update
+// if(lastPageIsPresent)
+//	 return;
+//
+//// Else update the last page
+// // Checking the condition for the last page
+// char* lastPage = curr;
+// int lPre = Universe::getNumberOfPrefetches(lastPage);
+// // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
+// if(lPre > 0 && partialCheck){
+//	 printf("Partially marking page for address %p. lPre = %d\n", address, lPre); fflush(stdout);
+//	 oop obj = (oop) (address);
+//	 printf("Partially marking page for address %p. Reading Object Size.\n", address); fflush(stdout);
+//	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
+//	 int objSize = obj->size() * HeapWordSize;
+//	 printf("Partially marking page for address %p. Object Size = %d.\n", address, objSize); fflush(stdout);
+//	 char* objEnd = (char *)address + objSize - 1;
+//	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
+//	 long offset = (long)(objEnd - objEndPageSt);
+//	 printf("Partially marking page for address %p. Offset = %ld\n", address, offset); fflush(stdout);
+//	 PageMetaData* p = new PageMetaData((int)offset);
+//	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
+//	 _metaDataMap.insert(pair);
+//	 Universe::markPartiallyFetched((void*) lastPage);
+// } else {
+//	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
+//	 Universe::markPageFetched(lastPage);
+// }
 
 /*  bool lastPagePartiallyFilled =
   if(!lastPageIsPresent && )
