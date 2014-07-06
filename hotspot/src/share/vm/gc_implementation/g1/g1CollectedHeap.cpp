@@ -5206,14 +5206,14 @@ void G1CollectedHeap::evacuate_collection_set() {
 	  int count;
 	  for (count = 0; count < len; count++){
 		  hr = _regions.at(count);
-		  if(hr != NULL){
-			  purpose = hr->getPurpose();
+//		  if(hr != NULL){
+//			  purpose = hr->getPurpose();
 //			  if((purpose == GCAllocForSurvivedCold || purpose == GCAllocForTenuredCold) &&
 //					  (hr->isInMemory()) && (!(hr->is_empty()))){
 //				  swapOutRegion(hr);
 //				  _swappedOutMem += hr->used();
-			  }
-		  }
+//			  }
+//		  }
 	  }
   }
 
