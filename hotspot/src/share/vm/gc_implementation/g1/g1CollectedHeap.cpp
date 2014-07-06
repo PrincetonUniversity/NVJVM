@@ -5199,10 +5199,10 @@ void G1CollectedHeap::evacuate_collection_set() {
 
   if(DO_SWAP){
   	  // Iterate over the collection set and swap out
-//	  HeapRegion *hr;
-//	  int purpose = -1;
-//	  GrowableArray<HeapRegion*> _regions = _hrs->getRegions();
-//	  int len = _regions.length();
+	  HeapRegion *hr;
+	  int purpose = -1;
+	  GrowableArray<HeapRegion*> regionsL = _hrs->getRegions();
+	  int len = regionsL.length();
 //	  int count;
 //	  for (count = len; count < len; count++){
 //		  hr = _regions.at(count);
