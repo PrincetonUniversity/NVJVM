@@ -43,6 +43,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 		if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
 			perror("error :");
 			printf("Error In Protecting Page %p \n", va); fflush(stdout);
+			exit(-1);
 		}
 	}
 

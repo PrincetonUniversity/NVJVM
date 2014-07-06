@@ -119,6 +119,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   bool lastPageIsPresent = Universe::isPresent((void *)bufferEnd);
   if (lastPageIsPresent){
 	  numberBytes -= _PAGE_SIZE;
+	  numPages--;
   }
 
   if(numberBytes == 0){
@@ -136,10 +137,11 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   if(lastPageIndex < numPagesSwappedOut){
 	  // Reading the pages from SSD.
 		if(Swap_Protect){
-			if (mprotect (bufferStart, numberBytes, PROT_READ | PROT_WRITE) == -1){
+			if (mprotect (Utility::getPageStart((void *)bufferStart), numPages * _PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
 				perror("error :");
 				printf("Error In Removing Protecting Page = %p, Number of Bytes %d. \n", bufferStart, numberBytes);
 				fflush(stdout);
+				exit(-1);
 			}
 		}
 		size_t len = SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
