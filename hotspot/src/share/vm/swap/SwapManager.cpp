@@ -158,7 +158,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   char* curr = (char *)object_va_to_page_start(address) + _PAGE_SIZE;
   // Marking all the intermediate pages as fetched in.
-  for (int count = 1; count < numPages - 1; count++){
+  for (int count = 1; count < numPages; count++){
 	  Universe::markPageFetched(curr);
 	  curr += _PAGE_SIZE;
   }
