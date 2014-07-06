@@ -888,6 +888,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  }
 	  // This would result in iteration over all the objects present in the region which is being swapped out.
 	  if(L_ITERATE){
+		  printf("L_ITERATE true \n."); fflush(stdout);
 		  BMOopClosure bmOopClosure(concurrent_mark());
 		  buf->oop_iterate(&bmOopClosure);
 	  }
