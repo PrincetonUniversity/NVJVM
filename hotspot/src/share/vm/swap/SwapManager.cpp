@@ -122,9 +122,12 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   }
 
   if(numberBytes == 0){
+	  int pB = (int)(*(uint16_t *)Universe::getPartialPageTablePosition(address));
 	  printf("The number of bytes to be fetched is 0. "
 			  "There is some problem. Exiting."
-			  "\n");
+			  "Last Page is Present = %d."
+			  "Prefilled Bytes = %d."
+			  "IsPartiallyFilled = %d\n", lastPageIsPresent, pB, Universe::isPartiallyFilled((void *)address));
 	  fflush(stdout);
 	  exit(1);
   }
