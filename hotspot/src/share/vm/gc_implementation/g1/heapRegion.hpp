@@ -32,6 +32,7 @@
 #include "gc_implementation/shared/spaceDecorator.hpp"
 #include "memory/space.inline.hpp"
 #include "memory/watermark.hpp"
+#include "memory/universe.hpp"
 
 #ifndef SERIALGC
 
@@ -374,6 +375,22 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   void setPurpose(int p){
 	  _purpose = p;
+  }
+
+  void clearTables(){
+	  // Code to clear all the three tables
+	  int numberOfBytes = capacity() / sysconf(_SC_PAGE_SIZE); // Total number of pages
+	  if(numberOfBytes != 256){
+		  printf("Calculating is wrong. Check.\n");
+		  exit(-1);
+	  }
+	  void *start = (void *)bottom();
+	  void* position = (void *)Universe::getRegionTablePosition(start);
+	  memset(position, Universe::_presentMask, numberOfBytes);
+	  position = (void *)Universe::getPrefetchTablePosition(start);
+	  memset(position, 0, numberOfBytes);
+	  position = (void *)Universe::getPartialPageTablePosition(start);
+	  memset(position, 0, 2 * numberOfBytes);
   }
 
   bool isInMemory(){

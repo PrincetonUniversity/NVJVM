@@ -64,7 +64,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	  exit(1);
   }
   if(Universe::isPresent(address)){
-	  printf("SwapManager::remapPage::The page is already present in memory. Probably two different threads accessed the same page. One of the threads "
+	  printf("SwapManager::remapPage::The page (%p = address) is already present in memory. Probably two different threads accessed the same page. One of the threads "
 			  "fetched in the page. Therefore, this thread can proceed safely.\n");
 	  fflush(stdout);
 	  return;
@@ -120,8 +120,11 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   if (lastPageIsPresent){
 	  numberBytes -= _PAGE_SIZE;
   }
+
   if(numberBytes == 0){
-	  printf("The number of bytes to be fetched is 0. There is some problem. Exiting.\n");
+	  printf("The number of bytes to be fetched is 0. "
+			  "There is some problem. Exiting."
+			  "\n");
 	  fflush(stdout);
 	  exit(1);
   }
