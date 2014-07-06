@@ -93,7 +93,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	int off = SSDManager::get(swapRange->getNumPages()); // Synchronized method
 	int numPagesToRelease = Utility::getNumPages(top, bot);
 	printf("Releasing Number Of Pages = %d.\n", numPagesToRelease);
-	SwapManager::swapRange(swapRange, off, numPagesToRelease);
+//	SwapManager::swapRange(swapRange, off, numPagesToRelease);
 	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
 		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");
@@ -101,7 +101,6 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	}
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapOutTime(time1, time2);
-
 }
 
 // Here, we mark only those pages as paged out that have objects within the page.
