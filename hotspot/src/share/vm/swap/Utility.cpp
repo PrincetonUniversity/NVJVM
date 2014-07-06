@@ -41,3 +41,11 @@ int Utility::getNumPages(void *top, void*bot){
 	void *bot_l = getPageStart(bot);
 	return (((long)top_l - (long)bot_l)/(_PAGE_SIZE)) + 1;
 }
+
+void *Utility::nextPage (void *address){
+	return((void *)((char *)address + _PAGE_SIZE));
+}
+
+void *Utility::nextPageInc (void *address, int count){
+	return((void *)((char *)address + count * _PAGE_SIZE));
+}
