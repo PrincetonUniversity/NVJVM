@@ -331,7 +331,7 @@ class Universe: AllStatic {
   static void setPartialPageTableBase(void *base)		  { _partialPageTable = base; }
   static void* getPartialPageTableBase() { return _partialPageTable; }
   static size_t getPartialPageTableSize() { return _partialPageTableSize; }
-  static size_t getPartialPageTableEnd() { return (void *)((char *)_partialPageTable + _partialPageTableSize); }
+  static void* getPartialPageTableEnd() { return (void *)((char *)_partialPageTable + _partialPageTableSize); }
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
