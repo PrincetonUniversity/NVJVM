@@ -756,7 +756,7 @@ void TemplateTable::aaload() {
           UseCompressedOops ? Address::times_4 : Address::times_8,
           arrayOopDesc::base_offset_in_bytes(T_OBJECT));
   __ load_heap_oop(rax, object);
-  interceptObject(object);
+  //interceptObject(object);
   /*Address(rdx, rax, UseCompressedOops ? Address::times_4 : Address::times_8, arrayOopDesc::base_offset_in_bytes(T_OBJECT)));*/
 
 }
