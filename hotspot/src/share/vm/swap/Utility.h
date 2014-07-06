@@ -18,7 +18,7 @@ public:
 	static void* getPageEnd(void *address);
 	static int getNumPages(void *s, void *e);
 	static void* nextPage(void *);
-	static void* nextPageInc(void *);
+	static void* nextPageInc(void *, int);
 };
 
 #endif /* UTILITY_H_ */
