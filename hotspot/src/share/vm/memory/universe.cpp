@@ -805,10 +805,12 @@ void *nextPageInc (void *address, int count){
 
 void Universe::check(void* st, int count){
 	void* curr = st;
+	int initialCount = count;
 	while (count > 0){
 		if(isPresent(curr)){
 			printf("An intermediate page with address = %p is present, "
-					"start address  = %p, count = %d.\n", curr, st, count);
+					"start address  = %p, "
+					"initial count = %d.\n", curr, st, initialCount);
 			fflush(stdout);
 			exit(-1);
 		}
@@ -840,6 +842,8 @@ int Universe::getContiguousPageFetches(void *address){
 int Universe::getNumberOfPrefetches(void* address){
 	char* position = (char *)getPrefetchTablePosition(address);
 	char numberOfPrefetches = *position;
+	printf("getNumberOfPrefetches::Address = %p, %d.\n", numberOfPrefetches);
+	fflush(stdout);
 	return (int)numberOfPrefetches;
 }
 
