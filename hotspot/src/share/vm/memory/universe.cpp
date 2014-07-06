@@ -807,7 +807,8 @@ void Universe::check(void* st, int count){
 	void* curr = st;
 	while (count > 0){
 		if(isPresent(curr)){
-			printf("An intermediate page with address = %p is present.\n", curr);
+			printf("An intermediate page with address = %p is present, "
+					"start address  = %p, count = %d.\n", curr, st, count);
 			fflush(stdout);
 			exit(-1);
 		}
