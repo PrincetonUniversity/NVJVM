@@ -161,10 +161,12 @@ class Universe: AllStatic {
   static klassOop _compiledICHolderKlassObj;
   static klassOop _systemObjArrayKlassObj;
 
+  static void *_partialPageTable;
   static void *_regionTable; // table for storing region bitmap
   static void *_prefetchTable; // number of consecutive pages to be fetched in for each page
   static size_t _regionTableSize;
   static size_t _prefetchTableSize;
+  static size_t _partialPageTableSize;
   static uint64_t _heapEnd; // Start of the heap
   static uint64_t _heapStart; // Start of the heap
   static uint64_t _heapSize;  // Heap Size
@@ -324,9 +326,12 @@ class Universe: AllStatic {
   static void* getRegionTable()						  {  return _regionTable;}
   static size_t getRegionTableSize()				  {  return _regionTableSize; }
   static void setRegionTableSize(size_t size)	      { _regionTableSize = size; }
-  static void setRegionTable(void *start)			  {_regionTable = start;
-  	  	  	  printf("Region table's base set at %p\n", start); fflush(stdout);
-  }
+  static void setRegionTable(void *start)			  {_regionTable = start; }
+  static void setPartialPageTableSize(size_t size)	      { _partialPageTableSize = size; }
+  static void setPartialPageTableBase(void *base)		  { _partialPageTable = base; }
+  static void* getPartialPageTableBase() { return _partialPageTable; }
+  static size_t getPartialPageTableSize() { return _partialPageTableSize; }
+  static size_t getPartialPageTableEnd() { return (void *)((char *)_partialPageTable + _partialPageTableSize); }
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }

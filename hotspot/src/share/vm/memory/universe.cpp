@@ -773,6 +773,18 @@ void* Universe::non_oop_word() {
   return (void*)non_oop_bits;
 }
 
+void Universe::allocatePartialPageTable(size_t size){
+	void* partialPageTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
+	memset(partialPageTableBase, 0, size);
+	Universe::setPartialPageTableBase(regionTableBase);
+	Universe::setPartialPageTableSize(size);
+	if(P_INIT || true) {
+		size_t partialPageTableSize = size / (1024);
+		printf("Initializing Region Table %p. Size = %zu KB.\n", partialPageTableBase, partialPageTableSize);
+		fflush(stdout);
+	}
+}
+
 void Universe::allocateRegionTable(size_t size){
 	void* regionTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
 	memset(regionTableBase, 0, size);
@@ -927,6 +939,14 @@ uint64_t Universe::getPrefetchTablePosition(void *object){
     return position;
 }
 
+uint64_t Universe::getPartialPageTablePosition(void *object){
+    uint64_t objCast = (uint64_t)object;
+    uint64_t objOffset = objCast - Universe::getHeapStart();
+    uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
+    uint64_t position = regionI*2 + (uint64_t)Universe::getPartialPageTableBase();
+    return position;
+}
+
 void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t end = (uint64_t)obj + size - 1;
 	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
@@ -981,6 +1001,7 @@ jint universe_init() {
 //  }
   Universe::allocateRegionTable(tableSize);
   Universe::allocatePrefetchTable(tableSize);
+  Universe::allocatePartialPageTable(2*tableSize);
   if(true){
 	  printf("Heap Start %p, Heap End %p.\n", Universe::getHeapStart(), Universe::getHeapEnd());
 	  fflush(stdout);
