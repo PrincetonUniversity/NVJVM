@@ -903,7 +903,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 				  "\n", buf, end, bottom, bufSize); fflush(stdout);
 	  }
 	  SSDSwap::swapOut(end, bottom, top);
-//	  buf->swappedOut();
+	  buf->swappedOut();
 }
 
 HeapWord* G1CollectedHeap::allocate_new_tlab(size_t word_size) {
