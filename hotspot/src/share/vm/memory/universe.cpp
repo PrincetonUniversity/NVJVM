@@ -958,6 +958,8 @@ void Universe::markPrefetchTable(void *obj, int size){
     	position++;
     	diff--;
     }
+   char *ppPosition = (char *)getPartialPageTablePosition((void *)endPage);
+
 }
 
 jint universe_init() {
