@@ -51,6 +51,7 @@ bool liesWithin(void *address, void *top, void *bottom){
  * come from zero filled pages also. For those pages there is no
  */
 void SwapManager::remapPage(void *address, bool partialCheck = true){
+  return;
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage:: In remapPage, swapping in page address %p.\n", address); fflush (stdout);
   }

@@ -45,6 +45,7 @@ void SSDSwap::swapInRegion(void *addr) {
 
 
 void SSDSwap::handle_faults(void *addr) {
+
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p.\n", addr);
 		fflush(stdout);
@@ -108,10 +109,11 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 
 void SSDSwap::markRegionSwappedOut(void *addr, int n){
 	char* position = (char *)Universe::getRegionTablePosition(addr);
+	char* endPosition = position  + n - 1;
 	memset(position, Universe::_notPresentMask, n);
 	if(L_SWAP){
 		printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n",
-				(char *)Universe::getRegionTablePosition(addr), position + n);
+				(char *)Universe::getRegionTablePosition(addr), endPosition);
 		fflush(stdout);
 	}
 }
