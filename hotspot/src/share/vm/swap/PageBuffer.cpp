@@ -47,11 +47,11 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 
 	// Marking the region as not needed so that the OS can free the resources
-	if (madvise (va, (unsigned long)(numPagesToRelease * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
-		perror("error :");
-		printf("Error In Protecting Page %p \n", va);
-		fflush(stdout);
-		exit(1);
-	}
+//	if (madvise (va, (unsigned long)(numPagesToRelease * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+//		perror("error :");
+//		printf("Error In Protecting Page %p \n", va);
+//		fflush(stdout);
+//		exit(1);
+//	}
 	return ssdRange;
 }
