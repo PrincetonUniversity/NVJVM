@@ -593,7 +593,7 @@ void TemplateTable::interceptObject(Address object) {
   // Saving variables which we would be needing later on
   __ push(r10);
   __ push(r11);
-  __ push(r14);
+  __ push(rdx);
 
   Label nullObj, isPresent;
 
@@ -621,7 +621,7 @@ void TemplateTable::interceptObject(Address object) {
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
-  __ pop(r14);
+  __ pop(rdx);
   __ pop(r11);
   __ pop(r10);
 }
@@ -753,7 +753,7 @@ void TemplateTable::aaload() {
   Address object = Address(rdx, rax,
           UseCompressedOops ? Address::times_4 : Address::times_8,
           arrayOopDesc::base_offset_in_bytes(T_OBJECT));
-//  interceptObject(object);
+  interceptObject(object);
   __ load_heap_oop(rax, object);
   /*Address(rdx, rax, UseCompressedOops ? Address::times_4 : Address::times_8, arrayOopDesc::base_offset_in_bytes(T_OBJECT)));*/
 
