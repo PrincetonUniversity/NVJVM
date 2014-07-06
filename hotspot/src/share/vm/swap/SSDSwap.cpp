@@ -93,7 +93,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 	int numPagesToRelease = Utility::getNumPages(top, bot);
 	printf("Releasing Number Of Pages = %d.\n", numPagesToRelease);
 	SwapManager::swapRange(swapRange, off, numPagesToRelease);
-	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
+//	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
 		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");
 		fflush(stdout);
