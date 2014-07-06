@@ -776,7 +776,7 @@ void* Universe::non_oop_word() {
 void Universe::allocatePartialPageTable(size_t size){
 	void* partialPageTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
 	memset(partialPageTableBase, 0, size);
-	Universe::setPartialPageTableBase(regionTableBase);
+	Universe::setPartialPageTableBase(partialPageTableBase);
 	Universe::setPartialPageTableSize(size);
 	if(P_INIT || true) {
 		size_t partialPageTableSize = size / (1024);
@@ -947,6 +947,10 @@ uint64_t Universe::getPartialPageTablePosition(void *object){
     return position;
 }
 
+void* getPageStart(void *address){
+	return (void *)((long)address & (~(sysconf(_SC_PAGE_SIZE)-1)));
+}
+
 void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t end = (uint64_t)obj + size - 1;
 	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
@@ -958,8 +962,12 @@ void Universe::markPrefetchTable(void *obj, int size){
     	position++;
     	diff--;
     }
-   char *ppPosition = (char *)getPartialPageTablePosition((void *)endPage);
-
+   if(diff > 0){
+	   uint64_t endPageStart = (uint64_t)getPageStart((void *)end);
+	   uint16_t *ppPosition = (uint16_t *)getPartialPageTablePosition((void *)end);
+   	   uint16_t offset = (uint16_t)(end - endPageStart + 1);
+   	   *ppPosition = offset;
+   }
 }
 
 jint universe_init() {
