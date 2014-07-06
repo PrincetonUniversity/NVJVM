@@ -859,6 +859,10 @@ void Universe::accessCheck(void *address){
 		SSDSwap::handle_faults(address);
 		printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
+		if(*(oop *)address == NULL){
+			char ch = *(char *)(*(oop *)address);
+			printf("%d\n", ch);
+		}
 		fflush(stdout);
 	}
 }

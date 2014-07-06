@@ -1891,8 +1891,8 @@ bool G1CollectedHeap::expand(size_t expand_bytes) {
                                        HeapRegion::GrainBytes);
 
   if ((Verbose && PrintGC) || true) {
-    gclog_or_tty->print("Expanding garbage-first heap from %ldK by %ldK",
-                           old_mem_size/K, aligned_expand_bytes/K);
+    gclog_or_tty->print("\nExpanding garbage-first heap from %ldMB by %ldMB \n",
+                           old_mem_size/(K*K), aligned_expand_bytes/(K*K));
   }
 
   HeapWord* old_end = (HeapWord*)_g1_storage.high();
