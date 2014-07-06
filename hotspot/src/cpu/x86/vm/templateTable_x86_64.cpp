@@ -593,6 +593,7 @@ void TemplateTable::interceptObject(Address object) {
   // Saving variables which we would be needing later on
   __ push(r10);
   __ push(r11);
+  __ push(r14);
 
   Label nullObj, isPresent;
 
@@ -620,6 +621,7 @@ void TemplateTable::interceptObject(Address object) {
   __ bind(nullObj);					  // binding the null label here
 
   // registers used intermediately are popped out
+  __ pop(r14);
   __ pop(r11);
   __ pop(r10);
 }
