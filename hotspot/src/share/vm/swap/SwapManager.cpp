@@ -172,7 +172,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   // Marking all the intermediate pages as fetched in.
   for (int count = 0; count < numPages - 1; count++){
 	  Universe::markPageFetched(curr);
-	  curr = Utility::nextPage(curr);
+	  curr = Utility::nextPage((void *)curr);
   }
 
 // // If the last page is already fetched in, no need to do any mark update
