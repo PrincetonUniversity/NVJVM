@@ -143,6 +143,8 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 				fflush(stdout);
 				exit(-1);
 			}
+			printf("Unprotecting From Page %p, Number of pages = %d.\n", Utility::getPageStart((void *)bufferStart), numPages);
+			fflush(stdout);
 		}
 		size_t len = SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
 		if(L_SWAP && REMAP){

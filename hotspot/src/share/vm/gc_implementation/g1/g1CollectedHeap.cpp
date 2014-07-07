@@ -58,14 +58,15 @@ struct sigaction oldSigAct;
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
-      printf("Segmentation fault on %p\n", addr); fflush(stdout);
+//      printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
 		  char *position = (char *)Universe::getRegionTablePosition(addr);
 		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 		  char prefetchValue = *prefetchPosition;
 		  char value = *position;
-		  printf("Segmentation fault. IsSwappedOut Value = %d, Prefetch Value = %d, at position = %p.\n",
-				  value, prefetchValue, position);
+		  printf("Segmentation fault. "
+				  "Add = %p, Page Index = %ld, IsSwappedOut Value = %d, Prefetch Value = %d, at position = %p.\n",
+				  addr, Universe::getPageIndex(addr), value, prefetchValue, position);
 		  fflush(stdout);
 // Fall back option, when we cannot detect object accesses
 		 if(value != Universe:: _presentMask){

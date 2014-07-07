@@ -966,6 +966,11 @@ void* getPageStart(void *address){
 	return (void *)((long)address & (~(sysconf(_SC_PAGE_SIZE)-1)));
 }
 
+long int Universe::getPageIndex(void *address){
+	return (((char *)getPageStart(address) - (char *)Universe::heap()->base())/sysconf(_SC_PAGE_SIZE));
+}
+
+
 void Universe::markPrefetchTable(void *obj, int size){
 	uint64_t end = (uint64_t)obj + size - 1;
 	uint64_t endPage = (uint64_t)end / sysconf(_SC_PAGE_SIZE);
