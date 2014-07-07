@@ -245,6 +245,14 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //  out: return;
 }
 
+void SwapManager::clearRegion(void *address){
+	swapMapIter iter = _swap_map.lower_bound(address);
+	if  (iter == _swap_map.end()){
+		return;
+	}
+	_swap_map.erase(iter);
+}
+
 void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {
 	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off, numPagesToRelease);
 	mapRange(swap_range->getEnd(), ssdRange);

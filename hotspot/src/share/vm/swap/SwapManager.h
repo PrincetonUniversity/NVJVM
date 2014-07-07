@@ -34,6 +34,7 @@ private:
 public:
 	SwapManager();
 	virtual ~SwapManager();
+	static void clearRegion(void *);
 	static void swapRange(SwapRange* swap_range, int off, int n);
 	static void mapRange(void *va, SSDRange ssdRange);
 	static SwapRange* addressRegion(void *sa, void *ea, void *top);

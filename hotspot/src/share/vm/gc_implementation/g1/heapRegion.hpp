@@ -34,6 +34,7 @@
 #include "memory/watermark.hpp"
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
+#include "swap/SwapManager.hpp"
 
 #ifndef SERIALGC
 
@@ -399,12 +400,13 @@ class HeapRegion: public G1OffsetTableContigSpace {
 				fflush(stdout);
 				exit(-1);
 		 } else {
-	  			printf("Unprotecting Page %p, index = %ld, Number of pages = %d.\n",
+	  			printf("Unprotecting Region starting at %p, index = %ld, Number of pages = %d.\n",
 	  					start, Universe::getPageIndex(start), numberOfBytes);
 	  			fflush(stdout);
 		 }
 	  }
 	  // Removing the entry from table if it exists
+	  SwapManager::clearRegion(start);
   }
 
   bool isInMemory(){
