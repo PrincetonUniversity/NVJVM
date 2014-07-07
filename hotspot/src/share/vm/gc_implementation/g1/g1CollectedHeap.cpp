@@ -56,10 +56,22 @@
 struct sigaction sa;
 struct sigaction oldSigAct;
 
+void *pointerSum(void *a, void *b){
+	return(
+			(void*)((char*)a + (char*)b);
+	);
+}
+
+bool liesWithinHeap(void *address){
+	void *start = Universe::heap()->base();
+	void *end = pointerSum((void *)Universe::heap()->base(), (void *)Universe::heap()->capacity());
+	return (address >= start && address <= end);
+}
+
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
 //      printf("Segmentation fault on %p\n", addr); fflush(stdout);
-	  if (si->si_code == SEGV_ACCERR){
+	  if (si->si_code == SEGV_ACCERR && liesWithinHeap(addr)){
 		  printf("Segmentation fault on %p. Code = SEGV_ACCERR.\n", addr); fflush(stdout);
 		  char *position = (char *)Universe::getRegionTablePosition(addr);
 		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
