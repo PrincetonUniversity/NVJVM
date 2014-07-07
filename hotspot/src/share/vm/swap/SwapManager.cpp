@@ -125,7 +125,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  // Reading the pages from SSD.
 		if(Swap_Protect){
 			void* sa = Utility::getPageStart((void *)bufferStart);
-			if (mprotect (sa, numPages * _PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
+			if (mprotect (sa, numPages * _PAGE_SIZE, PROT_READ | PROT_WRITE | PROT_EXEC) == -1){
 				perror("error :");
 				printf("Error In Removing Protecting Page = %p, Number of Bytes %d. \n", bufferStart, numberBytes);
 				fflush(stdout);
