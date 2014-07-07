@@ -130,7 +130,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 			  "Prefilled Bytes = %d."
 			  "IsPartiallyFilled = %d\n", lastPageIsPresent, pB, Universe::isPartiallyFilled((void *)address));
 	  fflush(stdout);
-	  exit(1);
+	  exit(-1);
   }
 
   int lastPageIndex = pageIndex + (numberBytes-1)/_PAGE_SIZE;

@@ -844,15 +844,17 @@ int Universe::getContiguousPageFetches(void *address){
 	pageFetchesRequired = getNumberOfPrefetches(address) + 1;
 	while (pageFetchesRequired > 0){
 			if(isPresent(curr)){
+				if(L_SWAP){
 				printf("An intermediate page with address = %p is present, "
 						"start address  = %p, Count = %d."
 						"\n", curr, address, count);
 				fflush(stdout);
+				}
 				break;
 			}
-			count++;
-			curr = nextPage(curr);
-			pageFetchesRequired--;
+				count++;
+				curr = nextPage(curr);
+				pageFetchesRequired--;
 		}
 	return count;
 	// If an intermediate page is present
