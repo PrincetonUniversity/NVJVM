@@ -34,7 +34,7 @@
 #include "memory/watermark.hpp"
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
-#include "swap/SwapManager.hpp"
+#include "swap/SwapManager.h"
 
 #ifndef SERIALGC
 

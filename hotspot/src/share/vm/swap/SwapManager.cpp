@@ -250,7 +250,8 @@ void SwapManager::clearRegion(void *address){
 	if  (iter == _swap_map.end()){
 		return;
 	}
-	_swap_map.erase(iter);
+	SSDRange ssdRange = iter->second;
+	_swap_map.erase(ssdRange.getEnd());
 }
 
 void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {
@@ -315,21 +316,3 @@ SwapManager::SwapManager() {
 SwapManager::~SwapManager() {
 	// TODO Auto-generated destructor stub
 }
-
-// Extra Code
-// If remapping
-/*void *remap_bot;	// page re-mapping done through "mremap" now
-	if (posix_memalign((void **)(&remap_bot), _PAGE_SIZE, total_size) == -1){
-		perror("error:"); fflush(stderr);
-		printf("error in posix_memalign\n"); fflush(stdout);
-	}
-	SwapReader::swapIn(remap_bot, numPages, ssdRange.getStart());
-	void * add = mremap(remap_bot, total_size, total_size, MREMAP_FIXED | MREMAP_MAYMOVE, bottom);
-	if(L_SWAP){
-		printf("remapping to address add= %p, bot = %p\n", add, bottom);
-		fflush(stdout);
-	}
-	if (add != bottom){
-		printf("error in remapping\n"); fflush(stdout);
-		perror("err:");fflush(stderr);exit(-1);
-	}*/
