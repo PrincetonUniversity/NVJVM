@@ -61,12 +61,8 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  printf("Cannot swap in page %p does not exist in the page buffer. Exiting.\n", address);
 	  fflush(stdout);
 	  return;
-//	  exit(1);
   }
   if(Universe::isPresent(address)){
-//	  printf("SwapManager::remapPage::The page (%p = address) is already present in memory. Probably two different threads accessed the same page. One of the threads "
-//			  "fetched in the page. Therefore, this thread can proceed safely.\n");
-//	  fflush(stdout);
 	  return;
   }
 
@@ -100,19 +96,10 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   // Checking if the first page is partially filled.
   if (Universe::isPartiallyFilled((void *)bufferStart)){
-//   metadataMapIter mIter = _metaDataMap.find(bufferStart);
-//   if(mIter == _metaDataMap.end()){
-//	   printf("SwapManager::remapPage::Entry for page (address = %p, pageStart = %p) not found within"
-//			   " the metadata map. Exiting.\n", address, bufferStart);
-//	   fflush(stdout);
-//	   exit(1);
-//   }
-//   PageMetaData pMetadata = mIter->second;
    int prefilledBytes = (int)(*(uint16_t *)Universe::getPartialPageTablePosition(address));
    bufferStart += prefilledBytes;
    numberBytes -= prefilledBytes;
    ssdStartOffset += prefilledBytes;
-//   _metaDataMap.erase(bufferStart);
   }
 
   // If the last page is present, we do not fetch the last page.
@@ -166,81 +153,15 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   void* curr = object_va_to_page_start(address);
   // Marking all the intermediate pages as fetched in.
-  for (int count = 0; count < prefetchCount - 1; count++){
+  for (int count = 0; count < prefetchCount; count++){
 	  Universe::markPageFetched(curr);
 	  curr = Utility::nextPage(curr);
   }
 
-// // If the last page is already fetched in, no need to do any mark update
- if(lastPageIsPresent)
-	 return;
  int lPre = Universe::getNumberOfPrefetches(lastPage);
- // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){
-//	 printf("Partially marking page for address %p. lPre = %d\n", address, lPre); fflush(stdout);
-//	 oop obj = (oop) (address);
-//	 printf("Partially marking page for address %p. Reading Object Size.\n", address); fflush(stdout);
-//	 // HeapWordSize gets the size of the object in heap word size (1 HeapWordSize = 8 Bytes).
-//	 int objSize = obj->size() * HeapWordSize;
-//	 printf("Partially marking page for address %p. Object Size = %d.\n", address, objSize); fflush(stdout);
-//	 char* objEnd = (char *)address + objSize - 1;
-//	 char* objEndPageSt = (char *)object_va_to_page_start(objEnd);
-//	 uint16_t offset = *(uint16_t *)getPartialPageTablePosition(lastPage);
-//	 printf("Partially marking page for address %p. Offset = %ld\n", address, offset); fflush(stdout);
-//	 PageMetaData* p = new PageMetaData((int)offset);
-//	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
-//	 _metaDataMap.insert(pair);
 	 Universe::markPartiallyFetched(lastPage);
- } else {
-//	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
-	 Universe::markPageFetched(lastPage);
  }
-
-/*  bool lastPagePartiallyFilled =
-  if(!lastPageIsPresent && )
-
-  uint64_t lastPage = (uint64_t)address + numPrefetches * _PAGE_SIZE;
-  if (Universe::isPartiallyFilled((void *)lastPage)){
-   // Getting the size of the partially filled page
-   void* pageStart = object_va_to_page_start(address);
-   metadataMapIter mIter = _metaDataMap.find(pageStart);
-   if(mIter == _metaDataMap.end()){
-	   printf("Entry for page (address = %p, pageStart = %p) not found within the metadata map. Exiting.\n", address, pageStart);
-	   fflush(stdout);
-	   exit(1);
-   }
-   PageMetaData pMetadata = mIter->second;
-   int prefilledBytes = pMetadata.getPrefilledBytes();
-   void *buffer = (void *)malloc(numPages * _PAGE_SIZE);
-
-
-
-
-   }
-  } else {
-//  int numPages = ((ssdRange.getEnd() - ssdRange.getStart())) + 1;
-  int total_size = numPages* _PAGE_SIZE;
-  if(L_SWAP){
-	  printf("numPages %d\n", numPages); fflush(stdout);
-  }
-  void *bottom = SwapManager::object_va_to_page_start((void *)((long)top - (numPages-1) * _PAGE_SIZE));
-  if(L_SWAP){
-	  printf("bottom %p\n", bottom); fflush(stdout);
-  }
-  if (liesWithin(address, top, bottom)){
-	// Fetching the region back into memory
-	SwapReader::swapIn(bottom, numPages, ssdRange.getStart());
-//	_swap_map.erase (top);
-  } else {
-	  printf("Error, cannot swap in page %p does not exist in the range \n", address); fflush(stdout);
-	  /* Two threads can read a single protected region from the address space
-	   * and one of them might have restored the address space and therefore
-	   * we let the thread run through as normal. This can occur often.
-	   */
-//  }
-
-  // Finishing the SwapIn process
-//  out: return;
 }
 
 void SwapManager::clearRegion(void *address){
