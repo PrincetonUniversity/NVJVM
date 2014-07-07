@@ -45,7 +45,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 			printf("Error In Protecting Page %p \n", va); fflush(stdout);
 			exit(-1);
 		} else {
-			printf("Protecting %d pages beginning at %p, index %p.\n", np, va, Universe::getPageIndex(va));
+			printf("Protecting %d pages beginning at %p, index %ld.\n", np, va, Universe::getPageIndex(va));
 			fflush(stdout);
 		}
 	}
