@@ -168,11 +168,11 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	  return;
 //  }
 
-  char* curr = (char *)object_va_to_page_start(address) ;//+ _PAGE_SIZE;
+  void* curr = object_va_to_page_start(address);
   // Marking all the intermediate pages as fetched in.
   for (int count = 0; count < numPages - 1; count++){
 	  Universe::markPageFetched(curr);
-	  curr = Utility::nextPage((void *)curr);
+	  curr = Utility::nextPage(curr);
   }
 
 // // If the last page is already fetched in, no need to do any mark update
@@ -181,7 +181,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //
 // Else update the last page
  // Checking the condition for the last page
- char* lastPage = curr;
+ void* lastPage = curr;
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){
@@ -198,7 +198,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	 PageMetaData* p = new PageMetaData((int)offset);
 //	 pageMetaDataPair pair = pageMetaDataPair(objEndPageSt, offset);
 //	 _metaDataMap.insert(pair);
-	 Universe::markPartiallyFetched((void*) lastPage);
+	 Universe::markPartiallyFetched(lastPage);
  } else {
 //	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
 	 Universe::markPageFetched(lastPage);
