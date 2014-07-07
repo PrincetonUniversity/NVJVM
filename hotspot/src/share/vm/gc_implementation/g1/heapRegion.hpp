@@ -392,6 +392,19 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  memset(position, 0, numberOfBytes);
 	  position = (void *)Universe::getPartialPageTablePosition(start);
 	  memset(position, 0, 2 * numberOfBytes);
+	  if(Swap_Protect){
+		 if(mprotect(start, capacity(), PROT_READ | PROT_WRITE) == -1){
+				perror("error :");
+				printf("Error In Removing Protecting Page = %p, Number of Bytes %d. \n", start, capacity());
+				fflush(stdout);
+				exit(-1);
+		 } else {
+	  			printf("Unprotecting Page %p, index = %ld, Number of pages = %d.\n",
+	  					start, Universe::getPageIndex(start), numberOfBytes);
+	  			fflush(stdout);
+		 }
+	  }
+	  // Removing the entry from table if it exists
   }
 
   bool isInMemory(){
