@@ -66,7 +66,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  if(L_SWAP){
 		  printf("Address %p, index = %d is already present. "
 			  "Therefore, page not fetched in.\n", address, Universe::getPageIndex(address));
-	  fflush(stdout);
+		  fflush(stdout);
 	  }
 	  return;
   }
