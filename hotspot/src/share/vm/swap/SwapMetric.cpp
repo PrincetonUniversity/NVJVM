@@ -114,12 +114,12 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
-			"Total swap-out bytes = %ld MB.\n"
-			"Total swap-in bytes = %ld MB.\n"
 			"Total segmentation faults = %ld, Interpreter faults = %ld, Compiler Faults %ld.\n",
-			_swapIns, _swapInPages,  _swapInBytes/(K*K), _swapOuts,
-			_swapOutPages, _swapOutBytes/(K*K), (long long)_swapInTime.tv_sec,
-			_swapInTime.tv_nsec/(1000*1000), _segFaults, _swapInsInterpreter, _swapInsCompiler);
+			_swapIns, _swapInPages,  _swapInBytes/(K*K),
+			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
+			(long long)_swapInTime.tv_sec,
+			_swapInTime.tv_nsec/(1000*1000),
+			_segFaults, _swapInsInterpreter, _swapInsCompiler);
 	fflush(stdout);
 }
 

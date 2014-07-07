@@ -159,6 +159,8 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	  curr = Utility::nextPage(curr);
  }
 
+ /* If the last page has more than a single prefetchCount and the next page
+  * is not fetched in, then it is a partial page. */
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  bool isFetched = Universe::isPresent(Utility::nextPage(lastPage));
 
