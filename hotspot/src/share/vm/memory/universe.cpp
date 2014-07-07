@@ -902,12 +902,12 @@ void Universe::accessCheck(void *address){
 	if(!UseG1GC || !Universe::heap()->is_in_reserved(address))
 			return;
 	if(!(Universe::isPresent(address))){
-		printf("In accessCheck %p not present.\n", address);
-		fflush(stdout);
 		SSDSwap::handle_faults(address);
+		if(L_SWAP){
 		printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
 		fflush(stdout);
+		}
 	}
 }
 
