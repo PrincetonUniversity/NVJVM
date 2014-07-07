@@ -137,13 +137,15 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   if(lastPageIndex < numPagesSwappedOut){
 	  // Reading the pages from SSD.
 		if(Swap_Protect){
-			if (mprotect (Utility::getPageStart((void *)bufferStart), numPages * _PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
+			void* sa = Utility::getPageStart((void *)bufferStart);
+			if (mprotect (sa, numPages * _PAGE_SIZE, PROT_READ | PROT_WRITE) == -1){
 				perror("error :");
 				printf("Error In Removing Protecting Page = %p, Number of Bytes %d. \n", bufferStart, numberBytes);
 				fflush(stdout);
 				exit(-1);
 			}
-			printf("Unprotecting From Page %p, Number of pages = %d.\n", Utility::getPageStart((void *)bufferStart), numPages);
+			printf("Unprotecting Page %p, index = %ld, Number of pages = %d.\n",
+					sa, Universe::getPageIndex(sa),numPages);
 			fflush(stdout);
 		}
 		size_t len = SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
@@ -168,7 +170,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   char* curr = (char *)object_va_to_page_start(address) ;//+ _PAGE_SIZE;
   // Marking all the intermediate pages as fetched in.
-  for (int count = 0; count < numPages; count++){
+  for (int count = 0; count < numPages - 1; count++){
 	  Universe::markPageFetched(curr);
 	  curr += _PAGE_SIZE;
   }
@@ -198,7 +200,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //	 _metaDataMap.insert(pair);
 	 Universe::markPartiallyFetched((void*) lastPage);
  } else {
-	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
+//	 printf("Marking page %p fetched.\n", lastPage); fflush(stdout);
 	 Universe::markPageFetched(lastPage);
  }
 
