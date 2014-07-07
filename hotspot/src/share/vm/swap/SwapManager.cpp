@@ -91,7 +91,8 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //  int numPages = numPrefetches + 1;
 
   if(L_SWAP && REMAP){
-	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p.\n", numPages, address);
+	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p, Index = %ld.\n", numPages,
+			  address, Universe::getPageIndex(address));
 	  fflush(stdout);
   }
   int numberBytes = numPages * _PAGE_SIZE;

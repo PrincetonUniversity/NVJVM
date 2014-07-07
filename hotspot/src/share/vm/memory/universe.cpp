@@ -917,14 +917,14 @@ bool Universe::isPresent(void* address){
 
 void Universe::markPageFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking the position %p for address %p, index as fetched\n", position, address, getPageIndex(address));
+	printf("Marking the position %p for address %p, index = %ld as fetched\n", position, address, getPageIndex(address));
 	fflush(stdout);
 	*(char *)position = Universe::_presentMask;
 }
 
 void Universe::markPartiallyFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking Address %p, Position %p, as partially fetched.\n", address, position);
+	printf("Marking Address %p, Index = %ld, Position %p, as partially fetched.\n", address, getPageIndex(address), position);
 	fflush(stdout);
 	*(char *)position = Universe::_partiallyFilledMask;
 }
