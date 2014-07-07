@@ -400,9 +400,11 @@ class HeapRegion: public G1OffsetTableContigSpace {
 				fflush(stdout);
 				exit(-1);
 		 } else {
-	  			printf("Unprotecting Region starting at %p, index = %ld, Number of pages = %d.\n",
+	  			if(L_SWAP){
+	  				printf("Unprotecting Region starting at %p, index = %ld, Number of pages = %d.\n",
 	  					start, Universe::getPageIndex(start), numberOfBytes);
 	  			fflush(stdout);
+	  			}
 		 }
 	  }
 	  // Removing the entry from table if it exists

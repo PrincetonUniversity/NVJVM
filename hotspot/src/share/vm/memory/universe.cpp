@@ -904,9 +904,9 @@ void Universe::accessCheck(void *address){
 	if(!(Universe::isPresent(address))){
 		SSDSwap::handle_faults(address);
 		if(L_SWAP){
-		printf("In accessCheck %p not present. The address has now been fetched. "
+			printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
-		fflush(stdout);
+			fflush(stdout);
 		}
 	}
 }
