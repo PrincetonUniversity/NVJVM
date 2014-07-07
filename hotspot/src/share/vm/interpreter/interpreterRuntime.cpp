@@ -189,6 +189,7 @@ IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
   if(L_SWAP){
+	  void *position = Universe::getRegionTablePosition((void *)obj);
 	  printf("InterpreterRuntime:: Object fault In Interpreter. Miss on an object lookup called from the Interpreter."
 		  "Object does not exist in memory, fetching the region from swap. The address = %p, position = %p.\n", obj, position);
 	  fflush(stdout);
