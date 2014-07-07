@@ -122,12 +122,3 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 //		fflush(stdout);
 //	}
 }
-
-void SSDSwap::markRegion(void *addr, int mark){
-	  uint64_t position = Universe::getRegionTablePosition(addr);
-	  *((char *)position) = (char)mark;
-	  if(L_SWAP){
-		  printf("SSDSwap::markRegion() - Marking position (%p), in the region table. Mark = %d.\n", position, mark);
-		  fflush(stdout);
-	  }
-}

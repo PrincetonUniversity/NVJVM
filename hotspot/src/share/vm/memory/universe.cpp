@@ -938,13 +938,13 @@ uint64_t Universe::getRegionTablePosition(void *object){
     uint64_t regionI = objOffset /(Universe::getSwapChunkSize());
     uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
     uint64_t regionTableStart = (uint64_t)Universe::getRegionTable();
-    uint64_t regionTableEnd = regionTableStart +   (uint64_t)Universe::getRegionTableSize() - 1;
+    uint64_t regionTableEnd = regionTableStart + (uint64_t)Universe::getRegionTableSize() - 1;
     if(!((position >= regionTableStart) && (position <= regionTableEnd))){
-    	printf("Access on region table out of range."
+    	printf("\nAccess on region table out of range."
     			"Getting Region Table Position %p for address %p."
     			"Heap's Base = %p.\n", position, object, Universe::heap()->base());
     	fflush(stdout);
-    	exit(-1);
+//    	exit(-1);
     }
     return position;
 }
