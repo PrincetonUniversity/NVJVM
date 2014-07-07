@@ -33,6 +33,7 @@
 #include "memory/space.inline.hpp"
 #include "memory/watermark.hpp"
 #include "memory/universe.hpp"
+#include "swap/Utility.h"
 
 #ifndef SERIALGC
 
@@ -390,7 +391,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  for(count = 0; count < numberOfBytes; count++){
 			Universe::markPageFetched(position);
 			position = Utility::nextPage(position);
-		}
+	  }
 	  position = (void *)Universe::getPrefetchTablePosition(start);
 	  memset(position, 0, numberOfBytes);
 	  position = (void *)Universe::getPartialPageTablePosition(start);
