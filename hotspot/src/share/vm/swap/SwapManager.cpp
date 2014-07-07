@@ -74,9 +74,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   // Getting the starting address of the Page on the SSD.
   int ssdRangeStart = ssdRange.getStart();
   int numPagesSwappedOut = ssdRange.getNumPages();
-
   int pageIndex = getPageNumInRegion(address);
-
   int ssdStartIndex = ssdRangeStart + pageIndex;
   long int ssdStartOffset = ssdStartIndex * _PAGE_SIZE;
 
@@ -88,6 +86,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   // Find the number of pages to be pre-fetched
   int numPages = Universe::getContiguousPageFetches(address);
+  int prefetchCount = numPages;
 
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p, Index = %ld.\n", numPages,
@@ -97,6 +96,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   int numberBytes = numPages * _PAGE_SIZE;
   char* bufferStart = (char *)object_va_to_page_start(address);
   char* bufferEnd = (char *)object_va_to_page_start(bufferStart + numberBytes -1);
+  void* lastPage = bufferEnd;
 
   // Checking if the first page is partially filled.
   if (Universe::isPartiallyFilled((void *)bufferStart)){
@@ -144,9 +144,11 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 				fflush(stdout);
 				exit(-1);
 			}
-			printf("Unprotecting Page %p, index = %ld, Number of pages = %d.\n",
+			if(L_SWAP){
+				printf("Unprotecting Page %p, index = %ld, Number of pages = %d.\n",
 					sa, Universe::getPageIndex(sa),numPages);
-			fflush(stdout);
+				fflush(stdout);
+			}
 		}
 		size_t len = SwapReader::swapInOffset(bufferStart, numberBytes, ssdStartOffset);
 		if(L_SWAP && REMAP){
@@ -164,7 +166,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   void* curr = object_va_to_page_start(address);
   // Marking all the intermediate pages as fetched in.
-  for (int count = 0; count < numPages - 1; count++){
+  for (int count = 0; count < prefetchCount - 1; count++){
 	  Universe::markPageFetched(curr);
 	  curr = Utility::nextPage(curr);
   }
@@ -175,7 +177,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 //
 // Else update the last page
  // Checking the condition for the last page
- void* lastPage = curr;
+
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){

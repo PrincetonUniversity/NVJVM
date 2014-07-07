@@ -823,10 +823,12 @@ bool Universe::check(void* st, int count, int *fetches){
 	(*fetches) = 0 ;
 	while (count > 0){
 		if(isPresent(curr)){
-			printf("An intermediate page with address = %p is present, "
+			if(L_REMAP){
+				printf("An intermediate page with address = %p is present, "
 					"start address  = %p, "
 					"initial count = %d.\n", curr, st, initialCount);
-			fflush(stdout);
+				fflush(stdout);
+			}
 			return true;
 		}
 		count--;
@@ -933,8 +935,10 @@ void Universe::markPageFetched(void* address){
 
 void Universe::markPartiallyFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking the position %p for address %p, index = %ld as partially fetched.\n", position, address, getPageIndex(address));
-	fflush(stdout);
+	if(L_SWAP){
+		printf("Marking the position %p for address %p, index = %ld as partially fetched.\n", position, address, getPageIndex(address));
+		fflush(stdout);
+	}
 	*(char *)position = Universe::_partiallyFilledMask;
 }
 
