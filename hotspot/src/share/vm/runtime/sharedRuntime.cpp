@@ -451,26 +451,13 @@ JRT_END
 
 
 JRT_LEAF(void, SharedRuntime::swapIn(void* obj))
-  printf("SharedRuntime::swapIn::Object fault In Compiler. Object does not exist in memory, fetching it from swap,"
-		  " object address = %p. \n", obj); fflush(stdout);
+  if(L_SWAP){
+	  printf("SharedRuntime::swapIn::Object fault In Compiler. Object does not exist in memory, fetching it from swap,"
+		  " object address = %p. \n", obj);
+	  fflush(stdout);
+  }
   SSDSwap::handle_faults(obj);
   SwapMetric::incrementSwapInCompiler();
-
-//if(obj == NULL){
-//	printf("obj is null\n"); fflush(stdout);
-//	exit(1);
-//}
-////uint64_t objOffset = (uint64_t)obj - (uint64_t)Universe::getHeapStart();
-////uint64_t regionI = objOffset /(_R_SIZE);
-////uint64_t position = regionI + (uint64_t)Universe::getRegionTable();
-////printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
-////printf("object does not exist in memory, fetching it from swap \n"); fflush(stdout);
-////if(*(int *)position == 1){
-////	  SSDSwap::handle_faults((void *)obj);
-////}
-//int* counterAdd = (int *)((uint64_t)obj + oopDesc::counter_offset_in_bytes());
-//	*counterAdd = *counterAdd + 1;
-//return;
 JRT_END
 
 JRT_LEAF(jlong, SharedRuntime::f2l(jfloat  x))

@@ -188,25 +188,11 @@ IRT_ENTRY(void, InterpreterRuntime::_void(JavaThread* thread))
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
-  uint64_t position = Universe::getRegionTablePosition(obj);
-  if(position != (uint64_t)add){
-	  printf("Region table lookup is incorrect. Object =%p, add =%p, position =%p\n.", obj, add, position);
-	  fflush(stdout);
-	  exit(1);
-  }
-  /*if (addCast < regionTableStart || (uint64_t)addCast > regionTableEnd){
-	  printf("Access lies out of the region table. Error.\n");
-	  fflush(stdout);exit(1);
-  }
-  if(*(int *)position != 0){
-	  printf("Error, Value != 0.\n");
-	  fflush(stdout);exit(1);
-  }*/
-
-//  printf("%p, %p, %p, value = %d\n", obj, position, add, *((int *)position)); fflush(stdout); exit(-1);
-  printf("InterpreterRuntime:: Object fault In Interpreter. Miss on an object lookup called from the Interpreter."
+  if(L_SWAP){
+	  printf("InterpreterRuntime:: Object fault In Interpreter. Miss on an object lookup called from the Interpreter."
 		  "Object does not exist in memory, fetching the region from swap. The address = %p, position = %p.\n", obj, position);
-  fflush(stdout);
+	  fflush(stdout);
+  }
   SSDSwap::handle_faults((void *)obj);
   SwapMetric::incrementSwapInInterpreter();
 IRT_END
