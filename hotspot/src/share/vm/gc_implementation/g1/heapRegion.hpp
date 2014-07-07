@@ -406,7 +406,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		 }
 	  }
 	  // Removing the entry from table if it exists
-	  SwapManager::clearRegion(start);
+	  if(!isInMemory()){
+		  SwapManager::clearRegion(start);
+		  markedSwappedIn();
+	  }
+  }
+
+  bool markedSwappedIn(){
+	  _isSwappedOut = false;
   }
 
   bool isInMemory(){
