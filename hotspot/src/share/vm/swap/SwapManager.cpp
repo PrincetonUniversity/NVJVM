@@ -152,14 +152,17 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   }
 
   void* curr = object_va_to_page_start(address);
+
   // Marking all the intermediate pages as fetched in.
   for (int count = 0; count < prefetchCount; count++){
 	  Universe::markPageFetched(curr);
 	  curr = Utility::nextPage(curr);
-  }
+ }
 
  int lPre = Universe::getNumberOfPrefetches(lastPage);
- if(lPre > 0 && partialCheck){
+ bool isFetched = Universe::isPresent(Utility::nextPage(lastPage));
+
+ if(lPre > 0 && !isFetched && partialCheck){
 	 Universe::markPartiallyFetched(lastPage);
  }
 }
