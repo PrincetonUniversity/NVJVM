@@ -78,8 +78,9 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 				 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 	 fflush(stdout);
 			 }
-			 return;
+//			 return;
 		 }
+		 return;
 	  }
 	  (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
