@@ -58,7 +58,7 @@ struct sigaction oldSigAct;
 
 void *pointerSum(void *a, void *b){
 	return(
-			(void*)((char*)a + (char*)b);
+			(void*)((uint64_t)a + (uint64_t)b)
 	);
 }
 
