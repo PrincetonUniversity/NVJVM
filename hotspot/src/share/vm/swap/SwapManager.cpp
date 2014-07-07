@@ -250,8 +250,8 @@ void SwapManager::clearRegion(void *address){
 	if  (iter == _swap_map.end()){
 		return;
 	}
-	SSDRange ssdRange = iter->second;
-	_swap_map.erase(ssdRange.getEnd());
+	void *end = iter->first;
+	_swap_map.erase(end);
 }
 
 void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {
