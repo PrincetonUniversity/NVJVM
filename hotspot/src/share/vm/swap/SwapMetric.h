@@ -44,7 +44,10 @@ public:
 	static void print_on();
 	static void incrementSwapOutBytes(long bytes);
 	static void incrementSwapInBytes(int bytes);
-
+	static void incrementSwapInCompiler();
+	static void incrementSwapInInterpreter();
+	static long int getSwapInsCompiler();
+	static long int getSwapInsInterpreter();
 };
 
 #endif /* SWAPMETRIC_H_ */

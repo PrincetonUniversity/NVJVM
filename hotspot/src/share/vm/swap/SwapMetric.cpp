@@ -21,19 +21,19 @@ long int SwapMetric::_swapInsInterpreter = 0;
 
 #define K 1024
 
-void int incrementSwapInCompiler(){
+void int SwapMetric::incrementSwapInCompiler(){
 	_swapInsCompiler++;
 }
 
-long int getSwapInsCompiler(){
+long int SwapMetric::getSwapInsCompiler(){
 	return _swapInsCompiler;
 }
 
-void int incrementSwapInInterpreter(){
+void int SwapMetric::incrementSwapInInterpreter(){
 	_swapInsInterpreter++;
 }
 
-long int getSwapInsInterpreter(){
+long int SwapMetric::getSwapInsInterpreter(){
 	return _swapInsInterpreter;
 }
 
