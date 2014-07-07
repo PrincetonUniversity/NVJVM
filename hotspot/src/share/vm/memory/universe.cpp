@@ -823,7 +823,7 @@ bool Universe::check(void* st, int count, int *fetches){
 	(*fetches) = 0 ;
 	while (count > 0){
 		if(isPresent(curr)){
-			if(L_REMAP){
+			if(L_SWAP){
 				printf("An intermediate page with address = %p is present, "
 					"start address  = %p, "
 					"initial count = %d.\n", curr, st, initialCount);

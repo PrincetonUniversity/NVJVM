@@ -174,10 +174,6 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 // // If the last page is already fetched in, no need to do any mark update
  if(lastPageIsPresent)
 	 return;
-//
-// Else update the last page
- // Checking the condition for the last page
-
  int lPre = Universe::getNumberOfPrefetches(lastPage);
  // if lPre == 0, no object crosses the page boundary, hence can be marked as fetched in.
  if(lPre > 0 && partialCheck){
