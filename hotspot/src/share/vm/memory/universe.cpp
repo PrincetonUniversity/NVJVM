@@ -944,7 +944,6 @@ uint64_t Universe::getRegionTablePosition(void *object){
     			"Getting Region Table Position %p for address %p."
     			"Heap's Base = %p.\n", position, object, Universe::heap()->base());
     	fflush(stdout);
-//    	exit(-1);
     }
     return position;
 }

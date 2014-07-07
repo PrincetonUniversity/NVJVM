@@ -19,8 +19,11 @@ private:
 	static timespec _swapInTime;
 	static long int _swapOutBytes;
 	static long int _swapInBytes;
+	static long int _segFaults;
 
 public:
+	static void incrementSegFaults();
+	static long int getSegFaultCount();
 	static void incrementSwapOuts();
 	static void incrementSwapOutsV(int value);
 	static long int getSwapOuts();

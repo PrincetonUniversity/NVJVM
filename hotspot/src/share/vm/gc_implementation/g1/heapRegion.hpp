@@ -381,12 +381,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
   void clearTables(){
 	  // Code to clear all the three tables
 	  int numberOfBytes = capacity() / sysconf(_SC_PAGE_SIZE); // Total number of pages
-	  if(numberOfBytes != 256){
-		  printf("Calculating is wrong. Check.\n");
-		  exit(-1);
-	  }
 	  void *start = (void *)bottom();
-	  void* position = (void *)Universe::getRegionTablePosition(start);
+	  void *position = start;
 	  int count;
 	  for(count = 0; count < numberOfBytes; count++){
 			Universe::markPageFetched(position);

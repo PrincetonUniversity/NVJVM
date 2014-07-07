@@ -13,7 +13,15 @@ timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
 long int SwapMetric::_swapOutBytes = 0;
 long int SwapMetric::_swapInBytes = 0;
+long int SwapMetric::_segFaults = 0;
 
+void SwapMetric::incrementSegFaults(){
+	_segFaults++;
+}
+
+long int SwapMetric::getSegFaultCount(){
+	return _segFaults;
+}
 
 void SwapMetric::incrementSwapOuts(){
 		_swapOuts++;
@@ -76,8 +84,9 @@ void SwapMetric::print_on(){
 			"The number of swapOuts =%ld.\n"
 			"Total time taken for swapIn = %lld.%.9ld.\n"
 			"Total swap-out bytes = %ld\n"
-			"Total swap-in bytes = %ld.\n",
-			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec, _swapOutBytes, _swapInBytes);
+			"Total swap-in bytes = %ld."
+			"Total segmentation faults = %ld.\n",
+			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec, _swapOutBytes, _swapInBytes, _segFaults);
 	fflush(stdout);
 }
 
