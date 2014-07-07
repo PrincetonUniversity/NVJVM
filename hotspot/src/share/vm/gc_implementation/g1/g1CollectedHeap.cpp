@@ -71,6 +71,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 // Fall back option, when we cannot detect object accesses
 		 if(value != Universe:: _presentMask){
 			 SSDSwap::handle_faults(addr);
+			 SwapMetric::incrementSegFaults();
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 fflush(stdout);
 			 return;
