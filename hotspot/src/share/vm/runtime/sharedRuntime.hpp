@@ -32,6 +32,7 @@
 #include "memory/resourceArea.hpp"
 #include "runtime/threadLocalStorage.hpp"
 #include "utilities/hashtable.hpp"
+#include "swap/SwapMetric.h"
 
 class AdapterHandlerEntry;
 class AdapterHandlerTable;

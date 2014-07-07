@@ -879,8 +879,10 @@ int Universe::getContiguousPageFetches(void *address){
 int Universe::getNumberOfPrefetches(void* address){
 	char* position = (char *)getPrefetchTablePosition(address);
 	char numberOfPrefetches = *position;
-	printf("getNumberOfPrefetches::Address = %p, %d.\n", address, numberOfPrefetches);
-	fflush(stdout);
+	if(L_SWAP){
+		printf("getNumberOfPrefetches::Address = %p, %d.\n", address, numberOfPrefetches);
+		fflush(stdout);
+	}
 	return (int)numberOfPrefetches;
 }
 
@@ -913,15 +915,19 @@ bool Universe::isPresent(void* address){
 
 void Universe::markSwappedOut(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking the position %p for address %p, index = %ld as swappedOut.\n", position, address, getPageIndex(address));
-	fflush(stdout);
+	if(L_SWAP){
+		printf("Marking the position %p for address %p, index = %ld as swappedOut.\n", position, address, getPageIndex(address));
+		fflush(stdout);
+	}
 	*(char *)position = Universe::_notPresentMask;
 }
 
 void Universe::markPageFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking the position %p for address %p, index = %ld as fetched\n", position, address, getPageIndex(address));
-	fflush(stdout);
+	if(L_SWAP){
+		printf("Marking the position %p for address %p, index = %ld as fetched\n", position, address, getPageIndex(address));
+		fflush(stdout);
+	}
 	*(char *)position = Universe::_presentMask;
 }
 

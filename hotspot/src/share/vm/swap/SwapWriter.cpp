@@ -91,7 +91,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, int off){
 //	  fflush(stdout);
 //	  check();
 
-	  SwapMetric::incrementSwapOutsV(np);
+	  SwapMetric::incrementSwapOuts();
+	  SwapMetric::incrementSwapOutsPages(np);
 	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
 
 	  return SSDRange (off, off + (np-1), np);

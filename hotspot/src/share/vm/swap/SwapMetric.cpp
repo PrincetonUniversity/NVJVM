@@ -14,6 +14,36 @@ timespec SwapMetric::_swapOutTime;
 long int SwapMetric::_swapOutBytes = 0;
 long int SwapMetric::_swapInBytes = 0;
 long int SwapMetric::_segFaults = 0;
+long int SwapMetric::_swapInPages = 0;
+long int SwapMetric::_swapOutPages = 0;
+long int SwapMetric::_swapInsCompiler = 0;
+long int SwapMetric::_swapInsInterpreter = 0;
+
+#define K 1024
+
+void int incrementSwapInCompiler(){
+	_swapInsCompiler++;
+}
+
+long int getSwapInsCompiler(){
+	return _swapInsCompiler;
+}
+
+void int incrementSwapInInterpreter(){
+	_swapInsInterpreter++;
+}
+
+long int getSwapInsInterpreter(){
+	return _swapInsInterpreter;
+}
+
+long int SwapMetric::getSwapOutPages(){
+	return _swapOutPages;
+}
+
+long int SwapMetric::getSwapInPages(){
+	return _swapInPages;
+}
 
 void SwapMetric::incrementSegFaults(){
 	_segFaults++;
@@ -27,8 +57,8 @@ void SwapMetric::incrementSwapOuts(){
 		_swapOuts++;
 }
 
-void SwapMetric::incrementSwapOutsV(int v){
-	_swapOuts += v;
+void SwapMetric::incrementSwapOutsPages(int v){
+	_swapOutPages += v;
 }
 
 long int SwapMetric::getSwapOuts(){
@@ -39,8 +69,8 @@ void SwapMetric::incrementSwapIns(){
 	_swapIns++;
 }
 
-void SwapMetric::incrementSwapInsV(int v){
-	_swapIns +=v;
+void SwapMetric::incrementSwapInsPages(int v){
+	_swapInPages +=v;
 }
 
 long int SwapMetric::getSwapIns(){
@@ -80,14 +110,16 @@ timespec SwapMetric::diff(timespec start, timespec end){
 }
 
 void SwapMetric::print_on(){
-	printf("The overall SwapMetrics. The number of swapIns = %ld.\n"
-			"The number of swapOuts =%ld.\n"
-			"Total time taken for swapIn = %lld seconds %.3ld milliseconds \n"
-			"Total swap-out bytes = %ld\n"
-			"Total swap-in bytes = %ld.\n"
-			"Total segmentation faults = %ld.\n",
-			_swapIns, _swapOuts, (long long)_swapInTime.tv_sec, _swapInTime.tv_nsec/(1000*1000),
-			_swapOutBytes, _swapInBytes, _segFaults);
+	printf("The overall SwapMetrics. \n"
+			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
+			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
+			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
+			"Total swap-out bytes = %ld MB.\n"
+			"Total swap-in bytes = %ld MB.\n"
+			"Total segmentation faults = %ld, Interpreter faults = %ld, Compiler Faults %ld.\n",
+			_swapIns, _swapInPages,  _swapInBytes/(K*K), _swapOuts,
+			_swapOutPages, _swapOutBytes/(K*K), (long long)_swapInTime.tv_sec,
+			_swapInTime.tv_nsec/(1000*1000), _segFaults, _swapInsInterpreter, _swapInsCompiler);
 	fflush(stdout);
 }
 

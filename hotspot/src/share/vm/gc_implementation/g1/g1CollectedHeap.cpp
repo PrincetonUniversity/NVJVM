@@ -64,16 +64,20 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 		  char prefetchValue = *prefetchPosition;
 		  char value = *position;
-		  printf("Segmentation fault. "
+		  if(L_SWAP){
+			  printf("Segmentation fault. "
 				  "Add = %p, Page Index = %ld, IsSwappedOut Value = %d, Prefetch Value = %d, at position = %p.\n",
 				  addr, Universe::getPageIndex(addr), value, prefetchValue, position);
-		  fflush(stdout);
+			  fflush(stdout);
+		  }
 // Fall back option, when we cannot detect object accesses
 		 if(value != Universe:: _presentMask){
 			 SSDSwap::handle_faults(addr);
 			 SwapMetric::incrementSegFaults();
-			 printf("Segmentation fault at address = %p, handled.\n", addr);
-			 fflush(stdout);
+			 if(L_SWAP){
+				 printf("Segmentation fault at address = %p, handled.\n", addr);
+			 	 fflush(stdout);
+			 }
 			 return;
 		 }
 	  }

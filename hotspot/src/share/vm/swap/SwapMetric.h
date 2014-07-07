@@ -20,15 +20,21 @@ private:
 	static long int _swapOutBytes;
 	static long int _swapInBytes;
 	static long int _segFaults;
+	static long int _swapInPages;
+	static long int _swapOutPages;
+	static long int _swapInsCompiler;
+	static long int _swapInsInterpreter;
 
 public:
+	static long int getSwapOutPages();
+	static long int getSwapInPages();
 	static void incrementSegFaults();
 	static long int getSegFaultCount();
 	static void incrementSwapOuts();
-	static void incrementSwapOutsV(int value);
+	static void incrementSwapOutsPages(int pages);
 	static long int getSwapOuts();
 	static void incrementSwapIns();
-	static void incrementSwapInsV(int value);
+	static void incrementSwapInsPages(int pages);
 	static long int getSwapIns();
 	static timespec getTotalSwapInTime();
 	static void incrementSwapInTime(timespec start, timespec end);

@@ -454,6 +454,7 @@ JRT_LEAF(void, SharedRuntime::swapIn(void* obj))
   printf("SharedRuntime::swapIn::Object fault In Compiler. Object does not exist in memory, fetching it from swap,"
 		  " object address = %p. \n", obj); fflush(stdout);
   SSDSwap::handle_faults(obj);
+  SwapMetric::incrementSwapInCompiler();
 
 //if(obj == NULL){
 //	printf("obj is null\n"); fflush(stdout);

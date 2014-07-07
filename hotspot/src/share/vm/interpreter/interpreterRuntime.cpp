@@ -74,7 +74,7 @@
 #ifdef COMPILER2
 #include "opto/runtime.hpp"
 #endif
-
+#include "swap/SwapMetric.h"
 
 
 class UnlockFlagSaver {
@@ -208,6 +208,7 @@ IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, 
 		  "Object does not exist in memory, fetching the region from swap. The address = %p, position = %p.\n", obj, position);
   fflush(stdout);
   SSDSwap::handle_faults((void *)obj);
+  SwapMetric::incrementSwapInInterpreter();
 IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
