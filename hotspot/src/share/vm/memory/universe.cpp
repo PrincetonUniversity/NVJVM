@@ -97,6 +97,7 @@
 #include "gc_implementation/parallelScavenge/parallelScavengeHeap.hpp"
 #endif
 
+bool Universe::_isCollecting = false;
 void *Universe::_partialPageTable = NULL; // table for storing offsets occupied on partial pages
 void *Universe::_regionTable = NULL; // table for storing region bitmap
 void *Universe::_prefetchTable = NULL; // table for storing region bitmap

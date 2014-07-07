@@ -60,6 +60,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
 //      printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR){
+		  printf("Segmentation fault on %p. Code = SEGV_ACCERR.\n", addr); fflush(stdout);
 		  char *position = (char *)Universe::getRegionTablePosition(addr);
 		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 		  char prefetchValue = *prefetchPosition;
@@ -3523,7 +3524,7 @@ void G1CollectedHeap::getRegionStatistics(){
 
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
-
+  Universe::setIsCollecting(true);
   printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
 
   assert_at_safepoint(true /* should_be_vm_thread */);
@@ -3786,6 +3787,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       g1_policy()->record_collection_pause_end();
 
       MemoryService::track_memory_usage();
+      Universe::setIsCollecting(false);
 
       if (VerifyAfterGC && total_collections() >= VerifyGCStartAt) {
         HandleMark hm;  // Discard invalid handles created during verification

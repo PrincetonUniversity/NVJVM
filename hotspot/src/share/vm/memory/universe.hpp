@@ -161,6 +161,7 @@ class Universe: AllStatic {
   static klassOop _compiledICHolderKlassObj;
   static klassOop _systemObjArrayKlassObj;
 
+  static bool _isCollecting;
   static void *_partialPageTable;
   static void *_regionTable; // table for storing region bitmap
   static void *_prefetchTable; // number of consecutive pages to be fetched in for each page
@@ -335,6 +336,9 @@ class Universe: AllStatic {
   static void* getPartialPageTableBase() { return _partialPageTable; }
   static size_t getPartialPageTableSize() { return _partialPageTableSize; }
   static void* getPartialPageTableEnd() { return (void *)((char *)_partialPageTable + _partialPageTableSize); }
+
+  static bool isCollecting() { return _isCollecting; }
+  static void setIsCollecting(bool v) { _isCollecting = v; }
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
