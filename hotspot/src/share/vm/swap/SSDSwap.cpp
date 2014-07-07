@@ -108,14 +108,17 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 // Here, n denotes the number of pages that have been swapped out.
 
 void SSDSwap::markRegionSwappedOut(void *addr, int n){
-	char* position = (char *)Universe::getRegionTablePosition(addr);
-	char* endPosition = position  + n - 1;
-	memset(position, Universe::_notPresentMask, n);
-	if(L_SWAP){
-		printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n",
-				(char *)Universe::getRegionTablePosition(addr), endPosition);
-		fflush(stdout);
-	}
+//	char* position = (char *)Universe::getRegionTablePosition(addr);
+//	char* endPosition = position  + n - 1;
+//	memset(position, Universe::_notPresentMask, n);
+	int count;
+	for(count = 0; count < n; count++)
+		Universe::markSwappedOut(addr);
+//	if(L_SWAP){
+//		printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n",
+//				(char *)Universe::getRegionTablePosition(addr), endPosition);
+//		fflush(stdout);
+//	}
 }
 
 void SSDSwap::markRegion(void *addr, int mark){

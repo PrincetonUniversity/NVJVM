@@ -901,10 +901,6 @@ void Universe::accessCheck(void *address){
 		SSDSwap::handle_faults(address);
 		printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
-//		if(*(oop *)address == NULL){
-//			char ch = *(char *)(*(oop *)address);
-//			printf("%d\n", ch);
-//		}
 		fflush(stdout);
 	}
 }
@@ -913,6 +909,13 @@ bool Universe::isPresent(void* address){
 	uint64_t position = getRegionTablePosition(address);
 	char value = *(char *)position;
 	return (value == _presentMask);
+}
+
+void Universe::markSwappedOut(void* address){
+	uint64_t position = getRegionTablePosition(address);
+	printf("Marking the position %p for address %p, index = %ld as swappedOut.\n", position, address, getPageIndex(address));
+	fflush(stdout);
+	*(char *)position = Universe::_notPresentMask;
 }
 
 void Universe::markPageFetched(void* address){
@@ -924,7 +927,7 @@ void Universe::markPageFetched(void* address){
 
 void Universe::markPartiallyFetched(void* address){
 	uint64_t position = getRegionTablePosition(address);
-	printf("Marking Address %p, Index = %ld, Position %p, as partially fetched.\n", address, getPageIndex(address), position);
+	printf("Marking the position %p for address %p, index = %ld as partially fetched.\n", position, address, getPageIndex(address));
 	fflush(stdout);
 	*(char *)position = Universe::_partiallyFilledMask;
 }

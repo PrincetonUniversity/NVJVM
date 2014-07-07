@@ -88,7 +88,6 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 
   // Find the number of pages to be pre-fetched
   int numPages = Universe::getContiguousPageFetches(address);
-//  int numPages = numPrefetches + 1;
 
   if(L_SWAP && REMAP){
 	  printf("SwapManager::remapPage()::NumPages = %d, Address = %p, Index = %ld.\n", numPages,
@@ -173,7 +172,7 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
   // Marking all the intermediate pages as fetched in.
   for (int count = 0; count < numPages - 1; count++){
 	  Universe::markPageFetched(curr);
-	  curr += _PAGE_SIZE;
+	  curr = Utility::nextPage(curr);
   }
 
 // // If the last page is already fetched in, no need to do any mark update
