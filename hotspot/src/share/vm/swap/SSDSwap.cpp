@@ -109,8 +109,10 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 
 void SSDSwap::markRegionSwappedOut(void *addr, int n){
 	int count;
-	for(count = 0; count < n; count++)
+	for(count = 0; count < n; count++){
 		Universe::markSwappedOut(addr);
+		addr = Utility::nextPage(addr);
+	}
 	//	char* position = (char *)Universe::getRegionTablePosition(addr);
 	//	char* endPosition = position  + n - 1;
 	//	memset(position, Universe::_notPresentMask, n);

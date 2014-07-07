@@ -386,7 +386,11 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  }
 	  void *start = (void *)bottom();
 	  void* position = (void *)Universe::getRegionTablePosition(start);
-	  memset(position, Universe::_presentMask, numberOfBytes);
+	  int count;
+	  for(count = 0; count < numberOfBytes; count++){
+			Universe::markPageFetched(position);
+			position = Utility::nextPage(position);
+		}
 	  position = (void *)Universe::getPrefetchTablePosition(start);
 	  memset(position, 0, numberOfBytes);
 	  position = (void *)Universe::getPartialPageTablePosition(start);

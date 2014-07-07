@@ -162,12 +162,6 @@ void SwapManager::remapPage(void *address, bool partialCheck = true){
 	 exit(1);
   }
 
-  // Marking the current page fetched
-//  Universe::markPageFetched(address);
-//  if (numPages == 1){
-//	  return;
-//  }
-
   void* curr = object_va_to_page_start(address);
   // Marking all the intermediate pages as fetched in.
   for (int count = 0; count < numPages - 1; count++){
