@@ -59,7 +59,7 @@ void G1MarkSweep::invoke_at_safepoint(ReferenceProcessor* rp,
     assert(clear_all_softrefs, "Policy should have been checked earler");
   }
 #endif
-  // hook up weak ref data so it can be used during Mark-Sweep
+  // hook up weak references data so it can be used during Mark-Sweep
   assert(GenMarkSweep::ref_processor() == NULL, "no stomping");
   assert(rp != NULL, "should be non-NULL");
   GenMarkSweep::_ref_processor = rp;
@@ -132,8 +132,9 @@ void G1MarkSweep::mark_sweep_phase1(bool& marked_for_unloading,
   EventMark m("1 mark object");
   TraceTime tm("phase 1", PrintGC && Verbose, true, gclog_or_tty);
   GenMarkSweep::trace(" 1");
-  if (L_DEBUG){
-	  printf("in mark sweep phase 1\n"); fflush(stdout);
+  if (Log_BMGC){
+	  printf("In mark sweep phase 1.\n");
+	  fflush(stdout);
   }
   SharedHeap* sh = SharedHeap::heap();
 
