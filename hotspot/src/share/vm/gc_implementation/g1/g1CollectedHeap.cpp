@@ -671,7 +671,8 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
     if(alloc_region != NULL){
     	alloc_region->setPurpose(purpose);
     	alloc_region->clearTables();
-    	concurrentMark()->clearBookMarkBitMap(alloc_region);
+    	// Clearing the bookMarkBitMap for the allocation region
+    	concurrent_mark()->clearBookMarkBitMap(alloc_region);
     }
     // Setting the region as survivor in case the region is a cold region
     if ((purpose == GCAllocForSurvived  || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
@@ -4670,8 +4671,8 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     		  _bMBitMap->mark((HeapWord *)copy_oop);
 
     		  // Copying the bookMark to the new region
-    		  HeapRegion* oldHr = _g1h->heap_region_containing_raw(obj);
-    		  HeapRegion* newHr = _g1h->heap_region_containing_raw(copy_oop);
+    		  HeapRegion* oldHr = _g1->heap_region_containing_raw(obj);
+    		  HeapRegion* newHr = _g1->heap_region_containing_raw(copy_oop);
     		  int count = oldHr->removeBookMark(obj);
     		  newHr->insertBookMarkCountWithValue(copy_oop, count);
     	  }
