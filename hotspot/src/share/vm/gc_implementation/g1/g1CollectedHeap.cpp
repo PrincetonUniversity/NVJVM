@@ -191,7 +191,7 @@ public:
           bookMarkBitMap->mark((HeapWord *)obj);
       	  HeapRegion *hr = _g1h->heap_region_containing(obj);
       	  if(hr == NULL){
-      		  if(is_in_permanent(obj)){
+      		  if(Universe::heap()->is_in_permanent(obj)){
       			  printf("obj %p is in permanent.\n", obj);
       			  fflush(stdout);
       		  }
