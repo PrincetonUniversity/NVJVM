@@ -172,7 +172,7 @@ private:
 public:
   virtual void do_oop(narrowOop* p) { do_oop_work(p); }
   virtual void do_oop(oop* p) { do_oop_work(p); }
-  template <class T> void BMOopClosure::do_oop_work(T* p) {
+  template <class T> void do_oop_work(T* p) {
   	  // Decoding the handle to the object from the heap
   	  oop obj = oopDesc::load_decode_heap_oop(p);
         // Need to mark the object so that we can trace objects references to objects
