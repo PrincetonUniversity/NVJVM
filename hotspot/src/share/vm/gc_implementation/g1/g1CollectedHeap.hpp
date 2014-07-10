@@ -68,14 +68,6 @@ typedef GenericTaskQueueSet<RefToScanQueue> RefToScanQueueSet;
 typedef int RegionIdx_t;   // needs to hold [ 0..max_regions() )
 typedef int CardIdx_t;     // needs to hold [ 0..CardsPerRegion )
 
-enum GCAllocPurpose {
-  GCAllocForTenured,
-  GCAllocForSurvived,
-  GCAllocForSurvivedCold,
-  GCAllocForTenuredCold,
-  GCAllocPurposeCount
-};
-
 class YoungList : public CHeapObj {
 private:
   G1CollectedHeap* _g1h;

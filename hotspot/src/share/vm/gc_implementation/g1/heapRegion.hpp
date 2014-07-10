@@ -36,11 +36,18 @@
 #include "swap/Utility.h"
 #include "swap/SwapManager.h"
 #include "swap/swap_global.h"
-#include "g1CollectedHeap.hpp"
 
 typedef std::map<void*, int> bookMarkMap;
 typedef std::map<void*, int>::iterator bookMarkMapIterator;
 typedef std::pair<void*, int> bookMarkMapPair;
+
+enum GCAllocPurpose {
+  GCAllocForTenured,
+  GCAllocForSurvived,
+  GCAllocForSurvivedCold,
+  GCAllocForTenuredCold,
+  GCAllocPurposeCount
+};
 
 #ifndef SERIALGC
 
