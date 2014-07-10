@@ -183,10 +183,18 @@ public:
         CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
         // Checking whether the referenced object is not null, before marking them.
         if(obj != NULL){
-      	  bookMarkBitMap->mark((HeapWord *)obj);
+      	  if(bookMarkBitMap == NULL){
+      		  printf("bookMarkBitMap = NULL.\n");
+      		  exit(-1);
+      	  }
+          bookMarkBitMap->mark((HeapWord *)obj);
       	  HeapRegion *hr = _g1h->heap_region_containing_raw(obj);
       	  hr->incrementBookMarkCount((void *)obj);
         }
+    	  if(Log_BMGC){
+    		  printf("Do_oop_work called on %p, Done.\n", obj);
+    		  fflush(stdout);
+    	  }
   }
   BMOopClosure(ConcurrentMark* cm, G1CollectedHeap* g1h){
 	  _cm = cm;
