@@ -536,7 +536,6 @@ class HeapRegion: public G1OffsetTableContigSpace {
 						 bottom(), Universe::getPageIndex(bottom()));
 				 fflush(stdout);
 			 }
-		  ((G1CollectedHeap *)Universe::heap())->concurrent_mark()->clearBookMarkBitMap(this);
 		  // Clearing the bookMarkMap
 		  clearBookMarkMap();
 	  }

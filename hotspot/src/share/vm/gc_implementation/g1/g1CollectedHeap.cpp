@@ -671,6 +671,7 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
     if(alloc_region != NULL){
     	alloc_region->setPurpose(purpose);
     	alloc_region->clearTables();
+    	concurrentMark()->clearBookMarkBitMap(alloc_region);
     }
     // Setting the region as survivor in case the region is a cold region
     if ((purpose == GCAllocForSurvived  || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
