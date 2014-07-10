@@ -125,10 +125,6 @@ class CMBitMapRO VALUE_OBJ_CLASS_SPEC {
   NOT_PRODUCT(bool covers(ReservedSpace rs) const;)
 };
 
-class CMByteMap {
-	CMByteMap(ReservedSpace rs)
-};
-
 class CMBitMap : public CMBitMapRO {
 
  public:
@@ -1294,18 +1290,7 @@ private:
 public:
   virtual void do_oop(narrowOop* p) { do_oop_work(p); }
   virtual void do_oop(oop* p) { do_oop_work(p); }
-  template <class T> void do_oop_work(T* p) {
-	  // Decoding the handle to the object from the heap
-	  oop obj = oopDesc::load_decode_heap_oop(p);
-      // Need to mark the object so that we can trace objects references to objects
-      CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
-      // Checking whether the referenced object is not null, before marking them.
-      if(obj != NULL){
-    	  bookMarkBitMap->mark((HeapWord *)obj);
-    	  HeapRegion *hr = _g1h->heap_region_containing_raw(obj);
-    	  hr->incrementBookMarkCount((void *)obj);
-      }
-    }
+  template <class T> void do_oop_work(T* p);
   BMOopClosure(ConcurrentMark* cm, G1CollectedHeap* g1h){
 	  _cm = cm;
 	  _g1h = g1h;

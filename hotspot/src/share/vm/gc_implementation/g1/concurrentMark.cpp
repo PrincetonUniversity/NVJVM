@@ -4694,3 +4694,17 @@ G1PrintRegionLivenessInfoClosure::~G1PrintRegionLivenessInfoClosure() {
                  perc(_total_next_live_bytes, _total_capacity_bytes));
   _out->cr();
 }
+
+
+template <class T> void BMOopClosure::do_oop_work(T* p) {
+	  // Decoding the handle to the object from the heap
+	  oop obj = oopDesc::load_decode_heap_oop(p);
+      // Need to mark the object so that we can trace objects references to objects
+      CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
+      // Checking whether the referenced object is not null, before marking them.
+      if(obj != NULL){
+    	  bookMarkBitMap->mark((HeapWord *)obj);
+    	  HeapRegion *hr = _g1h->heap_region_containing_raw(obj);
+    	  hr->incrementBookMarkCount((void *)obj);
+      }
+}

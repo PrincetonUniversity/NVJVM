@@ -36,6 +36,7 @@
 #include "swap/Utility.h"
 #include "swap/SwapManager.h"
 #include "swap/swap_global.h"
+#include "g1CollectedHeap.hpp"
 
 typedef std::map<void*, int> bookMarkMap;
 typedef std::map<void*, int>::iterator bookMarkMapIterator;
@@ -372,7 +373,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapPair bmPair;
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
-	  if(it == _bookMarkMap::end()){
+	  if(it == _bookMarkMap.end()){
 		  count = 1;
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
@@ -388,7 +389,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapPair bmPair;
 	  it = _bookMarkMap.find(address);
 	  int count = value;
-	  if(it == _bookMarkMap::end()){
+	  if(it == _bookMarkMap.end()){
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
 		  printf("Inserting a bookMarked Object, it is already present. Exiting. \n", address);
@@ -403,7 +404,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapPair bmPair;
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
-	  if(it == _bookMarkMap::end()){
+	  if(it == _bookMarkMap.end()){
 		  printf("Removing a bookMarked Object, it is not present. Exiting. \n", address);
 		  fflush(stdout);
 		  exit(-1);
@@ -419,13 +420,13 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapPair bmPair;
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
-	  if(it == _bookMarkMap::end()){
+	  if(it == _bookMarkMap.end()){
 		  count = 1;
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
 		   count = it->second + 1;
 		  _bookMarkMap.erase(address);
-		  _bookMarkMap.insert (address, bookMarkMapPair(address, count));
+		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  }
 	  return count;
   }
@@ -435,13 +436,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapPair bmPair;
 	  int count = -1;
 	  it = _bookMarkMap.find(address);
-	  if(it == _bookMarkMap::end()){
+	  if(it == _bookMarkMap.end()){
 		  printf("BookMark does not exist for object %p. Incorrect. Exiting.\n", address);
 		  fflush(stdout);
 		  exit(-1);
 	  } else {
 		  count = it->second - 1;
-		  _bookMarkMap.insert (it, bookMarkMapPair(address, count));
+		  _bookMarkMap.erase(address);
+		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  }
 	  return count;
   }
