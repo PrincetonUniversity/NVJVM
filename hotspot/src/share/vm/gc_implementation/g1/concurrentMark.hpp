@@ -125,6 +125,10 @@ class CMBitMapRO VALUE_OBJ_CLASS_SPEC {
   NOT_PRODUCT(bool covers(ReservedSpace rs) const;)
 };
 
+class CMByteMap {
+	CMByteMap(ReservedSpace rs)
+};
+
 class CMBitMap : public CMBitMapRO {
 
  public:
@@ -402,6 +406,7 @@ protected:
   // Bookmark bitmap that marks objects.
   // Objects which are referenced by objects that are out-of-core are bookmarked.
   CMBitMap*				  _bookMarkBitMap;
+
 
   bool                    _at_least_one_mark_complete;
 
@@ -719,6 +724,13 @@ public:
   CMBitMapRO* prevMarkBitMap() const { return _prevMarkBitMap; }
   CMBitMap*   nextMarkBitMap() const { return _nextMarkBitMap; }
   CMBitMap*   bookMarkBitMap() const { return _bookMarkBitMap; }
+  void clearBookMarkBitMap(HeapRegion* hr) {
+	  HeapWord* start = hr->bottom();
+	  HeapWord* end = hr->end();
+	  MemRegion mr(start, end);
+	  _bookMarkBitMap->clearRange(mr);
+  }
+
   void unionBitMaps(){
   // Thereafter we get take the union of the _bookMarkBitMap and _nextBitMap
 	  // This function gets the next mark bit map.
@@ -1159,8 +1171,14 @@ public:
       gclog_or_tty->print_cr("[%d] we're scanning object "PTR_FORMAT,
                              _task_id, (void*) obj);
 
-    if (L_ITERATE){
+    if (UseBMGC){
     	if(!(Universe::isPresent((void*)obj))) {
+    		if(Log_BMGC){
+    			printf("Scanning object with address %p. "
+    					"The object is currently not present in memory. "
+    					"Therefore, skipping the scanning part.\n", obj);
+    			fflush(stdout);
+    		}
     		return;
     	}
     }
@@ -1271,20 +1289,26 @@ public:
 class BMOopClosure : public OopClosure {
 private:
    ConcurrentMark* _cm;
+   G1CollectedHeap* _g1h;
 
 public:
   virtual void do_oop(narrowOop* p) { do_oop_work(p); }
   virtual void do_oop(oop* p) { do_oop_work(p); }
   template <class T> void do_oop_work(T* p) {
-      oop obj = oopDesc::load_decode_heap_oop(p);
+	  // Decoding the handle to the object from the heap
+	  oop obj = oopDesc::load_decode_heap_oop(p);
       // Need to mark the object so that we can trace objects references to objects
       CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
       // Checking whether the referenced object is not null, before marking them.
-      if(!obj)
+      if(obj != NULL){
     	  bookMarkBitMap->mark((HeapWord *)obj);
+    	  HeapRegion *hr = _g1h->heap_region_containing_raw(obj);
+    	  hr->incrementBookMarkCount((void *)obj);
+      }
     }
-  BMOopClosure(ConcurrentMark* cm){
+  BMOopClosure(ConcurrentMark* cm, G1CollectedHeap* g1h){
 	  _cm = cm;
+	  _g1h = g1h;
   }
 };
 

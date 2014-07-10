@@ -33,7 +33,7 @@ class Space;
 class OopsInGenClosure;
 
 // This kind of "GenRemSet" uses a card table both as shared data structure
-// for a mod ref barrier set and for the rem set information.
+// for a modified reference barrier set and for the remember set information.
 
 class CardTableRS: public GenRemSet {
   friend class VMStructs;

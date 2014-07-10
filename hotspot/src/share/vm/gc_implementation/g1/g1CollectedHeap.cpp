@@ -70,9 +70,11 @@ bool liesWithinHeap(void *address){
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
 	  void *addr = (void *)si->si_addr;
-//      printf("Segmentation fault on %p\n", addr); fflush(stdout);
+//    printf("Segmentation fault on %p\n", addr); fflush(stdout);
 	  if (si->si_code == SEGV_ACCERR && liesWithinHeap(addr)){
-		  printf("Segmentation fault on %p. Code = SEGV_ACCERR.\n", addr); fflush(stdout);
+		  if(L_SWAP){
+			  printf("Segmentation fault on %p. Code = SEGV_ACCERR.\n", addr); fflush(stdout);
+		  }
 		  char *position = (char *)Universe::getRegionTablePosition(addr);
 		  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 		  char prefetchValue = *prefetchPosition;
@@ -908,9 +910,8 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 		  return;
 	  }
 	  // This would result in iteration over all the objects present in the region which is being swapped out.
-	  if(L_ITERATE){
-		  printf("L_ITERATE true \n."); fflush(stdout);
-		  BMOopClosure bmOopClosure(concurrent_mark());
+	  if(UseBMGC){
+		  BMOopClosure bmOopClosure(concurrent_mark(), this);
 		  buf->oop_iterate(&bmOopClosure);
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
@@ -2179,7 +2180,7 @@ jint G1CollectedHeap::initialize() {
   _expansion_regions = max_byte_size/HeapRegion::GrainBytes;
 
   // Create the gen rem set (and barrier set) for the entire reserved region.
-  _rem_set = collector_policy()->create_rem_set(_reserved, 3);
+  _rem_set = collector_policy()->create_rem_set(_reserved, 2);
   set_barrier_set(rem_set()->bs());
   if (barrier_set()->is_a(BarrierSet::ModRef)) {
     _mr_bs = (ModRefBarrierSet*)_barrier_set;
@@ -2246,6 +2247,10 @@ jint G1CollectedHeap::initialize() {
   // Create the ConcurrentMark data structure and thread.
   // (Must do this late, so that "max_regions" is defined.)
   _cm       = new ConcurrentMark(heap_rs, (int) max_regions());
+  if(P_INIT){
+	  printf("Reserved Space has => Max_Regions = %d, Max_Capacity = %ld.\n", (int) max_regions(), max_capacity());
+	  fflush(stdout);
+  }
   _cmThread = _cm->cmThread();
 
   // Initialize the from_card cache structure of HeapRegionRemSet.
@@ -3542,9 +3547,6 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   assert_at_safepoint(true /* should_be_vm_thread */);
   // Swapping in regions when we did not have bookmarking implemented.
   // Due to bookmarks the collector would not touch swapped out regions and hence swapping in of regions is unnecessary.
-  if(!(L_ITERATE)){
-//	  SwapManager::swapInRegions();
-  }
 
   guarantee(!is_gc_active(), "collection is not reentrant");
 
@@ -3663,7 +3665,8 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 #endif // YOUNG_LIST_VERBOSE
 
       if (g1_policy()->during_initial_mark_pause()) {
-        concurrent_mark()->checkpointRootsInitialPre();
+        // resets data structures related to concurrent marking
+    	concurrent_mark()->checkpointRootsInitialPre();
       }
       save_marks(); // saves the top() of each of each region in the heap region sequence
 
@@ -3726,8 +3729,6 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       g1_policy()->clear_collection_set();
 
 //      getRegionStatistics();
-
-
       cleanup_surviving_young_words();
 
       // Start a new incremental collection set for the next pause.
@@ -4855,8 +4856,7 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
       oop copy_oop = copy_to_survivor_space(obj);
 //  Copy_oop is the pointer to the new location, where the object is copied to.
       Universe::markPrefetchTable((void*)copy_oop, obj->size() * HeapWordSize);
-
-      if(L_ITERATE){
+      if(UseBMGC){
     	  //  Updating the bookMark. Getting the bookMarkBitMap
     	  CMBitMap* _bMBitMap = _g1->concurrent_mark()->bookMarkBitMap();
     	  // Checking if the old object was marked on the bookMarkBitMap
@@ -4864,6 +4864,12 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     		  // Marking the new object for the object that was copied
     		  _bMBitMap->clear((HeapWord *)obj);
     		  _bMBitMap->mark((HeapWord *)copy_oop);
+
+    		  // Copying the bookMark to the new region
+    		  HeapRegion* oldHr = _g1h->heap_region_containing_raw(obj);
+    		  HeapRegion* newHr = _g1h->heap_region_containing_raw(copy_oop);
+    		  int count = oldHr->removeBookMark(obj);
+    		  newHr->insertBookMarkCountWithValue(copy_oop, count);
     	  }
       }
       oopDesc::encode_store_heap_oop(p, copy_oop);

@@ -139,7 +139,11 @@ void ConcurrentMarkThread::run() {
       do {
         iter++;
         if (!cm()->has_aborted()) {
-        	if(L_ITERATE){
+        	if(UseBMGC){
+        		if(Log_BMGC){
+        			printf("Taking a union of the bookMark and the nextBitMap.\n");
+        			fflush(stdout);
+        		}
         		_cm->unionBitMaps();  // Taking the union of the bitmaps before the marking phase begins
         	}
         	_cm->markFromRoots(); // 2.5.2 Initial Marking Pause/Concurrent Marking

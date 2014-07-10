@@ -1826,7 +1826,7 @@ protected:
   CardTableModRefBS* ctbs()                      { return _ct_bs; }
 
   template <class T> void immediate_rs_update(HeapRegion* from, T* p, int tid) {
-    if (!from->is_survivor()) {
+    if (!from->is_survivor() || from->isCold()) {
       _g1_rem->par_write_ref(from, p, tid);
     }
   }
@@ -1834,7 +1834,7 @@ protected:
   template <class T> void deferred_rs_update(HeapRegion* from, T* p, int tid) {
     // If the new value of the field points to the same region or
     // is the to-space, we don't need to include it in the Rset updates.
-    if (!from->is_in_reserved(oopDesc::load_decode_heap_oop(p)) && !from->is_survivor()) {
+    if (!from->is_in_reserved(oopDesc::load_decode_heap_oop(p)) && (!from->is_survivor() || from->isCold())) {
       size_t card_index = ctbs()->index_for(p);
       // If the card hasn't been added to the buffer, do it.
       if (ctbs()->mark_card_deferred(card_index)) {

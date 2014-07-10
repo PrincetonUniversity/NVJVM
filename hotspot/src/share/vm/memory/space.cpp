@@ -737,7 +737,7 @@ void ContiguousSpace::object_iterate(ObjectClosure* blk) {
   object_iterate_from(bm, blk);
 }
 
-// For a continguous space object_iterate() and safe_object_iterate()
+// For a contiguous space object_iterate() and safe_object_iterate()
 // are the same.
 void ContiguousSpace::safe_object_iterate(ObjectClosure* blk) {
   object_iterate(blk);

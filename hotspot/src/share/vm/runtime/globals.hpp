@@ -475,6 +475,8 @@ class CommandLineFlags {
           "Percentage (0-100) used to weight the current sample when "      \
           "computing exponentially decaying average for "                   \
           "AdaptiveNUMAChunkSizing")                                        \
+  product(bool, UseBMGC, false,"")											\
+  product(bool, Log_BMGC, false,"")											\
   product(bool, FL_SWAP, false,											    \
          "flag for faultless swap module")                                  \
   product(bool, Swap_Protect, false,										\
@@ -2840,7 +2842,6 @@ class CommandLineFlags {
 		 "print to output")													\
   product(bool, L_SWAP, false,												\
           "print to output for swapping")									\
-  product(bool, L_ITERATE, false, "")										\
   product(bool, REMAP, false,												\
 		  "print to output for remapping logs")								\
   product(bool, L_FUNC_CALL, false,										    \

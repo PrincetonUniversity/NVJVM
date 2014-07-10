@@ -92,7 +92,7 @@ public:
   // within the heap, this function tells whether they are met.
   virtual bool is_aligned(HeapWord* addr) = 0;
 
-  // If the RS (or BS) imposes an aligment constraint on maximum heap size.
+  // If the RS (or BS) imposes an alignment constraint on maximum heap size.
   // (This must be static, and dispatch on "nm", because it is called
   // before an RS is created.)
   static uintx max_alignment_constraint(Name nm);

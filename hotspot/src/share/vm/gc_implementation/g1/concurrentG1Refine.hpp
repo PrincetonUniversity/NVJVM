@@ -30,7 +30,7 @@
 #include "runtime/thread.hpp"
 #include "utilities/globalDefinitions.hpp"
 
-// Forward decl
+// Forward declaration
 class ConcurrentG1RefineThread;
 class G1RemSet;
 

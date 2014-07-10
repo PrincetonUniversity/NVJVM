@@ -35,6 +35,11 @@
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
 #include "swap/SwapManager.h"
+#include "swap/swap_global.h"
+
+typedef std::map<void*, int> bookMarkMap;
+typedef std::map<void*, int>::iterator bookMarkMapIterator;
+typedef std::pair<void*, int> bookMarkMapPair;
 
 #ifndef SERIALGC
 
@@ -214,6 +219,9 @@ class G1OffsetTableContigSpace: public ContiguousSpace {
   }
 };
 
+
+
+
 class HeapRegion: public G1OffsetTableContigSpace {
   friend class VMStructs;
  private:
@@ -223,6 +231,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
     StartsHumongous,
     ContinuesHumongous
   };
+
+  bookMarkMap _bookMarkMap;
 
   // The next filter kind that should be used for a "new_dcto_cl" call with
   // the "traditional" signature.
@@ -357,6 +367,89 @@ class HeapRegion: public G1OffsetTableContigSpace {
   HeapRegion(G1BlockOffsetSharedArray* sharedOffsetArray,
              MemRegion mr, bool is_zeroed);
 
+  int insertBookMarkCount(void *address){
+	  bookMarkMapIterator it;
+	  bookMarkMapPair bmPair;
+	  it = _bookMarkMap.find(address);
+	  int count = -1;
+	  if(it == _bookMarkMap::end()){
+		  count = 1;
+		  _bookMarkMap.insert (bookMarkMapPair(address, count));
+	  } else {
+		  printf("Inserting a bookMarked Object, it is already present. Exiting. \n", address);
+		  fflush(stdout);
+		  exit(-1);
+	  }
+	  return count;
+  }
+
+  int insertBookMarkCountWithValue(void *address, int value){
+	  bookMarkMapIterator it;
+	  bookMarkMapPair bmPair;
+	  it = _bookMarkMap.find(address);
+	  int count = value;
+	  if(it == _bookMarkMap::end()){
+		  _bookMarkMap.insert (bookMarkMapPair(address, count));
+	  } else {
+		  printf("Inserting a bookMarked Object, it is already present. Exiting. \n", address);
+		  fflush(stdout);
+		  exit(-1);
+	  }
+	  return count;
+  }
+
+  int removeBookMark(void *address){
+	  bookMarkMapIterator it;
+	  bookMarkMapPair bmPair;
+	  it = _bookMarkMap.find(address);
+	  int count = -1;
+	  if(it == _bookMarkMap::end()){
+		  printf("Removing a bookMarked Object, it is not present. Exiting. \n", address);
+		  fflush(stdout);
+		  exit(-1);
+	  } else {
+		   count = it->second;
+		  _bookMarkMap.erase (address);
+	  }
+	  return count;
+  }
+
+  int incrementBookMarkCount(void *address){
+	  bookMarkMapIterator it;
+	  bookMarkMapPair bmPair;
+	  it = _bookMarkMap.find(address);
+	  int count = -1;
+	  if(it == _bookMarkMap::end()){
+		  count = 1;
+		  _bookMarkMap.insert (bookMarkMapPair(address, count));
+	  } else {
+		   count = it->second + 1;
+		  _bookMarkMap.erase(address);
+		  _bookMarkMap.insert (address, bookMarkMapPair(address, count));
+	  }
+	  return count;
+  }
+
+  int decrementBookMarkCount(void *address){
+	  bookMarkMapIterator it;
+	  bookMarkMapPair bmPair;
+	  int count = -1;
+	  it = _bookMarkMap.find(address);
+	  if(it == _bookMarkMap::end()){
+		  printf("BookMark does not exist for object %p. Incorrect. Exiting.\n", address);
+		  fflush(stdout);
+		  exit(-1);
+	  } else {
+		  count = it->second - 1;
+		  _bookMarkMap.insert (it, bookMarkMapPair(address, count));
+	  }
+	  return count;
+  }
+
+  void clearBookMarkMap(){
+	  _bookMarkMap.clear();
+  }
+
   static int LogOfHRGrainBytes;
   static int LogOfHRGrainWords;
   // The normal type of these should be size_t. However, they used to
@@ -370,6 +463,15 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   bool _isSwappedOut;
   int _purpose;
+  bool _isCold;
+
+  bool isCold (){
+	  return _isCold;
+  }
+
+  void setIsCold(bool v){
+	  _isCold = v;
+  }
 
   int getPurpose(){
 	  return _purpose;
@@ -377,7 +479,13 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   void setPurpose(int p){
 	  _purpose = p;
+	  if(_purpose == GCAllocForSurvivedCold || _purpose == GCAllocForTenuredCold)
+		  setIsCold(true);
+	  else
+		  setIsCold(false);
   }
+
+
 
   void clearTables(){
 	  // Code to clear all the three tables
@@ -411,6 +519,17 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(!isInMemory()){
 		  SwapManager::clearRegion(start);
 		  markedSwappedIn();
+	  }
+	  if(UseBMGC){
+			 if(Log_BMGC){
+				 printf("HeapRegion with bottom = %p, index = %ld, being allocated. "
+						 "So, we clear the bookMarkBitMap for this heapRegion.\n",
+						 bottom(), Universe::getPageIndex(bottom()));
+				 fflush(stdout);
+			 }
+		  Universe::heap()->concurrent_mark()->clearBookMarkBitMap(this);
+		  // Clearing the bookMarkMap
+		  clearBookMarkMap();
 	  }
   }
 

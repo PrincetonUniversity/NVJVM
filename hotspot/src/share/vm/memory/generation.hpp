@@ -36,7 +36,7 @@
 #include "runtime/virtualspace.hpp"
 
 // A Generation models a heap area for similarly-aged objects.
-// It will contain one ore more spaces holding the actual objects.
+// It will contain one or more spaces holding the actual objects.
 //
 // The Generation class hierarchy:
 //

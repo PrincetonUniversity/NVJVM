@@ -179,8 +179,14 @@ public:
       // While scanning each card, we check whether the card is present in memory.
       // If the card is not present in memory, then references from the region must already
       // book marked and therefore should not be scanned.
-      if(L_ITERATE){
+      if(UseBMGC){
       	if(!Universe::isPresent((void *)card_start)){
+      		if(Log_BMGC){
+      			printf("Card with Card_Start = %p, index = %ld, is not present in memory. "
+      					"Therefore, we skip scanning the card.\n",
+      					scanCard, Universe::getPageIndex((void *)card_start));
+      			fflush(stdout);
+      		}
       		return;
       	}
       }
@@ -216,7 +222,7 @@ public:
     hrrs->init_iterator(iter);
     size_t card_index;
 
-    // We claim cards in block so as to recude the contention. The block size is determined by
+    // We claim cards in block so as to reduce the contention. The block size is determined by
     // the G1RSetScanBlockSize parameter.
     size_t jump_to_card = hrrs->iter_claimed_next(_block_size);
     for (size_t current_card = 0; iter->has_next(card_index); current_card++) {
@@ -578,6 +584,7 @@ public:
   }
 };
 
+// Updates the remembered by processing the dirty cards
 void G1RemSet::cleanup_after_oops_into_collection_set_do() {
   guarantee( _cards_scanned != NULL, "invariant" );
   _total_cards_scanned = 0;
@@ -591,6 +598,7 @@ void G1RemSet::cleanup_after_oops_into_collection_set_do() {
   _g1->heap_region_iterate(&cl);
 #endif
   _g1->set_refine_cte_cl_concurrency(true);
+ // Initializes the iteration_state to unclaimed
   cleanUpIteratorsClosure iterClosure;
   _g1->collection_set_iterate(&iterClosure);
   // Set all cards back to clean.
@@ -707,13 +715,9 @@ bool G1RemSet::concurrentRefineOneCard_impl(jbyte* card_ptr, int worker_i,
                                                    bool check_for_refs_into_cset) {
   // Construct the region representing the card.
   HeapWord* start = _ct_bs->addr_for(card_ptr);
+
   // And find the region containing it.
   HeapRegion* r = _g1->heap_region_containing(start);
-  void *bottom = (void *)r->bottom();
-  if(SwapManager::isSwappedOut(bottom)){
-	  SSDSwap::swapInRegion(bottom);
-	  SwapManager::removeRegion(bottom);
-  }
   assert(r != NULL, "unexpected null");
 
   HeapWord* end   = _ct_bs->addr_for(card_ptr + 1);
@@ -813,16 +817,16 @@ bool G1RemSet::concurrentRefineOneCard(jbyte* card_ptr, int worker_i,
   // actually dirty its cards after we release the lock, since card
   // dirtying while holding the lock was a performance bottleneck. So,
   // as a result, it is possible for other threads to actually
-  // allocate objects in the region (after the acquire the lock)
+  // allocate objects in the region (after they acquire the lock)
   // before all the cards on the region are dirtied. This is unlikely,
   // and it doesn't happen often, but it can happen. So, the extra
   // check below filters out those cards.
-  if (r->is_young()) {
+  if (r->is_young() && !r->isCold()) {
     return false;
   }
   // While we are processing RSet buffers during the collection, we
   // actually don't want to scan any cards on the collection set,
-  // since we don't want to update remebered sets with entries that
+  // since we don't want to update remembered sets with entries that
   // point into the collection set, given that live objects from the
   // collection set are about to move and such entries will be stale
   // very soon. This change also deals with a reliability issue which
@@ -901,7 +905,7 @@ bool G1RemSet::concurrentRefineOneCard(jbyte* card_ptr, int worker_i,
         // The above call to concurrentRefineOneCard_impl is only
         // performed if the hot card cache is enabled. This cache is
         // disabled during an evacuation pause - which is the only
-        // time when we need know if the card contains references
+        // time when we need to know if the card contains references
         // that point into the collection set. Also when the hot card
         // cache is enabled, this code is executed by the concurrent
         // refine threads - rather than the GC worker threads - and

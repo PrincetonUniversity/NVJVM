@@ -101,9 +101,6 @@ void CollectorPolicy::initialize_size_info() {
                                        min_alignment()));
 
   set_max_heap_byte_size(align_size_up(MaxHeapSize, max_alignment()));
-  if(P_INIT){
-	  printf("In initialize_size_info: max heap size = %d\n", MaxHeapSize); fflush(stdout);
-  }
 
   // Check heap parameter properties
   if (initial_heap_byte_size() < M) {

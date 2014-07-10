@@ -2999,7 +2999,7 @@ void ConcurrentMark::complete_marking_in_collection_set() {
   g1h->collection_set_iterate(&clr);
 }
 
-// The next two methods deal with the following optimisation. Some
+// The next two methods deal with the following optimization. Some
 // objects are gray by being marked and located above the finger. If
 // they are copied, during an evacuation pause, below the finger then
 // the need to be pushed on the stack. The observation is that, if
@@ -3009,7 +3009,7 @@ void ConcurrentMark::complete_marking_in_collection_set() {
 // finger. The global stack will be scanned to ensure that, if it
 // points to objects being copied, it will update their
 // location. There is a tricky situation with the gray objects in
-// region stack that are being coped, however. See the comment in
+// region stack that are being copied, however. See the comment in
 // newCSet().
 
 void ConcurrentMark::newCSet() {

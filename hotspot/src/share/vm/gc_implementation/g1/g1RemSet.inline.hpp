@@ -86,7 +86,7 @@ template <class T>
 inline void UpdateRSetImmediate::do_oop_work(T* p) {
   assert(_from->is_in_reserved(p), "paranoia");
   T heap_oop = oopDesc::load_heap_oop(p);
-  if (!oopDesc::is_null(heap_oop) && !_from->is_survivor()) {
+  if (!oopDesc::is_null(heap_oop) && (!_from->is_survivor() || _from->isCold())) {
     _g1_rem_set->par_write_ref(_from, p, 0);
   }
 }
@@ -132,7 +132,7 @@ inline void UpdateRSOrPushRefOopClosure::do_oop_work(T* p) {
       // there is no need to retry.
       if (!self_forwarded(obj)) {
         assert(_push_ref_cl != NULL, "should not be null");
-        // Push the reference in the refs queue of the G1ParScanThreadState
+        // Push the reference in the references queue of the G1ParScanThreadState
         // instance for this worker thread.
         _push_ref_cl->do_oop(p);
       }
