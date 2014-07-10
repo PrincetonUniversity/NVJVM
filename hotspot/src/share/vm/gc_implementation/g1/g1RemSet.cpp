@@ -184,7 +184,7 @@ public:
       		if(Log_BMGC){
       			printf("Card with Card_Start = %p, index = %ld, is not present in memory. "
       					"Therefore, we skip scanning the card.\n",
-      					scanCard, Universe::getPageIndex((void *)card_start));
+      					card_start, Universe::getPageIndex((void *)card_start));
       			fflush(stdout);
       		}
       		return;
