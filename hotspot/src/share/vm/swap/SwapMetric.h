@@ -24,8 +24,11 @@ private:
 	static long int _swapOutPages;
 	static long int _swapInsCompiler;
 	static long int _swapInsInterpreter;
+	static long int _faultsDuringCollection;
 
 public:
+	static long int getFaultsDuringCollection();
+	static void incrementFaultsDuringCollection();
 	static long int getSwapOutPages();
 	static long int getSwapInPages();
 	static void incrementSegFaults();

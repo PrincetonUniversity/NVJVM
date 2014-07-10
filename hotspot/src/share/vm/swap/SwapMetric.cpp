@@ -18,8 +18,17 @@ long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
 long int SwapMetric::_swapInsCompiler = 0;
 long int SwapMetric::_swapInsInterpreter = 0;
+long int SwapMetric::_faultsDuringCollection = 0;
 
 #define K 1024
+
+void SwapMetric::incrementFaultsDuringCollection(){
+	_faultsDuringCollection++;
+}
+
+long int SwapMetric::getFaultsDuringCollection(){
+	return _faultsDuringCollection;
+}
 
 void SwapMetric::incrementSwapInCompiler(){
 	_swapInsCompiler++;
@@ -46,7 +55,10 @@ long int SwapMetric::getSwapInPages(){
 }
 
 void SwapMetric::incrementSegFaults(){
-	_segFaults++;
+	if(Universe::isCollecting()){
+		incrementFaultsDuringCollection();
+	}
+		_segFaults++;
 }
 
 long int SwapMetric::getSegFaultCount(){
@@ -114,12 +126,12 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
-			"Total segmentation faults = %ld, Interpreter faults = %ld, Compiler Faults %ld.\n",
+			"Total segmentation faults = %ld, faults during collection %ld, Interpreter faults = %ld, Compiler Faults %ld.\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 			(long long)_swapInTime.tv_sec,
 			_swapInTime.tv_nsec/(1000*1000),
-			_segFaults, _swapInsInterpreter, _swapInsCompiler);
+			_segFaults, _faultsDuringCollection, _swapInsInterpreter, _swapInsCompiler);
 	fflush(stdout);
 }
 
