@@ -188,7 +188,11 @@ public:
       		  exit(-1);
       	  }
           bookMarkBitMap->mark((HeapWord *)obj);
-      	  HeapRegion *hr = _g1h->heap_region_containing_raw(obj);
+      	  HeapRegion *hr = _g1h->heap_region_containing(obj);
+      	  if(hr == NULL){
+      		  printf("heapRegion = NULL.\n");
+      		  exit(-1);
+      	  }
       	  hr->incrementBookMarkCount((void *)obj);
         }
     	  if(Log_BMGC){
