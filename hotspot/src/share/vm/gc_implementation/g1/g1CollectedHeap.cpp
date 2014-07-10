@@ -190,16 +190,18 @@ public:
 //      	  }
           bookMarkBitMap->mark((HeapWord *)obj);
       	  HeapRegion *hr = _g1h->heap_region_containing(obj);
-      	  if(hr == NULL){
-      		  if(Universe::heap()->is_in_permanent(obj)){
-      			  printf("obj %p is in permanent.\n", obj);
-      			  fflush(stdout);
-      		  }
-      		  printf("HeapRegion containing %p, index %ld, is NULL.\n", obj, Universe::getPageIndex((void *)obj));
-      		  fflush(stdout);
-      		  exit(-1);
+//      	  if(hr == NULL){
+//      		  if(Universe::heap()->is_in_permanent(obj)){
+//      			  printf("obj %p is in permanent.\n", obj);
+//      			  fflush(stdout);
+//      		  }
+//      		  printf("HeapRegion containing %p, index %ld, is NULL.\n", obj, Universe::getPageIndex((void *)obj));
+//      		  fflush(stdout);
+//      		  exit(-1);
+//      	  }
+      	  if(hr != NULL){
+      		  hr->incrementBookMarkCount((void *)obj);
       	  }
-          hr->incrementBookMarkCount((void *)obj);
         }
 //    	  if(Log_BMGC){
 //    		  printf("Do_oop_work called on %p, Done.\n", obj);
