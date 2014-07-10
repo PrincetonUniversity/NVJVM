@@ -271,11 +271,6 @@ inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
 // Load and decode an oop out of the heap accepting null
 inline oop oopDesc::load_decode_heap_oop(oop* p) {
 	Universe::accessCheck((void *)p);
-//	if(*p == NULL){
-//		printf("In load_decode_heap_oop(), Oop is null. Oop address = %p.\n", p);
-//		fflush(stdout);
-//		exit(-1);
-//	}
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop(narrowOop* p) {

@@ -138,7 +138,7 @@ void G1MarkSweep::mark_sweep_phase1(bool& marked_for_unloading,
   }
   SharedHeap* sh = SharedHeap::heap();
 
-  sh->process_strong_roots(true,  // activeate StrongRootsScope
+  sh->process_strong_roots(true,  // Activate StrongRootsScope
                            true,  // Collecting permanent generation.
                            SharedHeap::SO_SystemClasses,
                            &GenMarkSweep::follow_root_closure,
@@ -257,7 +257,7 @@ public:
 };
 
 void G1MarkSweep::mark_sweep_phase2() {
-	if (L_DEBUG) {
+	if (Log_BMGC) {
 		printf("in mark sweep phase 2\n"); fflush(stdout);
 	}
   // Now all live objects are marked, compute the new object addresses.

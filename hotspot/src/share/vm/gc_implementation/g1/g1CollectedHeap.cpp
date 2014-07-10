@@ -175,6 +175,10 @@ public:
   template <class T> void do_oop_work(T* p) {
   	  // Decoding the handle to the object from the heap
   	  oop obj = oopDesc::load_decode_heap_oop(p);
+  	  if(Log_BMGC){
+  		  printf("Do_oop_work called on %p.\n", obj);
+  		  fflush(stdout);
+  	  }
         // Need to mark the object so that we can trace objects references to objects
         CMBitMap* bookMarkBitMap = _cm->bookMarkBitMap();
         // Checking whether the referenced object is not null, before marking them.
