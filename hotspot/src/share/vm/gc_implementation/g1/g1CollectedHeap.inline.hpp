@@ -37,7 +37,7 @@
 inline HeapRegion*
 G1CollectedHeap::heap_region_containing(const void* addr) const {
   HeapRegion* hr = _hrs->addr_to_region(addr);
-  // hr can be null if addr in perm_gen
+  // hr can be null if address in perm_gen
   if (hr != NULL && hr->continuesHumongous()) {
     hr = hr->humongous_start_region();
   }

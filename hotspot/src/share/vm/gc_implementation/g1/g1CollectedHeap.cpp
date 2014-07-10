@@ -168,6 +168,7 @@ class BMOopClosure : public OopClosure {
 private:
    ConcurrentMark* _cm;
    G1CollectedHeap* _g1h;
+   HeapRegion* _hr;
 
 public:
   virtual void do_oop(narrowOop* p) { do_oop_work(p); }
@@ -188,21 +189,17 @@ public:
       		  exit(-1);
       	  }
           bookMarkBitMap->mark((HeapWord *)obj);
-      	  HeapRegion *hr = _g1h->heap_region_containing(obj);
-      	  if(hr == NULL){
-      		  printf("heapRegion = NULL.\n");
-      		  exit(-1);
-      	  }
-      	  hr->incrementBookMarkCount((void *)obj);
+      	  _hr->incrementBookMarkCount((void *)obj);
         }
     	  if(Log_BMGC){
     		  printf("Do_oop_work called on %p, Done.\n", obj);
     		  fflush(stdout);
     	  }
   }
-  BMOopClosure(ConcurrentMark* cm, G1CollectedHeap* g1h){
+  BMOopClosure(ConcurrentMark* cm, G1CollectedHeap* g1h, HeapRegion *hr){
 	  _cm = cm;
 	  _g1h = g1h;
+	  _hr = hr;
   }
 };
 
@@ -955,7 +952,7 @@ void G1CollectedHeap::swapOutRegion(HeapRegion *buf){
 	  }
 	  // This would result in iteration over all the objects present in the region which is being swapped out.
 	  if(UseBMGC){
-		  BMOopClosure bmOopClosure(concurrent_mark(), this);
+		  BMOopClosure bmOopClosure(concurrent_mark(), this, buf);
 		  buf->oop_iterate(&bmOopClosure);
 	  }
 	  void *end = (void *)((char *)buf->end()-1);
