@@ -225,7 +225,7 @@ class G1CollectedHeap : public SharedHeap {
 private:
   // The one and only G1CollectedHeap, so static functions can find it.
   static G1CollectedHeap* _g1h;
-  static HeapMetrics* _heapMetrics;
+
 
   static size_t _humongous_object_threshold_in_words;
 
@@ -624,6 +624,7 @@ protected:
 
 public:
 
+  HeapMetrics* _heapMetrics;
   HeapMetrics* getHeapMetrics(){
 	  return _heapMetrics;
   }
