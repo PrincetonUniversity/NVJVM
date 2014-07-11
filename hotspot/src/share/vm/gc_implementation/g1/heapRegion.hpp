@@ -430,6 +430,10 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
+		  if(Universe::heap()->is_in_permanent(address)){
+			  printf("the address exists in permanent space.\n");
+			  fflush(stdout);
+		  }
 		  printf("Removing a bookMarked Object = %p, it is not present. Exiting. HeapRegion = %p.\n", address, this);
 		  fflush(stdout);
 		  exit(-1);
