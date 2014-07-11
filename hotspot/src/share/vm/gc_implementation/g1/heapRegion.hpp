@@ -36,6 +36,7 @@
 #include "swap/Utility.h"
 #include "swap/SwapManager.h"
 #include "swap/swap_global.h"
+#include "pthread.h"
 
 typedef std::map<void*, int> bookMarkMap;
 typedef std::map<void*, int>::iterator bookMarkMapIterator;
@@ -241,6 +242,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
   };
 
   bookMarkMap _bookMarkMap;
+  pthread_mutex_t _bookMarkMap_mutex;
 
   // The next filter kind that should be used for a "new_dcto_cl" call with
   // the "traditional" signature.
@@ -388,6 +390,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
   int insertBookMarkCount(void *address){
 	  bookMarkMapIterator it;
 	  bookMarkMapPair bmPair;
+	  pthread_mutex_lock(&_bookMarkMap_mutex);
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
@@ -402,6 +405,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  fflush(stdout);
 		  exit(-1);
 	  }
+	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
   }
 
@@ -427,6 +431,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
   int removeBookMark(void *address){
 	  bookMarkMapIterator it;
 	  bookMarkMapPair bmPair;
+	  pthread_mutex_lock(&_bookMarkMap_mutex);
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
@@ -441,12 +446,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		   count = it->second;
 		  _bookMarkMap.erase (address);
 	  }
+	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
   }
 
   int incrementBookMarkCount(void *address){
 	  bookMarkMapIterator it;
 	  bookMarkMapPair bmPair;
+	  pthread_mutex_lock(&_bookMarkMap_mutex);
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
@@ -461,6 +468,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  printf("Incrementing the bookmark count on Object %p, Count = %d. HeapRegion = %p.\n", address, count, this);
 		  fflush(stdout);
 	  }
+	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
   }
 
@@ -468,6 +476,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  bookMarkMapIterator it;
 	  bookMarkMapPair bmPair;
 	  int count = -1;
+	  pthread_mutex_lock(&_bookMarkMap_mutex);
 	  it = _bookMarkMap.find(address);
 	  if(it == _bookMarkMap.end()){
 		  printf("BookMark does not exist for object %p. Incorrect. Exiting. HeapRegion = %p.\n", address, this);
@@ -478,6 +487,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  _bookMarkMap.erase(address);
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  }
+	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
   }
 
