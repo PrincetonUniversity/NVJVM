@@ -3401,6 +3401,7 @@ bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   Universe::setIsCollecting(true);
   printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
+  _heapMetrics->clearOccupancyCountTable();
 
   assert_at_safepoint(true /* should_be_vm_thread */);
   // Swapping in regions when we did not have bookmarking implemented.
@@ -3714,6 +3715,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       (total_collections() % G1SummarizeRSetStatsPeriod == 0)) {
     g1_rem_set()->print_summary_info();
   }
+  _heapMetrics->printOccupancyMetrics();
 
   return true;
 }
@@ -4610,6 +4612,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
                                            : m->age();
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz, old->getCount(), old->is_objArray() || old->is_array());
+  _g1->getHeapMetrics()->incrementOccupancy(alloc_purpose, word_sz * HeapWordSize);
 
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);

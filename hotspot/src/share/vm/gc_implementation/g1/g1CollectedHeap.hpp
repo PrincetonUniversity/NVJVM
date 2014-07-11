@@ -175,12 +175,16 @@ public:
 
     void printOccupancyMetrics(){
     	int purpose;
+    	int K = 1024;
+    	int M = 1024*1024;
     	char regionName[20];
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
     		region_name((GCAllocPurpose)purpose, regionName);
-    		printf("Purpose = %s, Total Occupancy = %ld.", regionName, _occupancyCountTable[purpose]);
+    		printf("Purpose = %s, Total Occupancy = %ld MB.", regionName, _occupancyCountTable[purpose]/M);
     		fflush(stdout);
     	}
+    	printf("\n");
+    	fflush(stdout);
     }
 
     void incrementOccupancy(int size, int purpose){
@@ -619,6 +623,10 @@ protected:
   HeapWord* expand_and_allocate(size_t word_size);
 
 public:
+
+  HeapMetrics* getHeapMetrics(){
+	  return _heapMetrics;
+  }
 
   G1MonitoringSupport* g1mm() { return _g1mm; }
   void swapOutRegion(HeapRegion *buf);
