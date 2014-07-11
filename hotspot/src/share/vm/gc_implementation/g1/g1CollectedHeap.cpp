@@ -728,7 +728,7 @@ HeapRegion* G1CollectedHeap::new_gc_alloc_region(int purpose,
     	alloc_region->markedSwappedIn();
     }
     // Setting the region as survivor in case the region is a cold region
-    if ((purpose == GCAllocForSurvived  || purpose == GCAllocForSurvivedCold) && alloc_region != NULL) {
+    if ((purpose == GCAllocForSurvived) && alloc_region != NULL) {
       alloc_region->set_survivor();
     }
     ++_gc_alloc_region_counts[purpose];
