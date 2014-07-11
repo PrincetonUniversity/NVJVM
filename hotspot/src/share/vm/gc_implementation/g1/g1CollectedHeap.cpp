@@ -3584,7 +3584,6 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       free_collection_set(g1_policy()->collection_set());
       g1_policy()->clear_collection_set();
 
-//      getRegionStatistics();
       cleanup_surviving_young_words();
 
       // Start a new incremental collection set for the next pause.

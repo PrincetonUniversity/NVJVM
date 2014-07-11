@@ -733,6 +733,7 @@ double G1CollectorPolicy::predict_survivor_regions_evac_time() {
   for (HeapRegion * r = _recorded_survivor_head;
        r != NULL && r != _recorded_survivor_tail->get_next_young_region();
        r = r->get_next_young_region()) {
+// Survivor regions which are located in memory are
 	  if(r->isInMemory()){
 		  survivor_regions_evac_time += predict_region_elapsed_time_ms(r, true);
 	  }
@@ -1797,6 +1798,9 @@ G1CollectorPolicy::predict_region_elapsed_time_ms(HeapRegion* hr,
 
 size_t
 G1CollectorPolicy::predict_bytes_to_copy(HeapRegion* hr) {
+  printf("Predict bytes to copy called for %p.\n", hr);
+  fflush(stdout);
+
   size_t bytes_to_copy;
   if (hr->is_marked())
     bytes_to_copy = hr->max_live_bytes();
