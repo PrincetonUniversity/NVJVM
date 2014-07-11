@@ -2792,7 +2792,7 @@ void G1CollectorPolicy::add_region_to_incremental_cset_rhs(HeapRegion* hr) {
 
   // Checking if the survivor is in memory, only then we add it to the incremental collection set.
   if(UseBMGC){
-	  if(false && !(hr->isInMemory())){
+	  if(!(hr->isInMemory())){
 		 if(Log_BMGC){
 			 printf("HeapRegion with bottom = %p, index = %ld, is not present in memory "
 					 "and therefore we do not add this region to the list of incremental collection set.\n",
@@ -2830,7 +2830,7 @@ void G1CollectorPolicy::add_region_to_incremental_cset_lhs(HeapRegion* hr) {
   assert(!hr->is_survivor(), "Logic");
   // Checking if the survivor is in memory, only then we add it to the incremental collection set.
   if(UseBMGC){
-	  if(false && !(hr->isInMemory())){
+	  if(!(hr->isInMemory())){
 		 if(Log_BMGC){
 			 printf("HeapRegion with bottom = %p, index = %ld, is not present in memory "
 					 "and therefore we do not add this region to the list of incremental collection set.\n",
