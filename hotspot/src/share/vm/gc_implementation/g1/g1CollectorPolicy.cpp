@@ -2360,7 +2360,10 @@ void G1CollectorPolicy::calculate_survivors_policy()
     _tenuring_threshold = _survivors_age_table.compute_tenuring_threshold(
         HeapRegion::GrainWords * _max_survivor_regions);
   }
-  printf("tenuring threshold  = %d.\n", _tenuring_threshold);
+
+  printf("tenuring threshold  = %d. G1FixedTenuringThreshold = %d.\n", _tenuring_threshold, G1FixedTenuringThreshold);
+
+  fflush(stdout);
 }
 
 #ifndef PRODUCT
