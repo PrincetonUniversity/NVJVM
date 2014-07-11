@@ -733,7 +733,9 @@ double G1CollectorPolicy::predict_survivor_regions_evac_time() {
   for (HeapRegion * r = _recorded_survivor_head;
        r != NULL && r != _recorded_survivor_tail->get_next_young_region();
        r = r->get_next_young_region()) {
-    survivor_regions_evac_time += predict_region_elapsed_time_ms(r, true);
+	  if(r->isInMemory()){
+		  survivor_regions_evac_time += predict_region_elapsed_time_ms(r, true);
+	  }
   }
   return survivor_regions_evac_time;
 }
@@ -1187,7 +1189,7 @@ void G1CollectorPolicy::record_collection_pause_end() {
   if (G1YoungSurvRateVerbose) {
     gclog_or_tty->print_cr("");
     _short_lived_surv_rate_group->print();
-    // do that for any other surv rate groups too
+    // do that for any other survival rate groups too
   }
 #endif // PRODUCT
 
