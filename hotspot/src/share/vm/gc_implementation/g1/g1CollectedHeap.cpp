@@ -4726,7 +4726,9 @@ void G1ParCopyClosure <do_gen_barrier, barrier, do_mark_forwardee>
     		  HeapRegion* oldHr = _g1->heap_region_containing_raw(obj);
     		  HeapRegion* newHr = _g1->heap_region_containing_raw(copy_oop);
     		  int count = oldHr->removeBookMark(obj);
-    		  newHr->insertBookMarkCountWithValue(copy_oop, count);
+    		  if(count != -1){
+    			  newHr->insertBookMarkCountWithValue(copy_oop, count);
+    		  }
     	  }
       }
       oopDesc::encode_store_heap_oop(p, copy_oop);
