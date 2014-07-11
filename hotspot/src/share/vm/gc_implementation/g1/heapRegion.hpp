@@ -441,7 +441,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 			  printf("the address exists in permanent space.\n");
 			  fflush(stdout);
 		  }
-		  printf("Removing a bookMarked Object = %p, it is not present. Exiting. HeapRegion = %p.\n", address, this);
+		  printf("Removing a bookMarked Object = %p, it is not present. Exiting."
+				  " HeapRegion = %p. Size = %d.\n", address, this, _bookMarkMap.size());
 		  fflush(stdout);
 		  exit(-1);
 	  } else {
