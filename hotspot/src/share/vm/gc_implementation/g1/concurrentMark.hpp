@@ -1166,7 +1166,6 @@ public:
     if (_cm->verbose_high())
       gclog_or_tty->print_cr("[%d] we're scanning object "PTR_FORMAT,
                              _task_id, (void*) obj);
-
     if (UseBMGC){
     	if(!(Universe::isPresent((void*)obj))) {
     		if(Log_BMGC){
