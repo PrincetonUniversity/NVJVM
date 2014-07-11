@@ -177,8 +177,8 @@ public:
     	int purpose;
     	char regionName[20];
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
-    		printf("Purpose = %s, Total Occupancy = %ld.", region_name((GCAllocPurpose)purpose, regionName),
-    				_occupancyCountTable[purpose]);
+    		region_name((GCAllocPurpose)purpose, regionName);
+    		printf("Purpose = %s, Total Occupancy = %ld.", regionName, _occupancyCountTable[purpose]);
     		fflush(stdout);
     	}
     }
