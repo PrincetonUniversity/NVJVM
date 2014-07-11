@@ -4613,7 +4613,7 @@ oop G1ParCopyHelper::copy_to_survivor_space(oop old) {
                                            : m->age();
   GCAllocPurpose alloc_purpose = g1p->evacuation_destination(from_region, age,
                                                              word_sz, old->getCount(), old->is_objArray() || old->is_array());
-  _g1->getHeapMetrics()->incrementOccupancy(alloc_purpose, word_sz * HeapWordSize);
+//  _g1->getHeapMetrics()->incrementOccupancy(alloc_purpose, word_sz * HeapWordSize);
 
   HeapWord* obj_ptr = _par_scan_state->allocate(alloc_purpose, word_sz);
   oop       obj     = oop(obj_ptr);
