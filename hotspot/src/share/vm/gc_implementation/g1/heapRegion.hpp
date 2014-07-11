@@ -412,6 +412,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
   int insertBookMarkCountWithValue(void *address, int value){
 	  bookMarkMapIterator it;
 	  bookMarkMapPair bmPair;
+	  pthread_mutex_lock(&_bookMarkMap_mutex);
 	  it = _bookMarkMap.find(address);
 	  int count = value;
 	  if(it == _bookMarkMap.end()){
@@ -425,6 +426,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  fflush(stdout);
 		  exit(-1);
 	  }
+	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
   }
 
