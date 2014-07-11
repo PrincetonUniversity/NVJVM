@@ -5096,7 +5096,7 @@ void G1CollectedHeap::evacuate_collection_set() {
  		  hr = _hrs->at(count);
  		  if(hr != NULL){
  			  purpose = hr->getPurpose();
- 			  if((purpose == GCAllocForSurvivedCold)
+ 			  if((purpose == GCAllocForSurvivedCold) &&
  					  (hr->isInMemory()) && (!(hr->is_empty()))){
  				  swapOutRegion(hr);
  				  _swappedOutMem += hr->used();
