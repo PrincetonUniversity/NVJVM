@@ -393,12 +393,12 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(it == _bookMarkMap.end()){
 		  count = 1;
 		  if(Log_BMGC){
-			  printf("Inserting a bookMarked Object %p, Count = %d. \n", address, count);
+			  printf("Inserting a bookMarked Object %p, Count = %d. HeapRegion = %p. \n", address, count, this);
 			  fflush(stdout);
 		  }
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
-		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. \n", address);
+		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. HeapRegion = %p.\n", address, this);
 		  fflush(stdout);
 		  exit(-1);
 	  }
@@ -417,7 +417,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 			  fflush(stdout);
 		  }
 	  } else {
-		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. \n", address);
+		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. HeapRegion = %p.\n", address, this);
 		  fflush(stdout);
 		  exit(-1);
 	  }
@@ -430,7 +430,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
-		  printf("Removing a bookMarked Object = %p, it is not present. Exiting. \n", address);
+		  printf("Removing a bookMarked Object = %p, it is not present. Exiting. HeapRegion = %p.\n", address, this);
 		  fflush(stdout);
 		  exit(-1);
 	  } else {
@@ -454,7 +454,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  }
 	  if(Log_BMGC){
-		  printf("Incrementing the bookmark count on Object %p, Count = %d. \n", address, count);
+		  printf("Incrementing the bookmark count on Object %p, Count = %d. HeapRegion = %p.\n", address, count, this);
 		  fflush(stdout);
 	  }
 	  return count;
@@ -466,7 +466,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  int count = -1;
 	  it = _bookMarkMap.find(address);
 	  if(it == _bookMarkMap.end()){
-		  printf("BookMark does not exist for object %p. Incorrect. Exiting.\n", address);
+		  printf("BookMark does not exist for object %p. Incorrect. Exiting. HeapRegion = %p.\n", address, this);
 		  fflush(stdout);
 		  exit(-1);
 	  } else {
