@@ -403,7 +403,7 @@ G1CollectorPolicy::G1CollectorPolicy() :
   _concurrent_mark_remark_times_ms->add(0.05);
   _concurrent_mark_cleanup_times_ms->add(0.20);
   _tenuring_threshold = MaxTenuringThreshold;
-  _cold_threshold = 1000;
+  _cold_threshold = 10;
 
   // if G1FixedSurvivorSpaceSize is 0 which means the size is not
   // fixed, then _max_survivor_regions will be calculated at
@@ -2360,7 +2360,7 @@ void G1CollectorPolicy::calculate_survivors_policy()
     _tenuring_threshold = _survivors_age_table.compute_tenuring_threshold(
         HeapRegion::GrainWords * _max_survivor_regions);
   }
-
+  _tenuring_threshold = 1;
   printf("tenuring threshold  = %d. G1FixedTenuringThreshold = %d.\n", _tenuring_threshold, G1FixedTenuringThreshold);
   fflush(stdout);
 }

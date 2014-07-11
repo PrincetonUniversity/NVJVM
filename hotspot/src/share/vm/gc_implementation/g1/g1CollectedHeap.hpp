@@ -181,11 +181,9 @@ public:
     	char regionName[50];
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
     		region_name((GCAllocPurpose)purpose, regionName);
-    		printf("Purpose = %s, Total Occupancy = %ld MB.", regionName, _occupancyCountTable[purpose]/M);
+    		printf("Purpose = %s, Occupancy = %ld KB.\n", regionName, _occupancyCountTable[purpose]/K);
     		fflush(stdout);
     	}
-    	printf("\n");
-    	fflush(stdout);
     }
 
     void incrementOccupancy(int size, int purpose){
