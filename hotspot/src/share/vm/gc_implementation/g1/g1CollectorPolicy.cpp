@@ -2361,7 +2361,6 @@ void G1CollectorPolicy::calculate_survivors_policy()
         HeapRegion::GrainWords * _max_survivor_regions);
   }
 
-  _tenuring_threshold = 3;
   printf("tenuring threshold  = %d. G1FixedTenuringThreshold = %d.\n", _tenuring_threshold, G1FixedTenuringThreshold);
   fflush(stdout);
 }

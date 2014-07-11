@@ -136,6 +136,59 @@ public:
     : G1AllocRegion("Mutator Alloc Region", false /* bot_updates */) { }
 };
 
+class HeapMetrics {
+private:
+	long int _occupancyCountTable[GCAllocPurposeCount];
+
+public:
+    void clearOccupancyCountTable(){
+    	int purpose;
+    	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
+    		_occupancyCountTable[purpose] = 0;
+    	}
+    }
+
+    void region_name(GCAllocPurpose purpose, char * str){
+    	  switch (purpose) {
+    	  case GCAllocForSurvived:
+    		  strcpy(str, "GCAllocForSurvived");
+    		  break;
+
+    	  case GCAllocForTenured:
+    		  strcpy(str, "GCAllocForTenured");
+    		  break;
+
+    	  case GCAllocForSurvivedCold:
+    		  strcpy(str, "GCAllocForSurvivedCold");
+    		  break;
+
+    	  case GCAllocForTenuredCold:
+    		  strcpy(str, "GCAllocForTenuredCold");
+    		  break;
+
+    	  default:
+    		  strcpy(str, "None");
+    		  break;
+    	  }
+      }
+
+
+    void printOccupancyMetrics(){
+    	int purpose;
+    	char regionName[20];
+    	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
+    		printf("Purpose = %s, Total Occupancy = %ld.", region_name((GCAllocPurpose)purpose, regionName),
+    				_occupancyCountTable[purpose]);
+    		fflush(stdout);
+    	}
+    }
+
+    void incrementOccupancy(int size, int purpose){
+    	_occupancyCountTable[purpose] += size;
+    }
+
+};
+
 class RefineCardTableEntryClosure;
 class G1CollectedHeap : public SharedHeap {
   friend class VM_G1CollectForAllocation;
@@ -168,6 +221,7 @@ class G1CollectedHeap : public SharedHeap {
 private:
   // The one and only G1CollectedHeap, so static functions can find it.
   static G1CollectedHeap* _g1h;
+  static HeapMetrics* _heapMetrics;
 
   static size_t _humongous_object_threshold_in_words;
 
