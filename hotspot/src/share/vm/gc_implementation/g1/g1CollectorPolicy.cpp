@@ -1800,8 +1800,8 @@ G1CollectorPolicy::predict_region_elapsed_time_ms(HeapRegion* hr,
 
 size_t
 G1CollectorPolicy::predict_bytes_to_copy(HeapRegion* hr) {
-  printf("Predict bytes to copy called for %p.\n", hr);
-  fflush(stdout);
+//  printf("Predict bytes to copy called for %p.\n", hr);
+//  fflush(stdout);
 
   size_t bytes_to_copy;
   if (hr->is_marked())

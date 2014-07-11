@@ -922,8 +922,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
   }
 
   void record_surv_words_in_group(size_t words_survived) {
-    printf("Recording survivor words in group for %p.\n", this);
-    fflush(stdout);
+//    printf("Recording survivor words in group for %p.\n", this);
+//    fflush(stdout);
     setIsRecorded(true);
 	assert( _surv_rate_group != NULL, "pre-condition" );
     assert( _age_index > -1, "pre-condition" );
