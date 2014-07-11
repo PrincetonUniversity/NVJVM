@@ -142,6 +142,7 @@ private:
 
 public:
     void clearOccupancyCountTable(){
+    	printf("In Clear Occupancy Table Count.\n"); fflush(stdout);
     	int purpose;
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
     		_occupancyCountTable[purpose] = 0;
@@ -177,7 +178,7 @@ public:
     	int purpose;
     	int K = 1024;
     	int M = 1024*1024;
-    	char regionName[20];
+    	char regionName[50];
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
     		region_name((GCAllocPurpose)purpose, regionName);
     		printf("Purpose = %s, Total Occupancy = %ld MB.", regionName, _occupancyCountTable[purpose]/M);
