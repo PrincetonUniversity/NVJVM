@@ -392,9 +392,13 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
 		  count = 1;
+		  if(Log_BMGC){
+			  printf("Inserting a bookMarked Object %p, Count = %d. \n", address, count);
+			  fflush(stdout);
+		  }
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
-		  printf("Inserting a bookMarked Object, it is already present. Exiting. \n", address);
+		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. \n", address);
 		  fflush(stdout);
 		  exit(-1);
 	  }
@@ -408,8 +412,12 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  int count = value;
 	  if(it == _bookMarkMap.end()){
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
+		  if(Log_BMGC){
+			  printf("Inserting a bookMarked Object %p, Count = %d. \n", address, count);
+			  fflush(stdout);
+		  }
 	  } else {
-		  printf("Inserting a bookMarked Object, it is already present. Exiting. \n", address);
+		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. \n", address);
 		  fflush(stdout);
 		  exit(-1);
 	  }
@@ -422,7 +430,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
-		  printf("Removing a bookMarked Object, it is not present. Exiting. \n", address);
+		  printf("Removing a bookMarked Object = %p, it is not present. Exiting. \n", address);
 		  fflush(stdout);
 		  exit(-1);
 	  } else {
@@ -444,6 +452,10 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		   count = it->second + 1;
 		  _bookMarkMap.erase(address);
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
+	  }
+	  if(Log_BMGC){
+		  printf("Incrementing the bookmark count on Object %p, Count = %d. \n", address, count);
+		  fflush(stdout);
 	  }
 	  return count;
   }
