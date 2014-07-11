@@ -733,9 +733,11 @@ double G1CollectorPolicy::predict_survivor_regions_evac_time() {
   for (HeapRegion * r = _recorded_survivor_head;
        r != NULL && r != _recorded_survivor_tail->get_next_young_region();
        r = r->get_next_young_region()) {
-// Survivor regions which are located in memory are
-	  if(r->isInMemory()){
+  // Survivor regions which are located in memory are
+	  if(r->isRecorded()){
 		  survivor_regions_evac_time += predict_region_elapsed_time_ms(r, true);
+		  printf("predict_region_elapsed_time_ms called on heap region %p.\n", r);
+		  fflush(stdout);
 	  }
   }
   return survivor_regions_evac_time;

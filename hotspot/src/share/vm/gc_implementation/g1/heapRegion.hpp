@@ -257,6 +257,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   G1BlockOffsetArrayContigSpace* offsets() { return &_offsets; }
 
+  bool _is_recorded;
+
  protected:
   // If this region is a member of a HeapRegionSeq, the index in that
   // sequence, otherwise -1.
@@ -374,6 +376,14 @@ class HeapRegion: public G1OffsetTableContigSpace {
   // If "is_zeroed" is "true", the region "mr" can be assumed to contain zeros.
   HeapRegion(G1BlockOffsetSharedArray* sharedOffsetArray,
              MemRegion mr, bool is_zeroed);
+
+  bool isRecorded(){
+	  return _is_recorded;
+  }
+
+  void setIsRecorded(bool v){
+	  _is_recorded = v;
+  }
 
   int insertBookMarkCount(void *address){
 	  bookMarkMapIterator it;
@@ -912,8 +922,9 @@ class HeapRegion: public G1OffsetTableContigSpace {
   }
 
   void record_surv_words_in_group(size_t words_survived) {
-    printf("Recording survivor words in group for %p.", this);
+    printf("Recording survivor words in group for %p.\n", this);
     fflush(stdout);
+    setIsRecorded(true);
 	assert( _surv_rate_group != NULL, "pre-condition" );
     assert( _age_index > -1, "pre-condition" );
     int age_in_group = age_in_surv_rate_group();
