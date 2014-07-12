@@ -445,7 +445,7 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		   count = it->second;
 		   if(Log_BMGC){
 //			  printf("\nRemoving a bookMarked Object = %p, it is present."
-					  " HeapRegion = %p.\n", address, this);
+//					  " HeapRegion = %p.\n", address, this);
 //			  fflush(stdout);
 		   }
 		  _bookMarkMap.erase (address);
