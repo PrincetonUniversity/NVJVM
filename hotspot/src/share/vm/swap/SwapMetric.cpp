@@ -19,9 +19,9 @@ long int SwapMetric::_swapOutPages = 0;
 long int SwapMetric::_swapInsCompiler = 0;
 long int SwapMetric::_swapInsInterpreter = 0;
 long int SwapMetric::_faultsDuringCollection = 0;
-static pthread_mutex_t SwapMetric::_compilerIncrement;
-static pthread_mutex_t SwapMetric::_interpreterIncrement;
-static pthread_mutex_t SwapMetric::_segFaultIncrement;
+pthread_mutex_t SwapMetric::_compilerIncrement;
+pthread_mutex_t SwapMetric::_interpreterIncrement;
+pthread_mutex_t SwapMetric::_segFaultIncrement;
 
 #define K 1024
 
