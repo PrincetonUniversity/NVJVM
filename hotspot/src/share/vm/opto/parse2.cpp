@@ -55,7 +55,6 @@ void Parse::array_load(BasicType elem_type) {
   push(ld);
 }
 
-
 //--------------------------------array_store----------------------------------
 void Parse::array_store(BasicType elem_type) {
   Node* adr = array_addressing(elem_type, 1);
@@ -65,7 +64,6 @@ void Parse::array_store(BasicType elem_type) {
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   store_to_memory(control(), adr, val, elem_type, adr_type);
 }
-
 
 //------------------------------array_addressing-------------------------------
 // Pull array and index from the stack.  Compute pointer-to-element.
@@ -1177,7 +1175,6 @@ void Parse::do_if(BoolTest::mask btest, Node* c) {
 void Parse::increment_access_counter(Node *obj){
 	if(INTER_COMPILER){
 		checkObj(obj);
-//		incrementObjCount(obj);
 	}
 }
 

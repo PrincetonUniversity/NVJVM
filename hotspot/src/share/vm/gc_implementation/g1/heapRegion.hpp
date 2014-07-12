@@ -396,8 +396,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(it == _bookMarkMap.end()){
 		  count = 1;
 		  if(Log_BMGC){
-			  printf("Inserting a bookMarked Object %p, Count = %d. HeapRegion = %p. \n", address, count, this);
-			  fflush(stdout);
+//			  printf("Inserting a bookMarked Object %p, Count = %d. HeapRegion = %p. \n", address, count, this);
+//			  fflush(stdout);
 		  }
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  } else {
@@ -418,8 +418,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  if(it == _bookMarkMap.end()){
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 		  if(Log_BMGC){
-			  printf("Inserting a bookMarked Object %p, Count = %d. \n", address, count);
-			  fflush(stdout);
+//			  printf("Inserting a bookMarked Object %p, Count = %d. \n", address, count);
+//			  fflush(stdout);
 		  }
 	  } else {
 		  printf("Inserting a bookMarked Object %p, it is already present. Exiting. HeapRegion = %p.\n", address, this);
@@ -437,16 +437,16 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
-//		  printf("\nRemoving a bookMarked Object = %p, it is not present. Exiting."
-//				  " HeapRegion = %p. Size = %d.\n", address, this, _bookMarkMap.size());
-//		  fflush(stdout);
-//		  exit(-1);
+		  printf("\nRemoving a bookMarked Object = %p, it is not present. Exiting."
+				  " HeapRegion = %p. Size = %d.\n", address, this, _bookMarkMap.size());
+		  fflush(stdout);
+		  exit(-1);
 	  } else {
 		   count = it->second;
 		   if(Log_BMGC){
-			  printf("\nRemoving a bookMarked Object = %p, it is present."
+//			  printf("\nRemoving a bookMarked Object = %p, it is present."
 					  " HeapRegion = %p.\n", address, this);
-			  fflush(stdout);
+//			  fflush(stdout);
 		   }
 		  _bookMarkMap.erase (address);
 	  }
@@ -469,8 +469,8 @@ class HeapRegion: public G1OffsetTableContigSpace {
 		  _bookMarkMap.insert (bookMarkMapPair(address, count));
 	  }
 	  if(Log_BMGC){
-		  printf("Incrementing the bookmark count on Object %p, Count = %d. HeapRegion = %p.\n", address, count, this);
-		  fflush(stdout);
+//		  printf("Incrementing the bookmark count on Object %p, Count = %d. HeapRegion = %p.\n", address, count, this);
+//		  fflush(stdout);
 	  }
 	  pthread_mutex_unlock(&_bookMarkMap_mutex);
 	  return count;
