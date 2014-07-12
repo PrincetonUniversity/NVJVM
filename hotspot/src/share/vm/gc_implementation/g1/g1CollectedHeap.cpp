@@ -295,7 +295,7 @@ void YoungList::push_region(HeapRegion *hr) {
   _head = hr;
 
   hr->set_young();
-  double yg_surv_rate = _g1h->g1_policy()->predict_yg_surv_rate((int)_length);
+//  double yg_surv_rate = _g1h->g1_policy()->predict_yg_surv_rate((int)_length);
   ++_length;
 }
 
