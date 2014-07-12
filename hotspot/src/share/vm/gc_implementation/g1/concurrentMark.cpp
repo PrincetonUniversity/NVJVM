@@ -642,7 +642,7 @@ void ConcurrentMark::update_g1_committed(bool force) {
 void ConcurrentMark::reset() {
   // Starting values for these two. This should be called in a STW
   // phase. CM will be notified of any future g1_committed expansions
-  // will be at the end of evacuation pauses, when tasks are
+  // at the end of evacuation pauses, when tasks are
   // inactive.
   MemRegion committed = _g1h->g1_committed();
   _heap_start = committed.start();
@@ -666,7 +666,7 @@ void ConcurrentMark::reset() {
     _tasks[i]->reset(_nextMarkBitMap);
   }
 
-  // we need this to make sure that the flag is on during the evac
+  // we need this to make sure that the flag is on during the evacuation
   // pause with initial mark piggy-backed
   set_concurrent_marking_in_progress();
 }
@@ -2548,6 +2548,12 @@ public:
 };
 
 void ConcurrentMark::deal_with_reference(oop obj) {
+  if(!Universe::isPresent((void *)obj)){
+	  printf("Accessing obj %p, which is not present in memory while"
+			  " deal_with_reference() in concurrentMark().\n", obj);
+	  fflush(stdout);
+	  exit(-1);
+  }
   if (verbose_high())
     gclog_or_tty->print_cr("[global] we're dealing with reference "PTR_FORMAT,
                            (void*) obj);

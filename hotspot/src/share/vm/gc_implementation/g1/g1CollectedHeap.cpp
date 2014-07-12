@@ -3410,6 +3410,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 
   guarantee(!is_gc_active(), "collection is not reentrant");
 
+  // Sets the GC_locker to needing GC
   if (GC_locker::check_active_before_gc()) {
     return false;
   }
@@ -3525,7 +3526,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
 #endif // YOUNG_LIST_VERBOSE
 
       if (g1_policy()->during_initial_mark_pause()) {
-        // resets data structures related to concurrent marking
+        // resets data structures related to concurrent marking, including the nextBitMap
     	concurrent_mark()->checkpointRootsInitialPre();
       }
       save_marks(); // saves the top() of each of each region in the heap region sequence

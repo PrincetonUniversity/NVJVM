@@ -821,7 +821,7 @@ bool G1RemSet::concurrentRefineOneCard(jbyte* card_ptr, int worker_i,
   // before all the cards on the region are dirtied. This is unlikely,
   // and it doesn't happen often, but it can happen. So, the extra
   // check below filters out those cards.
-  if (r->is_young() && !r->isCold()) {
+  if (r->is_young()) {
     return false;
   }
   // While we are processing RSet buffers during the collection, we
