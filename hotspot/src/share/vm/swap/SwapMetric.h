@@ -9,7 +9,7 @@
 #define SWAPMETRIC_H_
 
 #include "swap_global.h"
-
+#include "pthread.h"
 
 class SwapMetric {
 private:
@@ -25,6 +25,9 @@ private:
 	static long int _swapInsCompiler;
 	static long int _swapInsInterpreter;
 	static long int _faultsDuringCollection;
+	static pthread_mutex_t _compilerIncrement;
+	static pthread_mutex_t _interpreterIncrement;
+	static pthread_mutex_t _segFaultIncrement;
 
 public:
 	static long int getFaultsDuringCollection();

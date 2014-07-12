@@ -31,7 +31,9 @@ long int SwapMetric::getFaultsDuringCollection(){
 }
 
 void SwapMetric::incrementSwapInCompiler(){
+	pthread_mutex_lock(&_compilerIncrement);
 	_swapInsCompiler++;
+	pthread_mutex_unlock(&_compilerIncrement);
 }
 
 long int SwapMetric::getSwapInsCompiler(){
@@ -39,7 +41,9 @@ long int SwapMetric::getSwapInsCompiler(){
 }
 
 void SwapMetric::incrementSwapInInterpreter(){
+	pthread_mutex_lock(&_interpreterIncrement);
 	_swapInsInterpreter++;
+	pthread_mutex_unlock(&_interpreterIncrement);
 }
 
 long int SwapMetric::getSwapInsInterpreter(){
@@ -55,10 +59,12 @@ long int SwapMetric::getSwapInPages(){
 }
 
 void SwapMetric::incrementSegFaults(){
+	pthread_mutex_lock(&_segFaultIncrement);
 	if(Universe::isCollecting()){
 		incrementFaultsDuringCollection();
 	}
 		_segFaults++;
+	pthread_mutex_unlock(&_segFaultIncrement);
 }
 
 long int SwapMetric::getSegFaultCount(){
