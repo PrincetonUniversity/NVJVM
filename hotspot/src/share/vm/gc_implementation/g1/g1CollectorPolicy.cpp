@@ -403,7 +403,7 @@ G1CollectorPolicy::G1CollectorPolicy() :
   _concurrent_mark_remark_times_ms->add(0.05);
   _concurrent_mark_cleanup_times_ms->add(0.20);
   _tenuring_threshold = MaxTenuringThreshold;
-  _cold_threshold = 10;
+  _cold_threshold = 100;
 
   // if G1FixedSurvivorSpaceSize is 0 which means the size is not
   // fixed, then _max_survivor_regions will be calculated at
