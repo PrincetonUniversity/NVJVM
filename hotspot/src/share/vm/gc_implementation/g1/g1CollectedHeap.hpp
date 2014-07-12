@@ -142,7 +142,7 @@ private:
 
 public:
     void clearOccupancyCountTable(){
-    	printf("In Clear Occupancy Table Count.\n"); fflush(stdout);
+//    	printf("In Clear Occupancy Table Count.\n"); fflush(stdout);
     	int purpose;
     	for (purpose = 0; purpose < GCAllocPurposeCount; purpose++){
     		_occupancyCountTable[purpose] = 0;

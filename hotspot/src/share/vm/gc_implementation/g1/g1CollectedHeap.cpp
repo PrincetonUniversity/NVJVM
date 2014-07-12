@@ -3716,7 +3716,7 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       (total_collections() % G1SummarizeRSetStatsPeriod == 0)) {
     g1_rem_set()->print_summary_info();
   }
-  _heapMetrics->printOccupancyMetrics();
+//  _heapMetrics->printOccupancyMetrics();
 
   return true;
 }
