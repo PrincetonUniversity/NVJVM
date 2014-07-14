@@ -575,6 +575,45 @@ void TemplateTable::dload() {
   __ movdbl(xmm0, daddress(rbx));
 }
 
+void TemplateTable::checkAccess(Register object){
+  if(!(INTER_INTERPRETER) || !(AR_INTERCEPT)){
+	  return;
+  }
+
+  int ce_offset = oopDesc::counter_offset_in_bytes();
+  uint64_t offset = (uint64_t) Universe::getHeapStart();
+  uint64_t base = (uint64_t) Universe::getRegionTable();
+
+  // Saving variables which we would be needing later on
+  __ push(r10);
+  __ push(r11);
+  __ push(rdx);
+  __ push(rax);
+
+  Label out;
+  __ cmpptr(object, 0);
+  __ jcc(Assembler::equal, out);
+
+  __ movptr(r11, object); 	  // pointer to the object in memory
+  __ subl(r11, offset);		  // offset of the region, got by subtracting
+  __ shrl(r11, PAGE_SHIFT); // shifting the register by 12 bits - getting the pointer to region
+  __ movptr(r10, (intptr_t)base);
+  __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
+  __ cmpb(Address(r11, 0), 0);
+  __ jcc(Assembler::equal, out); // moving the value at the byte into the register r10
+
+  __ movptr(r10, object);
+  call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+
+  __ bind(out);					  // binding the null label here
+
+  // registers used intermediately are popped out
+  __ pop(rax);
+  __ pop(rdx);
+  __ pop(r11);
+  __ pop(r10);
+}
+
 /* This is the code, within the interpreter that provides interception of objects.
  */
 void TemplateTable::interceptObject(Address object) {
@@ -686,9 +725,8 @@ void TemplateTable::increment_array_counter (Register array){
 void TemplateTable::index_check(Register array, Register index) {
   // destroys rbx
   // check array
-	 Address object = aaddress(array);
-	 interceptObject(object);
-  __ null_check(array, arrayOopDesc::length_offset_in_bytes());
+	 checkAccess(array);
+	__ null_check(array, arrayOopDesc::length_offset_in_bytes());
   // sign extend index for use by indexed load
 //  increment_array_counter (array); //#Change, to increment access counter, destroys rbx here, it is set later on by the index, rbx check
   __ movl2ptr(index, index);
