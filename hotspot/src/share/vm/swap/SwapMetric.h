@@ -28,6 +28,7 @@ private:
 	static pthread_mutex_t _compilerIncrement;
 	static pthread_mutex_t _interpreterIncrement;
 	static pthread_mutex_t _segFaultIncrement;
+	static long int _accessIntercepts;
 
 public:
 	static long int getFaultsDuringCollection();
@@ -54,6 +55,8 @@ public:
 	static void incrementSwapInInterpreter();
 	static long int getSwapInsCompiler();
 	static long int getSwapInsInterpreter();
+	static long int getAccessIntercepts();
+	static void incrementAccessIntercepts();
 };
 
 #endif /* SWAPMETRIC_H_ */

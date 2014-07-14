@@ -36,6 +36,7 @@
 #include "utilities/debug.hpp"
 
 #define PREDICTIONS_VERBOSE 0
+#define COLLECTOR_POLICY_DEBUG 1
 
 // <NEW PREDICTION>
 
@@ -2628,6 +2629,15 @@ record_concurrent_mark_cleanup_end(size_t freed_bytes,
 // Add the heap region at the head of the non-incremental collection set
 void G1CollectorPolicy::
 add_to_collection_set(HeapRegion* hr) {
+
+#if COLLECTOR_POLICY_DEBUG
+	if(hr->isSwappedOut()){
+		printf("Adding region %p, bottom = %p to collection. It is swapped out.\n", hr, hr->bottom());
+		fflush(stdout);
+		exit(-1);
+	}
+#endif
+
   assert(_inc_cset_build_state == Active, "Precondition");
   assert(!hr->is_young(), "non-incremental add of young region");
 

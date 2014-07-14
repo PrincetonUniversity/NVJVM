@@ -60,6 +60,8 @@
 #endif
 #include "swap/SSDSwap.h"
 
+#define ACCESS_CHECK 1
+
 // Implementation of all inlined member functions defined in oop.hpp
 // We need a separate file to avoid circular references
 
@@ -236,7 +238,9 @@ inline oop oopDesc::decode_heap_oop(narrowOop v) {
 }
 
 inline oop oopDesc::decode_heap_oop_not_null(oop v) {
-	//printf("calling decode_heap_oop_not_null, oop \n"); fflush(stdout);
+#if ACCESS_CHECK
+	Universe::accessCheck((void *)v);
+#endif
 	return v;
 }
 inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
@@ -244,24 +248,18 @@ inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
 // Load an oop out of the Java heap as is without decoding.
 // Called by GC to check for null before decoding.
 inline oop  oopDesc::load_heap_oop(oop* p) {
+#if ACCESS_CHECK
 	Universe::accessCheck((void *)p);
-//	if(*p == NULL){
-//		printf("In load_heap_oop(), Oop is null. Oop address = %p.\n", p);
-//		fflush(stdout);
-//		exit(-1);
-//	}
+#endif
 	return *p;
 }
 inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 
 // Load and decode an oop out of the Java heap into a wide oop.
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
+#if ACCESS_CHECK
 	Universe::accessCheck((void *)p);
-//	if(*p == NULL){
-//		printf("In load_decode_heap_oop_not_null(), Oop is null. Oop address = %p.\n", p);
-//		fflush(stdout);
-//		exit(-1);
-//	}
+#endif
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
@@ -288,9 +286,6 @@ inline void oopDesc::encode_store_heap_oop_not_null(narrowOop* p, oop v) {
  *p = encode_heap_oop_not_null(v);
 }
 inline void oopDesc::encode_store_heap_oop_not_null(oop* p, oop v) {
-	 if(L_DEBUG){
-		 printf("encode_store_heap_oop_not_null, storing in heap oop = %p\n", v); fflush(stdout);
-	 }
 	*p = v;
 }
 

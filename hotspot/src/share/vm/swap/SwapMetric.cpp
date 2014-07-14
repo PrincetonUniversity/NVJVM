@@ -13,6 +13,7 @@ timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
 long int SwapMetric::_swapOutBytes = 0;
 long int SwapMetric::_swapInBytes = 0;
+long int SwapMetric::_accessIntercepts = 0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -22,8 +23,19 @@ long int SwapMetric::_faultsDuringCollection = 0;
 pthread_mutex_t SwapMetric::_compilerIncrement;
 pthread_mutex_t SwapMetric::_interpreterIncrement;
 pthread_mutex_t SwapMetric::_segFaultIncrement;
+pthread_mutex_t SwapMetric::_accessIncrement;
 
 #define K 1024
+
+void SwapMetric::incrementAccessIntercepts(){
+	pthread_mutex_lock(&_accessIncrement);
+	_accessIntercepts++;
+	pthread_mutex_unlock(&_accessIncrement);
+}
+
+long int SwapMetric::getAccessIntercepts(){
+	return _accessIntercepts;
+}
 
 void SwapMetric::incrementFaultsDuringCollection(){
 	_faultsDuringCollection++;
@@ -135,12 +147,14 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
-			"Total segmentation faults = %ld, faults during collection %ld, Interpreter faults = %ld, Compiler Faults %ld.\n",
+			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld,"
+			"Interpreter faults = %ld, Compiler Faults %ld.\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 			(long long)_swapInTime.tv_sec,
 			_swapInTime.tv_nsec/(1000*1000),
-			_segFaults, _faultsDuringCollection, _swapInsInterpreter, _swapInsCompiler);
+			_segFaults, _faultsDuringCollection,_accessIntercepts,
+			_swapInsInterpreter, _swapInsCompiler);
 	fflush(stdout);
 }
 

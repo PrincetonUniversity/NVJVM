@@ -39,6 +39,8 @@
 #include "runtime/handles.inline.hpp"
 #include "runtime/java.hpp"
 
+#define CONCURRENT_MARK_LOG 1
+
 //
 // CMS Bit Map Wrapper
 
@@ -2875,6 +2877,15 @@ public:
     T heap_oop = oopDesc::load_heap_oop(p);
     if (oopDesc::is_null(heap_oop)) return;
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+
+#if CONCURRENT_MARK_LOG
+    if(!(Universe::isPresent((void *)obj))){
+    	printf("Object not present in memory. Address = %p.\n", obj);
+    	fflush(stdout);
+    	exit(-1);
+    }
+#endif
+
     if (obj->is_forwarded()) {
       // If the object has already been forwarded, we have to make sure
       // that it's marked.  So follow the forwarding pointer.  Note that
@@ -2920,6 +2931,15 @@ public:
     assert(_bitMap->endWord() && addr < _bitMap->endWord(),
            "address out of range");
     assert(_bitMap->isMarked(addr), "tautology");
+
+#if CONCURRENT_MARK_LOG
+    if(!(Universe::isPresent((void *) addr))){
+    	printf("In CSMarkBitMapClosure addr %p is not present in memory, still being marked.\n", addr);
+    	fflush(stdout);
+    	exit(-1);
+    }
+#endif
+
     oop obj = oop(addr);
     if (!obj->is_forwarded()) {
       if (!_oop_cl.push(obj)) return false;

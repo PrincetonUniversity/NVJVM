@@ -49,6 +49,8 @@
 #include "swap/swap_global.h"
 #include "utilities/growableArray.hpp"
 
+#define G1CollectedHeap_Log 1
+
 /*
  *  Methods for the implementation of the swapouts.
  */
@@ -3535,7 +3537,9 @@ G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
       // marks.
       if (mark_in_progress()) {
         double start_time_sec = os::elapsedTime();
-
+        // Uses CMGlobalObjectClosure for iterating over all the objects in the pending buffers
+        // and pushes them onto the marking stack. The objects present in the SATB buffers are
+        // marked alive in the nextMarkBitMap.
         _cm->drainAllSATBBuffers();
         double finish_mark_ms = (os::elapsedTime() - start_time_sec) * 1000.0;
         g1_policy()->record_satb_drain_time(finish_mark_ms);
@@ -4827,6 +4831,16 @@ void G1ParEvacuateFollowersClosure::do_void() {
   do {
     while (queues()->steal(pss->queue_num(), pss->hash_seed(), stolen_task)) {
       assert(pss->verify_task(stolen_task), "sanity");
+
+#if G1CollectedHeap_Log
+      oop taskObj = *(oop *)stolen_task;
+      if(!(Universe::isPresent((void *)taskObj))){
+    	  printf("do_void:: evacuating object %p, not present in memory.\n", taskObj);
+    	  fflush(stdout);
+    	  exit(-1);
+      }
+#endif
+
       if (stolen_task.is_narrow()) {
         pss->deal_with_reference((narrowOop*) stolen_task);
       } else {
@@ -4974,7 +4988,8 @@ g1_process_strong_roots(bool collecting_perm_gen,
   CodeBlobToOopClosure eager_scan_code_roots(scan_non_heap_roots, /*do_marking=*/ true);
 
   process_strong_roots(false, // no scoping; this is parallel code
-                       collecting_perm_gen, so,
+                       collecting_perm_gen,
+                       so,
                        &buf_scan_non_heap_roots,
                        &eager_scan_code_roots,
                        &buf_scan_perm);
@@ -5050,6 +5065,12 @@ void G1CollectedHeap::evacuate_collection_set() {
   concurrent_g1_refine()->clear_hot_cache_claimed_index();
 
   int n_workers = (ParallelGCThreads > 0 ? workers()->total_workers() : 1);
+
+#if G1CollectedHeap_Log
+  printf("The number of parallel worker threads = %d.\n", n_workers);
+  fflush(stdout);
+#endif
+
   set_par_threads(n_workers);
   G1ParTask g1_par_task(this, n_workers, _task_queues);
 
@@ -5117,6 +5138,8 @@ void G1CollectedHeap::evacuate_collection_set() {
 
   // Must do this before removing self-forwarding pointers, which clears
   // the per-region evac-failure flags.
+  // Marks all the objects in the bitMap as
+  //
   concurrent_mark()->complete_marking_in_collection_set();
 
   if (evacuation_failed()) {

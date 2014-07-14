@@ -462,7 +462,7 @@ void G1RemSet::oops_into_collection_set_do(OopsInHeapRegionClosure* oc,
   // special DirtyCardQueueSet (see g1CollectedHeap.hpp).  Under normal
   // circumstances (i.e. the pause successfully completes), these cards
   // are just discarded (there's no need to update the RSets of regions
-  // that were in the collection set - after the pause these regions
+  // that were in the collection set) - after the pause these regions
   // are wholly 'free' of live objects. In the event of an evacuation
   // failure the cards/buffers in this queue set are:
   // * passed to the DirtyCardQueueSet that is used to manage deferred
@@ -501,7 +501,7 @@ void G1RemSet::prepare_for_oops_into_collection_set_do() {
   PrintRSClosure cl;
   _g1->collection_set_iterate(&cl);
 #endif
-  cleanupHRRS();
+  cleanupHRRS();// cleans up the SparsePRT Remembered Set
   ConcurrentG1Refine* cg1r = _g1->concurrent_g1_refine();
   _g1->set_refine_cte_cl_concurrency(false);
   DirtyCardQueueSet& dcqs = JavaThread::dirty_card_queue_set();

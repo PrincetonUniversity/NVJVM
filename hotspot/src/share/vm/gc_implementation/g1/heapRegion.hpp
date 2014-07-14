@@ -50,6 +50,7 @@ enum GCAllocPurpose {
   GCAllocPurposeCount
 };
 
+
 #ifndef SERIALGC
 
 // A HeapRegion is the smallest piece of a G1CollectedHeap that
@@ -591,6 +592,10 @@ class HeapRegion: public G1OffsetTableContigSpace {
 
   void swappedOut(){
 	  _isSwappedOut = true;
+  }
+
+  bool isSwappedOut(){
+	  return (_isSwappedOut == true);
   }
 
   // It sets up the heap region size (GrainBytes / GrainWords), as

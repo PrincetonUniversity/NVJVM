@@ -608,6 +608,8 @@ HeapRegion::object_iterate_mem_careful(MemRegion mr,
   return NULL;
 }
 
+#define CARD_TABLE_DEBUG 1
+
 HeapWord*
 HeapRegion::
 oops_on_card_seq_iterate_careful(MemRegion mr,
@@ -659,6 +661,14 @@ oops_on_card_seq_iterate_careful(MemRegion mr,
   // to update the BOT while we do this...
   HeapWord* cur = block_start(mr.start());
   assert(cur <= mr.start(), "Postcondition");
+
+#if CARD_TABLE_DEBUG
+if(!(Universe::isPresent((void *) cur))){
+	printf("Card is not present in memory. Address = %p. This should cause a fault.\n", cur);
+	fflush(stdout);
+	exit(-1);
+}
+#endif
 
   while (cur <= mr.start()) {
     if (oop(cur)->klass_or_null() == NULL) {
@@ -952,7 +962,7 @@ void G1OffsetTableContigSpace::set_saved_mark() {
     // of the region. Either way, the behaviour will be correct.
     ContiguousSpace::set_saved_mark();
     OrderAccess::storestore();
-    _gc_time_stamp = curr_gc_time_stamp;
+		_gc_time_stamp = curr_gc_time_stamp;
     // No need to do another barrier to flush the writes above. If
     // this is called in parallel with other threads trying to
     // allocate into the region, the caller should call this while

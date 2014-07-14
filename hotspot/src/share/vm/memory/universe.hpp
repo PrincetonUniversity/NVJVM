@@ -34,6 +34,7 @@
 #include "stdlib.h"
 #include <malloc.h>
 #include "swap/SSDSwap.h"
+#include "swap/SwapMetric.h"
 
 #define _U_MB 1024*1024 // denotes 1 MB
 
