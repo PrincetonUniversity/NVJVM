@@ -5066,11 +5066,6 @@ void G1CollectedHeap::evacuate_collection_set() {
 
   int n_workers = (ParallelGCThreads > 0 ? workers()->total_workers() : 1);
 
-#if G1CollectedHeap_Log
-  printf("The number of parallel worker threads = %d.\n", n_workers);
-  fflush(stdout);
-#endif
-
   set_par_threads(n_workers);
   G1ParTask g1_par_task(this, n_workers, _task_queues);
 
