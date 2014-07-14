@@ -69,7 +69,8 @@ bool liesWithinHeap(void *address){
 	void *end = pointerSum((void *)Universe::heap()->base(), (void *)Universe::heap()->capacity());
 	return (address >= start && address <= end);
 }
-#define SEGMENTATION_LOG 1
+
+#define SEGMENTATION_LOG 0
 #define SWAP_METRICS 1
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
