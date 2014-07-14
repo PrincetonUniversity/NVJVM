@@ -25,6 +25,11 @@ private:
 	static long int _swapInsCompiler;
 	static long int _swapInsInterpreter;
 	static long int _faultsDuringCollection;
+	static long int _faultsJavaThread;
+	static long int _faultsNamedThread;
+	static long int _faultsDuringMarking;
+	static pthread_mutex_t _fNT_mutex;
+	static pthread_mutex_t _fJT_mutex;
 	static pthread_mutex_t _compilerIncrement;
 	static pthread_mutex_t _interpreterIncrement;
 	static pthread_mutex_t _segFaultIncrement;
@@ -32,6 +37,10 @@ private:
 	static long int _accessIntercepts;
 
 public:
+	static long int getFaultsDuringMarking();
+	static void incrementFaultsDuringMarking();
+	static void incrementFaultsNamedThread();
+	static void incrementFaultsJavaThread();
 	static long int getFaultsDuringCollection();
 	static void incrementFaultsDuringCollection();
 	static long int getSwapOutPages();
