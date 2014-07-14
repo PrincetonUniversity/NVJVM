@@ -725,7 +725,11 @@ void TemplateTable::increment_array_counter (Register array){
 void TemplateTable::index_check(Register array, Register index) {
   // destroys rbx
   // check array
+	__ push(array);
+	__ push(index);
 	 checkAccess(array);
+	__ pop(index);
+	__ pop(array);
 	__ null_check(array, arrayOopDesc::length_offset_in_bytes());
   // sign extend index for use by indexed load
 //  increment_array_counter (array); //#Change, to increment access counter, destroys rbx here, it is set later on by the index, rbx check
