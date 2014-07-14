@@ -69,6 +69,7 @@ bool liesWithinHeap(void *address){
 	void *end = pointerSum((void *)Universe::heap()->base(), (void *)Universe::heap()->capacity());
 	return (address >= start && address <= end);
 }
+#define SEGMENTATION_LOG 1
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
@@ -80,26 +81,28 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 	  } else if(threadC->is_Named_thread()){
 		  SwapMetric::incrementFaultsNamedThread();
 	  }
-	  if(L_SWAP){
-		  printf("Segmentation fault on %p. Code = SEGV_ACCERR.\n", addr); fflush(stdout);
-	  }
+
 	  char *position = (char *)Universe::getRegionTablePosition(addr);
 	  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 	  char prefetchValue = *prefetchPosition;
 	  char value = *position;
-	  if(L_SWAP){
+
+#if SEGMENTATION_LOG
 		  printf("Segmentation fault. "
 			  "Add = %p, Page Index = %ld, IsSwappedOut Value = %d, Prefetch Value = %d, at position = %p.\n",
 			  addr, Universe::getPageIndex(addr), value, prefetchValue, position);
 		  fflush(stdout);
-	  }
+#endif
+
 // Fall back option, when we cannot detect object accesses
 	 if(value != Universe:: _presentMask){
 		 SSDSwap::handle_faults(addr);
-		 if(L_SWAP){
+
+#if SEGMENTATION_LOG
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 fflush(stdout);
-		 }
+#endif
+
 	 }
 	 return;
   }
