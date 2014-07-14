@@ -438,17 +438,17 @@ class HeapRegion: public G1OffsetTableContigSpace {
 	  it = _bookMarkMap.find(address);
 	  int count = -1;
 	  if(it == _bookMarkMap.end()){
-		  printf("\nRemoving a bookMarked Object = %p, it is not present. Exiting."
-				  " HeapRegion = %p. Size = %d.\n", address, this, _bookMarkMap.size());
-		  fflush(stdout);
-		  exit(-1);
+//		  printf("\nRemoving a bookMarked Object = %p, it is not present. Exiting."
+//				  " HeapRegion = %p. Size = %d.\n", address, this, _bookMarkMap.size());
+//		  fflush(stdout);
+//		  exit(-1);
 	  } else {
 		   count = it->second;
-		   if(Log_BMGC){
+//		   if(Log_BMGC){
 //			  printf("\nRemoving a bookMarked Object = %p, it is present."
 //					  " HeapRegion = %p.\n", address, this);
 //			  fflush(stdout);
-		   }
+//		   }
 		  _bookMarkMap.erase (address);
 	  }
 	  pthread_mutex_unlock(&_bookMarkMap_mutex);
