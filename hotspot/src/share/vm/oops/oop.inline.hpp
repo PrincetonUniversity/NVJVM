@@ -217,9 +217,6 @@ inline narrowOop oopDesc::encode_heap_oop_not_null(oop v) {
 }
 
 inline narrowOop oopDesc::encode_heap_oop(oop v) {
-	if(L_DEBUG){
-		 printf("encode_heap_oop, storing in heap oop = %p\n", v); fflush(stdout);
-	 }
   return (is_null(v)) ? (narrowOop)0 : encode_heap_oop_not_null(v);
 }
 
@@ -250,6 +247,10 @@ inline oop oopDesc::decode_heap_oop(oop v)  { return v; }
 inline oop  oopDesc::load_heap_oop(oop* p) {
 #if ACCESS_CHECK
 	Universe::accessCheck((void *)p);
+	oop obj = *p;
+	if(obj != NULL){
+		Universe::accessCheck((void *)obj);
+	}
 #endif
 	return *p;
 }
@@ -259,6 +260,10 @@ inline narrowOop oopDesc::load_heap_oop(narrowOop* p)    { return *p; }
 inline oop oopDesc::load_decode_heap_oop_not_null(oop* p)       {
 #if ACCESS_CHECK
 	Universe::accessCheck((void *)p);
+	oop obj = *p;
+	if(obj != NULL){
+		Universe::accessCheck((void *)obj);
+	}
 #endif
 	return *p;
 }
@@ -268,9 +273,13 @@ inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
 
 // Load and decode an oop out of the heap accepting null
 inline oop oopDesc::load_decode_heap_oop(oop* p) {
+#if ACCESS_CHECK
 	Universe::accessCheck((void *)p);
 	oop obj = *p;
-	Universe::accessCheck((void *)obj);
+	if(obj != NULL){
+		Universe::accessCheck((void *)obj);
+	}
+#endif
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop(narrowOop* p) {
