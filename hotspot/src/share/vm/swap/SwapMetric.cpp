@@ -164,8 +164,9 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
-			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld,"
-			"Interpreter faults = %ld, Compiler Faults %ld"
+			"Fault Metrics:: - \n"
+			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld,\n"
+			"Interpreter faults = %ld, Compiler Faults %ld,\n"
 			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
