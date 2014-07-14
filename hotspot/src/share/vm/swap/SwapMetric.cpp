@@ -29,8 +29,33 @@ pthread_mutex_t SwapMetric::_segFaultIncrement;
 pthread_mutex_t SwapMetric::_accessIncrement;
 pthread_mutex_t SwapMetric::_fNT_mutex;
 pthread_mutex_t SwapMetric::_fJT_mutex;
+pthread_mutex_t SwapMetric::_fCGC_mutex;
+pthread_mutex_t SwapMetric::_fVM_mutex;
+pthread_mutex_t SwapMetric::_fWor_mutex;
+long int SwapMetric::_faults_CGC_Thread = 0;
+long int SwapMetric::_faults_VM_Thread = 0;
+long int SwapMetric::_faults_Wor_Thread = 0;
+
 
 #define K 1024
+
+void SwapMetric::incrementFaults_CGC_Thread(){
+	pthread_mutex_lock(&_fCGC_mutex);
+	_faults_CGC_Thread++;
+	pthread_mutex_unlock(&_fCGC_mutex);
+}
+
+void SwapMetric::incrementFaults_VM_Thread(){
+	pthread_mutex_lock(&_fVM_mutex);
+	_faults_VM_Thread++;
+	pthread_mutex_unlock(&_fVM_mutex);
+}
+
+void SwapMetric::incrementFaults_Worker_Thread(){
+	pthread_mutex_lock(&_fWor_mutex);
+	_faults_Wor_Thread++;
+	pthread_mutex_unlock(&_fWor_mutex);
+}
 
 void SwapMetric::incrementFaultsNamedThread(){
 	pthread_mutex_lock(&_fNT_mutex);

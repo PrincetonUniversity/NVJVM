@@ -70,18 +70,27 @@ bool liesWithinHeap(void *address){
 	return (address >= start && address <= end);
 }
 #define SEGMENTATION_LOG 1
+#define SWAP_METRICS 1
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
+#if SWAP_METRICS
   Thread *threadC = Thread::current();
   if (si->si_code == SEGV_ACCERR && liesWithinHeap(addr)){
 	  SwapMetric::incrementSegFaults();
 	  if(threadC->is_Java_thread()){
 		  SwapMetric::incrementFaultsJavaThread();
 	  } else if(threadC->is_Named_thread()){
+		  if(threadC->is_VM_thread()) {
+			  SwapMetric::incrementFaults_VM_Thread();
+		  } else if(threadC->is_ConcurrentGC_thread()){
+			  SwapMetric::incrementFaults_CGC_Thread();
+		  } else if(threadC->is_Worker_thread()){
+			  SwapMetric::incrementFaults_Worker_Thread();
+		  }
 		  SwapMetric::incrementFaultsNamedThread();
 	  }
-
+#endif
 	  char *position = (char *)Universe::getRegionTablePosition(addr);
 	  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
 	  char prefetchValue = *prefetchPosition;
