@@ -792,6 +792,8 @@ void ConcurrentMark::checkpointRootsInitialPre() {
   reset();
 }
 
+#define CMMark_DEBUG 1
+
 class CMMarkRootsClosure: public OopsInGenClosure {
 private:
   ConcurrentMark*  _cm;
@@ -810,6 +812,15 @@ public:
   template <class T> void do_oop_work(T* p) {
     T heap_oop = oopDesc::load_heap_oop(p);
     if (!oopDesc::is_null(heap_oop)) {
+
+#if CMMark_DEBUG
+    if(!(Universe::isPresent((void *) heap_oop))){
+    	printf("concurrentMark.cpp:: -> CMMarkRootsClosure, Obj %p, not present in memory.\n");
+    	fflush(stdout);
+    	exit(-1);
+    }
+#endif
+
       oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
       assert(obj->is_oop() || obj->mark() == NULL,
              "expected an oop, possibly with mark word displaced");
@@ -853,7 +864,7 @@ void ConcurrentMark::checkpointRootsInitialPost() {
   satb_mq_set.set_active_all_threads(true, /* new active value */
                                      false /* expected_active */);
 
-  // update_g1_committed() will be called at the end of an evac pause
+  // update_g1_committed() will be called at the end of an evacuation pause
   // when marking is on. So, it's also called at the end of the
   // initial-mark pause to update the heap end, if the heap expands
   // during it. No need to call it here.
