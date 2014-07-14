@@ -897,7 +897,7 @@ bool Universe::isPartiallyFilled(void* address){
 	return (value == _partiallyFilledMask);
 }
 
-#define ACCESS_LOG 1
+#define ACCESS_LOG 0
 
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
