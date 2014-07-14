@@ -812,16 +812,14 @@ public:
   template <class T> void do_oop_work(T* p) {
     T heap_oop = oopDesc::load_heap_oop(p);
     if (!oopDesc::is_null(heap_oop)) {
-
+      oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
 #if CMMark_DEBUG
-    if(!(Universe::isPresent((void *) heap_oop))){
+    if(!(Universe::isPresent((void *) obj))){
     	printf("concurrentMark.cpp:: -> CMMarkRootsClosure, Obj %p, not present in memory.\n");
     	fflush(stdout);
     	exit(-1);
     }
 #endif
-
-      oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
       assert(obj->is_oop() || obj->mark() == NULL,
              "expected an oop, possibly with mark word displaced");
       HeapWord* addr = (HeapWord*)obj;

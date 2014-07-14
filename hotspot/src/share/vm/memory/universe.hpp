@@ -308,6 +308,7 @@ class Universe: AllStatic {
   static void markPrefetchTable(void *new_obj, int objSize);
   static bool isPartiallyFilled(void* address);
   static void accessCheck(void *address);
+  static bool isSwappedOut(void *address);
   static bool isPresent(void* address);
   static void markSwappedOut(void *);
   static void markPageFetched(void* address);

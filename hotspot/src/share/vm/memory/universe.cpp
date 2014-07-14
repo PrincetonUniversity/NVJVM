@@ -913,6 +913,15 @@ void Universe::accessCheck(void *address){
 	}
 }
 
+bool Universe::isSwappedOut(void* address){
+	if(!Universe::heap()->is_in_reserved(address))
+		return false;
+
+	uint64_t position = getRegionTablePosition(address);
+	char value = *(char *)position;
+	return (value != _presentMask);
+}
+
 bool Universe::isPresent(void* address){
 	if(!Universe::heap()->is_in_reserved(address))
 		return true;
