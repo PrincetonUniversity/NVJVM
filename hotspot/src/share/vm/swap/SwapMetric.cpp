@@ -36,7 +36,6 @@ long int SwapMetric::_faults_CGC_Thread = 0;
 long int SwapMetric::_faults_VM_Thread = 0;
 long int SwapMetric::_faults_Wor_Thread = 0;
 
-
 #define K 1024
 
 void SwapMetric::incrementFaults_CGC_Thread(){

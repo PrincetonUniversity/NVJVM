@@ -43,9 +43,9 @@ private:
 	static long int _accessIntercepts;
 
 public:
-	static void incrementFaultsCGCThread();
-	static void incrementFaultsVMThread();
-	static void incrementFaultsWorThread();
+	static void incrementFaults_CGC_Thread();
+	static void incrementFaults_VM_Thread();
+	static void incrementFaults_Worker_Thread();
 	static void incrementFaultsNamedThread();
 	static void incrementFaultsJavaThread();
 	static long int getFaultsDuringMarking();
