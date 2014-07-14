@@ -2683,7 +2683,15 @@ void G1CollectorPolicy::start_incremental_cset_building() {
 }
 
 void G1CollectorPolicy::add_to_incremental_cset_info(HeapRegion* hr, size_t rs_length) {
-  // This routine is used when:
+#if COLLECTOR_POLICY_DEBUG
+	if(hr->isSwappedOut()){
+		printf("g1CollectorPolicy.cpp::Adding hr %p (bottom %p), to incremental collection set. "
+				"The region is not present in memory. \n", hr, hr->bottom());
+		fflush(stdout);
+		exit(-1);
+	}
+#endif
+// This routine is used when:
   // * adding survivor regions to the incremental cset at the end of an
   //   evacuation pause,
   // * adding the current allocation region to the incremental cset
