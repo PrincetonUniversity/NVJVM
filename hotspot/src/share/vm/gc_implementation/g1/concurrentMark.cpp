@@ -3782,6 +3782,13 @@ void CMTask::drain_local_queue(bool partially) {
       assert(!_g1h->is_on_master_free_list(
                   _g1h->heap_region_containing((HeapWord*) obj)), "invariant");
 
+#if CONCURRENT_MARK_LOG
+  if(Universe::isSwappedOut((void *)obj)){
+	  printf("Obj %p is out of core while draining local queue in concurrentMark.cpp.\n", obj);
+	  fflush(stdout);
+	  exit(-1);
+  }
+#endif
       scan_object(obj);
 
       if (_task_queue->size() <= target_size || has_aborted())
@@ -4217,6 +4224,7 @@ void CMTask::do_marking_step(double time_target_ms,
   drain_satb_buffers();
   // ...then partially drain the local queue and the global stack
   drain_local_queue(true);
+  // ...gets entries from a global stack and pushes them onto the local queue
   drain_global_stack(true);
 
   // Then totally drain the region stack.  We will not look at
