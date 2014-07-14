@@ -72,11 +72,12 @@ bool liesWithinHeap(void *address){
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
+  Thread *threadC = Thread::current();
   if (si->si_code == SEGV_ACCERR && liesWithinHeap(addr)){
 	  SwapMetric::incrementSegFaults();
-	  if(Thread::current()->is_Java_thread()){
+	  if(threadC->is_Java_thread()){
 		  SwapMetric::incrementFaultsJavaThread();
-	  } else if(Thread::current()->is_Named_thread()){
+	  } else if(threadC->is_Named_thread()){
 		  SwapMetric::incrementFaultsNamedThread();
 	  }
 	  if(L_SWAP){

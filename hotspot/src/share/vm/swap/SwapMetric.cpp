@@ -27,7 +27,8 @@ pthread_mutex_t SwapMetric::_compilerIncrement;
 pthread_mutex_t SwapMetric::_interpreterIncrement;
 pthread_mutex_t SwapMetric::_segFaultIncrement;
 pthread_mutex_t SwapMetric::_accessIncrement;
-
+pthread_mutex_t SwapMetric::_fNT_mutex;
+pthread_mutex_t SwapMetric::_fJT_mutex;
 
 #define K 1024
 
