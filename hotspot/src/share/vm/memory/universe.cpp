@@ -897,8 +897,6 @@ bool Universe::isPartiallyFilled(void* address){
 	return (value == _partiallyFilledMask);
 }
 
-#define ACCESS_LOG 0
-
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
 	// Since, our interception mechanism is limited only to the G1GC case.
@@ -907,17 +905,18 @@ void Universe::accessCheck(void *address){
 	if(!(Universe::isPresent(address))){
 		SSDSwap::handle_faults(address);
 		SwapMetric::incrementAccessIntercepts();
-
 #if ACCESS_LOG
 			printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
 			fflush(stdout);
 #endif
-
 	}
 }
 
 bool Universe::isPresent(void* address){
+	if(!Universe::heap()->is_in_reserved(address))
+		return true;
+
 	uint64_t position = getRegionTablePosition(address);
 	char value = *(char *)position;
 	return (value == _presentMask);
@@ -962,6 +961,7 @@ uint64_t Universe::getRegionTablePosition(void *object){
     			"Getting Region Table Position %p for address %p."
     			"Heap's Base = %p.\n", position, object, Universe::heap()->base());
     	fflush(stdout);
+    	exit(-1);
     }
     return position;
 }
