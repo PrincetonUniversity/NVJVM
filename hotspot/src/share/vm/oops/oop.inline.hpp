@@ -269,6 +269,8 @@ inline oop oopDesc::load_decode_heap_oop_not_null(narrowOop* p) {
 // Load and decode an oop out of the heap accepting null
 inline oop oopDesc::load_decode_heap_oop(oop* p) {
 	Universe::accessCheck((void *)p);
+	oop obj = *p;
+	Universe::accessCheck((void *)obj);
 	return *p;
 }
 inline oop oopDesc::load_decode_heap_oop(narrowOop* p) {
