@@ -191,14 +191,16 @@ void SwapMetric::print_on(){
 			"Fault Metrics:: - \n"
 			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld,\n"
 			"Interpreter faults = %ld, Compiler Faults %ld,\n"
-			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n",
+			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n"
+			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 			(long long)_swapInTime.tv_sec,
 			_swapInTime.tv_nsec/(1000*1000),
 			_segFaults, _faultsDuringCollection,_accessIntercepts,
 			_swapInsInterpreter, _swapInsCompiler,
-			_faultsNamedThread, _faultsJavaThread);
+			_faultsNamedThread, _faultsJavaThread,
+			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);
 	fflush(stdout);
 }
 
