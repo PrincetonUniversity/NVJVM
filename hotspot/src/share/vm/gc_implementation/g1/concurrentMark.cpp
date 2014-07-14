@@ -1173,6 +1173,10 @@ void ConcurrentMark::markFromRoots() {
   _restart_for_overflow = false;
 
   size_t active_workers = MAX2((size_t) 1, parallel_marking_threads());
+#if CONCURRENT_MARK_LOG
+  printf("ConcurrentMark :: The number of active workers = %d.\n", active_workers);
+  fflush(stdout);
+#endif
   force_overflow_conc()->init();
   set_phase(active_workers, true /* concurrent */);
 

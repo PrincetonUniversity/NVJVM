@@ -897,6 +897,8 @@ bool Universe::isPartiallyFilled(void* address){
 	return (value == _partiallyFilledMask);
 }
 
+#define ACCESS_LOG 1
+
 void Universe::accessCheck(void *address){
 	// If the garbage collector is different from G1GC, then we do not perform an access check.
 	// Since, our interception mechanism is limited only to the G1GC case.
@@ -905,11 +907,13 @@ void Universe::accessCheck(void *address){
 	if(!(Universe::isPresent(address))){
 		SSDSwap::handle_faults(address);
 		SwapMetric::incrementAccessIntercepts();
-		if(L_SWAP){
+
+#if ACCESS_LOG
 			printf("In accessCheck %p not present. The address has now been fetched. "
 				"The address of oop is = %p.\n", address, *(oop *)address);
 			fflush(stdout);
-		}
+#endif
+
 	}
 }
 

@@ -662,6 +662,7 @@ oops_on_card_seq_iterate_careful(MemRegion mr,
   HeapWord* cur = block_start(mr.start());
   assert(cur <= mr.start(), "Postcondition");
 
+Universe::accessCheck((void *) cur);
 #if CARD_TABLE_DEBUG
 if(!(Universe::isPresent((void *) cur))){
 	printf("Card is not present in memory. Address = %p. This should cause a fault.\n", cur);

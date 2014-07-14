@@ -27,6 +27,8 @@
 
 #include "gc_implementation/shared/concurrentGCThread.hpp"
 
+#define CONCURRENT_MARK_THREAD_LOG 1
+
 // The Concurrent Mark GC Thread (could be several in the future).
 // This is copied from the Concurrent Mark Sweep GC Thread
 // Still under construction.
