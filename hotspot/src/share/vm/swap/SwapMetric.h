@@ -28,6 +28,7 @@ private:
 	static pthread_mutex_t _compilerIncrement;
 	static pthread_mutex_t _interpreterIncrement;
 	static pthread_mutex_t _segFaultIncrement;
+	static pthread_mutex_t _accessIncrement;
 	static long int _accessIntercepts;
 
 public:
