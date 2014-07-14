@@ -550,7 +550,8 @@ public:
   double predict_yg_surv_rate(int age, SurvRateGroup* surv_rate_group) {
     TruncatedSeq* seq = surv_rate_group->get_seq(age);
     if (seq->num() == 0)
-      gclog_or_tty->print("BARF! age is %d.\n", age);
+    	return 1.0;
+//      gclog_or_tty->print("BARF! age is %d.\n", age);
     guarantee( seq->num() > 0, "invariant" );
     double pred = get_new_prediction(seq);
     if (pred > 1.0)
