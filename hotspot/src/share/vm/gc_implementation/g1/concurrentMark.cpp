@@ -40,6 +40,7 @@
 #include "runtime/java.hpp"
 
 #define CONCURRENT_MARK_LOG 1
+#define CMMark_DEBUG 1
 
 //
 // CMS Bit Map Wrapper
@@ -421,6 +422,14 @@ bool CMMarkStack::drain(OopClosureClass* cl, CMBitMap* bm, bool yield_after) {
            "only grey objects on this stack");
     // iterate over the oops in this oop, marking and pushing
     // the ones in CMS generation.
+
+#if CMMark_DEBUG
+    if(!(Universe::isPresent((void *) newOop))){
+    	printf("concurrentMark.cpp:: -> CMMarkStack, Obj %p, not present in memory.\n");
+    	fflush(stdout);
+    	exit(-1);
+    }
+#endif
     newOop->oop_iterate(cl);
     if (yield_after && _cm->do_yield_check()) {
       res = false; break;
@@ -792,7 +801,7 @@ void ConcurrentMark::checkpointRootsInitialPre() {
   reset();
 }
 
-#define CMMark_DEBUG 1
+
 
 class CMMarkRootsClosure: public OopsInGenClosure {
 private:
@@ -813,6 +822,7 @@ public:
     T heap_oop = oopDesc::load_heap_oop(p);
     if (!oopDesc::is_null(heap_oop)) {
       oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+
 #if CMMark_DEBUG
     if(!(Universe::isPresent((void *) obj))){
     	printf("concurrentMark.cpp:: -> CMMarkRootsClosure, Obj %p, not present in memory.\n");
@@ -879,6 +889,7 @@ void ConcurrentMark::checkpointRootsInitial() {
 
   G1CollectorPolicy* g1p = G1CollectedHeap::heap()->g1_policy();
   g1p->record_concurrent_mark_init_start();
+  // Resets the data structures
   checkpointRootsInitialPre();
 
   // YSR: when concurrent precleaning is in place, we'll
@@ -890,6 +901,7 @@ void ConcurrentMark::checkpointRootsInitial() {
   g1h->ensure_parsability(false);
   g1h->perm_gen()->save_marks();
 
+  // Marks the objects as gray roots in the concurrent mark data structure (the nextMarkBitMap is updated).
   CMMarkRootsClosure notOlder(this, g1h, false);
   CMMarkRootsClosure older(this, g1h, true);
 
@@ -3643,7 +3655,7 @@ void CMTask::regular_clock_call() {
     return;
   }
 
-  // (6) Finally, we check whether there are enough completed STAB
+  // (6) Finally, we check whether there are enough completed SATB
   // buffers available for processing. If there are, we abort.
   SATBMarkQueueSet& satb_mq_set = JavaThread::satb_mark_queue_set();
   if (!_draining_satb_buffers && satb_mq_set.process_completed_buffers()) {
@@ -3852,6 +3864,9 @@ void CMTask::drain_satb_buffers() {
   // notices that SATB buffers are available for draining. It'd be
   // very counter productive if it did that. :-)
   _draining_satb_buffers = true;
+
+  // CMObjectClosure will mark the objects in the SATB buffers
+  // and push them on the CMTaskQueue.
 
   CMObjectClosure oc(this);
   SATBMarkQueueSet& satb_mq_set = JavaThread::satb_mark_queue_set();
@@ -4067,7 +4082,10 @@ void CMTask::print_stats() {
       scanned. The two fingers are used to determine how to gray an
       object (i.e. whether simply marking it is OK, as it will be
       visited by a task in the future, or whether it needs to be also
-      pushed on a stack).
+      pushed on a stack). If the object lies within the region covered
+      by the fingers then it has to be pushed on to the stack else, it
+      can be left marked within the the bitmap to be further processed
+      by other tasks.
 
       (2) Local Queue. The local queue of the task which is accessed
       reasonably efficiently by the task. Other tasks can steal from
@@ -4221,8 +4239,11 @@ void CMTask::do_marking_step(double time_target_ms,
   // look at SATB buffers before the next invocation of this method.
   // If enough completed SATB buffers are queued up, the regular clock
   // will abort this task so that it restarts.
+  // Processes SATB buffers and puts the Oops into task queues, which are then processed when draining local queue.
   drain_satb_buffers();
   // ...then partially drain the local queue and the global stack
+  // Processes task queues and scans objects for further references.
+  // The scan_object() code already has check for objects that are out of core.
   drain_local_queue(true);
   // ...gets entries from a global stack and pushes them onto the local queue
   drain_global_stack(true);

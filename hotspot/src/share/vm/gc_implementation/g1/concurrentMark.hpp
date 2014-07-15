@@ -38,7 +38,7 @@ typedef GenericTaskQueueSet<CMTaskQueue> CMTaskQueueSet;
 // if a particular object is alive. It is primarily used
 // to determine if referents of discovered reference objects
 // are alive. An instance is also embedded into the
-// reference processor as the _is_alive_non_header field
+// reference processor as the _is_alive_non_header field.
 class G1CMIsAliveClosure: public BoolObjectClosure {
   G1CollectedHeap* _g1;
  public:

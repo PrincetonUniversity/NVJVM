@@ -221,7 +221,6 @@ inline narrowOop oopDesc::encode_heap_oop(oop v) {
 }
 
 inline oop oopDesc::decode_heap_oop_not_null(narrowOop v) {
-  //printf("In decode_heap_oop_not_null, narrowOop \n"); fflush(stdout);
   assert(!is_null(v), "narrow oop value can never be zero");
   address base = Universe::narrow_oop_base();
   int    shift = Universe::narrow_oop_shift();

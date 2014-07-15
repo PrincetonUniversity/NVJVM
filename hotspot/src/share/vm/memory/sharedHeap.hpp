@@ -205,7 +205,7 @@ public:
   // Number of threads currently working on GC tasks.
   int n_par_threads() { return _n_par_threads; }
 
-  // Invoke the "do_oop" method the closure "roots" on all root locations.
+  // Invoke the "do_oop" method that applies the closure "roots" on all root locations.
   // If "collecting_perm_gen" is false, then roots that may only contain
   // references to permGen objects are not scanned; instead, in that case,
   // the "perm_blk" closure is applied to all outgoing refs in the

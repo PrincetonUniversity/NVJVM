@@ -519,9 +519,6 @@ void java_lang_Class::set_static_oop_field_count(oop java_class, int size) {
   java_class->int_field_put(static_oop_field_count_offset, size);
 }
 
-
-
-
 oop java_lang_Class::create_basic_type_mirror(const char* basic_type_name, BasicType type, TRAPS) {
   // This should be improved by adding a field at the Java level or by
   // introducing a new VM klass (see comment in ClassFileParser)

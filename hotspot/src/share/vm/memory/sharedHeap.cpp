@@ -147,7 +147,7 @@ void SharedHeap::process_strong_roots(bool activate_scope,
   if (!_process_strong_tasks->is_task_claimed(SH_PS_Universe_oops_do)) {
     Universe::oops_do(roots);
     ReferenceProcessor::oops_do(roots);
-    // Consider perm-gen discovered lists to be strong.
+    // Consider permanent-generation discovered lists to be strong.
     perm_gen()->ref_processor()->weak_oops_do(roots);
   }
   // Global (strong) JNI handles
@@ -215,7 +215,6 @@ void SharedHeap::process_strong_roots(bool activate_scope,
 
   if (!collecting_perm_gen) {
     // All threads perform this; coordination is handled internally.
-
     rem_set()->younger_refs_iterate(perm_gen(), perm_blk);
   }
   _process_strong_tasks->all_tasks_completed();

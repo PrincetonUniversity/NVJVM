@@ -3420,7 +3420,7 @@ void G1CollectedHeap::getRegionStatistics(){
 bool
 G1CollectedHeap::do_collection_pause_at_safepoint(double target_pause_time_ms) {
   Universe::setIsCollecting(true);
-  printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
+//  printf("In do_collection_pause_at_safepoint(). Minor Collection.\n"); fflush(stdout);
   _heapMetrics->clearOccupancyCountTable();
 
   assert_at_safepoint(true /* should_be_vm_thread */);
