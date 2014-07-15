@@ -424,6 +424,7 @@ bool CMMarkStack::drain(OopClosureClass* cl, CMBitMap* bm, bool yield_after) {
     // the ones in CMS generation.
 
 #if CMMark_DEBUG
+//    Universe::accessCheck((void *)newOop);
     if(!(Universe::isPresent((void *) newOop))){
     	printf("concurrentMark.cpp:: -> CMMarkStack, Obj %p, not present in memory.\n");
     	fflush(stdout);
@@ -1368,7 +1369,6 @@ public:
   bool doHeapRegion(HeapRegion* hr) {
     if (!_final && _regions_done == 0)
       _start_vtime_sec = os::elapsedVTime();
-
     if (hr->continuesHumongous()) {
       // We will ignore these here and process them when their
       // associated "starts humongous" region is processed (see
@@ -1404,6 +1404,15 @@ public:
     intptr_t last_card_num = -1;
 
     while (start < nextTop) {
+#if CMMark_DEBUG
+ if(!Universe::isPresent((void *)start)){
+	  printf("Accessing obj %p, which is not present in memory while"
+			  " deal_with_reference() in concurrentMark().\n", start);
+	  fflush(stdout);
+	  exit(-1);
+  }
+#endif
+
       if (_yield && _cm->do_yield_check()) {
         // We yielded.  It might be for a full collection, in which case
         // all bets are off; terminate the traversal.
@@ -1760,9 +1769,7 @@ void ConcurrentMark::cleanup() {
 
   G1CollectorPolicy* g1p = G1CollectedHeap::heap()->g1_policy();
   g1p->record_concurrent_mark_cleanup_start();
-
   double start = os::elapsedTime();
-
   HeapRegionRemSet::reset_for_cleanup_tasks();
 
   // Do counting once more with the world stopped for good measure.
@@ -2575,12 +2582,16 @@ public:
 };
 
 void ConcurrentMark::deal_with_reference(oop obj) {
-  if(!Universe::isPresent((void *)obj)){
+
+#if CMMark_DEBUG
+	if(!Universe::isPresent((void *)obj)){
 	  printf("Accessing obj %p, which is not present in memory while"
 			  " deal_with_reference() in concurrentMark().\n", obj);
 	  fflush(stdout);
 	  exit(-1);
   }
+#endif
+
   if (verbose_high())
     gclog_or_tty->print_cr("[global] we're dealing with reference "PTR_FORMAT,
                            (void*) obj);
