@@ -70,7 +70,7 @@ void Parse::array_store(BasicType elem_type) {
 Node* Parse::array_addressing(BasicType type, int vals, const Type* *result2) {
   Node *idx   = peek(0+vals);   // Get from stack without popping
   Node *ary   = peek(1+vals);   // in case of exception
-  increment_access_counter(peek(1+vals));
+//  increment_access_counter(peek(1+vals));
   // Null check the array base, with correct stack contents
   ary = do_null_check(ary, T_ARRAY);
   // Compile-time detect of null-exception?
@@ -1405,27 +1405,22 @@ void Parse::do_one_bytecode() {
 
   case Bytecodes::_aload_0:
 	obj = local(0);
-    increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_1:
 	obj = local(1);
-	increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_2:
     obj = local(2);
-    increment_access_counter(obj);
     push( obj );
     break;
   case Bytecodes::_aload_3:
     obj = local(3);
-    increment_access_counter(obj);
 	push( obj );
     break;
   case Bytecodes::_aload:
 	obj = local(iter().get_index());
-	increment_access_counter(obj);
 	push( obj );
     break;
 
@@ -2314,12 +2309,10 @@ void Parse::do_one_bytecode() {
 
 
   case Bytecodes::_monitorenter:
-	 increment_access_counter(peek());
 	 do_monitor_enter();
     break;
 
   case Bytecodes::_monitorexit:
-	increment_access_counter(peek());
     do_monitor_exit();
     break;
 

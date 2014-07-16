@@ -671,7 +671,7 @@ void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
   Address object = aaddress(rbx);
-  interceptObject(object);
+//  interceptObject(object);
   __ movptr(rax, object);
 }
 
@@ -725,11 +725,11 @@ void TemplateTable::increment_array_counter (Register array){
 void TemplateTable::index_check(Register array, Register index) {
   // destroys rbx
   // check array
-	__ push(array);
-	__ push(index);
-	 checkAccess(array);
-	__ pop(index);
-	__ pop(array);
+//	__ push(array);
+//	__ push(index);
+//	 checkAccess(array);
+//	__ pop(index);
+//	__ pop(array);
 
 	__ null_check(array, arrayOopDesc::length_offset_in_bytes());
   // sign extend index for use by indexed load
@@ -882,7 +882,7 @@ void TemplateTable::dload(int n) {
 void TemplateTable::aload(int n) {
  transition(vtos, atos);
   Address object = aaddress(n);
-  interceptObject(object);
+//  interceptObject(object);
   __ movptr(rax, object);
 }
 
