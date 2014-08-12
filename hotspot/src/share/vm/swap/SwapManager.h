@@ -9,10 +9,10 @@
 
 #include "swap_global.h"
 #include "PageBuffer.h"
-#include "SSDSwap.h"
 
 #ifndef SWAPMANAGER_H_
 #define SWAPMANAGER_H_
+#include "SSDSwap.h"
 
 typedef std::map<void *, SSDRange> swapMap;
 /* This map is used to keep metadata information about each page.
