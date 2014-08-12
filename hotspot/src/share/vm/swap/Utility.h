@@ -19,6 +19,8 @@ public:
 	static int getNumPages(void *s, void *e);
 	static void* nextPage(void *);
 	static void* nextPageInc(void *, int);
+	static void* addPointers(void* a, void* b);
+	static bool liesWithinHeap(void *a);
 };
 
 #endif /* UTILITY_H_ */

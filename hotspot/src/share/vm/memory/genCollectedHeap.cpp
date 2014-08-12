@@ -85,7 +85,6 @@ GenCollectedHeap::GenCollectedHeap(GenCollectorPolicy *policy) :
 
 jint GenCollectedHeap::initialize() {
   CollectedHeap::pre_initialize();
-
   int i;
   _n_gens = gen_policy()->number_of_generations();
 

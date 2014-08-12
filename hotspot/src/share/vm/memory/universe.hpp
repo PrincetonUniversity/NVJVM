@@ -29,9 +29,12 @@
 #include "utilities/growableArray.hpp"
 #include "stdlib.h"
 #include "malloc.h"
+#include "swap/SignalHandler.h"
 
 // List of checks
 #define PT_CHECKS
+#define SWAP_METRICS 0
+#define SEGMENTATION_LOG 0
 
 /******************************************************************************************************/
 

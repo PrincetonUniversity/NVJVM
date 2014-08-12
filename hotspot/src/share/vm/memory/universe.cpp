@@ -702,7 +702,8 @@ void Universe::allocatePageTable(size_t size){
 	Universe::setPageTableBase(pageTableBase);
 	Universe::setPageTableSize(size);
 	size_t pageTableSize = size / (1024);
-	printf("Initializing Page Table %p. Size = %zu KB.\n", pageTableBase, pageTableSize); fflush(stdout);
+	printf("Initializing Page Table %p. Size = %zu KB.\n", pageTableBase, pageTableSize);
+	fflush(stdout);
 }
 
 // This method gets the position of the page table entry of an address within the page table
@@ -847,6 +848,8 @@ jint universe_init() {
   if (status != JNI_OK) {
     return status;
   }
+  // Initializing the Signal Handling Code
+  SignalHandler signalHandler = new SignalHandler();
 
   // We have a heap so create the methodOop caches before
   // CompactingPermGenGen::initialize_oops() tries to populate them.

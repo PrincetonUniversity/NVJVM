@@ -49,3 +49,14 @@ void *Utility::nextPage (void *address){
 void *Utility::nextPageInc (void *address, int count){
 	return((void *)((char *)address + count * _PAGE_SIZE));
 }
+
+void *Utility::addPointers(void* a, void* b){
+	return (void *)((size_t)a + (size_t)b);
+}
+
+bool Utility::liesWithinHeap(void *address){
+	void *start = Universe::heap()->base();
+	void *end = addPointers((void *)Universe::heap()->base(), (void *)Universe::heap()->capacity());
+	return (address >= start && address <= end);
+}
+
