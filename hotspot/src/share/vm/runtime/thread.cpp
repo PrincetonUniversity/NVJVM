@@ -3835,7 +3835,7 @@ bool Threads::includes(JavaThread* p) {
 // but the garbage collector must provide a safe context for them to run.
 // In particular, these things should never be called when the Threads_lock
 // is held by some other thread. (Note: the Safepoint abstraction also
-// uses the Threads_lock to gurantee this property. It also makes sure that
+// uses the Threads_lock to guarantee this property. It also makes sure that
 // all threads gets blocked when exiting or starting).
 
 void Threads::oops_do(OopClosure* f, CodeBlobClosure* cf) {

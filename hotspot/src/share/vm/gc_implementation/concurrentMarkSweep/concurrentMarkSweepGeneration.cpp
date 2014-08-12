@@ -3621,7 +3621,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
 
     // Start the timers for adaptive size policy for the concurrent phases
     // Do it here so that the foreground MS can use the concurrent
-    // timer since a foreground MS might has the sweep done concurrently
+    // timer since a foreground MS might have the sweep done concurrently
     // or STW.
     if (UseAdaptiveSizePolicy) {
       size_policy()->concurrent_marking_begin();
@@ -4367,7 +4367,7 @@ void CMSCollector::preclean() {
     _eden_chunk_index = 0;
     size_t used = get_eden_used();
     size_t capacity = get_eden_capacity();
-    // Don't start sampling unless we will get sufficiently
+    // Don't start sampling unless we get sufficiently
     // many samples.
     if (used < (capacity/(CMSScheduleRemarkSamplingRatio * 100)
                 * CMSScheduleRemarkEdenPenetration)) {
