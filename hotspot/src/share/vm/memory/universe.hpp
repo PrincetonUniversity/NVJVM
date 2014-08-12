@@ -27,6 +27,8 @@
 
 #include "runtime/handles.hpp"
 #include "utilities/growableArray.hpp"
+#include "stdlib.h"
+#include "malloc.h"
 
 // List of checks
 #define PT_CHECKS

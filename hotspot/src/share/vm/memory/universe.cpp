@@ -743,7 +743,7 @@ bool Universe::isPresent(void *pageAddress){
 size_t Universe::getPageIndex(void *address){
 	char* addCast = (char*)address;
 	char* addOffset = addCast - (char *)Universe::getHeapBase();
-	size_t pageIndex = addOffset / sysconf(_SC_PAGE_SIZE);
+	size_t pageIndex = (size_t)addOffset / sysconf(_SC_PAGE_SIZE);
 
 #ifdef PT_CHECKS
 	int numberOfPagesInHeap = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
