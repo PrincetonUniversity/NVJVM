@@ -56,7 +56,7 @@ void *Utility::addPointers(void* a, void* b){
 
 bool Utility::liesWithinHeap(void *address){
 	void *start = Universe::heap()->base();
-	void *end = addPointers((void *)Universe::heap()->base(), (void *)Universe::heap()->capacity());
+	void *end = addPointers((void *)Universe::getHeapBase(), (void *)Universe::getHeapSize());
 	return (address >= start && address <= end);
 }
 
