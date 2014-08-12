@@ -9,7 +9,7 @@
 
 void Utility::printRegionTable(void *addr){
 	char value;
-	char *startRegionTable =  (char *)Universe::getRegionTablePosition(addr);
+	char *startRegionTable =  (char *)Universe::getPageTablePosition(addr);
 	char *regionPos = (char *)SwapManager::getRegionStart(addr);
 	for(int count = 0; count < Universe::_regionPages; count++){
 		value = *startRegionTable;
