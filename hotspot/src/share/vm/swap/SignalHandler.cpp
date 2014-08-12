@@ -7,6 +7,9 @@
 
 #include "SignalHandler.h"
 
+struct sigaction sa;
+struct sigaction oldSigAct;
+
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
