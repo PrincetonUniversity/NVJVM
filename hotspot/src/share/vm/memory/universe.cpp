@@ -742,11 +742,11 @@ bool Universe::isPresent(void *pageAddress){
 
 size_t Universe::getPageIndex(void *address){
 	char* addCast = (char*)address;
-	char* addOffset = addCast - (char *)Universe::getHeapBase();
+	size_t addOffset = (size_t)(addCast - (size_t)Universe::getHeapBase());
 	size_t pageIndex = (size_t)addOffset / sysconf(_SC_PAGE_SIZE);
 
 #ifdef PT_CHECKS
-	int numberOfPagesInHeap = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
+	size_t numberOfPagesInHeap = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
 	if(pageIndex > numberOfPagesInHeap || pageIndex < 0){
 		printf("Error in calculating page index. The address %p, pageIndex = %d.\n", address, pageIndex);
 		exit (-1);
