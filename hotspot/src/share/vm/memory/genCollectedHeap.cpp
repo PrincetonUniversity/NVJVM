@@ -151,6 +151,9 @@ jint GenCollectedHeap::initialize() {
     return JNI_ENOMEM;
   }
 
+  Universe::setHeapBase((void *)heap_rs.base());
+  Universe::setHeapSize((size_t) heap_rs.size());
+
   _reserved = MemRegion((HeapWord*)heap_rs.base(),
                         (HeapWord*)(heap_rs.base() + heap_rs.size()));
 

@@ -28,6 +28,11 @@
 #include "runtime/handles.hpp"
 #include "utilities/growableArray.hpp"
 
+// List of checks
+#define PT_CHECKS
+
+/******************************************************************************************************/
+
 // Universe is a name space holding known system classes and objects in the VM.
 //
 // Loaded classes are accessible through the SystemDictionary.
@@ -250,6 +255,33 @@ class Universe: AllStatic {
   static void compute_verify_oop_data();
 
  public:
+  static char _presentMask;    // flag that indicates that a page is present
+  static char _notPresentMask; // flag that indicates that a page is not present
+  static int _regionPages; 	   // number of pages within a region (car - independent individual unit)
+  static void *_heapBase; 	   // the base address of the heap
+  static size_t _heapSize;     // the size of the heap in bytes
+  static void* _pageTableBase; // the base location of the page table
+  static size_t _pageTableSize; // size of the page table in bytes == number of pages in the heap
+
+  static void setHeapBase(void* start)                 { _heapBase = start;}
+  static void setHeapSize(size_t size)					{ _heapSize = size; }
+  static void *getHeapBase() 							{ return _heapBase; }
+  static void *getHeapTop()								{ return (char *)_heapBase + _heapSize; }
+  static size_t getHeapSize()							{ return _heapSize; }
+  static void setPageTableBase(void *base)				{ _pageTableBase = base; }
+  static void setPageTableSize(size_t size)				{ _pageTableSize = size; }
+  static char* getPageTableBase()						{ return (char *)_pageTableBase; }
+  static char* getPageTableTop()						{ return ((char *)_pageTableBase + _pageTableSize); }
+
+  static void allocatePageTable(size_t size);
+  static bool isSwappedOut(void *pageAddress);
+  static bool isPresent(void *pageAddress);
+  static void markSwappedOut(void *pageAddress);
+  static void markSwappedIn(void *pageAddress);
+  static size_t getPageIndex(void *pageAddress);
+
+  static void* getPageTablePosition(void *pageAddress);
+
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
   static klassOop byteArrayKlassObj()                 { return _byteArrayKlassObj;   }

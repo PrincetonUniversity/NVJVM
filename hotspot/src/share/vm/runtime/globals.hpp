@@ -670,6 +670,10 @@ class CommandLineFlags {
   develop(bool, ShowSafepointMsgs, false,                                   \
           "Show msg. about safepoint synch.")                               \
                                                                             \
+  product(bool, L_SWAP, false, "logs related to swap module") 		        \
+  product(bool, REMAP, false, "dummy flag not necessarily needed") 			\
+  product(bool, Swap_Protect, false,										\
+		  "flag that controls whether page protection has to be enabled") 	\
   product(bool, SafepointTimeout, false,                                    \
           "Time out and warn or fail after SafepointTimeoutDelay "          \
           "milliseconds if failed to reach safepoint")                      \

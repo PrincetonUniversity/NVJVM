@@ -97,6 +97,14 @@
 #include "gc_implementation/parallelScavenge/parallelScavengeHeap.hpp"
 #endif
 
+char Universe::_presentMask = 0;
+char Universe::_notPresentMask = 1;
+int Universe::_regionPages = 256;
+void* Universe::_heapBase = NULL;
+size_t Universe::_heapSize = 0;
+void* Universe::_pageTableBase = NULL;
+size_t Universe::_pageTableSize = 0;
+
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;
 klassOop Universe::_byteArrayKlassObj                 = NULL;
@@ -687,6 +695,65 @@ bool Universe::should_fill_in_stack_trace(Handle throwable) {
           (throwable() != Universe::_out_of_memory_error_gc_overhead_limit));
 }
 
+// This method allocates the page table
+void Universe::allocatePageTable(size_t size){
+	void* pageTableBase = (void *) memalign(sysconf(_SC_PAGE_SIZE), size);
+	memset(pageTableBase, 0, size);
+	Universe::setPageTableBase(pageTableBase);
+	Universe::setPageTableSize(size);
+	size_t pageTableSize = size / (1024);
+	printf("Initializing Page Table %p. Size = %zu KB.\n", pageTableBase, pageTableSize); fflush(stdout);
+}
+
+// This method gets the position of the page table entry of an address within the page table
+void* Universe::getPageTablePosition(void *address){
+	size_t pageIndex = getPageIndex(address);
+	char* addPosition = pageIndex + (char *)Universe::getPageTableBase();
+#ifdef PT_CHECKS
+	if ((addPosition < Universe::getPageTableBase()) || (addPosition > Universe::getPageTableTop())){
+		printf("Address %p accessed. Heap base %p, top %p. It is out of the page table range(%p, %p).\n",
+				address, Universe::getHeapBase(), Universe::getHeapTop(),
+				Universe::getPageTableBase(), Universe::getPageTableTop());
+		exit(-1);
+	}
+#endif
+	return addPosition;
+}
+
+void Universe::markSwappedOut(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	(*position) = Universe::_notPresentMask;
+}
+
+void Universe::markSwappedIn(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	(*position) = Universe::_presentMask;
+}
+
+bool Universe::isSwappedOut(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	return ((*position) == Universe::_notPresentMask);
+}
+
+bool Universe::isPresent(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	return ((*position) == Universe::_presentMask);
+}
+
+size_t Universe::getPageIndex(void *address){
+	char* addCast = (char*)address;
+	char* addOffset = addCast - (char *)Universe::getHeapBase();
+	size_t pageIndex = addOffset / sysconf(_SC_PAGE_SIZE);
+
+#ifdef PT_CHECKS
+	int numberOfPagesInHeap = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
+	if(pageIndex > numberOfPagesInHeap || pageIndex < 0){
+		printf("Error in calculating page index. The address %p, pageIndex = %d.\n", address, pageIndex);
+		exit (-1);
+	}
+#endif
+	return pageIndex;
+}
 
 oop Universe::gen_out_of_memory_error(oop default_err) {
   // generate an out of memory error:
@@ -920,6 +987,10 @@ jint Universe::initialize_heap() {
   }
 
   jint status = Universe::heap()->initialize();
+  // Initializing the metadata related to the heap
+  size_t sizeOfPageTable = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
+  allocatePageTable(sizeOfPageTable);
+
   if (status != JNI_OK) {
     return status;
   }
