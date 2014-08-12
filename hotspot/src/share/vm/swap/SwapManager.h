@@ -9,6 +9,7 @@
 
 #include "swap_global.h"
 #include "PageBuffer.h"
+#include "SSDSwap.h"
 
 #ifndef SWAPMANAGER_H_
 #define SWAPMANAGER_H_
