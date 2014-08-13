@@ -20,7 +20,6 @@
 #include <signal.h>
 #include "string.h"
 #include <map>
-#include "memory/HeapMonitor.h"
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
@@ -123,12 +122,6 @@ public:
 	PageMetaData(int pB){
 		_prefilledBytes = pB;
 	}
-//	int getssdLocation(){
-//		return _ssdLocation;
-//	}
-//	void setSsdLocation(int loc){
-//		_ssdLocation = loc;
-//	}
 
 	int getPrefilledBytes(){
 		return _prefilledBytes;

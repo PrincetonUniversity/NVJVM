@@ -854,7 +854,7 @@ jint universe_init() {
     return status;
   }
   // Initializing the Signal Handling Code
-//  SignalHandler* signalHandler = new SignalHandler();
+  SignalHandler* signalHandler = new SignalHandler();
 
   // We have a heap so create the methodOop caches before
   // CompactingPermGenGen::initialize_oops() tries to populate them.
