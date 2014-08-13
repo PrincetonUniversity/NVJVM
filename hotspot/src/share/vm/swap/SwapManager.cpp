@@ -78,7 +78,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 	}
 
 	// Remapping the virtual address space
-	if(mremap(address, numberBytes, numberBytes,  MREMAP_FIXED, buffer) == -1){
+	if(mremap(address, numberBytes, numberBytes,  MREMAP_FIXED, buffer) == (void *)-1){
 		printf("Error in mremap. Address = %p, NumberBytes = %ld, buffer %p.\n", address, numberBytes, buffer);
 		perror("error:");
 		exit(-1);
