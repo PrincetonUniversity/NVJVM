@@ -12,7 +12,7 @@
 #include "swap/SSDSwap.h"
 #include "runtime/virtualspace.hpp"
 #include "swap/Utility.h"
-#include "vm/gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
+#include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
 
 #define HM_Occupancy_Log 1
 #define HM_ASSERT 0
