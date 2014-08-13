@@ -30,11 +30,13 @@
 #include "stdlib.h"
 #include "malloc.h"
 #include "swap/SignalHandler.h"
+#include "memory/HeapMonitor.h"
 
 // List of checks
 #define PT_CHECKS
 #define SWAP_METRICS 0
 #define SEGMENTATION_LOG 0
+#define MB 1024*1024
 
 /******************************************************************************************************/
 
@@ -260,6 +262,7 @@ class Universe: AllStatic {
   static void compute_verify_oop_data();
 
  public:
+  static size_t _availableRAM; // the approximate amount of RAM available for the heap
   static char _presentMask;    // flag that indicates that a page is present
   static char _notPresentMask; // flag that indicates that a page is not present
   static int _regionPages; 	   // number of pages within a region (car - independent individual unit)
@@ -268,7 +271,7 @@ class Universe: AllStatic {
   static void* _pageTableBase; // the base location of the page table
   static size_t _pageTableSize; // size of the page table in bytes == number of pages in the heap
 
-  static void setHeapBase(void* start)                 { _heapBase = start;}
+  static void setHeapBase(void* start)                  { _heapBase = start;}
   static void setHeapSize(size_t size)					{ _heapSize = size; }
   static void *getHeapBase() 							{ return _heapBase; }
   static void *getHeapTop()								{ return (char *)_heapBase + _heapSize; }

@@ -27,6 +27,7 @@
 
 #include "memory/generation.hpp"
 #include "memory/permGen.hpp"
+#include "memory/HeapMonitor.h"
 
 // The specification of a generation.  This class also encapsulates
 // some generation-specific behavior.  This is done here rather than as a

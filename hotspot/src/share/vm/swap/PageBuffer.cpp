@@ -45,17 +45,17 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 			printf("Error In Protecting Page %p \n", va); fflush(stdout);
 			exit(-1);
 		} else if(L_SWAP) {
-//			printf("Protecting %d pages beginning at %p, index %ld.\n", np, va, Universe::getPageIndex(va));
+			printf("Protecting %d pages beginning at %p, index %ld.\n", np, va, Universe::getPageIndex(va));
 			fflush(stdout);
 		}
 	}
 
 	// Marking the region as not needed so that the OS can free the resources
-//	if (madvise (va, (unsigned long)(numPagesToRelease * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
-//		perror("error :");
-//		printf("Error In Protecting Page %p \n", va);
-//		fflush(stdout);
-//		exit(1);
-//	}
+	if (madvise (va, (unsigned long)(numPagesToRelease * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+		perror("error :");
+		printf("Error In Protecting Page %p \n", va);
+		fflush(stdout);
+		exit(1);
+	}
 	return ssdRange;
 }

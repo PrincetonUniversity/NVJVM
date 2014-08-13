@@ -60,3 +60,15 @@ bool Utility::liesWithinHeap(void *address){
 	return (address >= start && address <= end);
 }
 
+void *Utility::minPointer(void *a, void *b){
+	if((uintptr_t)a < (uintptr_t)b){
+		return a;
+	}
+	return b;
+}
+
+int Utility::numberPages(void *bottom, void *top){
+	return ((uintptr_t)top - (uintptr_t)bottom) / sysconf(_SC_PAGE_SIZE);
+}
+
+

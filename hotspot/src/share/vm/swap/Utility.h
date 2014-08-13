@@ -21,6 +21,8 @@ public:
 	static void* nextPageInc(void *, int);
 	static void* addPointers(void* a, void* b);
 	static bool liesWithinHeap(void *a);
+	static void *minPointer(void *, void *);
+	static int numberPages(void *, void *);
 };
 
 #endif /* UTILITY_H_ */

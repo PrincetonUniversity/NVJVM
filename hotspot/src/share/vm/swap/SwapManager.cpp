@@ -10,6 +10,7 @@
 #include <list>
 #include "SwapMetric.h"
 #include "Utility.h"
+#include <sys/mman.h>
 
 swapMap SwapManager::_swap_map;
 metaDataMap SwapManager::_metaDataMap;
@@ -44,6 +45,51 @@ bool SwapManager::isSwappedOut(void *address){
 
 bool liesWithin(void *address, void *top, void *bottom){
 	return (((long)address >= (long)bottom) && ((long)address <= (long)top));
+}
+
+void SwapManager::swapInPage(void *address, int numberPages){
+	address = Utility::getPageStart(address);
+	if(L_SWAP){
+		  printf("SwapManager::swapInPage() In swapInPage, swapping in page address %p.\n", address); fflush (stdout);
+	}
+	size_t pageIndex = Universe::getPageIndex(address);
+	size_t fileOffset = pageIndex * sysconf(_SC_PAGE_SIZE);
+	if(Universe::isPresent(address)){
+		  if(L_SWAP){
+			  printf("Address %p, index = %d is already present. "
+				  "Therefore, page not fetched in.\n", address, Universe::getPageIndex(address));
+			  fflush(stdout);
+		  }
+		return;
+	}
+	void *buffer;
+	size_t numberBytes = numberPages * sysconf(_SC_PAGE_SIZE);
+	if(posix_memalign(&buffer, sysconf(_SC_PAGE_SIZE), numberBytes) == -1){
+		perror("error :");
+		printf("Error in posix_memalign.\n");
+		exit(-1);
+	}
+	size_t len = SwapReader::swapInOffset(buffer, numberBytes, fileOffset);
+	if(len != numberBytes){
+		printf("Error in swapInPage, while fetching address %p."
+				"Length read = %ld, Actual length to read %ld.\n",
+				address, len, numberBytes);
+		exit(-1);
+	}
+
+	// Remapping the virtual address space
+	if(mremap(address, numberBytes, numberBytes,  MREMAP_FIXED, buffer) == -1){
+		printf("Error in mremap. Address = %p, NumberBytes = %ld, buffer %p.\n", address, numberBytes, buffer);
+		perror("error:");
+		exit(-1);
+	}
+
+	// Marking the swapped in pages in the page table
+	void *curr = address;
+	for (int count = 0; count < numberPages; count++){
+		  Universe::markSwappedIn(curr);
+		  curr = Utility::nextPage(curr);
+	}
 }
 
 /*

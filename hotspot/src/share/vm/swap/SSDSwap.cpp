@@ -72,6 +72,35 @@ void SSDSwap::handle_faults(void *addr) {
 	}
 }
 
+
+void SSDSwap::CMS_handle_faults(void *addr) {
+	if(L_SWAP){
+		printf("SSDSwap:CMS_handle_faults called on address = %p.\n", addr);
+		fflush(stdout);
+	}
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+	pthread_mutex_lock(&_swap_map_mutex);
+	if(L_SWAP){
+		printf("SSDSwap:CMS_handle_faults called on address = %p. Entering SwapInPage.\n", addr);
+		fflush(stdout);
+	}
+	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p. RemapPage Done.\n", addr);
+		fflush(stdout);
+	}
+	pthread_mutex_unlock(&_swap_map_mutex);
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapInTime(time1, time2);
+	HeapMonitor::incrementAvailableRAM(1*sysconf(_SC_PAGE_SIZE));
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p. handle_faults Done.\n", addr);
+		fflush(stdout);
+	}
+}
+
+
 SSDSwap::SSDSwap() {
 	//_ssd_manager = new SSDManager();
 	//_swap_manager = new SwapManager ();
@@ -79,6 +108,19 @@ SSDSwap::SSDSwap() {
 
 SSDSwap::~SSDSwap() {
 	// TODO Auto-generated destructor stub
+}
+
+void SSDSwap::CMS_swapOut(void *sa, int numberPages){
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+	sa = Utility::getPageStart(sa);
+	size_t pageIndex = Universe::getPageIndex(sa);
+	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
+	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
+	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
+	HeapMonitor::incrementAvailableRAM(numberPages * sysconf(_SC_PAGE_SIZE));
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapOutTime(time1, time2);
 }
 
 void SSDSwap::swapOut(void *end, void *bot, void *top){

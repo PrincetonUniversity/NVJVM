@@ -20,6 +20,7 @@
 #include <signal.h>
 #include "string.h"
 #include <map>
+#include "memory/HeapMonitor.h"
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_

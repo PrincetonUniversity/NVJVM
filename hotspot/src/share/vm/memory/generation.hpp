@@ -150,6 +150,7 @@ class Generation: public CHeapObj {
     GenGrain = 1 << LogOfGenGrain
   };
 
+  VirtualSpace* getVirtualSpace() { return &_virtual_space; }
   // allocate and initialize ("weak") refs processing support
   virtual void ref_processor_init();
   void set_ref_processor(ReferenceProcessor* rp) {

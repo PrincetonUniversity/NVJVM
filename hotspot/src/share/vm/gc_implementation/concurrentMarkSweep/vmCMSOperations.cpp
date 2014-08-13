@@ -139,6 +139,9 @@ void VM_CMS_Initial_Mark::doit() {
   IsGCActiveMark x; // stop-world GC active
   _collector->do_CMS_operation(CMSCollector::CMS_op_checkpointRootsInitial);
 
+  // Calling the heap monitor to check whether some sets of pages need to be swapped out
+  HeapMonitor::CMS_swapOut_operation();
+
   VM_CMS_Operation::verify_after_gc();
   HS_DTRACE_PROBE(hs_private, cms__initmark__end);
 }

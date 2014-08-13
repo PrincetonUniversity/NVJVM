@@ -29,6 +29,7 @@
 #include "gc_implementation/shared/vmGCOperations.hpp"
 #include "gc_interface/gcCause.hpp"
 #include "runtime/vm_operations.hpp"
+#include "memory/HeapMonitor.h"
 
 // The VM_CMS_Operation is slightly different from
 // a VM_GC_Operation -- and would not have subclassed easily

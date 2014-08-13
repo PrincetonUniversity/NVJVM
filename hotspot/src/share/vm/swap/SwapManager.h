@@ -42,6 +42,7 @@ public:
 	static void* object_va_to_page_start(void *va);
 	static void* object_va_to_page_end(void *va);
 	static void remapPage (void *address, bool partialCheck);
+	static void swapInPage(void *address, int numberPages);
 	static void swapInRegions();
 	static void* getRegionStart(void* address);
 	static int getPageNumInRegion(void* address);

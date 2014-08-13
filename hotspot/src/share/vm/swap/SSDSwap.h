@@ -32,11 +32,13 @@ public:
 	virtual ~SSDSwap();
 	void* seg_handler (void *address);
 	static void handle_faults(void *address);
+	static void CMS_handle_faults(void *address);
 	static void swapInRegion(void *addr);
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
 	static void swapOut(void *sa, void *ea, void *top);
 	static void markRegionSwappedOut(void *addr, int n);
+	static void CMS_swapOut(void *sa, int numberPages);
 };
 
 
