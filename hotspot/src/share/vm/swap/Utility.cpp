@@ -71,4 +71,10 @@ int Utility::numberPages(void *bottom, void *top){
 	return ((uintptr_t)top - (uintptr_t)bottom) / sysconf(_SC_PAGE_SIZE);
 }
 
+double Utility::toMB(size_t value){
+	return (double)value / (double)(1024*1024);
+}
 
+double Utility::toKB(size_t value){
+	return (double)value / (double)(1024);
+}

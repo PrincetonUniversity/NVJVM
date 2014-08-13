@@ -11,6 +11,7 @@
 #include "SwapMetric.h"
 #include "Utility.h"
 #include <sys/mman.h>
+#define _GNU_SOURCE
 
 swapMap SwapManager::_swap_map;
 metaDataMap SwapManager::_metaDataMap;
@@ -78,7 +79,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 	}
 
 	// Remapping the virtual address space
-	if(mremap(address, numberBytes, numberBytes,  MREMAP_FIXED, buffer) == (void *)-1){
+	if(mremap(buffer, numberBytes, numberBytes,  MREMAP_FIXED, address) == (void *)-1){
 		printf("Error in mremap. Address = %p, NumberBytes = %ld, buffer %p.\n", address, numberBytes, buffer);
 		perror("error:");
 		exit(-1);

@@ -25,6 +25,8 @@ public:
 	static bool liesWithinHeap(void *a);
 	static void *minPointer(void *, void *);
 	static int numberPages(void *, void *);
+	static double toMB(size_t value);
+	static double toKB(size_t value);
 };
 
 #endif /* UTILITY_H_ */

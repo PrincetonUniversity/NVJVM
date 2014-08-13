@@ -59,7 +59,9 @@ bool HeapMonitor::CMS_OccupancyReached(){
 
 #if HM_Occupancy_Log
 	size_t capacity = _concurrentMarkSweepGeneration->capacity();
-	printf("Current spaceUsed = %ld, capacity = %ld,  ratioOfLimitUsed %f.\n", spaceUsed, capacity, ratioUsed); fflush(stdout);
+	printf("Current spaceUsed = %f MB, RAM_Available = %f MB,  ratioOfLimitUsed %f.\n",
+			Utility::toMB(spaceUsed), Utility::toMB(Universe::getPhysicalRAM()), ratioUsed);
+	fflush(stdout);
 #endif
 
 	return (ratioUsed > _swapOutOccupancyThreshold);
