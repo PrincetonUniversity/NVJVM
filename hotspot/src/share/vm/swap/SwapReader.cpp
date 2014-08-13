@@ -26,6 +26,7 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 	  FILE *f = fopen("/home/tandon/swap.txt", "r");
 	  fseek(f, (long)(ssdOffset), SEEK_SET);
 /*
+ *  Using the remapping technique and therefore page protection removal is not required.
 		if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
 			perror("error :");
 			printf("Error In Removing Protection From Page %p \n", va);
@@ -34,7 +35,6 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		}
 */
 	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
-//	  size_t len = numberBytes;
 	  int numPages = (numberBytes-1)/_PAGE_SIZE + 1;
 
 	  SwapMetric::incrementSwapIns();
@@ -45,7 +45,7 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 		  fputs ("Error reading swap file\n", stderr); fflush(stdout);
 		  exit(1);
 	  } else {
-		  if (L_SWAP && REMAP){
+		  if (L_SWAP){
 			  printf("Read %zd bytes from the file\n", len); fflush(stdout);
 		  }
 	  }

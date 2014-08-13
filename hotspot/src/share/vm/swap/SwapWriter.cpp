@@ -57,7 +57,7 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 		  fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
-	  FILE *f = fopen(file, "w");
+	  FILE *f = fopen(file, "r+");
 	  if (f == NULL){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
