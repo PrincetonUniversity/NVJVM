@@ -7,9 +7,6 @@
 
 #include "HeapMonitor.h"
 
-void HeapMonitor::_matureGenerationBase = NULL;
-size_t HeapMonitor::_matureGenerationSize = 0;
-
 // Initializing the static variables
 void *HeapMonitor::_inCoreBottom = NULL;
 void *HeapMonitor::_matureGenerationBase = NULL;
