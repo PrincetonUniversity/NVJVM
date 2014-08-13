@@ -11,6 +11,8 @@
 #include "SwapMetric.h"
 #include "signal.h"
 #include <unistd.h>
+#include "SSDSwap.h"
+#include "Utility.h"
 
 class SignalHandler {
 public:

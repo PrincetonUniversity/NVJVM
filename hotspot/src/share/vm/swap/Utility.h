@@ -7,8 +7,10 @@
 
 #ifndef UTILITY_H_
 #define UTILITY_H_
+
 #include "swap_global.h"
 #include "SwapManager.h"
+
 class Utility {
 public:
 //	static void printRegionTable(void *addr);
