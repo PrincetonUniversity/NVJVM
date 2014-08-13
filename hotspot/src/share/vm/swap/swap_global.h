@@ -6,7 +6,7 @@
  */
 
 
-//#include "memory/universe.inline.hpp"
+#include "memory/universe.inline.hpp"
 #include "oops/oopsHierarchy.hpp"
 #include "runtime/globals.hpp"
 #include <time.h>
