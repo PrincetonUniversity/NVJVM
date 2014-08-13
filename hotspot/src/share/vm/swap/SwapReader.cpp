@@ -33,8 +33,8 @@ size_t SwapReader::swapInOffset (void* va, int numberBytes, int ssdOffset){
 			exit(1);
 		}
 */
-//	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
-	  size_t len = numberBytes;
+	  size_t len = fread(va, sizeof(char), (long)(numberBytes), f);
+//	  size_t len = numberBytes;
 	  int numPages = (numberBytes-1)/_PAGE_SIZE + 1;
 
 	  SwapMetric::incrementSwapIns();
