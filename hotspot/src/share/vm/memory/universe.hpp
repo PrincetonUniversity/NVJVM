@@ -30,7 +30,6 @@
 #include "stdlib.h"
 #include "malloc.h"
 #include "swap/SignalHandler.h"
-//#include "memory/HeapMonitor.h"
 
 // List of checks
 #define PT_CHECKS
@@ -287,6 +286,10 @@ class Universe: AllStatic {
   static void markSwappedOut(void *pageAddress);
   static void markSwappedIn(void *pageAddress);
   static size_t getPageIndex(void *pageAddress);
+  static size_t getPhysicalRAM() 						{ return _availableRAM; }
+  static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }
+  static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
+
 
   static void* getPageTablePosition(void *pageAddress);
 

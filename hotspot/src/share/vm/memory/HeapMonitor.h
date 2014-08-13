@@ -25,9 +25,11 @@ private:
 	static void *_inCoreBottom; // The lowest address that has to be swapped out
 	static int _defaultPages; // Default number of pages that have to be swapped out for each swap out call
 	static size_t _availableRAM; // Physical RAM available
+	static bool _isInit;
 
 public:
 	HeapMonitor();
+	static void init();
 	static size_t spaceLeft(); // provides the amount of space left within the heap
 	static void setMatureGenerationBase(void *base)  { _matureGenerationBase = base; }
 	static void* getMatureGenerationBase()			  { return _matureGenerationBase; }

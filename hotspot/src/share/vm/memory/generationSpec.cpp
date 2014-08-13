@@ -95,6 +95,7 @@ Generation* GenerationSpec::init(ReservedSpace rs, int level,
       g->initialize_performance_counters();
       // Initializing the CMS generation
       HeapMonitor::setCMSGeneration(g);
+
       return g;
     }
 #endif // SERIALGC
