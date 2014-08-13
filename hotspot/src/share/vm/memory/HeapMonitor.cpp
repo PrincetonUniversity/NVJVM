@@ -6,6 +6,7 @@
  */
 
 #include "HeapMonitor.h"
+#include "string.h"
 
 // Initializing the static variables
 void *HeapMonitor::_inCoreBottom = NULL;
@@ -16,7 +17,7 @@ size_t HeapMonitor::_matureGenerationSize = 0;
 int HeapMonitor::_defaultPages = 256;
 size_t HeapMonitor::_availableRAM = 0;
 
-void assertF(bool condition, char *message){
+void assertF(bool condition, string message){
 #if HM_ASSERT
 	if(!condition){
 		printf("%s", message);
