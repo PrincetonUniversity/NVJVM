@@ -8,7 +8,6 @@
 #ifndef HEAPMONITOR_H_
 #define HEAPMONITOR_H_
 
-#include "universe.inline.hpp"
 #include "swap/SSDSwap.h"
 #include "runtime/virtualspace.hpp"
 #include "swap/Utility.h"
