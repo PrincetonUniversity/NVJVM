@@ -848,13 +848,13 @@ jint universe_init() {
   jint status = Universe::initialize_heap();
 
   // Setting the available RAM for the mature region heap
-  HeapMonitor::setPhysicalRAM(_availableRAM);
+//  HeapMonitor::setPhysicalRAM(_availableRAM);
 
   if (status != JNI_OK) {
     return status;
   }
   // Initializing the Signal Handling Code
-  SignalHandler* signalHandler = new SignalHandler();
+//  SignalHandler* signalHandler = new SignalHandler();
 
   // We have a heap so create the methodOop caches before
   // CompactingPermGenGen::initialize_oops() tries to populate them.
