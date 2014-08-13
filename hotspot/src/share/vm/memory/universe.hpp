@@ -30,7 +30,7 @@
 #include "stdlib.h"
 #include "malloc.h"
 //#include "swap/SignalHandler.h"
-//#include "memory/HeapMonitor.h"
+#include "memory/HeapMonitor.h"
 
 // List of checks
 #define PT_CHECKS

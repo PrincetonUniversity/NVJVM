@@ -848,7 +848,7 @@ jint universe_init() {
   jint status = Universe::initialize_heap();
 
   // Setting the available RAM for the mature region heap
-//  HeapMonitor::setPhysicalRAM(_availableRAM);
+  HeapMonitor::setPhysicalRAM(_availableRAM);
 
   if (status != JNI_OK) {
     return status;

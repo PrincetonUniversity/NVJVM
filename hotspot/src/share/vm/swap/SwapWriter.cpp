@@ -50,29 +50,29 @@ void check(){
 
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
-SSDRange SwapWriter::swapOut (void * va, int np, int off){
+SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 //	check();
 	if (L_SWAP){
 		  printf("In swapOut, writer writing out %d, bottom %p, offset %d. Page Size = %d\n", np, va, off, _PAGE_SIZE);
 		  fflush(stdout);
 	}
 	  char file[] = "/home/tandon/swap.txt";
-	  FILE *f = fopen(file, "a");
+	  FILE *f = fopen(file, "w");
 	  if (f == NULL){
 		  printf("Error opening swap file \n"); fflush(stdout);
 		  exit(-1);
 	  }
-	  long seekOff = (long)(off * _PAGE_SIZE);
+	  long seekOff = (long)(off);
 	  fseek(f, seekOff, SEEK_SET);
-//	  if(L_SWAP){
-//		  printf("Seeking to %d.\n", seekOff);
-//		  fflush(stdout);
-//	  }
-//	  if(ferror(f)){
-//		  printf("Error seeking to %d of file %s\n", off, file);
-//		  fflush(stdout);
-//		  exit(-1);
-//	  }
+	  if(L_SWAP){
+		  printf("Seeking to %d.\n", seekOff);
+		  fflush(stdout);
+	  }
+	  if(ferror(f)){
+		  printf("Error seeking to %d of file %s\n", off, file);
+		  fflush(stdout);
+		  exit(-1);
+	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?
 //	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
