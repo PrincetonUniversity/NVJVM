@@ -7,18 +7,18 @@
 
 #include "Utility.h"
 
-void Utility::printRegionTable(void *addr){
-	char value;
-	char *startRegionTable =  (char *)Universe::getPageTablePosition(addr);
-	char *regionPos = (char *)SwapManager::getRegionStart(addr);
-	for(int count = 0; count < Universe::_regionPages; count++){
-		value = *startRegionTable;
-		printf("SSDSwap::printRegionTable()::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
-		fflush(stdout);
-		regionPos = regionPos + _PAGE_SIZE;
-		startRegionTable++;
-	}
-}
+//void Utility::printRegionTable(void *addr){
+//	char value;
+//	char *startRegionTable =  (char *)Universe::getPageTablePosition(addr);
+//	char *regionPos = (char *)SwapManager::getRegionStart(addr);
+//	for(int count = 0; count < Universe::_regionPages; count++){
+//		value = *startRegionTable;
+//		printf("SSDSwap::printRegionTable()::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
+//		fflush(stdout);
+//		regionPos = regionPos + _PAGE_SIZE;
+//		startRegionTable++;
+//	}
+//}
 
 void* Utility::getRegionStart(void *address){
 	return (void *)((long)address & (~(_REGION_SIZE-1)));

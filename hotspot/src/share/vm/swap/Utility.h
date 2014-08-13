@@ -11,7 +11,7 @@
 #include "SwapManager.h"
 class Utility {
 public:
-	static void printRegionTable(void *addr);
+//	static void printRegionTable(void *addr);
 	static void* getRegionStart(void *address);
 	static void* getRegionEnd(void *address);
 	static void* getPageStart(void *address);
