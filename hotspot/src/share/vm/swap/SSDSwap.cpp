@@ -81,12 +81,14 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	pthread_mutex_lock(&_swap_map_mutex);
 	if(L_SWAP){
-		printf("SSDSwap:CMS_handle_faults called on address = %p. Entering SwapInPage.\n", addr);
+		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld."
+				"Entering SwapInPage.\n", addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
 	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
 	if(L_SWAP){
-		printf("SSDSwap:handle_faults called on address = %p. RemapPage Done.\n", addr);
+		printf("SSDSwap:handle_faults called on address = %p, index = %ld. RemapPage Done.\n",
+				addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
 	pthread_mutex_unlock(&_swap_map_mutex);
@@ -94,7 +96,8 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 	SwapMetric::incrementSwapInTime(time1, time2);
 	Universe::decrementAvailableRAM(1*sysconf(_SC_PAGE_SIZE));
 	if(L_SWAP){
-		printf("SSDSwap:handle_faults called on address = %p. handle_faults Done.\n", addr);
+		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld. "
+				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
 }

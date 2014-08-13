@@ -75,8 +75,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?
-//	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
-	  size_t len = np * _PAGE_SIZE;
+	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
+//	  size_t len = np * _PAGE_SIZE;
 	  if (len == 0){
 		  fputs ("Error writing swap file\n", stderr);
 		  fflush(stdout);
@@ -87,8 +87,6 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 		  }
 	  }
 	  fclose (f);
-//	  printf("File Size %d.\n", get_file_size(file));
-//	  fflush(stdout);
 //	  check();
 
 	  SwapMetric::incrementSwapOuts();
