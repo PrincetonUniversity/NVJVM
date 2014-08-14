@@ -20,7 +20,7 @@ private:
 	static bool _isInit;
 public:
 	SignalHandler();
-	void init();
+	static void init();
 };
 
 #endif /* SIGNALHANDLER_H_ */
