@@ -6,6 +6,7 @@
  */
 
 #include "swap_global.h"
+#include "swap/Utility.h"
 
 #ifndef SWAPWRITER_H_
 #define SWAPWRITER_H_
