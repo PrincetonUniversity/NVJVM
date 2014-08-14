@@ -51,7 +51,6 @@ void check(){
 // Writes a set number of pages to the offset in the file, assumes the page to be unprotected.
 // Page needs to be protected later on.
 SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
-//	check();
 	if (L_SWAP){
 		  printf("In swapOut, writer writing out %d, bottom %p, offset %d. Page Size = %d\n", np, va, off, _PAGE_SIZE);
 		  fflush(stdout);
@@ -75,8 +74,7 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 	  }
 
 	  // What happens when another thread writes on the address space when that part of the address space is being swapped out ?
-	  size_t len = fwrite(va, sizeof(char), (long)(np * _PAGE_SIZE), f);
-//	  size_t len = np * _PAGE_SIZE;
+	  size_t len = fwrite(va, sizeof(char), (long)(np * Utility::getPageSize()), f);
 	  if (len == 0){
 		  fputs ("Error writing swap file\n", stderr);
 		  fflush(stdout);
@@ -87,11 +85,9 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 		  }
 	  }
 	  fclose (f);
-//	  check();
-
 	  SwapMetric::incrementSwapOuts();
 	  SwapMetric::incrementSwapOutsPages(np);
-	  SwapMetric::incrementSwapOutBytes(np*_PAGE_SIZE);
+	  SwapMetric::incrementSwapOutBytes(np*Utility::getPageSize());
 
 	  return SSDRange (off, off + (np-1), np);
 }

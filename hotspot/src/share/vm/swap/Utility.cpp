@@ -78,3 +78,10 @@ double Utility::toMB(size_t value){
 double Utility::toKB(size_t value){
 	return (double)value / (double)(1024);
 }
+
+size_t Utility::getPageSize(){
+	return (size_t)(sysconf(_SC_PAGE_SIZE));
+}
+
+
+

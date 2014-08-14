@@ -27,6 +27,7 @@ public:
 	static int numberPages(void *, void *);
 	static double toMB(size_t value);
 	static double toKB(size_t value);
+	static size_t getPageSize();
 };
 
 #endif /* UTILITY_H_ */

@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_RUNTIME_THREAD_HPP
 #define SHARE_VM_RUNTIME_THREAD_HPP
 
+#include "swap/SwapMetric.h"
 #include "memory/allocation.hpp"
 #include "memory/threadLocalAllocBuffer.hpp"
 #include "oops/oop.hpp"

@@ -3723,6 +3723,7 @@ bool Threads::destroy_vm() {
   TraceRuntimeCalls = false;
 #endif
 
+  SwapMetric::print_on();
   VM_Exit::set_vm_exited();
 
   notify_vm_shutdown();
