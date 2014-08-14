@@ -94,7 +94,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 	pthread_mutex_unlock(&_swap_map_mutex);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
-	Universe::decrementAvailableRAM(1*sysconf(_SC_PAGE_SIZE));
+	HeapMonitor::incrementPagesSwappedIn(1);
 	if(L_SWAP){
 		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld. "
 				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
@@ -120,7 +120,7 @@ void SSDSwap::CMS_swapOut(void *sa, int numberPages){
 	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
 	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
 	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
-	Universe::incrementAvailableRAM(numberPages * sysconf(_SC_PAGE_SIZE));
+	HeapMonitor::incrementPagesSwappedOut(numberPages);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapOutTime(time1, time2);
 }

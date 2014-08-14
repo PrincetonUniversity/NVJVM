@@ -26,6 +26,8 @@ private:
 	static int _defaultPages; // Default number of pages that have to be swapped out for each swap out call
 	static size_t _availableRAM; // Physical RAM available
 	static bool _isInit;
+	static size_t _pagesMatureSpace;
+	static size_t _pagesOutOfCore;
 
 public:
 	HeapMonitor();
@@ -45,6 +47,8 @@ public:
 	static size_t getPhysicalRAM()		    { return _availableRAM; }
 	static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }
 	static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
+	static void incrementPagesSwappedIn(size_t nP)		{ _pagesOutOfCore -= nP;  }
+	static void incrementPagesSwappedOut(size_t nP)		{ _pagesOutOfCore += nP;  }
 };
 
 #endif /* HEAPMONITOR_H_ */
