@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include "SSDSwap.h"
 #include "Utility.h"
+#include "runtime/thread.hpp"
 
 class SignalHandler {
 public:
