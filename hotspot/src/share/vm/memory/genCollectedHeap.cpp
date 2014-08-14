@@ -188,6 +188,7 @@ jint GenCollectedHeap::initialize() {
   }
 #endif // SERIALGC
 
+  SignalHandler::init();
   return JNI_OK;
 }
 

@@ -10,6 +10,8 @@
 struct sigaction sa;
 struct sigaction oldSigAct;
 
+bool SignalHandler::_isInit = false;
+
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
@@ -55,13 +57,17 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
   (*oldSigAct.sa_sigaction)(sig, si, unused);
 }
 
-SignalHandler::SignalHandler() {
+void SignalHandler::init(){
 	sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
 	sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
 	sa.sa_sigaction = seg_handler; // Assigning the fault handler
 	if (sigaction(SIGSEGV, &sa, &oldSigAct) == -1){ // Installs the function in sa taken on a segmentation fault
 		    perror("error :");
 	}
+	_isInit = true;
+}
+
+SignalHandler::SignalHandler() {
 }
 
 

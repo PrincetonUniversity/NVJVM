@@ -16,8 +16,11 @@
 #include "runtime/thread.hpp"
 
 class SignalHandler {
+private:
+	static bool _isInit;
 public:
 	SignalHandler();
+	void init();
 };
 
 #endif /* SIGNALHANDLER_H_ */

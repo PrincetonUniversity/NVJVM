@@ -29,6 +29,7 @@
 #include "memory/collectorPolicy.hpp"
 #include "memory/generation.hpp"
 #include "memory/sharedHeap.hpp"
+#include "swap/SignalHandler.h"
 
 class SubTasksDone;
 
