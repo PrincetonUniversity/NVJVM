@@ -12,6 +12,7 @@
 #include "SwapReader.h"
 #include <pthread.h>
 #include "SSDManager.h"
+#include "memory/HeapMonitor.h"
 
 using namespace std;
 

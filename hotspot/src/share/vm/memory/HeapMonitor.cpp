@@ -66,3 +66,23 @@ bool HeapMonitor::CMS_OccupancyReached(){
 
 	return (ratioUsed > _swapOutOccupancyThreshold);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
