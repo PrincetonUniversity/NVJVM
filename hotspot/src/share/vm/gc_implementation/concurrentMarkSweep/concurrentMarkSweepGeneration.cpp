@@ -3964,13 +3964,17 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
       (HeapWord*)align_size_down((uintptr_t)_restart_addr,
                                  CardTableModRefBS::card_size);
   }
-
+  // Chunks are (2^17 words, 2^20 bytes)
   size_t chunk_size = sp->marking_task_size();
+
   while (!pst->is_task_claimed(/* reference */ nth_task)) {
     // Having claimed the nth task in this space,
     // compute the chunk that it corresponds to:
     MemRegion span = MemRegion(aligned_start + nth_task*chunk_size,
                                aligned_start + (nth_task+1)*chunk_size);
+
+    printf("Chunk Size = %ld, Span Start = %p, Span End = %p.\n", chunk_size, span.start(), span.end());
+
     // Try and bump the global finger via a CAS;
     // note that we need to do the global finger bump
     // _before_ taking the intersection below, because

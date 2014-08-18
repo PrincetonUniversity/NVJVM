@@ -37,6 +37,8 @@
 #include "utilities/stack.inline.hpp"
 #include "utilities/taskqueue.hpp"
 #include "utilities/yieldingWorkgroup.hpp"
+#include "pthread.h"
+#include <list>
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
@@ -505,6 +507,57 @@ private:
   CMSCollector& _collector;
 };
 
+
+/*
+ * This is the class that
+ */
+class Chunk {
+private:
+	int _numberGreyObjects;
+	pthread_mutex_t _greyObjectCountMutex;
+
+public:
+	Chunk(){
+		_numberGreyObjects = 0;
+	}
+
+	int getGreyObjectCount(){
+		return _numberGreyObjects;
+	}
+
+	void par_IncrementGreyObjectCount(int count){
+		pthread_mutex_lock(&_greyObjectCountMutex);
+			_numberGreyObjects += count;
+		pthread_mutex_unlock(&_greyObjectCountMutex);
+	}
+
+	void incrementGreyObjectCount(int count){
+			_numberGreyObjects += count;
+	}
+
+    bool operator<(Chunk other) const
+    {
+        return _numberGreyObjects > other._numberGreyObjects;
+    }
+
+};
+
+class ChunkList {
+	private:
+		pthread_mutex_t _listMutex;
+		std::list<Chunk *> _chunkList;
+
+	public:
+		void addChunk(Chunk *chunk);
+		void sortChunkList(){
+			pthread_mutex_lock(&_listMutex);
+				_chunkList.sort();
+			pthread_mutex_unlock(&_listMutex);
+		}
+		Chunk* popChunk(){
+			sortChunkList();
+		}
+};
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
