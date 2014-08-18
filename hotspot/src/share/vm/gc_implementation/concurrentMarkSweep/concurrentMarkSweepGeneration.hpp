@@ -512,13 +512,13 @@ private:
 /*
  * This is the class that
  */
-class Chunk {
+class Collect_Chunk {
 private:
 	int _numberGreyObjects;
 	pthread_mutex_t _greyObjectCountMutex;
 
 public:
-	Chunk(){
+	Collect_Chunk(){
 		_numberGreyObjects = 0;
 	}
 
@@ -536,7 +536,7 @@ public:
 			_numberGreyObjects += count;
 	}
 
-    bool operator<(Chunk other) const
+    bool operator<(Collect_Chunk other) const
     {
         return _numberGreyObjects > other._numberGreyObjects;
     }
@@ -546,16 +546,16 @@ public:
 class ChunkList {
 	private:
 		pthread_mutex_t _listMutex;
-		std::list<Chunk *> _chunkList;
+		std::list<Collect_Chunk *> _chunkList;
 
 	public:
-		void addChunk(Chunk *chunk);
+		void addChunk(Collect_Chunk *chunk);
 		void sortChunkList(){
 			pthread_mutex_lock(&_listMutex);
 				_chunkList.sort();
 			pthread_mutex_unlock(&_listMutex);
 		}
-		Chunk* popChunk(){
+		Collect_Chunk* popChunk(){
 			sortChunkList();
 		}
 };
