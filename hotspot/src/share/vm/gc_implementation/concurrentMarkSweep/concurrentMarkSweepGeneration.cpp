@@ -1768,6 +1768,10 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
+  printf("In acquire control and collect.\n"); fflush(stdout);
+  // Calling the heap monitor to check whether some sets of pages need to be swapped out
+  HeapMonitor::CMS_swapOut_operation();
+
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
 
