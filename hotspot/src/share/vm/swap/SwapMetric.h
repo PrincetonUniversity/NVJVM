@@ -41,6 +41,7 @@ private:
 	static pthread_mutex_t _segFaultIncrement;
 	static pthread_mutex_t _accessIncrement;
 	static long int _accessIntercepts;
+	static long int _cardTableIntercepts;
 	static bool _metricPrinted;
 
 public:
@@ -77,6 +78,7 @@ public:
 	static long int getSwapInsInterpreter();
 	static long int getAccessIntercepts();
 	static void incrementAccessIntercepts();
+	static void incrementCardTableIntercepts();
 };
 
 #endif /* SWAPMETRIC_H_ */
