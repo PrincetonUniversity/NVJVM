@@ -525,6 +525,8 @@ void DefNewGeneration::collect(bool   full,
                                bool   clear_all_soft_refs,
                                size_t size,
                                bool   is_tlab) {
+  printf("New Generation Collection Start. \n");
+  SwapMetric::print_on();
   assert(full || size > 0, "otherwise we don't want to collect");
   GenCollectedHeap* gch = GenCollectedHeap::heap();
   _next_gen = gch->next_gen(this);
@@ -653,6 +655,8 @@ void DefNewGeneration::collect(bool   full,
   to()->set_concurrent_iteration_safe_limit(to()->top());
   SpecializationStats::print();
   update_time_of_last_gc(os::javaTimeMillis());
+  printf("New Generation Collection End. \n");
+  SwapMetric::print_on();
 }
 
 class RemoveForwardPointerClosure: public ObjectClosure {

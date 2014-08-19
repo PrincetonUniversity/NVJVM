@@ -157,14 +157,6 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 		Universe::markSwappedOut(addr);
 		addr = Utility::nextPage(addr);
 	}
-	//	char* position = (char *)Universe::getRegionTablePosition(addr);
-	//	char* endPosition = position  + n - 1;
-	//	memset(position, Universe::_notPresentMask, n);
-//	if(L_SWAP){
-//		printf("SSDSwap::markRegionSwappedOut::Marked Position Range = %p, %p\n",
-//				(char *)Universe::getRegionTablePosition(addr), endPosition);
-//		fflush(stdout);
-//	}
 }
 
 void SSDSwap::checkAccessSwapIn(void *pageAddress){

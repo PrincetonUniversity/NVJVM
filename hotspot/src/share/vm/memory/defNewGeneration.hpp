@@ -30,6 +30,7 @@
 #include "gc_implementation/shared/generationCounters.hpp"
 #include "memory/generation.inline.hpp"
 #include "utilities/stack.hpp"
+#include "swap/SwapMetric.h"
 
 class EdenSpace;
 class ContiguousSpace;
