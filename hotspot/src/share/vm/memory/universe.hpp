@@ -29,7 +29,6 @@
 #include "utilities/growableArray.hpp"
 #include "stdlib.h"
 #include "malloc.h"
-#include "swap/SSDSwap.h"
 
 // List of checks
 #define PT_CHECKS
