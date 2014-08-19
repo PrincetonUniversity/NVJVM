@@ -246,6 +246,7 @@ void CardTableRS::write_ref_field_gc_par(void* field, oop new_val) {
 
 void CardTableRS::younger_refs_in_space_iterate(Space* sp,
                                                 OopsInGenClosure* cl) {
+  printf("In younger_refs_in_space_iterate\n"); fflush(stdout);
   const MemRegion urasm = sp->used_region_at_save_marks();
 #ifdef ASSERT
   // Convert the assertion check to a warning if we are running

@@ -608,7 +608,8 @@ ParNewGeneration(ReservedSpace rs, size_t initial_byte_size, int level)
   : DefNewGeneration(rs, initial_byte_size, level, "PCopy"),
   _overflow_list(NULL),
   _is_alive_closure(this),
-  _plab_stats(YoungPLABSize, PLABWeight)
+  _plab_stats(YoungPLABSize, PLABWeight),
+  _do_copy(false)
 {
   NOT_PRODUCT(_overflow_counter = ParGCWorkQueueOverflowInterval;)
   NOT_PRODUCT(_num_par_pushes = 0;)
@@ -1093,7 +1094,7 @@ oop ParNewGeneration::copy_to_survivor_space_avoiding_promotion_undo(
   oop forward_ptr;
 
   // Try allocating obj in to-space (unless too old)
-  if (dummyOld.age() < tenuring_threshold() && false) {
+  if (dummyOld.age() < tenuring_threshold() && do_copy()) {
     new_obj = (oop)par_scan_state->alloc_in_to_space(sz);
     if (new_obj == NULL) {
       set_survivor_overflow(true);
@@ -1211,7 +1212,7 @@ oop ParNewGeneration::copy_to_survivor_space_with_undo(
   oop forward_ptr;
 
   // Try allocating obj in to-space (unless too old)
-  if (dummyOld.age() < tenuring_threshold() && false) {
+  if (dummyOld.age() < tenuring_threshold() && do_copy()) {
     new_obj = (oop)par_scan_state->alloc_in_to_space(sz);
     if (new_obj == NULL) {
       set_survivor_overflow(true);

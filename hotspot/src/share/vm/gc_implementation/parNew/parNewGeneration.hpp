@@ -349,6 +349,12 @@ class ParNewGeneration: public DefNewGeneration {
 
  public:
   ParNewGeneration(ReservedSpace rs, size_t initial_byte_size, int level);
+  bool _do_copy;
+
+  bool do_copy(){
+	  return _do_copy;
+  }
+
 
   ~ParNewGeneration() {
     for (uint i = 0; i < ParallelGCThreads; i++)
