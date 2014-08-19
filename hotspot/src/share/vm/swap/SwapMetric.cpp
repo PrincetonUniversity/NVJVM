@@ -35,6 +35,7 @@ pthread_mutex_t SwapMetric::_fWor_mutex;
 long int SwapMetric::_faults_CGC_Thread = 0;
 long int SwapMetric::_faults_VM_Thread = 0;
 long int SwapMetric::_faults_Wor_Thread = 0;
+bool SwapMetric::_metricPrinted = false;
 
 #define K 1024
 
@@ -184,6 +185,9 @@ timespec SwapMetric::diff(timespec start, timespec end){
 }
 
 void SwapMetric::print_on(){
+	if(_metricPrinted == true)
+		return;
+	_metricPrinted = true;
 	printf("The overall SwapMetrics. \n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
