@@ -12,7 +12,7 @@
 void *HeapMonitor::_inCoreBottom = NULL;
 void *HeapMonitor::_matureGenerationBase = NULL;
 ConcurrentMarkSweepGeneration* HeapMonitor::_concurrentMarkSweepGeneration = NULL;
-double HeapMonitor::_swapOutOccupancyThreshold = 0.5;
+double HeapMonitor::_swapOutOccupancyThreshold = 0.2;
 size_t HeapMonitor::_matureGenerationSize = 0;
 int HeapMonitor::_defaultPages = 256*100;
 size_t HeapMonitor::_availableRAM = 0;
@@ -47,8 +47,10 @@ void HeapMonitor::CMS_swapOut_operation(){
 		 void *defaultHigh = Utility::nextPageInc(_inCoreBottom, _defaultPages);
 		 void *swapOutTop = Utility::minPointer(high, defaultHigh);
 		 int numberPages = Utility::numberPages(_inCoreBottom, swapOutTop);
-		 SSDSwap::CMS_swapOut(_inCoreBottom, numberPages);
-		 _inCoreBottom = swapOutTop;
+		 if(numberPages > 0){
+			 SSDSwap::CMS_swapOut(_inCoreBottom, numberPages);
+			 _inCoreBottom = swapOutTop;
+		 }
 	} else {
 		return;
 	}
