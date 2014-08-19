@@ -190,7 +190,7 @@ timespec SwapMetric::diff(timespec start, timespec end){
 }
 
 void SwapMetric::print_on(){
-	if(_metricPrinted == true && false)
+	if(_metricPrinted == true)
 		return;
 	_metricPrinted = true;
 	printf("The overall SwapMetrics. \n"

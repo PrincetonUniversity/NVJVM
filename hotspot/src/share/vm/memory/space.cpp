@@ -90,7 +90,7 @@ void DirtyCardToOopClosure::walk_mem_region(MemRegion mr,
     // we'd need an interface change (it seems) to have the space
     // "adjust the object size" (for instance pad it up to its
     // block alignment or minimum block size restrictions. XXX
-	SSDSwap::checkAccessSwapIn((void *)bottom);
+//	SSDSwap::checkAccessSwapIn((void *)bottom);
     if (_sp->block_is_obj(bottom) &&
         !_sp->obj_allocated_since_save_marks(oop(bottom))) {
 
