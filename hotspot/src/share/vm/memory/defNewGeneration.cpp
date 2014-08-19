@@ -722,9 +722,9 @@ oop DefNewGeneration::copy_to_survivor_space(oop old) {
          "shouldn't be scavenging this oop");
   size_t s = old->size();
   oop obj = NULL;
-
+  bool doOnlyPromote = true;
   // Try allocating obj in to-space (unless too old)
-  if (old->age() < tenuring_threshold()) {
+  if (old->age() < tenuring_threshold() && !doOnlyPromote) {
     obj = (oop) to()->allocate(s);
   }
 
