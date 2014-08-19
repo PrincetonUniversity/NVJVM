@@ -72,10 +72,12 @@ void ConcurrentMarkSweepPolicy::initialize_generations() {
     } else {
       _generations[0] = new GenerationSpec(Generation::ParNew,
                                            _initial_gen0_size, _max_gen0_size);
+      printf("ParNew \n");
     }
   } else {
     _generations[0] = new GenerationSpec(Generation::DefNew,
                                          _initial_gen0_size, _max_gen0_size);
+    printf("Def New \n");
   }
   if (UseAdaptiveSizePolicy) {
     _generations[1] = new GenerationSpec(Generation::ASConcurrentMarkSweep,
@@ -88,6 +90,7 @@ void ConcurrentMarkSweepPolicy::initialize_generations() {
   if (_generations[0] == NULL || _generations[1] == NULL) {
     vm_exit_during_initialization("Unable to allocate gen spec");
   }
+   exit(-1);
 }
 
 void ConcurrentMarkSweepPolicy::initialize_size_policy(size_t init_eden_size,
