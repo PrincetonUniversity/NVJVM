@@ -460,6 +460,7 @@ void GenCollectedHeap::do_collection(bool  full,
                                      size_t size,
                                      bool   is_tlab,
                                      int    max_level) {
+  printf("do collection called for GenCollectedHeap.\n"); fflush(stdout);
   bool prepared_for_verification = false;
   ResourceMark rm;
   DEBUG_ONLY(Thread* my_thread = Thread::current();)
