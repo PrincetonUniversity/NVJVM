@@ -460,12 +460,18 @@ void GenCollectedHeap::do_collection(bool  full,
                                      size_t size,
                                      bool   is_tlab,
                                      int    max_level) {
+#if Trace_Collector
   printf("do collection called for GenCollectedHeap.\n"); fflush(stdout);
+#endif
+
   bool prepared_for_verification = false;
   ResourceMark rm;
   DEBUG_ONLY(Thread* my_thread = Thread::current();)
 
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
+   // Calling the heap monitor to check whether some sets of pages need to be swapped out
+   HeapMonitor::CMS_swapOut_operation();
+
   assert(my_thread->is_VM_thread() ||
          my_thread->is_ConcurrentGC_thread(),
          "incorrect thread type capability");
