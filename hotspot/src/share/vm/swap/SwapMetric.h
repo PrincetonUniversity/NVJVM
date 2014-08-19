@@ -41,6 +41,7 @@ private:
 	static pthread_mutex_t _segFaultIncrement;
 	static pthread_mutex_t _accessIncrement;
 	static long int _accessIntercepts;
+	static bool _metricPrinted;
 
 public:
 	static void incrementFaults_CGC_Thread();
