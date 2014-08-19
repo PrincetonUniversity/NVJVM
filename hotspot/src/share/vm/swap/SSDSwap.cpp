@@ -169,9 +169,11 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress){
 
 void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top){
 	void *curr = bottom;
-	if(Universe::isSwappedOut(curr)){
-		SwapMetric::incrementCardTableIntercepts();
-		CMS_handle_faults(curr);
+	while(true){
+		if(Universe::isSwappedOut(curr)){
+			SwapMetric::incrementCardTableIntercepts();
+			CMS_handle_faults(curr);
+		}
 		curr = Utility::nextPage(curr);
 		if((intptr_t)curr > (intptr_t)top)
 			break;
