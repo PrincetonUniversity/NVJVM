@@ -1647,6 +1647,7 @@ void ConcurrentMarkSweepGeneration::collect(bool   full,
                                             size_t size,
                                             bool   tlab)
 {
+  printf("ConcurrentMarkSweepGeneration::collect called\n");fflush(stdout);
   collector()->collect(full, clear_all_soft_refs, size, tlab);
 }
 
@@ -1655,6 +1656,7 @@ void CMSCollector::collect(bool   full,
                            size_t size,
                            bool   tlab)
 {
+
   if (!UseCMSCollectionPassing && _collectorState > Idling) {
     // For debugging purposes skip the collection if the state
     // is not currently idle
@@ -1770,7 +1772,7 @@ void CMSCollector::acquire_control_and_collect(bool full,
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   printf("In acquire control and collect.\n"); fflush(stdout);
   // Calling the heap monitor to check whether some sets of pages need to be swapped out
-  HeapMonitor::CMS_swapOut_operation();
+//  HeapMonitor::CMS_swapOut_operation();
 
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
