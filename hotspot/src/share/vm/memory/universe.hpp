@@ -29,6 +29,7 @@
 #include "utilities/growableArray.hpp"
 #include "stdlib.h"
 #include "malloc.h"
+#include "swap/SSDSwap.h"
 
 // List of checks
 #define PT_CHECKS
@@ -281,6 +282,7 @@ class Universe: AllStatic {
 
   static void allocatePageTable(size_t size);
   static bool isSwappedOut(void *pageAddress);
+  static void checkAccessSwapIn(void *pageAddress);
   static bool isPresent(void *pageAddress);
   static void markSwappedOut(void *pageAddress);
   static void markSwappedIn(void *pageAddress);

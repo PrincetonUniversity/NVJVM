@@ -737,6 +737,12 @@ bool Universe::isSwappedOut(void *pageAddress){
 	return ((*position) == Universe::_notPresentMask);
 }
 
+void Universe::checkAccessSwapIn(void *pageAddress){
+	if(isSwappedOut(pageAddress)){
+		SSDSwap::CMS_handle_faults(pageAddress);
+	}
+}
+
 bool Universe::isPresent(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
 	return ((*position) == Universe::_presentMask);

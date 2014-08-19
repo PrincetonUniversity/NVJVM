@@ -513,7 +513,7 @@ void GenCollectedHeap::do_collection(bool full, bool clear_all_soft_refs,
 
 		int starting_level = 0;
 		if (full) {
-			printf("Full Heap Collection Called. \n");
+			printf("Full Heap Collection Called. \n"); fflush(stdout);
 			// Search for the oldest generation which will collect all younger
 			// generations, and start collection loop there.
 			for (int i = max_level; i >= 0; i--) {
