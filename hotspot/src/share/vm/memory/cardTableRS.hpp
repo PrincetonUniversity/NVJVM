@@ -28,6 +28,7 @@
 #include "memory/cardTableModRefBS.hpp"
 #include "memory/genRemSet.hpp"
 #include "memory/memRegion.hpp"
+#include "swap/SSDSwap.h"
 
 class Space;
 class OopsInGenClosure;
