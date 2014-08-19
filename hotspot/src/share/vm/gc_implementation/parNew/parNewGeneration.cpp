@@ -1093,7 +1093,7 @@ oop ParNewGeneration::copy_to_survivor_space_avoiding_promotion_undo(
   oop forward_ptr;
 
   // Try allocating obj in to-space (unless too old)
-  if (dummyOld.age() < tenuring_threshold()) {
+  if (dummyOld.age() < tenuring_threshold() && false) {
     new_obj = (oop)par_scan_state->alloc_in_to_space(sz);
     if (new_obj == NULL) {
       set_survivor_overflow(true);
@@ -1211,7 +1211,7 @@ oop ParNewGeneration::copy_to_survivor_space_with_undo(
   oop forward_ptr;
 
   // Try allocating obj in to-space (unless too old)
-  if (dummyOld.age() < tenuring_threshold()) {
+  if (dummyOld.age() < tenuring_threshold() && false) {
     new_obj = (oop)par_scan_state->alloc_in_to_space(sz);
     if (new_obj == NULL) {
       set_survivor_overflow(true);
