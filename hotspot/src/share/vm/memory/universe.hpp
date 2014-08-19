@@ -282,6 +282,7 @@ class Universe: AllStatic {
   static void allocatePageTable(size_t size);
   static void checkAccessSwapIn(void *pageAddress);
   static bool isPresent(void *pageAddress);
+  static bool isSwappedOut(void *pageAddress);
   static void markSwappedOut(void *pageAddress);
   static void markSwappedIn(void *pageAddress);
   static size_t getPageIndex(void *pageAddress);
