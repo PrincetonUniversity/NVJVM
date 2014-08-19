@@ -1647,7 +1647,7 @@ void ConcurrentMarkSweepGeneration::collect(bool   full,
                                             size_t size,
                                             bool   tlab)
 {
-//  printf("ConcurrentMarkSweepGeneration::collect called\n");fflush(stdout);
+  printf("ConcurrentMarkSweepGeneration::collect called\n");fflush(stdout);
   collector()->collect(full, clear_all_soft_refs, size, tlab);
 }
 

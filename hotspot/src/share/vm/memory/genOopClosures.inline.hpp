@@ -104,9 +104,6 @@ template <class T> inline void FastScanClosure::do_oop_work(T* p) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     // Checking whether a page is swapped out or not
-    if(Universe::isSwappedOut(obj)){
-    	SSDSwap::CMS_handle_faults(obj);
-    }
     if ((HeapWord*)obj < _boundary) {
       assert(!_g->to()->is_in_reserved(obj), "Scanning field twice?");
       oop new_obj = obj->is_forwarded() ? obj->forwardee()
