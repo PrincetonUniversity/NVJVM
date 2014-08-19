@@ -13,7 +13,7 @@
 #include "swap/Utility.h"
 #include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
 
-#define HM_Occupancy_Log 1
+#define HM_Occupancy_Log 0
 #define HM_ASSERT 0
 
 class HeapMonitor {
