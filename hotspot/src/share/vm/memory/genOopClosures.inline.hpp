@@ -33,6 +33,7 @@
 #include "memory/generation.hpp"
 #include "memory/sharedHeap.hpp"
 #include "memory/space.hpp"
+#include "swap/SSDSwap"
 
 inline OopsInGenClosure::OopsInGenClosure(Generation* gen) :
   OopClosure(gen->ref_processor()), _orig_gen(gen), _rs(NULL) {
@@ -102,6 +103,10 @@ template <class T> inline void FastScanClosure::do_oop_work(T* p) {
   // Should we copy the obj?
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+    // Checking whether a page is swapped out or not
+    if(Universe::isSwappedOut(obj)){
+    	SSDSwap::CMS_handle_faults(obj);
+    }
     if ((HeapWord*)obj < _boundary) {
       assert(!_g->to()->is_in_reserved(obj), "Scanning field twice?");
       oop new_obj = obj->is_forwarded() ? obj->forwardee()
