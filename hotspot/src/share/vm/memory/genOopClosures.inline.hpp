@@ -33,7 +33,7 @@
 #include "memory/generation.hpp"
 #include "memory/sharedHeap.hpp"
 #include "memory/space.hpp"
-#include "swap/SSDSwap"
+#include "swap/SSDSwap.h"
 
 inline OopsInGenClosure::OopsInGenClosure(Generation* gen) :
   OopClosure(gen->ref_processor()), _orig_gen(gen), _rs(NULL) {
