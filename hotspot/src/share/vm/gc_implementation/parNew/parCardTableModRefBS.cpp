@@ -33,6 +33,7 @@
 #include "runtime/java.hpp"
 #include "runtime/mutexLocker.hpp"
 #include "runtime/virtualspace.hpp"
+#include "swap/SSDSwap.h"
 
 void CardTableModRefBS::non_clean_card_iterate_parallel_work(Space* sp, MemRegion mr,
                                                              OopsInGenClosure* cl,
@@ -127,7 +128,7 @@ process_stride(Space* sp,
                                                      cl->gen_boundary());
     ClearNoncleanCardWrapper clear_cl(dcto_cl, ct);
 
-
+    SSDSwap::checkAccessSwapInRegion((void *)chunk_mr.start(), (void *)chunk_mr.end());
     // Process the chunk.
     process_chunk_boundaries(sp,
                              dcto_cl,
