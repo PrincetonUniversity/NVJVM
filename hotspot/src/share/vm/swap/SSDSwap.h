@@ -39,6 +39,7 @@ public:
 	static void *object_va_to_page_header(void *object_va);
 	static void swapOut(void *sa, void *ea, void *top);
 	static void markRegionSwappedOut(void *addr, int n);
+	static void checkAccessSwapIn(void *);
 	static void CMS_swapOut(void *sa, int numberPages);
 };
 

@@ -166,3 +166,10 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 //		fflush(stdout);
 //	}
 }
+
+void SSDSwap::checkAccessSwapIn(void *pageAddress){
+	if(Universe::isSwappedOut(pageAddress)){
+		CMS_handle_faults(pageAddress);
+	}
+}
+

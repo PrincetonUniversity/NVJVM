@@ -281,7 +281,6 @@ class Universe: AllStatic {
   static char* getPageTableTop()						{ return ((char *)_pageTableBase + _pageTableSize); }
 
   static void allocatePageTable(size_t size);
-  static bool isSwappedOut(void *pageAddress);
   static void checkAccessSwapIn(void *pageAddress);
   static bool isPresent(void *pageAddress);
   static void markSwappedOut(void *pageAddress);

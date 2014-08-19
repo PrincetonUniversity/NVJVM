@@ -92,7 +92,7 @@ void DirtyCardToOopClosure::walk_mem_region(MemRegion mr,
     // block alignment or minimum block size restrictions. XXX
     if (_sp->block_is_obj(bottom) &&
         !_sp->obj_allocated_since_save_marks(oop(bottom))) {
-      Universe::checkAccessSwapIn(bottom);
+      SSDSwap::checkAccessSwapIn((void *)bottom);
       oop(bottom)->oop_iterate(_cl, mr);
     }
   }
