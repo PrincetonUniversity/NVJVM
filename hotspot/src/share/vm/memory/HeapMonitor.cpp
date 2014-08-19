@@ -54,6 +54,8 @@ void HeapMonitor::CMS_swapOut_operation(){
 	}
 }
 
+// spaceUsed should be the part of the mature space that is in physical memory.
+// physicalRAM can actually be fixed.
 bool HeapMonitor::CMS_OccupancyReached(){
 	assertF(_concurrentMarkSweepGeneration != NULL, "concurrentMarkSweepGeneration in HeapMonitor is NULL");
 	size_t spaceUsed = _concurrentMarkSweepGeneration->used();
