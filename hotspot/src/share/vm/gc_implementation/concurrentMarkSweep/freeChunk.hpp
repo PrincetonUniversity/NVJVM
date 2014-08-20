@@ -32,6 +32,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
+#include "swap/SSDSwap.h"
 
 //
 // Free block maintenance for Concurrent Mark Sweep Generation

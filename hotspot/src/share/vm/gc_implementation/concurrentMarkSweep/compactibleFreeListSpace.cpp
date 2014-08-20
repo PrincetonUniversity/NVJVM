@@ -1206,10 +1206,8 @@ HeapWord* CompactibleFreeListSpace::allocate(size_t size) {
          "use adjustObjectSize() before calling into allocate()");
 
   if (_adaptive_freelists) {
-	  printf("Using adaptive freelists \n"); fflush(stdout);
     res = allocate_adaptive_freelists(size);
   } else {  // non-adaptive free lists
-	  printf("Using non-adaptive freelists \n"); fflush(stdout);
     res = allocate_non_adaptive_freelists(size);
   }
 
@@ -1610,6 +1608,7 @@ CompactibleFreeListSpace::getChunkFromIndexedFreeListHelper(size_t size,
                i < (num_blk - 1);
                curFc = nextFc, nextFc = (FreeChunk*)((HeapWord*)nextFc + size),
                i++) {
+        	SSDSwap::checkAccessSwapIn(curFc, 2);
             curFc->setSize(size);
             // Don't record this as a return in order to try and
             // determine the "returns" from a GC.
@@ -1876,6 +1875,7 @@ FreeChunk* CompactibleFreeListSpace::bestFitSmall(size_t numWords) {
 FreeChunk* CompactibleFreeListSpace::getFromListGreater(FreeList* fl,
   size_t numWords) {
   FreeChunk *curr = fl->head();
+  SSDSwap::checkAccessSwapIn(curr, 2);
   size_t oldNumWords = curr->size();
   assert(numWords >= MinChunkSize, "Word size is too small");
   assert(curr != NULL, "List is empty");
@@ -1905,6 +1905,7 @@ CompactibleFreeListSpace::splitChunkAndReturnRemainder(FreeChunk* chunk,
   assert(rem_size == adjustObjectSize(rem_size), "alignment problem");
   assert(rem_size >= MinChunkSize, "Free chunk smaller than minimum");
   FreeChunk* ffc = (FreeChunk*)((HeapWord*)chunk + new_size);
+  SSDSwap::checkAccessSwapIn(ffc, 2);
   assert(is_aligned(ffc), "alignment problem");
   ffc->setSize(rem_size);
   ffc->linkNext(NULL);

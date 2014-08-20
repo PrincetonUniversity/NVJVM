@@ -358,6 +358,7 @@ BinaryTreeDictionary::getChunkFromTree(size_t size, Dither dither, bool splay)
   // starting at the root, work downwards trying to find match.
   // Remember the last node of size too great or too small.
   for (prevTL = curTL = root(); curTL != NULL;) {
+	SSDSwap::checkAccessSwapIn(curTL, 2);
     if (curTL->size() == size) {        // exact match
       break;
     }
