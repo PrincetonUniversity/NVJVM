@@ -45,6 +45,7 @@ private:
 	static long int _evacuateFollowersIntercepts;
 	static bool _metricPrinted;
 	static long int _promotionIntercepts;
+	static long int _markFromRoots;
 
 public:
 	static void incrementFaults_CGC_Thread();

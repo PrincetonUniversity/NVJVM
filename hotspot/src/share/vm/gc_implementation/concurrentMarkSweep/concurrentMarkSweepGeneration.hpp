@@ -40,6 +40,7 @@
 #include "pthread.h"
 #include <list>
 #include "memory/HeapMonitor.h"
+#include "swap/SSDSwap.h"
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker

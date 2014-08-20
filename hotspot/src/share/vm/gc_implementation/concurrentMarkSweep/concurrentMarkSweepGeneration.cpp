@@ -7300,6 +7300,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(_work_queue->size() == 0,
          "should drain stack to limit stack usage");
   // convert ptr to an oop preparatory to scanning
+  SSDSwap::checkAccessSwapIn(ptr, 3);
   oop obj = oop(ptr);
   // Ignore mark word in verification below, since we
   // may be running concurrent with mutators.
