@@ -83,7 +83,6 @@ void DirtyCardToOopClosure::walk_mem_region(MemRegion mr,
   // version of oop_iterate() for all but the extremal objects
   // (for which we need to call the MemRegion version of
   // oop_iterate()) To be done post-beta XXX
-  size_t blockSize = 0;
   for (; bottom < top; bottom += _sp->block_size(bottom)) {
     // As in the case of contiguous space above, we'd like to
     // just use the value returned by oop_iterate to increment the
@@ -91,9 +90,9 @@ void DirtyCardToOopClosure::walk_mem_region(MemRegion mr,
     // we'd need an interface change (it seems) to have the space
     // "adjust the object size" (for instance pad it up to its
     // block alignment or minimum block size restrictions. XXX
-	SSDSwap::checkAccessSwapIn((void *)bottom);
     if (_sp->block_is_obj(bottom) &&
         !_sp->obj_allocated_since_save_marks(oop(bottom))) {
+//      SSDSwap::checkAccessSwapIn((void *)bottom);
       oop(bottom)->oop_iterate(_cl, mr);
     }
   }
@@ -115,6 +114,7 @@ void DirtyCardToOopClosure::do_MemRegion(MemRegion mr) {
   // Such work can be piggy-backed here on dirty card scanning, so as to make
   // it slightly more efficient than doing a complete non-detructive pre-scan
   // of the card table.
+  SSDSwap::checkAccessSwapIn((void *)mr.start(), (void *)mr.end());
   MemRegionClosure* pCl = _sp->preconsumptionDirtyCardClosure();
   if (pCl != NULL) {
     pCl->do_MemRegion(mr);

@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_MEMORY_SPACE_HPP
 #define SHARE_VM_MEMORY_SPACE_HPP
 
+#include "swap/SSDSwap.h"
 #include "memory/allocation.hpp"
 #include "memory/blockOffsetTable.hpp"
 #include "memory/cardTableModRefBS.hpp"

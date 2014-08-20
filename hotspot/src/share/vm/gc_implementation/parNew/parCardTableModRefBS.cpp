@@ -128,7 +128,7 @@ process_stride(Space* sp,
                                                      cl->gen_boundary());
     ClearNoncleanCardWrapper clear_cl(dcto_cl, ct);
 
-    SSDSwap::checkAccessSwapInRegion((void *)chunk_mr.start(), (void *)chunk_mr.end());
+//  SSDSwap::checkAccessSwapInRegion((void *)chunk_mr.start(), (void *)chunk_mr.end());
     // Process the chunk.
     process_chunk_boundaries(sp,
                              dcto_cl,
