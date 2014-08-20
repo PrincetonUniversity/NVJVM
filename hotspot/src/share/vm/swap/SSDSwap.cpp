@@ -159,9 +159,9 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 	}
 }
 
-void SSDSwap::checkAccessSwapIn(void *pageAddress){
+void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
 	if(Universe::isSwappedOut(pageAddress)){
-		SwapMetric::incrementCardTableIntercepts();
+		SwapMetric::incrementAccessInterceptCount(purpose);
 		CMS_handle_faults(pageAddress);
 	}
 }

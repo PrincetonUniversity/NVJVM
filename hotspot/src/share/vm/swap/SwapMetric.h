@@ -42,7 +42,9 @@ private:
 	static pthread_mutex_t _accessIncrement;
 	static long int _accessIntercepts;
 	static long int _cardTableIntercepts;
+	static long int _evacuateFollowersIntercepts;
 	static bool _metricPrinted;
+	static long int _promotionIntercepts;
 
 public:
 	static void incrementFaults_CGC_Thread();
@@ -79,6 +81,8 @@ public:
 	static long int getAccessIntercepts();
 	static void incrementAccessIntercepts();
 	static void incrementCardTableIntercepts();
+	static void incrementEvacuateFollowers();
+	static void incrementAccessInterceptCount(int type);
 };
 
 #endif /* SWAPMETRIC_H_ */

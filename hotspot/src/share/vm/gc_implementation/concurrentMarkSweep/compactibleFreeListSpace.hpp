@@ -30,6 +30,7 @@
 #include "gc_implementation/concurrentMarkSweep/promotionInfo.hpp"
 #include "memory/blockOffsetTable.inline.hpp"
 #include "memory/space.hpp"
+#include "swap/SSDSwap.h"
 
 // Classes in support of keeping track of promotions into a non-Contiguous
 // space, in this case a CompactibleFreeListSpace.

@@ -15,6 +15,8 @@ long int SwapMetric::_swapOutBytes = 0;
 long int SwapMetric::_swapInBytes = 0;
 long int SwapMetric::_accessIntercepts = 0;
 long int SwapMetric::_cardTableIntercepts = 0;
+long int SwapMetric::_evacuateFollowersIntercepts = 0;
+long int SwapMetric::_promotionIntercepts = 0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -70,8 +72,28 @@ void SwapMetric::incrementFaultsJavaThread(){
 	pthread_mutex_unlock(&_fJT_mutex);
 }
 
+void SwapMetric::incrementAccessInterceptCount(int type){
+	switch(type){
+	case 0:
+		incrementEvacuateFollowers();
+		break;
+	case 1:
+		incrementCardTableIntercepts();
+		break;
+	case 2:
+		_promotionIntercepts++;
+		break;
+
+	default:
+	}
+}
+
 void SwapMetric::incrementCardTableIntercepts(){
 	_cardTableIntercepts++;
+}
+
+void SwapMetric::incrementEvacuateFollowers(){
+	_evacuateFollowersIntercepts++;
 }
 
 void SwapMetric::incrementAccessIntercepts(){
@@ -199,7 +221,7 @@ void SwapMetric::print_on(){
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics:: - \n"
 			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld, \n"
-			"Card Table Intercepts = %ld.\n"
+			"Card Table Intercepts = %ld, Promotion Intercepts = %ld, Evacuate Followers %ld\n"
 			"Interpreter faults = %ld, Compiler Faults %ld,\n"
 			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
@@ -207,7 +229,10 @@ void SwapMetric::print_on(){
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 			(long long)_swapInTime.tv_sec,
 			_swapInTime.tv_nsec/(1000*1000),
-			_segFaults, _faultsDuringCollection,_accessIntercepts,_cardTableIntercepts,
+			_segFaults, _faultsDuringCollection,_accessIntercepts,
+			_cardTableIntercepts,
+			_promotionIntercepts,
+			_evacuateFollowersIntercepts,
 			_swapInsInterpreter, _swapInsCompiler,
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);

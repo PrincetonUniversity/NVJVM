@@ -1206,8 +1206,10 @@ HeapWord* CompactibleFreeListSpace::allocate(size_t size) {
          "use adjustObjectSize() before calling into allocate()");
 
   if (_adaptive_freelists) {
+	  printf("Using adaptive freelists \n"); fflush(stdout);
     res = allocate_adaptive_freelists(size);
   } else {  // non-adaptive free lists
+	  printf("Using non-adaptive freelists \n"); fflush(stdout);
     res = allocate_non_adaptive_freelists(size);
   }
 
