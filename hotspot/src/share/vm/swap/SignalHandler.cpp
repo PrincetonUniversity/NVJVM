@@ -21,6 +21,12 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 	  if(threadC->is_Java_thread()){
 		  SwapMetric::incrementFaultsJavaThread();
 	  } else if(threadC->is_Named_thread()){
+		  void *array[10];
+		  size_t size = backtrace(array, 10);
+		    // print out all the frames to stderr
+		  fprintf(stderr, "Error: signal %d:\n", sig);
+		  backtrace_symbols_fd(array, size, STDERR_FILENO);
+
 		  if(threadC->is_VM_thread()) {
 			  SwapMetric::incrementFaults_VM_Thread();
 		  } else if(threadC->is_ConcurrentGC_thread()){

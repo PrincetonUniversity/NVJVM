@@ -14,6 +14,11 @@
 #include "SSDSwap.h"
 #include "Utility.h"
 #include "runtime/thread.hpp"
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 class SignalHandler {
 private:
