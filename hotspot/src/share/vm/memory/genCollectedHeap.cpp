@@ -462,7 +462,7 @@ void GenCollectedHeap::do_collection(bool full, bool clear_all_soft_refs,
 
 	assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
 	// Calling the heap monitor to check whether some sets of pages need to be swapped out
-	HeapMonitor::CMS_swapOut_operation();
+//	HeapMonitor::CMS_swapOut_operation();
 
 	assert(my_thread->is_VM_thread() ||
 			my_thread->is_ConcurrentGC_thread(),
