@@ -18,6 +18,7 @@ long int SwapMetric::_cardTableIntercepts = 0;
 long int SwapMetric::_evacuateFollowersIntercepts = 0;
 long int SwapMetric::_promotionIntercepts = 0;
 long int SwapMetric::_markFromRoots =0;
+long int SwapMetric::_sweepClosure = 0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -88,6 +89,10 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 
 	case 3:
 		_markFromRoots++;
+		break;
+
+	case 4:
+		_sweepClosure++;
 		break;
 
 	default:
@@ -229,7 +234,8 @@ void SwapMetric::print_on(){
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics:: - \n"
 			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld, \n"
-			"Card Table Intercepts = %ld, Promotion Intercepts = %ld, Evacuate Followers %ld,  Mark From Roots = %ld,\n"
+			"Card Table Intercepts = %ld, Promotion Intercepts = %ld, "
+			"Evacuate Followers %ld,  Mark From Roots = %ld, Faults Sweep Closure =%ld,\n"
 			"Interpreter faults = %ld, Compiler Faults %ld,\n"
 			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
@@ -242,6 +248,7 @@ void SwapMetric::print_on(){
 			_promotionIntercepts,
 			_evacuateFollowersIntercepts,
 			_markFromRoots,
+			_sweepClosure,
 			_swapInsInterpreter, _swapInsCompiler,
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);

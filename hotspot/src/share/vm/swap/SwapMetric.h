@@ -46,6 +46,7 @@ private:
 	static bool _metricPrinted;
 	static long int _promotionIntercepts;
 	static long int _markFromRoots;
+	static long int _sweepClosure;
 
 public:
 	static void incrementFaults_CGC_Thread();

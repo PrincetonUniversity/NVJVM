@@ -8009,6 +8009,7 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
 
 size_t SweepClosure::do_blk_careful(HeapWord* addr) {
   FreeChunk* fc = (FreeChunk*)addr;
+  SSDSwap::checkAccessSwapIn(fc, 4);
   size_t res;
 
   // Check if we are done sweeping. Below we check "addr >= _limit" rather
@@ -8272,6 +8273,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 
 size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
   HeapWord* addr = (HeapWord*) fc;
+  SSDSwap::checkAccessSwapIn(fc, 4);
   // The sweeper has just found a live object. Return any accumulated
   // left hand chunk to the free lists.
   if (inFreeRange()) {
