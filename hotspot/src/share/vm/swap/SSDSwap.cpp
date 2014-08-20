@@ -189,3 +189,32 @@ void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top){
 	}
 }
 
+void SSDSwap::checkAccessWithSize(void *header, size_t size, int purpose){
+	void *end = (void *)((intptr_t)header + (intptr_t)size);
+	void *curr = header;
+	while (Universe::getPageIndex(curr) <= Universe::getPageIndex(end)){
+		if(Universe::isSwappedOut(curr)){
+			SwapMetric::incrementAccessInterceptCount(purpose);
+			CMS_handle_faults(curr);
+		}
+		curr = Utility::nextPage(curr);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

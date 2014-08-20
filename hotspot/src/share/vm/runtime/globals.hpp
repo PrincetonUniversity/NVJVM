@@ -671,6 +671,8 @@ class CommandLineFlags {
           "Show msg. about safepoint synch.")                               \
                                                                             \
   product(bool, L_SWAP, false, "logs related to swap module") 		        \
+  product(bool, CMS_Swap, false, "swapping flag")							\
+  product(bool, Print_Trace, false, "flag for printing trace")				\
   product(bool, REMAP, false, "dummy flag not necessarily needed") 			\
   product(bool, Swap_Protect, false,										\
 		  "flag that controls whether page protection has to be enabled") 	\

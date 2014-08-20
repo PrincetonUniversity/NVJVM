@@ -148,7 +148,6 @@ void ParScanThreadState::scan_partial_array_and_push_remainder(oop old) {
   }
 }
 
-
 void ParScanThreadState::trim_queues(int max_size) {
   ObjToScanQueue* queue = work_queue();
   do {
@@ -156,6 +155,7 @@ void ParScanThreadState::trim_queues(int max_size) {
       oop obj_to_scan;
       if (queue->pop_local(obj_to_scan)) {
     	SSDSwap::checkAccessSwapIn(obj_to_scan, 0);
+
         if ((HeapWord *)obj_to_scan < young_old_boundary()) {
           if (obj_to_scan->is_objArray() &&
               obj_to_scan->is_forwarded() &&
@@ -167,6 +167,7 @@ void ParScanThreadState::trim_queues(int max_size) {
           }
         } else {
           // object is in old generation
+          SSDSwap::checkAccessWithSize(obj_to_scan, obj_to_scan->size(), 0);
           obj_to_scan->oop_iterate(&_old_gen_closure);
         }
       }

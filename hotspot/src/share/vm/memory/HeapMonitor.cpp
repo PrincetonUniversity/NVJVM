@@ -39,7 +39,7 @@ void HeapMonitor::init() {
 }
 
 void HeapMonitor::CMS_swapOut_operation(){
-	if(CMS_OccupancyReached()){
+	if(CMS_OccupancyReached() && CMS_Swap){
 		VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
 		if(_inCoreBottom == NULL)
 			_inCoreBottom = Utility::getPageStart(vs->low());

@@ -238,25 +238,23 @@ void SwapMetric::print_on(){
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics:: - \n"
-			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld, \n"
-			"Card Table Intercepts = %ld, Promotion Intercepts = %ld, "
-			"Evacuate Followers %ld,  Mark From Roots = %ld, Faults Sweep Closure =%ld,"
+			"Total segmentation faults = %ld.\n"
+			"Card Table Intercepts = %ld \n, Promotion Intercepts = %ld,\n"
+			"Evacuate Followers %ld,\n Mark From Roots = %ld,\nFaults Sweep Closure =%ld,"
 			"Chunk of blocks = %ld,\n"
-			"Interpreter faults = %ld, Compiler Faults %ld,\n"
-			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n"
+			"Faults Name Thread = %ld.\n Faults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 			(long long)_swapInTime.tv_sec,
 			_swapInTime.tv_nsec/(1000*1000),
-			_segFaults, _faultsDuringCollection,_accessIntercepts,
+			_segFaults,
 			_cardTableIntercepts,
 			_promotionIntercepts,
 			_evacuateFollowersIntercepts,
 			_markFromRoots,
 			_sweepClosure,
 			_chunkOfBlocks,
-			_swapInsInterpreter, _swapInsCompiler,
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);
 	fflush(stdout);

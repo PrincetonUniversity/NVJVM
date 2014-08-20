@@ -42,6 +42,7 @@ public:
 	static void checkAccessSwapIn(void *, int purpose);
 	static void checkAccessSwapInRegion(void *, void *);
 	static void CMS_swapOut(void *sa, int numberPages);
+	static void checkAccessWithSize(void *header, size_t size, int purpose);
 };
 
 
