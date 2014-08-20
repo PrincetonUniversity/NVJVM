@@ -237,12 +237,15 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
-			"Fault Metrics:: - \n"
-			"Total segmentation faults = %ld.\n"
-			"Card Table Intercepts = %ld \n, Promotion Intercepts = %ld,\n"
-			"Evacuate Followers %ld,\n Mark From Roots = %ld,\nFaults Sweep Closure =%ld,"
-			"Chunk of blocks = %ld,\n"
-			"Faults Name Thread = %ld.\n Faults Java Thread = %ld.\n"
+			"Fault Metrics::\n"
+			"Total segmentation faults = %ld\n"
+			"Card Table Intercepts = %ld\n"
+			"Promotion Intercepts = %ld\n"
+			"Evacuate Followers %ld,\n"
+			"Mark From Roots = %ld,\n"
+			"Faults Sweep Closure =%ld\n"
+			"Chunk of blocks = %ld\n"
+			"Faults Name Thread = %ld\nFaults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
