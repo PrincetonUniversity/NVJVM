@@ -186,6 +186,7 @@ void ClearNoncleanCardWrapper::do_MemRegion(MemRegion mr) {
       // "dirty" range accumulated so far.
       if (start_of_non_clean < end_of_non_clean) {
         const MemRegion mrd(start_of_non_clean, end_of_non_clean);
+        SSDSwap::checkAccessSwapInRegion((void *)start_of_non_clean, (void *)end_of_non_clean);
         _dirty_card_closure->do_MemRegion(mrd);
       }
       // Reset the dirty window, while continuing to look
@@ -206,6 +207,7 @@ void ClearNoncleanCardWrapper::do_MemRegion(MemRegion mr) {
   // which we now process.
   if (start_of_non_clean < end_of_non_clean) {
     const MemRegion mrd(start_of_non_clean, end_of_non_clean);
+    SSDSwap::checkAccessSwapInRegion((void *)start_of_non_clean, (void *)end_of_non_clean);
     _dirty_card_closure->do_MemRegion(mrd);
   }
 }
