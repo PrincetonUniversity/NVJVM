@@ -262,8 +262,8 @@ TreeChunk* TreeList::head_as_TreeChunk() {
 
 TreeChunk* TreeList::first_available() {
   assert(head() != NULL, "The head of the list cannot be NULL");
-  SSDSwap::checkAccessSwapIn(head(), 2);
-  SSDSwap::checkAccessSwapIn(head()->next(), 2);
+//  SSDSwap::checkAccessSwapIn(head(), 2);
+//  SSDSwap::checkAccessSwapIn(head()->next(), 2);
   FreeChunk* fc = head()->next();
   TreeChunk* retTC;
   if (fc == NULL) {
