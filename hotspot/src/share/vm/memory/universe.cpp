@@ -878,7 +878,6 @@ jint universe_init() {
     StringTable::create_table();
     ClassLoader::create_package_info_table();
   }
-
   return JNI_OK;
 }
 
@@ -1005,6 +1004,7 @@ jint Universe::initialize_heap() {
 
 #ifdef _LP64
   if (UseCompressedOops) {
+	  printf("Using compressed Oops \n");
     // Subtract a page because something can get allocated at heap base.
     // This also makes implicit null checking work, because the
     // memory+1 page below heap_base needs to cause a signal.
