@@ -107,7 +107,6 @@ void DirtyCardToOopClosure::walk_mem_region(MemRegion mr,
 // we (or another worker thread) may already have scanned
 // or planning to scan.
 void DirtyCardToOopClosure::do_MemRegion(MemRegion mr) {
-
   // Some collectors need to do special things whenever their dirty
   // cards are processed. For instance, CMS must remember mutator updates
   // (i.e. dirty cards) so as to re-scan mutated objects.

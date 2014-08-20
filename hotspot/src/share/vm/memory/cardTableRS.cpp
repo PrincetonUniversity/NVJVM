@@ -168,7 +168,6 @@ ClearNoncleanCardWrapper::ClearNoncleanCardWrapper(
 }
 
 void ClearNoncleanCardWrapper::do_MemRegion(MemRegion mr) {
-  SSDSwap::checkAccessSwapInRegion((void *)mr.start(), (void *)mr.end());
   assert(mr.word_size() > 0, "Error");
   assert(_ct->is_aligned(mr.start()), "mr.start() should be card aligned");
   // mr.end() may not necessarily be card aligned.
