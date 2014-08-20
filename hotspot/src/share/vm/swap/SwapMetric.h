@@ -47,6 +47,7 @@ private:
 	static long int _promotionIntercepts;
 	static long int _markFromRoots;
 	static long int _sweepClosure;
+	static long int _chunkOfBlocks;
 
 public:
 	static void incrementFaults_CGC_Thread();

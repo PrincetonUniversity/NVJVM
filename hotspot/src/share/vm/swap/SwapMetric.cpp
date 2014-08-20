@@ -19,6 +19,7 @@ long int SwapMetric::_evacuateFollowersIntercepts = 0;
 long int SwapMetric::_promotionIntercepts = 0;
 long int SwapMetric::_markFromRoots =0;
 long int SwapMetric::_sweepClosure = 0;
+long int SwapMetric::_chunkOfBlocks = 0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -93,6 +94,10 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 
 	case 4:
 		_sweepClosure++;
+		break;
+
+	case 5:
+		_chunkOfBlocks++;
 		break;
 
 	default:
@@ -235,7 +240,8 @@ void SwapMetric::print_on(){
 			"Fault Metrics:: - \n"
 			"Total segmentation faults = %ld, faults during collection %ld, Access Intercepts = %ld, \n"
 			"Card Table Intercepts = %ld, Promotion Intercepts = %ld, "
-			"Evacuate Followers %ld,  Mark From Roots = %ld, Faults Sweep Closure =%ld,\n"
+			"Evacuate Followers %ld,  Mark From Roots = %ld, Faults Sweep Closure =%ld,"
+			"Chunk of blocks = %ld,\n"
 			"Interpreter faults = %ld, Compiler Faults %ld,\n"
 			"Faults Name Thread = %ld, Faults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
@@ -249,6 +255,7 @@ void SwapMetric::print_on(){
 			_evacuateFollowersIntercepts,
 			_markFromRoots,
 			_sweepClosure,
+			_chunkOfBlocks,
 			_swapInsInterpreter, _swapInsCompiler,
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);

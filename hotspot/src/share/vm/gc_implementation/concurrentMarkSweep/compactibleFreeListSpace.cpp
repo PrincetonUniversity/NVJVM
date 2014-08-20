@@ -2792,10 +2792,12 @@ void CompactibleFreeListSpace:: par_get_chunk_of_blocks(size_t word_sz, size_t n
             // Must do this in reverse order, so that anybody attempting to
             // access the main chunk sees it as a single free block until we
             // change it.
+        	SSDSwap::checkAccessSwapIn(fc, 5);
             size_t fc_size = fc->size();
             assert(fc->isFree(), "Error");
             for (int i = k-1; i >= 0; i--) {
               FreeChunk* ffc = (FreeChunk*)((HeapWord*)fc + i * word_sz);
+              SSDSwap::checkAccessSwapIn(ffc, 5);
               assert((i != 0) ||
                         ((fc == ffc) && ffc->isFree() &&
                          (ffc->size() == k*word_sz) && (fc_size == word_sz)),
@@ -2884,6 +2886,7 @@ void CompactibleFreeListSpace:: par_get_chunk_of_blocks(size_t word_sz, size_t n
     if (rem > 0) {
       size_t prefix_size = n * word_sz;
       rem_fc = (FreeChunk*)((HeapWord*)fc + prefix_size);
+      SSDSwap::checkAccessSwapIn(rem_fc, 5);
       rem_fc->setSize(rem);
       rem_fc->linkPrev(NULL); // Mark as a free block for other (parallel) GC threads.
       rem_fc->linkNext(NULL);
@@ -2917,6 +2920,7 @@ void CompactibleFreeListSpace:: par_get_chunk_of_blocks(size_t word_sz, size_t n
   // All but first chunk in this loop
   for (ssize_t i = n-1; i > 0; i--) {
     FreeChunk* ffc = (FreeChunk*)((HeapWord*)fc + i * word_sz);
+    SSDSwap::checkAccessSwapIn(ffc, 5);
     ffc->setSize(word_sz);
     ffc->linkPrev(NULL); // Mark as a free block for other (parallel) GC threads.
     ffc->linkNext(NULL);
