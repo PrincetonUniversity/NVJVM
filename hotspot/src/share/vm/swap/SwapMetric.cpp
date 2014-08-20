@@ -85,6 +85,8 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 		break;
 
 	default:
+		printf("incrementAccessInterceptCount() :: default");
+		exit(-1);
 	}
 }
 
