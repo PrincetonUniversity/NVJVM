@@ -711,14 +711,16 @@ void Universe::allocatePageTable(size_t size){
 void* Universe::getPageTablePosition(void *address){
 	size_t pageIndex = getPageIndex(address);
 	char* addPosition = pageIndex + (char *)Universe::getPageTableBase();
-#if PT_CHECKS
+
 	if ((addPosition < Universe::getPageTableBase()) || (addPosition > Universe::getPageTableTop())){
+#if PT_CHECKS
 		printf("Address %p accessed. Heap base %p, top %p. It is out of the page table range(%p, %p).\n",
 				address, Universe::getHeapBase(), Universe::getHeapTop(),
 				Universe::getPageTableBase(), Universe::getPageTableTop());
 		exit(-1);
-	}
 #endif
+	}
+
 	return addPosition;
 }
 
@@ -734,6 +736,9 @@ void Universe::markSwappedIn(void *pageAddress){
 
 bool Universe::isSwappedOut(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
+//	if ((position < Universe::getPageTableBase()) || (position > Universe::getPageTableTop())){
+//		return false;
+//	}
 	return ((*position) == Universe::_notPresentMask);
 }
 
