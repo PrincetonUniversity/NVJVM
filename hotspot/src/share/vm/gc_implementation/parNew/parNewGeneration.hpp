@@ -28,6 +28,7 @@
 #include "gc_implementation/parNew/parGCAllocBuffer.hpp"
 #include "memory/defNewGeneration.hpp"
 #include "utilities/taskqueue.hpp"
+#include "swap/SSDSwap.h"
 
 class ChunkArray;
 class ParScanWithoutBarrierClosure;

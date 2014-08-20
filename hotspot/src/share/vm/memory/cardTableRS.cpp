@@ -274,7 +274,6 @@ void CardTableRS::younger_refs_in_space_iterate(Space* sp,
     ShouldNotReachHere();
   }
 #endif
-//  SSDSwap::checkAccessSwapInRegion((void *)urasm.start(), (void *)urasm.end());
   _ct_bs->non_clean_card_iterate_possibly_parallel(sp, urasm, cl, this);
 }
 

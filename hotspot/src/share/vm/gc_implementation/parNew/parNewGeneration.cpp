@@ -155,6 +155,7 @@ void ParScanThreadState::trim_queues(int max_size) {
     while (queue->size() > (juint)max_size) {
       oop obj_to_scan;
       if (queue->pop_local(obj_to_scan)) {
+    	SSDSwap::checkAccessSwapIn(obj_to_scan);
         if ((HeapWord *)obj_to_scan < young_old_boundary()) {
           if (obj_to_scan->is_objArray() &&
               obj_to_scan->is_forwarded() &&
