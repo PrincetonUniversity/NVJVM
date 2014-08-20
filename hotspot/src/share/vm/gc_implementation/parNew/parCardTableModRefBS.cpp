@@ -137,7 +137,7 @@ process_stride(Space* sp,
                              lowest_non_clean,
                              lowest_non_clean_base_chunk_index,
                              lowest_non_clean_chunk_size);
-
+    SSDSwap::checkAccessSwapInRegion((void *)chunk_mr.start(), (void *)chunk_mr.end());
     // We want the LNC array updates above in process_chunk_boundaries
     // to be visible before any of the card table value changes as a
     // result of the dirty card iteration below.
