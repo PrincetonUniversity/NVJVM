@@ -8158,6 +8158,7 @@ void SweepClosure::do_already_free_chunk(FreeChunk* fc) {
         // if the next chunk is a free block that can't be coalesced
         // it doesn't make sense to remove this chunk from the free lists
         FreeChunk* nextChunk = (FreeChunk*)(addr + size);
+        SSDSwap::checkAccessSwapIn(nextChunk, 4);
         assert((HeapWord*)nextChunk <= _sp->end(), "Chunk size out of bounds?");
         if ((HeapWord*)nextChunk < _sp->end() &&     // There is another free chunk to the right ...
             nextChunk->isFree()               &&     // ... which is free...
