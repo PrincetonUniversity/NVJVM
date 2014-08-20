@@ -711,7 +711,7 @@ void Universe::allocatePageTable(size_t size){
 void* Universe::getPageTablePosition(void *address){
 	size_t pageIndex = getPageIndex(address);
 	char* addPosition = pageIndex + (char *)Universe::getPageTableBase();
-#ifdef PT_CHECKS
+#if PT_CHECKS
 	if ((addPosition < Universe::getPageTableBase()) || (addPosition > Universe::getPageTableTop())){
 		printf("Address %p accessed. Heap base %p, top %p. It is out of the page table range(%p, %p).\n",
 				address, Universe::getHeapBase(), Universe::getHeapTop(),

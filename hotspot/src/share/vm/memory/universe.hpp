@@ -31,7 +31,7 @@
 #include "malloc.h"
 
 // List of checks
-#define PT_CHECKS
+#define PT_CHECKS 0
 #define SWAP_METRICS 1
 #define SEGMENTATION_LOG 0
 #define MB 1024*1024
