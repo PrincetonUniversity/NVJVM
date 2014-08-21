@@ -1389,8 +1389,11 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
      }
   }
   // Checking for promotion intercepts
-  SSDSwap::checkAccessSwapIn(obj_ptr, 2);
-
+  SSDSwap::checkAccessSwapIn(oop(obj_ptr), 2);
+  if((intptr_t)obj != (intptr_t)obj_ptr){
+	  printf("obj and obj_ptr are different \n");
+	  exit(-1);
+  }
   oop obj = oop(obj_ptr);
   OrderAccess::storestore();
   assert(obj->klass_or_null() == NULL, "Object should be uninitialized here.");
