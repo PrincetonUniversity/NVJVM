@@ -26,7 +26,7 @@ if(Print_Trace){
 		  void *array[10];
 		  size_t size = backtrace(array, 10);
 		    // print out all the frames to stderr
-		  fprintf(stderr, "\nError: signal %d:\n", sig);
+		  fprintf(stderr, "\nError: signal %d:, addr = %p\n", sig, addr);
 		  backtrace_symbols_fd(array, size, STDERR_FILENO);
 	}
 
