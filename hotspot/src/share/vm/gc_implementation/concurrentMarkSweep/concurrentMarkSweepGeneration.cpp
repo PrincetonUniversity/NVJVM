@@ -1390,7 +1390,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   }
   // Checking for promotion intercepts
   SSDSwap::checkAccessSwapIn(oop(obj_ptr), 2);
-  if((intptr_t)obj != (intptr_t)obj_ptr){
+  if((intptr_t)oop(obj_ptr) != (intptr_t)obj_ptr){
 	  printf("obj and obj_ptr are different \n");
 	  exit(-1);
   }
