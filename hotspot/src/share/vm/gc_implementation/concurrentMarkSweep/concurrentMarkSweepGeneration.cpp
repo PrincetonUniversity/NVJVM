@@ -7373,8 +7373,8 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
         break;
       }
     }
-    SSDSwap::checkAccessSwapIn(oop(ptr), 3);
-    SSDSwap::checkAccessSwapInWithSize(oop(ptr), oop(ptr)->size(),3);
+    SSDSwap::checkAccessSwapIn(oop(new_oop), 3);
+//    SSDSwap::checkAccessWithSize(oop(ptr), oop(ptr)->size(),3);
     // Skip verifying header mark word below because we are
     // running concurrent with mutators.
     assert(new_oop->is_oop(true), "Oops! expected to pop an oop");
