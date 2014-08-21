@@ -8333,6 +8333,8 @@ size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
     assert(oop(addr)->is_oop(true), "live block should be an oop");
     // Verify that the bit map has no bits marked between
     // addr and purported end of this block.
+    SSDSwap::checkAccessSwapIn(oop(fc)->klass(), 4);
+    SSDSwap::checkAccessSwapIn(oop(fc)->klass()->klass_part(), 4);
     size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
     assert(size >= 3, "Necessary for Printezis marks to work");
     assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
