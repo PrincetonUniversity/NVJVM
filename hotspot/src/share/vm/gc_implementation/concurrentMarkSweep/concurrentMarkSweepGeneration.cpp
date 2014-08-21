@@ -1390,10 +1390,6 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   }
   // Checking for promotion intercepts
   SSDSwap::checkAccessSwapIn(oop(obj_ptr), 2);
-  if((intptr_t)oop(obj_ptr) != (intptr_t)obj_ptr){
-	  printf("obj and obj_ptr are different \n");
-	  exit(-1);
-  }
   oop obj = oop(obj_ptr);
   OrderAccess::storestore();
   assert(obj->klass_or_null() == NULL, "Object should be uninitialized here.");
@@ -7281,6 +7277,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   }
   // convert offset into a HeapWord*
   HeapWord* addr = _bit_map->startWord() + offset;
+  SSDSwap::checkAccessSwapIn(oop(addr), 3);
   assert(_bit_map->endWord() && addr < _bit_map->endWord(),
          "address out of range");
   assert(_bit_map->isMarked(addr), "tautology");
@@ -7306,7 +7303,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(_work_queue->size() == 0,
          "should drain stack to limit stack usage");
   // convert ptr to an oop preparatory to scanning
-  SSDSwap::checkAccessSwapIn(ptr, 3);
+  SSDSwap::checkAccessSwapIn(oop(ptr), 3);
   oop obj = oop(ptr);
   // Ignore mark word in verification below, since we
   // may be running concurrent with mutators.
