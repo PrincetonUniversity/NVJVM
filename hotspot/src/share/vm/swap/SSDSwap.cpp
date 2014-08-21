@@ -167,10 +167,10 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
 	}
 	void* objectEnd = (void *)((intptr_t)pageAddress + 16);
     if (true || purpose == 4 || purpose == 2){
-	if(Universe::getPageIndex(objectEnd) != Universe::getPageIndex(pageAddress)){
+	if(Universe::getPageIndex(objectEnd) > Universe::getPageIndex(pageAddress)){
 		if(Universe::isSwappedOut(objectEnd)){
 			SwapMetric::incrementAccessInterceptCount(purpose);
-			CMS_handle_faults(pageAddress);
+			CMS_handle_faults(objectEnd);
 		}
 	}
     }
