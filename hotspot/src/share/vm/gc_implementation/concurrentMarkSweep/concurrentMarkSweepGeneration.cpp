@@ -8473,6 +8473,7 @@ void SweepClosure::flush_cur_free_chunk(HeapWord* chunk, size_t size) {
   if (!freeRangeInFreeLists()) {
     if (CMSTestInFreeList) {
       FreeChunk* fc = (FreeChunk*) chunk;
+      SSDSwap::checkAccessSwapIn(fc, 4);
       fc->setSize(size);
       assert(!_sp->verifyChunkInFreeLists(fc),
         "chunk should not be in free lists yet");
