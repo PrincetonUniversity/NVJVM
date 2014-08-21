@@ -1389,7 +1389,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
      }
   }
   // Checking for promotion intercepts
-  SSDSwap::checkAccessSwapIn(obj, 2);
+  SSDSwap::checkAccessSwapIn(obj_ptr, 2);
 
   oop obj = oop(obj_ptr);
   OrderAccess::storestore();
