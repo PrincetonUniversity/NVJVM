@@ -72,7 +72,7 @@ inline markOop oopDesc::cas_set_mark(markOop new_mark, markOop old_mark) {
 
 inline klassOop oopDesc::klass() const {
   if (UseCompressedOops) {
-	SSDSwap::checkAccessSwapIn(this, 6);
+	SSDSwap::checkAccessSwapIn((void *)this, 6);
     return (klassOop)decode_heap_oop_not_null(_metadata._compressed_klass);
   } else {
     return _metadata._klass;
