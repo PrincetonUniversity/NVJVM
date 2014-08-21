@@ -51,6 +51,7 @@
 #include "runtime/mutexLocker.hpp"
 #include "services/threadService.hpp"
 #include "utilities/dtrace.hpp"
+#include "swap/SSDSwap.h"
 #ifdef TARGET_OS_FAMILY_linux
 # include "thread_linux.inline.hpp"
 #endif
@@ -1574,6 +1575,7 @@ template <class T> void assert_nothing(T *p) {}
   T* const end = p + (count);               \
   while (p < end) {                         \
     (assert_fn)(p);                         \
+    SSDSwap::checkAccessSwapIn((void *)p, 8);\
     do_oop;                                 \
     ++p;                                    \
   }                                         \

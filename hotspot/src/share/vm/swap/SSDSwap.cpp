@@ -166,7 +166,7 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
 		CMS_handle_faults(pageAddress);
 	}
 	void* objectEnd = (void *)((intptr_t)pageAddress + 16);
-    if (true || purpose == 4 || purpose == 2){
+    if (true){
 	if(Universe::getPageIndex(objectEnd) > Universe::getPageIndex(pageAddress)){
 		if(Universe::isSwappedOut(objectEnd)){
 			SwapMetric::incrementAccessInterceptCount(purpose);

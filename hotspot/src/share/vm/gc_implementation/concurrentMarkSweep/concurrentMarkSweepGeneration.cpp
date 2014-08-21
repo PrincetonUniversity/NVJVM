@@ -7278,6 +7278,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   // convert offset into a HeapWord*
   HeapWord* addr = _bit_map->startWord() + offset;
   SSDSwap::checkAccessSwapIn(oop(addr), 3);
+
   assert(_bit_map->endWord() && addr < _bit_map->endWord(),
          "address out of range");
   assert(_bit_map->isMarked(addr), "tautology");
@@ -7292,6 +7293,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
       return true;
     }
   }
+  SSDSwap::checkAccessWithSize(oop(addr), oop(addr)->size(), 3);
   scan_oops_in_oop(addr);
   return true;
 }
@@ -7374,7 +7376,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
       }
     }
     SSDSwap::checkAccessSwapIn(oop(new_oop), 3);
-//    SSDSwap::checkAccessWithSize(oop(ptr), oop(ptr)->size(),3);
+    SSDSwap::checkAccessWithSize(oop(new_oop), oop(new_oop)->size(), 3);
     // Skip verifying header mark word below because we are
     // running concurrent with mutators.
     assert(new_oop->is_oop(true), "Oops! expected to pop an oop");

@@ -22,6 +22,7 @@ long int SwapMetric::_sweepClosure = 0;
 long int SwapMetric::_chunkOfBlocks = 0;
 long int SwapMetric::_klassIntercepts = 0;
 long int SwapMetric::_klassPartIntercepts = 0;
+long int SwapMetric::_oopIterate = 0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -108,6 +109,10 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 
 	case 7:
 		_klassPartIntercepts++;
+		break;
+
+	case 8:
+		_oopIterate++;
 		break;
 
 	default:
@@ -257,6 +262,7 @@ void SwapMetric::print_on(){
 			"Chunk of blocks = %ld\n"
 			"Klass Intercepts = %ld\n"
 			"Klass Part Intercepts = %ld\n"
+			"Oop Iterate %ld\n"
 			"Faults Name Thread = %ld\nFaults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
@@ -272,6 +278,7 @@ void SwapMetric::print_on(){
 			_chunkOfBlocks,
 			_klassIntercepts,
 			_klassPartIntercepts,
+			_oopIterate,
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);
 	fflush(stdout);
