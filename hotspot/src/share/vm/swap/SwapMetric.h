@@ -48,6 +48,8 @@ private:
 	static long int _markFromRoots;
 	static long int _sweepClosure;
 	static long int _chunkOfBlocks;
+	static long int _klassIntercepts;
+	static long int _klassPartIntercepts;
 
 public:
 	static void incrementFaults_CGC_Thread();
