@@ -8276,6 +8276,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 }
 
 size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
+  assert(false, "checking if asserts work");
   HeapWord* addr = (HeapWord*) fc;
   SSDSwap::checkAccessSwapIn(oop(fc), 4);
   // The sweeper has just found a live object. Return any accumulated
