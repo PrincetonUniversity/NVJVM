@@ -8277,7 +8277,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 
 size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
   HeapWord* addr = (HeapWord*) fc;
-  SSDSwap::checkAccessSwapIn(fc, 4);
+  SSDSwap::checkAccessSwapIn(oop(fc), 4);
   // The sweeper has just found a live object. Return any accumulated
   // left hand chunk to the free lists.
   if (inFreeRange()) {

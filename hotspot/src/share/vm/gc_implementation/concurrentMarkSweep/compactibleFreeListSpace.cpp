@@ -751,7 +751,7 @@ CompactibleFreeListSpace::new_dcto_cl(OopClosure* cl,
 // Note on locking for the space iteration functions:
 // since the collector's iteration activities are concurrent with
 // allocation activities by mutators, absent a suitable mutual exclusion
-// mechanism the iterators may go awry. For instace a block being iterated
+// mechanism the iterators may go awry. For instance a block being iterated
 // may suddenly be allocated or divided up and part of it allocated and
 // so on.
 
