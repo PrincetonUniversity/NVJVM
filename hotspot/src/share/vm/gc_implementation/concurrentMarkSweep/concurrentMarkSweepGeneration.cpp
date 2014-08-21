@@ -8301,7 +8301,7 @@ size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
     assert(size == CompactibleFreeListSpace::adjustObjectSize(size),
            "alignment problem");
 
-#ifdef DEBUG
+/*#ifdef DEBUG
       if (oop(addr)->klass_or_null() != NULL &&
           (   !_collector->should_unload_classes()
            || (oop(addr)->is_parsable()) &&
@@ -8315,9 +8315,12 @@ size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
                CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size()),
                "P-mark and computed size do not agree");
       }
-#endif
+#endif*/
 
   } else {
+	    SSDSwap::checkAccessSwapIn(oop(fc)->klass(), 6);
+	    SSDSwap::checkAccessSwapIn(oop(fc)->klass()->klass_part(), 7);
+
     // This should be an initialized object that's alive.
     assert(oop(addr)->klass_or_null() != NULL &&
            (!_collector->should_unload_classes()
@@ -8334,8 +8337,6 @@ size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
     assert(oop(addr)->is_oop(true), "live block should be an oop");
     // Verify that the bit map has no bits marked between
     // addr and purported end of this block.
-    SSDSwap::checkAccessSwapIn(oop(fc)->klass(), 6);
-    SSDSwap::checkAccessSwapIn(oop(fc)->klass()->klass_part(), 7);
     size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
     assert(size >= 3, "Necessary for Printezis marks to work");
     assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
