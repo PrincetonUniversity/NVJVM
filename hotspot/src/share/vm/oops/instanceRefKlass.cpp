@@ -43,6 +43,7 @@
 #include "gc_implementation/parallelScavenge/psScavenge.inline.hpp"
 #include "oops/oop.pcgc.inline.hpp"
 #endif
+#include "swap/SSDSwap.h"
 
 template <class T>
 static void specialized_oop_follow_contents(instanceRefKlass* ref, oop obj) {
@@ -207,6 +208,7 @@ int instanceRefKlass::oop_adjust_pointers(oop obj) {
   if (!oopDesc::is_null(heap_oop) && contains(referent_addr)) {                 \
     ReferenceProcessor* rp = closure->_ref_processor;                           \
     oop referent = oopDesc::decode_heap_oop_not_null(heap_oop);                 \
+    SSDSwap::checkAccessSwapIn(referent, 11);									\
     if (!referent->is_gc_marked() && (rp != NULL) &&                            \
         rp->discover_reference(obj, reference_type())) {                        \
       return size;                                                              \

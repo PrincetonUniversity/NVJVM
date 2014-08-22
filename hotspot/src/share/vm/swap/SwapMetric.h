@@ -53,6 +53,7 @@ private:
 	static long int _oopIterate;
 	static long int _blockSize;
 	static long int _spoolHeader;
+	static long int _referentProcessing;
 
 public:
 	static void incrementFaults_CGC_Thread();

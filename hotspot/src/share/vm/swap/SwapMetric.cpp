@@ -25,6 +25,7 @@ long int SwapMetric::_klassPartIntercepts = 0;
 long int SwapMetric::_oopIterate = 0;
 long int SwapMetric::_blockSize = 0;
 long int SwapMetric::_spoolHeader = 0;
+long int SwapMetric::_referentProcessing=0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -124,6 +125,11 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 	case 10:
 		_spoolHeader++;
 		break;
+
+	case 11:
+		_referentProcessing++;
+		break;
+
 
 	default:
 		printf("incrementAccessInterceptCount() :: default");
