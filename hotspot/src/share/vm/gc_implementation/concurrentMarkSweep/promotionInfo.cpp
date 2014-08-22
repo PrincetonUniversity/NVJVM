@@ -154,8 +154,8 @@ void PromotionInfo::saveDisplacedHeader(markOop hdr) {
   assert(_spoolHead != NULL && _spoolTail != NULL,
          "promotionInfo inconsistency");
   assert(_spoolTail->bufferSize > _nextIndex, "Off by one error at tail?");
-  void *nextHeader =(void *)_spoolTail->displacedHdr[_nextIndex];
-  SSDSwap::checkAccessSwapIn(nextHeader, 10);
+//  void *nextHeader =(void *)_spoolTail->displacedHdr[_nextIndex];
+//  SSDSwap::checkAccessSwapIn(nextHeader, 10);
   _spoolTail->displacedHdr[_nextIndex] = hdr;
   // Spool forward
   if (++_nextIndex == _spoolTail->bufferSize) { // last location in this block
