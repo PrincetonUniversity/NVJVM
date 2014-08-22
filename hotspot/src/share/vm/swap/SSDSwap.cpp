@@ -179,7 +179,7 @@ void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top){
 	void *curr = bottom;
 	while(true){
 		if(Universe::isSwappedOut(curr)){
-			SwapMetric::incrementCardTableIntercepts();
+			SwapMetric::incrementAccessInterceptCount(1);
 			CMS_handle_faults(curr);
 		}
 		curr = Utility::nextPage(curr);

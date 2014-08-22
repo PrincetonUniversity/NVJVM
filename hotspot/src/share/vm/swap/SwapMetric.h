@@ -83,8 +83,6 @@ public:
 	static long int getSwapInsInterpreter();
 	static long int getAccessIntercepts();
 	static void incrementAccessIntercepts();
-	static void incrementCardTableIntercepts();
-	static void incrementEvacuateFollowers();
 	static void incrementAccessInterceptCount(int type);
 	static void init();
 	static void getInterceptType(int, char *);
