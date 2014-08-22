@@ -676,6 +676,7 @@ class CMSCollector: public CHeapObj {
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
                                           // to revisit
   CMSBitMap     _perm_gen_verify_bit_map; // Mark bit map for perm gen verification support.
+  CMSBitMap 	_bookMark_bit_map;
 
   HeapWord*     _restart_addr; // in support of marking stack overflow
   void          lower_restart_addr(HeapWord* low);
@@ -909,6 +910,11 @@ class CMSCollector: public CHeapObj {
 
   void setup_cms_unloading_and_verification_state();
  public:
+
+  CMSBitMap* getBookMarkBitMap() {
+	  return &_bookMark_bit_map;
+  }
+
   CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
                ConcurrentMarkSweepGeneration* permGen,
                CardTableRS*                   ct,

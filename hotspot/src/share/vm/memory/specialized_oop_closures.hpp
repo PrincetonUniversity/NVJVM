@@ -54,6 +54,7 @@ class PushOrMarkClosure;
 class Par_PushOrMarkClosure;
 class CMSKeepAliveClosure;
 class CMSInnerParMarkAndPushClosure;
+class BookMarkClosure;
 
 // This macro applies an argument macro to all OopClosures for which we
 // want specialized bodies of "oop_oop_iterate".  The arguments to "f" are:
@@ -96,6 +97,7 @@ class CMSInnerParMarkAndPushClosure;
   f(Par_MarkRefsIntoAndScanClosure,_nv)                 \
   f(PushAndMarkClosure,_nv)                             \
   f(Par_PushAndMarkClosure,_nv)                         \
+  f(BookMarkClosure,_nv) 								\
   f(PushOrMarkClosure,_nv)                              \
   f(Par_PushOrMarkClosure,_nv)                          \
   f(CMSKeepAliveClosure,_nv)                            \

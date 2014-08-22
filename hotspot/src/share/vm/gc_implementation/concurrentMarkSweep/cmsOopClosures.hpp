@@ -322,6 +322,24 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
   inline void do_yield_check();
 };
 
+class BookMarkClosure {
+private:
+	CMSBitMap *_bookMarkBitMap;
+
+protected:
+	DO_OOP_WORK_DEFN
+
+public:
+	BookMarkClosure(CMSBitMap *bookMarkBitMap) {
+		_bookMarkBitMap = bookMarkBitMap;
+	}
+	CMSBitMap*      _bookMarkBitMap;
+	virtual void do_oop(oop* p);
+	virtual void do_oop(narrowOop* p);
+	inline void do_oop_nv(oop* p)       { BookMarkClosure::do_oop_work(p); }
+	inline void do_oop_nv(narrowOop* p) { BookMarkClosure::do_oop_work(p); }
+};
+
 // A parallel (MT) version of the above.
 // This closure is used during the concurrent marking phase
 // following the first checkpoint. Its use is buried in

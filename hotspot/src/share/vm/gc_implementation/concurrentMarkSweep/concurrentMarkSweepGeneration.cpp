@@ -558,6 +558,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
+  _bookMark_bit_map(0, Mutex::leaf + 1, "CMS_bookMarkBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -632,7 +633,14 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
   }
-
+  {
+    MutexLockerEx x(_bookMark_bit_map.lock(), Mutex::_no_safepoint_check_flag);
+    if (!_bookMark_bit_map.allocate(_span)) { // This would have to be changed to the size of the young generation
+      warning("Failed to allocate CMS BookMark Bit Map");
+      return;
+    }
+    assert(_bookMark_bit_map.covers(_span), "_bookMark_bit_map inconsistency?");
+  }
   if (!_markStack.allocate(MarkStackSize)) {
     warning("Failed to allocate CMS Marking Stack");
     return;
@@ -1435,6 +1443,9 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
 
   collector()->promoted(true,          // parallel
                         obj_ptr, old->is_objArray(), word_sz);
+
+  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap());
+  obj->oop_iterate(&_bookMarkClosure);
 
   NOT_PRODUCT(
     Atomic::inc_ptr(&_numObjectsPromoted);
@@ -7616,6 +7627,19 @@ void PushOrMarkClosure::do_oop(oop obj) {
 
 void PushOrMarkClosure::do_oop(oop* p)       { PushOrMarkClosure::do_oop_work(p); }
 void PushOrMarkClosure::do_oop(narrowOop* p) { PushOrMarkClosure::do_oop_work(p); }
+
+void BookMarkClosure::do_oop(oop* p)::do_oop(oop* p)       { BookMarkClosure::do_oop_work(p); }
+void BookMarkClosure::do_oop(narrowOop* p) 				   { BookMarkClosure::do_oop_work(p); }
+
+void BookMarkClosure::do_oop(oop obj){
+	if(obj == NULL)
+		return;
+	HeapWord* addr = (HeapWord*)obj;
+	// Check if the object lies within the young region, the region occupied
+	if(!_bookMarkBitMap->isMarked(addr)){
+		bool res = _bookMarkBitMap->par_mark(addr);    // now bookmarked
+	}
+}
 
 void Par_PushOrMarkClosure::do_oop(oop obj) {
   // Ignore mark word because we are running concurrent with mutators.
