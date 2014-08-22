@@ -75,6 +75,7 @@ public:
 	static void incrementSwapOutTime(timespec start, timespec end);
 	static timespec diff(timespec start, timespec end);
 	static void print_on();
+	static long int getTotalIntercepts();
 	static void incrementSwapOutBytes(long bytes);
 	static void incrementSwapInBytes(int bytes);
 	static void incrementSwapInCompiler();

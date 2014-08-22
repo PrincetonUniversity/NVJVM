@@ -186,6 +186,14 @@ timespec SwapMetric::diff(timespec start, timespec end){
 		return temp;
 }
 
+long int SwapMetric::getTotalIntercepts(){
+	int count = 0; long int sum = 0;
+	for (; count < Number_Intercepts; count++){
+		sum += _intercepts[count];
+	}
+	return sum;
+}
+
 void SwapMetric::print_on(){
 	if(_metricPrinted == true)
 		return;
@@ -196,12 +204,14 @@ void SwapMetric::print_on(){
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics::\n"
-			"Total segmentation faults = %ld\n",
+			"Total segmentation faults = %ld\n"
+			"Total Intercepts = %ld\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 						(long long)_swapInTime.tv_sec,
 						_swapInTime.tv_nsec/(1000*1000),
-						_segFaults);
+						_segFaults,
+						getTotalIntercepts());
     char s[Max_String_Len];
 	for(count = 0; count < Number_Intercepts; count++){
 		getInterceptType(count, s);
