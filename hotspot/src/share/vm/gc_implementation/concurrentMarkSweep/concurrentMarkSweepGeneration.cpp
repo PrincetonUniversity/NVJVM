@@ -7634,16 +7634,11 @@ void BookMarkClosure::do_oop(oop* p)				       { BookMarkClosure::do_oop_work(p)
 void BookMarkClosure::do_oop(narrowOop* p) 				   { BookMarkClosure::do_oop_work(p); }
 
 void BookMarkClosure::do_oop(oop obj){
-	printf("In BookMarkClosure Oop = %p. Entering.\n", obj);
-
 	HeapWord* addr = (HeapWord*)obj;
 	// Check if the object lies within the young region, the region occupied
 	if(_whole_span.contains(addr) && !_bookMarkBitMap->isMarked(addr)){
-		printf("In BookMarkClosure Oop = %p. Marking .\n", obj);
 		bool res = _bookMarkBitMap->par_mark(addr);    // now bookmarked
-		printf("In BookMarkClosure Oop = %p. Marking Done.\n", obj);
 	}
-	printf("In BookMarkClosure Oop = %p. Done.\n", obj);
 }
 
 void Par_PushOrMarkClosure::do_oop(oop obj) {
