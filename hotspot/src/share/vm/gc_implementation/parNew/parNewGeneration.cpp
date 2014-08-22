@@ -167,7 +167,7 @@ void ParScanThreadState::trim_queues(int max_size) {
           }
         } else {
           // object is in old generation
-          SSDSwap::checkAccessWithSize(obj_to_scan, obj_to_scan->size(), 0);
+          SSDSwap::checkAccessWithSize(obj_to_scan, obj_to_scan->size() * BytesPerWord, 0);
           obj_to_scan->oop_iterate(&_old_gen_closure);
         }
       }

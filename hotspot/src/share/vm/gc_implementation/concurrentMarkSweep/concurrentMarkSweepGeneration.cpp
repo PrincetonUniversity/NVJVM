@@ -1390,7 +1390,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   }
   // Checking for promotion intercepts
   SSDSwap::checkAccessSwapIn(oop(obj_ptr), 2);
-  SSDSwap::checkAccessWithSize(oop(obj_ptr), word_sz, 2);
+  SSDSwap::checkAccessWithSize(oop(obj_ptr), word_sz * BytesPerWord, 2);
   oop obj = oop(obj_ptr);
   OrderAccess::storestore();
   assert(obj->klass_or_null() == NULL, "Object should be uninitialized here.");
@@ -7294,7 +7294,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
       return true;
     }
   }
-  SSDSwap::checkAccessWithSize(oop(addr), oop(addr)->size(), 3);
+  SSDSwap::checkAccessWithSize(oop(addr), oop(addr)->size() * BytesPerWord, 3);
   scan_oops_in_oop(addr);
   return true;
 }
@@ -7377,7 +7377,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
       }
     }
     SSDSwap::checkAccessSwapIn(oop(new_oop), 3);
-    SSDSwap::checkAccessWithSize(oop(new_oop), oop(new_oop)->size(), 3);
+    SSDSwap::checkAccessWithSize(oop(new_oop), oop(new_oop)->size() * BytesPerWord, 3);
     // Skip verifying header mark word below because we are
     // running concurrent with mutators.
     assert(new_oop->is_oop(true), "Oops! expected to pop an oop");
