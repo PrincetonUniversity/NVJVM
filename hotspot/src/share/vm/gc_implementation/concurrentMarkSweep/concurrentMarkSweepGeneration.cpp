@@ -1446,7 +1446,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   collector()->promoted(true,          // parallel
                         obj_ptr, old->is_objArray(), word_sz);
 
-  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap(), collector()->getYoungGenSpan);
+  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap(), collector()->getYoungGenSpan());
   obj->oop_iterate(&_bookMarkClosure);
 
   NOT_PRODUCT(
