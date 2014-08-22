@@ -333,7 +333,6 @@ public:
 	BookMarkClosure(CMSBitMap *bookMarkBitMap) {
 		_bookMarkBitMap = bookMarkBitMap;
 	}
-	CMSBitMap*      _bookMarkBitMap;
 	virtual void do_oop(oop* p);
 	virtual void do_oop(narrowOop* p);
 	inline void do_oop_nv(oop* p)       { BookMarkClosure::do_oop_work(p); }
