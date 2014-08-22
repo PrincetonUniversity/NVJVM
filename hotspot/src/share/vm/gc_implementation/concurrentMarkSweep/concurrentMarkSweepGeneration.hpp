@@ -667,6 +667,7 @@ class CMSCollector: public CHeapObj {
   ConcurrentMarkSweepGeneration* _cmsGen;  // old gen (CMS)
   ConcurrentMarkSweepGeneration* _permGen; // perm gen
   MemRegion                      _span;    // span covering above two
+  MemRegion						 _yGenSpan;
   CardTableRS*                   _ct;      // card table
 
   // CMS marking support structures
@@ -915,10 +916,15 @@ class CMSCollector: public CHeapObj {
 	  return &_bookMark_bit_map;
   }
 
+  MemRegion getYoungGenSpan() {
+	  return _yGenSpan;
+  }
+
   CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
                ConcurrentMarkSweepGeneration* permGen,
                CardTableRS*                   ct,
-               ConcurrentMarkSweepPolicy*     cp);
+               ConcurrentMarkSweepPolicy*     cp,
+               DefNewGeneration * gen);
   ConcurrentMarkSweepThread* cmsThread() { return _cmsThread; }
 
   ReferenceProcessor* ref_processor() { return _ref_processor; }

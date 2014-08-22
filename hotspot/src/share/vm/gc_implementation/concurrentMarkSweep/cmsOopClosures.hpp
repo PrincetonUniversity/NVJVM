@@ -325,13 +325,15 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
 class BookMarkClosure : public OopClosure {
 private:
 	CMSBitMap *_bookMarkBitMap;
+	MemRegion _whole_span;
 
 protected:
 	DO_OOP_WORK_DEFN
 
 public:
-	BookMarkClosure(CMSBitMap *bookMarkBitMap) {
+	BookMarkClosure(CMSBitMap *bookMarkBitMap, MemRegion span) {
 		_bookMarkBitMap = bookMarkBitMap;
+		_whole_span = span;
 	}
 	virtual void do_oop(oop* p);
 	virtual void do_oop(narrowOop* p);

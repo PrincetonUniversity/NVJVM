@@ -548,7 +548,8 @@ bool CMSCollector::_foregroundGCShouldWait = false;
 CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
                            ConcurrentMarkSweepGeneration* permGen,
                            CardTableRS*                   ct,
-                           ConcurrentMarkSweepPolicy*     cp):
+                           ConcurrentMarkSweepPolicy*     cp,
+                           DefNewGeneration* yGen = NULL):
   _cmsGen(cmsGen),
   _permGen(permGen),
   _ct(ct),
@@ -566,6 +567,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _modUnionClosurePar(&_modUnionTable),
   // Adjust my span to cover old (cms) gen and perm gen
   _span(cmsGen->reserved()._union(permGen->reserved())),
+  _yGenSpan(yGen->reserved()),
   // Construct the is_alive_closure with _span & markBitMap
   _is_alive_closure(_span, &_markBitMap),
   _restart_addr(NULL),
@@ -627,7 +629,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
       warning("Failed to allocate CMS Bit Map");
       return;
     }
-    assert(_markBitMap.covers(_span), "_markBitMap inconsistency?");
+    assert(_markBitMap.covers(_yGenSpan), "_markBitMap inconsistency?");
   }
   {
     _modUnionTable.allocate(_span);
@@ -1444,7 +1446,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   collector()->promoted(true,          // parallel
                         obj_ptr, old->is_objArray(), word_sz);
 
-  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap());
+  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap(), collector()->getYoungGenSpan);
   obj->oop_iterate(&_bookMarkClosure);
 
   NOT_PRODUCT(
@@ -7632,15 +7634,9 @@ void BookMarkClosure::do_oop(oop* p)				       { BookMarkClosure::do_oop_work(p)
 void BookMarkClosure::do_oop(narrowOop* p) 				   { BookMarkClosure::do_oop_work(p); }
 
 void BookMarkClosure::do_oop(oop obj){
-	if(obj == NULL)
-		return;
-	if(_bookMarkBitMap == NULL){
-		printf("bookMarkBitMap is Null \n");
-		exit(-1);
-	}
 	HeapWord* addr = (HeapWord*)obj;
 	// Check if the object lies within the young region, the region occupied
-	if(!_bookMarkBitMap->isMarked(addr)){
+	if(_whole_span.contains(addr) && !_bookMarkBitMap->isMarked(addr)){
 		bool res = _bookMarkBitMap->par_mark(addr);    // now bookmarked
 	}
 }

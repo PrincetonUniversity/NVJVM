@@ -901,7 +901,9 @@ CMSCollector* collector = new CMSCollector(
 		(ConcurrentMarkSweepGeneration*) _gens[1],
 		(ConcurrentMarkSweepGeneration*) _perm_gen->as_gen(),
 		_rem_set->as_CardTableRS(),
-		(ConcurrentMarkSweepPolicy*) collector_policy());
+		(ConcurrentMarkSweepPolicy*) collector_policy(),
+		(DefNewGeneration *) _gens[0]);
+
 
 if (collector == NULL || !collector->completed_initialization()) {
 	if (collector) {
