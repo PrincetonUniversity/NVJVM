@@ -14,18 +14,6 @@ timespec SwapMetric::_swapOutTime;
 long int SwapMetric::_swapOutBytes = 0;
 long int SwapMetric::_swapInBytes = 0;
 long int SwapMetric::_accessIntercepts = 0;
-long int SwapMetric::_cardTableIntercepts = 0;
-long int SwapMetric::_evacuateFollowersIntercepts = 0;
-long int SwapMetric::_promotionIntercepts = 0;
-long int SwapMetric::_markFromRoots =0;
-long int SwapMetric::_sweepClosure = 0;
-long int SwapMetric::_chunkOfBlocks = 0;
-long int SwapMetric::_klassIntercepts = 0;
-long int SwapMetric::_klassPartIntercepts = 0;
-long int SwapMetric::_oopIterate = 0;
-long int SwapMetric::_blockSize = 0;
-long int SwapMetric::_spoolHeader = 0;
-long int SwapMetric::_referentProcessing=0;
 long int SwapMetric::_segFaults = 0;
 long int SwapMetric::_swapInPages = 0;
 long int SwapMetric::_swapOutPages = 0;
@@ -48,6 +36,7 @@ long int SwapMetric::_faults_CGC_Thread = 0;
 long int SwapMetric::_faults_VM_Thread = 0;
 long int SwapMetric::_faults_Wor_Thread = 0;
 bool SwapMetric::_metricPrinted = false;
+long int SwapMetric::_intercepts[Number_Intercepts] = {0};
 
 #define K 1024
 
@@ -83,14 +72,6 @@ void SwapMetric::incrementFaultsJavaThread(){
 
 void SwapMetric::incrementAccessInterceptCount(int type){
 	_intercepts[type]++;
-}
-
-void SwapMetric::incrementCardTableIntercepts(){
-	_cardTableIntercepts++;
-}
-
-void SwapMetric::incrementEvacuateFollowers(){
-	_evacuateFollowersIntercepts++;
 }
 
 void SwapMetric::incrementAccessIntercepts(){

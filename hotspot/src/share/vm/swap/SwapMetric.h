@@ -45,21 +45,9 @@ private:
 	static pthread_mutex_t _interpreterIncrement;
 	static pthread_mutex_t _segFaultIncrement;
 	static pthread_mutex_t _accessIncrement;
-	static long int _intercepts[Number_Intercepts];
+	static long int _intercepts[];
 	static long int _accessIntercepts;
-	static long int _cardTableIntercepts;
-	static long int _evacuateFollowersIntercepts;
 	static bool _metricPrinted;
-	static long int _promotionIntercepts;
-	static long int _markFromRoots;
-	static long int _sweepClosure;
-	static long int _chunkOfBlocks;
-	static long int _klassIntercepts;
-	static long int _klassPartIntercepts;
-	static long int _oopIterate;
-	static long int _blockSize;
-	static long int _spoolHeader;
-	static long int _referentProcessing;
 
 public:
 	static void incrementFaults_CGC_Thread();
