@@ -322,7 +322,7 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
   inline void do_yield_check();
 };
 
-class BookMarkClosure {
+class BookMarkClosure : public OopClosure {
 private:
 	CMSBitMap *_bookMarkBitMap;
 
