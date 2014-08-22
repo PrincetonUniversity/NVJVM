@@ -629,7 +629,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
       warning("Failed to allocate CMS Bit Map");
       return;
     }
-    assert(_markBitMap.covers(_yGenSpan), "_markBitMap inconsistency?");
+    assert(_markBitMap.covers(_span), "_markBitMap inconsistency?");
   }
   {
     _modUnionTable.allocate(_span);
@@ -637,11 +637,11 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   }
   {
     MutexLockerEx x(_bookMark_bit_map.lock(), Mutex::_no_safepoint_check_flag);
-    if (!_bookMark_bit_map.allocate(_span)) { // This would have to be changed to the size of the young generation
+    if (!_bookMark_bit_map.allocate(_yGenSpan)) { // This would have to be changed to the size of the young generation
       warning("Failed to allocate CMS BookMark Bit Map");
       return;
     }
-    assert(_bookMark_bit_map.covers(_span), "_bookMark_bit_map inconsistency?");
+    assert(_bookMark_bit_map.covers(_yGenSpan), "_bookMark_bit_map inconsistency?");
   }
   if (!_markStack.allocate(MarkStackSize)) {
     warning("Failed to allocate CMS Marking Stack");
