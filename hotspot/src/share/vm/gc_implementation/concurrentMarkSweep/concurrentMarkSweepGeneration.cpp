@@ -7628,7 +7628,7 @@ void PushOrMarkClosure::do_oop(oop obj) {
 void PushOrMarkClosure::do_oop(oop* p)       { PushOrMarkClosure::do_oop_work(p); }
 void PushOrMarkClosure::do_oop(narrowOop* p) { PushOrMarkClosure::do_oop_work(p); }
 
-void BookMarkClosure::do_oop(oop* p)::do_oop(oop* p)       { BookMarkClosure::do_oop_work(p); }
+void BookMarkClosure::do_oop(oop* p)				       { BookMarkClosure::do_oop_work(p); }
 void BookMarkClosure::do_oop(narrowOop* p) 				   { BookMarkClosure::do_oop_work(p); }
 
 void BookMarkClosure::do_oop(oop obj){
