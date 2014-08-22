@@ -9,6 +9,9 @@
 #define SWAPMETRIC_H_
 
 #include "pthread.h"
+#include "string.h"
+#include "stdio.h"
+#include "stdlib.h"
 
 #define Number_Intercepts 11
 #define Max_String_Len 50
