@@ -160,8 +160,10 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 }
 
 void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
-	if((intptr_t)pageAddress == NULL)
+	if(pageAddress == NULL){
+		printf("Purpose = %d\n", purpose);
 		return;
+	}
 	if(Universe::isSwappedOut(pageAddress)){
 		SwapMetric::incrementAccessInterceptCount(purpose);
 		CMS_handle_faults(pageAddress);
