@@ -819,6 +819,7 @@ void* Universe::non_oop_word() {
 }
 
 jint universe_init() {
+  SwapMetric::init();
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),
          "LogHeapWordSize is incorrect.");

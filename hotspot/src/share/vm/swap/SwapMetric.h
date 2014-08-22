@@ -8,8 +8,10 @@
 #ifndef SWAPMETRIC_H_
 #define SWAPMETRIC_H_
 
-#include "swap_global.h"
 #include "pthread.h"
+
+#define Number_Intercepts 11
+#define Max_String_Len 50
 
 class SwapMetric {
 private:
@@ -40,6 +42,7 @@ private:
 	static pthread_mutex_t _interpreterIncrement;
 	static pthread_mutex_t _segFaultIncrement;
 	static pthread_mutex_t _accessIncrement;
+	static long int _intercepts[Number_Intercepts];
 	static long int _accessIntercepts;
 	static long int _cardTableIntercepts;
 	static long int _evacuateFollowersIntercepts;
@@ -92,6 +95,8 @@ public:
 	static void incrementCardTableIntercepts();
 	static void incrementEvacuateFollowers();
 	static void incrementAccessInterceptCount(int type);
+	static void init();
+	static void getInterceptType(int, char *);
 };
 
 #endif /* SWAPMETRIC_H_ */

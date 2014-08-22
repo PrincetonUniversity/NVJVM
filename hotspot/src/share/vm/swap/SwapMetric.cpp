@@ -82,59 +82,7 @@ void SwapMetric::incrementFaultsJavaThread(){
 }
 
 void SwapMetric::incrementAccessInterceptCount(int type){
-	switch(type){
-	case 0:
-		incrementEvacuateFollowers();
-		break;
-	case 1:
-		incrementCardTableIntercepts();
-		break;
-
-	case 2:
-		_promotionIntercepts++;
-		break;
-
-	case 3:
-		_markFromRoots++;
-		break;
-
-	case 4:
-		_sweepClosure++;
-		break;
-
-	case 5:
-		_chunkOfBlocks++;
-		break;
-
-	case 6:
-		_klassIntercepts++;
-		break;
-
-	case 7:
-		_klassPartIntercepts++;
-		break;
-
-	case 8:
-		_oopIterate++;
-		break;
-
-	case 9:
-		_blockSize++;
-		break;
-
-	case 10:
-		_spoolHeader++;
-		break;
-
-	case 11:
-		_referentProcessing++;
-		break;
-
-
-	default:
-		printf("incrementAccessInterceptCount() :: default");
-		exit(-1);
-	}
+	_intercepts[type]++;
 }
 
 void SwapMetric::incrementCardTableIntercepts(){
@@ -193,9 +141,6 @@ long int SwapMetric::getSwapInPages(){
 
 void SwapMetric::incrementSegFaults(){
 	pthread_mutex_lock(&_segFaultIncrement);
-//	if(Universe::isCollecting()){
-//		incrementFaultsDuringCollection();
-//	}
 		_segFaults++;
 	pthread_mutex_unlock(&_segFaultIncrement);
 }
@@ -264,43 +209,27 @@ void SwapMetric::print_on(){
 	if(_metricPrinted == true)
 		return;
 	_metricPrinted = true;
+	int count;
 	printf("The overall SwapMetrics. \n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics::\n"
-			"Total segmentation faults = %ld\n"
-			"Card Table Intercepts = %ld\n"
-			"Promotion Intercepts = %ld\n"
-			"Evacuate Followers %ld,\n"
-			"Mark From Roots = %ld,\n"
-			"Faults Sweep Closure =%ld\n"
-			"Chunk of blocks = %ld\n"
-			"Klass Intercepts = %ld\n"
-			"Klass Part Intercepts = %ld\n"
-			"Oop Iterate %ld\n"
-			"Block Size %ld \n"
-			"Spool Header %ld \n"
-			"Reference Processing %ld \n"
-			"Faults Name Thread = %ld\nFaults Java Thread = %ld.\n"
-			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
+			"Total segmentation faults = %ld\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
-			_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
-			(long long)_swapInTime.tv_sec,
-			_swapInTime.tv_nsec/(1000*1000),
-			_segFaults,
-			_cardTableIntercepts,
-			_promotionIntercepts,
-			_evacuateFollowersIntercepts,
-			_markFromRoots,
-			_sweepClosure,
-			_chunkOfBlocks,
-			_klassIntercepts,
-			_klassPartIntercepts,
-			_oopIterate,
-			_blockSize,
-			_spoolHeader,
-			_referentProcessing,
+						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
+						(long long)_swapInTime.tv_sec,
+						_swapInTime.tv_nsec/(1000*1000),
+						_segFaults);
+    char s[Max_String_Len];
+	for(count = 0; count < Number_Intercepts; count++){
+		getInterceptType(count, s);
+		printf("%s %ld \n", s, _intercepts[count]);
+	}
+
+	printf("Faults Name Thread = %ld\nFaults Java Thread = %ld.\n"
+			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
+
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);
 	fflush(stdout);
@@ -314,6 +243,68 @@ void SwapMetric::incrementSwapInBytes(int bytes){
 	_swapInBytes += (long int)bytes;
 }
 
+void SwapMetric::init(){
+	int count;
+	for(count = 0; count < Number_Intercepts; count++){
+		_intercepts[count] = 0;
+	}
+}
+
+void SwapMetric::getInterceptType(int type, char* str){
+	switch(type){
+	    case 0:
+	    	strcpy(str, "Evacuate Followers");
+		break;
+
+		case 1:
+			strcpy(str, "Card Table");
+		break;
+
+		case 2:
+			strcpy(str, "Object Promotion");
+			break;
+
+		case 3:
+			strcpy(str, "Mark From Roots");
+			break;
+
+		case 4:
+			strcpy(str, "Sweep Closure");
+			break;
+
+		case 5:
+			strcpy(str, "Chunk of blocks");
+			break;
+
+		case 6:
+			strcpy(str, "Klass Intercept");
+			break;
+
+		case 7:
+			strcpy(str, "Klass Part Intercept");
+			break;
+
+		case 8:
+			strcpy(str, "Oop Iterate");
+			break;
+
+		case 9:
+			strcpy(str, "Block Size");
+			break;
+
+		case 10:
+			strcpy(str, "Spool");
+			break;
+
+		case 11:
+			strcpy(str, "Reference Processing");
+			break;
+
+		default:
+			printf("incrementAccessInterceptCount() :: default");
+			exit(-1);
+	}
+}
 
 
 
