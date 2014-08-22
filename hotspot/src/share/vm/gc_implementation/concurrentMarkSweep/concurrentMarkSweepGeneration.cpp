@@ -1444,8 +1444,8 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   collector()->promoted(true,          // parallel
                         obj_ptr, old->is_objArray(), word_sz);
 
-  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap());
-  obj->oop_iterate(&_bookMarkClosure);
+//  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap());
+//  obj->oop_iterate(&_bookMarkClosure);
 
   NOT_PRODUCT(
     Atomic::inc_ptr(&_numObjectsPromoted);
