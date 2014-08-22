@@ -564,6 +564,7 @@ HeapWord* BlockOffsetArrayNonContigSpace::block_start_unsafe(
   while (n <= addr) {
     debug_only(HeapWord* last = q);   // for debugging
     q = n;
+    SSDSwap::checkAccessSwapIn(n, 9);
     n += _sp->block_size(n);
     assert(n > q,
            err_msg("Looping at n = " PTR_FORMAT " with last = " PTR_FORMAT","
@@ -696,6 +697,7 @@ HeapWord* BlockOffsetArrayContigSpace::block_start_unsafe(const void* addr) cons
   while (n <= addr) {
     debug_only(HeapWord* last = q);   // for debugging
     q = n;
+    SSDSwap::checkAccessSwapIn(n, 9);
     n += _sp->block_size(n);
   }
   assert(q <= addr, "wrong order for current and arg");

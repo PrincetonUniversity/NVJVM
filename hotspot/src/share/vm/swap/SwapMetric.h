@@ -51,6 +51,8 @@ private:
 	static long int _klassIntercepts;
 	static long int _klassPartIntercepts;
 	static long int _oopIterate;
+	static long int _blockSize;
+	static long int _spoolHeader;
 
 public:
 	static void incrementFaults_CGC_Thread();
