@@ -741,6 +741,12 @@ if (younger_gens_as_roots) {
 		}
 		not_older_gens->reset_generation();
 	}
+
+	// Iterating over all the objects in the bookMarkBitMap, treating them as roots
+bool bookMarkIterate = false;
+	if(bookMarkIterate){
+
+	}
 }
 // When collection is parallel, all threads get to cooperate to do
 // older-gen scanning.
