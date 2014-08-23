@@ -29,7 +29,7 @@
 #include "memory/defNewGeneration.hpp"
 #include "utilities/taskqueue.hpp"
 #include "swap/SSDSwap.h"
-#include "concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
+#include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
 
 class CMSBitMap;
 class ChunkArray;
