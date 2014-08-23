@@ -742,12 +742,6 @@ if (younger_gens_as_roots) {
 		not_older_gens->reset_generation();
 	}
 
-	// Iterating over all the objects in the bookMarkBitMap, treating them as roots
-bool bookMarkIterate = false;
-	if(bookMarkIterate){
-
-	}
-}
 // When collection is parallel, all threads get to cooperate to do
 // older-gen scanning.
 for (int i = level + 1; i < _n_gens; i++) {
@@ -903,7 +897,7 @@ CMSCollector* collector = new CMSCollector(
 		_rem_set->as_CardTableRS(),
 		(ConcurrentMarkSweepPolicy*) collector_policy(),
 		(DefNewGeneration *) _gens[0]);
-
+_cmsCollector = collector;
 
 if (collector == NULL || !collector->completed_initialization()) {
 	if (collector) {

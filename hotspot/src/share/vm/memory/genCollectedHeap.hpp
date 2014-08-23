@@ -70,6 +70,7 @@ public:
   int _n_gens;
   Generation* _gens[max_gens];
   GenerationSpec** _gen_specs;
+  CMSCollector* _cmsCollector;
 
   // The generational collector policy.
   GenCollectorPolicy* _gen_policy;
@@ -128,6 +129,9 @@ protected:
 
 public:
   GenCollectedHeap(GenCollectorPolicy *policy);
+  CMSCollector *getCMSCollector(){
+	  return _cmsCollector;
+  }
 
   GCStats* gc_stats(int level) const;
 

@@ -563,6 +563,7 @@ void ParEvacuateFollowersClosure::do_void() {
   par_scan_state()->end_term_time();
 }
 
+
 ParNewGenTask::ParNewGenTask(ParNewGeneration* gen, Generation* next_gen,
                 HeapWord* young_old_boundary, ParScanThreadStateSet* state_set) :
     AbstractGangTask("ParNewGeneration collection"),
@@ -596,6 +597,9 @@ void ParNewGenTask::work(int i) {
                                 true,   // walk *all* scavengable nmethods
                                 &par_scan_state.older_gen_closure());
   par_scan_state.end_strong_roots();
+  if(i == 0){
+
+  }
 
   // "evacuate followers".
   par_scan_state.evacuate_followers_closure().do_void();
@@ -848,6 +852,27 @@ void ParNewGeneration::adjust_desired_tenuring_threshold() {
     age_table()->compute_tenuring_threshold(to()->capacity()/HeapWordSize);
 }
 
+class BookMarksAsRootsClosure : public BitMapClosure {
+	CMSBitMap* _bookMarkBitMap;
+	ObjToScanQueue* _task_queues;
+
+	public:
+		BookMarksAsRootsClosure(CMSBitMap *bm, ObjToScanQueue* taskQ){
+			_bookMarkBitMap = bm;
+			_task_queues = taskQ;
+	}
+
+	bool do_bit(size_t offset) {
+		HeapWord* addr = _bookMarkBitMap->offsetToHeapWord(offset);
+		if(!_task_queues->push(oop(addr))){
+			printf("Pushing (%p) on task_queues failed \n", addr);
+			return false;
+		}
+		// Otherwise, if the push on the work queues succeeded
+		return true;
+	}
+};
+
 // A Generation that does parallel young-gen collection.
 
 void ParNewGeneration::collect(bool   full,
@@ -906,6 +931,12 @@ void ParNewGeneration::collect(bool   full,
   int n_workers = workers->total_workers();
   gch->set_par_threads(n_workers);
   gch->rem_set()->prepare_for_younger_refs_iterate(true);
+
+  // Marking all the objects that have been bookmarked and pushing them on the work queues
+  CMSBitMap* bmBM = gch->getCMSCollector()->getBookMarkBitMap();
+  BookMarksAsRootsClosure _bookMarksAsRootsClosure(bmBM, task_queues()->queue(0));
+  bmBM->iterate(&_bookMarksAsRootsClosure);
+
   // It turns out that even when we're using 1 thread, doing the work in a
   // separate thread causes wide variance in run times.  We can't help this
   // in the multi-threaded case, but we special-case n=1 here to get
@@ -917,7 +948,9 @@ void ParNewGeneration::collect(bool   full,
     GenCollectedHeap::StrongRootsScope srs(gch);
     tsk.work(0);
   }
+
   thread_state_set.reset(promotion_failed());
+
 
   // Process (weak) reference objects found during scavenge.
   ReferenceProcessor* rp = ref_processor();
