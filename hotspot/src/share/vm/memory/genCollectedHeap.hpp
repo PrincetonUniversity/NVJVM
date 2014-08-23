@@ -416,6 +416,14 @@ public:
     else return _gens[l];
   }
 
+  ConcurrentMarkSweepGeneration* get_cms_gen(){
+	  return (ConcurrentMarkSweepGeneration*)_gens[1];
+  }
+
+  void prefetch(void *s, void *e){
+	  get_cms_gen()->prefetchRefsFromSpace(s, e);
+  }
+
   Generation* get_gen(int i) const {
     if (i >= 0 && i < _n_gens)
       return _gens[i];

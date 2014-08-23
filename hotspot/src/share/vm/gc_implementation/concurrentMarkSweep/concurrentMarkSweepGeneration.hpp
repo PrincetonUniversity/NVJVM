@@ -1183,6 +1183,11 @@ class ConcurrentMarkSweepGeneration: public CardGeneration {
   }
   CompactibleFreeListSpace*  cmsSpace() const { return _cmsSpace;  }
 
+  void prefetchRefsFromSpace(void *s, void *e){
+	  MemRegion mr((HeapWord*)s, (HeapWord*)e);
+	  _cmsSpace->prefetchReferences(mr);
+  }
+
   Mutex* freelistLock() const;
 
   virtual Generation::Name kind() { return Generation::ConcurrentMarkSweep; }

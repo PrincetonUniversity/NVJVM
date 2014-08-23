@@ -13,10 +13,7 @@ struct sigaction oldSigAct;
 bool SignalHandler::_isInit = false;
 
 void prefetchObjects(void *addr){
-//	ConcurrentMarkSweepGeneration *cmsGen = (ConcurrentMarkSweepGeneration *)((GenCollectedHeap *)Universe::heap())->get_gen(1);
-//	CompactibleFreeListSpace* space = cmsGen->cmsSpace();
-//	MemRegion mr((HeapWord *), (HeapWord *)Utility::getPageEnd(addr));
-//	space->prefetchReferences();
+	((GenCollectedHeap *)Universe::heap())->prefetch(Utility::getPageStart(addr), Utility::getPageEnd(addr));
 }
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
