@@ -291,6 +291,10 @@ void SwapMetric::getInterceptType(int type, char* str){
 			strcpy(str, "Reference Processing");
 			break;
 
+		case 12:
+			strcpy(str, "Java Thread Prefetches");
+			break;
+
 		default:
 			printf("incrementAccessInterceptCount() :: default");
 			exit(-1);

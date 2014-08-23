@@ -808,7 +808,7 @@ void CompactibleFreeListSpace::oop_iterate(MemRegion mr, OopClosure* cl) {
   assert(mr.end() <= end(), "just took an intersection above");
   HeapWord* obj_addr = block_start(mr.start());
   HeapWord* t = mr.end();
-  SSDSwap::checkAccessSwapInRegion(obj_addr, t);
+  SSDSwap::checkAccessSwapInRegion(obj_addr, t, 8);
 
   SpaceMemRegionOopsIterClosure smr_blk(cl, mr);
   if (block_is_obj(obj_addr)) {

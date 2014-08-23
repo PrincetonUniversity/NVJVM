@@ -113,7 +113,7 @@ void DirtyCardToOopClosure::do_MemRegion(MemRegion mr) {
   // Such work can be piggy-backed here on dirty card scanning, so as to make
   // it slightly more efficient than doing a complete non-detructive pre-scan
   // of the card table.
-  SSDSwap::checkAccessSwapInRegion((void *)mr.start(), (void *)mr.end());
+  SSDSwap::checkAccessSwapInRegion((void *)mr.start(), (void *)mr.end(), 1);
   MemRegionClosure* pCl = _sp->preconsumptionDirtyCardClosure();
   if (pCl != NULL) {
     pCl->do_MemRegion(mr);

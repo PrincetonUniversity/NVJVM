@@ -13,7 +13,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#define Number_Intercepts 11
+#define Number_Intercepts 13
 #define Max_String_Len 50
 
 class SwapMetric {

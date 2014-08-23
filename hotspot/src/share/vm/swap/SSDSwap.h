@@ -40,7 +40,7 @@ public:
 	static void swapOut(void *sa, void *ea, void *top);
 	static void markRegionSwappedOut(void *addr, int n);
 	static void checkAccessSwapIn(void *, int purpose);
-	static void checkAccessSwapInRegion(void *, void *);
+	static void checkAccessSwapInRegion(void *, void *, int);
 	static void CMS_swapOut(void *sa, int numberPages);
 	static void checkAccessWithSize(void *header, size_t size, int purpose);
 };

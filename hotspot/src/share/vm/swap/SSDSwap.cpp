@@ -175,11 +175,11 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
     }
 }
 
-void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top){
+void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top, int purpose){
 	void *curr = bottom;
 	while(true){
 		if(Universe::isSwappedOut(curr)){
-			SwapMetric::incrementAccessInterceptCount(1);
+			SwapMetric::incrementAccessInterceptCount(purpose);
 			CMS_handle_faults(curr);
 		}
 		curr = Utility::nextPage(curr);
