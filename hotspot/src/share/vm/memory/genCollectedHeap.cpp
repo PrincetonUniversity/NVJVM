@@ -461,8 +461,6 @@ void GenCollectedHeap::do_collection(bool full, bool clear_all_soft_refs,
 	DEBUG_ONLY(Thread* my_thread = Thread::current();)
 
 	assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
-	// Calling the heap monitor to check whether some sets of pages need to be swapped out
-	HeapMonitor::CMS_swapOut_operation();
 
 	assert(my_thread->is_VM_thread() ||
 			my_thread->is_ConcurrentGC_thread(),
@@ -710,6 +708,10 @@ if(SafepointSynchronize::is_at_safepoint()){
 	printf("After Heap Collection. Is Not At SafePoint. "); fflush (stdout);
 }
 #endif
+
+// Calling the heap monitor to check whether some sets of pages need to be swapped out
+HeapMonitor::CMS_swapOut_operation();
+
 }
 
 HeapWord* GenCollectedHeap::satisfy_failed_allocation(size_t size,

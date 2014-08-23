@@ -32,7 +32,7 @@
 #include "swap/SignalHandler.h"
 #include "memory/HeapMonitor.h"
 
-#define Trace_Collector 1
+#define Trace_Collector 0
 
 class SubTasksDone;
 
