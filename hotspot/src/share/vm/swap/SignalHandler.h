@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "memory/genCollectedHeap.hpp"
-#include "memory/memRegion.hpp"
 
 class SignalHandler {
 private:
