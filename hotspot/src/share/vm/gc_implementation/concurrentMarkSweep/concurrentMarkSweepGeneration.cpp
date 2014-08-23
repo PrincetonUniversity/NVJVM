@@ -6401,6 +6401,11 @@ size_t CMSCollector::block_size_using_printezis_bits(HeapWord* addr) const {
   return size;
 }
 
+void ConcurrentMarkSweepGeneration::prefetchRefsFromSpace(void *s, void *e){
+	  MemRegion mr((HeapWord*)s, (HeapWord*)e);
+	  cmsSpace()->prefetchReferences(mr);
+}
+
 // A variant of the above (block_size_using_printezis_bits()) except
 // that we return 0 if the P-bits are not yet set.
 size_t CMSCollector::block_size_if_printezis_bits(HeapWord* addr) const {
