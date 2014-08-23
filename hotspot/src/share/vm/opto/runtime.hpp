@@ -261,6 +261,7 @@ private:
   static const TypeFunc* modf_Type();
   static const TypeFunc* l2f_Type();
   static const TypeFunc* current_time_millis_Type();
+  static const TypeFunc* checkObj_Type();
 
   static const TypeFunc* flush_windows_Type();
 

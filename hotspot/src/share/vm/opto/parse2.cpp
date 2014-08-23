@@ -71,6 +71,7 @@ void Parse::array_store(BasicType elem_type) {
 Node* Parse::array_addressing(BasicType type, int vals, const Type* *result2) {
   Node *idx   = peek(0+vals);   // Get from stack without popping
   Node *ary   = peek(1+vals);   // in case of exception
+  accessCheck(ary);
 
   // Null check the array base, with correct stack contents
   ary = do_null_check(ary, T_ARRAY);
@@ -1051,6 +1052,12 @@ void Parse::do_ifnull(BoolTest::mask btest, Node *c) {
   }
 }
 
+void Parse::accessCheck(Node *obj){
+	if(true){
+		checkObj(obj);
+	}
+}
+
 //------------------------------------do_if------------------------------------
 void Parse::do_if(BoolTest::mask btest, Node* c) {
   int target_bci = iter().get_dest();
@@ -1398,18 +1405,27 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_aload_0:
+	accessCheck(local(0));
     push( local(0) );
     break;
+
   case Bytecodes::_aload_1:
+	accessCheck(local(1));
     push( local(1) );
     break;
+
   case Bytecodes::_aload_2:
-    push( local(2) );
+	  accessCheck(local(2));
+	  push( local(2) );
     break;
+
   case Bytecodes::_aload_3:
-    push( local(3) );
+	  accessCheck(local(3));
+	  push( local(3) );
     break;
+
   case Bytecodes::_aload:
+	accessCheck(local(iter().get_index()));
     push( local(iter().get_index()) );
     break;
 

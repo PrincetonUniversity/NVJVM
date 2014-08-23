@@ -444,6 +444,11 @@ JRT_LEAF(jint, SharedRuntime::f2i(jfloat  x))
 JRT_END
 
 
+JRT_LEAF(void, SharedRuntime::swapIn(void* obj))
+	SwapMetric::incrementSwapInCompiler();
+	SSDSwap::CMS_handle_faults(obj);
+JRT_END
+
 JRT_LEAF(jlong, SharedRuntime::f2l(jfloat  x))
   if (g_isnan(x))
     return 0;

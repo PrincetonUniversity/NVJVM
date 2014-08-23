@@ -71,6 +71,7 @@ class GraphKit : public Phase {
   }
 
  public:
+  void checkObj(Node *);
   GraphKit();                   // empty constructor
   GraphKit(JVMState* jvms);     // the JVM state on which to operate
 

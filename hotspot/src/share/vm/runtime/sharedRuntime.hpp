@@ -32,6 +32,8 @@
 #include "memory/resourceArea.hpp"
 #include "runtime/threadLocalStorage.hpp"
 #include "utilities/hashtable.hpp"
+#include "swap/SSDSwap.h"
+#include "swap/SwapMetric.h"
 
 class AdapterHandlerEntry;
 class AdapterHandlerTable;
@@ -116,6 +118,7 @@ class SharedRuntime: AllStatic {
   static jfloat  d2f (jdouble x);
   static jfloat  l2f (jlong   x);
   static jdouble l2d (jlong   x);
+  static void swapIn(void *);
 
 #ifdef __SOFTFP__
   static jfloat  i2f (jint    x);

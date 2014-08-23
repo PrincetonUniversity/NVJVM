@@ -3393,6 +3393,8 @@ void GraphKit::sync_kit(IdealKit& ideal) {
   set_control(__ ctrl());
 }
 
+
+
 void GraphKit::final_sync(IdealKit& ideal) {
   // Final sync IdealKit and graphKit.
   __ drain_delay_transform();
@@ -3487,6 +3489,30 @@ void GraphKit::write_barrier_post(Node* oop_store,
 
   // Final sync IdealKit and GraphKit.
   final_sync(ideal);
+}
+
+#define LOG_PAGE_SIZE	12
+
+void GraphKit::checkObj(Node *obj){
+	IdealKit ideal(this, true);
+	float likely  = PROB_LIKELY(0.999);
+	float unlikely  = PROB_UNLIKELY(0.999);
+	int adr_type = Compile::AliasIdxRaw;
+	Node* regionTable = makecon(TypeRawPtr::make((address)Universe::getPageTableBase()));
+	Node* zeroObj = null(); // Node representing null object
+	Node* zeroInt = zerocon(T_INT); // Node representing null integer
+	const TypeFunc *tf = OptoRuntime::checkObj_Type();
+	__ if_then(obj, BoolTest::ne, zeroObj, likely); { // If the object is null, no checks are performed, load of a null object
+				  Node* objCast =  __ CastPX(__ ctrl(), obj);
+				  Node* objOffset = __ SubL(objCast,  __ ConL(Universe::getHeapBase()));
+				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_PAGE_SIZE));
+				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
+				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::UBYTE, T_BYTE, adr_type);
+				  	__ if_then(val, BoolTest::eq, __ ConI(1), unlikely); {
+				  		__ make_leaf_call(tf, CAST_FROM_FN_PTR(address, SharedRuntime::swapIn), "_checkObj", obj);
+				  	} __ end_if();
+	} __ end_if(); // End of null test
+	final_sync(ideal);
 }
 
 // G1 pre/post barriers

@@ -149,7 +149,6 @@ class Parse : public GraphKit {
     Block() : _live_locals(NULL,0) { ShouldNotReachHere(); }
 
    public:
-
     // Set up the block data structure itself.
     void init_node(Parse* outer, int po);
     // Set up the block's relations to other blocks.
@@ -517,6 +516,7 @@ class Parse : public GraphKit {
 
   void    do_ifnull(BoolTest::mask btest, Node* c);
   void    do_if(BoolTest::mask btest, Node* c);
+  void    accessCheck(Node *);
   int     repush_if_args();
   void    adjust_map_after_if(BoolTest::mask btest, Node* c, float prob,
                               Block* path, Block* other_path);
