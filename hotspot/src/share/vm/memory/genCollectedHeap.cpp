@@ -703,6 +703,13 @@ if (ExitAfterGCNum > 0 && total_collections() == ExitAfterGCNum) {
 	tty->print_cr("Stopping after GC #%d", ExitAfterGCNum);
 	vm_exit(-1);
 }
+#if Trace_Collector
+if(SafepointSynchronize::is_at_safepoint()){
+	printf("After Heap Collection. Is At SafePoint. "); fflush (stdout);
+} else {
+	printf("After Heap Collection. Is Not At SafePoint. "); fflush (stdout);
+}
+#endif
 }
 
 HeapWord* GenCollectedHeap::satisfy_failed_allocation(size_t size,
