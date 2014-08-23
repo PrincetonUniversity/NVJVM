@@ -862,7 +862,7 @@ class BookMarksAsRootsClosure : public BitMapClosure {
 		HeapWord* addr = _bookMarkBitMap->offsetToHeapWord(offset);
 		if (_bookMarkBitMap->isMarked(addr)) {
 			if(!oop(addr)->is_oop()){
-				printf("something is not right");
+				printf("Addr(%p) is not an oop\n", addr);
 				exit (-1);
 			}
 			if(!_task_queues->push(oop(addr))){
@@ -978,6 +978,8 @@ void ParNewGeneration::collect(bool   full,
   if (!promotion_failed()) {
     // Swap the survivor spaces.
     eden()->clear(SpaceDecorator::Mangle);
+    // Clearing the BookMarkBitMap
+    bmBM->clear_all();
     from()->clear(SpaceDecorator::Mangle);
     if (ZapUnusedHeapArea) {
       // This is now done here because of the piece-meal mangling which
@@ -1006,6 +1008,7 @@ void ParNewGeneration::collect(bool   full,
     }
     // All the spaces are in play for mark-sweep.
     swap_spaces();  // Make life simpler for CMS || rescan; see 6483690.
+
     from()->set_next_compaction_space(to());
     gch->set_incremental_collection_failed();
     // Inform the next generation that a promotion failure occurred.

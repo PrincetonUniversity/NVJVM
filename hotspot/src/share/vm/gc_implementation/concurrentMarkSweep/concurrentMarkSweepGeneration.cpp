@@ -1272,6 +1272,8 @@ CMSCollector::allocation_limit_reached(Space* space, HeapWord* top,
 }
 
 oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
+  printf("In object promotion. Should not be called.\n");
+  exit (-1);
   assert(obj_size == (size_t)obj->size(), "bad obj_size passed in");
   // allocate, copy and if necessary update promoinfo --
   // delegate to underlying space.
@@ -1446,7 +1448,9 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   collector()->promoted(true,          // parallel
                         obj_ptr, old->is_objArray(), word_sz);
 
-  BookMarkClosure _bookMarkClosure(collector()->getBookMarkBitMap(), collector()->getYoungGenSpan());
+
+  CMSBitMap* bmBM = collector()->getBookMarkBitMap();
+  BookMarkClosure _bookMarkClosure(bmBM, collector()->getYoungGenSpan());
   obj->oop_iterate(&_bookMarkClosure);
 
   NOT_PRODUCT(
