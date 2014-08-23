@@ -15,7 +15,7 @@ bool SignalHandler::_isInit = false;
 void prefetchObjects(void *addr){
 	ConcurrentMarkSweepGeneration *cmsGen = (ConcurrentMarkSweepGeneration *)((GenCollectedHeap *)Universe::heap())->get_gen(1);
 	CompactibleFreeListSpace* space = cmsGen->cmsSpace();
-	MemRegion mr(Utility::getPageStart(addr), Utility::getPageEnd(addr));
+	MemRegion mr((HeapWord *)Utility::getPageStart(addr), (HeapWord *)Utility::getPageEnd(addr));
 	space->prefetchReferences(mr);
 }
 
