@@ -597,10 +597,6 @@ void ParNewGenTask::work(int i) {
                                 true,   // walk *all* scavengable nmethods
                                 &par_scan_state.older_gen_closure());
   par_scan_state.end_strong_roots();
-  if(i == 0){
-
-  }
-
   // "evacuate followers".
   par_scan_state.evacuate_followers_closure().do_void();
 }
@@ -864,9 +860,11 @@ class BookMarksAsRootsClosure : public BitMapClosure {
 
 	bool do_bit(size_t offset) {
 		HeapWord* addr = _bookMarkBitMap->offsetToHeapWord(offset);
-		if(!_task_queues->push(oop(addr))){
-			printf("Pushing (%p) on task_queues failed \n", addr);
-			return false;
+		if (_bookMarkBitMap->isMarked(addr)) {
+			if(!_task_queues->push(oop(addr))){
+				printf("Pushing (%p) on task_queues failed \n", addr);
+				return false;
+			}
 		}
 		// Otherwise, if the push on the work queues succeeded
 		return true;
@@ -948,7 +946,6 @@ void ParNewGeneration::collect(bool   full,
     GenCollectedHeap::StrongRootsScope srs(gch);
     tsk.work(0);
   }
-
   thread_state_set.reset(promotion_failed());
 
 
