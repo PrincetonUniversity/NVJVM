@@ -12,27 +12,31 @@ struct sigaction oldSigAct;
 
 bool SignalHandler::_isInit = false;
 
+void prefetchObjects(void *addr){
+	ConcurrentMarkSweepGeneration *cmsGen = (ConcurrentMarkSweepGeneration *)((GenCollectedHeap *)Universe::heap())->get_gen(1);
+	CompactibleFreeListSpace* space = cmsGen->cmsSpace();
+	MemRegion mr(Utility::getPageStart(addr), Utility::getPageEnd(addr));
+	space->prefetchReferences(mr);
+}
+
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
+  bool isJavaThread = false;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
+
 #if SWAP_METRICS
 	  Thread *threadC = Thread::current();
 	  SwapMetric::incrementSegFaults();
 	  if(threadC->is_Java_thread()){
 		  SwapMetric::incrementFaultsJavaThread();
-		  if(!oop(addr)->is_oop()){
-			  printf("addr (%p) not an oop.\n", addr);
-			  exit(-1);
-		  }
+		  isJavaThread = true;
 	  } else if(threadC->is_Named_thread()){
-if(Print_Trace){
-		  void *array[10];
-		  size_t size = backtrace(array, 10);
-		    // print out all the frames to stderr
-		  fprintf(stderr, "\nError: signal %d:, addr = %p\n", sig, addr);
-		  backtrace_symbols_fd(array, size, STDERR_FILENO);
-	}
-
+		  if(Print_Trace){
+			  void *array[10];
+			  size_t size = backtrace(array, 10);
+			  fprintf(stderr, "\nError: signal %d:, addr = %p\n", sig, addr);// print out all the frames to stderr
+			  backtrace_symbols_fd(array, size, STDERR_FILENO);
+		  }
 		  if(threadC->is_VM_thread()) {
 			  SwapMetric::incrementFaults_VM_Thread();
 		  } else if(threadC->is_ConcurrentGC_thread()){
@@ -63,6 +67,9 @@ if(Print_Trace){
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 fflush(stdout);
 #endif
+	 }
+	 if(isJavaThread){
+		 prefetchObjects(addr);
 	 }
 	 return;
   }

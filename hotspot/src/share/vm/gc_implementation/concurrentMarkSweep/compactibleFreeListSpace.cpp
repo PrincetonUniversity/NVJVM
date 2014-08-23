@@ -785,6 +785,11 @@ void CompactibleFreeListSpace::oop_iterate(OopClosure* cl) {
   }
 }
 
+void CompactibleFreeListSpace::prefetchReferences(MemRegion mr){
+	SwapInOopClosure _swapInOopClosure();
+	oop_iterate(mr, &_swapInOopClosure);
+}
+
 // Apply the given closure to each oop in the space \intersect memory region.
 void CompactibleFreeListSpace::oop_iterate(MemRegion mr, OopClosure* cl) {
   assert_lock_strong(freelistLock());
@@ -803,6 +808,7 @@ void CompactibleFreeListSpace::oop_iterate(MemRegion mr, OopClosure* cl) {
   assert(mr.end() <= end(), "just took an intersection above");
   HeapWord* obj_addr = block_start(mr.start());
   HeapWord* t = mr.end();
+  SSDSwap::checkAccessSwapInRegion(obj_addr, t);
 
   SpaceMemRegionOopsIterClosure smr_blk(cl, mr);
   if (block_is_obj(obj_addr)) {

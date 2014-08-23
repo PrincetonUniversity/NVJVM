@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "memory/genCollectedHeap.hpp"
 
 class SignalHandler {
 private:

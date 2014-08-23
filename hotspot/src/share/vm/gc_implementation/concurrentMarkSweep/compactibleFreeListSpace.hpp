@@ -358,6 +358,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // Iteration support
   void oop_iterate(MemRegion mr, OopClosure* cl);
   void oop_iterate(OopClosure* cl);
+  void prefetchReferences(MemRegion mr);
 
   void object_iterate(ObjectClosure* blk);
   // Apply the closure to each object in the space whose references
