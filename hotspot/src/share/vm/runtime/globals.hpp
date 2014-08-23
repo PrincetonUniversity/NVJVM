@@ -670,6 +670,7 @@ class CommandLineFlags {
   develop(bool, ShowSafepointMsgs, false,                                   \
           "Show msg. about safepoint synch.")                               \
                                                                             \
+  product(bool, JavaThreadPrefetch, false, "prefetch flag")					\
   product(bool, L_SWAP, false, "logs related to swap module") 		        \
   product(bool, CMS_Swap, false, "swapping flag")							\
   product(bool, Print_Trace, false, "flag for printing trace")				\

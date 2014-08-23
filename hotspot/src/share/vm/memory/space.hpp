@@ -79,7 +79,6 @@ class DirtyCardToOopClosure;
 class SwapInOopClosure: public OopClosure {
 protected:
  template <class T> void do_oop_work(T* p) {
-	    printf("In SwapInOopClosure");
 	 	T heap_oop = oopDesc::load_heap_oop(p);
 	    if (!oopDesc::is_null(heap_oop)) {
 	      oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
