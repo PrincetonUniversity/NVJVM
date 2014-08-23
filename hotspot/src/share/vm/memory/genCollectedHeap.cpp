@@ -741,7 +741,7 @@ if (younger_gens_as_roots) {
 		}
 		not_older_gens->reset_generation();
 	}
-
+}
 // When collection is parallel, all threads get to cooperate to do
 // older-gen scanning.
 for (int i = level + 1; i < _n_gens; i++) {
