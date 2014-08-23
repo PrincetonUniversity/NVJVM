@@ -20,8 +20,11 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 	  SwapMetric::incrementSegFaults();
 	  if(threadC->is_Java_thread()){
 		  SwapMetric::incrementFaultsJavaThread();
+		  if(!oop(addr)->is_oop()){
+			  printf("addr (%p) not an oop.\n", addr);
+			  exit(-1);
+		  }
 	  } else if(threadC->is_Named_thread()){
-
 if(Print_Trace){
 		  void *array[10];
 		  size_t size = backtrace(array, 10);
