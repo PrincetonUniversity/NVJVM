@@ -861,6 +861,10 @@ class BookMarksAsRootsClosure : public BitMapClosure {
 	bool do_bit(size_t offset) {
 		HeapWord* addr = _bookMarkBitMap->offsetToHeapWord(offset);
 		if (_bookMarkBitMap->isMarked(addr)) {
+			if(!oop(addr)->is_oop()){
+				printf("something is not right");
+				exit (-1);
+			}
 			if(!_task_queues->push(oop(addr))){
 				printf("Pushing (%p) on task_queues failed \n", addr);
 				return false;
