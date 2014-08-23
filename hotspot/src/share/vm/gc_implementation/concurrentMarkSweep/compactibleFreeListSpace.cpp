@@ -786,7 +786,7 @@ void CompactibleFreeListSpace::oop_iterate(OopClosure* cl) {
 }
 
 void CompactibleFreeListSpace::prefetchReferences(MemRegion mr){
-	SwapInOopClosure _swapInOopClosure();
+	SwapInOopClosure _swapInOopClosure;
 	oop_iterate(mr, &_swapInOopClosure);
 }
 
