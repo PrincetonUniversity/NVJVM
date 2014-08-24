@@ -550,14 +550,6 @@ size_t Generation::committedSize(){
 	 return (size_t)_virtual_space.committed_size();
 }
 
-Generation* GenCollectedHeap::get_gen(int i){
-  if (i >= 0 && i < _n_gens)
-    return _gens[i];
-  else
-    return NULL;
-}
-
-
 bool OneContigSpaceCardGeneration::grow_by(size_t bytes) {
   assert_locked_or_safepoint(ExpandHeap_lock);
   bool result = _virtual_space.expand_by(bytes);

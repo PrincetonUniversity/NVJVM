@@ -60,6 +60,13 @@ public:
     max_gens = 10
   };
 
+  Generation* GenCollectedHeap::get_gen(int i) const {
+    if (i >= 0 && i < _n_gens)
+      return _gens[i];
+    else
+      return NULL;
+  }
+
   friend class VM_PopulateDumpSharedSpace;
 
  protected:
