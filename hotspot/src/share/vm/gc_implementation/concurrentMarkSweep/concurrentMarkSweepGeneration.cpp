@@ -1272,8 +1272,6 @@ CMSCollector::allocation_limit_reached(Space* space, HeapWord* top,
 }
 
 oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
-  printf("In object promotion. Should not be called.\n");
-  exit (-1);
   assert(obj_size == (size_t)obj->size(), "bad obj_size passed in");
   // allocate, copy and if necessary update promoinfo --
   // delegate to underlying space.
@@ -1286,6 +1284,7 @@ oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
 #endif  // #ifndef PRODUCT
 
   oop res = _cmsSpace->promote(obj, obj_size);
+
   if (res == NULL) {
     // expand and retry
     size_t s = _cmsSpace->expansionSpaceRequired(obj_size);  // HeapWords

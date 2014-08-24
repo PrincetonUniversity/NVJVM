@@ -1429,6 +1429,9 @@ oop CompactibleFreeListSpace::promote(oop obj, size_t obj_size) {
   // the compile inline the call is problematic because allocate(size_t)
   // is a virtual method.
   HeapWord* res = allocate(adjustObjectSize(obj_size));
+  SSDSwap::checkAccessSwapIn(res, 2);
+  SSDSwap::checkAccessWithSize(res, obj_size * BytesPerWord, 2);
+
   if (res != NULL) {
     Copy::aligned_disjoint_words((HeapWord*)obj, res, obj_size);
     // if we should be tracking promotions, do so.
