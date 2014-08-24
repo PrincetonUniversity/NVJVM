@@ -159,6 +159,7 @@ class TemplateTable: AllStatic {
   static void fload();
   static void dload();
   static void aload();
+  static void interceptObject(Address);
 
   static void locals_index_wide(Register reg);
   static void wide_iload();

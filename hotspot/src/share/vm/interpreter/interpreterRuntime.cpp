@@ -151,6 +151,10 @@ IRT_ENTRY(void, InterpreterRuntime::resolve_ldc(JavaThread* thread, Bytecodes::C
 }
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::_checkObj(JavaThread* thread, oopDesc* obj, void *add))
+	SwapMetric::incrementSwapInInterpreter();
+	SSDSwap::CMS_handle_faults((void *)obj);
+IRT_END
 
 //------------------------------------------------------------------------------------------------------------------------
 // Allocation

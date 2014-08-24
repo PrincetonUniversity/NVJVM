@@ -41,6 +41,8 @@
 #ifdef TARGET_OS_FAMILY_windows
 # include "thread_windows.inline.hpp"
 #endif
+#include "swap/SSDSwap.h"
+#include "swap/SwapMetric.h"
 
 // The InterpreterRuntime is called by the interpreter for everything
 // that cannot/should not be dealt with in assembly and needs C support.
@@ -81,6 +83,9 @@ class InterpreterRuntime: AllStatic {
   // Constants
   static void    ldc           (JavaThread* thread, bool wide);
   static void    resolve_ldc   (JavaThread* thread, Bytecodes::Code bytecode);
+
+  static void _checkObj (JavaThread* thread, oopDesc* obj, void *add); // test method to check control transfer
+  static void _interceptObj (JavaThread* thread, oopDesc* obj); // test method to check control transfer
 
   // Allocation
   static void    _new          (JavaThread* thread, constantPoolOopDesc* pool, int index);

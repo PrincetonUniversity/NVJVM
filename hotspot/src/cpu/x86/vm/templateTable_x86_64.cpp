@@ -35,6 +35,11 @@
 #include "runtime/stubRoutines.hpp"
 #include "runtime/synchronizer.hpp"
 
+#define REGION_MASK (~0L)<<20
+#define REGION_SIZE (1<<19)
+#define REGION_SHIFT (20)
+#define PAGE_SHIFT (12)
+
 #ifndef CC_INTERP
 
 #define __ _masm->
@@ -560,9 +565,44 @@ void TemplateTable::dload() {
   __ movdbl(xmm0, daddress(rbx));
 }
 
+void TemplateTable::interceptObject(Address object) {
+  if(!(INTER_INTERPRETER)){
+	  return;
+  }
+    uint64_t offset = (uint64_t) Universe::getHeapBase();
+    uint64_t base = (uint64_t) Universe::getPageTableBase();
+
+    // Saving variables which we would be needing later on
+    __ push(r10);
+    __ push(r11);
+
+    Label nullObj, isPresent;
+
+    __ cmpptr(object, 0);
+    __ jcc(Assembler::equal, nullObj);
+
+    __ movptr(r11, object); 	  // pointer to the object in memory
+    __ subl(r11, offset);		  // offset of the region, got by subtracting
+    __ shrl(r11, PAGE_SHIFT); // shifting the register by 20 bits - getting the pointer to region
+    __ movptr(r10, (intptr_t)base);
+    __ addptr(r11, r10);		  // adding the offset to get the address of the location within memory for the
+    __ cmpb(Address(r11, 0), 0);
+    __ jcc(Assembler::equal, isPresent); // moving the value at the byte into the register r10
+
+    __ movptr(r10, object);
+    call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
+
+    __ bind(nullObj);					  // binding the null label here
+
+    // registers used intermediately are popped out
+    __ pop(r11);
+    __ pop(r10);
+}
 void TemplateTable::aload() {
   transition(vtos, atos);
   locals_index(rbx);
+  Address object = aaddress(rbx);
+  interceptObject(object);
   __ movptr(rax, aaddress(rbx));
 }
 
@@ -750,6 +790,8 @@ void TemplateTable::dload(int n) {
 
 void TemplateTable::aload(int n) {
   transition(vtos, atos);
+  Address object = aaddress(n);
+  interceptObject(object);
   __ movptr(rax, aaddress(n));
 }
 
