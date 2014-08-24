@@ -10,7 +10,7 @@
 #include "SwapMetric.h"
 #include "Utility.h"
 
-pthread_mutex_t SSDSwap::_swap_map_mutex;
+pthread_mutex_t SSDSwap::_swap_map_mutex[Mutex_Count];
 
 // The handler to catch SIGSEGV faults on memory access
 void* SSDSwap::seg_handler (void *addr){
