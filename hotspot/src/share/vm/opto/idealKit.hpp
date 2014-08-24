@@ -191,6 +191,8 @@ class IdealKit: public StackObj {
   Node* Bool(Node* cmp, BoolTest::mask relop) { return transform(new (C,2) BoolNode(cmp, relop)); }
   void  increment(IdealVariable& v, Node* j)  { set(v, AddI(value(v), j)); }
   void  decrement(IdealVariable& v, Node* j)  { set(v, SubI(value(v), j)); }
+  Node* SubL(Node* l, Node* r) { return transform(new (C,3) SubLNode(l, r)); }
+  Node* ConL(jlong k) { return (Node*)gvn().longcon(k); }
 
   Node* CmpL(Node* l, Node* r) { return transform(new (C,3) CmpLNode(l, r)); }
 
