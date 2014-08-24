@@ -218,11 +218,14 @@ void SwapMetric::print_on(){
 		printf("%s %ld \n", s, _intercepts[count]);
 	}
 
+	printf("Intercepts due to the compiler %ld, interpreter %ld.\n", _swapInsCompiler, _swapInsInterpreter);
+
 	printf("Faults Name Thread = %ld\nFaults Java Thread = %ld.\n"
 			"Faults VM Thread = %ld, Faults Conc GC Thread = %ld, Faults Worker Thread =%ld.\n ",
 
 			_faultsNamedThread, _faultsJavaThread,
-			_faults_VM_Thread, _faults_CGC_Thread, _faults_Wor_Thread);
+			_faults_VM_Thread, _faults_CGC_Thread,
+			_faults_Wor_Thread);
 	fflush(stdout);
 }
 
