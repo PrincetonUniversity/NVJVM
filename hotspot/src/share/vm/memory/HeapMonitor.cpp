@@ -14,7 +14,7 @@ void *HeapMonitor::_matureGenerationBase = NULL;
 ConcurrentMarkSweepGeneration* HeapMonitor::_concurrentMarkSweepGeneration = NULL;
 double HeapMonitor::_swapOutOccupancyThreshold = 0.2;
 size_t HeapMonitor::_matureGenerationSize = 0;
-int HeapMonitor::_defaultPages = 256*10;
+int HeapMonitor::_defaultPages = 256*30;
 size_t HeapMonitor::_availableRAM = 0;
 bool HeapMonitor::_isInit = false;
 size_t HeapMonitor::_pagesMatureSpace;
