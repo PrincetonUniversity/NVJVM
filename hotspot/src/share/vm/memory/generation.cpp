@@ -546,6 +546,10 @@ size_t OneContigSpaceCardGeneration::contiguous_available() const {
   return _the_space->free() + _virtual_space.uncommitted_size();
 }
 
+size_t Generation::committedSize(){
+	 return (size_t)_virtual_space.committed_size();
+}
+
 bool OneContigSpaceCardGeneration::grow_by(size_t bytes) {
   assert_locked_or_safepoint(ExpandHeap_lock);
   bool result = _virtual_space.expand_by(bytes);
