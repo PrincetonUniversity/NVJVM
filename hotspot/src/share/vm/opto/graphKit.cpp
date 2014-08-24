@@ -3504,7 +3504,7 @@ void GraphKit::checkObj(Node *obj){
 	const TypeFunc *tf = OptoRuntime::checkObj_Type();
 	__ if_then(obj, BoolTest::ne, zeroObj, likely); { // If the object is null, no checks are performed, load of a null object
 				  Node* objCast =  __ CastPX(__ ctrl(), obj);
-				  Node* objOffset = __ SubL(objCast,  __ ConL((long int)Universe::getHeapBase()));
+				  Node* objOffset = __ SubL(objCast,  __ ConL((jlong)Universe::getHeapBase()));
 				  Node* objIndex = __ URShiftX(objOffset, __ ConI(LOG_PAGE_SIZE));
 				  Node* bitAddr  = __ AddP(__ top(), regionTable, objIndex);
 				  Node* val  = __ load(__ ctrl(), bitAddr, TypeInt::UBYTE, T_BYTE, adr_type);
