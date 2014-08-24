@@ -611,7 +611,7 @@ ParNewGeneration(ReservedSpace rs, size_t initial_byte_size, int level)
   _overflow_list(NULL),
   _is_alive_closure(this),
   _plab_stats(YoungPLABSize, PLABWeight),
-  _do_copy(false)
+  _do_copy(true)
 {
   NOT_PRODUCT(_overflow_counter = ParGCWorkQueueOverflowInterval;)
   NOT_PRODUCT(_num_par_pushes = 0;)
