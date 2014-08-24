@@ -279,6 +279,8 @@ class Universe: AllStatic {
   static void setPageTableSize(size_t size)				{ _pageTableSize = size; }
   static char* getPageTableBase()						{ return (char *)_pageTableBase; }
   static char* getPageTableTop()						{ return ((char *)_pageTableBase + _pageTableSize); }
+  static size_t getPageTableSize()						{ return _pageTableSize; }
+  static size_t getPageTablePartition(void *, int);
 
   static void allocatePageTable(size_t size);
   static void checkAccessSwapIn(void *pageAddress);

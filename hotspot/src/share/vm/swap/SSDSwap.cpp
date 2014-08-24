@@ -17,9 +17,10 @@ void* SSDSwap::seg_handler (void *addr){
 	if(L_SWAP){
 		printf("SSDSwap:segmentation handler called on %p\n", addr); fflush(stdout);
 	}
-	pthread_mutex_lock(&_swap_map_mutex);
+	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	SwapManager::remapPage(addr, true); // Currently we are synchronizing access to remapping pages
-    pthread_mutex_unlock(&_swap_map_mutex);
+    pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 }
 
 // This method swaps in a complete region
@@ -51,7 +52,8 @@ void SSDSwap::handle_faults(void *addr) {
 	}
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-	pthread_mutex_lock(&_swap_map_mutex);
+	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p. Entering RemapPage.\n", addr);
 		fflush(stdout);
@@ -63,7 +65,7 @@ void SSDSwap::handle_faults(void *addr) {
 	}
 //	SSDSwap::markRegion(addr, 0); // Marking the region as swapped in, region bitmap
 //	SwapMetric::incrementSwapIns();
-	pthread_mutex_unlock(&_swap_map_mutex);
+	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
 	if(L_SWAP){
@@ -79,7 +81,8 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 	}
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-	pthread_mutex_lock(&_swap_map_mutex);
+	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	if(L_SWAP){
 		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld."
 				"Entering SwapInPage.\n", addr, Universe::getPageIndex(addr));
@@ -91,7 +94,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 				addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
-	pthread_mutex_unlock(&_swap_map_mutex);
+	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
 	HeapMonitor::incrementPagesSwappedIn(1);

@@ -18,7 +18,8 @@ using namespace std;
 
 #ifndef SSDSWAP_H_
 #define SSDSWAP_H_
-
+#define PageTablePartitions 2
+#define Mutex_Count PageTablePartitions
 
 // Stores the mapping from virtual address to file offset
 
@@ -26,7 +27,7 @@ class SSDSwap {
 private:
 	//SwapManager* _swap_manager;
 	//SSDManager* _ssd_manager;
-	static pthread_mutex_t _swap_map_mutex;
+	static pthread_mutex_t _swap_map_mutex[Mutex_Count];
 
 public:
 	SSDSwap();

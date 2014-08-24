@@ -724,6 +724,21 @@ void* Universe::getPageTablePosition(void *address){
 	return addPosition;
 }
 
+size_t Universe::getPageTablePartition(void *address, int numPartitions){
+	size_t pageTableSize = getPageTableSize();
+	size_t pageIndex = getPageIndex(address);
+	size_t partitionLimit, partitionSize = pageTableSize/pageTableSize;
+	int partition = 1;
+	while(partition < numPartitions){
+		partitionLimit += partitionSize;
+		if(pageIndex <= partitionLimit){
+			break;
+		}
+		partition++;
+	}
+	return partition;
+}
+
 void Universe::markSwappedOut(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
 	(*position) = Universe::_notPresentMask;
