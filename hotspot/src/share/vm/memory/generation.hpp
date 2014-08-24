@@ -151,6 +151,7 @@ class Generation: public CHeapObj {
   };
 
   VirtualSpace* getVirtualSpace() { return &_virtual_space; }
+  size_t committedSize() 		  { return (size_t)_virtual_space.committed_size(); }
   // allocate and initialize ("weak") refs processing support
   virtual void ref_processor_init();
   void set_ref_processor(ReferenceProcessor* rp) {

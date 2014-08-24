@@ -83,5 +83,21 @@ size_t Utility::getPageSize(){
 	return (size_t)(sysconf(_SC_PAGE_SIZE));
 }
 
+int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequired){
+	int count = 0;
+	void *curr = start;
+	while(true){
+		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end)){
+			break;
+		}
+		if(Universe::isPresent(curr)){
+			count++;
+		}
+		curr = Utility::nextPage(curr);
+		if(count >= maxRequired)
+			break;
+	}
+	return count;
+}
 
 

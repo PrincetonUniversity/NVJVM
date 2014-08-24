@@ -10,9 +10,10 @@
 
 // Initializing the static variables
 void *HeapMonitor::_inCoreBottom = NULL;
+void *HeapMonitor::_lastSwapOut = NULL;
 void *HeapMonitor::_matureGenerationBase = NULL;
 ConcurrentMarkSweepGeneration* HeapMonitor::_concurrentMarkSweepGeneration = NULL;
-double HeapMonitor::_swapOutOccupancyThreshold = 0.2;
+double HeapMonitor::_swapOutOccupancyThreshold = 0.60;
 size_t HeapMonitor::_matureGenerationSize = 0;
 int HeapMonitor::_defaultPages = 256*100;
 size_t HeapMonitor::_availableRAM = 0;
@@ -39,28 +40,70 @@ void HeapMonitor::init() {
 }
 
 void HeapMonitor::CMS_swapOut_operation(){
-	if(CMS_OccupancyReached() && CMS_Swap){
-		VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
-		if(_inCoreBottom == NULL)
-			_inCoreBottom = Utility::getPageStart(vs->low());
-		 void *high = Utility::getPageStart(vs->high());
-		 void *defaultHigh = Utility::nextPageInc(_inCoreBottom, _defaultPages);
-		 void *swapOutTop = Utility::minPointer(high, defaultHigh);
-		 int numberPages = Utility::numberPages(_inCoreBottom, swapOutTop);
-		 if(numberPages > 0){
-			 SSDSwap::CMS_swapOut(_inCoreBottom, numberPages);
-			 _inCoreBottom = swapOutTop;
-		 }
-	} else {
-		return;
+	size_t nPages = numPagesToEvict();
+	size_t pagesToEvict = nPages;
+	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
+	void *high = Utility::getPageStart(vs->high());
+	void *low = Utility::getPageStart(vs->low());
+
+	if(_inCoreBottom == NULL)
+		_inCoreBottom = low;
+	if(_lastSwapOut == NULL)
+		_lastSwapOut = low;
+	void *curr = _lastSwapOut;
+
+	if((nPages > 0) && CMS_Swap){
+		int nCPages = Utility::getContinuousFreePagesBetween(_inCoreBottom, high, nPages);
+		if(nCPages > 0){
+					 SSDSwap::CMS_swapOut(_inCoreBottom, nCPages);
+					 _inCoreBottom = Utility::nextPageInc(_inCoreBottom, nCPages);
+					 pagesToEvict -= nCPages;
+		}
+		while(true){
+			nCPages = Utility::getContinuousFreePagesBetween(curr, high, nPages);
+				if(nCPages > 0){
+					SSDSwap::CMS_swapOut(curr, nCPages);
+					curr = Utility::nextPageInc(curr, nCPages);
+					pagesToEvict -= nCPages;
+					_lastSwapOut = curr;
+				} else
+					break;
+			}
+		}
+}
+
+// Currently size of the permanent generation is not included
+size_t HeapMonitor::getOverallSpaceUsedCurrent(){
+	GenCollectedHeap* gch = ((GenCollectedHeap *)Universe::heap());
+	size_t _newGenerationSize = gch->get_gen(0)->committedSize();
+	size_t _oldGenerationSize = gch->get_gen(1)->committedSize();
+	size_t _permGenerationSize = gch->perm_gen()->committedSize();
+	return _newGenerationSize + _oldGenerationSize + _permGenerationSize;
+}
+
+double HeapMonitor::getOverloadRatio(){
+	size_t spaceUsed = getOverallSpaceUsedCurrent() - _pagesOutOfCore *  Utility::getPageSize();
+	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
+    return (ratioUsed - _swapOutOccupancyThreshold);
+
+}
+
+size_t HeapMonitor::numPagesToEvict(){
+	size_t nPages = 0;
+	double ratioDiff = getOverloadRatio();
+	if(ratioDiff > 0){
+		nPages = ratioDiff * Universe::getPhysicalRAM() / Utility::getPageSize();
 	}
+	return nPages;
 }
 
 // spaceUsed should be the part of the mature space that is in physical memory.
 // physicalRAM can actually be fixed.
 bool HeapMonitor::CMS_OccupancyReached(){
 	assertF(_concurrentMarkSweepGeneration != NULL, "concurrentMarkSweepGeneration in HeapMonitor is NULL");
-	size_t spaceUsed = _concurrentMarkSweepGeneration->used();
+
+	// The space used should have the overall space used from
+	size_t spaceUsed = getOverallSpaceUsedCurrent() - _pagesOutOfCore *  Utility::getPageSize();
 	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
 
 #if HM_Occupancy_Log

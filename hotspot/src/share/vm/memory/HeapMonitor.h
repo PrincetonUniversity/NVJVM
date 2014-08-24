@@ -23,6 +23,7 @@ private:
 	static ConcurrentMarkSweepGeneration* _concurrentMarkSweepGeneration;
 	static double _swapOutOccupancyThreshold; // Occupancy threshold
 	static void *_inCoreBottom; // The lowest address that has to be swapped out
+	static void *_lastSwapOut;
 	static int _defaultPages; // Default number of pages that have to be swapped out for each swap out call
 	static size_t _availableRAM; // Physical RAM available
 	static bool _isInit;
@@ -41,6 +42,9 @@ public:
 	{ _concurrentMarkSweepGeneration = cmsG; }
 	// Checks whether the occupancy of the mature generation in the CMS heap has been reached
 	static bool CMS_OccupancyReached();
+	static size_t numPagesToEvict();
+	static double getOverloadRatio();
+	static size_t getOverallSpaceUsedCurrent();
 	// Performs swap out operation on the mature generation of the CMS heap if it is sufficiently full
 	static void CMS_swapOut_operation();
 	static void setPhysicalRAM(size_t size) { _availableRAM = size; }

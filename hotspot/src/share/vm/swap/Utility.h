@@ -28,6 +28,7 @@ public:
 	static double toMB(size_t value);
 	static double toKB(size_t value);
 	static size_t getPageSize();
+	static int getContinuousFreePagesBetween(void *start, void *end, int maxRequired);
 };
 
 #endif /* UTILITY_H_ */
