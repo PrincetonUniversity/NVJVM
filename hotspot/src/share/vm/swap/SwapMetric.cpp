@@ -202,12 +202,15 @@ void SwapMetric::print_on(){
 	printf("The overall SwapMetrics. \n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
+			"Total time taken for swapOut = %lld seconds %3ld milliseconds.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics::\n"
 			"Total segmentation faults = %ld\n"
 			"Total Intercepts = %ld\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
+						(long long)_swapOutTime.tv_sec,
+						_swapOutTime.tv_nsec/(1000*1000),
 						(long long)_swapInTime.tv_sec,
 						_swapInTime.tv_nsec/(1000*1000),
 						_segFaults,
