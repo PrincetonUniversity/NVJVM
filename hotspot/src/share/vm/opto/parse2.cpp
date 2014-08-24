@@ -1053,7 +1053,7 @@ void Parse::do_ifnull(BoolTest::mask btest, Node *c) {
 }
 
 void Parse::accessCheck(Node *obj){
-	if(true){
+	if(INTER_COMPILER){
 		checkObj(obj);
 	}
 }
