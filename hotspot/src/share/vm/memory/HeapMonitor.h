@@ -12,6 +12,7 @@
 #include "runtime/virtualspace.hpp"
 #include "swap/Utility.h"
 #include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
+#include "memory/generation.hpp"
 
 #define HM_Occupancy_Log 0
 #define HM_ASSERT 0
