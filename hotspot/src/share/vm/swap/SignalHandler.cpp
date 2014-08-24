@@ -65,7 +65,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 			 fflush(stdout);
 #endif
 	 }
-	 if(true || (isJavaThread && JavaThreadPrefetch)){
+	 if((isJavaThread && JavaThreadPrefetch)){
 		 prefetchObjects(addr);
 	 }
 	 return;
