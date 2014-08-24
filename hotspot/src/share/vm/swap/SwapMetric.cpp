@@ -41,33 +41,33 @@ long int SwapMetric::_intercepts[Number_Intercepts] = {0};
 #define K 1024
 
 void SwapMetric::incrementFaults_CGC_Thread(){
-	pthread_mutex_lock(&_fCGC_mutex);
+//	pthread_mutex_lock(&_fCGC_mutex);
 	_faults_CGC_Thread++;
-	pthread_mutex_unlock(&_fCGC_mutex);
+//	pthread_mutex_unlock(&_fCGC_mutex);
 }
 
 void SwapMetric::incrementFaults_VM_Thread(){
-	pthread_mutex_lock(&_fVM_mutex);
+//	pthread_mutex_lock(&_fVM_mutex);
 	_faults_VM_Thread++;
-	pthread_mutex_unlock(&_fVM_mutex);
+//	pthread_mutex_unlock(&_fVM_mutex);
 }
 
 void SwapMetric::incrementFaults_Worker_Thread(){
-	pthread_mutex_lock(&_fWor_mutex);
+//	pthread_mutex_lock(&_fWor_mutex);
 	_faults_Wor_Thread++;
-	pthread_mutex_unlock(&_fWor_mutex);
+//	pthread_mutex_unlock(&_fWor_mutex);
 }
 
 void SwapMetric::incrementFaultsNamedThread(){
-	pthread_mutex_lock(&_fNT_mutex);
+//	pthread_mutex_lock(&_fNT_mutex);
 	_faultsNamedThread++;
-	pthread_mutex_unlock(&_fNT_mutex);
+//	pthread_mutex_unlock(&_fNT_mutex);
 }
 
 void SwapMetric::incrementFaultsJavaThread(){
-	pthread_mutex_lock(&_fJT_mutex);
+//	pthread_mutex_lock(&_fJT_mutex);
 	_faultsJavaThread++;
-	pthread_mutex_unlock(&_fJT_mutex);
+//	pthread_mutex_unlock(&_fJT_mutex);
 }
 
 void SwapMetric::incrementAccessInterceptCount(int type){
@@ -75,9 +75,9 @@ void SwapMetric::incrementAccessInterceptCount(int type){
 }
 
 void SwapMetric::incrementAccessIntercepts(){
-	pthread_mutex_lock(&_accessIncrement);
+//	pthread_mutex_lock(&_accessIncrement);
 	_accessIntercepts++;
-	pthread_mutex_unlock(&_accessIncrement);
+//	pthread_mutex_unlock(&_accessIncrement);
 }
 
 long int SwapMetric::getAccessIntercepts(){
@@ -93,9 +93,9 @@ long int SwapMetric::getFaultsDuringCollection(){
 }
 
 void SwapMetric::incrementSwapInCompiler(){
-	pthread_mutex_lock(&_compilerIncrement);
+//	pthread_mutex_lock(&_compilerIncrement);
 	_swapInsCompiler++;
-	pthread_mutex_unlock(&_compilerIncrement);
+//	pthread_mutex_unlock(&_compilerIncrement);
 }
 
 long int SwapMetric::getSwapInsCompiler(){
@@ -103,9 +103,9 @@ long int SwapMetric::getSwapInsCompiler(){
 }
 
 void SwapMetric::incrementSwapInInterpreter(){
-	pthread_mutex_lock(&_interpreterIncrement);
+//	pthread_mutex_lock(&_interpreterIncrement);
 	_swapInsInterpreter++;
-	pthread_mutex_unlock(&_interpreterIncrement);
+//	pthread_mutex_unlock(&_interpreterIncrement);
 }
 
 long int SwapMetric::getSwapInsInterpreter(){
@@ -121,9 +121,9 @@ long int SwapMetric::getSwapInPages(){
 }
 
 void SwapMetric::incrementSegFaults(){
-	pthread_mutex_lock(&_segFaultIncrement);
+//	pthread_mutex_lock(&_segFaultIncrement);
 		_segFaults++;
-	pthread_mutex_unlock(&_segFaultIncrement);
+//	pthread_mutex_unlock(&_segFaultIncrement);
 }
 
 long int SwapMetric::getSegFaultCount(){
