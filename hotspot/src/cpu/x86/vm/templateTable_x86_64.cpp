@@ -710,6 +710,7 @@ void TemplateTable::aaload() {
   __ pop_ptr(rdx);
   // eax: index
   // rdx: array
+  interceptObject(aaddress(rdx));
   index_check(rdx, rax); // kills rbx
   __ load_heap_oop(rax, Address(rdx, rax,
                                 UseCompressedOops ? Address::times_4 : Address::times_8,
