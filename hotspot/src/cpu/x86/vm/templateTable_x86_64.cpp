@@ -593,6 +593,7 @@ void TemplateTable::interceptObject(Address object) {
     call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_checkObj), r10, r11);
 
     __ bind(nullObj);					  // binding the null label here
+    __ bind(isPresent);
 
     // registers used intermediately are popped out
     __ pop(r11);
