@@ -7299,7 +7299,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   }
   // convert offset into a HeapWord*
   HeapWord* addr = _bit_map->startWord() + offset;
-  SSDSwap::checkAccessSwapIn(oop(addr), 3);
+
 
   assert(_bit_map->endWord() && addr < _bit_map->endWord(),
          "address out of range");
@@ -7309,13 +7309,14 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
     assert(_skip_bits == 0, "tautology");
     _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
     oop p = oop(addr);
+    SSDSwap::checkAccessSwapIn(oop(addr), 3);
+    SSDSwap::checkAccessWithSize(p, p->size() * BytesPerWord, 3);
     if (p->klass_or_null() == NULL || !p->is_parsable()) {
       // in the case of Clean-on-Enter optimization, redirty card
       // and avoid clearing card by increasing  the threshold.
       return true;
     }
   }
-  SSDSwap::checkAccessWithSize(oop(addr), oop(addr)->size() * BytesPerWord, 3);
   scan_oops_in_oop(addr);
   return true;
 }
@@ -7327,13 +7328,13 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(_work_queue->size() == 0,
          "should drain stack to limit stack usage");
   // convert ptr to an oop preparatory to scanning
-  SSDSwap::checkAccessSwapIn(oop(ptr), 3);
   oop obj = oop(ptr);
   // Ignore mark word in verification below, since we
   // may be running concurrent with mutators.
   assert(obj->is_oop(true), "should be an oop");
   assert(_finger <= ptr, "_finger runneth ahead");
   // advance the finger to right end of this object
+  SSDSwap::checkAccessSwapIn(obj, 3);
   _finger = ptr + obj->size();
   assert(_finger > ptr, "we just incremented it above");
   // On large heaps, it may take us some time to get through
