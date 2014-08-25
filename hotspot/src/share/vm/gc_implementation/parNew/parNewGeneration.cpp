@@ -935,9 +935,9 @@ void ParNewGeneration::collect(bool   full,
   gch->rem_set()->prepare_for_younger_refs_iterate(true);
 
   // Marking all the objects that have been bookmarked and pushing them on the work queues
-  CMSBitMap* bmBM = gch->getCMSCollector()->getBookMarkBitMap();
-  BookMarksAsRootsClosure _bookMarksAsRootsClosure(bmBM, task_queues()->queue(0));
-  bmBM->iterate(&_bookMarksAsRootsClosure);
+//  CMSBitMap* bmBM = gch->getCMSCollector()->getBookMarkBitMap();
+//  BookMarksAsRootsClosure _bookMarksAsRootsClosure(bmBM, task_queues()->queue(0));
+//  bmBM->iterate(&_bookMarksAsRootsClosure);
 
   // It turns out that even when we're using 1 thread, doing the work in a
   // separate thread causes wide variance in run times.  We can't help this
