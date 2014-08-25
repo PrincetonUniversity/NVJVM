@@ -97,7 +97,7 @@
 #include "gc_implementation/parallelScavenge/parallelScavengeHeap.hpp"
 #endif
 
-size_t Universe::_availableRAM = 150*MB;
+size_t Universe::_availableRAM = 270*MB;
 char Universe::_presentMask = 0;
 char Universe::_notPresentMask = 1;
 int Universe::_regionPages = 256;
