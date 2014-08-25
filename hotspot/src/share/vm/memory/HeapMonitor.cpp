@@ -76,12 +76,12 @@ void HeapMonitor::CMS_swapOut_operation(){
 // Currently size of the permanent generation is not included
 size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	GenCollectedHeap* gch = ((GenCollectedHeap *)Universe::heap());
-	size_t _newGenerationSize = gch->get_gen(0)->committedSize();
-	size_t _oldGenerationSize = gch->get_gen(1)->committedSize();
-	printf("Committed Size of the old generation %lf", Utility::toMB(_oldGenerationSize));
-	size_t _permGenerationSize = gch->perm_gen()->committedSize();
-	size_t totalCommittedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
-	size_t totalUsage = totalCommittedSize - _pagesOutOfCore *  Utility::getPageSize();
+	size_t _newGenerationSize = gch->get_gen(0)->used();
+	size_t _oldGenerationSize = gch->get_gen(1)->used();
+	printf("Used Size of the old generation %lf", Utility::toMB(_oldGenerationSize));
+	size_t _permGenerationSize = gch->perm_gen()->used();
+	size_t totalUsedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
+	size_t totalUsage = totalUsedSize - _pagesOutOfCore *  Utility::getPageSize();
 }
 
 double HeapMonitor::getOverloadRatio(){
