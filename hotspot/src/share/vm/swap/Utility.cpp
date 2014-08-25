@@ -87,18 +87,15 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 	int count = 0;
 	void *curr = start;
 	while(true){
-		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end)){
+		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end) || count >= maxRequired){
 			break;
 		}
 		if(Universe::isPresent(curr)){
 			count++;
-			if(count >= maxRequired)
-				break;
 		} else if(count > 1){
 			break;
 		}
 		curr = Utility::nextPage(curr);
-
 	}
 	return count;
 }

@@ -61,6 +61,7 @@ void HeapMonitor::CMS_swapOut_operation(){
 		}
 		while(pagesToEvict > 0){
 			nCPages = Utility::getContinuousFreePagesBetween(curr, high, pagesToEvict);
+			printf("Number of pages to evict %d \n", pagesToEvict);
 				if(nCPages > 0){
 					SSDSwap::CMS_swapOut(curr, nCPages);
 					curr = Utility::nextPageInc(curr, nCPages);
