@@ -979,7 +979,7 @@ void ParNewGeneration::collect(bool   full,
     // Swap the survivor spaces.
     eden()->clear(SpaceDecorator::Mangle);
     // Clearing the BookMarkBitMap
-    bmBM->clear_all();
+//    bmBM->clear_all();
     from()->clear(SpaceDecorator::Mangle);
     if (ZapUnusedHeapArea) {
       // This is now done here because of the piece-meal mangling which
