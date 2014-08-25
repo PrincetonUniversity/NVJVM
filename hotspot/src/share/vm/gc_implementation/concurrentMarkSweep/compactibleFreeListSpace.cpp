@@ -2751,6 +2751,8 @@ void CFLS_LAB::retire(int tid) {
 }
 
 void CompactibleFreeListSpace:: par_get_chunk_of_blocks(size_t word_sz, size_t n, FreeList* fl) {
+  printf("par_get_chunk_of_blocks, word_sz = %d\n", word_sz);
+
   assert(fl->count() == 0, "Precondition.");
   assert(word_sz < CompactibleFreeListSpace::IndexSetSize,
          "Precondition");
