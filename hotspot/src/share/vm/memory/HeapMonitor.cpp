@@ -78,12 +78,14 @@ size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	GenCollectedHeap* gch = ((GenCollectedHeap *)Universe::heap());
 	size_t _newGenerationSize = gch->get_gen(0)->committedSize();
 	size_t _oldGenerationSize = gch->get_gen(1)->committedSize();
+	printf("Committed Size of the old generation %lf", Utility::toMB(_oldGenerationSize));
 	size_t _permGenerationSize = gch->perm_gen()->committedSize();
-	return _newGenerationSize + _oldGenerationSize + _permGenerationSize;
+	size_t totalCommittedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
+	size_t totalUsage = totalCommittedSize - _pagesOutOfCore *  Utility::getPageSize();
 }
 
 double HeapMonitor::getOverloadRatio(){
-	size_t spaceUsed = getOverallSpaceUsedCurrent() - _pagesOutOfCore *  Utility::getPageSize();
+	size_t spaceUsed = getOverallSpaceUsedCurrent();
 	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
     return (ratioUsed - _swapOutOccupancyThreshold);
 
@@ -104,7 +106,7 @@ bool HeapMonitor::CMS_OccupancyReached(){
 	assertF(_concurrentMarkSweepGeneration != NULL, "concurrentMarkSweepGeneration in HeapMonitor is NULL");
 
 	// The space used should have the overall space used from
-	size_t spaceUsed = getOverallSpaceUsedCurrent() - _pagesOutOfCore *  Utility::getPageSize();
+	size_t spaceUsed = getOverallSpaceUsedCurrent();
 	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
 
 #if HM_Occupancy_Log
