@@ -94,6 +94,8 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 			count++;
 			if(count >= maxRequired)
 				break;
+		} else if(count > 1){
+			break;
 		}
 		curr = Utility::nextPage(curr);
 
