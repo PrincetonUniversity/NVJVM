@@ -7309,8 +7309,8 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
     assert(_skip_bits == 0, "tautology");
     _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
     oop p = oop(addr);
-    SSDSwap::checkAccessSwapIn(oop(addr), 3);
-    SSDSwap::checkAccessWithSize(p, p->size() * BytesPerWord, 3);
+//    SSDSwap::checkAccessSwapIn(oop(addr), 3);
+//    SSDSwap::checkAccessWithSize(p, p->size() * BytesPerWord, 3);
     if (p->klass_or_null() == NULL || !p->is_parsable()) {
       // in the case of Clean-on-Enter optimization, redirty card
       // and avoid clearing card by increasing  the threshold.
@@ -7334,7 +7334,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(obj->is_oop(true), "should be an oop");
   assert(_finger <= ptr, "_finger runneth ahead");
   // advance the finger to right end of this object
-  SSDSwap::checkAccessSwapIn(obj, 3);
+//  SSDSwap::checkAccessSwapIn(obj, 3);
   _finger = ptr + obj->size();
   assert(_finger > ptr, "we just incremented it above");
   // On large heaps, it may take us some time to get through
@@ -7398,8 +7398,8 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
         break;
       }
     }
-    SSDSwap::checkAccessSwapIn(oop(new_oop), 3);
-    SSDSwap::checkAccessWithSize(oop(new_oop), oop(new_oop)->size() * BytesPerWord, 3);
+//    SSDSwap::checkAccessSwapIn(oop(new_oop), 3);
+//    SSDSwap::checkAccessWithSize(oop(new_oop), oop(new_oop)->size() * BytesPerWord, 3);
     // Skip verifying header mark word below because we are
     // running concurrent with mutators.
     assert(new_oop->is_oop(true), "Oops! expected to pop an oop");
