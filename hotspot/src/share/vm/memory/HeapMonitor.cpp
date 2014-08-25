@@ -45,32 +45,32 @@ void HeapMonitor::CMS_swapOut_operation(){
 	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
 	void *high = Utility::getPageStart(vs->high());
 	void *low = Utility::getPageStart(vs->low());
+	void *end = NULL;
+	void *start = NULL;
 
 	if(_inCoreBottom == NULL)
 		_inCoreBottom = low;
 	if(_lastSwapOut == NULL)
 		_lastSwapOut = low;
-	void *curr = _lastSwapOut;
-
+	int nCPages = 0;
 	if((nPages > 0) && CMS_Swap){
-		int nCPages = Utility::getContinuousFreePagesBetween(_inCoreBottom, high, nPages);
-		if(nCPages > 0){
-					 SSDSwap::CMS_swapOut(_inCoreBottom, nCPages);
-					 _inCoreBottom = Utility::nextPageInc(_inCoreBottom, nCPages);
-					 pagesToEvict -= nCPages;
-		}
 		while(pagesToEvict > 0){
 			printf("Number of pages to evict %d \n", pagesToEvict);
-			nCPages = Utility::getContinuousFreePagesBetween(curr, high, pagesToEvict);
+			nCPages = Utility::getContinuousFreePagesBetween(_lastSwapOut, high, pagesToEvict, &start, &end);
 			printf("Number of continuous pages %d \n", nCPages);
 				if(nCPages > 0){
-					SSDSwap::CMS_swapOut(curr, nCPages);
-					curr = Utility::nextPageInc(curr, nCPages);
+					SSDSwap::CMS_swapOut(start, nCPages);
 					pagesToEvict -= nCPages;
-					_lastSwapOut = curr;
-				} else
+					_lastSwapOut = end;
+				} else{
+					_lastSwapOut = end;
 					break;
+				}
 			}
+	// Resetting the _lastSwapOut Page Index
+		if(Universe::getPageIndex(_lastSwapOut) >= Universe::getPageIndex(high)){
+			_lastSwapOut = low;
+		}
 		}
 }
 

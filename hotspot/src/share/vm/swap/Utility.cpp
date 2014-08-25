@@ -89,7 +89,7 @@ bool shouldBreak(void *end, int maxRequired, void *curr, int count, int iter){
 	);
 }
 
-int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequired){
+int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequired, void **startPage, void **lastPage){
 	int count = 0, iter = 0;
 	void *curr = start;
 	while(true){
@@ -97,12 +97,16 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 		if(shouldBreak(end, maxRequired, curr, count, iter))
 			break;
 		if(Universe::isPresent(curr)){
+			if(count == 0){
+				*startPage = curr;
+			}
 			count++;
 		} else if(count > 1){
 			break;
 		}
 		curr = Utility::nextPage(curr);
 	}
+	*lastPage = curr;
 	return count;
 }
 
