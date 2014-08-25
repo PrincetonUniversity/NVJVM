@@ -83,13 +83,19 @@ size_t Utility::getPageSize(){
 	return (size_t)(sysconf(_SC_PAGE_SIZE));
 }
 
+bool shouldBreak(void *end, int maxRequired, void *curr, int count, int iter){
+	return (
+			(Universe::getPageIndex(curr) >= Universe::getPageIndex(end) || count >= maxRequired )//|| iter > 10 * maxRequired)
+	);
+}
+
 int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequired){
-	int count = 0;
+	int count = 0, iter = 0;
 	void *curr = start;
 	while(true){
-		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end) || count >= maxRequired){
+		iter++;
+		if(shouldBreak(end, maxRequired, curr, count, iter))
 			break;
-		}
 		if(Universe::isPresent(curr)){
 			count++;
 		} else if(count > 1){
