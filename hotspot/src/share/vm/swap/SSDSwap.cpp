@@ -163,6 +163,7 @@ void SSDSwap::markRegionSwappedOut(void *addr, int n){
 }
 
 void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
+	return;
 	if(Universe::isSwappedOut(pageAddress)){
 		SwapMetric::incrementAccessInterceptCount(purpose);
 		CMS_handle_faults(pageAddress);
@@ -179,6 +180,7 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
 }
 
 void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top, int purpose){
+	return;
 	void *curr = bottom;
 	while(true){
 		if(Universe::isSwappedOut(curr)){
@@ -192,6 +194,7 @@ void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top, int purpose){
 }
 
 void SSDSwap::checkAccessWithSize(void *header, size_t size, int purpose){
+	return;
 	void *end = (void *)((intptr_t)header + (intptr_t)size);
 	void *curr = header;
 	while (Universe::getPageIndex(curr) <= Universe::getPageIndex(end)){
