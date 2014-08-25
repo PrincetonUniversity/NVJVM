@@ -78,7 +78,7 @@ size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	GenCollectedHeap* gch = ((GenCollectedHeap *)Universe::heap());
 	size_t _newGenerationSize = gch->get_gen(0)->used();
 	size_t _oldGenerationSize = gch->get_gen(1)->used();
-	printf("Used Size of the old generation %lf", Utility::toMB(_oldGenerationSize));
+	printf("Used Size of the old generation %lf MB.\n", Utility::toMB(_oldGenerationSize));
 	size_t _permGenerationSize = gch->perm_gen()->used();
 	size_t totalUsedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
 	size_t totalUsage = totalUsedSize - _pagesOutOfCore *  Utility::getPageSize();
