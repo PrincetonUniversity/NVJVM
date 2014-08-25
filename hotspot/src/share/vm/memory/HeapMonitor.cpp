@@ -13,7 +13,7 @@ void *HeapMonitor::_inCoreBottom = NULL;
 void *HeapMonitor::_lastSwapOut = NULL;
 void *HeapMonitor::_matureGenerationBase = NULL;
 ConcurrentMarkSweepGeneration* HeapMonitor::_concurrentMarkSweepGeneration = NULL;
-double HeapMonitor::_swapOutOccupancyThreshold = 0.60;
+double HeapMonitor::_swapOutOccupancyThreshold = 0.80;
 size_t HeapMonitor::_matureGenerationSize = 0;
 int HeapMonitor::_defaultPages = 256*100;
 size_t HeapMonitor::_availableRAM = 0;
@@ -60,8 +60,9 @@ void HeapMonitor::CMS_swapOut_operation(){
 					 pagesToEvict -= nCPages;
 		}
 		while(pagesToEvict > 0){
-			nCPages = Utility::getContinuousFreePagesBetween(curr, high, pagesToEvict);
 			printf("Number of pages to evict %d \n", pagesToEvict);
+			nCPages = Utility::getContinuousFreePagesBetween(curr, high, pagesToEvict);
+			printf("Number of continuous pages %d \n", nCPages);
 				if(nCPages > 0){
 					SSDSwap::CMS_swapOut(curr, nCPages);
 					curr = Utility::nextPageInc(curr, nCPages);
