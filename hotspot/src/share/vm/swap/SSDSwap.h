@@ -45,6 +45,7 @@ public:
 	static void CMS_swapOut(void *sa, int numberPages);
 	static void CMS_swapOut_synchronized(void *sa, int numberPages);
 	static void checkAccessWithSize(void *header, size_t size, int purpose);
+	static void swapInChunk(void *, void *);
 };
 
 

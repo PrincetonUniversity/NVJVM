@@ -3998,8 +3998,6 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
     MemRegion span = MemRegion(aligned_start + nth_task*chunk_size,
                                aligned_start + (nth_task+1)*chunk_size);
 
-//    printf("Chunk Size = %ld, Span Start = %p, Span End = %p.\n", chunk_size, span.start(), span.end());
-
     // Try and bump the global finger via a CAS;
     // note that we need to do the global finger bump
     // _before_ taking the intersection below, because
@@ -4055,6 +4053,7 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
         // Do the marking work within a non-empty span --
         // the last argument to the constructor indicates whether the
         // iteration should be incremental with periodic yields.
+        SSDSwap::swapInChunk(my_span.start(), my_span.end());
         Par_MarkFromRootsClosure cl(this, _collector, my_span,
                                     &_collector->_markBitMap,
                                     work_queue(i),
@@ -7299,7 +7298,6 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   }
   // convert offset into a HeapWord*
   HeapWord* addr = _bit_map->startWord() + offset;
-
 
   assert(_bit_map->endWord() && addr < _bit_map->endWord(),
          "address out of range");

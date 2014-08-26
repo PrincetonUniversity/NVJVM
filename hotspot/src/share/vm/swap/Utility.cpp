@@ -110,6 +110,27 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 	return count;
 }
 
+int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **startPage, void **lastPage){
+	int count = 0, iter = 0;
+	void *curr = start;
+	while(true){
+		iter++;
+		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end))
+			break;
+		if(Universe::isSwappedOut(curr)){
+			if(count == 0){
+				*startPage = curr;
+			}
+			count++;
+		} else if(count > 1){
+			break;
+		}
+		curr = Utility::nextPage(curr);
+	}
+	*lastPage = curr;
+	return count;
+}
+
 void* Utility::getNextInMemoryPage(void *start, void *end){
    void *curr = start;
    while(true){
@@ -123,4 +144,10 @@ void* Utility::getNextInMemoryPage(void *start, void *end){
    }
 }
 
+void* getBoundary(void *start, void *end, int numPartitions){
+		size_t partition = Universe::getPageTablePartition(start, numPartitions);
+	    size_t pageTableSize = Universe::getPageTableSize();
+		size_t partitionLimit, partitionSize = pageTableSize/numPartitions;
+		return (partitionSize * partition);
+}
 

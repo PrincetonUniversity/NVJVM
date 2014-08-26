@@ -103,7 +103,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
-	HeapMonitor::CMS_swapout_synchronized();
+//	HeapMonitor::CMS_swapout_synchronized();
 #if Print_HeapMetrics
 //	HeapMonitor::PrintHeapUsage();
 #endif
@@ -224,8 +224,38 @@ void SSDSwap::checkAccessWithSize(void *header, size_t size, int purpose){
 	}
 }
 
-
-
+/*
+ * This is the method that swaps in a chunk of continuous pages.
+ */
+void SSDSwap::swapInChunk(void *start, void *end){
+	int partitionIndexS = Universe::getPageTablePartition(start, PageTablePartitions) - 1;
+	int partitionIndexE = Universe::getPageTablePartition(end, PageTablePartitions) - 1;
+	int pagesToBeSwappedIn = Utility::numberPages(start, end), numPages;
+	int nPagesSwappedIn = 0;
+	void *curr = start;
+	void *first = NULL;
+	void *last = NULL;
+	if(partitionIndexS == partitionIndexE){
+		timespec time1, time2;
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+		while(Universe::getPageIndex(curr) < Universe::getPageIndex(end)){
+			pthread_mutex_lock(&_swap_map_mutex[partitionIndexS]);
+				numPages = Utility::getContinuousPagesOutOfCorePages(curr, end, &first, &last);
+				if(numPages > 0)
+					SwapManager::swapInPage(first, numPages); // Currently we are synchronizing access to remapping pages
+				curr = last;
+			pthread_mutex_unlock(&_swap_map_mutex[partitionIndexS]);
+			}
+			clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+			SwapMetric::incrementSwapInTime(time1, time2);
+			HeapMonitor::incrementPagesSwappedIn(nPagesSwappedIn);
+	} else {
+		// find the boundary
+		void *boundary = Utility::getBoundary(start, end, PageTablePartitions);
+		swapInChunk(start, boundary);
+		swapInChunk(Utility::nextPage(boundary), end);
+	}
+}
 
 
 

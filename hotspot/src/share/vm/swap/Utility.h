@@ -29,7 +29,9 @@ public:
 	static double toKB(size_t value);
 	static size_t getPageSize();
 	static int getContinuousFreePagesBetween(void *start, void *end, int maxRequired, void**, void **);
+	static int getContinuousPagesOutOfCorePages(void *start, void *end, void **, void **);
 	static void *getNextInMemoryPage(void *, void *);
+	static void *getBoundary(void *start, void *end, int numberPartitions);
 };
 
 #endif /* UTILITY_H_ */
