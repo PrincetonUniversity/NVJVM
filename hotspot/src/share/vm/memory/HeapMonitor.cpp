@@ -40,6 +40,7 @@ void HeapMonitor::init() {
 }
 
 void HeapMonitor::CMS_swapOut_operation(){
+	double before_ratio = (double)getOverallSpaceUsedCurrent()/(double)Universe::getPhysicalRAM();
 	size_t nPages = numPagesToEvict();
 	size_t pagesToEvict = nPages;
 	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
@@ -71,6 +72,8 @@ void HeapMonitor::CMS_swapOut_operation(){
 				_lastSwapOut = low;
 			}
 		}
+	double after_ratio = (double)getOverallSpaceUsedCurrent()/(double)Universe::getPhysicalRAM();
+	printf("CMS_SWAPOUT_OPERATION Done. OverloadRatioChange = %lf -> %lf \n", before_ratio, before_ratio);
 }
 
 // Currently size of the permanent generation is not included
@@ -89,7 +92,7 @@ double HeapMonitor::getOverloadRatio(){
 	size_t spaceUsed = getOverallSpaceUsedCurrent();
 	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
     double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
-    printf("Overload Ratio %ld.\n", overLoadRatio);
+    printf("Overload Ratio %lf.\n", overLoadRatio);
     return overLoadRatio;
 
 }
