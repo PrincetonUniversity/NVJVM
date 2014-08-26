@@ -73,7 +73,9 @@ void HeapMonitor::CMS_swapOut_operation(){
 			}
 		}
 	double after_ratio = (double)getOverallSpaceUsedCurrent()/(double)Universe::getPhysicalRAM();
-	printf("CMS_SWAPOUT_OPERATION Done. OverloadRatioChange = %lf -> %lf \n", before_ratio, before_ratio);
+#if Print_HeapMetrics
+	printf("CMS_SWAPOUT_OPERATION Done. OverloadRatioChange = %lf -> %lf \n", before_ratio, after_ratio);
+#endif
 }
 
 // Currently size of the permanent generation is not included
@@ -84,7 +86,9 @@ size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	size_t _permGenerationSize = gch->perm_gen()->used();
 	size_t totalUsedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
 	size_t totalUsage = totalUsedSize - _pagesOutOfCore *  Utility::getPageSize();
+#if Print_HeapMetrics
 	printf("Total Heap Usage %lf MB\n", Utility::toMB(totalUsage));
+#endif
 	return totalUsage;
 }
 
@@ -95,10 +99,11 @@ double HeapMonitor::getUsageRatio(){
 }
 
 double HeapMonitor::getOverloadRatio(){
-	size_t spaceUsed = getOverallSpaceUsedCurrent();
-	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
+	double ratioUsed = getUsageRatio();
     double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
+#if Print_HeapMetrics
     printf("Overload Ratio %lf.\n", overLoadRatio);
+#endif
     return overLoadRatio;
 
 }
@@ -110,6 +115,11 @@ size_t HeapMonitor::numPagesToEvict(){
 		nPages = ratioDiff * Universe::getPhysicalRAM() / Utility::getPageSize();
 	}
 	return nPages;
+}
+
+void HeapMonitor::PrintHeapUsage(){
+   double r = getUsageRatio();
+   printf("HeapUsage = %lf \n", r);
 }
 
 // spaceUsed should be the part of the mature space that is in physical memory.

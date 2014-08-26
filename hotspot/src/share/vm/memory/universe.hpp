@@ -36,6 +36,7 @@
 #define PRINT_TRACE 0
 #define SEGMENTATION_LOG 0
 #define MB 1024*1024
+#define Print_HeapMetrics 1
 
 /******************************************************************************************************/
 

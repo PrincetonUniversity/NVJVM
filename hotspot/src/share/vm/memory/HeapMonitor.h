@@ -17,6 +17,7 @@
 #define HM_Occupancy_Log 0
 #define HM_ASSERT 0
 
+
 class HeapMonitor {
 private:
 	static void *_matureGenerationBase;
@@ -55,6 +56,7 @@ public:
 	static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
 	static void incrementPagesSwappedIn(size_t nP)		{ _pagesOutOfCore -= nP;  }
 	static void incrementPagesSwappedOut(size_t nP)		{ _pagesOutOfCore += nP;  }
+	static void PrintHeapUsage();
 };
 
 #endif /* HEAPMONITOR_H_ */
