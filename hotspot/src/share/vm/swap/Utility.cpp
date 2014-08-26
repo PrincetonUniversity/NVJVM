@@ -144,7 +144,7 @@ void* Utility::getNextInMemoryPage(void *start, void *end){
    }
 }
 
-void* getBoundary(void *start, void *end, int numPartitions){
+void* Utility::getBoundary(void *start, void *end, int numPartitions){
 		size_t partition = Universe::getPageTablePartition(start, numPartitions);
 	    size_t pageTableSize = Universe::getPageTableSize();
 		size_t partitionLimit, partitionSize = pageTableSize/numPartitions;
