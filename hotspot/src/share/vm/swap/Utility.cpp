@@ -152,3 +152,32 @@ void* Utility::getBoundary(void *start, void *end, int numPartitions){
 		return ((void *)((intptr_t)Universe::getHeapBase() + (intptr_t)partitionSize * partition));
 }
 
+bool Utility::isPageZero(void *sa){
+	void *curr = (char *)getPageStart(sa);
+	int count;
+	for(count = 0; count < getPageSize(); count++){
+		if(*curr != '\0'){
+			return false;
+		}
+		curr++;
+	}
+	return true;
+}
+
+int Utility::countZeroedPages(void *add, int np){
+	int count = 0;
+	while (np > 0){
+		if(isPageZero(add)){
+			count++;
+		}
+		add = nextPage(add);
+		np--;
+	}
+	return count;
+}
+
+
+
+
+
+

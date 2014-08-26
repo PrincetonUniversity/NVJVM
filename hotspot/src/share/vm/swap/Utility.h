@@ -32,6 +32,8 @@ public:
 	static int getContinuousPagesOutOfCorePages(void *start, void *end, void **, void **);
 	static void *getNextInMemoryPage(void *, void *);
 	static void *getBoundary(void *start, void *end, int numberPartitions);
+	static int countZeroedPages(void *start, int np);
+	static bool isPageZero(void* address);
 };
 
 #endif /* UTILITY_H_ */
