@@ -30,8 +30,9 @@ bool PageBuffer::check(void *va, int np){
 }
 
 SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
+	SSDRange ssdRange;
 	if(check(va, np)){
-		return NULL;
+		return ssdRange;
 	}
 	// Writing the page out to swap
 	if (L_SWAP){
@@ -49,7 +50,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 		}
 	}
 
-	SSDRange ssdRange = SwapWriter::swapOut (va, np, off);
+	ssdRange = SwapWriter::swapOut (va, np, off);
 	if (L_SWAP){
 		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd());
 		fflush(stdout);
