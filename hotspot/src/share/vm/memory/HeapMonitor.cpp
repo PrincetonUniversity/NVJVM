@@ -78,16 +78,19 @@ size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	GenCollectedHeap* gch = ((GenCollectedHeap *)Universe::heap());
 	size_t _newGenerationSize = gch->get_gen(0)->used();
 	size_t _oldGenerationSize = gch->get_gen(1)->used();
-	printf("Used Size of the old generation %lf MB.\n", Utility::toMB(_oldGenerationSize));
 	size_t _permGenerationSize = gch->perm_gen()->used();
 	size_t totalUsedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
 	size_t totalUsage = totalUsedSize - _pagesOutOfCore *  Utility::getPageSize();
+	printf("Total Heap Usage %d \n", totalUsage);
+	return totalUsage;
 }
 
 double HeapMonitor::getOverloadRatio(){
 	size_t spaceUsed = getOverallSpaceUsedCurrent();
 	double ratioUsed = (double) spaceUsed / (double)Universe::getPhysicalRAM();
-    return (ratioUsed - _swapOutOccupancyThreshold);
+    double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
+    printf("Overload Ratio %ld.\n", overLoadRatio);
+    return overLoadRatio;
 
 }
 
@@ -96,6 +99,7 @@ size_t HeapMonitor::numPagesToEvict(){
 	double ratioDiff = getOverloadRatio();
 	if(ratioDiff > 0){
 		nPages = ratioDiff * Universe::getPhysicalRAM() / Utility::getPageSize();
+		printf("nPages = %d \n", nPages);
 	}
 	return nPages;
 }
