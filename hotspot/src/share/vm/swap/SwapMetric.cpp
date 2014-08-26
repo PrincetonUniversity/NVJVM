@@ -195,7 +195,7 @@ long int SwapMetric::getTotalIntercepts(){
 }
 
 void SwapMetric::print_on(){
-	if(_metricPrinted == true)
+	if(_metricPrinted == true || _swapOuts == 0)
 		return;
 	_metricPrinted = true;
 	int count;

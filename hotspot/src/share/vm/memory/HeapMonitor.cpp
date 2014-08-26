@@ -99,7 +99,6 @@ double HeapMonitor::getOverloadRatio(){
 	double ratioUsed = getUsageRatio();
     double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
     return overLoadRatio;
-
 }
 
 size_t HeapMonitor::numPagesToEvict(){

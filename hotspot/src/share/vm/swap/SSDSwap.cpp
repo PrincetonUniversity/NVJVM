@@ -104,7 +104,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 		fflush(stdout);
 	}
 #if Print_HeapMetrics
-	HeapMonitor::PrintHeapUsage();
+//	HeapMonitor::PrintHeapUsage();
 #endif
 }
 
