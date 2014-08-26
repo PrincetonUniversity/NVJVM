@@ -153,8 +153,8 @@ void* Utility::getBoundary(void *start, void *end, int numPartitions){
 }
 
 bool Utility::isPageZero(void *sa){
-	void *curr = (char *)getPageStart(sa);
-	int count;
+	char *curr = (char *)getPageStart(sa);
+	size_t count;
 	for(count = 0; count < getPageSize(); count++){
 		if(*curr != '\0'){
 			return false;
