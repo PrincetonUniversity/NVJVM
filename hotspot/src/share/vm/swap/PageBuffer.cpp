@@ -16,7 +16,23 @@ PageBuffer::~PageBuffer() {
 	// TODO Auto-generated destructor stub
 }
 
+bool PageBuffer::check(void *va, int np){
+	int zP = Utility::countZeroedPages(va, np);
+	if(zP == np){
+		if (madvise (va, (unsigned long)(np * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+			perror("error :");
+			printf("Error In Protecting Page %p \n", va);
+			fflush(stdout);
+			exit(1);
+		}
+	}
+	return (zP == np);
+}
+
 SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
+	if(check(va, np)){
+		return NULL;
+	}
 	// Writing the page out to swap
 	if (L_SWAP){
 		printf("In pageOut, paging out %d pages, from %p. Number of pages released = %d.\n", np, va, numPagesToRelease);
