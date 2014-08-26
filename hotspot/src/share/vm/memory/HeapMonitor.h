@@ -24,6 +24,7 @@ private:
 	static size_t _matureGenerationSize;
 	static ConcurrentMarkSweepGeneration* _concurrentMarkSweepGeneration;
 	static double _swapOutOccupancyThreshold; // Occupancy threshold
+	static double _freeOutThreshold;
 	static void *_inCoreBottom; // The lowest address that has to be swapped out
 	static void *_lastSwapOut;
 	static int _defaultPages; // Default number of pages that have to be swapped out for each swap out call
@@ -46,6 +47,7 @@ public:
 	static bool CMS_OccupancyReached();
 	static size_t numPagesToEvict();
 	static double getOverloadRatio();
+	static bool isOverloaded();
 	static double getUsageRatio();
 	static size_t getOverallSpaceUsedCurrent();
 	// Performs swap out operation on the mature generation of the CMS heap if it is sufficiently full

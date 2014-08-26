@@ -14,6 +14,7 @@ void *HeapMonitor::_lastSwapOut = NULL;
 void *HeapMonitor::_matureGenerationBase = NULL;
 ConcurrentMarkSweepGeneration* HeapMonitor::_concurrentMarkSweepGeneration = NULL;
 double HeapMonitor::_swapOutOccupancyThreshold = 0.90;
+double HeapMonitor::_freeOutThreshold = 0.90;
 size_t HeapMonitor::_matureGenerationSize = 0;
 int HeapMonitor::_defaultPages = 256*100;
 size_t HeapMonitor::_availableRAM = 0;
@@ -40,6 +41,9 @@ void HeapMonitor::init() {
 }
 
 void HeapMonitor::CMS_swapout_synchronized(){
+	if(!isOverloaded())
+		return ;
+
 	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
 	void *high = Utility::getPageStart(vs->high());
 	void *low = Utility::getPageStart(vs->low());
@@ -108,9 +112,16 @@ double HeapMonitor::getUsageRatio(){
 	return ratioUsed;
 }
 
+bool HeapMonitor::isOverloaded() {
+	double ratioUsed = getUsageRatio();
+	return (
+			ratioUsed > _swapOutOccupancyThreshold
+			);
+}
+
 double HeapMonitor::getOverloadRatio(){
 	double ratioUsed = getUsageRatio();
-    double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
+    double overLoadRatio = (ratioUsed - _freeOutThreshold);
     return overLoadRatio;
 }
 
