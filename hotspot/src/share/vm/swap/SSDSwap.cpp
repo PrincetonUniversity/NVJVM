@@ -119,6 +119,23 @@ SSDSwap::~SSDSwap() {
 	// TODO Auto-generated destructor stub
 }
 
+// Currently the number of pages swapped out is restricted to 1
+void SSDSwap::CMS_swapOut_synchronized(void *sa, int numberPages){
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+	sa = Utility::getPageStart(sa);
+	size_t pageIndex = Universe::getPageIndex(sa);
+	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
+	int partitionIndex = Universe::getPageTablePartition(sa, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
+	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+	HeapMonitor::incrementPagesSwappedOut(numberPages);
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapOutTime(time1, time2);
+}
+
 void SSDSwap::CMS_swapOut(void *sa, int numberPages){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);

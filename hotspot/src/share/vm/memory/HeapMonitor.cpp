@@ -39,6 +39,21 @@ void HeapMonitor::init() {
 	_isInit = true;
 }
 
+void HeapMonitor::CMS_swapout_synchronized(){
+	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
+	void *high = Utility::getPageStart(vs->high());
+	void *low = Utility::getPageStart(vs->low());
+	void *page = Utility::getNextInMemoryPage(_lastSwapOut, high);
+	if(page == NULL){
+		_lastSwapOut = low;
+		page = Utility::getNextInMemoryPage(_lastSwapOut, high);
+		if(page = NULL)
+			return;
+		SSDSwap::CMS_swapOut_synchronized(page, 1);
+	}
+	_lastSwapOut = Utility::nextPage(page);
+}
+
 void HeapMonitor::CMS_swapOut_operation(){
 	double before_ratio = (double)getOverallSpaceUsedCurrent()/(double)Universe::getPhysicalRAM();
 	size_t nPages = numPagesToEvict();
@@ -49,8 +64,6 @@ void HeapMonitor::CMS_swapOut_operation(){
 	void *end = NULL;
 	void *start = NULL;
 
-	if(_inCoreBottom == NULL)
-		_inCoreBottom = low;
 	if(_lastSwapOut == NULL)
 		_lastSwapOut = low;
 	int nCPages = 0;

@@ -50,6 +50,7 @@ public:
 	static size_t getOverallSpaceUsedCurrent();
 	// Performs swap out operation on the mature generation of the CMS heap if it is sufficiently full
 	static void CMS_swapOut_operation();
+	static void CMS_swapout_synchronized();
 	static void setPhysicalRAM(size_t size) { _availableRAM = size; }
 	static size_t getPhysicalRAM()		    { return _availableRAM; }
 	static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }

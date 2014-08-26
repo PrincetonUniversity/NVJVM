@@ -110,4 +110,17 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 	return count;
 }
 
+void* Utility::getNextInMemoryPage(void *start, void *end){
+   void *curr = start;
+   while(true){
+	   if(Universe::getPageIndex(curr) >= Universe::getPageIndex(end)){
+		   return NULL;
+	   }
+	   if(Universe::isPresent(curr)){
+		   return curr;
+	   }
+	   curr = Utility::nextPage(curr);
+   }
+}
+
 
