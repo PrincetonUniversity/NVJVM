@@ -86,9 +86,6 @@ size_t HeapMonitor::getOverallSpaceUsedCurrent(){
 	size_t _permGenerationSize = gch->perm_gen()->used();
 	size_t totalUsedSize = _newGenerationSize + _oldGenerationSize + _permGenerationSize;
 	size_t totalUsage = totalUsedSize - _pagesOutOfCore *  Utility::getPageSize();
-#if Print_HeapMetrics
-	printf("Total Heap Usage %lf MB\n", Utility::toMB(totalUsage));
-#endif
 	return totalUsage;
 }
 
@@ -101,9 +98,6 @@ double HeapMonitor::getUsageRatio(){
 double HeapMonitor::getOverloadRatio(){
 	double ratioUsed = getUsageRatio();
     double overLoadRatio = (ratioUsed - _swapOutOccupancyThreshold);
-#if Print_HeapMetrics
-    printf("Overload Ratio %lf.\n", overLoadRatio);
-#endif
     return overLoadRatio;
 
 }
