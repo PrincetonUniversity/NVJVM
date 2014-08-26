@@ -197,7 +197,7 @@ long int SwapMetric::getTotalIntercepts(){
 void SwapMetric::print_on(){
 	if(_metricPrinted == true || _swapOuts == 0)
 		return;
-	_metricPrinted = true;
+//	_metricPrinted = true;
 	int count;
 	printf("The overall SwapMetrics. \n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
