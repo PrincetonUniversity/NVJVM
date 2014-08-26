@@ -16,10 +16,11 @@ PageBuffer::~PageBuffer() {
 	// TODO Auto-generated destructor stub
 }
 
+// Method that checks whether the whole set of pages are zeroed or not
 bool PageBuffer::check(void *va, int np){
 	int zP = Utility::countZeroedPages(va, np);
 	if(zP == np){
-		if (madvise (va, (unsigned long)(np * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+		if (madvise (va, (unsigned long)(np * Utility::getPageSize()), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
 			perror("error :");
 			printf("Error In Protecting Page %p \n", va);
 			fflush(stdout);
@@ -42,7 +43,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	// Write protecting the memory region - only a single thread must have control over the region
 
 	if(Swap_Protect) {
-	  if (mprotect (va, np*_PAGE_SIZE, PROT_READ) == -1){
+	  if (mprotect (va, np* Utility::getPageSize(), PROT_READ) == -1){
 		perror("error :");
 		printf("Error In Write Protecting Page %p \n", va);
 		fflush(stdout);
@@ -57,7 +58,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 	// Protecting the swapped out page
 	if(Swap_Protect){
-		if (mprotect (va, np*_PAGE_SIZE, PROT_NONE) == -1){
+		if (mprotect (va, np*  Utility::getPageSize(), PROT_NONE) == -1){
 			perror("error :");
 			printf("Error In Protecting Page %p \n", va); fflush(stdout);
 			exit(-1);
@@ -68,11 +69,14 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 
 	// Marking the region as not needed so that the OS can free the resources
-	if (madvise (va, (unsigned long)(numPagesToRelease * _PAGE_SIZE), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+	if (madvise (va, (unsigned long)(numPagesToRelease * Utility::getPageSize()), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
 		perror("error :");
 		printf("Error In Protecting Page %p \n", va);
 		fflush(stdout);
 		exit(1);
 	}
+
+	SSDSwap::markRegionSwappedOut(va, np); // Marking the region as swapped out, in the region bitmap
+
 	return ssdRange;
 }

@@ -143,7 +143,7 @@ void SSDSwap::CMS_swapOut(void *sa, int numberPages){
 	size_t pageIndex = Universe::getPageIndex(sa);
 	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
 	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
-	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
+//	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
 	HeapMonitor::incrementPagesSwappedOut(numberPages);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapOutTime(time1, time2);
@@ -163,7 +163,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 		fflush(stdout);
 	}
 	SwapManager::swapRange(swapRange, off, numPagesToRelease);
-	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
+//	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
 		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");
 		fflush(stdout);
