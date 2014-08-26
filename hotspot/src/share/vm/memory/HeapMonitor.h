@@ -45,6 +45,7 @@ public:
 	static bool CMS_OccupancyReached();
 	static size_t numPagesToEvict();
 	static double getOverloadRatio();
+	static double getUsageRatio();
 	static size_t getOverallSpaceUsedCurrent();
 	// Performs swap out operation on the mature generation of the CMS heap if it is sufficiently full
 	static void CMS_swapOut_operation();
