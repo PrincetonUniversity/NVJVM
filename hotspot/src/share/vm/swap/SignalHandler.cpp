@@ -44,8 +44,6 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 		  SwapMetric::incrementFaultsNamedThread();
 	  }
 #endif
-	  char *position = (char *)Universe::getPageTablePosition(addr);
-	  char value = *position;
 
 #if SEGMENTATION_LOG
 	  char *prefetchPosition = (char *)Universe::getPrefetchTablePosition(addr);
@@ -57,8 +55,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 #endif
 
 // Fall back option, when we cannot detect object accesses
-	 if(value != Universe:: _presentMask){
-//		 SSDSwap::handle_faults(addr);
+	 if(!Universe::isPresent(addr)){
 		 SSDSwap::CMS_handle_faults(addr);
 #if SEGMENTATION_LOG
 			 printf("Segmentation fault at address = %p, handled.\n", addr);

@@ -263,6 +263,7 @@ class Universe: AllStatic {
 
  public:
   static size_t _availableRAM; // the approximate amount of RAM available for the heap
+  static char _isZeroed;
   static char _presentMask;    // flag that indicates that a page is present
   static char _notPresentMask; // flag that indicates that a page is not present
   static int _regionPages; 	   // number of pages within a region (car - independent individual unit)
@@ -285,6 +286,8 @@ class Universe: AllStatic {
 
   static void allocatePageTable(size_t size);
   static void checkAccessSwapIn(void *pageAddress);
+  static void markZeroed(void *pageAddress);
+  static bool isZeroed(void *pageAddress);
   static bool isPresent(void *pageAddress);
   static bool isSwappedOut(void *pageAddress);
   static void markSwappedOut(void *pageAddress);

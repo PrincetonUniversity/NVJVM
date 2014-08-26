@@ -98,6 +98,7 @@
 #endif
 
 size_t Universe::_availableRAM = 270*MB;
+char Universe::_isZeroed = 2;
 char Universe::_presentMask = 0;
 char Universe::_notPresentMask = 1;
 int Universe::_regionPages = 256;
@@ -741,25 +742,32 @@ size_t Universe::getPageTablePartition(void *address, int numPartitions){
 
 void Universe::markSwappedOut(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
-	(*position) = Universe::_notPresentMask;
+	(*position) = (*position) | Universe::_notPresentMask;
 }
 
 void Universe::markSwappedIn(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
-	(*position) = Universe::_presentMask;
+	(*position) = (*position) & (~(Universe::_presentMask) - 1);
 }
 
 bool Universe::isSwappedOut(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
-//	if ((position < Universe::getPageTableBase()) || (position > Universe::getPageTableTop())){
-//		return false;
-//	}
-	return ((*position) == Universe::_notPresentMask);
+	return (((*position) & 1)  == Universe::_notPresentMask);
 }
 
 bool Universe::isPresent(void *pageAddress){
 	char *position = (char *)getPageTablePosition(pageAddress);
-	return ((*position) == Universe::_presentMask);
+	return (((*position) & 1) == Universe::_presentMask);
+}
+
+bool Universe::isZeroed(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	return (((*position) & 2) == Universe::_isZeroed);
+}
+
+void Universe::markZeroed(void *pageAddress){
+	char *position = (char *)getPageTablePosition(pageAddress);
+	*position = *position | Universe::_isZeroed;
 }
 
 size_t Universe::getPageIndex(void *address){
