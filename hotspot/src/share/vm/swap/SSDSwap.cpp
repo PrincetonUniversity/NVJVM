@@ -76,7 +76,7 @@ void SSDSwap::handle_faults(void *addr) {
 
 void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 	if(L_SWAP){
-		printf("SSDSwap:CMS_handle_faults_prefetch called on address = %p.\n", addr);
+		printf("SSDSwap:CMS_handle_faults_prefetch called on address = %p, index = %d.\n", addr, __index(addr));
 		fflush(stdout);
 	}
 
