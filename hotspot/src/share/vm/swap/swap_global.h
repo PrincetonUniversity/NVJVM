@@ -39,6 +39,9 @@ using namespace std;
 #define handle_error(msg) \
   do {perror (msg); exit(EXIT_FAILURE);} while (0)
 
+#define __index(p) \
+	Universe::getPageIndex(p)
+
 class SwapRange {
 
 private:

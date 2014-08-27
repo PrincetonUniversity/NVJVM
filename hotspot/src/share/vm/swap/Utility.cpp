@@ -111,18 +111,15 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 }
 
 int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **startPage, void **lastPage){
-	int count = 0, iter = 0;
+	int count = 0;
 	void *curr = start;
-	while(true){
-		iter++;
-		if(Universe::getPageIndex(curr) > Universe::getPageIndex(end))
-			break;
+	while(__index(curr) <= __index(end)){
 		if(Universe::isSwappedOut(curr)){
 			if(count == 0){
 				*startPage = curr;
 			}
 			count++;
-		} else if(count > 1){
+		} else if(count > 0){
 			break;
 		}
 		curr = Utility::nextPage(curr);

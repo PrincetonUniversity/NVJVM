@@ -85,7 +85,7 @@ void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 		return;
 	}
 
-	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	/*int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
 	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
@@ -112,7 +112,7 @@ void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 	HeapMonitor::CMS_swapout_synchronized();
 #if Print_HeapMetrics
 //	HeapMonitor::PrintHeapUsage();
-#endif
+#endif*/
 }
 
 void SSDSwap::CMS_handle_faults(void *addr) {
@@ -277,6 +277,9 @@ void SSDSwap::swapInChunk(void *start, void *end){
 		while(Universe::getPageIndex(curr) < Universe::getPageIndex(end)){
 			pthread_mutex_lock(&_swap_map_mutex[partitionIndexS]);
 				numPages = Utility::getContinuousPagesOutOfCorePages(curr, end, &first, &last);
+				if(__index(first) > __index(curr)){
+
+				}
 				if(numPages > 0){
 					SwapManager::swapInPage(first, numPages); // Currently we are synchronizing access to remapping pages
 					nPagesSwappedIn += numPages;

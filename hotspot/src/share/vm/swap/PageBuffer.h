@@ -11,8 +11,6 @@
 #ifndef PAGEBUFFER_H_
 #define PAGEBUFFER_H_
 
-#define __index(p) \
-	Universe::getPageIndex(p)
 
 /* Page Buffer is the interface for maintaining the pages within the in memory buffer.
  * */
