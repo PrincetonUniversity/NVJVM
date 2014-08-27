@@ -120,6 +120,7 @@ int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **sta
 			}
 			count++;
 		} else if(count > 0){
+			curr = Utility::nextPage(curr);
 			break;
 		}
 		curr = Utility::nextPage(curr);
