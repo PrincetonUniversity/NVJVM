@@ -58,9 +58,9 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 
 // Fall back option, when we cannot detect object accesses
 	 if(!Universe::isPresent(addr)){
-		 if(isJavaThread)
-			 SSDSwap::CMS_handle_faults_prefetch(addr, true);
-		 else
+//		 if(isJavaThread && false)
+//			 SSDSwap::CMS_handle_faults_prefetch(addr, true);
+//		 else
 			 SSDSwap::CMS_handle_faults(addr);
 #if SEGMENTATION_LOG
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
