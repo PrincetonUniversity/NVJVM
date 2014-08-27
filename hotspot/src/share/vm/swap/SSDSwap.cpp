@@ -81,7 +81,12 @@ void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 	}
 
 	if(isJavaThread){
-		swapInChunk(addr, Utility::nextPageInc(addr, 10));
+		void *end = Utility::nextPageInc(addr, 10);
+		void *top = Universe::getHeapTop();
+		if(__index(end) >  __index(top)){
+			end = top;
+		}
+		swapInChunk(addr, end);
 		return;
 	}
 
@@ -130,7 +135,6 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 		fflush(stdout);
 	}
 	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
-//	swapInChunk(addr, Utility::nextPageInc(addr, 10));
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p, index = %ld. RemapPage Done.\n",
 				addr, Universe::getPageIndex(addr));
