@@ -18,6 +18,7 @@
 
 class SwapMetric {
 private:
+	static long int _outOfCorePagesSwappedOut;
 	static long int _zeroedPages;
 	static long int _swapOuts;
 	static long int _swapIns;
@@ -89,6 +90,7 @@ public:
 	static void incrementAccessInterceptCount(int type);
 	static void init();
 	static void getInterceptType(int, char *);
+	static void incrementOutOfCoreCount(int);
 };
 
 #endif /* SWAPMETRIC_H_ */

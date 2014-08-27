@@ -9,6 +9,7 @@
 
 long int SwapMetric::_swapOuts = 0;
 long int SwapMetric::_zeroedPages = 0;
+long int SwapMetric::_outOfCorePagesSwappedOut = 0;
 long int SwapMetric::_swapIns = 0;
 timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
@@ -208,6 +209,7 @@ void SwapMetric::print_on(){
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Zeroed Pages Swapped Out = %ld.\n"
+			"Out of Core Pages Swapped Out = %ld.\n"
 			"Total time taken for swapOut = %lld seconds %3ld milliseconds.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics::\n"
@@ -215,7 +217,7 @@ void SwapMetric::print_on(){
 			"Total Intercepts = %ld\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
-						_zeroedPages,
+						_zeroedPages, _outOfCorePagesSwappedOut,
 						(long long)_swapOutTime.tv_sec,
 						_swapOutTime.tv_nsec/(1000*1000),
 						(long long)_swapInTime.tv_sec,
@@ -253,6 +255,10 @@ void SwapMetric::init(){
 	for(count = 0; count < Number_Intercepts; count++){
 		_intercepts[count] = 0;
 	}
+}
+
+void SwapMetric::incrementOutOfCoreCount(int np){
+	_outOfCorePagesSwappedOut+= np;
 }
 
 void SwapMetric::getInterceptType(int type, char* str){

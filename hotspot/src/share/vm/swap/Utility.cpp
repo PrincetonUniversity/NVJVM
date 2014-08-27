@@ -225,7 +225,7 @@ int Utility::getOutOfCoreCount(void *start, int np){
 	start = getPageStart(start);
 	unsigned char vec[np];
 	unsigned char v;
-	if(mincore((const void *)start, (unsigned long int)(np * getPageSize()), (char *)vec) == -1){
+	if(mincore(start, (unsigned long int)(np * getPageSize()), vec) == -1){
 		perror("error :");
 		printf("Error In mincore() %p \n", start);
 		fflush(stdout);
