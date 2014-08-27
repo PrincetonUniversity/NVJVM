@@ -728,7 +728,7 @@ void* Universe::getPageTablePosition(void *address){
 size_t Universe::getPageTablePartition(void *address, int numPartitions){
 	size_t pageTableSize = getPageTableSize();
 	size_t pageIndex = getPageIndex(address);
-	size_t partitionLimit = 0, partitionSize = pageTableSize/numPartitions;
+	size_t partitionLimit = 0, partitionSize = pageTableSize/numPartitions + 1;
 	int partition = 1;
 	while(partition < numPartitions){
 		partitionLimit += partitionSize;
@@ -1028,7 +1028,7 @@ jint Universe::initialize_heap() {
 
 #ifdef _LP64
   if (UseCompressedOops) {
-	  printf("Using compressed Oops \n");
+//	  printf("Using compressed Oops \n");
     // Subtract a page because something can get allocated at heap base.
     // This also makes implicit null checking work, because the
     // memory+1 page below heap_base needs to cause a signal.
