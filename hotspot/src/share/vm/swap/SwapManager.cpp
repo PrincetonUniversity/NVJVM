@@ -52,12 +52,12 @@ void SwapManager::swapInPage(void *address, int numberPages){
 	if(L_SWAP){
 		  printf("SwapManager::swapInPage() In swapInPage, swapping in page address %p.\n", address); fflush (stdout);
 	}
-	size_t pageIndex = Universe::getPageIndex(address);
+	size_t pageIndex = __index(address);
 	size_t fileOffset = pageIndex * sysconf(_SC_PAGE_SIZE);
 	if(Universe::isPresent(address)){
 		  if(L_SWAP){
 			  printf("Address %p, index = %d is already present. "
-				  "Therefore, page not fetched in.\n", address, Universe::getPageIndex(address));
+				  "Therefore, page not fetched in.\n", address, __index(address));
 			  fflush(stdout);
 		  }
 		return;

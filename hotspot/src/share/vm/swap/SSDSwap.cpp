@@ -76,7 +76,7 @@ void SSDSwap::handle_faults(void *addr) {
 
 void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 	if(L_SWAP){
-		printf("SSDSwap:CMS_handle_faults called on address = %p.\n", addr);
+		printf("SSDSwap:CMS_handle_faults_prefetch called on address = %p.\n", addr);
 		fflush(stdout);
 	}
 
@@ -277,13 +277,12 @@ void SSDSwap::swapInChunk(void *start, void *end){
 		while(Universe::getPageIndex(curr) < Universe::getPageIndex(end)){
 			pthread_mutex_lock(&_swap_map_mutex[partitionIndexS]);
 				numPages = Utility::getContinuousPagesOutOfCorePages(curr, end, &first, &last);
-				if(__index(first) > __index(curr)){
-
-				}
 				if(numPages > 0){
 					SwapManager::swapInPage(first, numPages); // Currently we are synchronizing access to remapping pages
 					nPagesSwappedIn += numPages;
 				}
+				if(curr == last)
+					curr = Utility::nextPage(curr);
 				curr = last;
 			pthread_mutex_unlock(&_swap_map_mutex[partitionIndexS]);
 			}
