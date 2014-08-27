@@ -18,6 +18,7 @@
 
 class SwapMetric {
 private:
+	static long int _objectsBySizeSwappedOut;
 	static long int _outOfCorePagesSwappedOut;
 	static long int _zeroedPages;
 	static long int _swapOuts;
@@ -91,6 +92,7 @@ public:
 	static void init();
 	static void getInterceptType(int, char *);
 	static void incrementOutOfCoreCount(int);
+	static void incrementObjectSize(int);
 };
 
 #endif /* SWAPMETRIC_H_ */
