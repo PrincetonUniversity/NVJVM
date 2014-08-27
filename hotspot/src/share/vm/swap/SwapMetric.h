@@ -18,6 +18,7 @@
 
 class SwapMetric {
 private:
+	static long int _zeroedPages;
 	static long int _swapOuts;
 	static long int _swapIns;
 	static timespec _swapOutTime;
@@ -50,6 +51,7 @@ private:
 	static bool _metricPrinted;
 
 public:
+	static void incrementZeroedPages(int);
 	static void incrementFaults_CGC_Thread();
 	static void incrementFaults_VM_Thread();
 	static void incrementFaults_Worker_Thread();

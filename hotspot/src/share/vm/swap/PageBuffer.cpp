@@ -37,6 +37,7 @@ void PageBuffer::zeroSwap(void *start, int np){
 		fflush(stdout);
 		exit(1);
 	}
+	SwapMetric::incrementZeroedPages(np);
 }
 
 void PageBuffer::swapOutRange(void *va, int np){
@@ -67,7 +68,7 @@ void PageBuffer::swapOutRange(void *va, int np){
 }
 
 void PageBuffer::pageOut(void *va, int np) {
-	int pageIndex = Universe::getPageIndex(va);
+	int pageIndex = __index(va);
 	int off = pageIndex * sysconf(_SC_PAGE_SIZE);
 
 	// Writing the page out to swap

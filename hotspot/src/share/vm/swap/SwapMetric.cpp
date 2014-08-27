@@ -8,6 +8,7 @@
 #include "SwapMetric.h"
 
 long int SwapMetric::_swapOuts = 0;
+long int SwapMetric::_zeroedPages = 0;
 long int SwapMetric::_swapIns = 0;
 timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
@@ -39,6 +40,10 @@ bool SwapMetric::_metricPrinted = false;
 long int SwapMetric::_intercepts[Number_Intercepts] = {0};
 
 #define K 1024
+
+void SwapMetric::incrementZeroedPages(int np){
+	_zeroedPages += np;
+}
 
 void SwapMetric::incrementFaults_CGC_Thread(){
 //	pthread_mutex_lock(&_fCGC_mutex);
@@ -202,6 +207,7 @@ void SwapMetric::print_on(){
 	printf("The overall SwapMetrics. \n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
+			"Zeored Pages Swapped Out = %ld \n."
 			"Total time taken for swapOut = %lld seconds %3ld milliseconds.\n"
 			"Total time taken for swapIn = %lld seconds %.3ld milliseconds.\n"
 			"Fault Metrics::\n"
@@ -209,6 +215,7 @@ void SwapMetric::print_on(){
 			"Total Intercepts = %ld\n",
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
+						_zeroedPages,
 						(long long)_swapOutTime.tv_sec,
 						_swapOutTime.tv_nsec/(1000*1000),
 						(long long)_swapInTime.tv_sec,
@@ -229,6 +236,7 @@ void SwapMetric::print_on(){
 			_faultsNamedThread, _faultsJavaThread,
 			_faults_VM_Thread, _faults_CGC_Thread,
 			_faults_Wor_Thread);
+
 	fflush(stdout);
 }
 
