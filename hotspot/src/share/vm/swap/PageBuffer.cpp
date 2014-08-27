@@ -37,7 +37,11 @@ void PageBuffer::zeroSwap(void *start, int np){
 		fflush(stdout);
 		exit(1);
 	}
+
+#if SWAP_METRICS
 	SwapMetric::incrementZeroedPages(np);
+#endif
+
 }
 
 void PageBuffer::swapOutRange(void *va, int np){
