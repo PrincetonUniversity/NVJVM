@@ -18,7 +18,8 @@ void prefetchObjects(void *addr){
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
-  printf("Segmentation fault at address = %p, handled.\n", addr);
+//  printf("Segmentation fault at address = %p, %d\n", addr, Universe::getPageIndex(addr));
+
   bool isJavaThread = false;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
 
@@ -57,7 +58,10 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 
 // Fall back option, when we cannot detect object accesses
 	 if(!Universe::isPresent(addr)){
-		 SSDSwap::CMS_handle_faults(addr);
+		 if(isJavaThread)
+			 SSDSwap::CMS_handle_faults_prefetch(addr, true);
+		 else
+			 SSDSwap::CMS_handle_faults(addr);
 #if SEGMENTATION_LOG
 			 printf("Segmentation fault at address = %p, handled.\n", addr);
 			 fflush(stdout);

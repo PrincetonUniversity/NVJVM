@@ -74,6 +74,47 @@ void SSDSwap::handle_faults(void *addr) {
 	}
 }
 
+void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
+	if(L_SWAP){
+		printf("SSDSwap:CMS_handle_faults called on address = %p.\n", addr);
+		fflush(stdout);
+	}
+
+	if(isJavaThread){
+		swapInChunk(addr, Utility::nextPageInc(addr, 10));
+		return;
+	}
+
+	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+	timespec time1, time2;
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+	if(L_SWAP){
+		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld."
+				"Entering SwapInPage.\n", addr, Universe::getPageIndex(addr));
+		fflush(stdout);
+	}
+//	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
+	if(L_SWAP){
+		printf("SSDSwap:handle_faults called on address = %p, index = %ld. RemapPage Done.\n",
+				addr, Universe::getPageIndex(addr));
+		fflush(stdout);
+	}
+	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
+	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+	SwapMetric::incrementSwapInTime(time1, time2);
+	HeapMonitor::incrementPagesSwappedIn(1);
+	if(L_SWAP){
+		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld. "
+				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
+		fflush(stdout);
+	}
+	HeapMonitor::CMS_swapout_synchronized();
+#if Print_HeapMetrics
+//	HeapMonitor::PrintHeapUsage();
+#endif
+}
+
 void SSDSwap::CMS_handle_faults(void *addr) {
 	if(L_SWAP){
 		printf("SSDSwap:CMS_handle_faults called on address = %p.\n", addr);
@@ -88,7 +129,8 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 				"Entering SwapInPage.\n", addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
-	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
+//	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
+	swapInChunk(addr, Utility::nextPageInc(addr, 10));
 	if(L_SWAP){
 		printf("SSDSwap:handle_faults called on address = %p, index = %ld. RemapPage Done.\n",
 				addr, Universe::getPageIndex(addr));

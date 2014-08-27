@@ -35,6 +35,7 @@ public:
 	void* seg_handler (void *address);
 	static void handle_faults(void *address);
 	static void CMS_handle_faults(void *address);
+	static void CMS_handle_faults_prefetch(void *address, bool IsJavaThread);
 	static void swapInRegion(void *addr);
 	// Function which converts an object's location to the location where its page header resides
 	static void *object_va_to_page_header(void *object_va);
