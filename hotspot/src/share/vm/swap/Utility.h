@@ -33,6 +33,7 @@ public:
 	static void *getNextInMemoryPage(void *, void *);
 	static void *getBoundary(void *start, void *end, int numberPartitions);
 	static int countZeroedPages(void *start, int np);
+	static int getLargestContinuousZeroedPages(void *start, int np);
 	static bool isPageZero(void* address);
 };
 

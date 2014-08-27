@@ -176,7 +176,21 @@ int Utility::countZeroedPages(void *add, int np){
 	return count;
 }
 
-
+int Utility::getLargestContinuousZeroedPages(void *add, int np){
+	int count = 0, largest = -1;
+	while (np > 0){
+		if(isPageZero(add)){
+			count++;
+		} else {
+			if(count > largest)
+				largest = count;
+			count = 0;
+		}
+		add = nextPage(add);
+		np--;
+	}
+	return largest;
+}
 
 
 
