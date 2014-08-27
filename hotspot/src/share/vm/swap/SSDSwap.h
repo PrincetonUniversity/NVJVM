@@ -28,6 +28,7 @@ private:
 	//SwapManager* _swap_manager;
 	//SSDManager* _ssd_manager;
 	static pthread_mutex_t _swap_map_mutex[Mutex_Count];
+	static int _prefetchCount;
 
 public:
 	SSDSwap();

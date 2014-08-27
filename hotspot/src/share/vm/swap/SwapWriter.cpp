@@ -74,7 +74,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 	  }
 
 	  int outOfCore = Utility::getOutOfCoreCount(va, np);
-	  printf("Pages Out Of Core %d, totalPagesSwappedOut = %d", outOfCore, np);
+	  printf("Pages Out Of Core %d, totalPagesSwappedOut = %d \n", outOfCore, np);
+
 #if SWAP_METRICS
 	  SwapMetric::incrementOutOfCoreCount(outOfCore);
 #endif

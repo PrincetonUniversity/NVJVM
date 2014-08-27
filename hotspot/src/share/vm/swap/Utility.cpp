@@ -111,6 +111,9 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 }
 
 int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **startPage, void **lastPage){
+	if(L_SWAP){
+		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d", start, __index(start), end, __index(end));
+	}
 	int count = 0;
 	void *curr = start;
 	while(__index(curr) < __index(end)){
@@ -126,6 +129,9 @@ int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **sta
 		curr = Utility::nextPage(curr);
 	}
 	*lastPage = curr;
+	if(L_SWAP){
+		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d. Done", start, __index(start), end, __index(end));
+	}
 	return count;
 }
 

@@ -11,6 +11,7 @@
 #include "Utility.h"
 
 pthread_mutex_t SSDSwap::_swap_map_mutex[Mutex_Count];
+int SSDSwap::_prefetchCount = 10;
 
 // The handler to catch SIGSEGV faults on memory access
 void* SSDSwap::seg_handler (void *addr){
@@ -81,43 +82,14 @@ void SSDSwap::CMS_handle_faults_prefetch(void *addr, bool isJavaThread) {
 	}
 
 	if(isJavaThread){
-		void *end = Utility::nextPageInc(addr, 10);
+		void *end = Utility::nextPageInc(addr, _prefetchCount);
 		void *top = Universe::getHeapTop();
-		if(__index(end) >  __index(top)){
+		if(__index(end) > __index(top)){
 			end = top;
 		}
 		swapInChunk(addr, end);
 		return;
 	}
-
-	/*int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
-	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
-	timespec time1, time2;
-	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-	if(L_SWAP){
-		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld."
-				"Entering SwapInPage.\n", addr, Universe::getPageIndex(addr));
-		fflush(stdout);
-	}
-//	SwapManager::swapInPage(addr, 1); // Currently we are synchronizing access to remapping pages
-	if(L_SWAP){
-		printf("SSDSwap:handle_faults called on address = %p, index = %ld. RemapPage Done.\n",
-				addr, Universe::getPageIndex(addr));
-		fflush(stdout);
-	}
-	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
-	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
-	SwapMetric::incrementSwapInTime(time1, time2);
-	HeapMonitor::incrementPagesSwappedIn(1);
-	if(L_SWAP){
-		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld. "
-				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
-		fflush(stdout);
-	}
-	HeapMonitor::CMS_swapout_synchronized();
-#if Print_HeapMetrics
-//	HeapMonitor::PrintHeapUsage();
-#endif*/
 }
 
 void SSDSwap::CMS_handle_faults(void *addr) {
