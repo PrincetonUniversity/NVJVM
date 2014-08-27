@@ -41,7 +41,6 @@ void PageBuffer::zeroSwap(void *start, int np){
 #if SWAP_METRICS
 	SwapMetric::incrementZeroedPages(np);
 #endif
-
 }
 
 void PageBuffer::swapOutRange(void *va, int np){
@@ -62,6 +61,8 @@ void PageBuffer::swapOutRange(void *va, int np){
 			zeroSwap(start, pageStreak);
 			currStart = swapOutStart = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
 		} else {
+			if(pageStreak == 0)
+				break;
 			currStart = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
 			continue;
 		}
