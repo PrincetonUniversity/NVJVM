@@ -221,5 +221,23 @@ int Utility::getLargestContinuousZeroedPages(void *add, int np, void **start){
 }
 
 
-
+int Utility::getOutOfCoreCount(void *start, int np){
+	start = getPageStart(start);
+	unsigned char vec[np];
+	unsigned char v;
+	if(mincore((const void *)start, (unsigned long int)(np * getPageSize()), (char *)vec) == -1){
+		perror("error :");
+		printf("Error In mincore() %p \n", start);
+		fflush(stdout);
+		exit(1);
+	}
+	int iter = 0, count = 0;
+	for(; iter < np; iter++){
+		v = vec[iter];
+		if((v & 1) == 0){
+			count++;
+		}
+	}
+	return count;
+}
 

@@ -10,6 +10,9 @@
 
 #include "swap_global.h"
 #include "SwapManager.h"
+#include <unistd.h>
+#include <sys/mman.h>
+
 
 class Utility {
 public:
@@ -36,6 +39,7 @@ public:
 	static int getLargestContinuousZeroedPages(void *, int, void **);
 	static bool isPageZero(void* address);
 	static int getNextContinuousZeroedPagesStreak(void *, int, void **);
+	static int getOutOfCoreCount(void *, int);
 };
 
 #endif /* UTILITY_H_ */
