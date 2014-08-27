@@ -23,6 +23,7 @@ public:
 	static void* getPageEnd(void *address);
 	static int getNumPages(void *s, void *e);
 	static void* nextPage(void *);
+	static void* prevPage(void *);
 	static void* nextPageInc(void *, int);
 	static void* addPointers(void* a, void* b);
 	static bool liesWithinHeap(void *a);

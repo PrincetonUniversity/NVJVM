@@ -726,13 +726,13 @@ void* Universe::getPageTablePosition(void *address){
 }
 
 size_t Universe::getPageTablePartition(void *address, int numPartitions){
-	size_t pageTableSize = getPageTableSize();
+	size_t pageTableSize = getPageTableSize()/sysconf(_SC_PAGE_SIZE);
 	size_t pageIndex = getPageIndex(address);
-	size_t partitionLimit, partitionSize = pageTableSize/numPartitions;
+	size_t partitionLimit = 0, partitionSize = pageTableSize/numPartitions;
 	int partition = 1;
 	while(partition < numPartitions){
 		partitionLimit += partitionSize;
-		if(pageIndex <= partitionLimit){
+		if(pageIndex < partitionLimit){
 			break;
 		}
 		partition++;

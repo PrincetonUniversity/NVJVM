@@ -268,8 +268,8 @@ void SSDSwap::swapInChunk(void *start, void *end){
 	} else {
 		// find the boundary
 		void *boundary = Utility::getBoundary(start, end, PageTablePartitions);
-		swapInChunk(start, boundary);
-		swapInChunk(Utility::nextPage(boundary), end);
+		swapInChunk(start, Utility::prevPage(boundary));
+		swapInChunk(boundary, end);
 	}
 }
 

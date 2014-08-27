@@ -42,6 +42,11 @@ int Utility::getNumPages(void *top, void*bot){
 	return (((long)top_l - (long)bot_l)/(_PAGE_SIZE)) + 1;
 }
 
+void *Utility::prevPage (void *address){
+	return((void *)((char *)address - _PAGE_SIZE));
+}
+
+
 void *Utility::nextPage (void *address){
 	return((void *)((char *)address + _PAGE_SIZE));
 }
@@ -112,7 +117,7 @@ int Utility::getContinuousFreePagesBetween(void *start, void *end, int maxRequir
 
 int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **startPage, void **lastPage){
 	if(L_SWAP){
-		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d", start, __index(start), end, __index(end));
+		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d\n", start, __index(start), end, __index(end));
 	}
 	int count = 0;
 	void *curr = start;
@@ -130,7 +135,7 @@ int Utility::getContinuousPagesOutOfCorePages(void *start, void *end, void **sta
 	}
 	*lastPage = curr;
 	if(L_SWAP){
-		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d. Done", start, __index(start), end, __index(end));
+		printf("in getContinuousPagesOutOfCore %p, %d, %p, %d. Done\n", start, __index(start), end, __index(end));
 	}
 	return count;
 }
