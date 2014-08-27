@@ -261,7 +261,7 @@ void SwapMetric::init(){
 }
 
 void SwapMetric::incrementObjectSize(int size){
-	_objectsBySizeSwappedOut += size;
+	_objectsBySizeSwappedOut += size * 8;
 }
 
 void SwapMetric::incrementOutOfCoreCount(int np){
