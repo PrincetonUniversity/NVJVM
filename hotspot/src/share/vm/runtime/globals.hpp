@@ -691,6 +691,7 @@ class CommandLineFlags {
   product(intx, SuspendRetryCount, 50,                                      \
           "Maximum retry count for an external suspend request")            \
                                                                             \
+  product(intx, InCoreHeapSize, 250, "in core heap size in MB")				\
   product(intx, SuspendRetryDelay, 5,                                       \
           "Milliseconds to delay per retry (* current_retry_count)")        \
                                                                             \
