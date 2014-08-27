@@ -41,24 +41,28 @@ void PageBuffer::zeroSwap(void *start, int np){
 
 void PageBuffer::swapOutRange(void *va, int np){
 	void *start = NULL;
-	int pagesToSwap = np;
-	int pageStreak  = 0;
-	int diff;
-	while(pagesToSwap > 0){
-		pageStreak = Utility::getNextContinuousZeroedPagesStreak(va, pagesToSwap, &start);
+	int pagesToSwap = np, pageStreak = 0, diff = 0;
+	void *swapOutStart = va;
+	void *currStart = va;
+	void *end = Utility::nextPageInc(va, np);
+	while(pagesToSwap > 0 && __index(currStart) < __index(end)){
+		pageStreak = Utility::getNextContinuousZeroedPagesStreak(currStart, pagesToSwap, &start);
 		if(pageStreak > 0.1 * np){
-			if(Universe::getPageIndex(start) > Universe::getPageIndex(va)){
-				diff = Utility::numberPages(va, start);
+			if(__index(start) > __index(swapOutStart)){
+				diff = Utility::numberPages(swapOutStart, start);
 				pageOut(va, diff);
 				pagesToSwap -= diff;
 			}
 			pagesToSwap -= pageStreak;
 			zeroSwap(start, pageStreak);
-			va = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
+			currStart = swapOutStart = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
 		} else {
-			pageOut(va, pagesToSwap);
-			return;
+			currStart = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
+			continue;
 		}
+	}
+	if(__index(swapOutStart) < __index(currStart)){
+		pageOut(swapOutStart, pagesToSwap);
 	}
 }
 
