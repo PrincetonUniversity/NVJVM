@@ -842,9 +842,7 @@ void* Universe::non_oop_word() {
 }
 
 jint universe_init() {
-  printf("The Incore Heap Size %d", InCoreHeapSize);
   Universe::_availableRAM = (size_t)InCoreHeapSize*MB;
-  printf("Available RAM:: %d", Universe::_availableRAM);
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),
          "LogHeapWordSize is incorrect.");

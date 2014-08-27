@@ -18,6 +18,7 @@ void prefetchObjects(void *addr){
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
+  printf("Segmentation fault at address = %p, handled.\n", addr);
   bool isJavaThread = false;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
 
