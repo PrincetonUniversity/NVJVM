@@ -207,7 +207,7 @@ void SwapMetric::print_on(){
 //	_metricPrinted = true;
 	int count;
 	printf("The overall SwapMetrics. \n"
-			"Objects By Size on out of core pages %lf \n"
+			"Objects By Size on out of core pages %lf.\n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Zeroed Pages Swapped Out = %ld.\n"
