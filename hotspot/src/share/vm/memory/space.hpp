@@ -76,6 +76,7 @@ class GenRemSet;
 class CardTableRS;
 class DirtyCardToOopClosure;
 
+//SwapInClosure
 class SwapInOopClosure: public OopClosure {
 protected:
  template <class T> void do_oop_work(T* p) {

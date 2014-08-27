@@ -19,6 +19,7 @@
 class SwapMetric {
 private:
 	static long int _objectsBySizeSwappedOut;
+	static long int _objectsOutOfCoreCount;
 	static long int _outOfCorePagesSwappedOut;
 	static long int _zeroedPages;
 	static long int _swapOuts;

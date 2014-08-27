@@ -11,6 +11,7 @@ long int SwapMetric::_swapOuts = 0;
 long int SwapMetric::_zeroedPages = 0;
 long int SwapMetric::_outOfCorePagesSwappedOut = 0;
 long int SwapMetric::_objectsBySizeSwappedOut = 0;
+long int SwapMetric::_objectsOutOfCoreCount =0;
 long int SwapMetric::_swapIns = 0;
 timespec SwapMetric::_swapInTime;
 timespec SwapMetric::_swapOutTime;
@@ -207,7 +208,7 @@ void SwapMetric::print_on(){
 //	_metricPrinted = true;
 	int count;
 	printf("The overall SwapMetrics. \n"
-			"Objects By Size on out of core pages %lf.\n"
+			"Objects By Size on out of core pages %lf MB, Objects out of core %d.\n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
 			"Zeroed Pages Swapped Out = %ld.\n"
@@ -217,7 +218,8 @@ void SwapMetric::print_on(){
 			"Fault Metrics::\n"
 			"Total segmentation faults = %ld\n"
 			"Total Intercepts = %ld\n",
-			(double)(_objectsBySizeSwappedOut) / (double)1024,
+			(double)(_objectsBySizeSwappedOut) / (double)(1024 * 1024),
+			_objectsOutOfCoreCount,
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),
 						_swapOuts, _swapOutPages, _swapOutBytes/(K*K),
 						_zeroedPages, _outOfCorePagesSwappedOut,
@@ -262,6 +264,7 @@ void SwapMetric::init(){
 
 void SwapMetric::incrementObjectSize(int size){
 	_objectsBySizeSwappedOut += size * 8;
+	_objectsOutOfCoreCount++;
 }
 
 void SwapMetric::incrementOutOfCoreCount(int np){
