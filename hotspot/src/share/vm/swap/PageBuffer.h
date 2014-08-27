@@ -21,8 +21,11 @@ private:
 public:
 	PageBuffer();
 	virtual ~PageBuffer();
-	static SSDRange pageOut (void *, int np, int off, int n);
+//	static SSDRange pageOut (void *, int np, int off, int n);
 	static bool check(void *va, int np);
+	static void pageOut(void *, int);
+	static void zeroSwap(void *, int);
+	static void swapOutRange(void *, int);
 };
 
 #endif /* PAGEBUFFER_H_ */

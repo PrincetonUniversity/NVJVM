@@ -230,8 +230,8 @@ void SwapManager::clearRegion(void *address){
 }
 
 void SwapManager::swapRange(SwapRange* swap_range, int off, int numPagesToRelease) {
-	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off, numPagesToRelease);
-	mapRange(swap_range->getEnd(), ssdRange);
+//	SSDRange ssdRange = PageBuffer::pageOut(swap_range->getBot(), swap_range->getNumPages(), off, numPagesToRelease);
+//	mapRange(swap_range->getEnd(), ssdRange);
 }
 
 void* SwapManager::object_va_to_page_start (void *object_va) {

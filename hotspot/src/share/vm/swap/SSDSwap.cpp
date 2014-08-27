@@ -124,12 +124,9 @@ void SSDSwap::CMS_swapOut_synchronized(void *sa, int numberPages){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	sa = Utility::getPageStart(sa);
-	size_t pageIndex = Universe::getPageIndex(sa);
-	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
 	int partitionIndex = Universe::getPageTablePartition(sa, PageTablePartitions) - 1;
 	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
-	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
-	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
+	PageBuffer::swapOutRange(sa, numberPages);
 	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	HeapMonitor::incrementPagesSwappedOut(numberPages);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
@@ -140,10 +137,7 @@ void SSDSwap::CMS_swapOut(void *sa, int numberPages){
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	sa = Utility::getPageStart(sa);
-	size_t pageIndex = Universe::getPageIndex(sa);
-	size_t offsetSSD = pageIndex * sysconf(_SC_PAGE_SIZE);
-	PageBuffer::pageOut(sa, numberPages, offsetSSD, numberPages);
-//	SSDSwap::markRegionSwappedOut(sa, numberPages); // Marking the region as swapped out, in the region bitmap
+	PageBuffer::swapOutRange(sa, numberPages);
 	HeapMonitor::incrementPagesSwappedOut(numberPages);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapOutTime(time1, time2);
@@ -162,7 +156,7 @@ void SSDSwap::swapOut(void *end, void *bot, void *top){
 		printf("Releasing Number Of Pages = %d.\n", numPagesToRelease);
 		fflush(stdout);
 	}
-	SwapManager::swapRange(swapRange, off, numPagesToRelease);
+//	SwapManager::swapRange(swapRange, off, numPagesToRelease);
 //	SSDSwap::markRegionSwappedOut(bot, numPagesToRelease); // Marking the region as swapped out, in the region bitmap
 	if(L_SWAP){
 		printf("SSDSwap::swapOut::In swapOut, swapOut done successfully\n");

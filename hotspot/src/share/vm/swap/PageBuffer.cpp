@@ -30,14 +30,45 @@ bool PageBuffer::check(void *va, int np){
 	return (zP == np);
 }
 
-SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
-	SSDRange ssdRange;
-	if(check(va, np)){
-		return ssdRange;
+void PageBuffer::zeroSwap(void *start, int np){
+	if (madvise (start, (unsigned long)(np * Utility::getPageSize()), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+		perror("error :");
+		printf("Error In Protecting Page %p \n", start);
+		fflush(stdout);
+		exit(1);
 	}
+}
+
+void PageBuffer::swapOutRange(void *va, int np){
+	void *start = NULL;
+	int pagesToSwap = np;
+	int pageStreak  = 0;
+	int diff;
+	while(pagesToSwap > 0){
+		pageStreak = Utility::getNextContinuousZeroedPagesStreak(va, pagesToSwap, &start);
+		if(pageStreak > 0.1 * np){
+			if(Universe::getPageIndex(start) > Universe::getPageIndex(va)){
+				diff = Utility::numberPages(va, start);
+				pageOut(va, diff);
+				pagesToSwap -= diff;
+			}
+			pagesToSwap -= pageStreak;
+			zeroSwap(start, pageStreak);
+			va = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
+		} else {
+			pageOut(va, pagesToSwap);
+			return;
+		}
+	}
+}
+
+void PageBuffer::pageOut(void *va, int np) {
+	int pageIndex = Universe::getPageIndex(va);
+	int off = pageIndex * sysconf(_SC_PAGE_SIZE);
+
 	// Writing the page out to swap
 	if (L_SWAP){
-		printf("In pageOut, paging out %d pages, from %p. Number of pages released = %d.\n", np, va, numPagesToRelease);
+		printf("In pageOut, paging out %d pages, from %p. Number of pages released = %d.\n", np, va, np);
 		fflush(stdout);
 	}
 	// Write protecting the memory region - only a single thread must have control over the region
@@ -51,11 +82,8 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 		}
 	}
 
-	ssdRange = SwapWriter::swapOut (va, np, off);
-	if (L_SWAP){
-		printf("In pageOut, ssdRange %d, %d\n", ssdRange.getStart(), ssdRange.getEnd());
-		fflush(stdout);
-	}
+	SwapWriter::swapOut (va, np, off);
+
 	// Protecting the swapped out page
 	if(Swap_Protect){
 		if (mprotect (va, np*  Utility::getPageSize(), PROT_NONE) == -1){
@@ -69,7 +97,7 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 
 	// Marking the region as not needed so that the OS can free the resources
-	if (madvise (va, (unsigned long)(numPagesToRelease * Utility::getPageSize()), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
+	if (madvise (va, (unsigned long)(np * Utility::getPageSize()), MADV_DONTNEED) == -1){ // After swap out the page is advised to be not needed
 		perror("error :");
 		printf("Error In Protecting Page %p \n", va);
 		fflush(stdout);
@@ -77,6 +105,4 @@ SSDRange PageBuffer::pageOut(void *va, int np, int off, int numPagesToRelease) {
 	}
 
 	SSDSwap::markRegionSwappedOut(va, np); // Marking the region as swapped out, in the region bitmap
-
-	return ssdRange;
 }

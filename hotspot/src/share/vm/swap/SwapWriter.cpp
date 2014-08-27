@@ -77,7 +77,8 @@ SSDRange SwapWriter::swapOut (void * va, int np, size_t off){
 	  size_t len = fwrite(va, sizeof(char), (long)(np * Utility::getPageSize()), f);
 	  int zP = Utility::countZeroedPages(va, np);
 	  if(zP > 0){
-		  printf("Zeroed Pages = %d , Largest Streak = %d\n", zP, Utility::getLargestContinuousZeroedPages(va, np));
+		  void *startAdd = NULL;
+		  printf("Zeroed Pages = %d , Largest Streak = %d\n", zP, Utility::getLargestContinuousZeroedPages(va, np, &startAdd));
 	  }
 	  if (len == 0){
 		  fputs ("Error writing to swap file\n", stderr);
