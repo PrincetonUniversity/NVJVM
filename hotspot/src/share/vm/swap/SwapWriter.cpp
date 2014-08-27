@@ -8,6 +8,7 @@
 #include "SwapWriter.h"
 #include "SSDManager.h"
 #include "SwapMetric.h"
+#include "swap/Utility.h"
 
 SwapWriter::SwapWriter() {
 	// TODO Auto-generated constructor stub
