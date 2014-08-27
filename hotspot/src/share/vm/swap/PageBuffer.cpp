@@ -64,7 +64,6 @@ void PageBuffer::swapOutRange(void *va, int np){
 			if(pageStreak == 0)
 				break;
 			currStart = Utility::nextPage(Utility::nextPageInc(start, pageStreak));
-			continue;
 		}
 	}
 	if(__index(swapOutStart) < __index(currStart)){
@@ -81,8 +80,8 @@ void PageBuffer::pageOut(void *va, int np) {
 		printf("In pageOut, paging out %d pages, from %p. Number of pages released = %d.\n", np, va, np);
 		fflush(stdout);
 	}
-	// Write protecting the memory region - only a single thread must have control over the region
 
+	// Write protecting the memory region - only a single thread must have control over the region
 	if(Swap_Protect) {
 	  if (mprotect (va, np* Utility::getPageSize(), PROT_READ) == -1){
 		perror("error :");

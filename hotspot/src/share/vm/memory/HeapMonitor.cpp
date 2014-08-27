@@ -42,7 +42,7 @@ void HeapMonitor::init() {
 
 void HeapMonitor::CMS_swapout_synchronized(){
 	if(!isOverloaded())
-		return ;
+		return;
 
 	VirtualSpace* vs = _concurrentMarkSweepGeneration->getVirtualSpace();
 	void *high = Utility::getPageStart(vs->high());
@@ -50,10 +50,10 @@ void HeapMonitor::CMS_swapout_synchronized(){
 	void *page = Utility::getNextInMemoryPage(_lastSwapOut, high);
 	if(page == NULL){
 		_lastSwapOut = low;
-		page = Utility::getNextInMemoryPage(_lastSwapOut, high);
-		if(page = NULL)
-			return;
-		SSDSwap::CMS_swapOut_synchronized(page, 1);
+	page = Utility::getNextInMemoryPage(_lastSwapOut, high);
+	if(page = NULL)
+		return;
+	SSDSwap::CMS_swapOut_synchronized(page, 1);
 	}
 	_lastSwapOut = Utility::nextPage(page);
 }
