@@ -208,7 +208,7 @@ int Utility::getLargestContinuousZeroedPages(void *add, int np, void **start){
 				largest = count;
 			}
 			count = 0;
-			*newStart = add;
+			newStart = add;
 		}
 		add = nextPage(add);
 		np--;

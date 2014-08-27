@@ -33,9 +33,9 @@ public:
 	static void *getNextInMemoryPage(void *, void *);
 	static void *getBoundary(void *start, void *end, int numberPartitions);
 	static int countZeroedPages(void *start, int np);
-	static int getLargestContinuousZeroedPages(void *start, int np, void **);
+	static int getLargestContinuousZeroedPages(void *, int, void **);
 	static bool isPageZero(void* address);
-	static int getNextContinuousZeroedPagesStreak(void *start, int np, void **);
+	static int getNextContinuousZeroedPagesStreak(void *, int, void **);
 };
 
 #endif /* UTILITY_H_ */
