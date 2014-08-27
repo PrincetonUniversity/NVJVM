@@ -277,8 +277,10 @@ void SSDSwap::swapInChunk(void *start, void *end){
 		while(Universe::getPageIndex(curr) < Universe::getPageIndex(end)){
 			pthread_mutex_lock(&_swap_map_mutex[partitionIndexS]);
 				numPages = Utility::getContinuousPagesOutOfCorePages(curr, end, &first, &last);
-				if(numPages > 0)
+				if(numPages > 0){
 					SwapManager::swapInPage(first, numPages); // Currently we are synchronizing access to remapping pages
+					nPagesSwappedIn += numPages;
+				}
 				curr = last;
 			pthread_mutex_unlock(&_swap_map_mutex[partitionIndexS]);
 			}
