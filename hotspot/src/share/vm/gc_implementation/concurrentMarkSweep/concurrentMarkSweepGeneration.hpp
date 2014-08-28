@@ -521,7 +521,7 @@ public:
     	_address = address;
     }
 
-	int greyObjectCount(){
+	int greyObjectCount() const {
 		jbyte value = *(jbyte *)Universe::getPageTablePosition(_address);
 		return (int)value;
 	}
