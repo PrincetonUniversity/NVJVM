@@ -121,7 +121,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
-	HeapMonitor::CMS_swapout_synchronized();
+//	HeapMonitor::CMS_swapout_synchronized();
 #if Print_HeapMetrics
 //	HeapMonitor::PrintHeapUsage();
 #endif
