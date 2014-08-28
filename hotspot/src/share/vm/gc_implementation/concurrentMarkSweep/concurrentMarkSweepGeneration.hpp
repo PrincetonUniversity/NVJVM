@@ -510,7 +510,7 @@ private:
 
 /*
  * This is the class that
- */
+ *
 class Chunk {
 private:
 	int _numberGreyObjects;
@@ -557,7 +557,7 @@ class ChunkList {
 		Chunk* popChunk(){
 			sortChunkList();
 		}
-};
+};*/
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
