@@ -424,6 +424,10 @@ public:
 	  get_cms_gen()->prefetchRefsFromSpace(s, e);
   }
 
+  void objectCount(void *s, void *e){
+	  get_cms_gen()->objectCountFromSpace(s, e);
+  }
+
   Generation* get_gen(int i) const {
     if (i >= 0 && i < _n_gens)
       return _gens[i];

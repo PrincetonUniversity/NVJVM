@@ -785,7 +785,7 @@ void CompactibleFreeListSpace::oop_iterate(OopClosure* cl) {
   }
 }
 
-void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr, OopClosure* cl) {
+void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr) {
   assert_lock_strong(freelistLock());
   if (is_empty()) {
     return;
@@ -799,13 +799,11 @@ void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr, OopClosure* cl) {
   HeapWord* obj_addr = block_start(mr.start());
   HeapWord* t = mr.end();
 
-  SpaceMemRegionOopsIterClosure smr_blk(cl, mr);
   if (block_is_obj(obj_addr)) {
     // Handle first object specially.
     oop obj = oop(obj_addr);
     SwapMetric::incrementObjectSize(obj->size());
-    obj_addr += adjustObjectSize(obj->oop_iterate(&smr_blk));
-
+    obj_addr += adjustObjectSize(obj->size());
   } else {
     FreeChunk* fc = (FreeChunk*)obj_addr;
     obj_addr += fc->size();
@@ -818,13 +816,11 @@ void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr, OopClosure* cl) {
     // entire object "obj" is within the region.
     if (obj_addr <= t) {
       if (block_is_obj(obj)) {
-        oop(obj)->oop_iterate(cl);
         SwapMetric::incrementObjectSize(oop(obj)->size());
       }
     } else {
       // "obj" extends beyond end of region
       if (block_is_obj(obj)) {
-        oop(obj)->oop_iterate(&smr_blk);
         SwapMetric::incrementObjectSize(oop(obj)->size());
       }
       break;
@@ -832,9 +828,14 @@ void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr, OopClosure* cl) {
   }
 }
 
+void CompactibleFreeListSpace::objectCountSpace(MemRegion mr){
+	OopMetricClosure _swapInOopClosure;
+	oop_iterate_size(mr);
+}
+
 void CompactibleFreeListSpace::prefetchReferences(MemRegion mr){
 	SwapInOopClosure _swapInOopClosure;
-	oop_iterate_size(mr, &_swapInOopClosure);
+	oop_iterate(mr, &_swapInOopClosure);
 }
 
 // Apply the given closure to each oop in the space \intersect memory region.

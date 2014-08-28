@@ -6399,6 +6399,11 @@ size_t CMSCollector::block_size_using_printezis_bits(HeapWord* addr) const {
   return size;
 }
 
+void ConcurrentMarkSweepGeneration::objectCountFromSpace(void *s, void *e){
+	  MemRegion mr((HeapWord*)s, (HeapWord*)e);
+	  cmsSpace()->objectCountSpace(mr);
+}
+
 void ConcurrentMarkSweepGeneration::prefetchRefsFromSpace(void *s, void *e){
 	  MemRegion mr((HeapWord*)s, (HeapWord*)e);
 	  cmsSpace()->prefetchReferences(mr);

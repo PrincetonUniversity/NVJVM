@@ -83,12 +83,23 @@ protected:
 	 	T heap_oop = oopDesc::load_heap_oop(p);
 	    if (!oopDesc::is_null(heap_oop)) {
 	      oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
-//	      SSDSwap::checkAccessSwapIn(obj, 12);
+	      SSDSwap::checkAccessSwapIn(obj, 12);
 	    }
  }
 public:
  virtual void do_oop(oop* p) 					{ SwapInOopClosure::do_oop_work(p); }
  virtual void do_oop(narrowOop* p) 				{ SwapInOopClosure::do_oop_work(p); }
+};
+
+class OopMetricClosure: public OopClosure {
+protected:
+ template <class T> void do_oop_work(T* p) {
+	 // does nothing
+	 return;
+ }
+public:
+ virtual void do_oop(oop* p) 					{ OopMetricClosure::do_oop_work(p); }
+ virtual void do_oop(narrowOop* p) 				{ OopMetricClosure::do_oop_work(p); }
 };
 
 // An oop closure that is circumscribed by a filtering memory region.

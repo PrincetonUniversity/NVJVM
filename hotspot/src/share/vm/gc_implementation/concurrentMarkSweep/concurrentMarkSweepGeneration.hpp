@@ -1184,6 +1184,7 @@ class ConcurrentMarkSweepGeneration: public CardGeneration {
   CompactibleFreeListSpace*  cmsSpace() const { return _cmsSpace;  }
 
   void prefetchRefsFromSpace(void *s, void *e);
+  void objectCountFromSpace(void *s, void *e);
 
   Mutex* freelistLock() const;
 

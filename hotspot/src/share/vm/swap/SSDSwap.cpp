@@ -97,8 +97,8 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 		printf("SSDSwap:CMS_handle_faults called on address = %p.\n", addr);
 		fflush(stdout);
 	}
-	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
-	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+//	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+//	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
 	timespec time1, time2;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
 	if(L_SWAP){
@@ -112,7 +112,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 				addr, Universe::getPageIndex(addr));
 		fflush(stdout);
 	}
-	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
+//	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
 	HeapMonitor::incrementPagesSwappedIn(1);

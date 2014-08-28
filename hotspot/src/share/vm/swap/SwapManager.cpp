@@ -78,6 +78,17 @@ void SwapManager::swapInPage(void *address, int numberPages){
 	}
 
 	// Remapping the virtual address space
+	int partitionIndex = Universe::getPageTablePartition(addr, PageTablePartitions) - 1;
+	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+	if(Universe::isPresent(address)){
+		  if(L_SWAP){
+			  printf("Address %p, index = %d is already present. "
+				  "Therefore, page not fetched in.\n", address, Universe::getPageIndex(address));
+			  fflush(stdout);
+		  }
+		  free(buffer);
+		  return;
+	  }
 	if(mremap(buffer, numberBytes, numberBytes, MREMAP_FIXED | MREMAP_MAYMOVE, address) == (void *)-1){
 		printf("Error in mremap. Address = %p, NumberBytes = %ld, buffer %p.\n", address, numberBytes, buffer);
 		perror("error:");
@@ -90,6 +101,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 		  Universe::markSwappedIn(curr);
 		  curr = Utility::nextPage(curr);
 	}
+	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 }
 
 /*
