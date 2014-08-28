@@ -510,34 +510,29 @@ private:
 
 /*
  * This is the class that
- *
-class Chunk {
+ */
+class ScanChunk {
+
 private:
-	int _numberGreyObjects;
-	pthread_mutex_t _greyObjectCountMutex;
+    void* _address;
 
 public:
-	Chunk(){
-		_numberGreyObjects = 0;
+    ScanChunk(void *address){
+    	_address = address;
+    }
+
+	int greyObjectCount(){
+		jbyte value = *(jbyte *)Universe::getPageTablePosition(_address);
+		return (int)value;
 	}
 
-	int getGreyObjectCount(){
-		return _numberGreyObjects;
+	void* getAddress(){
+		return _address;
 	}
 
-	void par_IncrementGreyObjectCount(int count){
-		pthread_mutex_lock(&_greyObjectCountMutex);
-			_numberGreyObjects += count;
-		pthread_mutex_unlock(&_greyObjectCountMutex);
-	}
-
-	void incrementGreyObjectCount(int count){
-			_numberGreyObjects += count;
-	}
-
-    bool operator<(Chunk other) const
+    bool operator<(ScanChunk other) const
     {
-        return _numberGreyObjects > other._numberGreyObjects;
+        return greyObjectCount() > other.greyObjectCount();
     }
 
 };
@@ -545,19 +540,23 @@ public:
 class ChunkList {
 	private:
 		pthread_mutex_t _listMutex;
-		std::list<Chunk *> _chunkList;
+		std::list<ScanChunk *> _chunkList;
 
 	public:
-		void addChunk(Chunk *chunk);
+		void addChunk(ScanChunk *chunk){
+			_chunkList.push_back(chunk);
+		}
+
 		void sortChunkList(){
 			pthread_mutex_lock(&_listMutex);
 				_chunkList.sort();
 			pthread_mutex_unlock(&_listMutex);
 		}
-		Chunk* popChunk(){
+
+		ScanChunk* popChunk(){
 			sortChunkList();
 		}
-};*/
+};
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
