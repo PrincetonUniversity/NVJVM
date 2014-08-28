@@ -13,7 +13,7 @@ struct sigaction oldSigAct;
 bool SignalHandler::_isInit = false;
 
 void prefetchObjects(void *addr){
-	((GenCollectedHeap *)Universe::heap())->prefetch(Utility::getPageStart(addr), Utility::getPageEnd(addr));
+	((GenCollectedHeap *)Universe::heap())->prefetch(addr, Utility::getPageEnd(addr));
 }
 
 void seg_handler(int sig, siginfo_t *si, void *unused){

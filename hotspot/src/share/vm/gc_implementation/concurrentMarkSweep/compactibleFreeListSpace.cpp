@@ -799,11 +799,12 @@ void CompactibleFreeListSpace::oop_iterate_size(MemRegion mr) {
   HeapWord* obj_addr = block_start(mr.start());
   HeapWord* t = mr.end();
 
+  SpaceMemRegionOopsIterClosure smr_blk(cl, mr);
   if (block_is_obj(obj_addr)) {
     // Handle first object specially.
     oop obj = oop(obj_addr);
     SwapMetric::incrementObjectSize(obj->size());
-    obj_addr += adjustObjectSize(obj->size());
+    obj_addr += adjustObjectSize(obj->oop_iterate(&smr_blk));
   } else {
     FreeChunk* fc = (FreeChunk*)obj_addr;
     obj_addr += fc->size();
