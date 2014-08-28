@@ -770,6 +770,26 @@ void Universe::markZeroed(void *pageAddress){
 	*position = *position | Universe::_isZeroed;
 }
 
+void Universe::incrementGreyObjectCount_Atomic(void *address){
+	jbyte *position = (jbyte *)getPageTablePosition(address);
+	jbyte value = *position;
+	jbyte newValue = value + 1;
+	while(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+		value = *position;
+		newValue = value + 1;
+	}
+}
+
+void Universe::decrementGreyObjectCount_Atomic(void *address){
+	jbyte *position = (jbyte *)getPageTablePosition(address);
+	jbyte value = *position;
+	jbyte newValue = value + 1;
+	while(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+		value = *position;
+		newValue = value + 1;
+	}
+}
+
 size_t Universe::getPageIndex(void *address){
 	char* addCast = (char*)address;
 	size_t addOffset = (size_t)(addCast - (size_t)Universe::getHeapBase());

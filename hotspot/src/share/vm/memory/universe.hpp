@@ -29,6 +29,7 @@
 #include "utilities/growableArray.hpp"
 #include "stdlib.h"
 #include "malloc.h"
+#include "runtime/atomic.hpp"
 
 // List of checks
 #define PT_CHECKS 0
@@ -296,6 +297,9 @@ class Universe: AllStatic {
   static size_t getPhysicalRAM() 						{ return _availableRAM; }
   static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }
   static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
+  static void incrementGreyObjectCount_Atomic(void *pageAddress);
+  static void decrementGreyObjectCount_Atomic(void *pageAddress);
+
 
 
   static void* getPageTablePosition(void *pageAddress);
