@@ -18,7 +18,7 @@ using namespace std;
 
 #ifndef SSDSWAP_H_
 #define SSDSWAP_H_
-#define PageTablePartitions 160
+#define PageTablePartitions 1000
 #define Mutex_Count PageTablePartitions
 
 // Stores the mapping from virtual address to file offset
