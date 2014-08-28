@@ -79,7 +79,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 
 	// Remapping the virtual address space
 	int partitionIndex = Universe::getPageTablePartition(address, PageTablePartitions) - 1;
-	pthread_mutex_lock(&_swap_map_mutex[partitionIndex]);
+	pthread_mutex_lock(&SSDSwap::_swap_map_mutex[partitionIndex]);
 	if(Universe::isPresent(address)){
 		  if(L_SWAP){
 			  printf("Address %p, index = %d is already present. "
@@ -101,7 +101,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 		  Universe::markSwappedIn(curr);
 		  curr = Utility::nextPage(curr);
 	}
-	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
+	pthread_mutex_unlock(&SSDSwap::_swap_map_mutex[partitionIndex]);
 }
 
 /*
