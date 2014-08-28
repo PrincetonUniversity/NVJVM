@@ -102,6 +102,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 		  Universe::markSwappedIn(curr);
 		  curr = Utility::nextPage(curr);
 	}
+	HeapMonitor::incrementPagesSwappedIn(numberPages);
 	pthread_mutex_unlock(&SSDSwap::_swap_map_mutex[partitionIndex]);
 }
 

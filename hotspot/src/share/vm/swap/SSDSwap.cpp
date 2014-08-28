@@ -115,7 +115,7 @@ void SSDSwap::CMS_handle_faults(void *addr) {
 //	pthread_mutex_unlock(&_swap_map_mutex[partitionIndex]);
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 	SwapMetric::incrementSwapInTime(time1, time2);
-	HeapMonitor::incrementPagesSwappedIn(1);
+
 	if(L_SWAP){
 		printf("SSDSwap:CMS_handle_faults called on address = %p, index = %ld. "
 				"handle_faults Done.\n", addr, Universe::getPageIndex(addr));
