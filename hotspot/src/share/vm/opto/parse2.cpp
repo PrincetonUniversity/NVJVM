@@ -1405,27 +1405,27 @@ void Parse::do_one_bytecode() {
     break;
 
   case Bytecodes::_aload_0:
-	accessCheck(local(0));
+//	accessCheck(local(0));
     push( local(0) );
     break;
 
   case Bytecodes::_aload_1:
-	accessCheck(local(1));
+//	accessCheck(local(1));
     push( local(1) );
     break;
 
   case Bytecodes::_aload_2:
-	  accessCheck(local(2));
+//	  accessCheck(local(2));
 	  push( local(2) );
     break;
 
   case Bytecodes::_aload_3:
-	  accessCheck(local(3));
+//	  accessCheck(local(3));
 	  push( local(3) );
     break;
 
   case Bytecodes::_aload:
-	accessCheck(local(iter().get_index()));
+//	accessCheck(local(iter().get_index()));
     push( local(iter().get_index()) );
     break;
 
