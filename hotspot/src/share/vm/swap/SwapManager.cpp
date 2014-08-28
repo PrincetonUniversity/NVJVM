@@ -77,7 +77,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 		exit(-1);
 	}
 
-	// Remapping the virtual address space
+	// Re mapping the virtual address space
 	int partitionIndex = Universe::getPageTablePartition(address, PageTablePartitions) - 1;
 	pthread_mutex_lock(&SSDSwap::_swap_map_mutex[partitionIndex]);
 	if(Universe::isPresent(address)){
@@ -87,6 +87,7 @@ void SwapManager::swapInPage(void *address, int numberPages){
 			  fflush(stdout);
 		  }
 		  free(buffer);
+		  pthread_mutex_unlock(&SSDSwap::_swap_map_mutex[partitionIndex]);
 		  return;
 	  }
 	if(mremap(buffer, numberBytes, numberBytes, MREMAP_FIXED | MREMAP_MAYMOVE, address) == (void *)-1){
