@@ -24,13 +24,12 @@ using namespace std;
 // Stores the mapping from virtual address to file offset
 
 class SSDSwap {
-private:
+public:
 	//SwapManager* _swap_manager;
 	//SSDManager* _ssd_manager;
 	static pthread_mutex_t _swap_map_mutex[Mutex_Count];
 	static int _prefetchCount;
 
-public:
 	SSDSwap();
 	virtual ~SSDSwap();
 	void* seg_handler (void *address);
