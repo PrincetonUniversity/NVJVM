@@ -20,11 +20,11 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
   bool isJavaThread = false;
   if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
-
 #if SWAP_METRICS
 	  Thread *threadC = Thread::current();
 	  SwapMetric::incrementSegFaults();
 	  if(threadC->is_Java_thread()){
+		  printf("Access Fault On %p, %d.\n", addr, Universe::getPageIndex(addr));
 		  SwapMetric::incrementFaultsJavaThread();
 		  isJavaThread = true;
 	  } else if(threadC->is_Named_thread()){
