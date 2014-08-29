@@ -36,6 +36,14 @@
 #define SWAP_METRICS 1
 #define SEGMENTATION_LOG 0
 #define MB 1024*1024
+#define OCMS_DEBUG 1
+
+#define __check(a, b) \
+	if(!a){ \
+		printf(b); \
+		exit(-1);  \
+	}
+
 
 /******************************************************************************************************/
 

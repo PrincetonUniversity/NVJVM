@@ -344,6 +344,30 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
   inline void do_yield_check();
 };
 
+// A parallel (MT) version. This closure is used during
+// the concurrent marking phase
+// following the first checkpoint. Its use is buried in
+// the closure Par_MarkFromGreyRootsClosure.
+class Par_GreyMarkClosure: public Par_KlassRememberingOopClosure {
+private:
+	MemRegion _whole_span;
+	CMBitMap* _bit_map;
+	CMSBitMap* _grey_bit_map;
+	ChunkList* _chunk_list;
+
+protected:
+	DO_OOP_WORK_DEFN
+public:
+	Par_GreyMarkClosure(MemRegion memRegion,
+			CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
+			ChunkList* chunkList);
+	virtual void do_oop(oop* p);
+	virtual void do_oop(narrowOop* p);
+	inline void do_oop_nv(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
+	inline void do_oop_nv(narrowOop* p) { Par_GreyMarkClosure::do_oop_work(p); }
+
+};
+
 // A parallel (MT) version of the above.
 // This closure is used during the concurrent marking phase
 // following the first checkpoint. Its use is buried in

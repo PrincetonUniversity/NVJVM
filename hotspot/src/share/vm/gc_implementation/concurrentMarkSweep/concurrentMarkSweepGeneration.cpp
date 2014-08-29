@@ -3828,7 +3828,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark(int i, CompactibleFreeListSpace* sp);
   void do_work_steal(int i);
   void bump_global_finger(HeapWord* f);
-  void do_scan_and_mark_OCMS(CompactibleFreeListSpace* sp);
+  void do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* sp);
   bool shouldStop();
 };
 
@@ -3889,7 +3889,8 @@ void CMSConcMarkingTask::work(int i) {
   assert(work_queue(i)->size() == 0, "Expected to be empty");
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
-  do_scan_and_mark(i, _cms_space);
+//  do_scan_and_mark(i, _cms_space);
+  do_scan_and_mark_OCMS(i, _cms_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -3899,7 +3900,8 @@ void CMSConcMarkingTask::work(int i) {
   // ... do the same for the _perm_space
   _timer.reset();
   _timer.start();
-  do_scan_and_mark(i, _perm_space);
+//  do_scan_and_mark(i, _perm_space);
+  do_scan_and_mark_OCMS(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished perm space scanning in %dth thread: %3.3f sec",
@@ -3972,8 +3974,9 @@ bool CMSConcMarkingTask::shouldStop(){
 	);
 }
 
-// This method performs scan and marking
-void CMSConcMarkingTask::do_scan_and_mark_OCMS(CompactibleFreeListSpace* sp){
+// This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
+// chunk list.
+void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* sp){
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->popChunk_par();
 	  MemRegion span = MemRegion(scanChunk->start(), scanChunk->end());
@@ -3998,22 +4001,21 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(CompactibleFreeListSpace* sp){
 		    // scanning, but that appears unavoidable, short of
 		    // locking the free list locks; see bug 6324141.
 		  break;
-		          }
-		        }
+		       }
+	   }
 		 if (prev_obj < span.end()) {
 		     MemRegion my_span = MemRegion(prev_obj, span.end());
 		        // Do the marking work within a non-empty span --
 		        // the last argument to the constructor indicates whether the
 		        // iteration should be incremental with periodic yields.
-		        Par_MarkFromRootsClosure cl(this, _collector, my_span,
+		        Par_MarkFromGreyRootsClosure cl(_collector,
 		                                    &_collector->_markBitMap,
-		                                    work_queue(i),
-		                                    &_collector->_markStack,
-		                                    &_collector->_revisitStack,
-		                                    _asynch);
-		        _collector->_greyMarkBitMap.iterate(&cl, my_span.start(), my_span.end());
-		      } // else nothing to do for this task
-		    }   // else nothing to do for this task
+		                                    &_collector->_greyMarkBitMap,
+		                                    _collector->getChunkList(),
+		                                    my_span);
+		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		}
+	}
 }
 
 void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
@@ -7334,6 +7336,17 @@ void MarkFromRootsClosure::scanOopsInOop(HeapWord* ptr) {
   assert(_markStack->isEmpty(), "tautology, emphasizing post-condition");
 }
 
+
+Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(CMSCollector* collector,
+		CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,  ChunkList *chunkList, MemRegion span){
+	_collector = collector;
+	_bit_map = bit_map;
+	_grey_bit_map = grey_bit_map;
+	_chunkList = chunkList;
+	_whole_span = span;
+	_skip_bits = 0;
+}
+
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
                        CMSCollector* collector, MemRegion span,
                        CMSBitMap* bit_map,
@@ -7360,18 +7373,27 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
 }
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
+	bool expr;
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
 	    return true;
 	  }
 	  // convert offset into a HeapWord*
 	  HeapWord* addr = _bit_map->startWord() + offset;
-	  assert(_bit_map->endWord() && addr < _bit_map->endWord(),
+
+#if OCMS_DEBUG
+	  expr = _bit_map->endWord() && addr < _bit_map->endWord();
+	  __check(expr,
 	         "address out of range");
-	  assert(_bit_map->isMarked(addr), "tautology");
+	  __check(_bit_map->isMarked(addr), "tautology");
+#endif
 	  if (_bit_map->isMarked(addr+1)) {
 	    // this is an allocated object that might not yet be initialized
-	    assert(_skip_bits == 0, "tautology");
+
+#if OCMS_DEBUG
+		  expr = _skip_bits == 0;
+		  __check(expr, "tautology");
+#endif
 	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
 	    oop p = oop(addr);
 	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
@@ -7421,7 +7443,20 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 }
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
+#if OCMS_DEBUG
+	// the object should be marked alive since the object
+	__check(_bit_map->isMarked(ptr), "expected bit to be set");
+	// the object should be marked in the grey
+	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
+#endif
+	oop obj = oop(ptr);
 
+#if OCMS_DEBUG
+	__check(obj->is_oop(true), "the ptr should be an oop");
+#endif
+	Par_GreyMarkClosure greyMarkClosure(_span, _bit_map, _grey_bit_map, _chunkList);
+	// Iterating over all the references of the given object and marking white references grey
+	obj->oop_iterate(&greyMarkClosure);
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
@@ -7733,6 +7768,55 @@ void PushOrMarkClosure::do_oop(oop obj) {
     // bit map
     do_yield_check();
   }
+}
+
+Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
+		CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
+		ChunkList* chunkList){
+	_whole_span = memRegion;
+	_bit_map = bitMap;
+	_grey_bit_map = greyMarkBitMap;
+	_chunk_list = chunkList;
+}
+
+void Par_GreyMarkClosure::do_oop(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
+void Par_GreyMarkClosure::do_oop(narrowOop* p) { Par_GreyMarkClosure::do_oop_work(p); }
+
+// The do_oop method marks a non-grey object and increments the grey object count for the scan chunk
+// the object is present within. It also marks the object in the bit map if the object is currently
+// not marked within the bitMap.
+
+void Par_GreyMarkClosure::do_oop(oop obj) {
+
+#if OCMS_DEBUG
+	__check(obj->is_oop_or_null(true),  "expected an oop or NULL");
+#endif
+
+	HeapWord* addr = (HeapWord*)obj;
+	if(_whole_span.contains(addr)){
+	// I, hereby, check whether the object is currently marked in the bitmap or not
+	// and if the object is not marked, I perform a parallel mark(because the mark is
+	// a byte field.
+		if(!_bit_map->isMarked(addr)){
+			_bit_map->par_mark(addr);
+		}
+	// I check whether the object is marked grey or not. If not then I must mark it grey and
+	// subsequently increase the number of grey objects in the corresponding scan chunk.
+		if(!_grey_bit_map->isMarked(addr)){
+			bool res = _grey_bit_map->par_mark(addr);
+			if(res){
+				// If I succeeded in marking the object grey, then I also have to increment the
+				// grey object count on the corresponding scan chunk. After incrementing the
+				// grey object count I figure out whether the chunk has to be added to
+				// the chunkList or not. This would depend on whether the value of the scan chunk count when
+				// I incremented it was 1 or not.
+				int value = (int)__u_inc(addr);
+				if(value == 1){
+					_chunkList->addChunk(new ScanChunk(addr));
+				}
+			}
+		}
+	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
 }
 
 void PushOrMarkClosure::do_oop(oop* p)       { PushOrMarkClosure::do_oop_work(p); }

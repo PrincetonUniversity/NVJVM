@@ -41,6 +41,7 @@
 #include <list>
 #include "swap/Utility.h"
 
+
 #define __u_inc(p) \
 	Universe::incrementGreyObjectCount_Atomic(p)
 
@@ -1493,9 +1494,12 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
 	CMSBitMap* 	  _bit_map;
 	CMSBitMap* 	  _grey_bit_map;
     int 		  _skip_bits;
+    ChunkList* _chunkList;
+    MemRegion _whole_span;
 
 public:
-    Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map, CMSBitMap* grey_bit_map);
+    Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
+    		CMSBitMap* grey_bit_map, ChunkList *chunkList, MemRegion span);
     bool do_bit(size_t offset);
 
 private:
