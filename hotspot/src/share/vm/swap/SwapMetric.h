@@ -52,8 +52,10 @@ private:
 	static long int _intercepts[];
 	static long int _accessIntercepts;
 	static bool _metricPrinted;
+	static long int _yOutOfCoreCount;
 
 public:
+	static void incrementYOutOfCore(int);
 	static void incrementZeroedPages(int);
 	static void incrementFaults_CGC_Thread();
 	static void incrementFaults_VM_Thread();

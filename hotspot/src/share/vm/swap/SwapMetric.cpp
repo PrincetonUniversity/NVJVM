@@ -7,6 +7,7 @@
 
 #include "SwapMetric.h"
 
+long int SwapMetric::_yOutOfCoreCount = 0;
 long int SwapMetric::_swapOuts = 0;
 long int SwapMetric::_zeroedPages = 0;
 long int SwapMetric::_outOfCorePagesSwappedOut = 0;
@@ -43,6 +44,11 @@ bool SwapMetric::_metricPrinted = false;
 long int SwapMetric::_intercepts[Number_Intercepts] = {0};
 
 #define K 1024
+
+void SwapMetric::incrementYOutOfCore(int v){
+	printf("out of core count = %ld \n", v);
+	_yOutOfCoreCount += v;
+}
 
 void SwapMetric::incrementZeroedPages(int np){
 	_zeroedPages += np;
@@ -208,6 +214,7 @@ void SwapMetric::print_on(){
 //	_metricPrinted = true;
 	int count;
 	printf("The overall SwapMetrics. \n"
+			"Young Out of Core = %ld\n"
 			"Objects By Size on out of core pages %lf MB, Objects out of core %d.\n"
 			"The number of swapIns calls = %ld, %ld pages, %ld MB.\n"
 			"The number of swapOuts calls = %ld, %ld pages, %ld MB.\n"
@@ -218,6 +225,7 @@ void SwapMetric::print_on(){
 			"Fault Metrics::\n"
 			"Total segmentation faults = %ld\n"
 			"Total Intercepts = %ld\n",
+			_yOutOfCoreCount,
 			(double)(_objectsBySizeSwappedOut) / (double)(1024 * 1024),
 			_objectsOutOfCoreCount,
 			_swapIns, _swapInPages,  _swapInBytes/(K*K),

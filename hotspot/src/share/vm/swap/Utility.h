@@ -41,6 +41,7 @@ public:
 	static bool isPageZero(void* address);
 	static int getNextContinuousZeroedPagesStreak(void *, int, void **);
 	static int getOutOfCoreCount(void *, int);
+	static int getOutOfCoreCountBetweenRange(void*, void*);
 };
 
 #endif /* UTILITY_H_ */

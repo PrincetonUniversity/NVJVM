@@ -230,6 +230,28 @@ int Utility::getLargestContinuousZeroedPages(void *add, int np, void **start){
 }
 
 
+int Utility::getOutOfCoreCountBetweenRange(void *start, void *end){
+	start = getPageStart(start);
+	end = getPageStart(end);
+	int np = numberPages(start, end);
+	unsigned char vec[np];
+	unsigned char v;
+	if(mincore(start, (unsigned long int)(np * getPageSize()), vec) == -1){
+		perror("error :");
+		printf("Error In mincore() %p \n", start);
+		fflush(stdout);
+		exit(1);
+	}
+	int iter = 0, count = 0;
+	for(; iter < np; iter++){
+		v = vec[iter];
+		if((v & 1) == 0){
+			count++;
+		}
+	}
+	return count;
+}
+
 int Utility::getOutOfCoreCount(void *start, int np){
 	start = getPageStart(start);
 	unsigned char vec[np];

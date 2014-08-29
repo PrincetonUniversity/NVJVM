@@ -30,6 +30,8 @@
 #include "utilities/taskqueue.hpp"
 #include "swap/SSDSwap.h"
 #include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.inline.hpp"
+#include "swap/SwapMetric.h"
+
 
 class CMSBitMap;
 class ChunkArray;

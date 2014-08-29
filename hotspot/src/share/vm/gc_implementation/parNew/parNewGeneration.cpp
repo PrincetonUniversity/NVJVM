@@ -881,6 +881,9 @@ void ParNewGeneration::collect(bool   full,
                                bool   clear_all_soft_refs,
                                size_t size,
                                bool   is_tlab) {
+  int yOutOfCoreCount = Utility::getOutOfCoreCountBetweenRange((void *)eden()->bottom(), (void *)eden()->top());
+  yOutOfCoreCount = Utility::getOutOfCoreCountBetweenRange((void *)from()->bottom(), (void *)from()->top());
+  SwapMetric::incrementYOutOfCore(yOutOfCoreCount);
   assert(full || size > 0, "otherwise we don't want to collect");
   GenCollectedHeap* gch = GenCollectedHeap::heap();
   assert(gch->kind() == CollectedHeap::GenCollectedHeap,
