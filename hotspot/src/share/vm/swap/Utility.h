@@ -10,10 +10,11 @@
 
 #include "swap_global.h"
 #include "SwapManager.h"
+#include <unistd.h>
+#include <sys/mman.h>
 
 class Utility {
 public:
-//	static void printRegionTable(void *addr);
 	static void* getRegionStart(void *address);
 	static void* getRegionEnd(void *address);
 	static void* getPageStart(void *address);
@@ -28,6 +29,7 @@ public:
 	static double toMB(size_t value);
 	static double toKB(size_t value);
 	static size_t getPageSize();
+	static bool isPageInCore(void *);
 };
 
 #endif /* UTILITY_H_ */

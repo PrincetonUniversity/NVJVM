@@ -57,6 +57,9 @@
 #define __page_end(p) \
 	Utility::getPageEnd(p)
 
+#define __in_core(p) \
+	Utility::isPageInCore(p)
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -528,7 +531,7 @@ private:
 /*
  * This is the class that
  */
-class ScanChunk {
+class ScanChunk  : public CHeapObj {
 
 private:
     void* _address;
@@ -562,19 +565,27 @@ public:
 
 };
 
-class ChunkList {
+class ChunkList  : public CHeapObj  {
 	private:
 		pthread_mutex_t _listMutex;
 		std::list<ScanChunk *> _chunkList;
+		int list_pushes, list_pops;
 
 	public:
+		ChunkList(){
+			list_pops = 0;
+			list_pushes = 0;
+		}
+
 		void addChunk(ScanChunk *chunk){
 			_chunkList.push_back(chunk);
+			list_pushes++;
 		}
 
 		void addChunk_par(ScanChunk *chunk){
 			pthread_mutex_lock(&_listMutex);
-			_chunkList.push_back(chunk);
+				_chunkList.push_back(chunk);
+				list_pushes++;
 			pthread_mutex_unlock(&_listMutex);
 
 		}
@@ -591,18 +602,42 @@ class ChunkList {
 
 		ScanChunk* popChunk_par(){
 			pthread_mutex_lock(&_listMutex);
-				return (_chunkList.pop_front());
+			int attemptsLeft = _chunkList.size();
+			ScanChunk *c = _chunkList.pop_front();
+			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
+				attemptsLeft--;
+				_chunkList.push_back(c);
+			}
+			list_pops++;
 			pthread_mutex_unlock(&_listMutex);
+			return c;
 		}
 
 		ScanChunk* popChunk(){
-			return (_chunkList.pop_front());
+			int attemptsLeft = _chunkList.size();
+			ScanChunk *c = _chunkList.pop_front();
+			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
+				attemptsLeft--;
+				_chunkList.push_back(c);
+			}
+			list_pops++;
+			return c;
 		}
 
 		bool isEmpty(){
 			return _chunkList.empty();
 		}
+};
 
+class ChunkListSortPolicy : public CHeapObj {
+
+private:
+	ChunkList * chunkList;
+
+public:
+	void sortList(){
+
+	}
 
 };
 

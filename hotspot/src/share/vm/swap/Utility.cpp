@@ -7,19 +7,6 @@
 
 #include "Utility.h"
 
-//void Utility::printRegionTable(void *addr){
-//	char value;
-//	char *startRegionTable =  (char *)Universe::getPageTablePosition(addr);
-//	char *regionPos = (char *)SwapManager::getRegionStart(addr);
-//	for(int count = 0; count < Universe::_regionPages; count++){
-//		value = *startRegionTable;
-//		printf("SSDSwap::printRegionTable()::count = %d, value = %d, regionPos = %p\n.", count, value, regionPos);
-//		fflush(stdout);
-//		regionPos = regionPos + _PAGE_SIZE;
-//		startRegionTable++;
-//	}
-//}
-
 void* Utility::getRegionStart(void *address){
 	return (void *)((long)address & (~(_REGION_SIZE-1)));
 }
@@ -83,5 +70,15 @@ size_t Utility::getPageSize(){
 	return (size_t)(sysconf(_SC_PAGE_SIZE));
 }
 
+bool Utility::isPageInCore(void *address){
+	unsigned char vec[1];
+	address = getPageStart(address);
+	if(mincore(address, sysconf(_SC_PAGE_SIZE), vec) == -1){
+		perror("err :");
+		printf("Error in mincore, arguments %p.\n", address);
+		exit(-1);
+	}
+	return ((vec[0] & 1) == 1);
+}
 
 
