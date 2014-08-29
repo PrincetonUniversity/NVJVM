@@ -351,7 +351,7 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
 class Par_GreyMarkClosure: public Par_KlassRememberingOopClosure {
 private:
 	MemRegion _whole_span;
-	CMBitMap* _bit_map;
+	CMSBitMap* _bit_map;
 	CMSBitMap* _grey_bit_map;
 	ChunkList* _chunk_list;
 
