@@ -82,6 +82,9 @@ class CompactibleFreeListSpace;
 class FreeChunk;
 class PromotionInfo;
 class ScanMarkedObjectsAgainCarefullyClosure;
+class ChunkListPolicy;
+class ChunkList;
+class ScanChunk;
 
 // A generic CMS bit map. It's the basis for both the CMS marking bit map
 // as well as for the mod union table (in each case only a subset of the
@@ -565,16 +568,18 @@ public:
 
 };
 
-class ChunkList  : public CHeapObj  {
+class ChunkList : public CHeapObj  {
 	private:
 		pthread_mutex_t _listMutex;
 		std::list<ScanChunk *> _chunkList;
 		int list_pushes, list_pops;
+		ChunkListPolicy *policy;
 
 	public:
 		ChunkList(){
 			list_pops = 0;
 			list_pushes = 0;
+			policy = new ChunkListPolicy(this);
 		}
 
 		void addChunk(ScanChunk *chunk){
@@ -629,12 +634,17 @@ class ChunkList  : public CHeapObj  {
 		}
 };
 
-class ChunkListSortPolicy : public CHeapObj {
+class ChunkListPolicy : public CHeapObj {
 
 private:
-	ChunkList * chunkList;
+	ChunkList * _chunkList;
 
 public:
+
+	ChunkListPolicy(ChunkList* cList){
+		_chunkList = cList;
+	}
+
 	void sortList(){
 
 	}
