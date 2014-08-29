@@ -558,6 +558,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
+  _greyMarkBitMap(0, Mutex::leaf + 1, "CMS_greyMarkBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -602,6 +603,10 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   if (ExplicitGCInvokesConcurrentAndUnloadsClasses) {
     ExplicitGCInvokesConcurrent = true;
   }
+
+  // Creating the chunk
+  _collectorChunkList = new ChunkList();
+
   // Now expand the span and allocate the collection support structures
   // (MUT, marking bit map etc.) to cover both generations subject to
   // collection.
@@ -631,6 +636,14 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   {
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
+  }
+  {
+    MutexLockerEx x(_greyMarkBitMap.lock(), Mutex::_no_safepoint_check_flag);
+    if (!_greyMarkBitMap.allocate(_span)) {
+      warning("Failed to allocate Grey Mark CMS Bit Map");
+      return;
+    }
+    assert(__greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
   }
 
   if (!_markStack.allocate(MarkStackSize)) {
@@ -3545,7 +3558,8 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   // in this step.
   // The final 'true' flag to gen_process_strong_roots will ensure this.
   // If 'async' is true, we can relax the nmethod tracing.
-  MarkRefsIntoClosure notOlder(_span, &_markBitMap);
+  // MarkRefsIntoClosure notOlder(_span, &_markBitMap);
+  MarkRefsAndUpdateChunkTableClosure notOlder(_span, &_markBitMap, &_greyMarkBitMap, _collectorChunkList);
   GenCollectedHeap* gch = GenCollectedHeap::heap();
 
   verify_work_stacks_empty();
@@ -3739,6 +3753,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   HeapWord*     _global_finger;   // ... avoid sharing cache line
   char          _pad_back[64];
   HeapWord*     _restart_addr;
+  ChunkList* 	_chunkList;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -3772,6 +3787,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     assert(_cms_space->bottom() < _perm_space->bottom(),
            "Finger incorrectly initialized below");
     _restart_addr = _global_finger = _cms_space->bottom();
+    _chunkList = _collector->getChunkList();
   }
 
 
@@ -3812,6 +3828,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark(int i, CompactibleFreeListSpace* sp);
   void do_work_steal(int i);
   void bump_global_finger(HeapWord* f);
+  void do_scan_and_mark_OCMS(CompactibleFreeListSpace* sp);
+  bool shouldStop();
 };
 
 bool CMSConcMarkingTerminatorTerminator::should_exit_termination() {
@@ -3946,6 +3964,56 @@ bool CMSConcMarkingTask::get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
     work_q->push(cur);
   }
   return num > 0;
+}
+
+bool CMSConcMarkingTask::shouldStop(){
+	return (
+		_chunkList->empty() //&& total number of grey objects need to be zero
+	);
+}
+
+// This method performs scan and marking
+void CMSConcMarkingTask::do_scan_and_mark_OCMS(CompactibleFreeListSpace* sp){
+	while (!shouldStop()){
+	  ScanChunk *scanChunk = _chunkList->popChunk_par();
+	  MemRegion span = MemRegion(scanChunk->start(), scanChunk->end());
+	  prev_obj = span.start();
+		// We want to skip the first object because
+		// the protocol is to scan any object in its entirety
+		// that _starts_ in this span; a fortiori, any
+		// object starting in an earlier span is scanned
+		// as part of an earlier claimed task.
+		// Below we use the "careful" version of block_start
+		// so we do not try to navigate uninitialized objects.
+	  prev_obj = sp->block_start_careful(span.start());
+		// Below we use a variant of block_size that uses the
+		// Printezis bits to avoid waiting for allocated
+		// objects to become initialized/parsable.
+	  while (prev_obj < span.start()) {
+		size_t sz = sp->block_size_no_stall(prev_obj, _collector);
+		if (sz > 0) {
+		     prev_obj += sz;
+		} else {
+		    // In this case we may end up doing a bit of redundant
+		    // scanning, but that appears unavoidable, short of
+		    // locking the free list locks; see bug 6324141.
+		  break;
+		          }
+		        }
+		 if (prev_obj < span.end()) {
+		     MemRegion my_span = MemRegion(prev_obj, span.end());
+		        // Do the marking work within a non-empty span --
+		        // the last argument to the constructor indicates whether the
+		        // iteration should be incremental with periodic yields.
+		        Par_MarkFromRootsClosure cl(this, _collector, my_span,
+		                                    &_collector->_markBitMap,
+		                                    work_queue(i),
+		                                    &_collector->_markStack,
+		                                    &_collector->_revisitStack,
+		                                    _asynch);
+		        _collector->_greyMarkBitMap.iterate(&cl, my_span.start(), my_span.end());
+		      } // else nothing to do for this task
+		    }   // else nothing to do for this task
 }
 
 void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
@@ -6573,6 +6641,39 @@ void CMSMarkStack::expand() {
 }
 
 
+MarkRefsAndUpdateChunkTableClosure::MarkRefsAndUpdateChunkTableClosure(
+		MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList* chunkList):
+				_span(span),
+				_bitMap(bitMap),
+				_chunkList(chunkList),
+				_greyMarkBitMap(greyMarkBitMap)
+{
+
+}
+
+// Single threaded marking
+void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
+  // if p points into _span, then mark corresponding bit in _markBitMap
+  assert(obj->is_oop(), "expected an oop");
+  HeapWord* addr = (HeapWord*)obj;
+  if (_span.contains(addr)) {
+    // this should be made more efficient
+    // If the object is not already, the collector increments the count for the address in the chunk table
+	  if(!_greyMarkBitMap->isMarked(addr)){
+    	jbyte value = __u_inc(addr);
+    	if(value == 1){
+    		// Create and push the chunk into chunk list
+    		ScanChunk *scanChunk = new ScanChunk(addr);
+    		_chunkList->addChunk(scanChunk);
+    	}
+    }
+	  _bitMap->mark(addr);
+  }
+}
+
+void MarkRefsAndUpdateChunkTableClosure::do_oop(oop* p)       { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
+void MarkRefsAndUpdateChunkTableClosure::do_oop(narrowOop* p) { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
+
 // Closures
 // XXX: there seems to be a lot of code  duplication here;
 // should refactor and consolidate common code.
@@ -7258,6 +7359,40 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
   assert(_span.contains(_finger), "Out of bounds _finger?");
 }
 
+bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
+	  if (_skip_bits > 0) {
+	    _skip_bits--;
+	    return true;
+	  }
+	  // convert offset into a HeapWord*
+	  HeapWord* addr = _bit_map->startWord() + offset;
+	  assert(_bit_map->endWord() && addr < _bit_map->endWord(),
+	         "address out of range");
+	  assert(_bit_map->isMarked(addr), "tautology");
+	  if (_bit_map->isMarked(addr+1)) {
+	    // this is an allocated object that might not yet be initialized
+	    assert(_skip_bits == 0, "tautology");
+	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
+	    oop p = oop(addr);
+	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
+	      // in the case of Clean-on-Enter optimization, redirty card
+	      // and avoid clearing card by increasing  the threshold.
+	      return true;
+	    }
+	  }
+
+	  // The object gets scanned only if it is marked as a grey object
+	  if(_grey_bit_map->isMarked(addr)){
+		  scan_oops_in_oop(addr);
+	// After scanning the grey object, the object is unmarked in the grey bit map
+		  _grey_bit_map->par_clear(addr);
+	// Decreasing the count of the chunk atomically
+		  __u_dec(addr);
+	  }
+	  return true;
+}
+
+
 // Should revisit to see if this should be restructured for
 // greater efficiency.
 bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
@@ -7283,6 +7418,10 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   }
   scan_oops_in_oop(addr);
   return true;
+}
+
+void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
+
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {

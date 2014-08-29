@@ -742,7 +742,7 @@ bool Universe::isPresent(void *pageAddress){
 	return ((*position) == Universe::_presentMask);
 }
 
-void Universe::incrementGreyObjectCount_Atomic(void *address){
+jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;
 	jbyte newValue = value + 1;
@@ -750,16 +750,22 @@ void Universe::incrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value + 1;
 	}
+	return newValue;
 }
 
-void Universe::decrementGreyObjectCount_Atomic(void *address){
+jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;
-	jbyte newValue = value + 1;
+	jbyte newValue = value - 1;
 	while(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
 		value = *position;
-		newValue = value + 1;
+		newValue = value - 1;
 	}
+	return newValue;
+}
+
+jbyte Universe::getGreyObjectCount(void *address){
+	return *(jbyte *)getPageTablePosition(address);
 }
 
 size_t Universe::getPageIndex(void *address){

@@ -39,6 +39,22 @@
 #include "utilities/yieldingWorkgroup.hpp"
 #include "pthread.h"
 #include <list>
+#include "swap/Utility.h"
+
+#define __u_inc(p) \
+	Universe::incrementGreyObjectCount_Atomic(p)
+
+#define __u_dec(p) \
+	Universe::decrementGreyObjectCount_Atomic(p)
+
+#define __u_goc(p) \
+	Universe::getGreyObjectCount(p)
+
+#define __page_start(p) \
+	Utility::getPageStart(p)
+
+#define __page_end(p) \
+	Utility::getPageEnd(p)
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
@@ -535,6 +551,14 @@ public:
         return greyObjectCount() > other.greyObjectCount();
     }
 
+    void *start(){
+    	return __page_start(_address);
+    }
+
+    void *end(){
+    	return __page_end(_address);
+    }
+
 };
 
 class ChunkList {
@@ -547,15 +571,38 @@ class ChunkList {
 			_chunkList.push_back(chunk);
 		}
 
-		void sortChunkList(){
+		void addChunk_par(ScanChunk *chunk){
+			pthread_mutex_lock(&_listMutex);
+			_chunkList.push_back(chunk);
+			pthread_mutex_unlock(&_listMutex);
+
+		}
+
+		void sorChunkList(){
+			_chunkList.sort();
+		}
+
+		void sortChunkList_par(){
 			pthread_mutex_lock(&_listMutex);
 				_chunkList.sort();
 			pthread_mutex_unlock(&_listMutex);
 		}
 
-		ScanChunk* popChunk(){
-			sortChunkList();
+		ScanChunk* popChunk_par(){
+			pthread_mutex_lock(&_listMutex);
+				return (_chunkList.pop_front());
+			pthread_mutex_unlock(&_listMutex);
 		}
+
+		ScanChunk* popChunk(){
+			return (_chunkList.pop_front());
+		}
+
+		bool isEmpty(){
+			return _chunkList.empty();
+		}
+
+
 };
 
 class CMSCollector: public CHeapObj {
@@ -596,6 +643,8 @@ class CMSCollector: public CHeapObj {
   void update_time_of_last_gc(jlong now) {
     _time_of_last_gc = now;
   }
+
+  ChunkList* _collectorChunkList;
 
   OopTaskQueueSet* _task_queues;
 
@@ -668,6 +717,7 @@ class CMSCollector: public CHeapObj {
 
   // CMS marking support structures
   CMSBitMap     _markBitMap;
+  CMSBitMap 	_greyMarkBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
@@ -724,6 +774,11 @@ class CMSCollector: public CHeapObj {
     FinalMarking        = 7,
     Sweeping            = 8
   };
+
+  ChunkList* getChunkList(){
+		  return _collectorChunkList;
+  }
+
  protected:
   static CollectorState _collectorState;
 
@@ -1433,6 +1488,21 @@ class MarkFromRootsClosure: public BitMapClosure {
   void do_yield_work();
 };
 
+class Par_MarkFromGreyRootsClosure: public BitMapClosure {
+	CMSCollector* _collector;
+	CMSBitMap* 	  _bit_map;
+	CMSBitMap* 	  _grey_bit_map;
+    int 		  _skip_bits;
+
+public:
+    Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map, CMSBitMap* grey_bit_map);
+    bool do_bit(size_t offset);
+
+private:
+    void scan_oops_in_oop(HeapWord* ptr);
+};
+
+
 // This closure is used to do concurrent multi-threaded
 // marking from the roots following the first checkpoint.
 // XXX This should really be a subclass of The serial version
@@ -1468,6 +1538,8 @@ class Par_MarkFromRootsClosure: public BitMapClosure {
   void do_yield_work();
   bool get_work_from_overflow_stack();
 };
+
+
 
 // The following closures are used to do certain kinds of verification of
 // CMS marking.

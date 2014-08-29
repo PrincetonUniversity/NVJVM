@@ -48,6 +48,28 @@ class Par_MarkFromRootsClosure;
     }                                                     \
   }
 
+class MarkRefsAndUpdateChunkTableClosure: public OopsInGenClosure {
+private:
+  const MemRegion _span;
+  CMSBitMap*      _bitMap;
+  ChunkList* _chunkList;
+  CMSBitMap*	_greyMarkBitMap;
+
+protected:
+  DO_OOP_WORK_DEFN
+
+ public:
+  MarkRefsAndUpdateChunkTableClosure(MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList *chunkList);
+  virtual void do_oop(oop* p);
+  virtual void do_oop(narrowOop* p);
+  inline void do_oop_nv(oop* p)       { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
+  inline void do_oop_nv(narrowOop* p) { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
+  bool do_header() { return true; }
+  Prefetch::style prefetch_style() {
+    return Prefetch::do_read;
+  }
+};
+
 class MarkRefsIntoClosure: public OopsInGenClosure {
  private:
   const MemRegion _span;
