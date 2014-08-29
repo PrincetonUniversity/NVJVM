@@ -40,7 +40,8 @@
 #include "pthread.h"
 #include <list>
 #include "swap/Utility.h"
-
+#include <unistd.h>
+#include <sys/mman.h>
 
 #define __u_inc(p) \
 	Universe::incrementGreyObjectCount_Atomic(p)
@@ -51,14 +52,27 @@
 #define __u_goc(p) \
 	Universe::getGreyObjectCount(p)
 
+#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
+
 #define __page_start(p) \
-	Utility::getPageStart(p)
+	(void *)((long)p & (~(_PAGE_SIZE-1)))
 
 #define __page_end(p) \
-	Utility::getPageEnd(p)
+	(void *)((long)p | ((_PAGE_SIZE-1)))
 
 #define __in_core(p) \
-	Utility::isPageInCore(p)
+		isInCore(p)
+
+bool isInCore(void *address){
+	unsigned char vec[1];
+	address = __page_start(address);
+	if(mincore(address, sysconf(_SC_PAGE_SIZE), vec) == -1){
+		perror("err :");
+		printf("Error in mincore, arguments %p.\n", address);
+		exit(-1);
+	}
+	return ((vec[0] & 1) == 1);
+}
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker

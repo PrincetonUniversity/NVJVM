@@ -3909,7 +3909,7 @@ void CMSConcMarkingTask::work(int i) {
   }
 
   // ... do work stealing
-  _timer.reset();
+  /*_timer.reset();
   _timer.start();
   do_work_steal(i);
   _timer.stop();
@@ -3927,7 +3927,7 @@ void CMSConcMarkingTask::work(int i) {
   assert(_global_finger >  _cms_space->end() &&
          _global_finger >= _perm_space->end(),
          "All tasks have been completed");
-  DEBUG_ONLY(_collector->verify_overflow_empty();)
+  DEBUG_ONLY(_collector->verify_overflow_empty();)*/
 }
 
 void CMSConcMarkingTask::bump_global_finger(HeapWord* f) {
