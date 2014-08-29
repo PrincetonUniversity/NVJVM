@@ -568,6 +568,23 @@ public:
 
 };
 
+class ChunkListPolicy : public CHeapObj {
+
+private:
+	ChunkList * _chunkList;
+
+public:
+
+	ChunkListPolicy(ChunkList* cList){
+		_chunkList = cList;
+	}
+
+	void sortList(){
+
+	}
+
+};
+
 class ChunkList : public CHeapObj  {
 	private:
 		pthread_mutex_t _listMutex;
@@ -608,7 +625,8 @@ class ChunkList : public CHeapObj  {
 		ScanChunk* popChunk_par(){
 			pthread_mutex_lock(&_listMutex);
 			int attemptsLeft = _chunkList.size();
-			ScanChunk *c = _chunkList.pop_front();
+			ScanChunk *c = _chunkList.front();
+			_chunkList.pop_front();
 			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
 				attemptsLeft--;
 				_chunkList.push_back(c);
@@ -620,7 +638,8 @@ class ChunkList : public CHeapObj  {
 
 		ScanChunk* popChunk(){
 			int attemptsLeft = _chunkList.size();
-			ScanChunk *c = _chunkList.pop_front();
+			ScanChunk *c = _chunkList.front();
+			_chunkList.pop_front();
 			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
 				attemptsLeft--;
 				_chunkList.push_back(c);
@@ -634,22 +653,7 @@ class ChunkList : public CHeapObj  {
 		}
 };
 
-class ChunkListPolicy : public CHeapObj {
 
-private:
-	ChunkList * _chunkList;
-
-public:
-
-	ChunkListPolicy(ChunkList* cList){
-		_chunkList = cList;
-	}
-
-	void sortList(){
-
-	}
-
-};
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;

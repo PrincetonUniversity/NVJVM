@@ -36,6 +36,7 @@ class CMSMarkStack;
 class CMSCollector;
 class MarkFromRootsClosure;
 class Par_MarkFromRootsClosure;
+class ChunkList;
 
 // Decode the oop and call do_oop on it.
 #define DO_OOP_WORK_DEFN \
