@@ -3981,7 +3981,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->popChunk_par();
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
-	  prev_obj = span.start();
+	  span = span.intersection(sp->used_region());
+	  if(!span.is_empty()){
+	   prev_obj = span.start();
 		// We want to skip the first object because
 		// the protocol is to scan any object in its entirety
 		// that _starts_ in this span; a fortiori, any
@@ -3989,7 +3991,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 		// as part of an earlier claimed task.
 		// Below we use the "careful" version of block_start
 		// so we do not try to navigate uninitialized objects.
-	  prev_obj = sp->block_start_careful(span.start());
+	   prev_obj = sp->block_start_careful(span.start());
 		// Below we use a variant of block_size that uses the
 		// Printezis bits to avoid waiting for allocated
 		// objects to become initialized/parsable.
@@ -4015,7 +4017,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 		                                    _collector->getChunkList(),
 		                                    my_span);
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
-		}
+		 }
+	  }
 	}
 }
 
