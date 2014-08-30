@@ -349,7 +349,7 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
 // the concurrent marking phase
 // following the first checkpoint. Its use is buried in
 // the closure Par_MarkFromGreyRootsClosure.
-class Par_GreyMarkClosure: public Par_KlassRememberingOopClosure {
+class Par_GreyMarkClosure: public OopClosure {
 private:
 	MemRegion _whole_span;
 	CMSBitMap* _bit_map;
