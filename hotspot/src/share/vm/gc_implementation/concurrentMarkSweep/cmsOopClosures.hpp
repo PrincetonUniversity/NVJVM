@@ -373,7 +373,7 @@ public:
 // This closure is used during the concurrent marking phase
 // following the first checkpoint. Its use is buried in
 // the closure Par_MarkFromRootsClosure.
-class Par_PushOrMarkClosure: public OopClosure {
+class Par_PushOrMarkClosure: public Par_KlassRememberingOopClosure {
  private:
   MemRegion        _whole_span;
   MemRegion        _span;        // local chunk
