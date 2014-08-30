@@ -3970,16 +3970,17 @@ bool CMSConcMarkingTask::get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
 
 bool CMSConcMarkingTask::shouldStop(){
 	return (
-		_chunkList->empty() //&& total number of grey objects need to be zero
+		_chunkList->isEmpty() //&& total number of grey objects need to be zero
 	);
 }
 
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* sp){
+	HeapWord *prev_obj;
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->popChunk_par();
-	  MemRegion span = MemRegion(scanChunk->start(), scanChunk->end());
+	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  prev_obj = span.start();
 		// We want to skip the first object because
 		// the protocol is to scan any object in its entirety
@@ -7454,7 +7455,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 #if OCMS_DEBUG
 	__check(obj->is_oop(true), "the ptr should be an oop");
 #endif
-	Par_GreyMarkClosure greyMarkClosure(_span, _bit_map, _grey_bit_map, _chunkList);
+	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList);
 	// Iterating over all the references of the given object and marking white references grey
 	obj->oop_iterate(&greyMarkClosure);
 }
@@ -7812,7 +7813,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 				// I incremented it was 1 or not.
 				int value = (int)__u_inc(addr);
 				if(value == 1){
-					_chunkList->addChunk(new ScanChunk(addr));
+					_chunk_list->addChunk(new ScanChunk(addr));
 				}
 			}
 		}
