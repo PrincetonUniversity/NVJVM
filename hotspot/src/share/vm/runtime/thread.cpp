@@ -1715,7 +1715,6 @@ void JavaThread::exit(bool destroy_vm, ExitType exit_type) {
   }
 #endif
 
-  SwapMetric::print_on();
   // Remove from list of active threads list, and notify VM thread if we are the last non-daemon thread
   Threads::remove(this);
 }

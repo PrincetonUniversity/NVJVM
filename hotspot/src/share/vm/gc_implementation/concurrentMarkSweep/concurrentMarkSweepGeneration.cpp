@@ -3981,7 +3981,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->popChunk_par();
 	  if(scanChunk == NULL)
-		  continue;
+		  continue; // should we not break out of the loop here, OCMS_TODO
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){
