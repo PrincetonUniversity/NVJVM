@@ -63,17 +63,6 @@
 #define __in_core(p) \
 		isInCore(p)
 
-bool isInCore(void *address){
-	unsigned char vec[1];
-	address = __page_start(address);
-	if(mincore(address, sysconf(_SC_PAGE_SIZE), vec) == -1){
-		perror("err :");
-		printf("Error in mincore, arguments %p.\n", address);
-		exit(-1);
-	}
-	return ((vec[0] & 1) == 1);
-}
-
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -605,6 +594,16 @@ class ChunkList : public CHeapObj  {
 		std::list<ScanChunk *> _chunkList;
 		int list_pushes, list_pops;
 		ChunkListPolicy *policy;
+		bool isInCore(void *address){
+			unsigned char vec[1];
+			address = __page_start(address);
+			if(mincore(address, sysconf(_SC_PAGE_SIZE), vec) == -1){
+				perror("err :");
+				printf("Error in mincore, arguments %p.\n", address);
+				exit(-1);
+			}
+			return ((vec[0] & 1) == 1);
+		}
 
 	public:
 		ChunkList(){
