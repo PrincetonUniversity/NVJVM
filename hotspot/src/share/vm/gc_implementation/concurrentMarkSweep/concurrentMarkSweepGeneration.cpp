@@ -3983,6 +3983,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
 		  break; // since the size of the list is zero we break out of the loop here
+	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
+			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){

@@ -552,6 +552,10 @@ public:
 		return (int)value;
 	}
 
+	int getPageIndex(){
+		return Universe::getPageIndex(_address);
+	}
+
 	void* getAddress(){
 		return _address;
 	}
