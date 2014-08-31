@@ -7426,14 +7426,12 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	bool expr;
-	__check(false, "checking checks");
 	HeapWord* addr = _bit_map->startWord() + offset;
+
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
-	    __check(false, "checking checks");
 
 #if OCMS_DEBUG
-	    __check(false, "checking checks");
 	    expr = _grey_bit_map->isMarked(addr);
 	    __check(expr, "grey marked bit skipped");
 #endif
@@ -7469,6 +7467,11 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
+
+#if OCMS_DEBUG
+	    expr = !_grey_bit_map->isMarked(addr);
+	    __check(expr, "should die ..... debugging .... ");
+#endif
 		  scan_oops_in_oop(addr);
 	// After scanning the grey object, the object is unmarked in the grey bit map
 		  _grey_bit_map->par_clear(addr);
