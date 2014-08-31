@@ -3985,29 +3985,32 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){
-	   prev_obj = span.start();
-		// We want to skip the first object because
-		// the protocol is to scan any object in its entirety
-		// that _starts_ in this span; a fortiori, any
-		// object starting in an earlier span is scanned
-		// as part of an earlier claimed task.
-		// Below we use the "careful" version of block_start
-		// so we do not try to navigate uninitialized objects.
-	   prev_obj = sp->block_start_careful(span.start());
-		// Below we use a variant of block_size that uses the
-		// Printezis bits to avoid waiting for allocated
-		// objects to become initialized/parsable.
-	  while (prev_obj < span.start()) {
-		size_t sz = sp->block_size_no_stall(prev_obj, _collector);
-		if (sz > 0) {
-		     prev_obj += sz;
-		} else {
-		    // In this case we may end up doing a bit of redundant
-		    // scanning, but that appears unavoidable, short of
-		    // locking the free list locks; see bug 6324141.
-		  break;
-		       }
-	   }
+//	   if(span.contains(_restart_address)){
+//		   prev_obj = _restart_address;
+//	   } else {
+			// We want to skip the first object because
+			// the protocol is to scan any object in its entirety
+			// that _starts_ in this span; a fortiori, any
+			// object starting in an earlier span is scanned
+			// as part of an earlier claimed task.
+			// Below we use the "careful" version of block_start
+			// so we do not try to navigate uninitialized objects.
+		   prev_obj = sp->block_start_careful(span.start());
+			// Below we use a variant of block_size that uses the
+			// Printezis bits to avoid waiting for allocated
+			// objects to become initialized/parsable.
+		  while (prev_obj < span.start()) {
+			size_t sz = sp->block_size_no_stall(prev_obj, _collector);
+			if (sz > 0) {
+				 prev_obj += sz;
+			} else {
+				// In this case we may end up doing a bit of redundant
+				// scanning, but that appears unavoidable, short of
+				// locking the free list locks; see bug 6324141.
+			  break;
+				   }
+		   }
+//	   }
 		 if (prev_obj < span.end()) {
 		     MemRegion my_span = MemRegion(prev_obj, span.end());
 		        // Do the marking work within a non-empty span --
@@ -7793,6 +7796,7 @@ void Par_GreyMarkClosure::do_oop(narrowOop* p) { Par_GreyMarkClosure::do_oop_wor
 // not marked within the bitMap.
 
 void Par_GreyMarkClosure::do_oop(oop obj) {
+	bool expr, res;
 
 #if OCMS_DEBUG
 	__check(obj->is_oop_or_null(true),  "expected an oop or NULL");
@@ -7804,24 +7808,34 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 	// and if the object is not marked, I perform a parallel mark(because the mark is
 	// a byte field.
 		if(!_bit_map->isMarked(addr)){
-			_bit_map->par_mark(addr);
-		}
-	// I check whether the object is marked grey or not. If not then I must mark it grey and
-	// subsequently increase the number of grey objects in the corresponding scan chunk.
-		if(!_grey_bit_map->isMarked(addr)){
-			bool res = _grey_bit_map->par_mark(addr);
-			if(res){
-				// If I succeeded in marking the object grey, then I also have to increment the
-				// grey object count on the corresponding scan chunk. After incrementing the
-				// grey object count I figure out whether the chunk has to be added to
-				// the chunkList or not. This would depend on whether the value of the scan chunk count when
-				// I incremented it was 1 or not.
-				int value = (int)__u_inc(addr);
-				if(value == 1){
-					_chunk_list->addChunk(new ScanChunk(addr));
+			// If some other thread has marked this object as alive then that thread should mark it as grey
+			if(_bit_map->par_mark(addr)){
+			// If I am able to mark this object as alive I will mark it grey also
+#if OCMS_DEBUG
+	expr = !(_grey_bit_map->isMarked(addr));
+	__check(expr, "unmarked obj is already marked as grey, incosistency");
+#endif
+				if(_grey_bit_map->par_mark(addr)){
+					// If I succeeded in marking the object grey, then I also have to increment the
+					// grey object count on the corresponding scan chunk. After incrementing the
+					// grey object count I figure out whether the chunk has to be added to
+					// the chunkList or not. This would depend on whether the value of the scan chunk count when
+					// I incremented it was 1 or not.
+					int value = (int)__u_inc(addr);
+					if(value == 1){
+						_chunk_list->addChunk_par(new ScanChunk(addr));
+					}
+				} else {
+					printf("Only I could have marked the object as grey, since I marked the "
+							"object as alive, however, someone else marked the object grey, "
+							"inconsistent.")
 				}
 			}
 		}
+	// I check whether the object is marked grey or not. If not then I must mark it grey and
+	// subsequently increase the number of grey objects in the corresponding scan chunk.
+//		if(!_grey_bit_map->isMarked(addr)){
+//		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
 }
 
