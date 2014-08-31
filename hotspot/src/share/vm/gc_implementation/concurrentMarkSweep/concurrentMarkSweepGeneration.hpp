@@ -625,6 +625,16 @@ class ChunkList : public CHeapObj  {
 
 		}
 
+		void lockList(bool isPar){
+			if(isPar)
+				pthread_mutex_lock(&_listMutex);
+		}
+
+		void unLockList(bool isPar){
+			if(isPar)
+				pthread_mutex_unlock(&_listMutex);
+		}
+
 		void sorChunkList(){
 			_chunkList.sort();
 		}
@@ -635,9 +645,9 @@ class ChunkList : public CHeapObj  {
 			pthread_mutex_unlock(&_listMutex);
 		}
 
-		ScanChunk* popChunk_par(){
+		ScanChunk *pop(bool isPar){
 			ScanChunk* c = NULL;
-			pthread_mutex_lock(&_listMutex);
+			lockList(isPar);
 			int attemptsLeft = _chunkList.size();
 			if(_chunkList.size() == 0){
 				goto out;
@@ -651,25 +661,8 @@ class ChunkList : public CHeapObj  {
 				_chunkList.pop_front();
 			}
 			list_pops++;
-			out: pthread_mutex_unlock(&_listMutex);
+			out: unLockList(isPar);
 			return c;
-		}
-
-		ScanChunk* popChunk(){
-			ScanChunk *c = NULL;
-			int attemptsLeft = _chunkList.size();
-			if(_chunkList.size() == 0)
-				goto out;
-			c = _chunkList.front();
-			_chunkList.pop_front();
-			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
-				attemptsLeft--;
-				_chunkList.push_back(c);
-				c = _chunkList.front();
-				_chunkList.pop_front();
-			}
-			list_pops++;
-			out: return c;
 		}
 
 		bool isEmpty(){
