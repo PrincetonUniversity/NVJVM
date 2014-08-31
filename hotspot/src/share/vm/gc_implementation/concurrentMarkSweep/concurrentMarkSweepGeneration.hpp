@@ -640,17 +640,18 @@ class ChunkList : public CHeapObj  {
 			pthread_mutex_lock(&_listMutex);
 			int attemptsLeft = _chunkList.size();
 			if(_chunkList.size() == 0){
-				pthread_mutex_unlock(&_listMutex);
-				return c;
+				goto out;
 			} // Else, there is at least one element scan chunk within the list
 			c = _chunkList.front();
 			_chunkList.pop_front();
 			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
 				attemptsLeft--;
 				_chunkList.push_back(c);
+				c = _chunkList.front();
+				_chunkList.pop_front();
 			}
 			list_pops++;
-			pthread_mutex_unlock(&_listMutex);
+			out: pthread_mutex_unlock(&_listMutex);
 			return c;
 		}
 
