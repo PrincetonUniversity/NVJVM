@@ -4022,6 +4022,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 		                                    _collector->getChunkList(),
 		                                    my_span);
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		        if(scanChunk->greyObjectCount() > 0){
+		        	_chunkList->addChunk_par(scanChunk);
+		        }
 		 }
 	  }
 	}
@@ -7465,6 +7468,8 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 #endif
 	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList);
 	// Iterating over all the references of the given object and marking white references grey
+	// While marking the references as grey if any of the pages get a non zero grey reference then
+	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
 }
 
