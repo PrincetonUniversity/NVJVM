@@ -7426,6 +7426,7 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	bool expr;
+	HeapWord* addr = _bit_map->startWord() + offset;
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
 
@@ -7436,7 +7437,6 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    return true;
 	  }
 	  // convert offset into a HeapWord*
-	  HeapWord* addr = _bit_map->startWord() + offset;
 
 #if OCMS_DEBUG
 	  expr = _bit_map->endWord() && addr < _bit_map->endWord();
