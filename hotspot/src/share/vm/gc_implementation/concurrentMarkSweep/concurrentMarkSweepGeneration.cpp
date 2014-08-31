@@ -7828,7 +7828,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 				} else {
 					printf("Only I could have marked the object as grey, since I marked the "
 							"object as alive, however, someone else marked the object grey, "
-							"inconsistent.")
+							"inconsistent.");
 				}
 			}
 		}
