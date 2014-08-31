@@ -6683,14 +6683,14 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     // this should be made more efficient
     // If the object is not already, the collector increments the count for the address in the chunk table
 	  if(!_greyMarkBitMap->isMarked(addr)){
-		 _greyMarkBitMap->mark(addr);
+		 _greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
     	jbyte value = __u_inc(addr);
     	if(value == 1){
     		// Create and push the chunk into chunk list
     		ScanChunk *scanChunk = new ScanChunk(addr);
     		_chunkList->addChunk(scanChunk);
     	}
-    }
+      }
 	  _bitMap->mark(addr);
   }
 }
