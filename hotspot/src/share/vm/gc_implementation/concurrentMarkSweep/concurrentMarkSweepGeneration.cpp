@@ -3790,6 +3790,13 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     _chunkList = _collector->getChunkList();
   }
 
+  CompactibleFreeListSpace* getSpace(void *address) {
+	  if(_cms_space->is_in(address))
+		  return _cms_space;
+	  if(_perm_space->is_in(address))
+		  return _perm_space;
+	  return NULL;
+  }
 
   OopTaskQueueSet* task_queues()  { return _task_queues; }
 
@@ -3828,7 +3835,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark(int i, CompactibleFreeListSpace* sp);
   void do_work_steal(int i);
   void bump_global_finger(HeapWord* f);
-  void do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* sp);
+  void do_scan_and_mark_OCMS(int i);
   bool shouldStop();
 };
 
@@ -3890,7 +3897,7 @@ void CMSConcMarkingTask::work(int i) {
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
 //  do_scan_and_mark(i, _cms_space);
-  do_scan_and_mark_OCMS(i, _cms_space);
+  do_scan_and_mark_OCMS(i);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -3901,7 +3908,7 @@ void CMSConcMarkingTask::work(int i) {
   _timer.reset();
   _timer.start();
 //  do_scan_and_mark(i, _perm_space);
-  do_scan_and_mark_OCMS(i, _perm_space);
+//  do_scan_and_mark_OCMS(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished perm space scanning in %dth thread: %3.3f sec",
@@ -3976,17 +3983,27 @@ bool CMSConcMarkingTask::shouldStop(){
 
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
-void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* sp){
+void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 	bool isPar = true;
 	HeapWord *prev_obj;
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
 		  break; // since the size of the list is zero we break out of the loop here
+	  CompactibleFreeListSpace* sp = getSpace(scanChunk->getAddress());
+
+#if OCMS_DEBUG
+	  if(sp == NULL){
+		  printf("Space is NULL for address %p", scanChunk->getAddress());
+		  exit(-1);
+	  }
+#endif
+
 #if OCMS_LOG
 	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
 			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
 #endif
+
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){
