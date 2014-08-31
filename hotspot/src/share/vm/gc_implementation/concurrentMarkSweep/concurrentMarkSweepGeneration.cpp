@@ -7428,6 +7428,11 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	bool expr;
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
+
+#if OCMS_DEBUG
+	    expr = _grey_bit_map->isMarked(addr);
+	    __check(expr, "grey marked bit skipped");
+#endif
 	    return true;
 	  }
 	  // convert offset into a HeapWord*
@@ -7451,6 +7456,10 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
 	      // in the case of Clean-on-Enter optimization, redirty card
 	      // and avoid clearing card by increasing  the threshold.
+#if OCMS_DEBUG
+	    expr = _grey_bit_map->isMarked(addr);
+	    __check(expr, "grey marked bit skipped");
+#endif
 	      return true;
 	    }
 	  }
