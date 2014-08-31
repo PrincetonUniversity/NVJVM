@@ -7431,6 +7431,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    _skip_bits--;
 
 #if OCMS_DEBUG
+	    __check(false, "checking checks");
 	    expr = _grey_bit_map->isMarked(addr);
 	    __check(expr, "grey marked bit skipped");
 #endif
