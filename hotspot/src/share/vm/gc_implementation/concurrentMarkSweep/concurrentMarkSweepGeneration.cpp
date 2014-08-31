@@ -3983,8 +3983,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
 		  break; // since the size of the list is zero we break out of the loop here
+#if OCMS_LOG
 	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
 			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+#endif
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){
@@ -4024,8 +4026,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span);
+#if OCMS_LOG
 		  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d\n",
 		  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+#endif
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk_par(scanChunk);
@@ -6679,6 +6683,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     // this should be made more efficient
     // If the object is not already, the collector increments the count for the address in the chunk table
 	  if(!_greyMarkBitMap->isMarked(addr)){
+		 _greyMarkBitMap->mark(addr);
     	jbyte value = __u_inc(addr);
     	if(value == 1){
     		// Create and push the chunk into chunk list
