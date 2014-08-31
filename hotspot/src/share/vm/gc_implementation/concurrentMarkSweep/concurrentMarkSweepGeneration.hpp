@@ -656,15 +656,20 @@ class ChunkList : public CHeapObj  {
 		}
 
 		ScanChunk* popChunk(){
+			ScanChunk *c = NULL;
 			int attemptsLeft = _chunkList.size();
-			ScanChunk *c = _chunkList.front();
+			if(_chunkList.size() == 0)
+				goto out;
+			c = _chunkList.front();
 			_chunkList.pop_front();
 			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
 				attemptsLeft--;
 				_chunkList.push_back(c);
+				c = _chunkList.front();
+				_chunkList.pop_front();
 			}
 			list_pops++;
-			return c;
+			out: return c;
 		}
 
 		bool isEmpty(){
