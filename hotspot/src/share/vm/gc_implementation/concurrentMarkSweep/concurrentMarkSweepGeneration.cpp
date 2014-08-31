@@ -3990,11 +3990,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
 		  break; // since the size of the list is zero we break out of the loop here
+	  // Getting the corresponding space for the scan chunk first
 	  CompactibleFreeListSpace* sp = getSpace(scanChunk->getAddress());
 
 #if OCMS_DEBUG
+	  // Checking if the space is not null, otherwise there has to be some fault
 	  if(sp == NULL){
-		  printf("Space is NULL for address %p", scanChunk->getAddress());
+		  printf("Space is NULL for address %p. There has to be some problem. \n", scanChunk->getAddress());
 		  exit(-1);
 	  }
 #endif
@@ -6710,15 +6712,15 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     // this should be made more efficient
     // If the object is not already, the collector increments the count for the address in the chunk table
 	  if(!_greyMarkBitMap->isMarked(addr)){
-		 _greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
-    	jbyte value = __u_inc(addr);
+		_greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
+    	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
     	if(value == 1){
     		// Create and push the chunk into chunk list
     		ScanChunk *scanChunk = new ScanChunk(addr);
     		_chunkList->addChunk(scanChunk);
     	}
       }
-	  _bitMap->mark(addr);
+	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
   }
 }
 
@@ -7386,8 +7388,9 @@ void MarkFromRootsClosure::scanOopsInOop(HeapWord* ptr) {
 }
 
 
-Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(CMSCollector* collector,
-		CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,  ChunkList *chunkList, MemRegion span){
+Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
+		CMSCollector* collector, CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,
+		ChunkList *chunkList, MemRegion span){
 	_collector = collector;
 	_bit_map = bit_map;
 	_grey_bit_map = grey_bit_map;
@@ -7871,6 +7874,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 					printf("Only I could have marked the object as grey, since I marked the "
 							"object as alive, however, someone else marked the object grey, "
 							"inconsistent.");
+					exit(-1);
 				}
 			}
 		}

@@ -666,6 +666,7 @@ class ChunkList : public CHeapObj  {
 			}
 			list_pops++;
 			out: unLockList(isPar);
+				printf("List Pushes %d, List pops %d \n", list_pushes, list_pops);
 			return c;
 		}
 
