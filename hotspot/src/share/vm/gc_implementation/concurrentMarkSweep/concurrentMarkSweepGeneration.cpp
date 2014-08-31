@@ -7429,6 +7429,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	HeapWord* addr = _bit_map->startWord() + offset;
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
+	    __check(false, "checking checks");
 
 #if OCMS_DEBUG
 	    __check(false, "checking checks");
