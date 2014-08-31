@@ -4027,14 +4027,24 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i, CompactibleFreeListSpace* 
 		                                    _collector->getChunkList(),
 		                                    my_span);
 #if OCMS_LOG
-		  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d\n",
-		  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d\n",
+			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
 #endif
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk_par(scanChunk);
 		        }
+		 } else {
+#if OCMS_LOG
+		  	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d, prev_obj > span.end()\n",
+		  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+#endif
 		 }
+	  } else {
+#if OCMS_LOG
+	  	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d, span is empty()\n",
+	  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+#endif
 	  }
 	}
 }
