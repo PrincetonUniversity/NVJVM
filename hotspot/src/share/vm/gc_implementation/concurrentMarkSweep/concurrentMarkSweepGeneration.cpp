@@ -6714,6 +6714,12 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 	  if(!_greyMarkBitMap->isMarked(addr)){
 		_greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
     	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
+
+#if OCMS_DEBUG
+	expr = (_grey_bit_map->isMarked(addr));
+	__check(expr, "obj should be marked as grey");
+#endif
+
     	if(value == 1){
     		// Create and push the chunk into chunk list
     		ScanChunk *scanChunk = new ScanChunk(addr);
@@ -7467,11 +7473,6 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
-
-#if OCMS_DEBUG
-	    expr = !_grey_bit_map->isMarked(addr);
-	    __check(expr, "should die ..... debugging .... ");
-#endif
 		  scan_oops_in_oop(addr);
 	// After scanning the grey object, the object is unmarked in the grey bit map
 		  _grey_bit_map->par_clear(addr);
@@ -7882,6 +7883,10 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 					// the chunkList or not. This would depend on whether the value of the scan chunk count when
 					// I incremented it was 1 or not.
 					int value = (int)__u_inc(addr);
+#if OCMS_DEBUG
+	expr = (_grey_bit_map->isMarked(addr));
+	__check(expr, "obj should be marked");
+#endif
 					if(value == 1){
 						_chunk_list->addChunk_par(new ScanChunk(addr));
 					}
