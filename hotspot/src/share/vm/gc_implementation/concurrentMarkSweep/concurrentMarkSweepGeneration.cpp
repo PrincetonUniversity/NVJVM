@@ -6746,7 +6746,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 #if OCMS_DEBUG
 	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
 	__check(expr, "obj should be marked as grey");
-	printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
+//	printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
 #endif
 
   }
@@ -7908,7 +7908,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 #if OCMS_DEBUG
 	expr = (_grey_bit_map->isMarked(addr))  && _bit_map->isMarked(addr);
 	__check(expr, "obj should be marked");
-	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
+//	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
 #endif
 					if(value == 1){
 						_chunk_list->addChunk_par(new ScanChunk(addr));
