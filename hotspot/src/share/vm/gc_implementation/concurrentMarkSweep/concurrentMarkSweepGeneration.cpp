@@ -3717,11 +3717,11 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
 
 #if OCMS_DEBUG
-  bool expr;
+  /*bool expr;
   expr = _greyMarkBitMap.isAllClear();
   __check(expr, "grey bit map should be clear after the mark from roots work.");
   expr = (Universe::totalGreyObjectCount() == 0);
-  __check(expr, "total grey object count > 0, after mark from roots work.");
+  __check(expr, "total grey object count > 0, after mark from roots work.");*/
 #endif
 
   return result;
@@ -3916,8 +3916,8 @@ void CMSConcMarkingTask::work(int i) {
   assert(work_queue(i)->size() == 0, "Expected to be empty");
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
-  do_scan_and_mark(i, _cms_space);
-//  do_scan_and_mark_OCMS(i);
+//  do_scan_and_mark(i, _cms_space);
+  do_scan_and_mark_OCMS(i);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -3927,7 +3927,7 @@ void CMSConcMarkingTask::work(int i) {
   // ... do the same for the _perm_space
   _timer.reset();
   _timer.start();
-  do_scan_and_mark(i, _perm_space);
+//  do_scan_and_mark(i, _perm_space);
 //  do_scan_and_mark_OCMS(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
