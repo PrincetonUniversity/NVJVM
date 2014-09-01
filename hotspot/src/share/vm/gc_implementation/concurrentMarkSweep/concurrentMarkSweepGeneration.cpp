@@ -3916,8 +3916,8 @@ void CMSConcMarkingTask::work(int i) {
   assert(work_queue(i)->size() == 0, "Expected to be empty");
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
-//  do_scan_and_mark(i, _cms_space);
-  do_scan_and_mark_OCMS(i);
+  do_scan_and_mark(i, _cms_space);
+//  do_scan_and_mark_OCMS(i);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -3927,7 +3927,7 @@ void CMSConcMarkingTask::work(int i) {
   // ... do the same for the _perm_space
   _timer.reset();
   _timer.start();
-//  do_scan_and_mark(i, _perm_space);
+  do_scan_and_mark(i, _perm_space);
 //  do_scan_and_mark_OCMS(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4019,7 +4019,6 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
-	printf("In do_scan_and_mark_OCMS");
 	bool isPar = true;
 	HeapWord *prev_obj;
 	while (!shouldStop()){
