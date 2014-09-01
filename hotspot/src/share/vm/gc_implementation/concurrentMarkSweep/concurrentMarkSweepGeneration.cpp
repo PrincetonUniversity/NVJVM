@@ -4064,7 +4064,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    my_span);
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 // Special case handling the my_span.end(), which does not get iterated
-		        handleOop(last_obj, &cl);
+		        handleOop(my_span.end(), &cl);
 
 #if OCMS_LOG
 			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
