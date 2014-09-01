@@ -3766,6 +3766,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  bool handleOop(HeapWord* addr);
   // Values returned by the iterate() methods.
   enum CMSIterationStatus { incomplete, complete, full, would_overflow };
   CMSConcMarkingTask(CMSCollector* collector,
@@ -3983,11 +3984,22 @@ bool CMSConcMarkingTask::shouldStop(){
 	);
 }
 
+bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
+	  // The object gets scanned only if it is marked as a grey object
+	  if(cl->_grey_bit_map.isMarked(addr)){
+		  cl->scan_oops_in_oop(addr);
+	// After scanning the grey object, the object is unmarked in the grey bit map
+		  cl->_grey_bit_map->par_clear(addr);
+	// Decreasing the count of the chunk atomically
+		  __u_dec(addr);
+	  }
+}
+
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 	bool isPar = true;
-	HeapWord *prev_obj;
+	HeapWord *prev_obj, *last_obj;
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
@@ -4022,6 +4034,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			// Below we use the "careful" version of block_start
 			// so we do not try to navigate uninitialized objects.
 		   prev_obj = sp->block_start_careful(span.start());
+		   last_obj = sp->block_start_careful(span.end());
 			// Below we use a variant of block_size that uses the
 			// Printezis bits to avoid waiting for allocated
 			// objects to become initialized/parsable.
@@ -4047,10 +4060,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span);
-		        CMSIterationStatus it_s = _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+// Special case handling the my_span.end(), which does not get iterated
+		        handleOop(last_obj, &cl);
+
 #if OCMS_LOG
 			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
-			  			  "span_start = %p, span_end = %p, Iteration status = %d\n",
+			  			  "span_start = %p, span_end = %p\n",
 			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(),
 			  			  my_span.start(), my_span.end(), (int)it_s);
 #endif
