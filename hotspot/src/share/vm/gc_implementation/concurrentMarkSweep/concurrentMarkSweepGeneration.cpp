@@ -7884,7 +7884,7 @@ Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
 		ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack) :
   Par_KlassRememberingOopClosure(collector,
 		                         collector->ref_processor(),
-		                         revisit_stack),
+		                         revisit_stack)
 {
 	_whole_span = memRegion;
 	_bit_map = bitMap;
