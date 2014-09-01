@@ -361,7 +361,7 @@ protected:
 public:
 	Par_GreyMarkClosure(MemRegion memRegion,
 			CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
-			ChunkList* chunkList);
+			ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack);
 	virtual void do_oop(oop* p);
 	virtual void do_oop(narrowOop* p);
 	inline void do_oop_nv(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
