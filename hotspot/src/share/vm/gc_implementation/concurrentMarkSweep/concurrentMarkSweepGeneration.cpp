@@ -3766,6 +3766,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  // Values returned by the iterate() methods.
+  enum CMSIterationStatus { incomplete, complete, full, would_overflow };
   CMSConcMarkingTask(CMSCollector* collector,
                  CompactibleFreeListSpace* cms_space,
                  CompactibleFreeListSpace* perm_space,
@@ -4045,12 +4047,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span);
+		        CMSIterationStatus it_s = _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 #if OCMS_LOG
 			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
-			  			  "span_start = %p, span_end = %p\n",
-			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(), my_span.start(), my_span.end());
+			  			  "span_start = %p, span_end = %p, Iteration status = %d\n",
+			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(),
+			  			  my_span.start(), my_span.end(), (int)it_s);
 #endif
-		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk_par(scanChunk);
 		        }
@@ -6727,7 +6730,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 #if OCMS_DEBUG
 	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
 	__check(expr, "obj should be marked as grey");
-	printf("Grey Mark address %p, Index = %d", addr, Universe::getPageIndex(addr));
+	printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
 #endif
 
   }
@@ -7889,7 +7892,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 #if OCMS_DEBUG
 	expr = (_grey_bit_map->isMarked(addr))  && _bit_map->isMarked(addr);
 	__check(expr, "obj should be marked");
-	printf("Grey Mark address %p, Index = %d", addr, Universe::getPageIndex(addr));
+	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
 #endif
 					if(value == 1){
 						_chunk_list->addChunk_par(new ScanChunk(addr));
