@@ -1574,8 +1574,9 @@ public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
     		CMSBitMap* grey_bit_map, ChunkList *chunkList, MemRegion span);
     bool do_bit(size_t offset);
-
-private:
+    CMSBitMap* getGreyBitMap(){
+    	return _grey_bit_map;
+    }
     void scan_oops_in_oop(HeapWord* ptr);
 };
 

@@ -3986,10 +3986,10 @@ bool CMSConcMarkingTask::shouldStop(){
 
 bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
 	  // The object gets scanned only if it is marked as a grey object
-	  if(cl->_grey_bit_map.isMarked(addr)){
+	  if(cl->getGreyBitMap()->isMarked(addr)){
 		  cl->scan_oops_in_oop(addr);
 	// After scanning the grey object, the object is unmarked in the grey bit map
-		  cl->_grey_bit_map->par_clear(addr);
+		  cl->getGreyBitMap()->par_clear(addr);
 	// Decreasing the count of the chunk atomically
 		  __u_dec(addr);
 	  }
