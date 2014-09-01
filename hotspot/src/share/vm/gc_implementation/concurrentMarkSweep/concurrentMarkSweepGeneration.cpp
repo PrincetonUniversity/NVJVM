@@ -6716,7 +6716,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
 
 #if OCMS_DEBUG
-	expr = (_grey_bit_map->isMarked(addr));
+	bool expr = (_greyMarkBitMap->isMarked(addr));
 	__check(expr, "obj should be marked as grey");
 #endif
 
