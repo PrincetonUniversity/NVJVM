@@ -7528,10 +7528,9 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    }
 	  }
 
-	  scan_oops_in_oop(addr);
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
-
+		  scan_oops_in_oop(addr);
 	// After scanning the grey object, the object is unmarked in the grey bit map
 		  _grey_bit_map->par_clear(addr);
 	// Decreasing the count of the chunk atomically
