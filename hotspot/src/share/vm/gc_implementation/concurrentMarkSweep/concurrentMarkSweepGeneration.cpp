@@ -3538,8 +3538,8 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   bool expr;
   expr = _markBitMap.isAllClear();
   __check(expr, "mark bit map should be clear, before checkPointInitialMark");
-  expr = _greyMarkBitMap.isAllClear();
-  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");
+  /*expr = _greyMarkBitMap.isAllClear();
+  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");*/
 #endif
 
   // Setup the verification and class unloading state for this
