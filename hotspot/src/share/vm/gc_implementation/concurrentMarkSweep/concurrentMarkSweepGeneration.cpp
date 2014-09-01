@@ -7489,7 +7489,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	  __check(expr,
 	         "address out of range");
 	  __check(_bit_map->isMarked(addr), "tautology");
-	  __check(_grey_bit_map->isMarked(addr),  "object marked in _bit_map and stil not marked as grey");
+//	  __check(_grey_bit_map->isMarked(addr),  "object marked in _bit_map and stil not marked as grey");
 #endif
 	  if (_bit_map->isMarked(addr+1)) {
 	    // this is an allocated object that might not yet be initialized
@@ -7511,10 +7511,10 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    }
 	  }
 
-
+	  scan_oops_in_oop(addr);
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
-		  scan_oops_in_oop(addr);
+
 	// After scanning the grey object, the object is unmarked in the grey bit map
 		  _grey_bit_map->par_clear(addr);
 	// Decreasing the count of the chunk atomically
@@ -7556,7 +7556,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// the object should be marked alive since the object
 	__check(_bit_map->isMarked(ptr), "expected bit to be set");
 	// the object should be marked in the grey
-	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
+//	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
 #endif
 	oop obj = oop(ptr);
 
