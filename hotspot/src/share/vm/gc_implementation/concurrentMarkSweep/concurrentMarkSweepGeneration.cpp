@@ -4062,7 +4062,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    &_collector->_markBitMap,
 		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
-		                                    my_span);
+		                                    my_span,
+		                                    &_collector->_revisitStack
+		                                    );
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 // Special case handling the my_span.end(), which does not get iterated
 		        handleOop(my_span.end(), &cl);
@@ -7432,13 +7434,14 @@ void MarkFromRootsClosure::scanOopsInOop(HeapWord* ptr) {
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,
-		ChunkList *chunkList, MemRegion span){
+		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack){
 	_collector = collector;
 	_bit_map = bit_map;
 	_grey_bit_map = grey_bit_map;
 	_chunkList = chunkList;
 	_whole_span = span;
 	_skip_bits = 0;
+	_revisit_stack = revisit_stack;
 }
 
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
@@ -7558,7 +7561,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 #if OCMS_DEBUG
 	__check(obj->is_oop(true), "the ptr should be an oop");
 #endif
-	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList);
+	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
@@ -7878,7 +7881,11 @@ void PushOrMarkClosure::do_oop(oop obj) {
 
 Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
 		CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
-		ChunkList* chunkList){
+		ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack) :
+  Par_KlassRememberingOopClosure(collector,
+		                         collector->ref_processor(),
+		                         revisit_stack),
+{
 	_whole_span = memRegion;
 	_bit_map = bitMap;
 	_grey_bit_map = greyMarkBitMap;

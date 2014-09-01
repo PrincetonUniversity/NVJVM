@@ -1569,10 +1569,11 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
     int 		  _skip_bits;
     ChunkList* _chunkList;
     MemRegion _whole_span;
+    CMSMarkStack* _revisit_stack;
 
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
-    		CMSBitMap* grey_bit_map, ChunkList *chunkList, MemRegion span);
+    		CMSBitMap* grey_bit_map, ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack);
     bool do_bit(size_t offset);
     CMSBitMap* getGreyBitMap(){
     	return _grey_bit_map;
