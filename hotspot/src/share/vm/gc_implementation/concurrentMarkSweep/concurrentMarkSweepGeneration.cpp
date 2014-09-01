@@ -3985,7 +3985,7 @@ bool CMSConcMarkingTask::shouldStop(){
 }
 
 bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
-	printf("In handleOop, addr = %p \n", addr);
+//	printf("In handleOop, addr = %p \n", addr);
 	  // The object gets scanned only if it is marked as a grey object
 	  if(cl->getGreyBitMap()->isMarked(addr)){
 		  cl->scan_oops_in_oop(addr);
