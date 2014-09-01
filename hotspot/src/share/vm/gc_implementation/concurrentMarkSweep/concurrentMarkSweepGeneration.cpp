@@ -4019,6 +4019,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
+	printf("In do_scan_and_mark_OCMS");
 	bool isPar = true;
 	HeapWord *prev_obj;
 	while (!shouldStop()){
@@ -4324,15 +4325,10 @@ void Par_ConcMarkingClosure::handle_stack_overflow(HeapWord* lost) {
 
 void CMSConcMarkingTask::do_work_steal(int i) {
   OopTaskQueue* work_q = work_queue(i);
-  	  printf("Checking Work Queue Size. Work Queue Size = %d.\n", work_q->size());
   oop obj_to_scan;
   CMSBitMap* bm = &(_collector->_markBitMap);
   CMSMarkStack* ovflw = &(_collector->_markStack);
   CMSMarkStack* revisit = &(_collector->_revisitStack);
-
-  	  printf("Checking Overflow Stack Size. Overflow Stack Size = %d.\n", ovflw->length());
-  	  printf("Checking Overflow Revisit Stack Size. Revisit Stack Size = %d.\n", revisit->length());
-
   int* seed = _collector->hash_seed(i);
   Par_ConcMarkingClosure cl(_collector, this, work_q, bm, ovflw, revisit);
   while (true) {
