@@ -4046,8 +4046,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    _collector->getChunkList(),
 		                                    my_span);
 #if OCMS_LOG
-			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d\n",
-			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d"
+			  			  "prev_obj < span_start => %d \n",
+			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(), (prev_obj < span.start()));
 #endif
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		        if(scanChunk->greyObjectCount() > 0){
@@ -6714,8 +6715,6 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 	  if(!_greyMarkBitMap->isMarked(addr)){
 		_greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
     	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
-
-
 
     	if(value == 1){
     		// Create and push the chunk into chunk list
