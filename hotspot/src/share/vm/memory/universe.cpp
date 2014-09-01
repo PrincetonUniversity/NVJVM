@@ -707,6 +707,17 @@ void Universe::allocatePageTable(size_t size){
 	fflush(stdout);
 }
 
+size_t Universe::totalGreyObjectCount(){
+	size_t ptSize = _pageTableSize, index = 0, count = 0;
+	jbyte *position = (jbyte *)Universe::getPageTableBase();
+	while(index < ptSize){
+		count += (size_t)(*position);
+		index++;
+		position++;
+	}
+	return count;
+}
+
 // This method gets the position of the page table entry of an address within the page table
 void* Universe::getPageTablePosition(void *address){
 	size_t pageIndex = getPageIndex(address);

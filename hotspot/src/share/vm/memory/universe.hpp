@@ -308,6 +308,7 @@ class Universe: AllStatic {
 
 
   static void* getPageTablePosition(void *pageAddress);
+  static size_t totalGreyObjectCount(void);
 
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }

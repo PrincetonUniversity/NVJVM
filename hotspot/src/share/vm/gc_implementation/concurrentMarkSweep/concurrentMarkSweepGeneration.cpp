@@ -3534,6 +3534,14 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   assert_lock_strong(bitMapLock());
   assert(_markBitMap.isAllClear(), "was reset at end of previous cycle");
 
+#if OCMS_DEBUG
+  bool expr;
+  expr = _markBitMap.isAllClear();
+  __check(expr, "mark bit map should be clear, before checkPointInitialMark");
+  expr = _greyMarkBitMap.isAllClear();
+  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");
+#endif
+
   // Setup the verification and class unloading state for this
   // CMS collection cycle.
   setup_cms_unloading_and_verification_state();
@@ -3707,6 +3715,15 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   } else {
     result = do_marking_st(asynch);
   }
+
+#if OCMS_DEBUG
+  bool expr;
+  expr = _greyMarkBitMap.isAllClear();
+  __check(expr, "grey bit map should be clear after the mark from roots work.");
+  expr = (Universe::totalGreyObjectCount() == 0);
+  __check(expr, "total grey object count > 0, after mark from roots work.");
+#endif
+
   return result;
 }
 
