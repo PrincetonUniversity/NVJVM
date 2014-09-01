@@ -4308,6 +4308,7 @@ void Par_ConcMarkingClosure::handle_stack_overflow(HeapWord* lost) {
 void CMSConcMarkingTask::do_work_steal(int i) {
   OopTaskQueue* work_q = work_queue(i);
   	  printf("Checking Work Queue Size. Work Queue Size = %d.\n", work_q->size());
+  	  printf("Checking Task Queue Size. Size = %d. \n", task_queues()->size());
 
   oop obj_to_scan;
   CMSBitMap* bm = &(_collector->_markBitMap);
@@ -4431,6 +4432,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
   while (_restart_addr != NULL) {
+	  __check(false, "since we are not using a marking stack, the _restart_addr cannot be non-null \n");
     // XXX For now we do not make use of ABORTED state and have not
     // yet implemented the right abort semantics (even in the original
     // single-threaded CMS case). That needs some more investigation
@@ -4660,7 +4662,7 @@ size_t CMSCollector::preclean_work(bool clean_refs, bool clean_survivor) {
   // Precleaning is currently not MT but the reference processor
   // may be set for MT.  Disable it temporarily here.
   ReferenceProcessor* rp = ref_processor();
-  ReferenceProcessorMTDiscoveryMutator rp_mut_discovery(rp, false);
+  ReferenceProcessorMTDiscoveryMutator rp_mut_discovery(rp, false); // multi-threaded -> false
 
   // Do one pass of scrubbing the discovered reference lists
   // to remove any reference objects with strongly-reachable
@@ -7489,6 +7491,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	  __check(expr,
 	         "address out of range");
 	  __check(_bit_map->isMarked(addr), "tautology");
+//	  __check(_grey_bit_map->isMarked(addr),  "object marked in _bit_map and stil not marked as grey");
 #endif
 	  if (_bit_map->isMarked(addr+1)) {
 	    // this is an allocated object that might not yet be initialized
@@ -7509,10 +7512,11 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	      return true;
 	    }
 	  }
+	  scan_oops_in_oop(addr);
 
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
-		  scan_oops_in_oop(addr);
+
 	// After scanning the grey object, the object is unmarked in the grey bit map
 		  _grey_bit_map->par_clear(addr);
 	// Decreasing the count of the chunk atomically
