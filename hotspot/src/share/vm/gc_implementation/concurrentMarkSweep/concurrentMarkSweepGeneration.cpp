@@ -4308,8 +4308,6 @@ void Par_ConcMarkingClosure::handle_stack_overflow(HeapWord* lost) {
 void CMSConcMarkingTask::do_work_steal(int i) {
   OopTaskQueue* work_q = work_queue(i);
   	  printf("Checking Work Queue Size. Work Queue Size = %d.\n", work_q->size());
-  	  printf("Checking Task Queue Size. Size = %d. \n", task_queues()->size());
-
   oop obj_to_scan;
   CMSBitMap* bm = &(_collector->_markBitMap);
   CMSMarkStack* ovflw = &(_collector->_markStack);
