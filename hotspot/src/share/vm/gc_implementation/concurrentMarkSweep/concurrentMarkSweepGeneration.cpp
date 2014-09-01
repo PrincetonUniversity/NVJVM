@@ -4068,7 +4068,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
 			  			  "span_start = %p, span_end = %p\n",
 			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(),
-			  			  my_span.start(), my_span.end(), (int)it_s);
+			  			  my_span.start(), my_span.end());
 #endif
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk_par(scanChunk);
