@@ -4036,7 +4036,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			// so we do not try to navigate uninitialized objects.
 		   prev_obj = sp->block_start_careful(span.start());
 		   last_obj = sp->block_start_careful(span.end());
-		   printf("Last Object = %p, span_end = %p\n", last_obj, span.end());
 			// Below we use a variant of block_size that uses the
 			// Printezis bits to avoid waiting for allocated
 			// objects to become initialized/parsable.
