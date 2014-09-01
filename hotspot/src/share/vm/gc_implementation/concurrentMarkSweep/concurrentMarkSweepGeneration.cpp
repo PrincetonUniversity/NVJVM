@@ -3766,7 +3766,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
-  bool handleOop(HeapWord* addr);
+  bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
   // Values returned by the iterate() methods.
   enum CMSIterationStatus { incomplete, complete, full, would_overflow };
   CMSConcMarkingTask(CMSCollector* collector,
