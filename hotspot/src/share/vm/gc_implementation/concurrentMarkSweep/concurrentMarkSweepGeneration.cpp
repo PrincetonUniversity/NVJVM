@@ -3918,6 +3918,9 @@ void CMSConcMarkingTask::work(int i) {
       i, _timer.seconds()); // XXX: need xxx/xxx type of notation, two timers
   }
 
+  // Checking if there are oops that are there on the work_queues .....
+  do_work_steal(i);
+
   // ... do work stealing
   /*_timer.reset();
   _timer.start();
@@ -4000,7 +4003,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 	bool isPar = true;
-	HeapWord *prev_obj, *last_obj;
+	HeapWord *prev_obj;
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
@@ -4035,7 +4038,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			// Below we use the "careful" version of block_start
 			// so we do not try to navigate uninitialized objects.
 		   prev_obj = sp->block_start_careful(span.start());
-		   last_obj = sp->block_start_careful(span.end());
 			// Below we use a variant of block_size that uses the
 			// Printezis bits to avoid waiting for allocated
 			// objects to become initialized/parsable.
@@ -4064,6 +4066,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 // Special case handling the my_span.end(), which does not get iterated
 		        handleOop(my_span.end(), &cl);
+// The iteration most probably assumes that the object will get scanned within the next chunk. Since, the previous
+// accesses were sequential, this would not have been a problem.
 
 #if OCMS_LOG
 			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
@@ -4301,10 +4305,16 @@ void Par_ConcMarkingClosure::handle_stack_overflow(HeapWord* lost) {
 
 void CMSConcMarkingTask::do_work_steal(int i) {
   OopTaskQueue* work_q = work_queue(i);
+  	  printf("Checking Work Queue Size. Work Queue Size = %d.\n", work_q->size());
+
   oop obj_to_scan;
   CMSBitMap* bm = &(_collector->_markBitMap);
   CMSMarkStack* ovflw = &(_collector->_markStack);
   CMSMarkStack* revisit = &(_collector->_revisitStack);
+
+  	  printf("Checking Overflow Stack Size. Overflow Stack Size = %d.\n", ovflw->size());
+  	  printf("Checking Overflow Revisit Stack Size. Revisit Stack Size = %d.\n", revisit->size());
+
   int* seed = _collector->hash_seed(i);
   Par_ConcMarkingClosure cl(_collector, this, work_q, bm, ovflw, revisit);
   while (true) {
@@ -4385,6 +4395,7 @@ void CMSConcMarkingTask::coordinator_yield() {
 
 bool CMSCollector::do_marking_mt(bool asynch) {
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
+  	  printf("Multi threaded marking, Num Workers = %d.\n", ConcGCThreads);
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
   int num_workers = ConcGCThreads;
@@ -6735,7 +6746,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 	  if(!_greyMarkBitMap->isMarked(addr)){
 		_greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
     	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
-
+// If I am the thread to mark the first grey object then I also enqueue the corresponding chunk in the chunk list
     	if(value == 1){
     		// Create and push the chunk into chunk list
     		ScanChunk *scanChunk = new ScanChunk(addr);
