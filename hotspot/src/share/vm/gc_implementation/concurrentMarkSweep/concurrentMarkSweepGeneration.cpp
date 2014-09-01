@@ -4312,8 +4312,8 @@ void CMSConcMarkingTask::do_work_steal(int i) {
   CMSMarkStack* ovflw = &(_collector->_markStack);
   CMSMarkStack* revisit = &(_collector->_revisitStack);
 
-  	  printf("Checking Overflow Stack Size. Overflow Stack Size = %d.\n", ovflw->size());
-  	  printf("Checking Overflow Revisit Stack Size. Revisit Stack Size = %d.\n", revisit->size());
+  	  printf("Checking Overflow Stack Size. Overflow Stack Size = %d.\n", ovflw->length());
+  	  printf("Checking Overflow Revisit Stack Size. Revisit Stack Size = %d.\n", revisit->length());
 
   int* seed = _collector->hash_seed(i);
   Par_ConcMarkingClosure cl(_collector, this, work_q, bm, ovflw, revisit);
