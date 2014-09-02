@@ -3924,8 +3924,11 @@ void CMSConcMarkingTask::work(int i) {
 
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
+
+#if OCMS_ASSERT
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
+#endif
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4026,6 +4029,11 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
+
+	printf("Checking the restart address."
+			"At the start of the CMSConcMarkingTask. "
+			"_restart_address = %p.\n", _restart_addr);
+
 	bool isPar = true; // The stage is a parallel one
 	HeapWord *prev_obj;
 	while (!shouldStop()){
@@ -4422,8 +4430,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 
-  bool _isSame = _markBitMap.isSame(_greyMarkBitMap);
-  printf("Before CMSConcMarkingTask. Comparison between mark and grey bitmap = %d.\n", _isSame);
+#if OCMS_ASSERT
+  __check(_markBitMap.isSame(_greyMarkBitMap) == 1, "Comparison between mark and grey bitmap not equal.");
+#endif
 
   CMSConcMarkingTask tsk(this,
                          cms_space,
