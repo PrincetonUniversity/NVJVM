@@ -4354,6 +4354,13 @@ void CMSConcMarkingTask::do_work_steal(int i) {
   CMSBitMap* bm = &(_collector->_markBitMap);
   CMSMarkStack* ovflw = &(_collector->_markStack);
   CMSMarkStack* revisit = &(_collector->_revisitStack);
+
+#if OCMS_ASSERT
+  __check(work_q->size() == 0, "work queue not empty");
+  __check(ovflw->length() == 0, "mark stack not empty");
+  __check(revisit->length() == 0, "revisit stack not empty");
+#endif
+
   int* seed = _collector->hash_seed(i);
   Par_ConcMarkingClosure cl(_collector, this, work_q, bm, ovflw, revisit);
   while (true) {
