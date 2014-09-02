@@ -4021,8 +4021,6 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 			  cl->scan_oops_in_oop(addr);
 			  __u_dec(addr);// Decreasing the count of the chunk atomically
 		  }
-
-
 	  }
 }
 
@@ -6784,7 +6782,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 #endif
 
 #if OCMS_LOG
-	printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
+	//printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
 #endif
   }
 }
@@ -7575,9 +7573,9 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 #if OCMS_DEBUG
 	// the object should be marked alive since the object
-	__check(_bit_map->isMarked(ptr), "expected bit to be set");
+	__check(_bit_map->isMarked(ptr), "expected bit to be set in mark bit map");
 	// the object should be marked in the grey
-	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
+	__check(!_grey_bit_map->isMarked(ptr), "expected bit not to be set in grey mark bit map");
 #endif
 	oop obj = oop(ptr);
 
@@ -7956,7 +7954,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 #endif
 
 #if OCMS_LOG
-	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
+//	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
 #endif
 					if(value == 1){
 						_chunk_list->addChunk(new ScanChunk(addr), true);
