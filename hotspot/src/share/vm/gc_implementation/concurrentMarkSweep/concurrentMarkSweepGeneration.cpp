@@ -559,6 +559,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
   _greyMarkBitMap(0, Mutex::leaf + 1, "CMS_greyMarkBitMap_lock"),
+  _dummyBitMap(0, Mutex::leaf + 1, "CMS_dummyMarkBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -643,9 +644,16 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
       warning("Failed to allocate Grey Mark CMS Bit Map");
       return;
     }
-    assert(__greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
+    assert(_greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
   }
-
+  {
+     MutexLockerEx x(_dummyBitMap.lock(), Mutex::_no_safepoint_check_flag);
+     if (!_dummyBitMap.allocate(_span)) {
+       warning("Failed to allocate Dummy Mark CMS Bit Map");
+       return;
+     }
+     assert(_dummyBitMap.covers(_span), "_dummyBitMap inconsistency?");
+   }
   if (!_markStack.allocate(MarkStackSize)) {
     warning("Failed to allocate CMS Marking Stack");
     return;
@@ -3567,7 +3575,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   // The final 'true' flag to gen_process_strong_roots will ensure this.
   // If 'async' is true, we can relax the nmethod tracing.
   // MarkRefsIntoClosure notOlder(_span, &_markBitMap);
-  MarkRefsAndUpdateChunkTableClosure notOlder(_span, &_markBitMap, &_greyMarkBitMap, _collectorChunkList);
+  MarkRefsAndUpdateChunkTableClosure notOlder(_span, &_markBitMap, &_greyMarkBitMap, _collectorChunkList, this);
   GenCollectedHeap* gch = GenCollectedHeap::heap();
 
   verify_work_stacks_empty();
@@ -3722,11 +3730,11 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
 
 #if OCMS_DEBUG
-  /*bool expr;
+  bool expr;
   expr = _greyMarkBitMap.isAllClear();
   __check(expr, "grey bit map should be clear after the mark from roots work.");
   expr = (Universe::totalGreyObjectCount() == 0);
-  __check(expr, "total grey object count > 0, after mark from roots work.");*/
+  __check(expr, "total grey object count > 0, after mark from roots work.");
 #endif
 
   return result;
@@ -3788,6 +3796,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
   // Values returned by the iterate() methods.
   enum CMSIterationStatus { incomplete, complete, full, would_overflow };
@@ -3928,6 +3937,7 @@ void CMSConcMarkingTask::work(int i) {
 #if OCMS_ASSERT
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
+  __check(_collector->compareDummyBitMaps() == 1, "Dummy bitmap comparison.");
 #endif
 
   _timer.stop();
@@ -4026,13 +4036,14 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	  }
 }
 
-// This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
-// chunk list.
+// This method performs scan and marking on a scan chunk region.
+// The chunk region is popped out of a chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 
 	printf("Checking the restart address."
 			"At the start of the CMSConcMarkingTask. "
-			"_restart_address = %p.\n", _restart_addr);
+			"_restart_address = %p. "
+			"Bottom of the CMS Space region = %p.\n", _restart_addr, _cms_space->bottom());
 
 	bool isPar = true; // The stage is a parallel one
 	HeapWord *prev_obj;
@@ -4091,8 +4102,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span,
-		                                    &_collector->_revisitStack
-		                                    );
+		                                    &_collector->_revisitStack);
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 // Special case handling the my_span.end(), which does not get iterated
 		        handleOop(my_span.end(), &cl);
@@ -6758,11 +6768,12 @@ void CMSMarkStack::expand() {
 
 
 MarkRefsAndUpdateChunkTableClosure::MarkRefsAndUpdateChunkTableClosure(
-		MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList* chunkList):
+		MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList* chunkList, CMSCollector* collector):
 				_span(span),
 				_bitMap(bitMap),
 				_chunkList(chunkList),
-				_greyMarkBitMap(greyMarkBitMap)
+				_greyMarkBitMap(greyMarkBitMap),
+				_collector(collector)
 {
 
 }
@@ -6786,6 +6797,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     	}
       }
 	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
+	  _collector->getDummyBitmap()->mark(addr);
 
 #if OCMS_DEBUG
 	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
@@ -7923,6 +7935,7 @@ Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
 	_bit_map = bitMap;
 	_grey_bit_map = greyMarkBitMap;
 	_chunk_list = chunkList;
+	_collector = collector;
 }
 
 void Par_GreyMarkClosure::do_oop(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
@@ -7948,6 +7961,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
 			// If I am able to mark this object as alive I will mark it grey also
+			_collector->getDummyBitmap()->par_mark(addr);
 #if OCMS_DEBUG
 	expr = !(_grey_bit_map->isMarked(addr));
 	__check(expr, "unmarked obj is already marked as grey, incosistency");

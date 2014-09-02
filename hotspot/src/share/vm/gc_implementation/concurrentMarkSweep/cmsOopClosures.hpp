@@ -55,12 +55,14 @@ private:
   CMSBitMap*      _bitMap;
   ChunkList* _chunkList;
   CMSBitMap*	_greyMarkBitMap;
+  CMSCollector* _collector;
 
 protected:
   DO_OOP_WORK_DEFN
 
  public:
-  MarkRefsAndUpdateChunkTableClosure(MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList *chunkList);
+  MarkRefsAndUpdateChunkTableClosure(MemRegion span, CMSBitMap* bitMap,
+		  CMSBitMap* greyMarkBitMap, ChunkList *chunkList, CMSCollector* collector);
   virtual void do_oop(oop* p);
   virtual void do_oop(narrowOop* p);
   inline void do_oop_nv(oop* p)       { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
@@ -355,6 +357,7 @@ private:
 	CMSBitMap* _bit_map;
 	CMSBitMap* _grey_bit_map;
 	ChunkList* _chunk_list;
+	CMSCollector* _collector;
 
 protected:
 	DO_OOP_WORK_DEFN

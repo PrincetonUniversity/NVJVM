@@ -793,6 +793,7 @@ class CMSCollector: public CHeapObj {
   // CMS marking support structures
   CMSBitMap     _markBitMap;
   CMSBitMap 	_greyMarkBitMap;
+  CMSBitMap 	_dummyBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
@@ -850,12 +851,20 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
+  CMSBitMap* getDummyBitMap(){
+	 return &(_dummyBitMap);
+  }
+
   ChunkList* getChunkList(){
 		  return _collectorChunkList;
   }
 
   bool compareBitMaps(){
 	  return  _markBitMap.isSame(_greyMarkBitMap);
+  }
+
+  bool compareDummyBitMaps(){
+	  return _markBitMap.isSame(_dummyBitMap);
   }
 
  protected:
@@ -1578,7 +1587,8 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
 
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
-    		CMSBitMap* grey_bit_map, ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack);
+    		CMSBitMap* grey_bit_map, ChunkList *chunkList,
+    		MemRegion span, CMSMarkStack* revisit_stack);
     bool do_bit(size_t offset);
     CMSBitMap* getGreyBitMap(){
     	return _grey_bit_map;
