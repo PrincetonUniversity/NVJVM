@@ -3534,12 +3534,12 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   assert_lock_strong(bitMapLock());
   assert(_markBitMap.isAllClear(), "was reset at end of previous cycle");
 
-#if OCMS_DEBUG
+#if OCMS_ASSERT
   bool expr;
   expr = _markBitMap.isAllClear();
   __check(expr, "mark bit map should be clear, before checkPointInitialMark");
-  /*expr = _greyMarkBitMap.isAllClear();
-  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");*/
+  expr = _greyMarkBitMap.isAllClear();
+  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");
 #endif
 
   // Setup the verification and class unloading state for this
@@ -3593,6 +3593,11 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
                                   true,   // walk all of code cache if (so & SO_CodeCache)
                                   NULL);
   }
+
+#if OCMS_ASSERT
+   bool _isSame = _markBitMap.isSame(_greyMarkBitMap);
+   printf("Comparison between mark and grey bitmap = %d.\n", _isSame);
+#endif
 
   // Clear mod-union table; it will be dirtied in the prologue of
   // CMS generation per each younger generation collection.
@@ -3928,7 +3933,6 @@ void CMSConcMarkingTask::work(int i) {
   _timer.reset();
   _timer.start();
   do_scan_and_mark(i, _perm_space);
-//  do_scan_and_mark_OCMS(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished perm space scanning in %dth thread: %3.3f sec",

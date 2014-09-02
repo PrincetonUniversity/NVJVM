@@ -39,6 +39,7 @@
 #define MB 1024*1024
 #define OCMS_DEBUG 1
 #define OCMS_LOG 0
+#define OCMS_ASSERT 1
 
 #define __check(a, b) \
 	if(!a){ \

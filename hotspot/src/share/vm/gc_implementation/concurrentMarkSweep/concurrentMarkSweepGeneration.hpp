@@ -126,6 +126,12 @@ class CMSBitMap VALUE_OBJ_CLASS_SPEC {
   HeapWord* endWord()     const { return _bmStartWord + _bmWordSize; }
 
   // reading marks
+  bool isSame(CMSBitMap map) {
+	  return _bm.is_same(map.getBitMap());
+  }
+  BitMap getBitMap() {
+	  return _bm;
+  }
   bool isMarked(HeapWord* addr) const;
   bool par_isMarked(HeapWord* addr) const; // do not lock checks
   bool isUnmarked(HeapWord* addr) const;
