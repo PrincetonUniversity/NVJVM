@@ -6517,6 +6517,7 @@ void CMSCollector::do_CMS_operation(CMS_op_type op) {
     case CMS_op_checkpointRootsInitial: {
       SvcGCMarker sgcm(SvcGCMarker::OTHER);
       checkpointRootsInitial(true);       // asynch
+      printf("Grey Object Count after checkPointRootsInitial = %d.\n", Universe::totalGreyObjectCount());
       if (PrintGC) {
         _cmsGen->printOccupancy("initial-mark");
       }
