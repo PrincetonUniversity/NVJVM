@@ -8018,6 +8018,7 @@ void PushOrMarkClosure::do_oop(oop* p)       { PushOrMarkClosure::do_oop_work(p)
 void PushOrMarkClosure::do_oop(narrowOop* p) { PushOrMarkClosure::do_oop_work(p); }
 
 void Par_PushOrMarkClosure::do_oop(oop obj) {
+  __check(false, "in Par_PushOrMarkClosure::do_oop");
   // Ignore mark word because we are running concurrent with mutators.
   assert(obj->is_oop_or_null(true), "expected an oop or NULL");
   HeapWord* addr = (HeapWord*)obj;
