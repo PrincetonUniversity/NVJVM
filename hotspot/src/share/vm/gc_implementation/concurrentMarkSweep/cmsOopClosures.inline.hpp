@@ -61,6 +61,9 @@ inline void PushOrMarkClosure::remember_mdo(DataLayout* v) {
   // TBD
 }
 
+inline void Par_GreyMarkClosure::remember_mdo(DataLayout* v){
+
+}
 
 void Par_KlassRememberingOopClosure::remember_klass(Klass* k) {
   if (!_revisit_stack->par_push(oop(k))) {
