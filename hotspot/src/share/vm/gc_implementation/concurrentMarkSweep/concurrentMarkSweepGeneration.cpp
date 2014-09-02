@@ -3921,6 +3921,7 @@ void CMSConcMarkingTask::work(int i) {
   assert(work_queue(i)->size() == 0, "Expected to be empty");
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
+
   do_scan_and_mark(i, _cms_space);
 //  do_scan_and_mark_OCMS(i);
   _timer.stop();
@@ -4419,6 +4420,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+
+  bool _isSame = _markBitMap.isSame(_greyMarkBitMap);
+  printf("Before CMSConcMarkingTask. Comparison between mark and grey bitmap = %d.\n", _isSame);
 
   CMSConcMarkingTask tsk(this,
                          cms_space,
