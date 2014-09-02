@@ -3926,6 +3926,10 @@ void CMSConcMarkingTask::work(int i) {
   do_scan_and_mark_OCMS(i);
   printf("After do_scan_and_mark. ChunkListSize = %d.\n", _chunkList->listSize());
 
+  bool _isSame = _collector->_markBitMap.isSame(_collector->_greyMarkBitMap);
+  printf("After do_scan_and_mark. Comparison between mark and grey bitmap = %d.\n", _isSame);
+
+
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
