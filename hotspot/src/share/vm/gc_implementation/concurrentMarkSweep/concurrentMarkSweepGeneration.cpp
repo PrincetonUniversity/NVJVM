@@ -3925,7 +3925,7 @@ void CMSConcMarkingTask::work(int i) {
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
-  __check(_collector->compareBitMaps() == 1, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
+  __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4013,7 +4013,6 @@ bool CMSConcMarkingTask::shouldStop(){
 }
 
 bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
-//	printf("In handleOop, addr = %p \n", addr);
 	  // The object gets scanned only if it is marked as a grey object
 	  if(cl->getGreyBitMap()->isMarked(addr)){
 	// The object is unmarked in the grey bit map, the thread that is able to mark the
@@ -4101,7 +4100,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk(scanChunk, true); // Insert the scan chunk within the chunklist parallely
 		        } else {
-		        	// free the scan chunk
+		        	// free the scan chunk if the number of grey objects = 0 for the chunk.
 		        	free (scanChunk);
 		        }
 		 } else {
