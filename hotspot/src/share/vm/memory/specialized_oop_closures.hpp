@@ -52,6 +52,7 @@ class PushAndMarkClosure;
 class Par_PushAndMarkClosure;
 class PushOrMarkClosure;
 class Par_PushOrMarkClosure;
+class Par_GreyMarkClosure;
 class CMSKeepAliveClosure;
 class CMSInnerParMarkAndPushClosure;
 
@@ -97,6 +98,7 @@ class CMSInnerParMarkAndPushClosure;
   f(PushAndMarkClosure,_nv)                             \
   f(Par_PushAndMarkClosure,_nv)                         \
   f(PushOrMarkClosure,_nv)                              \
+  f(Par_GreyMarkClosure,_nv)							\
   f(Par_PushOrMarkClosure,_nv)                          \
   f(CMSKeepAliveClosure,_nv)                            \
   f(CMSInnerParMarkAndPushClosure,_nv)                  \
