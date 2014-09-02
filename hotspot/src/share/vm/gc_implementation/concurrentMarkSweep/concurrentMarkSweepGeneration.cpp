@@ -3938,6 +3938,7 @@ void CMSConcMarkingTask::work(int i) {
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
   __check(_collector->compareDummyBitMaps() == 1, "Dummy bitmap comparison.");
+  printf("Comparing with the dummy bitmap = %d.\n", _collector->compareDummyBitMaps());
 #endif
 
   _timer.stop();
