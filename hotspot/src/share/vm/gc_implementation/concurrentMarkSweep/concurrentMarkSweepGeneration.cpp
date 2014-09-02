@@ -3925,10 +3925,7 @@ void CMSConcMarkingTask::work(int i) {
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
   printf("After do_scan_and_mark. ChunkListSize = %d.\n", _chunkList->listSize());
-
-  bool _isSame = _collector->_markBitMap.isSame(_collector->_greyMarkBitMap);
-  printf("After do_scan_and_mark. Comparison between mark and grey bitmap = %d.\n", _isSame);
-
+  printf("After do_scan_and_mark. Comparison between mark and grey bitmap = %d.\n", _collector->compareBitMaps();
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4106,7 +4103,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			  			  my_span.start(), my_span.end());
 #endif
 		        if(scanChunk->greyObjectCount() > 0){
-		        	_chunkList->addChunk_par(scanChunk);
+		        	_chunkList->addChunk(scanChunk, true);
 		        }
 		 } else {
 #if OCMS_LOG
@@ -6778,7 +6775,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     	if(value == 1){
     		// Create and push the chunk into chunk list
     		ScanChunk *scanChunk = new ScanChunk(addr);
-    		_chunkList->addChunk(scanChunk);
+    		_chunkList->addChunk(scanChunk, false);
     	}
       }
 	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
@@ -7515,7 +7512,6 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	  __check(expr,
 	         "address out of range");
 	  __check(_bit_map->isMarked(addr), "tautology");
-//	  __check(_grey_bit_map->isMarked(addr),  "object marked in _bit_map and stil not marked as grey");
 #endif
 	  if (_bit_map->isMarked(addr+1)) {
 	    // this is an allocated object that might not yet be initialized
@@ -7581,13 +7577,14 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// the object should be marked alive since the object
 	__check(_bit_map->isMarked(ptr), "expected bit to be set");
 	// the object should be marked in the grey
-//	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
+	__check(_grey_bit_map->isMarked(ptr), "expected bit to be set");
 #endif
 	oop obj = oop(ptr);
 
 #if OCMS_DEBUG
 	__check(obj->is_oop(true), "the ptr should be an oop");
 #endif
+
 	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
@@ -7962,7 +7959,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
 #endif
 					if(value == 1){
-						_chunk_list->addChunk_par(new ScanChunk(addr));
+						_chunk_list->addChunk(new ScanChunk(addr), true);
 					}
 				} else {
 					printf("Only I could have marked the object as grey, since I marked the "
@@ -7970,6 +7967,9 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 							"inconsistent.");
 					exit(-1);
 				}
+			} else {
+				printf("The mark bit map is marked by another thread. "
+						"I was not able to mark this object (addr = %p) as alive.\n", addr);
 			}
 		}
 	// I check whether the object is marked grey or not. If not then I must mark it grey and

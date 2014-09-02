@@ -550,7 +550,7 @@ private:
 
 public:
     ScanChunk(void *address){
-    	_address = address;
+    	_address = __page_start(address);
     }
 
 	int greyObjectCount() const {
@@ -622,19 +622,6 @@ class ChunkList : public CHeapObj  {
 			policy = new ChunkListPolicy(this);
 		}
 
-		void addChunk(ScanChunk *chunk){
-			_chunkList.push_back(chunk);
-			list_pushes++;
-		}
-
-		void addChunk_par(ScanChunk *chunk){
-			pthread_mutex_lock(&_listMutex);
-				_chunkList.push_back(chunk);
-				list_pushes++;
-			pthread_mutex_unlock(&_listMutex);
-
-		}
-
 		void lockList(bool isPar){
 			if(isPar)
 				pthread_mutex_lock(&_listMutex);
@@ -643,6 +630,13 @@ class ChunkList : public CHeapObj  {
 		void unLockList(bool isPar){
 			if(isPar)
 				pthread_mutex_unlock(&_listMutex);
+		}
+
+		void addChunk(ScanChunk *chunk, bool isPar){
+			lockList(isPar);
+				_chunkList.push_back(chunk);
+				list_pushes++;
+			unLockList(isPar);
 		}
 
 		void sorChunkList(){
@@ -658,7 +652,7 @@ class ChunkList : public CHeapObj  {
 		ScanChunk *pop(bool isPar){
 			ScanChunk* c = NULL;
 			lockList(isPar);
-			int attemptsLeft = _chunkList.size();
+			int attemptsLeft = 0;//_chunkList.size() ;
 			if(_chunkList.size() == 0){
 				goto out;
 			} // Else, there is at least one element scan chunk within the list
@@ -672,9 +666,6 @@ class ChunkList : public CHeapObj  {
 			}
 			list_pops++;
 			out: unLockList(isPar);
-#if OCMS_LOG
-//				printf("List Pushes %d, List pops %d \n", list_pushes, list_pops);
-#endif
 			return c;
 		}
 
@@ -861,6 +852,10 @@ class CMSCollector: public CHeapObj {
 
   ChunkList* getChunkList(){
 		  return _collectorChunkList;
+  }
+
+  bool compareBitMaps(){
+	  return  _markBitMap.isSame(_greyMarkBitMap);
   }
 
  protected:
