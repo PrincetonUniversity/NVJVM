@@ -3596,7 +3596,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
 
 #if OCMS_ASSERT
    bool _isSame = _markBitMap.isSame(_greyMarkBitMap);
-   printf("Comparison between mark and grey bitmap = %d.\n", _isSame);
+   __check(_isSame == 1, "After initial marking, the mark bit map and grey mark bit maps are not the same.");
 #endif
 
   // Clear mod-union table; it will be dirtied in the prologue of
@@ -3924,8 +3924,8 @@ void CMSConcMarkingTask::work(int i) {
 
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
-  printf("After do_scan_and_mark. ChunkListSize = %d.\n", _chunkList->listSize());
-  printf("After do_scan_and_mark. Comparison between mark and grey bitmap = %d.\n", _collector->compareBitMaps());
+  __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
+  __check(_collector->compareBitMaps() == 1, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4100,6 +4100,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 #endif
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk(scanChunk, true); // Insert the scan chunk within the chunklist parallely
+		        } else {
+		        	// free the scan chunk
+		        	free (scanChunk);
 		        }
 		 } else {
 #if OCMS_LOG
