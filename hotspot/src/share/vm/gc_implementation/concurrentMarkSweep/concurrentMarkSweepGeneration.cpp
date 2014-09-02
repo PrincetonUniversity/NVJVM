@@ -3922,8 +3922,10 @@ void CMSConcMarkingTask::work(int i) {
   // Scan the bitmap covering _cms_space, tracing through grey objects.
   _timer.start();
 
-  do_scan_and_mark(i, _cms_space);
-//  do_scan_and_mark_OCMS(i);
+//  do_scan_and_mark(i, _cms_space);
+  do_scan_and_mark_OCMS(i);
+  printf("After do_scan_and_mark. ChunkListSize = ", _chunkList->listSize());
+
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -3933,7 +3935,7 @@ void CMSConcMarkingTask::work(int i) {
   // ... do the same for the _perm_space
   _timer.reset();
   _timer.start();
-  do_scan_and_mark(i, _perm_space);
+//  do_scan_and_mark(i, _perm_space);
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished perm space scanning in %dth thread: %3.3f sec",

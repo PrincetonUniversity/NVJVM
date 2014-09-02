@@ -681,6 +681,10 @@ class ChunkList : public CHeapObj  {
 		bool isEmpty(){
 			return _chunkList.empty();
 		}
+
+		size_t listSize(){
+			return (size_t)_chunkList.size();
+		}
 };
 
 
