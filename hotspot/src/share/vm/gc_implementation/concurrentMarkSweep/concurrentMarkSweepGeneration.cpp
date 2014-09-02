@@ -6797,7 +6797,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     	}
       }
 	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
-	  _collector->getDummyBitmap()->mark(addr);
+	  _collector->getDummyBitMap()->mark(addr);
 
 #if OCMS_DEBUG
 	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
@@ -7961,7 +7961,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
 			// If I am able to mark this object as alive I will mark it grey also
-			_collector->getDummyBitmap()->par_mark(addr);
+			_collector->getDummyBitMap()->par_mark(addr);
 #if OCMS_DEBUG
 	expr = !(_grey_bit_map->isMarked(addr));
 	__check(expr, "unmarked obj is already marked as grey, incosistency");
