@@ -6518,6 +6518,8 @@ void CMSCollector::do_CMS_operation(CMS_op_type op) {
       SvcGCMarker sgcm(SvcGCMarker::OTHER);
       checkpointRootsInitial(true);       // asynch
       printf("Grey Object Count after checkPointRootsInitial = %d.\n", Universe::totalGreyObjectCount());
+      printf("Total Greyed Page = %d.\n", Universe::getNumberOfGreyedPages());
+      printf("Total Number Of Pages = %d.\n", Universe::getNumberOfPages());
       if (PrintGC) {
         _cmsGen->printOccupancy("initial-mark");
       }

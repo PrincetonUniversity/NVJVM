@@ -718,6 +718,19 @@ size_t Universe::totalGreyObjectCount(){
 	return count;
 }
 
+size_t Universe::getNumberOfGreyedPages(){
+	size_t index = 0, count = 0;
+	jbyte *position = (jbyte *)Universe::getPageTableBase();
+	while(index < _pageTableSize){
+			if((*position) > 0)
+				count++;
+			index++;
+			position++;
+	}
+	return count;
+}
+
+
 // This method gets the position of the page table entry of an address within the page table
 void* Universe::getPageTablePosition(void *address){
 	size_t pageIndex = getPageIndex(address);
