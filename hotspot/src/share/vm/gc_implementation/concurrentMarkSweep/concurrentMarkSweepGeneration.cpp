@@ -3924,7 +3924,7 @@ void CMSConcMarkingTask::work(int i) {
 
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
-  printf("After do_scan_and_mark. ChunkListSize = ", _chunkList->listSize());
+  printf("After do_scan_and_mark. ChunkListSize = %d.\n", _chunkList->listSize());
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
