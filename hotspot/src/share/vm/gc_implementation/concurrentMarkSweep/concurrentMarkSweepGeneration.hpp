@@ -147,7 +147,7 @@ class CMSBitMap VALUE_OBJ_CLASS_SPEC {
   void par_mark_range(MemRegion mr);
   void mark_large_range(MemRegion mr);
   void par_mark_large_range(MemRegion mr);
-  void par_clear(HeapWord* addr); // For unmarking by parallel GC threads.
+  bool par_clear(HeapWord* addr); // For unmarking by parallel GC threads.
   void clear_range(MemRegion mr);
   void par_clear_range(MemRegion mr);
   void clear_large_range(MemRegion mr);
@@ -658,7 +658,7 @@ class ChunkList : public CHeapObj  {
 			} // Else, there is at least one element scan chunk within the list
 			c = _chunkList.front();
 			_chunkList.pop_front();
-			while(!__in_core(c->getAddress()) && attemptsLeft > 0){
+			while(attemptsLeft > 0 && !__in_core(c->getAddress())){
 				attemptsLeft--;
 				_chunkList.push_back(c);
 				c = _chunkList.front();

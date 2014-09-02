@@ -4016,18 +4016,20 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 //	printf("In handleOop, addr = %p \n", addr);
 	  // The object gets scanned only if it is marked as a grey object
 	  if(cl->getGreyBitMap()->isMarked(addr)){
-		  cl->scan_oops_in_oop(addr);
-	// After scanning the grey object, the object is unmarked in the grey bit map
-		  cl->getGreyBitMap()->par_clear(addr);
-	// Decreasing the count of the chunk atomically
-		  __u_dec(addr);
+	// The object is unmarked in the grey bit map, the thread that is able to mark the
+		  if(cl->getGreyBitMap()->par_clear(addr)){
+			  cl->scan_oops_in_oop(addr);
+			  __u_dec(addr);// Decreasing the count of the chunk atomically
+		  }
+
+
 	  }
 }
 
 // This method performs scan and marking on a scan chunk region. The chunk region is popped out of a
 // chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
-	bool isPar = true;
+	bool isPar = true; // The stage is a parallel one
 	HeapWord *prev_obj;
 	while (!shouldStop()){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
@@ -4045,16 +4047,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 #endif
 
 #if OCMS_LOG
-	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
-			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+/*	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
+			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());*/
 #endif
 
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
 	  span = span.intersection(sp->used_region());
 	  if(!span.is_empty()){
-//	   if(span.contains(_restart_address)){
-//		   prev_obj = _restart_address;
-//	   } else {
 			// We want to skip the first object because
 			// the protocol is to scan any object in its entirety
 			// that _starts_ in this span; a fortiori, any
@@ -4076,8 +4075,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 				// locking the free list locks; see bug 6324141.
 			  break;
 				   }
-		   }
-//	   }
+		 }
 		 if (prev_obj < span.end()) {
 		     MemRegion my_span = MemRegion(prev_obj, span.end());
 		        // Do the marking work within a non-empty span --
@@ -4097,13 +4095,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 // accesses were sequential, this would not have been a problem.
 
 #if OCMS_LOG
-			  	  printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
+			  	  /*printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
 			  			  "span_start = %p, span_end = %p\n",
 			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(),
-			  			  my_span.start(), my_span.end());
+			  			  my_span.start(), my_span.end());*/
 #endif
 		        if(scanChunk->greyObjectCount() > 0){
-		        	_chunkList->addChunk(scanChunk, true);
+		        	_chunkList->addChunk(scanChunk, true); // Insert the scan chunk within the chunklist parallely
 		        }
 		 } else {
 #if OCMS_LOG
@@ -7494,18 +7492,19 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	bool expr;
+
+	// convert offset into a HeapWord*
 	HeapWord* addr = _bit_map->startWord() + offset;
 
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
 
 #if OCMS_DEBUG
-	    expr = _grey_bit_map->isMarked(addr);
+	    expr = !_grey_bit_map->isMarked(addr);
 	    __check(expr, "grey marked bit skipped");
 #endif
 	    return true;
 	  }
-	  // convert offset into a HeapWord*
 
 #if OCMS_DEBUG
 	  expr = _bit_map->endWord() && addr < _bit_map->endWord();
@@ -7526,7 +7525,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	      // in the case of Clean-on-Enter optimization, redirty card
 	      // and avoid clearing card by increasing  the threshold.
 #if OCMS_DEBUG
-	    expr = _grey_bit_map->isMarked(addr);
+	    expr = !_grey_bit_map->isMarked(addr);
 	    __check(expr, "grey marked bit skipped");
 #endif
 	      return true;
@@ -7535,11 +7534,12 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 
 	  // The object gets scanned only if it is marked as a grey object
 	  if(_grey_bit_map->isMarked(addr)){
-		  scan_oops_in_oop(addr);
 	// After scanning the grey object, the object is unmarked in the grey bit map
-		  _grey_bit_map->par_clear(addr);
-	// Decreasing the count of the chunk atomically
-		  __u_dec(addr);
+		  if(_grey_bit_map->par_clear(addr)){
+	// If I clear the bitmap mark, only then can I mark the object
+			  scan_oops_in_oop(addr);
+			  __u_dec(addr);	// Decreasing the count of the chunk atomically
+		  }
 	  }
 	  return true;
 }

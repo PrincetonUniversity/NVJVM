@@ -66,11 +66,11 @@ inline bool CMSBitMap::par_mark(HeapWord* addr) {
   return _bm.par_at_put(heapWordToOffset(addr), true);
 }
 
-inline void CMSBitMap::par_clear(HeapWord* addr) {
+inline bool CMSBitMap::par_clear(HeapWord* addr) {
   assert_locked();
   assert(_bmStartWord <= addr && addr < (_bmStartWord + _bmWordSize),
          "outside underlying space?");
-  _bm.par_at_put(heapWordToOffset(addr), false);
+  return _bm.par_at_put(heapWordToOffset(addr), false);
 }
 
 inline void CMSBitMap::mark_range(MemRegion mr) {
