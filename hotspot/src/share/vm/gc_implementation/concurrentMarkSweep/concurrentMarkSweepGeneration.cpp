@@ -7958,7 +7958,7 @@ void Par_GreyMarkClosure::do_oop(narrowOop* p) { Par_GreyMarkClosure::do_oop_wor
 // not marked within the bitMap.
 
 void Par_GreyMarkClosure::do_oop(oop obj) {
-	printf("In Par_GreyMarkClosure pbj = %p.\n", obj);
+//	printf("In Par_GreyMarkClosure pbj = %p.\n", obj);
 	bool expr, res;
 
 #if OCMS_DEBUG
