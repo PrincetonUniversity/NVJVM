@@ -339,7 +339,7 @@ class PushOrMarkClosure: public KlassRememberingOopClosure {
     return false;
     // return _should_remember_klasses;
   }
-  virtual void remember_mdo(DataLayout* v);
+//  virtual void remember_mdo(DataLayout* v);
 
   // Deal with a stack overflow condition
   void handle_stack_overflow(HeapWord* lost);
