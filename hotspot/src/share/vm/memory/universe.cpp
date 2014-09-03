@@ -776,7 +776,7 @@ u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 		newValue = value + 1;
 	}
 #if OCMS_ASSERT
-	if((u_jbyte)newValue >= 255){
+	if((u_jbyte)newValue >= 255 || (u_jbyte)newValue < 1){
 		  printf("Something is wrong, value after incrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);

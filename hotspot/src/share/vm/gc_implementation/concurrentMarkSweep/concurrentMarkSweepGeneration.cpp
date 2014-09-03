@@ -4037,11 +4037,11 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // This method performs scan and marking on a scan chunk region.
 // The chunk region is popped out of a chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
-#if OCMS_DEBUG
-	printf("Checking the restart address."
+#if OCMS_LOG
+	/*printf("Checking the restart address."
 			"At the start of the CMSConcMarkingTask. "
 			"_restart_address = %p. "
-			"Bottom of the CMS Space region = %p.\n", _restart_addr, _cms_space->bottom());
+			"Bottom of the CMS Space region = %p.\n", _restart_addr, _cms_space->bottom());*/
 #endif
 
 	bool isPar = true; // The stage is a parallel one
@@ -4444,7 +4444,7 @@ void CMSConcMarkingTask::coordinator_yield() {
 
 bool CMSCollector::do_marking_mt(bool asynch) {
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
-  	  printf("Multi threaded marking, Num Workers = %d.\n", ConcGCThreads);
+// printf("Multi threaded marking, Num Workers = %d.\n", ConcGCThreads);
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
   int num_workers = ConcGCThreads;
@@ -4522,11 +4522,18 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
 #if OCMS_ASSERT
   __check(_collectorChunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
+  size_t gCount = Universe::totalGreyObjectCount();
+  if(gCount > 0 || _greyMarkBitMap.isAllClear() != true){
+	  printf("Something is not right.\n");
+	  printf("Grey Object Count = %u.\n", gCount);
+	  printf("Is All Clear %d.\n", _greyMarkBitMap.isAllClear());
+	  exit(-1);
+  }
   __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
   __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
 #endif
 
-  return true;
+ return true;
 }
 
 bool CMSCollector::do_marking_st(bool asynch) {
@@ -8001,7 +8008,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 	__check(expr, "unmarked obj is already marked as grey, incosistency");
 #endif
 					// I would first increase the value of the count, then mark it grey
-					int value = (int)__u_inc(addr);
+					u_jbyte value = __u_inc(addr);
 					// If I succeeded in marking the object grey, then I also have to increment the
 					// grey object count on the corresponding scan chunk. After incrementing the
 					// grey object count I figure out whether the chunk has to be added to
