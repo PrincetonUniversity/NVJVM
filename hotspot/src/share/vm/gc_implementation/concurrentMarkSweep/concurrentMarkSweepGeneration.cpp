@@ -7980,6 +7980,10 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 	__check(expr, "unmarked obj is already marked as grey, incosistency");
 #endif
 				if(_grey_bit_map->par_mark(addr)){
+					if(_grey_bit_map->isMarked(addr) == false){
+						printf("Something is wrong with parallel marking for addr = %p.", addr);
+						exit(-1);
+					}
 					// If I succeeded in marking the object grey, then I also have to increment the
 					// grey object count on the corresponding scan chunk. After incrementing the
 					// grey object count I figure out whether the chunk has to be added to
@@ -7989,6 +7993,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 #if OCMS_DEBUG
 	__check(_bit_map->isMarked(addr), "obj should be marked white");
 	__check(_grey_bit_map->isMarked(addr), "obj should be marked grey");
+	__check(value > 0, "value after incrementing must be positive, the zero count case is dubious.");
 #endif
 
 #if OCMS_LOG
