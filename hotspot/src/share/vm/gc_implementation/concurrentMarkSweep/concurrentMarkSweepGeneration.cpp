@@ -3934,10 +3934,6 @@ void CMSConcMarkingTask::work(int i) {
 //  do_scan_and_mark(i, _cms_space);
   do_scan_and_mark_OCMS(i);
 
-#if OCMS_ASSERT
-  __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
-#endif
-
   _timer.stop();
   if (PrintCMSStatistics != 0) {
     gclog_or_tty->print_cr("Finished cms space scanning in %dth thread: %3.3f sec",
@@ -4523,6 +4519,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_ASSERT
     __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
     __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
+    __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
 #endif
   return true;
 }
