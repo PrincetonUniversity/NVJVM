@@ -4025,7 +4025,11 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	// The object is unmarked in the grey bit map, the thread that is able to mark the
 		  if(cl->getGreyBitMap()->par_clear(addr)){
 			  cl->scan_oops_in_oop(addr);
-			  __u_dec(addr);// Decreasing the count of the chunk atomically
+			  int value = __u_dec(addr);// Decreasing the count of the chunk atomically
+#if OCMS_ASSERT
+			  __check(value >= 0,  "value after decrementing lesser than zero");
+			  __check(value < 255,  "value after decrementing greater than 255");
+#endif
 		  }
 	  }
 }
@@ -4521,6 +4525,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
   __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
 #endif
+
   return true;
 }
 
@@ -7576,7 +7581,11 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 		  if(_grey_bit_map->par_clear(addr)){
 	// If I clear the bitmap mark, only then can I mark the object
 			  scan_oops_in_oop(addr);
-			  __u_dec(addr);	// Decreasing the count of the chunk atomically
+			  int value = __u_dec(addr);	// Decreasing the count of the chunk atomically
+#if OCMS_ASSERT
+			  __check(value >= 0,  "value after decrementing lesser than zero");
+			  __check(value < 255,  "value after decrementing greater than 255");
+#endif
 		  }
 	  }
 	  return true;
@@ -8005,15 +8014,13 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 					}
 			} else {
 #if OCMS_LOG
-				printf("The mark bit map is marked by another thread. "
-						"I was not able to mark this object (addr = %p) as alive.\n", addr);
+//				printf("The mark bit map is marked by another thread. "
+//						"I was not able to mark this object (addr = %p) as alive.\n", addr);
 #endif
 			}
 		}
 	// I check whether the object is marked grey or not. If not then I must mark it grey and
 	// subsequently increase the number of grey objects in the corresponding scan chunk.
-//		if(!_grey_bit_map->isMarked(addr)){
-//		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
 }
 
