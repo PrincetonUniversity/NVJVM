@@ -305,9 +305,9 @@ class Universe: AllStatic {
   static size_t getPhysicalRAM() 						{ return _availableRAM; }
   static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }
   static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
-  static jbyte incrementGreyObjectCount_Atomic(void *pageAddress);
-  static jbyte decrementGreyObjectCount_Atomic(void *pageAddress);
-  static jbyte getGreyObjectCount(void *address);
+  static u_jbyte incrementGreyObjectCount_Atomic(void *pageAddress);
+  static u_jbyte decrementGreyObjectCount_Atomic(void *pageAddress);
+  static u_jbyte getGreyObjectCount(void *address);
 
 
   static void* getPageTablePosition(void *pageAddress);

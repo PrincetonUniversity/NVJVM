@@ -766,7 +766,7 @@ bool Universe::isPresent(void *pageAddress){
 	return ((*position) == Universe::_presentMask);
 }
 
-jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
+u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;
 	jbyte origValue = value;
@@ -775,15 +775,17 @@ jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value + 1;
 	}
+#if OCMS_ASSERT
 	if((u_jbyte)newValue >= 255){
 		  printf("Something is wrong, value after incrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);
 	}
-	return newValue;
+#endif
+	return (u_jbyte)newValue;
 }
 
-jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
+u_jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;
 	jbyte origValue = value;
@@ -792,16 +794,18 @@ jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value - 1;
 	}
+#if OCMS_ASSERT
 	if((u_jbyte)newValue < 0){
 		  printf("Something is wrong, value after decrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);
 	}
-	return newValue;
+#endif
+	return (u_jbyte)newValue;
 }
 
-jbyte Universe::getGreyObjectCount(void *address){
-	return *(jbyte *)getPageTablePosition(address);
+u_jbyte Universe::getGreyObjectCount(void *address){
+	return (u_jbyte)(*(jbyte *)getPageTablePosition(address));
 }
 
 size_t Universe::getPageIndex(void *address){
