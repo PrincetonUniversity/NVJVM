@@ -4091,7 +4091,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 			  break;
 				   }
 		 }
-		 if (prev_obj < span.end()) {
+		 if (prev_obj <= span.end()) {
 		     MemRegion my_span = MemRegion(prev_obj, span.end());
 		        // Do the marking work within a non-empty span --
 		        // the last argument to the constructor indicates whether the
