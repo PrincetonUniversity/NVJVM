@@ -4025,7 +4025,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	// The object is unmarked in the grey bit map, the thread that is able to mark the
 		  if(cl->getGreyBitMap()->par_clear(addr)){
 			  cl->scan_oops_in_oop(addr);
-			  int value = __u_dec(addr);// Decreasing the count of the chunk atomically
+			  u_jbyte value = __u_dec(addr);// Decreasing the count of the chunk atomically
 #if OCMS_ASSERT
 			  __check((value >= 0),  "value after decrementing lesser than zero");
 			  __check((value < 255),  "value after decrementing greater than 255");
@@ -7581,7 +7581,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 		  if(_grey_bit_map->par_clear(addr)){
 	// If I clear the bitmap mark, only then can I mark the object
 			  scan_oops_in_oop(addr);
-			  int value = __u_dec(addr);	// Decreasing the count of the chunk atomically
+			  u_jbyte value = __u_dec(addr);	// Decreasing the count of the chunk atomically
 #if OCMS_ASSERT
 			  if(value < 0){
 				  printf("Something is wrong, value after decrementing =%d.", value);

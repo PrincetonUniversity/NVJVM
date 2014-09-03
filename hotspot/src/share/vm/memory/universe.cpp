@@ -775,7 +775,7 @@ jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value + 1;
 	}
-	if(newValue >= 255){
+	if((u_jbyte)newValue >= 255){
 		  printf("Something is wrong, value after incrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);
@@ -792,7 +792,7 @@ jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value - 1;
 	}
-	if(newValue < 0){
+	if((u_jbyte)newValue < 0){
 		  printf("Something is wrong, value after decrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);

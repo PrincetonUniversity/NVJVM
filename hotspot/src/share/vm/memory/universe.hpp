@@ -51,6 +51,8 @@
 		printf("Dying ...... ") ; \
 		exit(a);
 
+typedef unsigned char u_jbyte;
+
 /******************************************************************************************************/
 
 // Universe is a name space holding known system classes and objects in the VM.
