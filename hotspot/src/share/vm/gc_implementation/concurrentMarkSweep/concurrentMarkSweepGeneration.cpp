@@ -3937,7 +3937,7 @@ void CMSConcMarkingTask::work(int i) {
 #if OCMS_ASSERT
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
-  __check(_collector->compareDummyBitMaps() == 1, "Dummy bitmap comparison.");
+//  __check(_collector->compareDummyBitMaps() == 1, "Dummy bitmap comparison.");
   __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
   __check(_collector->_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
 #endif
