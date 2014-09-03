@@ -7973,6 +7973,9 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 		if(!_bit_map->isMarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
+#if OCMS_ASSERT
+				__check(_bit_map->isMarked(addr), "obj should be marked white");
+#endif
 			// If I am able to mark this object as alive I will mark it grey also
 				_collector->getDummyBitMap()->par_mark(addr);
 #if OCMS_DEBUG
@@ -7991,8 +7994,10 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 					// I incremented it was 1 or not.
 					int value = (int)__u_inc(addr);
 #if OCMS_DEBUG
-	__check(_bit_map->isMarked(addr), "obj should be marked white");
-	__check(_grey_bit_map->isMarked(addr), "obj should be marked grey");
+    if(_grey_bit_map->isMarked(addr) == false){
+		printf("Something is wrong with parallel marking for addr = %p.", addr);
+		exit(-1);
+    }
 	__check(value > 0, "value after incrementing must be positive, the zero count case is dubious.");
 #endif
 
