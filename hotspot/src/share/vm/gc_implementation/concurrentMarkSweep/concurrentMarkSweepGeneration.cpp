@@ -4519,7 +4519,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_ASSERT
     __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
     __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
-    __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
+    __check(_collectorChunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
 #endif
   return true;
 }
