@@ -3936,9 +3936,6 @@ void CMSConcMarkingTask::work(int i) {
 
 #if OCMS_ASSERT
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
-//  __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
-//  __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
-//  __check(_collector->_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
 #endif
 
   _timer.stop();
@@ -4127,6 +4124,12 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 #if OCMS_LOG
 		  	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d, prev_obj > span.end()\n",
 		  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());
+		  	  if(scanChunk->greyObjectCount() > 0){
+		  		  printf("Something is wrong, since the page will not be scanned "
+		  				  "and yet it has grey object count = %d, prev_ob = %p, "
+		  				  "span.end() = %p.\n", scanChunk->greyObjectCount(), prev_obj, span.end());
+		  		  exit(-1);
+		  	  }
 #endif
 		 }
 	  } else {
@@ -8004,8 +8007,10 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 						_chunk_list->addChunk(new ScanChunk(addr), true);
 					}
 			} else {
+#if OCMS_LOG
 				printf("The mark bit map is marked by another thread. "
 						"I was not able to mark this object (addr = %p) as alive.\n", addr);
+#endif
 			}
 		}
 	// I check whether the object is marked grey or not. If not then I must mark it grey and
