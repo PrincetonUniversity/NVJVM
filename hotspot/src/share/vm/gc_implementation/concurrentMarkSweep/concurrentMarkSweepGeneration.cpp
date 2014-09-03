@@ -7618,7 +7618,8 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	__check(obj->is_oop(true), "the ptr should be an oop");
 #endif
 
-	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map, _grey_bit_map, _chunkList, _collector, _revisit_stack);
+	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map, _grey_bit_map,
+			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
@@ -7986,8 +7987,8 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 					// I incremented it was 1 or not.
 					int value = (int)__u_inc(addr);
 #if OCMS_DEBUG
-	expr = (_grey_bit_map->isMarked(addr))  && _bit_map->isMarked(addr);
-	__check(expr, "obj should be marked");
+	__check(_bit_map->isMarked(addr), "obj should be marked white");
+	__check(_grey_bit_map->isMarked(addr), "obj should be marked grey");
 #endif
 
 #if OCMS_LOG
