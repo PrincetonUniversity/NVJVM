@@ -4527,6 +4527,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  printf("Something is not right.\n");
 	  printf("Grey Object Count = %u.\n", gCount);
 	  printf("Is All Clear %d.\n", _greyMarkBitMap.isAllClear());
+	  printf("Chunk List Size = %u.\n", _collectorChunkList->listSize());
 	  exit(-1);
   }
   __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");

@@ -710,6 +710,7 @@ void Universe::allocatePageTable(size_t size){
 size_t Universe::totalGreyObjectCount(){
 	size_t index = 0, count = 0;
 	u_jbyte *position = (u_jbyte *)Universe::getPageTableBase();
+
 	while(index < _pageTableSize){
 		count += (*position);
 		index++;
@@ -803,7 +804,7 @@ u_jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 		newValue = value - 1;
 	}
 #if OCMS_ASSERT
-	if((u_jbyte)newValue < 0){
+	if((u_jbyte)newValue < 0 || (u_jbyte)newValue >= 255){
 		  printf("Something is wrong, value after decrementing"
 				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
 		  exit(-1);
