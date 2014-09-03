@@ -785,6 +785,10 @@ jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 		value = *position;
 		newValue = value - 1;
 	}
+	if((jbyte*)*position < 0){
+		  printf("Something is wrong, value after decrementing old value = %d, new value = %d", value, newValue);
+		  exit(-1);
+	}
 	return newValue;
 }
 
