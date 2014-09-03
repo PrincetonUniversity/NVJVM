@@ -559,7 +559,6 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
   _greyMarkBitMap(0, Mutex::leaf + 1, "CMS_greyMarkBitMap_lock"),
-  _dummyBitMap(0, Mutex::leaf + 1, "CMS_dummyMarkBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -646,14 +645,14 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     }
     assert(_greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
   }
-  {
+  /*{
      MutexLockerEx x(_dummyBitMap.lock(), Mutex::_no_safepoint_check_flag);
      if (!_dummyBitMap.allocate(_span)) {
        warning("Failed to allocate Dummy Mark CMS Bit Map");
        return;
      }
      assert(_dummyBitMap.covers(_span), "_dummyBitMap inconsistency?");
-   }
+   }*/
   if (!_markStack.allocate(MarkStackSize)) {
     warning("Failed to allocate CMS Marking Stack");
     return;
@@ -4532,8 +4531,10 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  printf("Number of active workers = %d.", activeWorkers);
 	  exit(-1);
   }
-  __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
-  __check((Universe::totalGreyObjectCount() == 0), "total grey object count non zero after CMS Concurrent Mark.");
+  if(activeWorkers == 0){
+	  __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
+  	  __check((Universe::totalGreyObjectCount() == 0), "total grey object count non zero after CMS Concurrent Mark.");
+  }
 #endif
 
  return true;
@@ -6831,7 +6832,6 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
     	}
       }
 	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
-	  _collector->getDummyBitMap()->mark(addr);
 
 #if OCMS_DEBUG
 	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
@@ -8007,7 +8007,6 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 				__check(_bit_map->isMarked(addr), "obj should be marked white");
 #endif
 			// If I am able to mark this object as alive I will mark it grey also
-				_collector->getDummyBitMap()->par_mark(addr);
 #if OCMS_DEBUG
 	expr = !(_grey_bit_map->isMarked(addr));
 	__check(expr, "unmarked obj is already marked as grey, incosistency");
