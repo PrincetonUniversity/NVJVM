@@ -709,12 +709,20 @@ void Universe::allocatePageTable(size_t size){
 
 size_t Universe::totalGreyObjectCount(){
 	size_t index = 0, count = 0;
-	jbyte *position = (jbyte *)Universe::getPageTableBase();
+	u_jbyte *position = (u_jbyte *)Universe::getPageTableBase();
 	while(index < _pageTableSize){
-		count += (size_t)(*position);
+		count += (*position);
 		index++;
 		position++;
 	}
+
+#if OCMS_ASSERT
+	if(!((uintptr_t)position == (uintptr_t)getPageTableTop())){
+		printf("Position %p, Page Table Top = %p.\n", position, getPageTableTop());
+		exit (-1);
+	}
+#endif
+
 	return count;
 }
 
