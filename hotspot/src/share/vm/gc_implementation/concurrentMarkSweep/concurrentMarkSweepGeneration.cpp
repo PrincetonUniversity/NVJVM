@@ -3936,10 +3936,9 @@ void CMSConcMarkingTask::work(int i) {
 
 #if OCMS_ASSERT
   __check(_chunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
-  __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
-//  __check(_collector->compareDummyBitMaps() == 1, "Dummy bitmap comparison.");
-  __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
-  __check(_collector->_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
+//  __check(_collector->compareBitMaps() == 0, "After do_scan_and_mark. Comparison between mark and grey bitmap not 1.");
+//  __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
+//  __check(_collector->_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
 #endif
 
   _timer.stop();
@@ -4041,11 +4040,12 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 // This method performs scan and marking on a scan chunk region.
 // The chunk region is popped out of a chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
-
+#if OCMS_DEBUG
 	printf("Checking the restart address."
 			"At the start of the CMSConcMarkingTask. "
 			"_restart_address = %p. "
 			"Bottom of the CMS Space region = %p.\n", _restart_addr, _cms_space->bottom());
+#endif
 
 	bool isPar = true; // The stage is a parallel one
 	HeapWord *prev_obj;
@@ -4516,6 +4516,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
   assert(tsk.completed(), "Inconsistency");
   assert(tsk.result() == true, "Inconsistency");
+
+#if OCMS_ASSERT
+    __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
+    __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
+#endif
   return true;
 }
 
