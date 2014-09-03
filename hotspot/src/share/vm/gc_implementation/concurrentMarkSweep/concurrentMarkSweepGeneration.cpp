@@ -7618,7 +7618,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	__check(obj->is_oop(true), "the ptr should be an oop");
 #endif
 
-	Par_GreyMarkClosure greyMarkClosure(_whole_span, _bit_map, _grey_bit_map, _chunkList, _collector, _revisit_stack);
+	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map, _grey_bit_map, _chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
@@ -7958,7 +7958,6 @@ void Par_GreyMarkClosure::do_oop(narrowOop* p) { Par_GreyMarkClosure::do_oop_wor
 // not marked within the bitMap.
 
 void Par_GreyMarkClosure::do_oop(oop obj) {
-//	printf("In Par_GreyMarkClosure pbj = %p.\n", obj);
 	bool expr, res;
 
 #if OCMS_DEBUG
@@ -7974,7 +7973,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
 			// If I am able to mark this object as alive I will mark it grey also
-			_collector->getDummyBitMap()->par_mark(addr);
+				_collector->getDummyBitMap()->par_mark(addr);
 #if OCMS_DEBUG
 	expr = !(_grey_bit_map->isMarked(addr));
 	__check(expr, "unmarked obj is already marked as grey, incosistency");

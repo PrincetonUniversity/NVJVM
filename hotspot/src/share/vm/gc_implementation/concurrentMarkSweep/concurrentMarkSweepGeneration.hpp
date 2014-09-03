@@ -693,6 +693,8 @@ class CMSCollector: public CHeapObj {
   friend class SurvivorSpacePrecleanClosure;            // --- ditto -------
   friend class PushOrMarkClosure;             // to access _restart_addr
   friend class Par_PushOrMarkClosure;             // to access _restart_addr
+  friend class Par_GreyMarkClosure;
+  friend class Par_MarkFromGreyRootsClosure;
   friend class MarkFromRootsClosure;          //  -- ditto --
                                               // ... and for clearing cards
   friend class Par_MarkFromRootsClosure;      //  to access _restart_addr
