@@ -7982,37 +7982,22 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 	expr = !(_grey_bit_map->isMarked(addr));
 	__check(expr, "unmarked obj is already marked as grey, incosistency");
 #endif
-				if(_grey_bit_map->par_mark(addr)){
-					if(_grey_bit_map->isMarked(addr) == false){
-						printf("Something is wrong with parallel marking for addr = %p.", addr);
-						exit(-1);
-					}
+					// I would first increase the value of the count, then mark it grey
+					int value = (int)__u_inc(addr);
 					// If I succeeded in marking the object grey, then I also have to increment the
 					// grey object count on the corresponding scan chunk. After incrementing the
 					// grey object count I figure out whether the chunk has to be added to
 					// the chunkList or not. This would depend on whether the value of the scan chunk count when
 					// I incremented it was 1 or not.
-					int value = (int)__u_inc(addr);
-#if OCMS_DEBUG
-    if(_grey_bit_map->isMarked(addr) == false){
-		printf("Something is wrong with parallel marking for addr = %p.", addr);
-		exit(-1);
-    }
-	__check(value > 0, "value after incrementing must be positive, the zero count case is dubious.");
-#endif
-
-#if OCMS_LOG
-//	printf("Grey Mark address %p, Index = %d\n", addr, Universe::getPageIndex(addr));
-#endif
+					if(!_grey_bit_map->par_mark(addr)){
+						printf("Only I could have marked the object as grey, since I marked the "
+								"object as alive, however, someone else marked the object grey, "
+								"inconsistent.");
+						exit(-1);
+					}
 					if(value == 1){
 						_chunk_list->addChunk(new ScanChunk(addr), true);
 					}
-				} else {
-					printf("Only I could have marked the object as grey, since I marked the "
-							"object as alive, however, someone else marked the object grey, "
-							"inconsistent.");
-					exit(-1);
-				}
 			} else {
 				printf("The mark bit map is marked by another thread. "
 						"I was not able to mark this object (addr = %p) as alive.\n", addr);
