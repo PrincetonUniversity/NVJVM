@@ -4444,7 +4444,6 @@ void CMSConcMarkingTask::coordinator_yield() {
 
 bool CMSCollector::do_marking_mt(bool asynch) {
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
-// printf("Multi threaded marking, Num Workers = %d.\n", ConcGCThreads);
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
   int num_workers = ConcGCThreads;
@@ -4453,7 +4452,8 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 
 #if OCMS_ASSERT
-  __check(_markBitMap.isSame(_greyMarkBitMap) == 1, "Comparison between mark and grey bitmap not equal.");
+//  __check((_markBitMap.isSame(_greyMarkBitMap) == true), "Comparison between mark and grey bitmap not equal.");
+//  There can be uninitialized objects, in the markBitMap, hence the comparison may not hold valid.
 #endif
 
   CMSConcMarkingTask tsk(this,
@@ -4530,7 +4530,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  exit(-1);
   }
   __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
-  __check(Universe::totalGreyObjectCount() == 0, "total grey object count non zero after CMS Concurrent Mark.");
+  __check((Universe::totalGreyObjectCount() == 0), "total grey object count non zero after CMS Concurrent Mark.");
 #endif
 
  return true;
