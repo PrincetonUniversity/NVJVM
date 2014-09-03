@@ -652,7 +652,7 @@ class ChunkList : public CHeapObj  {
 		ScanChunk *pop(bool isPar){
 			ScanChunk* c = NULL;
 			lockList(isPar);
-			int attemptsLeft = 0;//_chunkList.size() ;
+			int attemptsLeft = _chunkList.size();
 			if(_chunkList.size() == 0){
 				goto out;
 			} // Else, there is at least one element scan chunk within the list
