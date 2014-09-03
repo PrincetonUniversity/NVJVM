@@ -4027,13 +4027,8 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 			  cl->scan_oops_in_oop(addr);
 			  int value = __u_dec(addr);// Decreasing the count of the chunk atomically
 #if OCMS_ASSERT
-			  if(value < 0){
-				  printf("Something is wrong, value after decrementing =%d.", value);
-				  exit(-1);
-			  }
-			  bool expr = value >= 0;
-			  __check(expr,  "value after decrementing lesser than zero");
-			  __check(value < 255,  "value after decrementing greater than 255");
+			  __check((value >= 0),  "value after decrementing lesser than zero");
+			  __check((value < 255),  "value after decrementing greater than 255");
 #endif
 		  }
 	  }
@@ -7592,9 +7587,8 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 				  printf("Something is wrong, value after decrementing =%d.", value);
 				  exit(-1);
 			  }
-			  expr = value >= 0;
-			  __check(expr, "value after decrementing lesser than zero");
-			  __check(value < 255,  "value after decrementing greater than 255");
+			  __check((value >= 0), "value after decrementing lesser than zero");
+			  __check((value < 255),  "value after decrementing greater than 255");
 #endif
 		  }
 	  }
