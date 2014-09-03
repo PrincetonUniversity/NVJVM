@@ -795,7 +795,6 @@ class CMSCollector: public CHeapObj {
   // CMS marking support structures
   CMSBitMap     _markBitMap;
   CMSBitMap 	_greyMarkBitMap;
-  CMSBitMap 	_dummyBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
@@ -853,9 +852,6 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
-  CMSBitMap* getDummyBitMap(){
-	 return &(_dummyBitMap);
-  }
 
   ChunkList* getChunkList(){
 		  return _collectorChunkList;
@@ -865,9 +861,6 @@ class CMSCollector: public CHeapObj {
 	  return  _markBitMap.isSame(_greyMarkBitMap);
   }
 
-  bool compareDummyBitMaps(){
-	  return _markBitMap.isSame(_dummyBitMap);
-  }
 
  protected:
   static CollectorState _collectorState;
