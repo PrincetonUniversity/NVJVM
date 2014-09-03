@@ -4524,7 +4524,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   __check(_collectorChunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   size_t gCount = Universe::totalGreyObjectCount();
   int activeWorkers = conc_workers()->active_workers();
-  if((activeWorkers > 0) && (gCount > 0 || _greyMarkBitMap.isAllClear() != true)){
+  if((activeWorkers == 0) && (gCount > 0 || _greyMarkBitMap.isAllClear() != true)){
 	  printf("Something is not right.\n");
 	  printf("Grey Object Count = %u.\n", gCount);
 	  printf("Is All Clear %d.\n", _greyMarkBitMap.isAllClear());
