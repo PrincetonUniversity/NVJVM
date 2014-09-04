@@ -595,7 +595,6 @@ public:
 	void sortList(){
 
 	}
-
 };
 
 class ChunkList : public CHeapObj  {
@@ -604,6 +603,7 @@ class ChunkList : public CHeapObj  {
 		std::list<ScanChunk *> _chunkList;
 		int list_pushes, list_pops;
 		ChunkListPolicy *policy;
+
 		bool isInCore(void *address){
 			unsigned char vec[1];
 			address = __page_start(address);

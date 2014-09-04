@@ -6414,7 +6414,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // Note that we need to hold the freelistLock if we use
   // block iterate below; else the iterator might go awry if
   // a mutator (or promotion) causes block contents to change
-  // (for instance if the allocator divvies up a block).
+  // (for instance if the allocator divides up a block).
   // If we hold the free list lock, for all practical purposes
   // young generation GC's can't occur (they'll usually need to
   // promote), so we might as well prevent all young generation
