@@ -6411,8 +6411,13 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromSpace(void *s, void *e){
 
 void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
 	oop obj;
+	CompactibleFreeListSpace* space = cmsSpace();
 	if(is_in(add)){
-		 obj = (oop)cmsSpace()->block_start_careful(add);
+		 obj = (oop)_cmsSpace->getObjectStart(add);
+		 if(obj == NULL){
+			 printf("Error in getting the start of the object for address = %p", addr);
+			 exit(-1);
+		 }
 		 cmsSpace()->prefetchReferencesFromObject(obj);
 	} else {
 		printf("add %p is not present in the concurrent mark sweep generation", add);

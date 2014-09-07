@@ -398,6 +398,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   HeapWord* block_start_careful(const void* p) const;
   size_t block_size(const HeapWord* p) const;
   size_t block_size_no_stall(HeapWord* p, const CMSCollector* c) const;
+  void* getObjectStart(void *);
   bool block_is_obj(const HeapWord* p) const;
   bool obj_is_alive(const HeapWord* p) const;
   size_t block_size_nopar(const HeapWord* p) const;

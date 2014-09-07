@@ -1081,6 +1081,37 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   }
 }
 
+void *CompactibleFreeListSpace::getObjectStart(void *addr){
+	HeapWord* p = block_start_careful(addr);
+	HeapWord* end;
+	size_t res;
+	while (true) {
+		if (FreeChunk::indicatesFreeChunk(p)) {
+			volatile FreeChunk* fc = (volatile FreeChunk*)p;
+			res = fc->size();
+		} else {
+			klassOop k = ((volatile oopDesc*)p)->klass_or_null();
+		  // We trust the size of any object that has a non-NULL
+		  // klass and (for those in the perm gen) is parsable
+		  // -- irrespective of its conc_safe-ty.
+		  if (k != NULL && ((oopDesc*)p)->is_parsable()) {
+			oop o = (oop)p;
+			res = o->size_given_klass(k->klass_part());
+			res = adjustObjectSize(res);
+			end = p + res;
+			if((uintptr_t)addr < (uintptr_t)end){
+				return (void *)p;
+			}
+		  } else {
+			  res = _collector->block_size_if_printezis_bits(p);
+			  if(res == 0)
+				  return NULL;
+		  }
+		}
+		p += res;
+	}
+}
+
 // A variant of the above that uses the Printezis bits for
 // unparsable but allocated objects. This avoids any possible
 // stalls waiting for mutators to initialize objects, and is
