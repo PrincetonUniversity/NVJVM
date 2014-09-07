@@ -1085,11 +1085,12 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
 void *CompactibleFreeListSpace::getObjectStart(void *addr){
 	HeapWord* cur= block_start_careful(addr);
 	HeapWord* end;
-	  size_t curSize;
+	size_t curSize;
 	  for (; ;
 	       cur += curSize) {
 		printf("Address = %p, object = %p \n", cur, addr);
 	    curSize = block_size(cur);
+	    printf("Block Size %u", curSize);
 	    if (block_is_obj(cur)) {
 	      end = ((oop)cur)->size() + cur;
 	      if((uintptr_t)addr <= (uintptr_t)end){
