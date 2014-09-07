@@ -1081,13 +1081,13 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   }
 }
 
-// This function fetches the start of the object within which the addres
-//
+// This function fetches the start of the object within which the address lies.
 void *CompactibleFreeListSpace::getObjectStart(void *addr){
 	HeapWord* p = block_start_careful(addr);
 	HeapWord* end;
 	size_t res;
 	while (true) {
+		printf("Address = %p \n", p);
 		if (FreeChunk::indicatesFreeChunk(p)) {
 			volatile FreeChunk* fc = (volatile FreeChunk*)p;
 			res = fc->size();
@@ -1101,7 +1101,7 @@ void *CompactibleFreeListSpace::getObjectStart(void *addr){
 			res = o->size_given_klass(k->klass_part());
 			res = adjustObjectSize(res);
 			end = p + res;
-			if((uintptr_t)addr < (uintptr_t)end){
+			if((uintptr_t)addr <= (uintptr_t)end){
 				return (void *)p;
 			}
 		  } else {
