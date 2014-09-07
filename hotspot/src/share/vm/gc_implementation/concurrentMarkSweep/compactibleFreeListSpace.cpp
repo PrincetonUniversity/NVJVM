@@ -1092,7 +1092,7 @@ void *CompactibleFreeListSpace::getObjectStart(void *addr){
 	       cur += curSize) {
 		printf("Address = %p, object = %p \n", cur, addr);
 	    curSize = block_size(cur);
-	    printf("Block Size %u", curSize);
+	    printf("Block Size %u\n", curSize);
 	    if (block_is_obj(cur)) {
 	      end = ((oop)cur)->size() + cur;
 	      if((uintptr_t)addr <= (uintptr_t)end){

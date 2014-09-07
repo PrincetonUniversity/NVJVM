@@ -6411,7 +6411,6 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromSpace(void *s, void *e){
 
 void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
 	oop obj;
-	CompactibleFreeListSpace* space = cmsSpace();
 	if(is_in(add)){
 		 obj = (oop)_cmsSpace->getObjectStart(add);
 		 if(obj == NULL){
@@ -6420,7 +6419,7 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
 		 }
 		 printf("Object Start = %p, add = %p", obj, add);
 		 printf("Object Size = %p", obj->size());
-		 cmsSpace()->prefetchReferencesFromObject(obj);
+		 _cmsSpace->prefetchReferencesFromObject(obj);
 	} else {
 		printf("add %p is not present in the concurrent mark sweep generation", add);
 	}
