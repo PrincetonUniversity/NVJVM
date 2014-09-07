@@ -1083,7 +1083,9 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
 
 // This function fetches the start of the object within which the address lies.
 void *CompactibleFreeListSpace::getObjectStart(void *addr){
-	HeapWord* cur= block_start_careful(addr);
+	HeapWord* cur = block_start_careful(addr);
+	printf("Page Index Of Cur = %d.", Universe::getPageIndex(cur));
+	printf("Page Index Of Addr = %d.", Universe::getPageIndex(addr));
 	HeapWord* end;
 	size_t curSize;
 	  for (; ;
