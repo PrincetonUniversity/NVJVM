@@ -360,6 +360,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void oop_iterate_size(MemRegion mr);
   void oop_iterate(OopClosure* cl);
   void prefetchReferences(MemRegion mr);
+  void prefetchReferencesFromObject(oop obj);
   void objectCountSpace(MemRegion mr);
 
   void object_iterate(ObjectClosure* blk);

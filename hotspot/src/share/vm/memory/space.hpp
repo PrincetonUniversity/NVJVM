@@ -83,7 +83,7 @@ protected:
 	 	T heap_oop = oopDesc::load_heap_oop(p);
 	    if (!oopDesc::is_null(heap_oop)) {
 	      oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
-	      SSDSwap::checkAccessSwapIn(obj, 12);
+	      SSDSwap::swapIn(obj, 12);
 	    }
  }
 public:

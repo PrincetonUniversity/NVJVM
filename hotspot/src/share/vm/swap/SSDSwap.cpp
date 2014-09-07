@@ -212,6 +212,22 @@ void SSDSwap::checkAccessSwapIn(void *pageAddress, int purpose){
     }
 }
 
+void SSDSwap::swapIn(void *pageAddress, int purpose){
+	if(Universe::isSwappedOut(pageAddress)){
+		SwapMetric::incrementAccessInterceptCount(purpose);
+		CMS_handle_faults(pageAddress);
+	}
+	void* objectEnd = (void *)((intptr_t)pageAddress + 16);
+    if (true){
+	if(Universe::getPageIndex(objectEnd) > Universe::getPageIndex(pageAddress)){
+		if(Universe::isSwappedOut(objectEnd)){
+			SwapMetric::incrementAccessInterceptCount(purpose);
+			CMS_handle_faults(objectEnd);
+		}
+	}
+    }
+}
+
 void SSDSwap::checkAccessSwapInRegion(void *bottom, void *top, int purpose){
 	return;
 	void *curr = bottom;

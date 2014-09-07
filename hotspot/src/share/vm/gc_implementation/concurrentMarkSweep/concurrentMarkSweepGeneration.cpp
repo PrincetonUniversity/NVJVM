@@ -6409,6 +6409,16 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromSpace(void *s, void *e){
 	  cmsSpace()->prefetchReferences(mr);
 }
 
+void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
+	oop obj;
+	if(is_in(add)){
+		 obj = (oop)cmsSpace()->block_start_careful(add);
+		 cmsSpace()->prefetchReferencesFromObject(obj);
+	} else {
+		printf("add %p is not present in the concurrent mark sweep generation", add);
+	}
+}
+
 // A variant of the above (block_size_using_printezis_bits()) except
 // that we return 0 if the P-bits are not yet set.
 size_t CMSCollector::block_size_if_printezis_bits(HeapWord* addr) const {

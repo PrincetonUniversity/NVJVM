@@ -834,6 +834,20 @@ void CompactibleFreeListSpace::objectCountSpace(MemRegion mr){
 	oop_iterate_size(mr);
 }
 
+// Prefetching references for an object.
+void CompactibleFreeListSpace::prefetchReferencesFromObject(oop obj){
+	SwapInOopClosure _swapInOopClosure;
+	if(obj != NULL && (oopDesc*)obj->is_parsable()){
+		obj->oop_iterate(&_swapInOopClosure);
+	} else {
+		if(obj == NULL)
+			printf("Object %p  is null. Prefetch Part Has Errors.", obj);
+		if((oopDesc*)obj->is_parsable())
+			printf("Object %p is not parsable.", obj);
+		exit(-1);
+	}
+}
+
 void CompactibleFreeListSpace::prefetchReferences(MemRegion mr){
 	SwapInOopClosure _swapInOopClosure;
 	oop_iterate(mr, &_swapInOopClosure);

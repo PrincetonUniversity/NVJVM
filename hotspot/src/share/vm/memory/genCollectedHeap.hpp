@@ -420,8 +420,25 @@ public:
 	  return (ConcurrentMarkSweepGeneration*)_gens[1];
   }
 
+  ConcurrentMarkSweepGeneration* get_perm_gen(){
+	  if(_n_gens < 3){
+		  printf("The number of generations is lesser than 3. "
+				  "The permanent generation code is incorrect.");
+		  exit (-1);
+	  }
+	  return (ConcurrentMarkSweepGeneration*)_gens[2];
+  }
+
   void prefetch(void *s, void *e){
 	  get_cms_gen()->prefetchRefsFromSpace(s, e);
+  }
+
+  void prefetchObject(void *add){
+	  if(get_cms_gen()->is_in(add)){
+		  get_cms_gen()->prefetchRefsFromObj(add);
+	  } else if(get_perm_gen()->is_in(add)){
+		  get_perm_gen()->prefetchRefsFromObj(add);
+	  }
   }
 
   void objectCount(void *s, void *e){

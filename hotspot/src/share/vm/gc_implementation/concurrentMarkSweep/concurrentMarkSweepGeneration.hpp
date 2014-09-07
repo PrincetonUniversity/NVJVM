@@ -1185,6 +1185,7 @@ class ConcurrentMarkSweepGeneration: public CardGeneration {
 
   void prefetchRefsFromSpace(void *s, void *e);
   void objectCountFromSpace(void *s, void *e);
+  void prefetchRefsFromObj(void *s);
 
   Mutex* freelistLock() const;
 
