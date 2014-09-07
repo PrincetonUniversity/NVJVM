@@ -6415,7 +6415,7 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
 	if(is_in(add)){
 		 obj = (oop)_cmsSpace->getObjectStart(add);
 		 if(obj == NULL){
-			 printf("Error in getting the start of the object for address = %p", addr);
+			 printf("Error in getting the start of the object for address = %p", add);
 			 exit(-1);
 		 }
 		 cmsSpace()->prefetchReferencesFromObject(obj);

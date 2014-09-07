@@ -1081,6 +1081,8 @@ size_t CompactibleFreeListSpace::block_size(const HeapWord* p) const {
   }
 }
 
+// This function fetches the start of the object within which the addres
+//
 void *CompactibleFreeListSpace::getObjectStart(void *addr){
 	HeapWord* p = block_start_careful(addr);
 	HeapWord* end;
