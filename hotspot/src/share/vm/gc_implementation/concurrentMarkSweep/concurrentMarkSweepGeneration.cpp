@@ -6418,6 +6418,8 @@ void ConcurrentMarkSweepGeneration::prefetchRefsFromObj(void *add){
 			 printf("Error in getting the start of the object for address = %p", add);
 			 exit(-1);
 		 }
+		 printf("Object Start = %p, add = %p", obj, add);
+		 printf("Object Size = %p", obj->size());
 		 cmsSpace()->prefetchReferencesFromObject(obj);
 	} else {
 		printf("add %p is not present in the concurrent mark sweep generation", add);
