@@ -429,6 +429,7 @@ void Parse::do_call() {
   // Try to get the most accurate receiver type
   if (is_virtual_or_interface) {
     Node*             receiver_node = stack(sp() - nargs);
+    accessCheck(receiver_node);
     const TypeOopPtr* receiver_type = _gvn.type(receiver_node)->isa_oopptr();
     ciMethod* optimized_virtual_method = optimize_inlining(method(), bci(), klass, dest_method, receiver_type);
 

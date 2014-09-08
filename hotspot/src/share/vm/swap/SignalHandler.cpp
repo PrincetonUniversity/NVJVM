@@ -14,9 +14,7 @@ bool SignalHandler::_isInit = false;
 
 void prefetchObjects(void *addr){
 	//((GenCollectedHeap *)Universe::heap())->prefetch(addr, Utility::getPageEnd(addr));
-//	((GenCollectedHeap *)Universe::heap())->prefetchObject(addr);
-	bool isOop = ((oop)addr)->is_oop();
-	printf("Object is Oop %d.", isOop);
+    ((GenCollectedHeap *)Universe::heap())->prefetchObject(addr);
 }
 
 void seg_handler(int sig, siginfo_t *si, void *unused){

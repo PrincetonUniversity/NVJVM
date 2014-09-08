@@ -116,7 +116,7 @@ void Parse::do_field_access(bool is_get, bool is_field) {
     const TypeInstPtr *tjp = TypeInstPtr::make(TypePtr::NotNull, iter().get_declared_field_holder());
     assert(_gvn.type(obj)->higher_equal(tjp), "cast_up is no longer needed");
 #endif
-    accessCheck(obj);
+//  accessCheck(obj);
     if (is_get) {
       --_sp;  // pop receiver before getting
       do_get_xxx(obj, field, is_field);
