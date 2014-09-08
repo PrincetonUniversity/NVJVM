@@ -49,8 +49,8 @@ void Parse::array_load(BasicType elem_type) {
   Node* adr = array_addressing(elem_type, 0, &elem);
   if (stopped())  return;     // guaranteed null or range check
   _sp -= 2;                   // Pop array and index
-//  if(elem_type == T_OBJECT)
-	  accessCheck(adr);
+// if(elem_type == T_OBJECT)
+  accessCheck(adr);
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
   push(ld);
