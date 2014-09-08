@@ -49,7 +49,7 @@ void Parse::array_load(BasicType elem_type) {
   Node* adr = array_addressing(elem_type, 0, &elem);
   if (stopped())  return;     // guaranteed null or range check
   _sp -= 2;                   // Pop array and index
-  if(elem_type == T_OBJECT)
+//  if(elem_type == T_OBJECT)
 	  accessCheck(adr);
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   Node* ld = make_load(control(), adr, elem, elem_type, adr_type);
@@ -63,6 +63,7 @@ void Parse::array_store(BasicType elem_type) {
   if (stopped())  return;     // guaranteed null or range check
   Node* val = pop();
   _sp -= 2;                   // Pop array and index
+  accessCheck(adr);
   const TypeAryPtr* adr_type = TypeAryPtr::get_array_body_type(elem_type);
   store_to_memory(control(), adr, val, elem_type, adr_type);
 }
