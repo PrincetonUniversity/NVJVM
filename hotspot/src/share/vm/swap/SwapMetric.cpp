@@ -238,10 +238,10 @@ void SwapMetric::print_on(){
 						_segFaults,
 						getTotalIntercepts());
     char s[Max_String_Len];
-	for(count = 0; count < Number_Intercepts; count++){
+	/*for(count = 0; count < Number_Intercepts; count++){
 		getInterceptType(count, s);
 		printf("%s %ld \n", s, _intercepts[count]);
-	}
+	}*/
 
 	printf("Intercepts due to the compiler %ld, interpreter %ld.\n", _swapInsCompiler, _swapInsInterpreter);
 
