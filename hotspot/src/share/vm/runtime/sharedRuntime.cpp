@@ -446,7 +446,7 @@ JRT_END
 
 JRT_LEAF(void, SharedRuntime::swapIn(void* obj))
 	SwapMetric::incrementSwapInCompiler();
-	SSDSwap::CMS_handle_faults(obj);
+	SSDSwap::CMS_handle_intercept(obj, 0);
 JRT_END
 
 JRT_LEAF(jlong, SharedRuntime::f2l(jfloat  x))

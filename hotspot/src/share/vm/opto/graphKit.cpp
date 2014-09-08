@@ -1535,7 +1535,6 @@ Node* GraphKit::store_oop(Node* ctl,
               control(), obj, adr, adr_idx, val, val_type,
               NULL /* pre_val */,
               bt);
-
   Node* store = store_to_memory(control(), adr, val, bt, adr_idx);
   post_barrier(control(), store, obj, adr, adr_idx, val, bt, use_precise);
   return store;

@@ -34,6 +34,7 @@ public:
 	virtual ~SSDSwap();
 	void* seg_handler (void *address);
 	static void handle_faults(void *address);
+	static void CMS_handle_intercept(void *address, size_t size);
 	static void CMS_handle_faults(void *address);
 	static void CMS_handle_faults_prefetch(void *address, bool IsJavaThread);
 	static void swapInRegion(void *addr);
