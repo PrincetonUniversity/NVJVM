@@ -189,6 +189,7 @@ void Parse::do_get_xxx(Node* obj, ciField* field, bool is_field) {
   } else {
     type = Type::get_const_basic_type(bt);
   }
+  accessCheck(adr);
   // Build the load.
   Node* ld = make_load(NULL, adr, type, bt, adr_type, is_vol);
 
@@ -251,6 +252,7 @@ void Parse::do_put_xxx(Node* obj, ciField* field, bool is_field) {
   if (bt == T_DOUBLE)  val = dstore_rounding(val);
 
   // Store the value.
+  accessCheck(adr);
   Node* store;
   if (bt == T_OBJECT) {
     const TypeOopPtr* field_type;
