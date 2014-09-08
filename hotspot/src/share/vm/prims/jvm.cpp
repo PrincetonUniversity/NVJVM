@@ -288,6 +288,7 @@ JVM_END
 
 JVM_ENTRY(void, JVM_ArrayCopy(JNIEnv *env, jclass ignored, jobject src, jint src_pos,
                                jobject dst, jint dst_pos, jint length))
+  printf("JVM_ArrayCopy Method Called\n");
   JVMWrapper("JVM_ArrayCopy");
   // Check if we have null pointers
   if (src == NULL || dst == NULL) {
