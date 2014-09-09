@@ -637,14 +637,14 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
   }
-  {
+  /*{
     MutexLockerEx x(_greyMarkBitMap.lock(), Mutex::_no_safepoint_check_flag);
     if (!_greyMarkBitMap.allocate(_span)) {
       warning("Failed to allocate Grey Mark CMS Bit Map");
       return;
     }
     assert(_greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
-  }
+  }*/
   /*{
      MutexLockerEx x(_dummyBitMap.lock(), Mutex::_no_safepoint_check_flag);
      if (!_dummyBitMap.allocate(_span)) {
@@ -6819,28 +6819,14 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
   assert(obj->is_oop(), "expected an oop");
   HeapWord* addr = (HeapWord*)obj;
   if (_span.contains(addr)) {
-    // this should be made more efficient
-    // If the object is not already, the collector increments the count for the address in the chunk table
-	  if(!_greyMarkBitMap->isMarked(addr)){
-		_greyMarkBitMap->mark(addr);// Marking the object in the grey mark bit map
-    	jbyte value = __u_inc(addr);// Incrementing the grey object count for the chunk (currently a page)
-// If I am the thread to mark the first grey object then I also enqueue the corresponding chunk in the chunk list
-    	if(value == 1){
-    		// Create and push the chunk into chunk list
-    		ScanChunk *scanChunk = new ScanChunk(addr);
-    		_chunkList->addChunk(scanChunk, false);
-    	}
-      }
-	  _bitMap->mark(addr); // Bitmap marks are idempotent and hence the objects can be remarked
-
-#if OCMS_DEBUG
-	bool expr = (_greyMarkBitMap->isMarked(addr))  && _bitMap->isMarked(addr);
-	__check(expr, "obj should be marked as grey");
-#endif
-
-#if OCMS_LOG
-	//printf("Grey Mark address %p, Index = %d \n", addr, Universe::getPageIndex(addr));
-#endif
+	  // If the bitmap is not already marked we mark the bitMap and increment the grey object count.
+	  // Note that the grey object count must be incremented only in the case when the object is not
+	  // already marked, otherwise it will result in inconsistent count, since incrementing the count
+	  // is not idempotent.
+	  if(!_bitMap->isMarked(addr)){
+		  jbyte value = __u_inc(addr);
+		  _bitMap->mark(addr);
+	  }
   }
 }
 

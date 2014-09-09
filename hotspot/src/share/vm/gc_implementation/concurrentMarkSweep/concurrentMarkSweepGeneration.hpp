@@ -49,6 +49,9 @@
 #define __u_dec(p) \
 	Universe::decrementGreyObjectCount_Atomic(p)
 
+#define __u_clear(p) \
+	Universe::clearGreyObjectCount_Atomic(p)
+
 #define __u_goc(p) \
 	Universe::getGreyObjectCount(p)
 
