@@ -794,6 +794,24 @@ u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 	return (u_jbyte)newValue;
 }
 
+u_jbyte Universe::clearGreyObjectCount_Atomic(void *address){
+	jbyte *position = (jbyte *)getPageTablePosition(address);
+	jbyte value = *position;
+	jbyte origValue = value;
+	jbyte newValue = 0;
+	while(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+		value = *position;
+	}
+#if OCMS_ASSERT
+	if(newValue != 0){
+		  printf("Something is wrong, value after clearing is not 0"
+				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
+		  exit(-1);
+	}
+#endif
+	return (u_jbyte)newValue;
+}
+
 u_jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;
