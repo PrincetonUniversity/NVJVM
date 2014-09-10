@@ -3874,7 +3874,7 @@ public:
 		_partitionMap = new bool[_numberPartitions];
 		int numberPages = __pageIndex(_span.end()) - __pageIndex(_span.start()) + 1;
 		_partitionSize = (int)numberPages/_numberPartitions;
-		printf("The size of each of the partitions is around %d.\n", _partitionSize);
+		printf("The size of each of the partitions is around %d pages.\n", _partitionSize);
 	}
 
 	int nextPartitionIndex(int currPartitionIndex){
@@ -4238,6 +4238,10 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
 	SpanPartition *spanPartition = getSpanPartition();
+	if(spanPartition == NULL){
+		printf("The span partition was not initialized for thread.\n");
+		exit(-1);
+	}
 	int currentPartitionIndex = -1, pageIndex;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
