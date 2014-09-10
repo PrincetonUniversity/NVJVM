@@ -4237,7 +4237,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
-	SpanPartition *spanPartion = getSpanPartition();
+	SpanPartition *spanPartition = getSpanPartition();
 	int currentPartitionIndex = -1, pageIndex;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
@@ -4288,8 +4288,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			// Clearing the mark on the partition, so that the partition can be reused
 		}
 		spanPartition->clearAtomic(currentPartitionIndex);
-		currentPartitionIndex = spanPartion->nextPartitionIndex(currentPartitionIndex);
-	} while(pageIndex != -1);
+		currentPartitionIndex = spanPartition->nextPartitionIndex(currentPartitionIndex);
+	}
+	}while(pageIndex != -1);
 }
 
 // This method performs scan and marking on a scan chunk region.
