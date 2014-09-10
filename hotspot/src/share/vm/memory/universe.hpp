@@ -302,6 +302,7 @@ class Universe: AllStatic {
   static void markSwappedOut(void *pageAddress);
   static void markSwappedIn(void *pageAddress);
   static size_t getPageIndex(void *pageAddress);
+  static void* getPageBaseFromIndex(int pageIndex);
   static size_t getPhysicalRAM() 						{ return _availableRAM; }
   static void incrementAvailableRAM(size_t bytes)		{ _availableRAM += bytes; }
   static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
@@ -312,6 +313,7 @@ class Universe: AllStatic {
 
 
   static void* getPageTablePosition(void *pageAddress);
+  static void* getPageTablePositionFromIndex(int index);
   static size_t totalGreyObjectCount(void);
   static size_t getNumberOfGreyedPages(void);
   static size_t getNumberOfPages(void) {

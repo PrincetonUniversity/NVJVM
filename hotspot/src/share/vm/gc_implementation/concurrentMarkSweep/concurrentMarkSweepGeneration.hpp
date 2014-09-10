@@ -66,6 +66,9 @@
 #define __in_core(p) \
 		isInCore(p)
 
+#define __pageIndex(p) \
+	Universe::getPageIndex(p)
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -1590,6 +1593,9 @@ public:
     bool do_bit(size_t offset);
     CMSBitMap* getGreyBitMap(){
     	return _grey_bit_map;
+    }
+    CMSBitMap* getBitMap(){
+    	return _bit_map;
     }
     void scan_oops_in_oop(HeapWord* ptr);
 };

@@ -3545,8 +3545,6 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   bool expr;
   expr = _markBitMap.isAllClear();
   __check(expr, "mark bit map should be clear, before checkPointInitialMark");
-  expr = _greyMarkBitMap.isAllClear();
-  __check(expr, "grey mark bit map should be clear, before checkPointInitialMark");
 #endif
 
   // Setup the verification and class unloading state for this
@@ -3600,11 +3598,6 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
                                   true,   // walk all of code cache if (so & SO_CodeCache)
                                   NULL);
   }
-
-#if OCMS_ASSERT
-   bool _isSame = _markBitMap.isSame(_greyMarkBitMap);
-   __check(_isSame == 1, "After initial marking, the mark bit map and grey mark bit maps are not the same.");
-#endif
 
   // Clear mod-union table; it will be dirtied in the prologue of
   // CMS generation per each younger generation collection.
@@ -3730,8 +3723,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 
 #if OCMS_DEBUG
   bool expr;
-  expr = _greyMarkBitMap.isAllClear();
-  __check(expr, "grey bit map should be clear after the mark from roots work.");
   expr = (Universe::totalGreyObjectCount() == 0);
   __check(expr, "total grey object count > 0, after mark from roots work.");
 #endif
@@ -3770,6 +3761,220 @@ class CMSConcMarkingTerminatorTerminator: public TerminatorTerminator {
   }
 };
 
+/* The span (containing the mature and the permanent generation) is futher divided into partitions.
+ * If the number of workers is 4, the mature space span would look like:
+ *  [ __________________ || __________________ || __________________ || __________________________ ]
+ *  Note, that the last span could be larger, because of the indivisibility of integral number of pages
+ *  Each of the partitions is then further subdivided into windows :
+ *  [ ___ | ___ | ___ | ___ | ___ | ____ ]
+ *  Each of the window consists of _windowSize number of pages/
+ *  Each of the windows is then scanned and according to a page election policy,
+ *  certain pages are picked up for further scanning. The current page election
+ *  policy is to elect the page with the maximum number of grey objects within
+ *  window.
+ */
+
+class MarkingMetaData: public CHeapObj {
+	  bool _isScanning;   // This keeps a track of the current state of the thread
+	  int _chunksScanned; // This keeps a count of the total number of chunks scanned
+	  int _startIndex;    // The start  index for the current thread
+	  int _endIndex;
+	  // The end index for the current thread, the end index is inclusive
+	  // therefore the worker thread must scan the page on the end index also
+	  int _partitionSize;
+	  double _ratio;
+	  int _taskIndex;     // The index of the current task
+	  void * _threadStatebase;	// The base of the thread state
+	  int _windowStart;
+	  int _windowSize;
+	  int _numWindows;
+	  int _windowEnd;
+	  MemRegion _span;
+	  int _numWorkers;
+
+	  public:
+	  	  void incrementChunksScanned() { _chunksScanned++; }
+	  	  void setIsScanning(bool flag)	{ _isScanning = flag; }
+	      int chunksScanned() { return _chunksScanned; }
+	  	  bool isScanning()	{ return _isScanning; 	 }
+	  	  int startIndex()	{ return _startIndex; }
+	  	  int endIndex()	{ return _endIndex; }
+// This function gets the start of the window given a windowIndex.
+// Currently, the partitioning is static and therefore, the start index can be calculated using offsets.
+	  	  int getWindowStart(int windowIndex){
+	  		  return windowIndex * _windowSize + _startIndex;
+	  	  }
+
+// Picks the page with the largest grey object count within the current window
+	  	  int pageWithLargestGreyObjectCount(int windowIndex){
+// Calculating the first index of the window
+	  		 int index = getWindowStart(windowIndex), count = 0, lPIndex = -1, lGreyCount = -1, greyCount;
+	  		 int lWindowEnd = _windowSize;
+	  		 char *position = (char *)Universe::getPageTablePosition(Universe::getPageBaseFromIndex(index));
+// This loop gets the largest grey object count from amongst all the pages
+// If this is the last window, then the number of pages within this window may be larger than the windowsize
+// therefore adjusting to that.
+	  		 if (windowIndex == (_numberWindows - 1))
+	  				lWindowEnd = _endIndex - index + 1;
+	  		 for(;count < lWindowEnd; position++, index++, count++){
+	  			greyCount = (int)(*position);  // Get the grey count of the page
+	  			if(lGreyCount < greyCount){
+	  				lGreyCount = greyCount;
+	  				lPIndex = index;
+	  			}
+	  		 }
+	  		 return lPIndex;
+	  	  }
+
+	  	  void setPartitionBoundaries() {
+// The end of the span has to be the upper limit of the currently used region
+	  	    int numPages = Utility::getNumPages(_span.start(), _span.end());
+// The last partition is adjusted for indivisibility
+	  	    _partitionSize = (int)(numPages)/(_numWorkers);
+// Start of the current partition
+	  		_startIndex = _taskIndex * _partitionSize + __pageIndex(_span.start());
+// If this is the last partition, then the number of pages within this task may be larger than the
+// _partitionSize, because of unequal division of pages amongst the partitions.
+// Adjusting for that is done here.
+	  		if(_taskIndex == (_numWorkers - 1))
+	  			_endIndex = __pageIndex(_span.end());
+	  		else
+	  			_endIndex = _startIndex + _partitionSize - 1;
+	  	  }
+
+	  	  MarkingMetaData(int index, int numWor, MemRegion memRegion){
+	  			_taskIndex = index;
+	  			_chunksScanned = 0;
+	  			_isScanning = false;
+	  			_numberWindows = 10;
+	  			_numWorkers = numWor;
+// This is the memory region which covers both the old and the permanent generation
+	  			_span = memRegion;
+	  			setPartitionBoundaries();
+	  			_windowSize = (int)(_partitionSize / _numberWindows);
+	  	  }
+};
+
+// This is the class that provides coordination amongst the various threads
+// when selecting which page to pick up first while performing the concurrent mark sweep.
+class SpanPartition : public CHeapObj {
+	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
+	bool _partitionMap[];
+	// The total number of partitions dividing the span. Currently, this number is approximately 100.
+	int _numberPartitons;
+	// The span that contains both the mature and the permanent generations.
+	MemRegion _span;
+	// The size of each of the partitions.
+	int _partitionSize;
+
+public:
+	SpanPartition(MemRegion span){
+		_span = span;
+		_numberPartitons = 100;
+		_partitionMap = new bool[_numberPartitons];
+		int numberPages = __pageIndex(_span.end()) - __pageIndex(_span.start()) + 1;
+		_partitionSize = (int)numberPages/_numberPartitons;
+		printf("The size of each of the partitions is around %d.\n", _partitionSize);
+	}
+
+	int nextPartitionIndex(int currPartitionIndex){
+		return ((currPartitionIndex + 1) % _numberPartitons);
+	}
+
+	bool markAtomic(int partitionIndex){
+		jbyte *position = (jbyte *)_partitionMap[partitionIndex];
+		jbyte value = *position;
+		jbyte newValue = true;
+		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+			return false;
+		}
+		return true;
+	}
+
+	bool clearAtomic(int partitionIndex){
+		jbyte *position = (jbyte *)_partitionMap[partitionIndex];
+		jbyte value = *position;
+		jbyte newValue = false;
+		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+			return false;
+		}
+		return true;
+	}
+
+// This method gets the next partition from the list of partitions, if the
+// currentPartitionIndex is the same as that of the returned value, then the
+// thread has run through all the different partitions. This is not currently used
+	int getNextPartition(int currentPartitionIndex){
+		int originalPartitionIndex = currentPartitionIndex;
+		bool markAtomicFailed = false;
+		int count;
+		for(count = 0; count < _numberPartitons; count++){
+			currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
+			if(markAtomic(currentPartitionIndex))
+				return currentPartitionIndex;
+			else
+				markAtomicFailed = true;
+		}
+	}
+
+	int getPartitionStart(int partitionIndex){
+		return (
+				__pageIndex(_span.start()) + partitionIndex * _partitionSize
+		);
+	}
+
+	int getPartitionSize(int partitionIndex){
+	// If this is the last partition then the partition size is different from the other partitions
+		if(partitionIndex == (_numberPartitons-1)){
+			int partitionStart = getPartitionStart(partitionIndex);
+			return (__pageIndex(_span.end()) - partitionStart + 1);
+		}
+		return _partitionSize;
+	}
+// Gets a high priority page from a given partition
+// If all the pages have a zero count then the page index returned would be -1
+// We would improve this method to get a collection of pages later on. Currently, we only
+// fetch a single page per scan of a partition.
+	int getHighPriorityPage(int partitionIndex){
+		int index = getPartitionStart(partitionIndex), count, greyCount;
+		int largestGreyCount = 0, lPIndex = -1;
+		char *position = (char *)Universe::getPageTablePositionFromIndex(index);
+		for(count = 0; count < getPartitionSize(partitionIndex); count++, index++, position++){
+			greyCount = (int)(*position);  // Get the grey count of the page
+			if(largestGreyCount < greyCount){
+			   largestGreyCount = greyCount;
+			   lPIndex = index;
+			}
+		}
+		return lPIndex;
+	}
+
+// This method tries to get a high priority page from the set of subsequent partitions.
+// If, all the pages have zero grey object counts, then the page index returned would be -1.
+// Currently, the stopping condition for the thread is set to be the case when it has scanned
+//	all the partitions and has not found a single page with a non zero count.
+	int getPageFromNextPartition(int currentPartition){
+		int partitionIndex = currentPartition, pageIndex = -1;
+		int partitionsScanned = 0;
+		while(pageIndex ==  -1 && partitionsScanned < _numberPartition){
+			partitionIndex = nextPartitionIndex(partitionIndex);
+// If I become the owner of the current partition --> then I can scan for pages within the
+// current partition else I move on to the next partition.
+			if(markAtomic(partitionIndex)){
+	// We first try and get a high priority page(essentially a page with a non zero grey object count).
+			  pageIndex = getHighPriorityPage(partitionIndex);
+	// If there is no page with a non zero count, then we skip the partition
+			  if(pageIndex == -1){
+	// Before skipping the partition, we clear the boolean flag for it.
+				clearAtomic(partitionIndex);
+			  }
+			}
+			partitionsScanned++;
+		}
+		return pageIndex;
+	}
+};
+
 // MT Concurrent Marking Task
 class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSCollector* _collector;
@@ -3783,6 +3988,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   char          _pad_back[64];
   HeapWord*     _restart_addr;
   ChunkList* 	_chunkList;
+  SpanPartition* _spanPartition;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -3795,8 +4001,25 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  SpanPartition* getSpanPartition() { return _spanPartition; }
+
+  // The stopping criteria
+  bool should_stop(int workerId){
+	  int count = 0;
+	  for (; count < _n_workers; count++){
+		  if(getMetadata(count)->isScanning())
+			  return false;
+	  }
+	  for (; count < _n_workers; count++){
+		  if(getMetadata(count)->isScanning())
+
+	  }
+  }
 
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
+  MarkingMetaData* getMetadata(int i){
+	  return _markingMetaData[i];
+  }
   // Values returned by the iterate() methods.
   enum CMSIterationStatus { incomplete, complete, full, would_overflow };
   CMSConcMarkingTask(CMSCollector* collector,
@@ -3820,7 +4043,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     assert(_cms_space->bottom() < _perm_space->bottom(),
            "Finger incorrectly initialized below");
     _restart_addr = _global_finger = _cms_space->bottom();
-    _chunkList = _collector->getChunkList();
+    // Allocating a new span partition
+    _spanPartition = new SpanPartition(_collector->_span);
   }
 
   CompactibleFreeListSpace* getSpace(void *address) {
@@ -3869,6 +4093,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_work_steal(int i);
   void bump_global_finger(HeapWord* f);
   void do_scan_and_mark_OCMS(int i);
+  void do_scan_and_mark_OCMS_NO_GREY(int i);
   bool shouldStop();
 };
 
@@ -3931,7 +4156,7 @@ void CMSConcMarkingTask::work(int i) {
   _timer.start();
 
 //  do_scan_and_mark(i, _cms_space);
-  do_scan_and_mark_OCMS(i);
+  do_scan_and_mark_OCMS_NO_GREY(i);
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4019,33 +4244,76 @@ bool CMSConcMarkingTask::shouldStop(){
 }
 
 bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
-	  // The object gets scanned only if it is marked as a grey object
-	  if(cl->getGreyBitMap()->isMarked(addr)){
-	// The object is unmarked in the grey bit map, the thread that is able to mark the
-		  if(cl->getGreyBitMap()->par_clear(addr)){
-			  cl->scan_oops_in_oop(addr);
-			  u_jbyte value = __u_dec(addr);// Decreasing the count of the chunk atomically
-#if OCMS_ASSERT
-			  __check((value >= 0),  "value after decrementing lesser than zero");
-			  __check((value < 255),  "value after decrementing greater than 255");
-#endif
-		  }
+// We check if the object is marked in the bitmap, if yes then the
+// closure is applied to the different references within the object.
+	  if(cl->_bit_map()->isMarked(addr)){
+		  cl->scan_oops_in_oop(addr);
 	  }
+}
+
+void CMSConcMarkingTask::do_scan_and_mark_OCMS_No_Grey(int i){
+	// Getting the span partition object
+	SpanPartition *spanPartion = getSpanPartition();
+	int currentPartitionIndex = -1, pageIndex;
+	void* pageAddress;
+	CompactibleFreeListSpace* sp;
+	HeapWord* prev_obj;
+	do {
+		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
+		if(pageIndex != -1){
+			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
+			// On acquiring a page we clear the grey object count on the page
+			__u_clear(pageAddress);
+			sp = getSpace(pageAddress);
+			MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
+					(HeapWord *)Utility::getPageEnd(pageAddress));
+			span = span.intersection(sp->used_region());
+			if(!span.is_empty()){
+// One of questions that we need to get an answer to is the number of extra pages this can touch
+// (getting the start of the object).
+				prev_obj = sp->block_start_careful(span.start());
+				printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
+						"page address of span start %d.\n",
+						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));
+				  while (prev_obj < span.start()) {
+					size_t sz = sp->block_size_no_stall(prev_obj, _collector);
+					if (sz > 0) {
+						 prev_obj += sz;
+					} else {
+						// In this case we may end up doing a bit of redundant
+						// scanning, but that appears unavoidable, short of
+						// locking the free list locks; see bug 6324141.
+					  break;
+						   }
+				 }
+				if (prev_obj <= span.end()) {
+				MemRegion my_span = MemRegion(prev_obj, span.end());
+				// Do the marking work within a non-empty span --
+				// the last argument to the constructor indicates whether the
+				// iteration should be incremental with periodic yields.
+				Par_MarkFromGreyRootsClosure cl(_collector,
+							&_collector->_markBitMap,
+							&_collector->_greyMarkBitMap,
+							_collector->getChunkList(),
+							my_span,
+							&_collector->_revisitStack);
+						        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+				// Special case handling the my_span.end(), which does not get iterated
+						        handleOop(my_span.end(), &cl);
+			}
+			// Clearing the mark on the partition, so that the partition can be reused
+		}
+		spanPartition->clearAtomic(currentPartitionIndex);
+		currentPartitionIndex = spanPartion->nextPartitionIndex(currentPartitionIndex);
+	} while(pageIndex != -1);
 }
 
 // This method performs scan and marking on a scan chunk region.
 // The chunk region is popped out of a chunk list.
 void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
-#if OCMS_LOG
-	/*printf("Checking the restart address."
-			"At the start of the CMSConcMarkingTask. "
-			"_restart_address = %p. "
-			"Bottom of the CMS Space region = %p.\n", _restart_addr, _cms_space->bottom());*/
-#endif
-
 	bool isPar = true; // The stage is a parallel one
 	HeapWord *prev_obj;
-	while (!shouldStop()){
+	while (true){
 	  ScanChunk *scanChunk = _chunkList->pop(isPar);
 	  if(scanChunk == NULL)
 		  break; // since the size of the list is zero we break out of the loop here
@@ -4058,11 +4326,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		  printf("Space is NULL for address %p. There has to be some problem. \n", scanChunk->getAddress());
 		  exit(-1);
 	  }
-#endif
-
-#if OCMS_LOG
-/*	  printf("In do_scan_and_mark_OCMS, PageIndex = %d, GreyObjectCount = %d\n",
-			  scanChunk->getPageIndex(), scanChunk->greyObjectCount());*/
 #endif
 
 	  MemRegion span = MemRegion((HeapWord *)scanChunk->start(), (HeapWord *)scanChunk->end());
@@ -4107,12 +4370,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 // The iteration most probably assumes that the object will get scanned within the next chunk. Since, the previous
 // accesses were sequential, this would not have been a problem.
 
-#if OCMS_LOG
-			  	  /*printf("In do_scan_and_mark_OCMS, Iterating Over PageIndex = %d, GreyObjectCount = %d,"
-			  			  "span_start = %p, span_end = %p\n",
-			  			  scanChunk->getPageIndex(), scanChunk->greyObjectCount(),
-			  			  my_span.start(), my_span.end());*/
-#endif
 		        if(scanChunk->greyObjectCount() > 0){
 		        	_chunkList->addChunk(scanChunk, true); // Insert the scan chunk within the chunklist parallely
 		        } else {
@@ -4450,10 +4707,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 
-#if OCMS_ASSERT
-//  __check((_markBitMap.isSame(_greyMarkBitMap) == true), "Comparison between mark and grey bitmap not equal.");
-//  There can be uninitialized objects, in the markBitMap, hence the comparison may not hold valid.
-#endif
 
   CMSConcMarkingTask tsk(this,
                          cms_space,
@@ -4520,20 +4773,13 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(tsk.result() == true, "Inconsistency");
 
 #if OCMS_ASSERT
-  __check(_collectorChunkList->listSize() == 0, "After do_scan_and_mark. ChunkListSize NonZero.");
   size_t gCount = Universe::totalGreyObjectCount();
   int activeWorkers = conc_workers()->active_workers();
-  if((activeWorkers == 0) && (gCount > 0 || _greyMarkBitMap.isAllClear() != true)){
+  if((activeWorkers == 0) && (gCount > 0)){
 	  printf("Something is not right.\n");
 	  printf("Grey Object Count = %u.\n", gCount);
-	  printf("Is All Clear %d.\n", _greyMarkBitMap.isAllClear());
-	  printf("Chunk List Size = %u.\n", _collectorChunkList->listSize());
 	  printf("Number of active workers = %d.", activeWorkers);
 	  exit(-1);
-  }
-  if(activeWorkers == 0){
-	  __check(_greyMarkBitMap.isAllClear(), "grey bit map must be all clear after CMS Concurrent Mark.");
-  	  __check((Universe::totalGreyObjectCount() == 0), "total grey object count non zero after CMS Concurrent Mark.");
   }
 #endif
 
@@ -7540,56 +7786,21 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	  if (_skip_bits > 0) {
 	    _skip_bits--;
 
-#if OCMS_DEBUG
-	    expr = !_grey_bit_map->isMarked(addr);
-	    __check(expr, "grey marked bit skipped");
-#endif
 	    return true;
 	  }
 
-#if OCMS_DEBUG
-	  expr = _bit_map->endWord() && addr < _bit_map->endWord();
-	  __check(expr,
-	         "address out of range");
-	  __check(_bit_map->isMarked(addr), "tautology");
-#endif
 	  if (_bit_map->isMarked(addr+1)) {
 	    // this is an allocated object that might not yet be initialized
 
-#if OCMS_DEBUG
-		  expr = _skip_bits == 0;
-		  __check(expr, "tautology");
-#endif
 	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
 	    oop p = oop(addr);
 	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
 	      // in the case of Clean-on-Enter optimization, redirty card
 	      // and avoid clearing card by increasing  the threshold.
-#if OCMS_DEBUG
-	    expr = !_grey_bit_map->isMarked(addr);
-	    __check(expr, "grey marked bit skipped");
-#endif
 	      return true;
 	    }
 	  }
-
-	  // The object gets scanned only if it is marked as a grey object
-	  if(_grey_bit_map->isMarked(addr)){
-	// After scanning the grey object, the object is unmarked in the grey bit map
-		  if(_grey_bit_map->par_clear(addr)){
-	// If I clear the bitmap mark, only then can I mark the object
-			  scan_oops_in_oop(addr);
-			  u_jbyte value = __u_dec(addr);	// Decreasing the count of the chunk atomically
-#if OCMS_ASSERT
-			  if(value < 0){
-				  printf("Something is wrong, value after decrementing =%d.", value);
-				  exit(-1);
-			  }
-			  __check((value >= 0), "value after decrementing lesser than zero");
-			  __check((value < 255),  "value after decrementing greater than 255");
-#endif
-		  }
-	  }
+	  scan_oops_in_oop(addr);
 	  return true;
 }
 
@@ -7622,18 +7833,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 }
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
-#if OCMS_DEBUG
-	// the object should be marked alive since the object
-	__check(_bit_map->isMarked(ptr), "expected bit to be set in mark bit map");
-	// the object should be marked in the grey
-	__check(!_grey_bit_map->isMarked(ptr), "expected bit not to be set in grey mark bit map");
-#endif
 	oop obj = oop(ptr);
-
-#if OCMS_DEBUG
-	__check(obj->is_oop(true), "the ptr should be an oop");
-#endif
-
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map, _grey_bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
@@ -7976,52 +8176,19 @@ void Par_GreyMarkClosure::do_oop(narrowOop* p) { Par_GreyMarkClosure::do_oop_wor
 
 void Par_GreyMarkClosure::do_oop(oop obj) {
 	bool expr, res;
-
-#if OCMS_DEBUG
-	__check(obj->is_oop_or_null(true),  "expected an oop or NULL");
-#endif
-
 	HeapWord* addr = (HeapWord*)obj;
 	if(_whole_span.contains(addr)){
 	// I, hereby, check whether the object is currently marked in the bitmap or not
 	// and if the object is not marked, I perform a parallel mark(because the mark is
-	// a byte field.
+	// a byte field).
 		if(!_bit_map->isMarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
-#if OCMS_ASSERT
-				__check(_bit_map->isMarked(addr), "obj should be marked white");
-#endif
 			// If I am able to mark this object as alive I will mark it grey also
-#if OCMS_DEBUG
-	expr = !(_grey_bit_map->isMarked(addr));
-	__check(expr, "unmarked obj is already marked as grey, incosistency");
-#endif
 					// I would first increase the value of the count, then mark it grey
 					u_jbyte value = __u_inc(addr);
-					// If I succeeded in marking the object grey, then I also have to increment the
-					// grey object count on the corresponding scan chunk. After incrementing the
-					// grey object count I figure out whether the chunk has to be added to
-					// the chunkList or not. This would depend on whether the value of the scan chunk count when
-					// I incremented it was 1 or not.
-					if(!_grey_bit_map->par_mark(addr)){
-						printf("Only I could have marked the object as grey, since I marked the "
-								"object as alive, however, someone else marked the object grey, "
-								"inconsistent.");
-						exit(-1);
-					}
-					if(value == 1){
-						_chunk_list->addChunk(new ScanChunk(addr), true);
-					}
-			} else {
-#if OCMS_LOG
-//				printf("The mark bit map is marked by another thread. "
-//						"I was not able to mark this object (addr = %p) as alive.\n", addr);
-#endif
 			}
 		}
-	// I check whether the object is marked grey or not. If not then I must mark it grey and
-	// subsequently increase the number of grey objects in the corresponding scan chunk.
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
 }
 

@@ -739,6 +739,9 @@ size_t Universe::getNumberOfGreyedPages(){
 	return count;
 }
 
+void* Universe::getPageTablePositionFromIndex(int index){
+	return ((void*)(index + (uintptr_t)getPageTableBase()));
+}
 
 // This method gets the position of the page table entry of an address within the page table
 void* Universe::getPageTablePosition(void *address){
@@ -833,6 +836,12 @@ u_jbyte Universe::decrementGreyObjectCount_Atomic(void *address){
 
 u_jbyte Universe::getGreyObjectCount(void *address){
 	return (u_jbyte)(*(jbyte *)getPageTablePosition(address));
+}
+
+void* Universe::getPageBaseFromIndex(int index){
+	uintptr_t heapBase = (uintptr_t)Universe::getHeapBase();
+	uintptr_t pageBase = index * sysconf(_SC_PAGE_SIZE) + heapBase;
+	return (void *)pageBase;
 }
 
 size_t Universe::getPageIndex(void *address){
