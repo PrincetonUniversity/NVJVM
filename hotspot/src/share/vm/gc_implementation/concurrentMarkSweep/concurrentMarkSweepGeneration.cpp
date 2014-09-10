@@ -3861,7 +3861,7 @@ class SpanPartition : public CHeapObj {
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	bool* _partitionMap;
 	// The total number of partitions dividing the span. Currently, this number is approximately 100.
-	int _numberPartitons;
+	int _numberPartitions;
 	// The span that contains both the mature and the permanent generations.
 	MemRegion _span;
 	// The size of each of the partitions.
@@ -3870,15 +3870,15 @@ class SpanPartition : public CHeapObj {
 public:
 	SpanPartition(MemRegion span){
 		_span = span;
-		_numberPartitons = 100;
-		_partitionMap = new bool[_numberPartitons];
+		_numberPartitions = 100;
+		_partitionMap = new bool[_numberPartitions];
 		int numberPages = __pageIndex(_span.end()) - __pageIndex(_span.start()) + 1;
-		_partitionSize = (int)numberPages/_numberPartitons;
+		_partitionSize = (int)numberPages/_numberPartitions;
 		printf("The size of each of the partitions is around %d.\n", _partitionSize);
 	}
 
 	int nextPartitionIndex(int currPartitionIndex){
-		return ((currPartitionIndex + 1) % _numberPartitons);
+		return ((currPartitionIndex + 1) % _numberPartitions);
 	}
 
 	bool markAtomic(int partitionIndex){
@@ -3908,7 +3908,7 @@ public:
 		int originalPartitionIndex = currentPartitionIndex;
 		bool markAtomicFailed = false;
 		int count;
-		for(count = 0; count < _numberPartitons; count++){
+		for(count = 0; count < _numberPartitions; count++){
 			currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
 			if(markAtomic(currentPartitionIndex))
 				return currentPartitionIndex;
@@ -3925,7 +3925,7 @@ public:
 
 	int getPartitionSize(int partitionIndex){
 	// If this is the last partition then the partition size is different from the other partitions
-		if(partitionIndex == (_numberPartitons-1)){
+		if(partitionIndex == (_numberPartitions-1)){
 			int partitionStart = getPartitionStart(partitionIndex);
 			return (__pageIndex(_span.end()) - partitionStart + 1);
 		}
@@ -4230,12 +4230,12 @@ bool CMSConcMarkingTask::shouldStop(){
 bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl){
 // We check if the object is marked in the bitmap, if yes then the
 // closure is applied to the different references within the object.
-	  if(cl->_bit_map()->isMarked(addr)){
+	  if(cl->getBitMap()->isMarked(addr)){
 		  cl->scan_oops_in_oop(addr);
 	  }
 }
 
-void CMSConcMarkingTask::do_scan_and_mark_OCMS_No_Grey(int i){
+void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_Grey(int i){
 	// Getting the span partition object
 	SpanPartition *spanPartion = getSpanPartition();
 	int currentPartitionIndex = -1, pageIndex;
