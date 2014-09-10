@@ -3882,7 +3882,11 @@ public:
 	}
 
 	bool markAtomic(int partitionIndex){
-		jbyte *position = (jbyte *)_partitionMap[partitionIndex];
+		if(_partitionMap == NULL){
+			printf("Partition Map is null.\n");
+			exit(-1);
+		}
+		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		jbyte newValue = true;
 		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
@@ -3892,7 +3896,7 @@ public:
 	}
 
 	bool clearAtomic(int partitionIndex){
-		jbyte *position = (jbyte *)_partitionMap[partitionIndex];
+		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		jbyte newValue = false;
 		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
@@ -4239,7 +4243,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
 	SpanPartition *spanPartition = getSpanPartition();
 	if(spanPartition == NULL){
-		printf("The span partition was not initialized for thread.\n");
+		printf("The span partition was not initialized for thread with id %d.\n", i);
 		exit(-1);
 	}
 	int currentPartitionIndex = -1, pageIndex;
