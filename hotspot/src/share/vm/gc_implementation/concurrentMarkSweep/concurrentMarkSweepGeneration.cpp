@@ -4235,7 +4235,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	  }
 }
 
-void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_Grey(int i){
+void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
 	SpanPartition *spanPartion = getSpanPartition();
 	int currentPartitionIndex = -1, pageIndex;
