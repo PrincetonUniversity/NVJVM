@@ -3772,7 +3772,7 @@ class CMSConcMarkingTerminatorTerminator: public TerminatorTerminator {
  *  certain pages are picked up for further scanning. The current page election
  *  policy is to elect the page with the maximum number of grey objects within
  *  window.
- */
+
 
 class MarkingMetaData: public CHeapObj {
 	  bool _isScanning;   // This keeps a track of the current state of the thread
@@ -3853,13 +3853,13 @@ class MarkingMetaData: public CHeapObj {
 	  			setPartitionBoundaries();
 	  			_windowSize = (int)(_partitionSize / _numberWindows);
 	  	  }
-};
+};*/
 
 // This is the class that provides coordination amongst the various threads
 // when selecting which page to pick up first while performing the concurrent mark sweep.
 class SpanPartition : public CHeapObj {
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
-	bool _partitionMap[];
+	bool* _partitionMap;
 	// The total number of partitions dividing the span. Currently, this number is approximately 100.
 	int _numberPartitons;
 	// The span that contains both the mature and the permanent generations.
@@ -3956,7 +3956,7 @@ public:
 	int getPageFromNextPartition(int currentPartition){
 		int partitionIndex = currentPartition, pageIndex = -1;
 		int partitionsScanned = 0;
-		while(pageIndex ==  -1 && partitionsScanned < _numberPartition){
+		while(pageIndex ==  -1 && partitionsScanned < _numberPartitions){
 			partitionIndex = nextPartitionIndex(partitionIndex);
 // If I become the owner of the current partition --> then I can scan for pages within the
 // current partition else I move on to the next partition.
@@ -4003,23 +4003,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
  public:
   SpanPartition* getSpanPartition() { return _spanPartition; }
 
-  // The stopping criteria
-  bool should_stop(int workerId){
-	  int count = 0;
-	  for (; count < _n_workers; count++){
-		  if(getMetadata(count)->isScanning())
-			  return false;
-	  }
-	  for (; count < _n_workers; count++){
-		  if(getMetadata(count)->isScanning())
-
-	  }
-  }
-
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
-  MarkingMetaData* getMetadata(int i){
-	  return _markingMetaData[i];
-  }
   // Values returned by the iterate() methods.
   enum CMSIterationStatus { incomplete, complete, full, would_overflow };
   CMSConcMarkingTask(CMSCollector* collector,
