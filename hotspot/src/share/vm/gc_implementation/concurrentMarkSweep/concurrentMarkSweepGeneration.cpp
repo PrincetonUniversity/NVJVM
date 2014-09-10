@@ -3721,12 +3721,12 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
     result = do_marking_st(asynch);
   }
 
-#if OCMS_DEBUG
+/*#if OCMS_DEBUG
   bool expr;
   expr = (Universe::totalGreyObjectCount() == 0);
   __check(expr, "total grey object count > 0, after mark from roots work.");
 #endif
-
+*/
   return result;
 }
 
@@ -4264,9 +4264,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
 // (getting the start of the object).
 				prev_obj = sp->block_start_careful(span.start());
-				printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
+				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
 						"page address of span start %d.\n",
-						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));
+						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));*/
 				  while (prev_obj < span.start()) {
 					size_t sz = sp->block_size_no_stall(prev_obj, _collector);
 					if (sz > 0) {
