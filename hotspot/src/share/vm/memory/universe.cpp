@@ -779,10 +779,10 @@ bool Universe::isPresent(void *pageAddress){
 }
 
 u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
-	jbyte *position = (jbyte *)getPageTablePosition(address);
-	jbyte value = *position;
-	jbyte origValue = value;
-	jbyte newValue = value + 1;
+	u_jbyte *position = (u_jbyte *)getPageTablePosition(address);
+	u_jbyte value = *position;
+	u_jbyte origValue = value;
+	u_jbyte newValue = value + 1;
 	while(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
 		value = *position;
 		newValue = value + 1;
@@ -790,7 +790,7 @@ u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 #if OCMS_ASSERT
 	if((u_jbyte)newValue >= 255 || (u_jbyte)newValue < 1){
 		  printf("Something is wrong, value after incrementing"
-				  " old value = %d, new value = %d, origValue = %d", value, newValue, origValue);
+				  " old value = %u, new value = %u, origValue = %u", value, newValue, origValue);
 		  exit(-1);
 	}
 #endif
