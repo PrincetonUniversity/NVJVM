@@ -4327,7 +4327,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
-			_cmsMetrics->pageAccessed(pageIndex);
+//			_cmsMetrics->pageAccessed(pageIndex);
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
@@ -4847,7 +4847,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   size_t gCount = Universe::totalGreyObjectCount();
   int activeWorkers = conc_workers()->active_workers();
   printf("Grey Object Count = %d. Active Workers = %d.\n", gCount, activeWorkers);
-  tsk.getMetrics()->print_on();
+//  tsk.getMetrics()->print_on();
   printf("Is Task Completed %d.\n", tsk.completed());
   if((activeWorkers == 0) && (gCount > 0)){
 	  printf("Something is not right.\n");
