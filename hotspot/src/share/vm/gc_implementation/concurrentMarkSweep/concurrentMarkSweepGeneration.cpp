@@ -3940,14 +3940,37 @@ public:
 // We would improve this method to get a collection of pages later on. Currently, we only
 // fetch a single page per scan of a partition.
 	int getHighPriorityPage(int partitionIndex){
+		int partitionSize = getPartitionSize(partitionIndex);
+		void *address = __u_pageBase(getPartitionStart(partitionIndex));
+		unsigned char vec[partitionSize];
+		if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+			perror("err :");
+			printf("Error in mincore, arguments %p.\n", address);
+			exit(-1);
+		}
 		int index = getPartitionStart(partitionIndex), count, greyCount;
 		int largestGreyCount = 0, lPIndex = -1;
 		char *position = (char *)Universe::getPageTablePositionFromIndex(index);
-		for(count = 0; count < getPartitionSize(partitionIndex); count++, index++, position++){
+		for(count = 0;
+				count < getPartitionSize(partitionIndex);
+				count++, index++, position++){
 			greyCount = (int)(*position);  // Get the grey count of the page
-			if(largestGreyCount < greyCount){
+			if((largestGreyCount < greyCount) && (vec[count] & 1 == 1)){
 			   largestGreyCount = greyCount;
 			   lPIndex = index;
+			}
+		}
+		if(lPIndex == -1){
+			index = getPartitionStart(partitionIndex);
+			position = (char *)Universe::getPageTablePositionFromIndex(index);
+			for(count = 0;
+				count < getPartitionSize(partitionIndex);
+				count++, index++, position++){
+				greyCount = (int)(*position);  // Get the grey count of the page
+				if((largestGreyCount < greyCount)){
+				   largestGreyCount = greyCount;
+				   lPIndex = index;
+				}
 			}
 		}
 		return lPIndex;
@@ -4781,7 +4804,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
   while (_restart_addr != NULL) {
-	  __check(false, "since we are not using a marking stack, the _restart_addr cannot be non-null \n");
+	 __check(false, "since we are not using a marking stack, the _restart_addr cannot be non-null \n");
     // XXX For now we do not make use of ABORTED state and have not
     // yet implemented the right abort semantics (even in the original
     // single-threaded CMS case). That needs some more investigation
