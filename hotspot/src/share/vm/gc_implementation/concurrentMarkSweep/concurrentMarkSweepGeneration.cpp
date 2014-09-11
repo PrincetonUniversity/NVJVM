@@ -3870,7 +3870,7 @@ class SpanPartition : public CHeapObj {
 public:
 	SpanPartition(MemRegion span){
 		_span = span;
-		_numberPartitions = 100;
+		_numberPartitions = NumberPartitions;
 		_partitionMap = new bool[_numberPartitions];
 		int numberPages = __pageIndex(_span.end()) - __pageIndex(_span.start()) + 1;
 		_partitionSize = (int)numberPages/_numberPartitions;
@@ -4258,13 +4258,17 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	do {
+		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
+			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 			// On acquiring a page we clear the grey object count on the page
 			__u_clear(pageAddress);
+			// Getting the space wherein the page lies
 			sp = getSpace(pageAddress);
+			// The memory region containing the
 			MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
 					(HeapWord *)Utility::getPageEnd(pageAddress));
 			span = span.intersection(sp->used_region());
