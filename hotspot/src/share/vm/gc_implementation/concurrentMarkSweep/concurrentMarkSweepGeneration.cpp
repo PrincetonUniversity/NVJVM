@@ -3872,7 +3872,7 @@ public:
 		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionMap = new bool[_numberPartitions];
-		int numberPages = __pageIndex(_span.end()) - __pageIndex(_span.start()) + 1;
+		int numberPages = __pageIndex(_span.last()) - __pageIndex(_span.start()) + 1;
 		_partitionSize = (int)numberPages/_numberPartitions;
 		printf("The size of each of the partitions is around %d pages.\n", _partitionSize);
 	}
@@ -3931,7 +3931,7 @@ public:
 	// If this is the last partition then the partition size is different from the other partitions
 		if(partitionIndex == (_numberPartitions-1)){
 			int partitionStart = getPartitionStart(partitionIndex);
-			return (__pageIndex(_span.end()) - partitionStart + 1);
+			return (__pageIndex(_span.last()) - partitionStart + 1);
 		}
 		return _partitionSize;
 	}
