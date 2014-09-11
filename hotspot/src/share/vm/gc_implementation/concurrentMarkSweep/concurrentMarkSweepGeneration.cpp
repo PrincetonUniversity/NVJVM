@@ -3945,7 +3945,8 @@ public:
 		unsigned char vec[partitionSize];
 		if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 			perror("err :");
-			printf("Error in mincore, arguments %p.\n", address);
+			printf("Error in mincore, arguments %p."
+					"Partition Size = %d.\n", address, partitionSize);
 			exit(-1);
 		}
 		int index = getPartitionStart(partitionIndex), count, greyCount;
