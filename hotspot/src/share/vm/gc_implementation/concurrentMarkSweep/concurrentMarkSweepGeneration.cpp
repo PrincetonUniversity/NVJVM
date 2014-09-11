@@ -3953,6 +3953,17 @@ public:
 		return lPIndex;
 	}
 
+	int getMin(int a, int b){
+		int min = a < b ? a : b;
+		return min;
+	}
+
+	int getPartitionIndexFromPage(int pageIndex){
+		int localIndex = pageIndex - __pageIndex(_span.start());
+		int partitionIndex = getMin(localIndex / _partitionSize, _numberPartitions - 1);
+		return partitionIndex;
+	}
+
 // This method tries to get a high priority page from the set of subsequent partitions.
 // If, all the pages have zero grey object counts, then the page index returned would be -1.
 // Currently, the stopping condition for the thread is set to be the case when it has scanned
@@ -4242,10 +4253,6 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
 	SpanPartition *spanPartition = getSpanPartition();
-	if(spanPartition == NULL){
-		printf("The span partition was not initialized for thread with id %d.\n", i);
-		exit(-1);
-	}
 	int currentPartitionIndex = -1, pageIndex;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
@@ -4253,6 +4260,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	do {
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
+			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 			// On acquiring a page we clear the grey object count on the page
 			__u_clear(pageAddress);
@@ -4296,7 +4304,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			// Clearing the mark on the partition, so that the partition can be reused
 		}
 		spanPartition->clearAtomic(currentPartitionIndex);
-		currentPartitionIndex = spanPartition->nextPartitionIndex(currentPartitionIndex);
 	}
 	}while(pageIndex != -1);
 }
@@ -4768,6 +4775,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_ASSERT
   size_t gCount = Universe::totalGreyObjectCount();
   int activeWorkers = conc_workers()->active_workers();
+  printf("Grey Object Count = %d. Active Workers = %d.\n", gCount, activeWorkers);
   if((activeWorkers == 0) && (gCount > 0)){
 	  printf("Something is not right.\n");
 	  printf("Grey Object Count = %u.\n", gCount);
