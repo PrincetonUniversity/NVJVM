@@ -3990,6 +3990,45 @@ public:
 	}
 };
 
+class CMSMetrics: public CHeapObj {
+	int _outOfCorePages;
+	int _totalPagesAccessed;
+	public:
+	CMSMetrics(){
+		_outOfCorePages = 0;
+		_totalPagesAccessed = 0;
+	}
+
+	bool isInCore(void *address){
+		unsigned char vec[1];
+		address = __page_start(address);
+		if(mincore(address, sysconf(_SC_PAGE_SIZE), vec) == -1){
+			perror("err :");
+			printf("Error in mincore, arguments %p.\n", address);
+			exit(-1);
+		}
+		return ((vec[0] & 1) == 1);
+	}
+
+	void incrementOutOfCorePages(){
+		_outOfCorePages++;
+	}
+	void incrementPagesAccessed(){
+		_totalPagesAccessed++;
+	}
+	void pageAccessed(int pageIndex){
+		_totalPagesAccessed++;
+		void *base = __u_pageBase(pageIndex);
+		if(isInCore(base) == false){
+			_outOfCorePages++;
+		}
+	}
+	void print_on(){
+		printf("Out Of Core Pages Accessed %d. Total Pages Accessed %d.\n",
+				_outOfCorePages, _totalPagesAccessed);
+	}
+};
+
 // MT Concurrent Marking Task
 class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSCollector* _collector;
@@ -4004,6 +4043,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   HeapWord*     _restart_addr;
   ChunkList* 	_chunkList;
   SpanPartition* _spanPartition;
+  CMSMetrics* _cmsMetrics;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -4016,6 +4056,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  CMSMetrics* getMetrics() { return _cmsMetrics; }
   SpanPartition* getSpanPartition() { return _spanPartition; }
 
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
@@ -4044,6 +4085,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     _restart_addr = _global_finger = _cms_space->bottom();
     // Allocating a new span partition
     _spanPartition = new SpanPartition(_collector->_span);
+    _cmsMetrics = new CMSMetrics();
   }
 
   CompactibleFreeListSpace* getSpace(void *address) {
@@ -4261,6 +4303,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
+			_cmsMetrics->pageAccessed(pageIndex);
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
@@ -4780,6 +4823,8 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   size_t gCount = Universe::totalGreyObjectCount();
   int activeWorkers = conc_workers()->active_workers();
   printf("Grey Object Count = %d. Active Workers = %d.\n", gCount, activeWorkers);
+  tsk->getMetrics()->print_on();
+  printf("Is Task Completed %d.\n", tsk.completed());
   if((activeWorkers == 0) && (gCount > 0)){
 	  printf("Something is not right.\n");
 	  printf("Grey Object Count = %u.\n", gCount);

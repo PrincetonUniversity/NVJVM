@@ -43,6 +43,9 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
+#define __u_pageBase(p) \
+	Universe::getPageBaseFromIndex(p)
+
 #define __u_inc(p) \
 	Universe::incrementGreyObjectCount_Atomic(p)
 
