@@ -4209,7 +4209,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 		// stop the mutator threads, bring them to a safepoint.
 		if(greyObjectCount < countThreshold){
 			// We here start the OCMS mark operation. This operation brings the mutator threads to a safepoint.
-			  VM_OCMS_Mark ocms_mark_op(this);
+			  VM_OCMS_Mark ocms_mark_op(_collector);
 	          VMThread::execute(&ocms_mark_op);
 	          break;
 		}
@@ -4368,7 +4368,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	u_jbyte oldValue;
 	do {
 // After every loop we check whether have been signalled by the master thread to change our current state
-		if(_partitionMetaData->shouldWait()){ // Checking if the we have to wait,
+		if(_partitionMetaData->isSetToWait()){ // Checking if the we have to wait,
 			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
 // if yes then the count of the number of waiting threads is automatically incremented
 			while(_partitionMetaData->isSetToWait());
@@ -4391,7 +4391,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-			__u_clear(pageAddress, &oldValue);
+			__u_clear(pageAddress, &(jbyte *)oldValue);
 // On clearing the page level grey object count the chunk level grey object count gets cleared
 			_collector->decGreyObj(pageAddress, (int)oldValue);
 			// Getting the space wherein the page lies
@@ -7890,7 +7890,7 @@ ClearDirtyCardClosure::ClearDirtyCardClosure(CMSCollector *collector){
 	_modUnionTableBitMap = _collector->getDirtyCardBitMap();
 }
 
-ClearDirtyCardClosure::do_bit(size_t offset){
+void ClearDirtyCardClosure::do_bit(size_t offset){
 	// Gettting the address of the page on which the dirty card lies.
 	HeapWord* addr = _modUnionTableBitMap.offsetToHeapWord(offset);
 	// Incrementing the count of the grey bitmap for the
