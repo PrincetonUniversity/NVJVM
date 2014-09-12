@@ -7892,7 +7892,7 @@ ClearDirtyCardClosure::ClearDirtyCardClosure(CMSCollector *collector){
 
 bool ClearDirtyCardClosure::do_bit(size_t offset){
 	// Gettting the address of the page on which the dirty card lies.
-	HeapWord* addr = _modUnionTableBitMap.offsetToHeapWord(offset);
+	HeapWord* addr = _modUnionTableBitMap->offsetToHeapWord(offset);
 	// Incrementing the count of the grey bitmap for the
 	// Incrementing the chunk level grey object count
 		_collector->incGreyObj(addr, 1);
