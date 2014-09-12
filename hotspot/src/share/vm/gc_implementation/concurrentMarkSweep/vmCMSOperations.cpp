@@ -121,6 +121,43 @@ void VM_CMS_Operation::doit_epilogue() {
   }
 }
 
+// Method that triggers the master thread operations after the mutators have stopped.
+// Thereafter, the mutators get restarted.
+
+void VM_OCMS_Mark::doit(){
+	// The master thread can now scan the dirty card bitmap and mark the pages on them as free
+	IsGCActiveMark x; // stop-world GC active
+
+	// This is the modified union table bitmap
+	CMSBitMap* modUnionTable = _collector->getDirtyCardBitMap();
+
+	// Iterate over the modUnionTableBitMap to mark each of the corresponding
+	ClearDirtyCardClosure dirtyCardClosure(_collector);
+	modUnionTable->iterate(&dirtyCardClosure);
+
+	// Clear the modUnionTable
+	modUnionTable->clear_all();
+
+	// After clearing the dirty card bit map mark, the master thread has to make sure
+	// that the collector threads come to a termination point.
+	// Currently, all the threads are in a working state.
+	while(true){
+		if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
+			_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
+			while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
+			// Threads are suspended now
+			if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
+			// If yes, we have reached the termination point, we signal all the other threads to terminate too
+				_partitionMetaData->setToTerminate();
+				break; // The master thread can now exit
+			} else {
+				_partitionMetaData->setToWork();
+			}
+		}
+	}
+
+
+}
 //////////////////////////////////////////////////////////
 // Methods in class VM_CMS_Initial_Mark
 //////////////////////////////////////////////////////////

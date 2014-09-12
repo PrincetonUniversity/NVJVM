@@ -106,7 +106,8 @@ class VM_Operation: public CHeapObj {
 
   enum VMOp_Type {
     VM_OPS_DO(VM_OP_ENUM)
-    VMOp_Terminating
+    VMOp_Terminating,
+    VMOp_OCMS_Mark
   };
 
  private:

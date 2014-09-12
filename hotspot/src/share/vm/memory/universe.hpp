@@ -308,7 +308,7 @@ class Universe: AllStatic {
   static void decrementAvailableRAM(size_t bytes)		{ _availableRAM -= bytes; }
   static u_jbyte incrementGreyObjectCount_Atomic(void *pageAddress);
   static u_jbyte decrementGreyObjectCount_Atomic(void *pageAddress);
-  static u_jbyte clearGreyObjectCount_Atomic(void *pageAddress);
+  static u_jbyte clearGreyObjectCount_Atomic(void *pageAddress, jbyte *oldValue);
   static u_jbyte getGreyObjectCount(void *address);
 
 

@@ -604,6 +604,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     ExplicitGCInvokesConcurrent = true;
   }
 
+  _partitionMetaData = new PartitionMetaData(this);
   // Creating the chunk
   _collectorChunkList = new ChunkList();
 
@@ -4068,6 +4069,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   ChunkList* 	_chunkList;
   SpanPartition* _spanPartition;
   CMSMetrics* _cmsMetrics;
+  int _MasterThreadId;
+  PartitionMetaData* _partitionMetaData;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -4079,7 +4082,19 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminator _term;
   CMSConcMarkingTerminatorTerminator _term_term;
 
+  enum MasterThreadState {
+	  INITIAL, // When the grey object count is lesser than threshold
+	  SIGNAL_PEND_MUT, // Signalled the mutator threads to stop
+	  SIGNAL_ACK_MUT, // All the mutator threads have stopped execution
+	  DIRTY_CARD_PROCESSING, // Marks the dirty cards into the grey object counts
+	  MONITORING_GREY_OBJECT_COUNT, // Monitors the grey object count, and if it is zero,
+	  SUSPENDING_COLLECTOR_THREADS, // signals the collector threads to become idle
+	  TERMINATED // When the collector threads are suspended and the grey object count = 0, the master gets terminated and
+	  // simultaneously suspends all the other collector threads, starting the mutator threads
+  };
+
  public:
+  void masterThreadWork();
   CMSMetrics* getMetrics() { return _cmsMetrics; }
   SpanPartition* getSpanPartition() { return _spanPartition; }
 
@@ -4110,6 +4125,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     // Allocating a new span partition
     _spanPartition = new SpanPartition(_collector->_span);
     _cmsMetrics = new CMSMetrics();
+    _MasterThreadId = 0;
+    _partitionMetaData = _collector->getPartitionMetaData();
   }
 
   CompactibleFreeListSpace* getSpace(void *address) {
@@ -4178,6 +4195,26 @@ void CMSConcMarkingTerminator::yield() {
     ParallelTaskTerminator::yield();
   }
 }
+// This is the code that is used by the master thread
+void CMSConcMarkingTask::masterThreadWork(){
+	int countThreshold = 100, greyObjectCount;
+	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
+	MasterThreadState masterThreadState = INITIAL;
+	do{
+		// This is the master thread that wakes up after every 1 second
+		usleep(sleepTime);
+		// The master thread gets the total count of the number of grey objects
+		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
+		// If the grey object count reduces below a certain threshold, boy, it is time to
+		// stop the mutator threads, bring them to a safepoint.
+		if(greyObjectCount < countThreshold){
+			// We here start the OCMS mark operation. This operation brings the mutator threads to a safepoint.
+			  VM_OCMS_Mark ocms_mark_op(this);
+	          VMThread::execute(&ocms_mark_op);
+	          break;
+		}
+	}while(greyObjectCount > 0);
+}
 
 ////////////////////////////////////////////////////////////////
 // Concurrent Marking Algorithm Sketch
@@ -4209,6 +4246,11 @@ void CMSConcMarkingTerminator::yield() {
 // -- Terminate and return result
 //
 void CMSConcMarkingTask::work(int i) {
+  if(i == _MasterThreadId){
+	  // Implementing the code for the master thread
+	  masterThreadWork();
+	  return;
+  }
   elapsedTimer _timer;
   ResourceMark rm;
   HandleMark hm;
@@ -4323,7 +4365,23 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
+	u_jbyte oldValue;
 	do {
+// After every loop we check whether have been signalled by the master thread to change our current state
+		if(_partitionMetaData->shouldWait()){ // Checking if the we have to wait,
+			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
+// if yes then the count of the number of waiting threads is automatically incremented
+			while(_partitionMetaData->isSetToWait());
+// If we find that the master thread has asked us to terminate then we can simply break
+				if(_partitionMetaData->isSetToTerminate()){
+// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
+// count was decremented earlier).
+					_partitionMetaData->decrementWaitThreadCount();
+				break;
+				}
+// If we should be working, then lets first decrement the count of the waiting threads
+			_partitionMetaData->decrementWaitThreadCount();
+		}
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
@@ -4331,8 +4389,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
-			// On acquiring a page we clear the grey object count on the page
-			__u_clear(pageAddress);
+// On acquiring a page we clear the grey object count on the page
+// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
+			__u_clear(pageAddress, &oldValue);
+// On clearing the page level grey object count the chunk level grey object count gets cleared
+			_collector->decGreyObj(pageAddress, (int)oldValue);
 			// Getting the space wherein the page lies
 			sp = getSpace(pageAddress);
 			// The memory region containing the
@@ -4778,7 +4839,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 
-
   CMSConcMarkingTask tsk(this,
                          cms_space,
                          perm_space,
@@ -5182,7 +5242,7 @@ size_t CMSCollector::preclean_work(bool clean_refs, bool clean_survivor) {
 // . When we scan the objects, we'll be both reading and setting
 //   marks in the marking bit map, so we'll need the marking bit map.
 // . For protecting _collector_state transitions, we take the CGC_lock.
-//   Note that any races in the reading of of card table entries by the
+//   Note that any races in the reading of card table entries by the
 //   CMS thread on the one hand and the clearing of those entries by the
 //   VM thread or the setting of those entries by the mutator threads on the
 //   other are quite benign. However, for efficiency it makes sense to keep
@@ -7139,13 +7199,23 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
   assert(obj->is_oop(), "expected an oop");
   HeapWord* addr = (HeapWord*)obj;
   if (_span.contains(addr)) {
-	  // If the bitmap is not already marked we mark the bitMap and increment the grey object count.
-	  // Note that the grey object count must be incremented only in the case when the object is not
-	  // already marked, otherwise it will result in inconsistent count, since incrementing the count
-	  // is not idempotent.
+// If the bitmap is not already marked we mark the bitMap and increment the grey object count.
+// Note that the grey object count must be incremented only in the case when the object is not
+// already marked, otherwise it will result in inconsistent count, since incrementing the count
+// is not idempotent.
 	  if(!_bitMap->isMarked(addr)){
-		  jbyte value = __u_inc(addr);
+// Marking the object on the bitmap - this is necessarily done at the beginning since the
+// count for the object could get decremented while it may not have been marked and therefore
+// resulting in a discrepancy (wherein a marked object could lie,
+// with the count for it being already cleared).
 		  _bitMap->mark(addr);
+// Incrementing the count for each partition on which the page lies
+// The counter for the chunk is increased before the counter for the individual page. This is because the
+// decrements for the chunk counts are preceeded by a read on the individual page count. Therefore, if the page
+// count gets incremented before there can be a condition wherein the chunk level count may become negative.
+		  _collector->incGreyObj(addr, 1);
+  		  // Incrementing the count for each individual page
+		  jbyte value = __u_inc(addr);
 	  }
   }
 }
@@ -7813,6 +7883,22 @@ void MarkFromRootsClosure::scanOopsInOop(HeapWord* ptr) {
   assert(_markStack->isEmpty(), "tautology, emphasizing post-condition");
 }
 
+ClearDirtyCardClosure::ClearDirtyCardClosure(CMSCollector *collector){
+	// Setting the CMSCollector
+	_collector = collector;
+	// Setting the bitmap for the modified union dirty card bitmap
+	_modUnionTableBitMap = _collector->getDirtyCardBitMap();
+}
+
+ClearDirtyCardClosure::do_bit(size_t offset){
+	// Gettting the address of the page on which the dirty card lies.
+	HeapWord* addr = _modUnionTableBitMap.offsetToHeapWord(offset);
+	// Incrementing the count of the grey bitmap for the
+	// Incrementing the chunk level grey object count
+		_collector->incGreyObj(addr, 1);
+	// Increasing the page level grey object count
+		u_jbyte value = __u_inc(addr);
+}
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,
@@ -8258,8 +8344,9 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 		if(!_bit_map->isMarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
-			// If I am able to mark this object as alive I will mark it grey also
-					// I would first increase the value of the count, then mark it grey
+// Incrementing the chunk level grey object count
+				_collector->incGreyObj(addr, 1);
+// Increasing the page level grey object count
 					u_jbyte value = __u_inc(addr);
 			}
 		}

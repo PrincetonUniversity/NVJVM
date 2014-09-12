@@ -42,6 +42,7 @@
 #include "swap/Utility.h"
 #include <unistd.h>
 #include <sys/mman.h>
+#include <unistd.h>
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
@@ -52,8 +53,8 @@
 #define __u_dec(p) \
 	Universe::decrementGreyObjectCount_Atomic(p)
 
-#define __u_clear(p) \
-	Universe::clearGreyObjectCount_Atomic(p)
+#define __u_clear(p, q) \
+	Universe::clearGreyObjectCount_Atomic(p, q)
 
 #define __u_goc(p) \
 	Universe::getGreyObjectCount(p)
@@ -687,7 +688,185 @@ class ChunkList : public CHeapObj  {
 		}
 };
 
+class PartitionMetaData : public CHeapObj {
+// Keeps a track of the number of the grey object count per partition
+	int* _partitionGOC;
+// Total number of partitions
+	int _numberPartitions;
+// The span that contains the mature and the permanent spaces
+	MemRegion _span;
+// The average partition size
+	int _partitionSize;
+// Total number of collector threads running concurrently after the dirty card clean up phase
+	int _numberCollectorThreads;
+// Shared memory for communicating the number of threads that are idle - an integer is good enough
+	int _idleThreadCount[1];
+// Shared memory for communicating signals from the master to the collector threads
+	int _message[1];
+// CMSCollector - just for the sake of it
+	CMSCollector* _collector;
+// Message States Used
+	enum MessageState {
+		WORK = 0,
+		WAIT = 1,
+		TERMINATE = 2
+	};
 
+public:
+	// Methods for setting the message state
+	void setMessageState (MessageState state){
+		_message[0] = (int)state;
+	}
+
+	bool isSetToWait(){
+	  return (
+		_message[0] == WAIT
+	  );
+	}
+
+	bool isSetToTerminate(){
+		return(
+		 _message[0] == TERMINATE
+		);
+	}
+
+	void setToWait(){
+		setMessageState(WAIT);
+	}
+
+	void setToWork(){
+		setMessageState(WORK);
+	}
+
+	void setToTerminate(){
+		setMessageState(TERMINATE);
+	}
+
+	MessageState getMessageState(){
+		return ((MessageState)_message[0]);
+	}
+
+	bool areThreadsSuspended(){
+		return (
+			_idleThreadCount[0] == _numberCollectorThreads
+		);
+	}
+
+	PartitionMetaData(CMSCollector* cmsCollector){
+		_collector = cmsCollector;
+		_numberPartitions = NumberPartitions;
+		_partitionGOC = new int[_numberPartitions];
+		int numberPages = __pageIndex(_span.last()) - __pageIndex(_span.start()) + 1;
+		_partitionSize = (int)numberPages/_numberPartitions;
+		_idleThreadCount[0] = 0;
+		setToWork();
+		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
+	}
+
+	int getTotalGreyObjectsChunkLevel(){
+		int index, sum = 0;
+		for (index = 0; index < _numberPartitions; index++){
+			sum += _partitionGOC[index];
+		}
+		return sum;
+	}
+
+	bool doWeTerminate(){
+		return(
+				areThreadsSuspended() && (getTotalGreyObjectsChunkLevel() == 0)
+		);
+	}
+
+	int incrementWaitThreadCount(){
+		int *position = (int *)&_idleThreadCount[0];
+		int value = *position;
+		int newValue = value + 1;
+		while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position,
+				(unsigned int)value) != value){
+			value = *position;
+			newValue = value + 1;
+		}
+
+#ifdef OCMS_ASSERT
+		if(value > _numberCollectorThreads){
+			printf("Something is wrong. The number of idle threads waiting is "
+					"greater than the maximum number of threads. We have a problem here !!");
+			exit(-1);
+		}
+#endif
+		return (int)newValue;
+	}
+
+	int decrementWaitThreadCount(){
+		int *position = (int *)&_idleThreadCount[0];
+		int value = *position;
+		int newValue = value - 1;
+		while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position, (unsigned int)value) != value){
+			value = *position;
+			newValue = value - 1;
+		}
+
+#ifdef OCMS_ASSERT
+		if(value < 0){
+			printf("Something is wrong. The number of idle threads waiting is negative. We have a problem here !!");
+			exit(-1);
+		}
+#endif
+		return (int)newValue;
+	}
+
+	bool checkAndWait(){
+		   if(isSetToWait()){
+			   incrementWaitThreadCount();
+			   return true;
+		   }
+		   return false;
+	}
+
+	int getMin(int a, int b){
+		 int min = a < b ? a : b;
+		 return min;
+	}
+
+	int getPartitionIndexFromPage(int pageIndex){
+		int localIndex = pageIndex - __pageIndex(_span.start());
+		int partitionIndex = getMin(localIndex / _partitionSize, _numberPartitions - 1);
+		return partitionIndex;
+	}
+
+	int getPartitionIndexFromPageAddress(void *pageAddress){
+		int pageIndex = __pageIndex(pageAddress);
+		int partitionIndex = getPartitionIndexFromPage(pageIndex);
+		return partitionIndex;
+	}
+
+	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
+		int index = getPartitionIndexFromPageAddress(pageAddress);
+		int *position = &(_partitionGOC[index]);
+				int value = *position;
+				int origValue = value;
+				int newValue = value + increment;
+				while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)value) != value){
+					value = *position;
+					newValue = value + increment;
+				}
+				return (unsigned int)newValue;
+	}
+
+	unsigned int decrementIndex_Atomic(int decrement, void* pageAddress){
+		int index = getPartitionIndexFromPageAddress(pageAddress);
+		int *position = &(_partitionGOC[index]);
+		int value = *position;
+		int origValue = value;
+		int newValue = value - decrement;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)value) != value){
+			value = *position;
+			newValue = value - decrement;
+		}
+		return (unsigned int)newValue;
+	}
+
+};
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
@@ -729,6 +908,8 @@ class CMSCollector: public CHeapObj {
   void update_time_of_last_gc(jlong now) {
     _time_of_last_gc = now;
   }
+
+  PartitionMetaData* _partitionMetaData;
 
   ChunkList* _collectorChunkList;
 
@@ -861,6 +1042,21 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
+  PartitionMetaData* getPartitionMetaData(){
+	return _partitionMetaData;
+  }
+
+  CMSBitMap* getDirtyCardBitMap(){
+	  return &(_modUnionTable);
+  }
+
+  unsigned int incGreyObj(void *addr, int count){
+	  return _partitionMetaData->incrementIndex_Atomic(count, addr);
+  }
+
+  unsigned int decGreyObj(void *addr, int count){
+	  return _partitionMetaData->decrementIndex_Atomic(count, addr);
+  }
 
   ChunkList* getChunkList(){
 		  return _collectorChunkList;
@@ -1603,6 +1799,14 @@ public:
     void scan_oops_in_oop(HeapWord* ptr);
 };
 
+class ClearDirtyCardClosure: public BitMapClosure {
+	CMSCollector* _collector;
+	CMSBitMap* _modUnionTableBitMap;
+
+public:
+	ClearDirtyCardClosure(CMSCollector* cmsCollector);
+	bool do_bit(size_t offset);
+};
 
 // This closure is used to do concurrent multi-threaded
 // marking from the roots following the first checkpoint.

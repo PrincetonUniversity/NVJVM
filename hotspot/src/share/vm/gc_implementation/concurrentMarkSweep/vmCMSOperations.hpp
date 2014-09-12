@@ -89,6 +89,26 @@ class VM_CMS_Operation: public VM_Operation {
   void verify_after_gc();
 };
 
+// VM_OCMS_Mark operation for the concurrent marking phase of OCMS.
+class VM_OCMS_Mark: public VM_CMS_Operation {
+	PartitionMetaData* _partitionMetaData;
+public:
+	VM_OCMS_Mark(CMSCollector* _collector) :
+	VM_CMS_Operation(_collector) {
+		_partitionMetaData = _collector->getPartitionMetaData();
+	}
+
+  virtual VMOp_Type type() const { return VMOp_OCMS_Mark; }
+  virtual void doit();
+
+  virtual const CMSCollector::CollectorState legal_state() const {
+	return CMSCollector::InitialMarking;
+  }
+
+  virtual const bool needs_pll() const {
+	return false;
+  }
+};
 
 // VM_CMS_Operation for the initial marking phase of CMS.
 class VM_CMS_Initial_Mark: public VM_CMS_Operation {
