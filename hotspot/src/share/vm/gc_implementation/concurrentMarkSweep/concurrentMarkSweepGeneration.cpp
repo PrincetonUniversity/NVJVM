@@ -4391,7 +4391,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-			__u_clear(pageAddress, &(jbyte *)oldValue);
+			__u_clear(pageAddress, (jbyte *)&oldValue);
 // On clearing the page level grey object count the chunk level grey object count gets cleared
 			_collector->decGreyObj(pageAddress, (int)oldValue);
 			// Getting the space wherein the page lies
@@ -7890,7 +7890,7 @@ ClearDirtyCardClosure::ClearDirtyCardClosure(CMSCollector *collector){
 	_modUnionTableBitMap = _collector->getDirtyCardBitMap();
 }
 
-void ClearDirtyCardClosure::do_bit(size_t offset){
+bool ClearDirtyCardClosure::do_bit(size_t offset){
 	// Gettting the address of the page on which the dirty card lies.
 	HeapWord* addr = _modUnionTableBitMap.offsetToHeapWord(offset);
 	// Incrementing the count of the grey bitmap for the
@@ -7898,6 +7898,7 @@ void ClearDirtyCardClosure::do_bit(size_t offset){
 		_collector->incGreyObj(addr, 1);
 	// Increasing the page level grey object count
 		u_jbyte value = __u_inc(addr);
+		return true;
 }
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
