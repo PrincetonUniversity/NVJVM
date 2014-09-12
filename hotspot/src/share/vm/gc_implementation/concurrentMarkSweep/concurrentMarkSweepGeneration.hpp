@@ -847,7 +847,8 @@ public:
 				int value = *position;
 				int origValue = value;
 				int newValue = value + increment;
-				while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)value) != value){
+				while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+						(unsigned int)value) != (unsigned int)value){
 					value = *position;
 					newValue = value + increment;
 				}
@@ -860,7 +861,8 @@ public:
 		int value = *position;
 		int origValue = value;
 		int newValue = value - decrement;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)value) != value){
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value - decrement;
 		}
