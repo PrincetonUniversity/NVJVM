@@ -782,7 +782,7 @@ public:
 		int value = *position;
 		int newValue = value + 1;
 		while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position,
-				(unsigned int)value) != value){
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value + 1;
 		}
@@ -801,7 +801,8 @@ public:
 		int *position = (int *)&_idleThreadCount[0];
 		int value = *position;
 		int newValue = value - 1;
-		while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position, (unsigned int)value) != value){
+		while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value - 1;
 		}
