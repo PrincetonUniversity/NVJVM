@@ -43,6 +43,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include "runtime/vmThread.hpp"
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)

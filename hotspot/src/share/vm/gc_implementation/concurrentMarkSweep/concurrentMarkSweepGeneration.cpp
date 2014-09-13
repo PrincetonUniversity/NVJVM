@@ -4042,7 +4042,11 @@ void CMSConcMarkingTerminator::yield() {
 }
 // This is the code that is used by the master thread
 void CMSConcMarkingTask::masterThreadWork(){
+
 #if OCMS_NO_GREY_LOG
+	Thread* t = Thread::current();
+	bool isWorkerThread = t->is_Worker_thread();
+	printf("I am the master thread .... Am I a worker ?? %d.\n", isWorkerThread);
 	printf("I am the master thread ......... Now active ......\n");
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());

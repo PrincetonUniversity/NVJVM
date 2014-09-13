@@ -556,8 +556,9 @@ void VMThread::execute(VM_Operation* op) {
   printf("In VMThread::execute(). \n");
   Thread* t = Thread::current();
 
-  if (!t->is_VM_thread()) {
-    SkipGCALot sgcalot(t);    // avoid re-entrant attempts to gc-a-lot
+  if (!t->is_VM_thread() && !t->is_Worker_thread()) {
+    printf("Current thread is not a VM thread. \n");
+	SkipGCALot sgcalot(t);    // avoid re-entrant attempts to gc-a-lot
     // JavaThread or WatcherThread
     t->check_for_valid_safepoint_state(true);
 
