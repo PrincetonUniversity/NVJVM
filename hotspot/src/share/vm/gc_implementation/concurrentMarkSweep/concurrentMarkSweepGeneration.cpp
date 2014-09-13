@@ -4125,7 +4125,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     // Allocating a new span partition
     _spanPartition = new SpanPartition(_collector->_span);
     _cmsMetrics = new CMSMetrics();
-    _MasterThreadId = 0;
+    _MasterThreadId = 1;
     _partitionMetaData = _collector->getPartitionMetaData();
   }
 
