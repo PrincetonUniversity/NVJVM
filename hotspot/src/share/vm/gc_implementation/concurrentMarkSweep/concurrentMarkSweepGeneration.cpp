@@ -4219,7 +4219,8 @@ void CMSConcMarkingTask::masterThreadWork(){
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
 
 #if OCMS_NO_GREY_LOG
-			printf("Grey Object Count (%d)\n", greyObjectCount);
+			printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
+					greyObjectCount, Universe::totalGreyObjectCount());
 #endif
 		// If the grey object count reduces below a certain threshold, boy, it is time to
 		// stop the mutator threads, bring them to a safepoint.
