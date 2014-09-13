@@ -3863,165 +3863,6 @@ class MarkingMetaData: public CHeapObj {
 	  	  }
 };*/
 
-// This is the class that provides coordination amongst the various threads
-// when selecting which page to pick up first while performing the concurrent mark sweep.
-class SpanPartition : public CHeapObj {
-	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
-	bool* _partitionMap;
-	// The total number of partitions dividing the span. Currently, this number is approximately 100.
-	int _numberPartitions;
-	// The span that contains both the mature and the permanent generations.
-	MemRegion _span;
-	// The size of each of the partitions.
-	int _partitionSize;
-
-public:
-	SpanPartition(MemRegion span){
-		_span = span;
-		_numberPartitions = NumberPartitions;
-		_partitionMap = new bool[_numberPartitions];
-		int numberPages = __pageIndex(_span.last()) - __pageIndex(_span.start()) + 1;
-		_partitionSize = (int)numberPages/_numberPartitions;
-		printf("The size of each of the partitions is around %d pages.\n", _partitionSize);
-	}
-
-	int nextPartitionIndex(int currPartitionIndex){
-		return ((currPartitionIndex + 1) % _numberPartitions);
-	}
-
-	bool markAtomic(int partitionIndex){
-		if(_partitionMap == NULL){
-			printf("Partition Map is null.\n");
-			exit(-1);
-		}
-		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
-		jbyte value = *position;
-		jbyte newValue = true;
-		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
-			return false;
-		}
-		return true;
-	}
-
-	bool clearAtomic(int partitionIndex){
-		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
-		jbyte value = *position;
-		jbyte newValue = false;
-		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
-			return false;
-		}
-		return true;
-	}
-
-// This method gets the next partition from the list of partitions, if the
-// currentPartitionIndex is the same as that of the returned value, then the
-// thread has run through all the different partitions. This is not currently used
-	int getNextPartition(int currentPartitionIndex){
-		int originalPartitionIndex = currentPartitionIndex;
-		bool markAtomicFailed = false;
-		int count;
-		for(count = 0; count < _numberPartitions; count++){
-			currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
-			if(markAtomic(currentPartitionIndex))
-				return currentPartitionIndex;
-			else
-				markAtomicFailed = true;
-		}
-	}
-
-	int getPartitionStart(int partitionIndex){
-		return (
-				__pageIndex(_span.start()) + partitionIndex * _partitionSize
-		);
-	}
-
-	int getPartitionSize(int partitionIndex){
-	// If this is the last partition then the partition size is different from the other partitions
-		if(partitionIndex == (_numberPartitions-1)){
-			int partitionStart = getPartitionStart(partitionIndex);
-			return (__pageIndex(_span.last()) - partitionStart + 1);
-		}
-		return _partitionSize;
-	}
-// Gets a high priority page from a given partition
-// If all the pages have a zero count then the page index returned would be -1
-// We would improve this method to get a collection of pages later on. Currently, we only
-// fetch a single page per scan of a partition.
-	int getHighPriorityPage(int partitionIndex){
-		int partitionSize = getPartitionSize(partitionIndex);
-		void *address = __u_pageBase(getPartitionStart(partitionIndex));
-		unsigned char vec[partitionSize];
-		if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
-			perror("err :");
-			printf("Error in mincore, arguments %p."
-					"Partition Size = %d.\n", address, partitionSize);
-			exit(-1);
-		}
-		int index = getPartitionStart(partitionIndex), count, greyCount;
-		int largestGreyCount = 0, lPIndex = -1;
-		char *position = (char *)Universe::getPageTablePositionFromIndex(index);
-		for(count = 0;
-				count < getPartitionSize(partitionIndex);
-				count++, index++, position++){
-			greyCount = (int)(*position);  // Get the grey count of the page
-			if((largestGreyCount < greyCount) && (vec[count] & 1 == 1)){
-			   largestGreyCount = greyCount;
-			   lPIndex = index;
-			}
-		}
-		if(lPIndex == -1){
-			index = getPartitionStart(partitionIndex);
-			position = (char *)Universe::getPageTablePositionFromIndex(index);
-			for(count = 0;
-				count < getPartitionSize(partitionIndex);
-				count++, index++, position++){
-				greyCount = (int)(*position);  // Get the grey count of the page
-				if((largestGreyCount < greyCount)){
-				   largestGreyCount = greyCount;
-				   lPIndex = index;
-				}
-			}
-		}
-		return lPIndex;
-	}
-
-	int getMin(int a, int b){
-		int min = a < b ? a : b;
-		return min;
-	}
-
-	int getPartitionIndexFromPage(int pageIndex){
-		int localIndex = pageIndex - __pageIndex(_span.start());
-		int partitionIndex = getMin(localIndex / _partitionSize, _numberPartitions - 1);
-		return partitionIndex;
-	}
-
-// This method tries to get a high priority page from the set of subsequent partitions.
-// If, all the pages have zero grey object counts, then the page index returned would be -1.
-// Currently, the stopping condition for the thread is set to be the case when it has scanned
-//	all the partitions and has not found a single page with a non zero count.
-	int getPageFromNextPartition(int currentPartition){
-		int partitionIndex = currentPartition, pageIndex = -1;
-		int partitionsScanned = 0;
-		while(pageIndex ==  -1 && partitionsScanned < _numberPartitions){
-			partitionIndex = nextPartitionIndex(partitionIndex);
-// If I become the owner of the current partition --> then I can scan for pages within the
-// current partition else I move on to the next partition.
-			if(markAtomic(partitionIndex)){
-	// We first try and get a high priority page(essentially a page with a non zero grey object count).
-			  pageIndex = getHighPriorityPage(partitionIndex);
-	// If there is no page with a non zero count, then we skip the partition
-			  if(pageIndex == -1){
-	// Before skipping the partition, we clear the boolean flag for it.
-				clearAtomic(partitionIndex);
-			  }
-			}
-			partitionsScanned++;
-		}
-		return pageIndex;
-	}
-};
-
 class CMSMetrics: public CHeapObj {
 	int _outOfCorePages;
 	int _totalPagesAccessed;
@@ -4074,7 +3915,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   char          _pad_back[64];
   HeapWord*     _restart_addr;
   ChunkList* 	_chunkList;
-  SpanPartition* _spanPartition;
   CMSMetrics* _cmsMetrics;
   int _MasterThreadId;
   PartitionMetaData* _partitionMetaData;
@@ -4207,7 +4047,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 #if OCMS_NO_GREY_LOG
 	printf("I am the master thread ......... Now active ......\n");
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
-	printf("Initial grey object count = %d.\n", Universe::totalGreyObjectCount());
+	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
@@ -4220,7 +4060,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 
 #if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
-					greyObjectCount, Universe::totalGreyObjectCount());
+					greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
 		// If the grey object count reduces below a certain threshold, boy, it is time to
 		// stop the mutator threads, bring them to a safepoint.
@@ -4389,7 +4229,6 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
-	SpanPartition *spanPartition = getSpanPartition();
 	int currentPartitionIndex = -1, pageIndex;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
@@ -4401,7 +4240,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #if OCMS_NO_GREY_LOG
 		printf("Thread %d set to wait.\n", i);
 #endif
-			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
+		_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
 // if yes then the count of the number of waiting threads is automatically incremented
 			while(_partitionMetaData->isSetToWait());
 // If we find that the master thread has asked us to terminate then we can simply break
@@ -4415,19 +4254,20 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			_partitionMetaData->decrementWaitThreadCount();
 		}
 		// Getting the page index from the next partitionIndex
-		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
+		pageIndex = _partitionMetaData->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
 #if OCMS_NO_GREY_LOG
 //		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
 		  //_cmsMetrics->pageAccessed(pageIndex);
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
-			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
+			currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 //			__u_clear(pageAddress, (jbyte *)&oldValue);
-			oldValue = (int)Universe::clearGreyObjectCount(pageAddress);
+//			oldValue = (int)Universe::clearGreyObjectCount(pageAddress);
+			oldValue = _collector->clearGreyObjectCount_Page(pageAddress);
 			if(oldValue == 0){
 				printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");
 				exit (-1);
@@ -4475,9 +4315,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			}
 			// Clearing the mark on the partition, so that the partition can be reused
 		}
-		spanPartition->clearAtomic(currentPartitionIndex);
+		_partitionMetaData->clearAtomic(currentPartitionIndex);
 	} else {
-		printf("Total Grey Object Count %d.\n", Universe::totalGreyObjectCount());
+		printf("Total Grey Object Count At Page Level %d.\n",
+				_partitionMetaData->getTotalGreyObjectsPageLevel());
 	}
 	}while(true);
 }
@@ -4962,7 +4803,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(tsk.result() == true, "Inconsistency");
 
 #if OCMS_ASSERT
-  size_t gCount = Universe::totalGreyObjectCount();
+  size_t gCount = _partitionMetaData->getTotalGreyObjectsPageLevel();
   int activeWorkers = conc_workers()->active_workers();
   printf("Grey Object Count = %d. Active Workers = %d.\n", gCount, activeWorkers);
 //  tsk.getMetrics()->print_on();
@@ -6984,7 +6825,7 @@ void CMSCollector::do_CMS_operation(CMS_op_type op) {
       SvcGCMarker sgcm(SvcGCMarker::OTHER);
       checkpointRootsInitial(true);       // asynch
 #if OCMS_LOG
-      printf("Grey Object Count after checkPointRootsInitial = %d.\n", Universe::totalGreyObjectCount());
+      printf("Grey Object Count after checkPointRootsInitial = %d.\n", _partitionMetaData->getTotalGreyObjectsPageLevel());
       printf("Total Greyed Page = %d.\n", Universe::getNumberOfGreyedPages());
       printf("Total Number Of Pages = %d.\n", Universe::getNumberOfPages());
 #endif
@@ -7273,7 +7114,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 // count gets incremented before there can be a condition wherein the chunk level count may become negative.
 		  _collector->incGreyObj(addr, 1);
   		  // Incrementing the count for each individual page
-		  jbyte value = __u_inc(addr);
+		  _collector->incGreyObjPage(addr, 1);
 	  }
   }
 }
@@ -7955,7 +7796,8 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 	// Incrementing the chunk level grey object count
 		_collector->incGreyObj(addr, 1);
 	// Increasing the page level grey object count
-		u_jbyte value = __u_inc(addr);
+//		u_jbyte value = __u_inc(addr);
+		_collector->incGreyObjPage(addr, 1);
 		return true;
 }
 
@@ -8406,7 +8248,8 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 // Incrementing the chunk level grey object count
 				_collector->incGreyObj(addr, 1);
 // Increasing the page level grey object count
-				 u_jbyte value = __u_inc(addr);
+//				 u_jbyte value = __u_inc(addr);
+				_collector->incGreyObjPage(addr, 1);
 			}
 		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector

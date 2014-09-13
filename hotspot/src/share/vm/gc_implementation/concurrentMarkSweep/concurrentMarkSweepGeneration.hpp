@@ -694,6 +694,7 @@ class ChunkList : public CHeapObj  {
 class PartitionMetaData : public CHeapObj {
 	int totalDecrements;
 	int totalIncrements;
+	int *_pageGOC;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
 // Total number of partitions
@@ -710,6 +711,14 @@ class PartitionMetaData : public CHeapObj {
 	int _message[1];
 // CMSCollector - just for the sake of it
 	CMSCollector* _collector;
+	int _numberPages;
+	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
+	bool* _partitionMap;
+	// The size of each of the partitions.
+	int _partitionSize;
+	void* _heapBase;
+
+
 // Message States Used
 	enum MessageState {
 		WORK = 0,
@@ -763,22 +772,189 @@ public:
 		);
 	}
 
+	int numberPages() {
+		return _numberPages;
+	}
+
+	int getGreyPageCount(){
+		int index, sum = 0;
+			for (index = 0; index < _numberPages; index++){
+				if( _pageGOC[index] > 0 )
+					sum++;
+			}
+		return sum;
+	}
+
+	int nextPartitionIndex(int currPartitionIndex){
+		return ((currPartitionIndex + 1) % _numberPartitions);
+	}
+
+
+	bool markAtomic(int partitionIndex){
+		if(_partitionMap == NULL){
+			printf("Partition Map is null.\n");
+			exit(-1);
+		}
+		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
+		jbyte value = *position;
+		jbyte newValue = true;
+		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+			return false;
+		}
+		return true;
+	}
+
+	bool clearAtomic(int partitionIndex){
+		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
+		jbyte value = *position;
+		jbyte newValue = false;
+		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+			return false;
+		}
+		return true;
+	}
+
+
+	// This method gets the next partition from the list of partitions, if the
+	// currentPartitionIndex is the same as that of the returned value, then the
+	// thread has run through all the different partitions. This is not currently used
+		int getNextPartition(int currentPartitionIndex){
+			int originalPartitionIndex = currentPartitionIndex;
+			bool markAtomicFailed = false;
+			int count;
+			for(count = 0; count < _numberPartitions; count++){
+				currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
+				if(markAtomic(currentPartitionIndex))
+					return currentPartitionIndex;
+				else
+					markAtomicFailed = true;
+			}
+		}
+
+		int pageIndex(void *address){
+			return (((uintptr_t)__page_start(address) - (uintptr_t)__page_start(_span.start())) / (_PAGE_SIZE));
+		}
+
+		// Starting Index of the partition
+		int getPartitionStart(int partitionIndex){
+			return (partitionIndex * _partitionSize);
+		}
+
+		int getPartitionSize(int partitionIndex){
+		// If this is the last partition then the partition size is different from the other partitions
+			if(partitionIndex == (_numberPartitions-1)){
+				int partitionStart = getPartitionStart(partitionIndex);
+				return (pageIndex(_span.last()) - partitionStart + 1);
+			}
+			return _partitionSize;
+		}
+
+		// This function converts a given page index into the base address of the page
+		// All the indexes are now relative to the base of the span start now.
+		void *getPageBase(int pageIndex){
+			return ((void *)
+				(uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE)
+			);
+		}
+
+		// Gets a high priority page from a given partition
+		// If all the pages have a zero count then the page index returned would be -1
+		// We would improve this method to get a collection of pages later on. Currently, we only
+		// fetch a single page per scan of a partition.
+			int getHighPriorityPage(int partitionIndex){
+				int partitionSize = getPartitionSize(partitionIndex);
+				void *address = getPageBase(getPartitionStart(partitionIndex));
+				unsigned char vec[partitionSize];
+				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+					perror("err :");
+					printf("Error in mincore, arguments %p."
+							"Partition Size = %d.\n", address, partitionSize);
+					exit(-1);
+				}
+				int index = getPartitionStart(partitionIndex), count, greyCount;
+				int largestGreyCount = 0, lPIndex = -1;
+				int *position = _pageGOC[index];
+				for(count = 0;
+						count < getPartitionSize(partitionIndex);
+						count++, index++, position++){
+					greyCount = (int)(*position);  // Get the grey count of the page
+					if((largestGreyCount < greyCount) && (vec[count] & 1 == 1)){
+					   largestGreyCount = greyCount;
+					   lPIndex = index;
+					}
+				}
+				if(lPIndex == -1){
+					index = getPartitionStart(partitionIndex);
+					position = _pageGOC[index];
+					for(count = 0;
+						count < getPartitionSize(partitionIndex);
+						count++, index++, position++){
+						greyCount = (int)(*position);  // Get the grey count of the page
+						if((largestGreyCount < greyCount)){
+						   largestGreyCount = greyCount;
+						   lPIndex = index;
+						}
+					}
+				}
+				return lPIndex;
+			}
+
+		// This method tries to get a high priority page from the set of subsequent partitions.
+		// If, all the pages have zero grey object counts, then the page index returned would be -1.
+		// Currently, the stopping condition for the thread is set to be the case when it has scanned
+		//	all the partitions and has not found a single page with a non zero count.
+			int getPageFromNextPartition(int currentPartition){
+				int partitionIndex = currentPartition, pageIndex = -1;
+				int partitionsScanned = 0;
+				while(pageIndex ==  -1 && partitionsScanned < _numberPartitions){
+					partitionIndex = nextPartitionIndex(partitionIndex);
+		// If I become the owner of the current partition --> then I can scan for pages within the
+		// current partition else I move on to the next partition.
+					if(markAtomic(partitionIndex)){
+			// We first try and get a high priority page(essentially a page with a non zero grey object count).
+					  pageIndex = getHighPriorityPage(partitionIndex);
+			// If there is no page with a non zero count, then we skip the partition
+					  if(pageIndex == -1){
+			// Before skipping the partition, we clear the boolean flag for it.
+						clearAtomic(partitionIndex);
+					  }
+					}
+					partitionsScanned++;
+				}
+				return pageIndex;
+			}
+
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
 		_collector = cmsCollector;
 		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
+		_partitionMap = new bool[_numberPartitions];
 		int count;
 		for(count = 0; count < _numberPartitions; count++){
 			_partitionGOC[count] = 0;
+			_partitionMap[count] = false;
 		}
-		int numberPages = __numPages(_span.last(), _span.start());
-		_partitionSize = (int)numberPages/_numberPartitions;
+		_numberPages = __numPages(_span.last(), _span.start());
+		_pageGOC = new int[_numberPages];
+		for(count = 0; count < _numberPages; count++){
+				_pageGOC[count] = 0;
+		}
+		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
 		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
 		totalDecrements = 0;
 		totalDecrements = 0;
+	}
+
+	int getTotalGreyObjectsPageLevel(){
+		int index, sum = 0;
+			for (index = 0; index < _numberPages; index++){
+				sum += _pageGOC[index];
+			}
+			printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
+			return sum;
 	}
 
 	int getTotalGreyObjectsChunkLevel(){
@@ -860,6 +1036,51 @@ public:
 		return partitionIndex;
 	}
 
+	int getPageIndexFromPageAddress(void *pageAddress){
+		int pageIndex = __pageIndex(pageAddress) - __pageIndex(_span.start());
+		return pageIndex;
+	}
+
+	unsigned int clearGreyObjectCount_Page(void *pageAddress){
+		int index = getPageIndexFromPageAddress(pageAddress);
+		int *position = &(_pageGOC[index]);
+		unsigned int value = *position;
+		unsigned int newValue = 0;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
+			value = *position;
+		}
+		return value;
+	}
+
+	unsigned int incrementIndex_AtomicPage(int increment, void *pageAddress){
+		increaseBy(increment);
+		int index = getPageIndexFromPageAddress(pageAddress);
+		int *position = &(_pageGOC[index]);
+		int value = *position;
+		int newValue = value + increment;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
+			value = *position;
+			newValue = value + increment;
+		}
+		return (unsigned int)newValue;
+	}
+
+	unsigned int decrementIndex_AtomicPage(int increment, void *pageAddress){
+		increaseBy(increment);
+		int index = getPageIndexFromPageAddress(pageAddress);
+		int *position = &(_pageGOC[index]);
+		int value = *position;
+		int newValue = value - increment;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
+			value = *position;
+			newValue = value - increment;
+		}
+		return (unsigned int)newValue;
+	}
+
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
 		increaseBy(increment);
 		int index = getPartitionIndexFromPageAddress(pageAddress);
@@ -892,6 +1113,8 @@ public:
 #endif
 		return (unsigned int)newValue;
 	}
+
+
 
 };
 
@@ -1079,6 +1302,14 @@ class CMSCollector: public CHeapObj {
 
   CMSBitMap* getDirtyCardBitMap(){
 	  return &(_modUnionTable);
+  }
+
+  unsigned int clearGreyObjCountPage(void *addr){
+	  return _partitionMetaData->clearGreyObjectCount_Page(addr);
+  }
+
+  unsigned int incGreyObjPage(void *addr, int count){
+	  return _partitionMetaData->incrementIndex_AtomicPage(count, addr);
   }
 
   unsigned int incGreyObj(void *addr, int count){

@@ -712,7 +712,7 @@ void Universe::allocatePageTable(size_t size){
 size_t Universe::totalGreyObjectCount(){
 	size_t index = 0, count = 0;
 	u_jbyte *position = (u_jbyte *)Universe::getPageTableBase();
-	while(index <= _pageTableSize){
+	while(index < _pageTableSize){
 		count += (u_jbyte)(*position);
 		index++;
 		position++;
