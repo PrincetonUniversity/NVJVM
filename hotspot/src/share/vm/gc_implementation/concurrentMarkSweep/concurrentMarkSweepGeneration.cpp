@@ -3548,7 +3548,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   __check(expr, "mark bit map should be clear, before checkPointInitialMark");
 #endif
 
-#if
+#if OCMS_NO_GREY_ASSERT
  if(_partitionMetaData->getTotalGreyObjectsChunkLevel() != 0){
 	 printf("We have a problem. The total grey object count != 0 at the chunk.");
 	 exit(-1);
