@@ -827,7 +827,7 @@ public:
 			}
 		}
 
-		int pageIndex(void *address){
+		int getPageIndexFromPageAddress(void *address){
 			return (((uintptr_t)__page_start(address) - (uintptr_t)__page_start(_span.start())) / (_PAGE_SIZE));
 		}
 
@@ -840,7 +840,7 @@ public:
 		// If this is the last partition then the partition size is different from the other partitions
 			if(partitionIndex == (_numberPartitions-1)){
 				int partitionStart = getPartitionStart(partitionIndex);
-				return (pageIndex(_span.last()) - partitionStart + 1);
+				return (getPageIndexFromPageAddress((void *)_span.last()) - partitionStart + 1);
 			}
 			return _partitionSize;
 		}
@@ -869,9 +869,7 @@ public:
 				}
 				int index = getPartitionStart(partitionIndex), count, greyCount;
 				int largestGreyCount = 0, lPIndex = -1;
-				for(count = 0;
-						count < getPartitionSize(partitionIndex);
-						count++, index++){
+				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];  // Get the grey count of the page
 					if((largestGreyCount < greyCount) && (vec[count] & 1 == 1)){
 					   largestGreyCount = greyCount;
@@ -1019,20 +1017,14 @@ public:
 	}
 
 	int getPartitionIndexFromPage(int pageIndex){
-		int localIndex = pageIndex - __pageIndex(_span.start());
-		int partitionIndex = getMin(localIndex / _partitionSize, _numberPartitions - 1);
+		int partitionIndex = getMin(pageIndex / _partitionSize, _numberPartitions - 1);
 		return partitionIndex;
 	}
 
 	int getPartitionIndexFromPageAddress(void *pageAddress){
-		int pageIndex = __pageIndex(pageAddress);
+		int pageIndex = getPageIndexFromPageAddress(pageAddress);
 		int partitionIndex = getPartitionIndexFromPage(pageIndex);
 		return partitionIndex;
-	}
-
-	int getPageIndexFromPageAddress(void *pageAddress){
-		int pageIndex = __pageIndex(pageAddress) - __pageIndex(_span.start());
-		return pageIndex;
 	}
 
 	unsigned int clearGreyObjectCount_Page(void *pageAddress){
