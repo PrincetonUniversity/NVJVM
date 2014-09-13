@@ -8401,7 +8401,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 // Incrementing the chunk level grey object count
 				_collector->incGreyObj(addr, 1);
 // Increasing the page level grey object count
-					u_jbyte value = __u_inc(addr);
+				 u_jbyte value = __u_inc(addr);
 			}
 		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector

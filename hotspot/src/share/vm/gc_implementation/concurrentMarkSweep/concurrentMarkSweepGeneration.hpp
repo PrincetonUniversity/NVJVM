@@ -860,6 +860,7 @@ public:
 					value = *position;
 					newValue = value + increment;
 				}
+				printf("Value before %d, after %d.\n", value, newValue);
 				return (unsigned int)newValue;
 	}
 
@@ -873,7 +874,6 @@ public:
 			value = *position;
 			newValue = value - decrement;
 		}
-		printf("Value before %d, after %d.\n", value, newValue);
 		return (unsigned int)newValue;
 	}
 
