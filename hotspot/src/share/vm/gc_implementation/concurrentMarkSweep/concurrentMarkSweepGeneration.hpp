@@ -756,7 +756,7 @@ public:
 		_collector = cmsCollector;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
-		int numberPages = __pageIndex(_span.last()) - __pageIndex(_span.start()) + 1;
+		int numberPages = Utility::getNumPages((void *)_span.last(), (void *)_span.start());
 		_partitionSize = (int)numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
