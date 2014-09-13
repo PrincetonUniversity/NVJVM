@@ -4417,7 +4417,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 #if OCMS_NO_GREY_LOG
-		//printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
+		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
 		if(pageIndex != -1){
 //			_cmsMetrics->pageAccessed(pageIndex);
