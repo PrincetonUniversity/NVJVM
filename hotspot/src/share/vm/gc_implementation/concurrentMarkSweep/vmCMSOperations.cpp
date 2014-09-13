@@ -125,6 +125,10 @@ void VM_CMS_Operation::doit_epilogue() {
 // Thereafter, the mutators get restarted.
 
 void VM_OCMS_Mark::doit(){
+
+#if OCMS_NO_GREY_LOG
+	printf("In VM_OCMS_Mark::doit().\n");
+#endif
 	// The master thread can now scan the dirty card bitmap and mark the pages on them as free
 	IsGCActiveMark x; // stop-world GC active
 
@@ -133,6 +137,10 @@ void VM_OCMS_Mark::doit(){
 
 	// Iterate over the modUnionTableBitMap to mark each of the corresponding
 	ClearDirtyCardClosure dirtyCardClosure(_collector);
+#if OCMS_NO_GREY_LOG
+	printf("Iterate over the modUnionTableBitMap to mark each of the correspondings.\n");
+#endif
+
 	modUnionTable->iterate(&dirtyCardClosure);
 
 	// Clear the modUnionTable
@@ -143,10 +151,17 @@ void VM_OCMS_Mark::doit(){
 	// Currently, all the threads are in a working state.
 	while(true){
 		if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
+#if OCMS_NO_GREY_LOG
+			printf("Setting a signal to all the threads to wait/become idle.\n");
+#endif
 			_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
+
 			while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
 			// Threads are suspended now
 			if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
+#if OCMS_NO_GREY_LOG
+				printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
+#endif
 			// If yes, we have reached the termination point, we signal all the other threads to terminate too
 				_partitionMetaData->setToTerminate();
 				break; // The master thread can now exit
@@ -154,6 +169,8 @@ void VM_OCMS_Mark::doit(){
 				_partitionMetaData->setToWork();
 			}
 		}
+			printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+		usleep(1000);
 	}
 
 

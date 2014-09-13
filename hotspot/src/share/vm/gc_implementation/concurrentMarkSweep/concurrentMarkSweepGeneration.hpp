@@ -945,7 +945,9 @@ public:
 			for (index = 0; index < _numberPages; index++){
 				sum += _pageGOC[index];
 			}
+#if	OCMS_NO_GREY_LOG_HIGH
 			printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
+#endif
 			return sum;
 	}
 
@@ -1036,6 +1038,7 @@ public:
 				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 		}
+		decreaseBy(value);
 		return value;
 	}
 
@@ -1097,9 +1100,6 @@ public:
 #endif
 		return (unsigned int)newValue;
 	}
-
-
-
 };
 
 class CMSCollector: public CHeapObj {

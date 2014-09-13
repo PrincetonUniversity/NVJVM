@@ -4056,7 +4056,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
 
-#if OCMS_NO_GREY_LOG
+#if OCMS_NO_GREY_LOG_HIGH
 			printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 					greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
@@ -4254,8 +4254,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		// Getting the page index from the next partitionIndex
 		pageIndex = _partitionMetaData->getPageFromNextPartition(currentPartitionIndex);
 		if(pageIndex != -1){
-#if OCMS_NO_GREY_LOG
-//		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
+#if OCMS_NO_GREY_LOG_HIGH
+		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
 #if OCMS_METRICS
 			_cmsMetrics->pageAccessed(pageIndex);
@@ -4315,8 +4315,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		}
 		_partitionMetaData->clearAtomic(currentPartitionIndex);
 	} else {
+#if OCMS_NO_GREY_LOG_HIGH
 		printf("Total Grey Object Count At Page Level %d.\n",
 				_partitionMetaData->getTotalGreyObjectsPageLevel());
+#endif
 	}
 	}while(true);
 }

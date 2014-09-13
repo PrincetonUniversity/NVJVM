@@ -41,6 +41,7 @@
 #define OCMS_LOG 1
 #define OCMS_ASSERT 1
 #define OCMS_NO_GREY_LOG 1
+#define OCMS_NO_GREY_LOG_HIGH 0
 #define OCMS_NO_GREY_ASSERT 1
 #define OCMS_NO_GREY_DEBUG 1
 #define OCMS_METRICS 0
