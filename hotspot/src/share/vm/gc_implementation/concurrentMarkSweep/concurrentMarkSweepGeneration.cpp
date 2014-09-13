@@ -4469,6 +4469,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			// Clearing the mark on the partition, so that the partition can be reused
 		}
 		spanPartition->clearAtomic(currentPartitionIndex);
+	} else {
+		printf("Total Grey Object Count %d.\n", Universe::totalGreyObjectCount());
 	}
 	}while(true);
 }
