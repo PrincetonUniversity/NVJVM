@@ -4837,6 +4837,10 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
+#if OCMS_NO_GREY_LOG
+  printf("do_marking_mt() called. \n");
+#endif
+
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -4863,6 +4867,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(!ref_processor()->discovery_is_atomic(), "Should be non-atomic");
   assert(ref_processor()->discovery_is_mt(), "Discovery should be MT");
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
+
+#if OCMS_NO_GREY_LOG
+  printf("Initializing the concurrent marking task.\n");
+#endif
+
   conc_workers()->start_task(&tsk);
   while (tsk.yielded()) {
     tsk.coordinator_yield();
