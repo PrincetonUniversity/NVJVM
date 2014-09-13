@@ -860,7 +860,6 @@ public:
 					value = *position;
 					newValue = value + increment;
 				}
-				printf("Value before %d, after %d.\n", value, *position);
 				return (unsigned int)newValue;
 	}
 
@@ -874,6 +873,11 @@ public:
 			value = *position;
 			newValue = value - decrement;
 		}
+#if OCMS_NO_GREY_ASSERT
+		if(newValue < 0){
+			printf("Something is wrong since the value after decrementing is lesser than zero. \n");
+		}
+#endif
 		return (unsigned int)newValue;
 	}
 
