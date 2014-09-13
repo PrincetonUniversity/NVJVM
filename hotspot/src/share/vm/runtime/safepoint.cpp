@@ -112,7 +112,8 @@ void SafepointSynchronize::begin() {
   if (UseConcMarkSweepGC) {
     // In the future we should investigate whether CMS can use the
     // more-general mechanism below.  DLD (01/05).
-    ConcurrentMarkSweepThread::synchronize(false);
+	bool isVMThread = !myThread->is_VM_thread();
+    ConcurrentMarkSweepThread::synchronize(isVMThread);
   } else if (UseG1GC) {
     ConcurrentGCThread::safepoint_synchronize();
   }
