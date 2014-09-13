@@ -4209,6 +4209,10 @@ void CMSConcMarkingTask::masterThreadWork(){
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
+
+#if OCMS_NO_GREY_LOG
+			printf("Grey Object Count (%d)\n", greyObjectCount);
+#endif
 		// If the grey object count reduces below a certain threshold, boy, it is time to
 		// stop the mutator threads, bring them to a safepoint.
 		if(greyObjectCount < countThreshold){
@@ -4459,7 +4463,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		}
 		spanPartition->clearAtomic(currentPartitionIndex);
 	}
-	}while(pageIndex != -1);
+	}while(true);
 }
 
 // This method performs scan and marking on a scan chunk region.
