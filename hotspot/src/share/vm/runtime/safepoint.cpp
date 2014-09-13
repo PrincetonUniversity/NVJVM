@@ -341,6 +341,7 @@ void SafepointSynchronize::begin() {
 
   // wait until all threads are stopped
   while (_waiting_to_block > 0) {
+	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
     if (!SafepointTimeout || timeout_error_printed) {
       Safepoint_lock->wait(true);  // true, means with no safepoint checks
@@ -395,6 +396,7 @@ void SafepointSynchronize::begin() {
     update_statistics_on_cleanup_end(os::javaTimeNanos());
   }
   }
+  printf("Out of begin().\n");
 }
 
 // Wake up all threads, so they are ready to resume execution after the safepoint
