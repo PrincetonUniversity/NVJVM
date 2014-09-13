@@ -761,7 +761,7 @@ public:
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
 		int count;
-		for(count = 0; count < _partitionGOC; count++){
+		for(count = 0; count < _numberPartitions; count++){
 			_partitionGOC[count] = 0;
 		}
 		int numberPages = __numPages(_span.last(), _span.start());

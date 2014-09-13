@@ -3548,6 +3548,13 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   __check(expr, "mark bit map should be clear, before checkPointInitialMark");
 #endif
 
+#if
+ if(_partitionMetaData->getTotalGreyObjectsChunkLevel() != 0){
+	 printf("We have a problem. The total grey object count != 0 at the chunk.");
+	 exit(-1);
+ }
+#endif
+
   // Setup the verification and class unloading state for this
   // CMS collection cycle.
   setup_cms_unloading_and_verification_state();
