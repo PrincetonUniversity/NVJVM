@@ -4250,9 +4250,10 @@ void CMSConcMarkingTask::work(int i) {
 
 #if OCMS_NO_GREY_LOG
 	printf("Starting CMSConcMarkingTask with id %d.\n", i);
+	printf("Master Thread Id = %d.", _MasterThreadId);
 #endif
 
-  if(i == _MasterThreadId){
+  if(i == 0){
 	  // Implementing the code for the master thread
 	  masterThreadWork();
 	  return;
