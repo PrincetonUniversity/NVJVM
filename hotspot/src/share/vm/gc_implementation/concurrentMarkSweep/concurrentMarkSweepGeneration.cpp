@@ -4197,7 +4197,10 @@ void CMSConcMarkingTerminator::yield() {
 }
 // This is the code that is used by the master thread
 void CMSConcMarkingTask::masterThreadWork(){
+#if OCMS_NO_GREY_LOG
 	printf("I am the master thread ......... Now active ...... ");
+	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
+#endif
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	MasterThreadState masterThreadState = INITIAL;
@@ -4376,6 +4379,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	do {
 // After every loop we check whether have been signalled by the master thread to change our current state
 		if(_partitionMetaData->isSetToWait()){ // Checking if the we have to wait,
+#if OCMS_NO_GREY_LOG
+		printf("Thread %d set to wait.\n", i);
+#endif
 			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
 // if yes then the count of the number of waiting threads is automatically incremented
 			while(_partitionMetaData->isSetToWait());
