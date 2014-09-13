@@ -760,6 +760,10 @@ public:
 		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
+		int count;
+		for(count = 0; count < _partitionGOC; count++){
+			_partitionGOC[count] = 0;
+		}
 		int numberPages = __numPages(_span.last(), _span.start());
 		_partitionSize = (int)numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
