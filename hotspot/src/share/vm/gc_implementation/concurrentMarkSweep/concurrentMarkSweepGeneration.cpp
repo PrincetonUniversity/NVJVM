@@ -4850,12 +4850,19 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 
+#if OCMS_NO_GREY_LOG
+  printf("Initiaing Creation of CMSConcMarkingTask.\n");
+#endif
+
   CMSConcMarkingTask tsk(this,
                          cms_space,
                          perm_space,
                          asynch,
                          conc_workers(),
                          task_queues());
+#if OCMS_NO_GREY_LOG
+  printf("Creation of CMSConcMarkingTask Done.\n");
+#endif
 
   // Since the actual number of workers we get may be different
   // from the number we requested above, do we need to do anything different
