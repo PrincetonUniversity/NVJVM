@@ -4257,14 +4257,14 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #if OCMS_NO_GREY_LOG
 //		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
-		  //_cmsMetrics->pageAccessed(pageIndex);
+#if OCMS_METRICS
+			_cmsMetrics->pageAccessed(pageIndex);
+#endif
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
-			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
+			pageAddress = _partitionMetaData->getPageBase(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-//			__u_clear(pageAddress, (jbyte *)&oldValue);
-//			oldValue = (int)Universe::clearGreyObjectCount(pageAddress);
 			oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
 			if(oldValue == 0){
 				printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");

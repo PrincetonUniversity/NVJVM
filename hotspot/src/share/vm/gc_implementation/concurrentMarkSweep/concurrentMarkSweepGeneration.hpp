@@ -1061,22 +1061,21 @@ public:
 		return (unsigned int)newValue;
 	}
 
-	unsigned int decrementIndex_AtomicPage(int increment, void *pageAddress){
-		increaseBy(increment);
+	unsigned int decrementIndex_AtomicPage(int decrement, void *pageAddress){
+		decreaseBy(increment);
 		int index = getPageIndexFromPageAddress(pageAddress);
 		int *position = &(_pageGOC[index]);
 		int value = *position;
-		int newValue = value - increment;
+		int newValue = value - decrement;
 		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
 				(unsigned int)value) != (unsigned int)value){
 			value = *position;
-			newValue = value - increment;
+			newValue = value - decrement;
 		}
 		return (unsigned int)newValue;
 	}
 
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
-		increaseBy(increment);
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 		int value = *position;
@@ -1090,7 +1089,6 @@ public:
 	}
 
 	unsigned int decrementIndex_Atomic(int decrement, void* pageAddress){
-		decreaseBy(decrement);
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 		int value = *position;
