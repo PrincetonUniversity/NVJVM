@@ -773,13 +773,9 @@ public:
 
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
-		printf("Values::");
 		for (index = 0; index < _numberPartitions; index++){
 			sum += _partitionGOC[index];
-			if(_partitionGOC[index] != 0)
-				printf("(%d -> %d),", index, _partitionGOC[index]);
 		}
-		printf("\n");
 		return sum;
 	}
 
