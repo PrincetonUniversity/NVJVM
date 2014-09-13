@@ -105,6 +105,8 @@ void* Universe::_heapBase = NULL;
 size_t Universe::_heapSize = 0;
 void* Universe::_pageTableBase = NULL;
 size_t Universe::_pageTableSize = 0;
+int Universe::_increments = 0;
+int Universe::_decrements = 0;
 
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;
@@ -723,7 +725,7 @@ size_t Universe::totalGreyObjectCount(){
 		exit (-1);
 	}
 #endif
-
+	printf("Universe::Increments %d, Decrements %d.\n", _increments, _decrements);
 	return count;
 }
 
@@ -779,6 +781,7 @@ bool Universe::isPresent(void *pageAddress){
 }
 
 u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
+	_increments++;
 	u_jbyte *position = (u_jbyte *)getPageTablePosition(address);
 	u_jbyte value = *position;
 	u_jbyte origValue = value;
@@ -800,6 +803,7 @@ u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 u_jbyte Universe::clearGreyObjectCount(void *address){
 	u_jbyte *position = (u_jbyte *)getPageTablePosition(address);
 	u_jbyte oldVal = (u_jbyte)*position;
+	_decrements += *position;
 	*position = 0;
 	return oldVal;
 }

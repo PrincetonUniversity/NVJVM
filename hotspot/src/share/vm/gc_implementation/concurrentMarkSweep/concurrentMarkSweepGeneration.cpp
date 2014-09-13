@@ -4416,11 +4416,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		}
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
+		if(pageIndex != -1){
 #if OCMS_NO_GREY_LOG
 		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
-		if(pageIndex != -1){
-//			_cmsMetrics->pageAccessed(pageIndex);
+		  //_cmsMetrics->pageAccessed(pageIndex);
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 			currentPartitionIndex = spanPartition->getPartitionIndexFromPage(pageIndex);
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);

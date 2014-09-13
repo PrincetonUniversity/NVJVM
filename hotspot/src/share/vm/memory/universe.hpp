@@ -288,6 +288,8 @@ class Universe: AllStatic {
   static size_t _heapSize;     // the size of the heap in bytes
   static void* _pageTableBase; // the base location of the page table
   static size_t _pageTableSize; // size of the page table in bytes == number of pages in the heap
+  static int _increments;
+  static int _decrements;
 
   static void setHeapBase(void* start)                  { _heapBase = start;}
   static void setHeapSize(size_t size)					{ _heapSize = size; }
