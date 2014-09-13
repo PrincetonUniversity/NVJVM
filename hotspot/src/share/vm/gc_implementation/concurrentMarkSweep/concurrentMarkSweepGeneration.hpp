@@ -714,10 +714,6 @@ class PartitionMetaData : public CHeapObj {
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	bool* _partitionMap;
-	// The size of each of the partitions.
-	int _partitionSize;
-	void* _heapBase;
-
 
 // Message States Used
 	enum MessageState {
@@ -853,7 +849,7 @@ public:
 		// All the indexes are now relative to the base of the span start now.
 		void *getPageBase(int pageIndex){
 			return ((void *)
-				(uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE)
+				((uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE))
 			);
 		}
 
@@ -873,11 +869,10 @@ public:
 				}
 				int index = getPartitionStart(partitionIndex), count, greyCount;
 				int largestGreyCount = 0, lPIndex = -1;
-				int *position = _pageGOC[index];
 				for(count = 0;
 						count < getPartitionSize(partitionIndex);
-						count++, index++, position++){
-					greyCount = (int)(*position);  // Get the grey count of the page
+						count++, index++){
+					greyCount = _pageGOC[index];  // Get the grey count of the page
 					if((largestGreyCount < greyCount) && (vec[count] & 1 == 1)){
 					   largestGreyCount = greyCount;
 					   lPIndex = index;
@@ -885,11 +880,10 @@ public:
 				}
 				if(lPIndex == -1){
 					index = getPartitionStart(partitionIndex);
-					position = _pageGOC[index];
 					for(count = 0;
 						count < getPartitionSize(partitionIndex);
-						count++, index++, position++){
-						greyCount = (int)(*position);  // Get the grey count of the page
+						count++, index++){
+						greyCount = _pageGOC[index];  		// Get the grey count of the page
 						if((largestGreyCount < greyCount)){
 						   largestGreyCount = greyCount;
 						   lPIndex = index;
