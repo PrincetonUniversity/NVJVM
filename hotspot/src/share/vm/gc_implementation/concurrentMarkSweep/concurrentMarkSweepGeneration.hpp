@@ -867,13 +867,13 @@ public:
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 		int value = *position;
-		int origValue = value;
 		int newValue = value - decrement;
 		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
 				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value - decrement;
 		}
+		printf("Value before %d, after %d.\n", value, newValue);
 		return (unsigned int)newValue;
 	}
 
