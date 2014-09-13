@@ -140,6 +140,7 @@ void SafepointSynchronize::begin() {
 
   // Set number of threads to wait for, before we initiate the callbacks
   _waiting_to_block = nof_threads;
+  printf("Number of active threads %d.\n", nof_threads);
   TryingToBlock     = 0 ;
   int still_running = nof_threads;
 
