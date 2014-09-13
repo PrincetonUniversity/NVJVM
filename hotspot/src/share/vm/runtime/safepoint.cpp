@@ -99,7 +99,7 @@ static bool timeout_error_printed = false;
 
 // Roll all threads forward to a safepoint and suspend them all
 void SafepointSynchronize::begin() {
-  printf("In Beging Synch.\n");
+  printf("In Begin Synch.\n");
   Thread* myThread = Thread::current();
   assert(myThread->is_VM_thread(), "Only VM thread may execute a safepoint");
 
@@ -117,10 +117,12 @@ void SafepointSynchronize::begin() {
     ConcurrentGCThread::safepoint_synchronize();
   }
 #endif // SERIALGC
+  printf("Acquiring thread lock.\n");
 
   // By getting the Threads_lock, we assure that no threads are about to start or
   // exit. It is released again in SafepointSynchronize::end().
   Threads_lock->lock();
+  printf("Acquired thread lock.\n");
 
   assert( _state == _not_synchronized, "trying to safepoint synchronize with wrong state");
 

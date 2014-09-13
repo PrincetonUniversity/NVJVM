@@ -225,6 +225,7 @@ void ConcurrentMarkSweepThread::print_all_on(outputStream* st) {
 }
 
 void ConcurrentMarkSweepThread::synchronize(bool is_cms_thread) {
+  printf("ConcurrentMarkSweepThread::synchronize() method.\n");
   assert(UseConcMarkSweepGC, "just checking");
 
   MutexLockerEx x(CGC_lock,
@@ -235,6 +236,7 @@ void ConcurrentMarkSweepThread::synchronize(bool is_cms_thread) {
     while (CMS_flag_is_set(CMS_cms_has_token)) {
       // indicate that we want to get the token
       set_CMS_flag(CMS_vm_wants_token);
+      printf("Waiting on the CGC_lock.\n");
       CGC_lock->wait(true);
     }
     // claim the token and proceed
