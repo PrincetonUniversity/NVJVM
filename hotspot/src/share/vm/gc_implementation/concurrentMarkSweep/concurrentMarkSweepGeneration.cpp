@@ -4212,6 +4212,11 @@ void CMSConcMarkingTask::masterThreadWork(){
 		// If the grey object count reduces below a certain threshold, boy, it is time to
 		// stop the mutator threads, bring them to a safepoint.
 		if(greyObjectCount < countThreshold){
+
+#if OCMS_NO_GREY_LOG
+			printf("Grey Object Count (%d) < Threshold. "
+					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
+#endif
 			// We here start the OCMS mark operation. This operation brings the mutator threads to a safepoint.
 			  VM_OCMS_Mark ocms_mark_op(_collector);
 	          VMThread::execute(&ocms_mark_op);
@@ -4261,6 +4266,7 @@ void CMSConcMarkingTask::work(int i) {
 	  masterThreadWork();
 	  return;
   }
+
   elapsedTimer _timer;
   ResourceMark rm;
   HandleMark hm;
@@ -4397,6 +4403,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		}
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
+#if OCMS_NO_GREY_LOG
+		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
+#endif
 		if(pageIndex != -1){
 //			_cmsMetrics->pageAccessed(pageIndex);
 			// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
