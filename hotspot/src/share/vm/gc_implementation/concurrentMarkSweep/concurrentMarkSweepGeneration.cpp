@@ -4426,7 +4426,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			pageAddress = Universe::getPageBaseFromIndex(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-			__u_clear(pageAddress, (jbyte *)&oldValue);
+//			__u_clear(pageAddress, (jbyte *)&oldValue);
+			oldValue = (int)Universe::clearGreyObjectCount(pageAddress);
 // On clearing the page level grey object count the chunk level grey object count gets cleared
 			_collector->decGreyObj(pageAddress, (int)oldValue);
 			// Getting the space wherein the page lies

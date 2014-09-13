@@ -856,14 +856,14 @@ public:
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
-				int value = *position;
-				int newValue = value + increment;
-				while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-						(unsigned int)value) != (unsigned int)value){
-					value = *position;
-					newValue = value + increment;
-				}
-				return (unsigned int)newValue;
+		int value = *position;
+		int newValue = value + increment;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
+			value = *position;
+			newValue = value + increment;
+		}
+		return (unsigned int)newValue;
 	}
 
 	unsigned int decrementIndex_Atomic(int decrement, void* pageAddress){

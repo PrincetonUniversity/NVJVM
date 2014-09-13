@@ -797,6 +797,12 @@ u_jbyte Universe::incrementGreyObjectCount_Atomic(void *address){
 	return (u_jbyte)newValue;
 }
 
+u_jbyte Universe::clearGreyObjectCount(void *address){
+	u_jbyte *position = (u_jbyte *)getPageTablePosition(address);
+	u_jbyte oldVal = (u_jbyte)*position;
+	*position = 0;
+}
+
 u_jbyte Universe::clearGreyObjectCount_Atomic(void *address, jbyte *oldValue){
 	jbyte *position = (jbyte *)getPageTablePosition(address);
 	jbyte value = *position;

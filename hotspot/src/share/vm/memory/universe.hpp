@@ -312,6 +312,7 @@ class Universe: AllStatic {
   static u_jbyte incrementGreyObjectCount_Atomic(void *pageAddress);
   static u_jbyte decrementGreyObjectCount_Atomic(void *pageAddress);
   static u_jbyte clearGreyObjectCount_Atomic(void *pageAddress, jbyte *oldValue);
+  static u_jbyte clearGreyObjectCount(void *pageAddress);
   static u_jbyte getGreyObjectCount(void *address);
 
 
