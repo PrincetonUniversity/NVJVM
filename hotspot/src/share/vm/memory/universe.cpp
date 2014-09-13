@@ -812,8 +812,14 @@ u_jbyte Universe::clearGreyObjectCount_Atomic(void *address, jbyte *oldValue){
 		  exit(-1);
 	}
 #endif
-	if(oldValue != NULL)
+	if(oldValue != NULL){
 		*oldValue = value;
+		if(value == 0)
+			printf("On decrementing Value = %d.\n", (int)value);
+	} else {
+		printf("oldValue == NULL");
+		exit(-1);
+	}
 	return (u_jbyte)newValue;
 }
 
