@@ -4132,7 +4132,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     // Allocating a new span partition
     _spanPartition = new SpanPartition(_collector->_span);
     _cmsMetrics = new CMSMetrics();
-    _MasterThreadId = 1;
+    _MasterThreadId = 0;
     _partitionMetaData = _collector->getPartitionMetaData();
   }
 
@@ -4428,6 +4428,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 //			__u_clear(pageAddress, (jbyte *)&oldValue);
 			oldValue = (int)Universe::clearGreyObjectCount(pageAddress);
+			if(oldValue == 0){
+				printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");
+				exit (-1);
+			}
 // On clearing the page level grey object count the chunk level grey object count gets cleared
 			_collector->decGreyObj(pageAddress, (int)oldValue);
 			// Getting the space wherein the page lies
