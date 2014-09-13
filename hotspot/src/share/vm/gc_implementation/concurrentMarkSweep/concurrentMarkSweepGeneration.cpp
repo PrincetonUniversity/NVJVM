@@ -3943,7 +3943,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
  public:
   void masterThreadWork();
   CMSMetrics* getMetrics() { return _cmsMetrics; }
-  SpanPartition* getSpanPartition() { return _spanPartition; }
 
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
   // Values returned by the iterate() methods.
@@ -3970,7 +3969,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
            "Finger incorrectly initialized below");
     _restart_addr = _global_finger = _cms_space->bottom();
     // Allocating a new span partition
-    _spanPartition = new SpanPartition(_collector->_span);
     _cmsMetrics = new CMSMetrics();
     _MasterThreadId = 0;
     _partitionMetaData = _collector->getPartitionMetaData();
