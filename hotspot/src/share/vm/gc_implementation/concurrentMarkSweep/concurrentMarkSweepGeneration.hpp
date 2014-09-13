@@ -773,9 +773,12 @@ public:
 
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
+		printf("Values::");
 		for (index = 0; index < _numberPartitions; index++){
 			sum += _partitionGOC[index];
+			printf("%d", _partitionGOC[index]);
 		}
+		printf("\n");
 		return sum;
 	}
 
@@ -853,7 +856,6 @@ public:
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 				int value = *position;
-				int origValue = value;
 				int newValue = value + increment;
 				while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
 						(unsigned int)value) != (unsigned int)value){
@@ -874,7 +876,7 @@ public:
 			newValue = value - decrement;
 		}
 #if OCMS_NO_GREY_ASSERT
-		if(newValue < 0){
+		if(*position < 0){
 			printf("Something is wrong since the value after decrementing is lesser than zero. \n");
 		}
 #endif
