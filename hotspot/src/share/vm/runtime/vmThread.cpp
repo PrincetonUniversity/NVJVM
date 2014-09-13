@@ -553,6 +553,7 @@ void VMThread::loop() {
 }
 
 void VMThread::execute(VM_Operation* op) {
+  printf("In VMThread::execute(). \n");
   Thread* t = Thread::current();
 
   if (!t->is_VM_thread()) {
@@ -611,6 +612,7 @@ void VMThread::execute(VM_Operation* op) {
     }
   } else {
     // invoked by VM thread; usually nested VM operation
+	printf("Current Thread is a VM Thread.\n");
     assert(t->is_VM_thread(), "must be a VM thread");
     VM_Operation* prev_vm_operation = vm_operation();
     if (prev_vm_operation != NULL) {
@@ -628,7 +630,7 @@ void VMThread::execute(VM_Operation* op) {
     // Release all internal handles after operation is evaluated
     HandleMark hm(t);
     _cur_vm_operation = op;
-
+    printf("Evaluating is at safepoint, before we begin the synchronization process.")
     if (op->evaluate_at_safepoint() && !SafepointSynchronize::is_at_safepoint()) {
       SafepointSynchronize::begin();
       op->evaluate();

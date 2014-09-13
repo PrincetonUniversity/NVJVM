@@ -99,7 +99,7 @@ static bool timeout_error_printed = false;
 
 // Roll all threads forward to a safepoint and suspend them all
 void SafepointSynchronize::begin() {
-
+  printf("In Beging Synch.\n");
   Thread* myThread = Thread::current();
   assert(myThread->is_VM_thread(), "Only VM thread may execute a safepoint");
 
