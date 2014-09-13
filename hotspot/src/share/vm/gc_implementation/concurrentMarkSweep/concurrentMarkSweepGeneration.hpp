@@ -956,7 +956,9 @@ public:
 		for (index = 0; index < _numberPartitions; index++){
 			sum += _partitionGOC[index];
 		}
+#if	OCMS_NO_GREY_LOG_HIGH
 		printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
+#endif
 		return sum;
 	}
 
