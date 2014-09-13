@@ -74,7 +74,7 @@
 	Universe::getPageIndex(p)
 
 #define __numPages(top, bot) \
-		(((long)__page_start(top) - (long)__page_start(bot))/(_PAGE_SIZE)) + 1
+		(((uintptr_t)__page_start(top) - (uintptr_t)__page_start(bot))/(_PAGE_SIZE)) + 1
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
@@ -757,9 +757,10 @@ public:
 
 	PartitionMetaData(CMSCollector* cmsCollector){
 		_collector = cmsCollector;
+		_span = cmsCollector->getSpan();
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
-		int numberPages = __numPages((void *)_span.last(), (void *)_span.start());
+		int numberPages = __numPages(_span.last(), _span.start());
 		_partitionSize = (int)numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
@@ -1047,6 +1048,10 @@ class CMSCollector: public CHeapObj {
     FinalMarking        = 7,
     Sweeping            = 8
   };
+
+  MemRegion getSpan(){
+	  return _span;
+  }
 
   PartitionMetaData* getPartitionMetaData(){
 	return _partitionMetaData;

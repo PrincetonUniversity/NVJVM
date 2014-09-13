@@ -4197,6 +4197,7 @@ void CMSConcMarkingTerminator::yield() {
 }
 // This is the code that is used by the master thread
 void CMSConcMarkingTask::masterThreadWork(){
+	printf("I am the master thread ......... Now active ...... ");
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	MasterThreadState masterThreadState = INITIAL;
