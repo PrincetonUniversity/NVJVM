@@ -692,6 +692,8 @@ class ChunkList : public CHeapObj  {
 };
 
 class PartitionMetaData : public CHeapObj {
+	int totalDecrements;
+	int totalIncrements;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
 // Total number of partitions
@@ -716,6 +718,12 @@ class PartitionMetaData : public CHeapObj {
 	};
 
 public:
+	void decreaseBy(int count){
+		totalDecrements +=  count;
+	}
+	void increaseBy(int count){
+		totalIncrements += count;
+	}
 	// Methods for setting the message state
 	void setMessageState (MessageState state){
 		_message[0] = (int)state;
@@ -769,6 +777,8 @@ public:
 		_idleThreadCount[0] = 0;
 		setToWork();
 		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
+		totalDecrements = 0;
+		totalDecrements = 0;
 	}
 
 	int getTotalGreyObjectsChunkLevel(){
@@ -776,6 +786,7 @@ public:
 		for (index = 0; index < _numberPartitions; index++){
 			sum += _partitionGOC[index];
 		}
+		printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
 		return sum;
 	}
 
@@ -850,6 +861,7 @@ public:
 	}
 
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
+		increaseBy(increment);
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 		int value = *position;
@@ -863,6 +875,7 @@ public:
 	}
 
 	unsigned int decrementIndex_Atomic(int decrement, void* pageAddress){
+		decreaseBy(decrement);
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
 		int value = *position;
