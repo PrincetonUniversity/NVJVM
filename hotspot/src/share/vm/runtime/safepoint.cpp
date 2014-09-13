@@ -225,6 +225,7 @@ void SafepointSynchronize::begin() {
   // Iterate through all threads until it have been determined how to stop them all at a safepoint
   unsigned int iterations = 0;
   int steps = 0 ;
+  printf("Stopping the different running threads. Still Running %d.\n", still_running);
   while(still_running > 0) {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
@@ -330,6 +331,7 @@ void SafepointSynchronize::begin() {
       iterations ++ ;
     }
     assert(iterations < (uint)max_jint, "We have been iterating in the safepoint loop too long");
+    printf("Threads still running %d.\n", still_running);
   }
   assert(still_running == 0, "sanity check");
 
