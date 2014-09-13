@@ -73,6 +73,9 @@
 #define __pageIndex(p) \
 	Universe::getPageIndex(p)
 
+#define __numPages(top, bot) \
+		(((long)__page_start(top) - (long)__page_start(bot))/(_PAGE_SIZE)) + 1
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -756,7 +759,7 @@ public:
 		_collector = cmsCollector;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
-		int numberPages = Utility::getNumPages((void *)_span.last(), (void *)_span.start());
+		int numberPages = __numPages((void *)_span.last(), (void *)_span.start());
 		_partitionSize = (int)numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
