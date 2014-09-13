@@ -588,6 +588,8 @@ void SafepointSynchronize::block(JavaThread *thread) {
         // Decrement the number of threads to wait for and signal vm thread
         assert(_waiting_to_block > 0, "sanity check");
         _waiting_to_block--;
+        printf("Thread Id (%d) blocked. Waiting to block (%d).\n",
+        		os::current_thread_id(), _waiting_to_block);
         thread->safepoint_state()->set_has_called_back(true);
 
         // Consider (_waiting_to_block < 2) to pipeline the wakeup of the VM thread
