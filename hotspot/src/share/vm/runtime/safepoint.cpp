@@ -231,7 +231,7 @@ void SafepointSynchronize::begin() {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
       if(cur->is_Worker_thread()){
-    	  printf("Yes we are trying to stop worker threads also.\n");
+    	  printf("Yes we are trying to suspend worker threads also.\n");
       }
       ThreadSafepointState *cur_state = cur->safepoint_state();
       if (cur_state->is_running()) {
@@ -348,7 +348,9 @@ void SafepointSynchronize::begin() {
 	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
     if (!SafepointTimeout || timeout_error_printed) {
+      printf("Waiting on the safepoint_lock.\n");
       Safepoint_lock->wait(true);  // true, means with no safepoint checks
+      printf("Out of the wait on the safepoint_lock.\n");
     } else {
       // Compute remaining time
       jlong remaining_time = safepoint_limit_time - os::javaTimeNanos();
@@ -578,7 +580,7 @@ void SafepointSynchronize::block(JavaThread *thread) {
          Atomic::inc (&TryingToBlock) ;
       }
 
-      // We will always be holding the Safepoint_lock when we are examine the state
+      // We will always be holding the Safepoint_lock when we examine the state
       // of a thread. Hence, the instructions between the Safepoint_lock->lock() and
       // Safepoint_lock->unlock() are happening atomic with regards to the safepoint code
       Safepoint_lock->lock_without_safepoint_check();
