@@ -755,9 +755,9 @@ public:
 		);
 	}
 
-	PartitionMetaData(CMSCollector* cmsCollector){
+	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
 		_collector = cmsCollector;
-		_span = cmsCollector->getSpan();
+		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
 		int numberPages = __numPages(_span.last(), _span.start());

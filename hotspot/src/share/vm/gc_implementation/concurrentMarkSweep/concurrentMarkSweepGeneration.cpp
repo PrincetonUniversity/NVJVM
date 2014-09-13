@@ -604,7 +604,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     ExplicitGCInvokesConcurrent = true;
   }
 
-  _partitionMetaData = new PartitionMetaData(this);
+  _partitionMetaData = new PartitionMetaData(this, _span);
   // Creating the chunk
   _collectorChunkList = new ChunkList();
 
