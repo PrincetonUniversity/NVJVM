@@ -1062,7 +1062,7 @@ public:
 	}
 
 	unsigned int decrementIndex_AtomicPage(int decrement, void *pageAddress){
-		decreaseBy(increment);
+		decreaseBy(decrement);
 		int index = getPageIndexFromPageAddress(pageAddress);
 		int *position = &(_pageGOC[index]);
 		int value = *position;
