@@ -4205,8 +4205,9 @@ void CMSConcMarkingTerminator::yield() {
 // This is the code that is used by the master thread
 void CMSConcMarkingTask::masterThreadWork(){
 #if OCMS_NO_GREY_LOG
-	printf("I am the master thread ......... Now active ...... ");
+	printf("I am the master thread ......... Now active ......\n");
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
+	printf("Initial grey object count = %d.\n", Universe::totalGreyObjectCount());
 #endif
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
@@ -4415,7 +4416,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		// Getting the page index from the next partitionIndex
 		pageIndex = spanPartition->getPageFromNextPartition(currentPartitionIndex);
 #if OCMS_NO_GREY_LOG
-		printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
+		//printf("Thread %d, Scanning Page Index %d.\n", i, pageIndex);
 #endif
 		if(pageIndex != -1){
 //			_cmsMetrics->pageAccessed(pageIndex);
