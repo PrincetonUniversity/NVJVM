@@ -4051,6 +4051,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
+
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	MasterThreadState masterThreadState = INITIAL;
