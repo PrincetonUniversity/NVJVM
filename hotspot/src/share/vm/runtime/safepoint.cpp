@@ -107,13 +107,13 @@ void SafepointSynchronize::begin() {
     _safepoint_begin_time = os::javaTimeNanos();
     _ts_of_current_safepoint = tty->time_stamp().seconds();
   }
+bool isWorkerThread = myThread->is_Worker_thread();
 
 #ifndef SERIALGC
-  if (UseConcMarkSweepGC) {
+  if (UseConcMarkSweepGC && !isWorkerThread) {
     // In the future we should investigate whether CMS can use the
     // more-general mechanism below.  DLD (01/05).
-	bool isVMThread = !myThread->is_VM_thread();
-    ConcurrentMarkSweepThread::synchronize(isVMThread);
+    ConcurrentMarkSweepThread::synchronize(false);
   } else if (UseG1GC) {
     ConcurrentGCThread::safepoint_synchronize();
   }
@@ -344,6 +344,7 @@ void SafepointSynchronize::begin() {
   while (_waiting_to_block > 0) {
 	for (JavaThread *curr = Threads::first(); curr != NULL; curr = curr->next()) {
 	       ThreadSafepointState *current_state = curr->safepoint_state();
+
 	       printf("Current State of thread %d, id = %u.\n",current_state->type(), curr->osthread()->thread_id());
 	}
 	printf("Waiting to block %d.\n", _waiting_to_block);
