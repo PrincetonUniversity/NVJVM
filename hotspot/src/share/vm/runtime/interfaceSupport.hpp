@@ -133,6 +133,7 @@ class ThreadStateTransition : public StackObj {
   // Change threadstate in a manner, so safepoint can detect changes.
   // Time-critical: called on exit from every runtime routine
   static inline void transition(JavaThread *thread, JavaThreadState from, JavaThreadState to) {
+	printf("Transition called for thread Id = %u.\n", thread->osthread()->thread_id());
     assert(from != _thread_in_Java, "use transition_from_java");
     assert(from != _thread_in_native, "use transition_from_native");
     assert((from & 1) == 0 && (to & 1) == 0, "odd numbers are transitions states");
@@ -152,6 +153,7 @@ class ThreadStateTransition : public StackObj {
     }
 
     if (SafepointSynchronize::do_call_back()) {
+      printf("Blocking called for thread Id = %u.\n", thread->osthread()->thread_id());
       SafepointSynchronize::block(thread);
     }
     thread->set_thread_state(to);
