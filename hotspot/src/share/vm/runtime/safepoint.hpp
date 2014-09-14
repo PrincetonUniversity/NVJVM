@@ -138,6 +138,10 @@ public:
 
   static bool safepoint_safe(JavaThread *thread, JavaThreadState state);
 
+  static volatile SynchronizeState getSafepointState(){
+	  return _state;
+  }
+
   // Query
   inline static bool is_at_safepoint()   { return _state == _synchronized;  }
   inline static bool is_synchronizing()  { return _state == _synchronizing;  }
@@ -146,7 +150,7 @@ public:
     return (_state != _not_synchronized);
   }
 
-  // Called when a thread volantary blocks
+  // Called when a thread voluntarily blocks
   static void   block(JavaThread *thread);
   static void   signal_thread_at_safepoint()              { _waiting_to_block--; }
 

@@ -127,7 +127,7 @@ void VM_CMS_Operation::doit_epilogue() {
 void VM_OCMS_Mark::doit(){
 
 #if OCMS_NO_GREY_LOG
-	printf("In VM_OCMS_Mark::doit().\n");
+	printf("In VM_OCMS_Mark::doit(). Abstract State = %d.\n", CMSCollector::abstract_state());
 #endif
 	// The master thread can now scan the dirty card bitmap and mark the pages on them as free
 	IsGCActiveMark x; // stop-world GC active

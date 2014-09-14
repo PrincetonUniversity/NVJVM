@@ -351,6 +351,9 @@ bool isWorkerThread = myThread->is_Worker_thread();
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
     if (!SafepointTimeout || timeout_error_printed) {
       printf("Waiting on the safepoint_lock.\n");
+      printf("SafepointSynchronize state ==> %d."
+    		  "_not_synchronized = 0,_synchronizing = 1,_synchronized = 2"
+    		  "\n", SafepointSynchronize::getSafepointState());
       Safepoint_lock->wait(true);  // true, means with no safepoint checks
       printf("Out of the wait on the safepoint_lock.\n");
     } else {
