@@ -345,6 +345,10 @@ void SafepointSynchronize::begin() {
 
   // wait until all threads are stopped
   while (_waiting_to_block > 0) {
+	for (JavaThread *curr = Threads::first(); curr != NULL; curr = curr->next()) {
+	       ThreadSafepointState *current_state = curr->safepoint_state();
+	       printf("Current State of thread %d.\n",current_state->type());
+	}
 	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
     if (!SafepointTimeout || timeout_error_printed) {
@@ -588,7 +592,7 @@ void SafepointSynchronize::block(JavaThread *thread) {
         // Decrement the number of threads to wait for and signal vm thread
         assert(_waiting_to_block > 0, "sanity check");
         _waiting_to_block--;
-        printf("Thread Id (%d) blocked. Waiting to block (%d).\n",
+        printf("Thread Id (%u) blocked. Waiting to block (%u).\n",
         		os::current_thread_id(), _waiting_to_block);
         thread->safepoint_state()->set_has_called_back(true);
 
