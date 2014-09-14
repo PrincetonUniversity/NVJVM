@@ -163,7 +163,7 @@ bool isWorkerThread = myThread->is_Worker_thread();
   //
   //  1. Running interpreted
   //     The interpeter dispatch table is changed to force it to
-  //     check for a safepoint condition between bytecodes.
+  //     check for a safepoint condition between	 bytecodes.
   //  2. Running in native code
   //     When returning from the native code, a Java thread must check
   //     the safepoint _state to see if we must block.  If the

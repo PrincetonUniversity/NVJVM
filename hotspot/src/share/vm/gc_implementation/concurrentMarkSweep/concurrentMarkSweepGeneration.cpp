@@ -4074,6 +4074,7 @@ void CMSConcMarkingTask::masterThreadWork(){
 					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
 #endif
 			// We here start the OCMS mark operation. This operation brings the mutator threads to a safepoint.
+			  ReleaseForegroundGC x(_collector);
 			  VM_OCMS_Mark ocms_mark_op(_collector);
 	          VMThread::execute(&ocms_mark_op);
 	          break;
