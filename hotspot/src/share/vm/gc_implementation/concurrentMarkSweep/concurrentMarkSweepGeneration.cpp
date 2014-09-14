@@ -4798,6 +4798,8 @@ bool CMSCollector::do_marking_mt(bool asynch) {
                   _restart_addr);
     _restart_addr = NULL;
     // Get the workers going again
+    	Thread* t = Thread::current();
+    	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
     conc_workers()->start_task(&tsk);
     while (tsk.yielded()) {
       tsk.coordinator_yield();
