@@ -230,9 +230,6 @@ void SafepointSynchronize::begin() {
   while(still_running > 0) {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
-      if(cur->is_Worker_thread()){
-    	  printf("Yes we are trying to suspend worker threads also.\n");
-      }
       ThreadSafepointState *cur_state = cur->safepoint_state();
       if (cur_state->is_running()) {
         cur_state->examine_state_of_thread();
@@ -347,7 +344,7 @@ void SafepointSynchronize::begin() {
   while (_waiting_to_block > 0) {
 	for (JavaThread *curr = Threads::first(); curr != NULL; curr = curr->next()) {
 	       ThreadSafepointState *current_state = curr->safepoint_state();
-	       printf("Current State of thread %d.\n",current_state->type());
+	       printf("Current State of thread %d, id = %u.\n",current_state->type(), curr->osthread()->thread_id());
 	}
 	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
