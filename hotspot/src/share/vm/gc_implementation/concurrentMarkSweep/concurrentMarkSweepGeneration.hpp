@@ -1292,7 +1292,7 @@ class CMSCollector: public CHeapObj {
   };
 
   void triggerTask(CMSConcMarkingTask *tsk);
-  CMSConcMarkingTask* getOCMSMarkTask();
+  CMSConcMarkingTask getOCMSMarkTask();
 
   MemRegion getSpan(){
 	  return _span;

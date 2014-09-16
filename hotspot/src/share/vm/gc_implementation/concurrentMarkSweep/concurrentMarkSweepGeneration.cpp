@@ -2346,8 +2346,8 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
-          CMSConcMarkingTask* tsk2 = getOCMSMarkTask();
-          VM_OCMS_Mark ocms_mark_op(this, tsk2);
+          CMSConcMarkingTask tsk2 = getOCMSMarkTask();
+          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
           VMThread::execute(&ocms_mark_op);
 
 //          VM_CMS_Final_Remark final_remark_op(this);
@@ -4039,7 +4039,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   bool shouldStop();
 };
 
-CMSConcMarkingTask* CMSCollector::getOCMSMarkTask(){
+CMSConcMarkingTask CMSCollector::getOCMSMarkTask(){
 	 CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
 	 CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
 	 CMSConcMarkingTask tsk2(this,
@@ -4049,7 +4049,7 @@ CMSConcMarkingTask* CMSCollector::getOCMSMarkTask(){
 							  conc_workers(),
 							  task_queues());
 	 tsk2.setTaskId(1);
-	 return &tsk2;
+	 return tsk2;
 }
 
 bool CMSConcMarkingTerminatorTerminator::should_exit_termination() {
