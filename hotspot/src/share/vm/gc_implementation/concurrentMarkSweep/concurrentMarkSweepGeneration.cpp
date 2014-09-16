@@ -4387,7 +4387,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	} while(_partitionMetaData->isSetToYield() == false);
 
 #if OCMS_NO_GREY_LOG
-	printf("Yielding thread. Id = %d.\n", id);
+	printf("Yielding thread. Id = %d.\n", i);
 #endif
 
 }
