@@ -153,8 +153,8 @@ class ThreadStateTransition : public StackObj {
 
     if (SafepointSynchronize::do_call_back()) {
       Thread* currT = Thread::current();
-      printf("Transition called by thread Id = %u.\n", currT->osthread()->thread_id());
-      printf("Blocking called for thread Id = %u.\n", thread->osthread()->thread_id());
+//      printf("Transition called by thread Id = %u.\n", currT->osthread()->thread_id());
+//      printf("Blocking called for thread Id = %u.\n", thread->osthread()->thread_id());
       SafepointSynchronize::block(thread);
     }
     thread->set_thread_state(to);

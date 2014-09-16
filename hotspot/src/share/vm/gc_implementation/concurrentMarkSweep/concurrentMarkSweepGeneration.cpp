@@ -3947,7 +3947,16 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
-          CMSConcMarkingTask tsk2 = getOCMSMarkTask();
+
+          CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
+          CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+          CMSConcMarkingTask tsk2(this,
+          							  cms_space,
+          							  perm_space,
+          							  false,
+          							  conc_workers(),
+          							  task_queues());
+          tsk2.setTaskId(1);
           VM_OCMS_Mark ocms_mark_op(this, &tsk2);
           VMThread::execute(&ocms_mark_op);
 
@@ -4041,19 +4050,6 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
   }
 }
 
-CMSConcMarkingTask CMSCollector::getOCMSMarkTask(){
-	 CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
-	 CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
-	 CMSConcMarkingTask tsk2(this,
-							  cms_space,
-							  perm_space,
-							  false,
-							  conc_workers(),
-							  task_queues());
-	 tsk2.setTaskId(1);
-	 return tsk2;
-}
-
 bool CMSConcMarkingTerminatorTerminator::should_exit_termination() {
   assert(_task != NULL, "Error");
   return _task->yielding();
@@ -4137,7 +4133,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setToWork();
 				}
 			}
-				printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+//			printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
 			usleep(1000);
 		}
 }
