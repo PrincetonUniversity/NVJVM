@@ -1007,6 +1007,7 @@ public:
 			exit(-1);
 		}
 #endif
+		printf("Value after incrementing the thread count = %d.\n", newValue);
 		return (int)newValue;
 	}
 
