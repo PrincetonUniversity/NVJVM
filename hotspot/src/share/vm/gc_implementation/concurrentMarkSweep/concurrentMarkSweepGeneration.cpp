@@ -4332,6 +4332,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 		_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
 // if yes then the count of the number of waiting threads is automatically incremented
 			while(_partitionMetaData->isSetToWait()){
+				printf("Flag Set To = %d. \n", _partitionMetaData->getFlag());
 				usleep(100);
 			}
 // If we find that the master thread has asked us to terminate then we can simply break

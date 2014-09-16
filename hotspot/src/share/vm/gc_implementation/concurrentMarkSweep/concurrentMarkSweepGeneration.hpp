@@ -725,6 +725,10 @@ class PartitionMetaData : public CHeapObj {
 
 public:
 
+	int getFlag(){
+		return _message[0];
+	}
+
 	int getIdleThreadCount(){
 		return _idleThreadCount[0];
 	}
