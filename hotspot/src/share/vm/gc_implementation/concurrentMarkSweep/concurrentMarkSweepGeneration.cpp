@@ -4116,20 +4116,21 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	while(true){
 		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
-	#if OCMS_NO_GREY_LOG
+#if OCMS_NO_GREY_LOG
 				printf("Setting a signal to all the threads to wait/become idle.\n");
-	#endif
+#endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
 				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
 				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
-					printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
+					usleep(100);
+					//printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
 				}
 				printf("All threads suspended.\n");
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
-	#if OCMS_NO_GREY_LOG
+#if OCMS_NO_GREY_LOG
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
-	#endif
+#endif
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
 					break; // The master thread can now exit
@@ -4143,10 +4144,10 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 			}
 			usleep(1000);
 		}
-	yield();
 #if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
 #endif
+	yield();
 }
 
 // This is the code that is used by the master thread
@@ -4330,7 +4331,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #endif
 		_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
 // if yes then the count of the number of waiting threads is automatically incremented
-			while(_partitionMetaData->isSetToWait());
+			while(_partitionMetaData->isSetToWait()){
+				usleep(100);
+			}
 // If we find that the master thread has asked us to terminate then we can simply break
 				if(_partitionMetaData->isSetToTerminate()){
 #if OCMS_NO_GREY_LOG
