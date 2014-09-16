@@ -2187,6 +2187,9 @@ class ReleaseForegroundGC: public StackObj {
   }
 };
 
+// Forward decl
+class CMSConcMarkingTask;
+
 // There are separate collect_in_background and collect_in_foreground because of
 // the different locking requirements of the background collector and the
 // foreground collector.  There was originally an attempt to share
@@ -3752,9 +3755,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   return result;
 }
 
-// Forward decl
-class CMSConcMarkingTask;
-
 class CMSConcMarkingTerminator: public ParallelTaskTerminator {
   CMSCollector*       _collector;
   CMSConcMarkingTask* _task;
@@ -4867,13 +4867,13 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 		  tsk.completed());
 #endif
 
-  CMSConcMarkingTask tsk2(this,
-                           cms_space,
-                           perm_space,
-                           asynch,
-                           conc_workers(),
-                           task_queues());
-  tsk2.setTaskId(1);
+//  CMSConcMarkingTask tsk2(this,
+//                           cms_space,
+//                           perm_space,
+//                           asynch,
+//                           conc_workers(),
+//                           task_queues());
+//  tsk2.setTaskId(1);
 #if OCMS_NO_GREY_LOG
   printf("Running the VM_OCMS_MARK Task here.\n");
 #endif
