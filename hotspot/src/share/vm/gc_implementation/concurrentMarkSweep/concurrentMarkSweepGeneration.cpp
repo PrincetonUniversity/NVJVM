@@ -2187,141 +2187,8 @@ class ReleaseForegroundGC: public StackObj {
   }
 };
 
-
-// MT Concurrent Marking Task
-class CMSConcMarkingTask: public YieldingFlexibleGangTask {
-  CMSCollector* _collector;
-  int           _n_workers;                  // requested/desired # workers
-  bool          _asynch;
-  bool          _result;
-  CompactibleFreeListSpace*  _cms_space;
-  CompactibleFreeListSpace* _perm_space;
-  char          _pad_front[64];   // padding to ...
-  HeapWord*     _global_finger;   // ... avoid sharing cache line
-  char          _pad_back[64];
-  HeapWord*     _restart_addr;
-  ChunkList* 	_chunkList;
-  CMSMetrics* _cmsMetrics;
-  int _MasterThreadId;
-  PartitionMetaData* _partitionMetaData;
-  int _taskId;
-
-  //  Exposed here for yielding support
-  Mutex* const _bit_map_lock;
-
-  // The per thread work queues, available here for stealing
-  OopTaskQueueSet*  _task_queues;
-
-  // Termination (and yielding) support
-  CMSConcMarkingTerminator _term;
-  CMSConcMarkingTerminatorTerminator _term_term;
-
-  enum MasterThreadState {
-	  INITIAL, // When the grey object count is lesser than threshold
-	  SIGNAL_PEND_MUT, // Signalled the mutator threads to stop
-	  SIGNAL_ACK_MUT, // All the mutator threads have stopped execution
-	  DIRTY_CARD_PROCESSING, // Marks the dirty cards into the grey object counts
-	  MONITORING_GREY_OBJECT_COUNT, // Monitors the grey object count, and if it is zero,
-	  SUSPENDING_COLLECTOR_THREADS, // signals the collector threads to become idle
-	  TERMINATED // When the collector threads are suspended and the grey object count = 0, the master gets terminated and
-	  // simultaneously suspends all the other collector threads, starting the mutator threads
-  };
-
- public:
-  void setTaskId(int id){
-	  _taskId = id;
-  }
-
-  int getTaskId(){
-	 return _taskId;
-  }
-
-  void masterThreadWork();
-  void masterThreadWorkFinal();
-  void masterThreadWorkInitial();
-  CMSMetrics* getMetrics() { return _cmsMetrics; }
-
-  bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
-  // Values returned by the iterate() methods.
-  enum CMSIterationStatus { incomplete, complete, full, would_overflow };
-  CMSConcMarkingTask(CMSCollector* collector,
-                 CompactibleFreeListSpace* cms_space,
-                 CompactibleFreeListSpace* perm_space,
-                 bool asynch,
-                 YieldingFlexibleWorkGang* workers,
-                 OopTaskQueueSet* task_queues):
-    YieldingFlexibleGangTask("Concurrent marking done multi-threaded"),
-    _collector(collector),
-    _cms_space(cms_space),
-    _perm_space(perm_space),
-    _asynch(asynch), _n_workers(0), _result(true),
-    _task_queues(task_queues),
-    _term(_n_workers, task_queues, _collector),
-    _bit_map_lock(collector->bitMapLock())
-  {
-    _requested_size = _n_workers;
-    _term.set_task(this);
-    _term_term.set_task(this);
-    assert(_cms_space->bottom() < _perm_space->bottom(),
-           "Finger incorrectly initialized below");
-    _restart_addr = _global_finger = _cms_space->bottom();
-    // Allocating a new span partition
-    _cmsMetrics = new CMSMetrics();
-    _MasterThreadId = 0;
-    _partitionMetaData = _collector->getPartitionMetaData();
-    _taskId = 0;
-  }
-
-  CompactibleFreeListSpace* getSpace(void *address) {
-	  if(_cms_space->is_in(address))
-		  return _cms_space;
-	  if(_perm_space->is_in(address))
-		  return _perm_space;
-	  return NULL;
-  }
-
-  OopTaskQueueSet* task_queues()  { return _task_queues; }
-
-  OopTaskQueue* work_queue(int i) { return task_queues()->queue(i); }
-
-  HeapWord** global_finger_addr() { return &_global_finger; }
-
-  CMSConcMarkingTerminator* terminator() { return &_term; }
-
-  virtual void set_for_termination(int active_workers) {
-    terminator()->reset_for_reuse(active_workers);
-  }
-
-  void work(int i);
-  bool should_yield() {
-    return    ConcurrentMarkSweepThread::should_yield()
-           && !_collector->foregroundGCIsActive()
-           && _asynch;
-  }
-
-  virtual void coordinator_yield();  // stuff done by coordinator
-  bool result() { return _result; }
-
-  void reset(HeapWord* ra) {
-    assert(_global_finger >= _cms_space->end(),  "Postcondition of ::work(i)");
-    assert(_global_finger >= _perm_space->end(), "Postcondition of ::work(i)");
-    assert(ra             <  _perm_space->end(), "ra too large");
-    _restart_addr = _global_finger = ra;
-    _term.reset_for_reuse();
-  }
-
-  static bool get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
-                                           OopTaskQueue* work_q);
-
- private:
-  void do_scan_and_mark(int i, CompactibleFreeListSpace* sp);
-  void do_work_steal(int i);
-  void bump_global_finger(HeapWord* f);
-  void do_scan_and_mark_OCMS(int i);
-  void do_scan_and_mark_OCMS_NO_GREY(int i);
-  bool shouldStop();
-};
-
+// Forward decl
+class CMSConcMarkingTask;
 
 // There are separate collect_in_background and collect_in_foreground because of
 // the different locking requirements of the background collector and the
@@ -2479,19 +2346,8 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
-
-          CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
-          CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
-
-          CMSConcMarkingTask tsk2(this,
-                                   cms_space,
-                                   perm_space,
-                                   false,
-                                   conc_workers(),
-                                   task_queues());
-          tsk2.setTaskId(1);
-
-          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+          CMSConcMarkingTask* tsk2 = getOCMSMarkTask();
+          VM_OCMS_Mark ocms_mark_op(this, tsk2);
           VMThread::execute(&ocms_mark_op);
 
 //          VM_CMS_Final_Remark final_remark_op(this);
@@ -4048,6 +3904,153 @@ class CMSMetrics: public CHeapObj {
 				_outOfCorePages, _totalPagesAccessed);
 	}
 };
+
+// MT Concurrent Marking Task
+class CMSConcMarkingTask: public YieldingFlexibleGangTask {
+  CMSCollector* _collector;
+  int           _n_workers;                  // requested/desired # workers
+  bool          _asynch;
+  bool          _result;
+  CompactibleFreeListSpace*  _cms_space;
+  CompactibleFreeListSpace* _perm_space;
+  char          _pad_front[64];   // padding to ...
+  HeapWord*     _global_finger;   // ... avoid sharing cache line
+  char          _pad_back[64];
+  HeapWord*     _restart_addr;
+  ChunkList* 	_chunkList;
+  CMSMetrics* _cmsMetrics;
+  int _MasterThreadId;
+  PartitionMetaData* _partitionMetaData;
+  int _taskId;
+
+  //  Exposed here for yielding support
+  Mutex* const _bit_map_lock;
+
+  // The per thread work queues, available here for stealing
+  OopTaskQueueSet*  _task_queues;
+
+  // Termination (and yielding) support
+  CMSConcMarkingTerminator _term;
+  CMSConcMarkingTerminatorTerminator _term_term;
+
+  enum MasterThreadState {
+	  INITIAL, // When the grey object count is lesser than threshold
+	  SIGNAL_PEND_MUT, // Signalled the mutator threads to stop
+	  SIGNAL_ACK_MUT, // All the mutator threads have stopped execution
+	  DIRTY_CARD_PROCESSING, // Marks the dirty cards into the grey object counts
+	  MONITORING_GREY_OBJECT_COUNT, // Monitors the grey object count, and if it is zero,
+	  SUSPENDING_COLLECTOR_THREADS, // signals the collector threads to become idle
+	  TERMINATED // When the collector threads are suspended and the grey object count = 0, the master gets terminated and
+	  // simultaneously suspends all the other collector threads, starting the mutator threads
+  };
+
+ public:
+  void setTaskId(int id){
+	  _taskId = id;
+  }
+
+  int getTaskId(){
+	 return _taskId;
+  }
+
+  void masterThreadWork();
+  void masterThreadWorkFinal();
+  void masterThreadWorkInitial();
+  CMSMetrics* getMetrics() { return _cmsMetrics; }
+
+  bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
+  // Values returned by the iterate() methods.
+  enum CMSIterationStatus { incomplete, complete, full, would_overflow };
+  CMSConcMarkingTask(CMSCollector* collector,
+                 CompactibleFreeListSpace* cms_space,
+                 CompactibleFreeListSpace* perm_space,
+                 bool asynch,
+                 YieldingFlexibleWorkGang* workers,
+                 OopTaskQueueSet* task_queues):
+    YieldingFlexibleGangTask("Concurrent marking done multi-threaded"),
+    _collector(collector),
+    _cms_space(cms_space),
+    _perm_space(perm_space),
+    _asynch(asynch), _n_workers(0), _result(true),
+    _task_queues(task_queues),
+    _term(_n_workers, task_queues, _collector),
+    _bit_map_lock(collector->bitMapLock())
+  {
+    _requested_size = _n_workers;
+    _term.set_task(this);
+    _term_term.set_task(this);
+    assert(_cms_space->bottom() < _perm_space->bottom(),
+           "Finger incorrectly initialized below");
+    _restart_addr = _global_finger = _cms_space->bottom();
+    // Allocating a new span partition
+    _cmsMetrics = new CMSMetrics();
+    _MasterThreadId = 0;
+    _partitionMetaData = _collector->getPartitionMetaData();
+    _taskId = 0;
+  }
+
+  CompactibleFreeListSpace* getSpace(void *address) {
+	  if(_cms_space->is_in(address))
+		  return _cms_space;
+	  if(_perm_space->is_in(address))
+		  return _perm_space;
+	  return NULL;
+  }
+
+  OopTaskQueueSet* task_queues()  { return _task_queues; }
+
+  OopTaskQueue* work_queue(int i) { return task_queues()->queue(i); }
+
+  HeapWord** global_finger_addr() { return &_global_finger; }
+
+  CMSConcMarkingTerminator* terminator() { return &_term; }
+
+  virtual void set_for_termination(int active_workers) {
+    terminator()->reset_for_reuse(active_workers);
+  }
+
+  void work(int i);
+  bool should_yield() {
+    return    ConcurrentMarkSweepThread::should_yield()
+           && !_collector->foregroundGCIsActive()
+           && _asynch;
+  }
+
+  virtual void coordinator_yield();  // stuff done by coordinator
+  bool result() { return _result; }
+
+  void reset(HeapWord* ra) {
+    assert(_global_finger >= _cms_space->end(),  "Postcondition of ::work(i)");
+    assert(_global_finger >= _perm_space->end(), "Postcondition of ::work(i)");
+    assert(ra             <  _perm_space->end(), "ra too large");
+    _restart_addr = _global_finger = ra;
+    _term.reset_for_reuse();
+  }
+
+  static bool get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
+                                           OopTaskQueue* work_q);
+
+ private:
+  void do_scan_and_mark(int i, CompactibleFreeListSpace* sp);
+  void do_work_steal(int i);
+  void bump_global_finger(HeapWord* f);
+  void do_scan_and_mark_OCMS(int i);
+  void do_scan_and_mark_OCMS_NO_GREY(int i);
+  bool shouldStop();
+};
+
+CMSConcMarkingTask* CMSCollector::getOCMSMarkTask(){
+	 CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
+	 CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+	 CMSConcMarkingTask tsk2(this,
+							  cms_space,
+							  perm_space,
+							  false,
+							  conc_workers(),
+							  task_queues());
+	 tsk2.setTaskId(1);
+	 return &tsk2;
+}
 
 bool CMSConcMarkingTerminatorTerminator::should_exit_termination() {
   assert(_task != NULL, "Error");
