@@ -614,7 +614,7 @@ void VMThread::execute(VM_Operation* op) {
     }
   } else {
     // invoked by VM thread; usually nested VM operation
-//	printf("Current Thread is a VM Thread.\n");
+    // printf("Current Thread is a VM Thread.\n");
     assert(t->is_VM_thread(), "must be a VM thread");
     VM_Operation* prev_vm_operation = vm_operation();
     if (prev_vm_operation != NULL) {

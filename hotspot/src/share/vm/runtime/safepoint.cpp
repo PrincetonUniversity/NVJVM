@@ -107,8 +107,8 @@ void SafepointSynchronize::begin() {
     _safepoint_begin_time = os::javaTimeNanos();
     _ts_of_current_safepoint = tty->time_stamp().seconds();
   }
-bool isWorkerThread = myThread->is_Worker_thread();
 
+  bool isWorkerThread = myThread->is_Worker_thread();
 #ifndef SERIALGC
   if (UseConcMarkSweepGC && !isWorkerThread) {
     // In the future we should investigate whether CMS can use the

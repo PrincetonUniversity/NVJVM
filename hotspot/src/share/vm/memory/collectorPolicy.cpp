@@ -543,7 +543,7 @@ HeapWord* GenCollectorPolicy::mem_allocate_work(size_t size,
 
   HeapWord* result = NULL;
 
-  // Loop until the allocation is satisified,
+  // Loop until the allocation is satisfied,
   // or unsatisfied after GC.
   for (int try_count = 1; /* return or throw */; try_count += 1) {
     HandleMark hm; // discard any handles allocated in each iteration
@@ -561,7 +561,9 @@ HeapWord* GenCollectorPolicy::mem_allocate_work(size_t size,
     }
     unsigned int gc_count_before;  // read inside the Heap_lock locked region
     {
+      printf("Acquiring Heap Lock Thread id = %u.\n", Thread::current()->osthread()->thread_id());
       MutexLocker ml(Heap_lock);
+      printf("Heap Lock Acquired Thread id = %u.\n", Thread::current()->osthread()->thread_id());
       if (PrintGC && Verbose) {
         gclog_or_tty->print_cr("TwoGenerationCollectorPolicy::mem_allocate_work:"
                       " attempting locked slow path allocation");
