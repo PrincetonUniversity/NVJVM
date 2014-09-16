@@ -213,6 +213,8 @@ void YieldingFlexibleWorkGang::yield() {
     // us to return at each potential yield point.
     return;
   }
+  printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
+		  _yielded_workers, finished_workers(), total_workers());
   if (++_yielded_workers + finished_workers() == total_workers()) {
     yielding_task()->set_status(YIELDED);
     monitor()->notify_all();
