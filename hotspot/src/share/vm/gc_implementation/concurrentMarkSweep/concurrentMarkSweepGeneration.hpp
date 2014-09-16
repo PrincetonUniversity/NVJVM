@@ -1392,6 +1392,7 @@ class CMSCollector: public CHeapObj {
     CMS_op_checkpointRootsFinal
   };
 
+ public:
   void do_CMS_operation(CMS_op_type op);
   bool stop_world_and_do(CMS_op_type op);
 
