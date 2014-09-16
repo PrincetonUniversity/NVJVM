@@ -3918,6 +3918,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSMetrics* _cmsMetrics;
   int _MasterThreadId;
   PartitionMetaData* _partitionMetaData;
+  int _taskId;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -3941,7 +3942,17 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   };
 
  public:
+  void setTaskId(int id){
+	  _taskId = id;
+  }
+
+  int getTaskId(){
+	 return _taskId;
+  }
+
   void masterThreadWork();
+  void masterThreadWorkFinal();
+  void masterThreadWorkInitial();
   CMSMetrics* getMetrics() { return _cmsMetrics; }
 
   bool handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure* cl);
@@ -3972,6 +3983,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     _cmsMetrics = new CMSMetrics();
     _MasterThreadId = 0;
     _partitionMetaData = _collector->getPartitionMetaData();
+    _taskId = 0;
   }
 
   CompactibleFreeListSpace* getSpace(void *address) {
@@ -4040,10 +4052,11 @@ void CMSConcMarkingTerminator::yield() {
     ParallelTaskTerminator::yield();
   }
 }
-// This is the code that is used by the master thread
-void CMSConcMarkingTask::masterThreadWork(){
+
+void CMSConcMarkingTask::masterThreadWorkInitial() {
 
 #if OCMS_NO_GREY_LOG
+	printf("In master thread work initial.\n");
 	Thread* t = Thread::current();
 	bool isWorkerThread = t->is_Worker_thread();
 	printf("I am the master thread .... Am I a worker ?? %d.\n", isWorkerThread);
@@ -4065,21 +4078,63 @@ void CMSConcMarkingTask::masterThreadWork(){
 			printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 					greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
-		// If the grey object count reduces below a certain threshold, boy, it is time to
-		// stop the mutator threads, bring them to a safepoint.
-		if(greyObjectCount < countThreshold){
+	}while(greyObjectCount > countThreshold);
 
 #if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d) < Threshold. "
 					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
 #endif
-			// We here start the OCMS mark operation. This operation brings the mutator threads to a safepoint.
-			  ReleaseForegroundGC x(_collector);
-			  VM_OCMS_Mark ocms_mark_op(_collector);
-	          VMThread::execute(&ocms_mark_op);
-	          break;
+	_partitionMetaData->setToYield();
+}
+
+void CMSConcMarkingTask::masterThreadWorkFinal(){
+
+#if OCMS_NO_GREY_LOG
+	printf("In master thread work final.\n");
+#endif
+	// After clearing the dirty card bit map mark, the master thread has to make sure
+	// that the collector threads come to a termination point.
+	// Currently, all the threads are in a working state.
+	while(true){
+			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
+	#if OCMS_NO_GREY_LOG
+				printf("Setting a signal to all the threads to wait/become idle.\n");
+	#endif
+				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
+
+				while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
+				// Threads are suspended now
+				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
+	#if OCMS_NO_GREY_LOG
+					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
+	#endif
+				// If yes, we have reached the termination point, we signal all the other threads to terminate too
+					_partitionMetaData->setToTerminate();
+					break; // The master thread can now exit
+				} else {
+					_partitionMetaData->setToWork();
+				}
+			}
+				printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+			usleep(1000);
 		}
-	}while(greyObjectCount > 0);
+}
+
+// This is the code that is used by the master thread
+void CMSConcMarkingTask::masterThreadWork(){
+	switch (getTaskId()){
+	case 0:
+		masterThreadWorkInitial();
+		break;
+
+	case 1:
+		masterThreadWorkFinal();
+		break;
+
+	default:
+		printf("Something went wrong in. TaskId (%d) mismatched in masterThreadWork.", getTaskId());
+		exit(-1);
+	}
 }
 
 ////////////////////////////////////////////////////////////////
@@ -4326,7 +4381,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 				_partitionMetaData->getTotalGreyObjectsPageLevel());
 #endif
 	}
-	}while(true);
+	} while(_partitionMetaData->isSetToYield() == false);
 }
 
 // This method performs scan and marking on a scan chunk region.
@@ -4770,6 +4825,24 @@ bool CMSCollector::do_marking_mt(bool asynch) {
     tsk.coordinator_yield();
     conc_workers()->continue_task(&tsk);
   }
+
+#if OCMS_NO_GREY_LOG
+  printf("Is the task completed = %d."
+		  "We have now marked most of the grey objects. Let us now make stop the mutator threads. ",
+		  tsk.completed());
+#endif
+
+  CMSConcMarkingTask tsk2(this,
+                           cms_space,
+                           perm_space,
+                           asynch,
+                           conc_workers(),
+                           task_queues());
+  tsk2.setTaskId(1);
+      ReleaseForegroundGC x(this);
+	  VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+	  VMThread::execute(&ocms_mark_op);
+
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
   while (_restart_addr != NULL) {

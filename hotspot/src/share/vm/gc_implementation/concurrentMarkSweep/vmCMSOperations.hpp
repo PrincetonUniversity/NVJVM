@@ -92,10 +92,12 @@ class VM_CMS_Operation: public VM_Operation {
 // VM_OCMS_Mark operation for the concurrent marking phase of OCMS.
 class VM_OCMS_Mark: public VM_CMS_Operation {
 	PartitionMetaData* _partitionMetaData;
+	CMSConcMarkingTask* _tsk;
 public:
-	VM_OCMS_Mark(CMSCollector* _collector) :
+	VM_OCMS_Mark(CMSCollector* _collector, CMSConcMarkingTask* tsk) :
 	VM_CMS_Operation(_collector) {
 		_partitionMetaData = _collector->getPartitionMetaData();
+		_tsk = tsk;
 	}
 
   virtual VMOp_Type type() const { return VMOp_OCMS_Mark; }

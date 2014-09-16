@@ -719,7 +719,8 @@ class PartitionMetaData : public CHeapObj {
 	enum MessageState {
 		WORK = 0,
 		WAIT = 1,
-		TERMINATE = 2
+		TERMINATE = 2,
+		YIELD = 3
 	};
 
 public:
@@ -734,6 +735,12 @@ public:
 		_message[0] = (int)state;
 	}
 
+	bool isSetToYield(){
+		return(
+			_message[0] == YIELD
+		);
+	}
+
 	bool isSetToWait(){
 	  return (
 		_message[0] == WAIT
@@ -744,6 +751,10 @@ public:
 		return(
 		 _message[0] == TERMINATE
 		);
+	}
+
+	void setToYield(){
+		setMessageState(YIELD);
 	}
 
 	void setToWait(){

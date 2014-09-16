@@ -146,34 +146,11 @@ void VM_OCMS_Mark::doit(){
 	// Clear the modUnionTable
 	modUnionTable->clear_all();
 
-	// After clearing the dirty card bit map mark, the master thread has to make sure
-	// that the collector threads come to a termination point.
-	// Currently, all the threads are in a working state.
-	while(true){
-		if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
-#if OCMS_NO_GREY_LOG
-			printf("Setting a signal to all the threads to wait/become idle.\n");
-#endif
-			_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
-
-			while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
-			// Threads are suspended now
-			if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
-#if OCMS_NO_GREY_LOG
-				printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
-#endif
-			// If yes, we have reached the termination point, we signal all the other threads to terminate too
-				_partitionMetaData->setToTerminate();
-				break; // The master thread can now exit
-			} else {
-				_partitionMetaData->setToWork();
-			}
-		}
-			printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
-		usleep(1000);
-	}
-
-
+	_collector->conc_workers()->start_task(_tsk);
+	 while (_tsk->yielded()) {
+	    _tsk->coordinator_yield();
+	    _collector->conc_workers()->continue_task(_tsk);
+	  }
 }
 //////////////////////////////////////////////////////////
 // Methods in class VM_CMS_Initial_Mark
