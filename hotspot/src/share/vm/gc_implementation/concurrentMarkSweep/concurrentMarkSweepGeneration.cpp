@@ -4106,7 +4106,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-
+ int loopCount = 0;
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work final.\n");
 #endif
@@ -4114,6 +4114,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	// that the collector threads come to a termination point.
 	// Currently, all the threads are in a working state.
 	while(true){
+		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
 	#if OCMS_NO_GREY_LOG
 				printf("Setting a signal to all the threads to wait/become idle.\n");
@@ -4133,7 +4134,10 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setToWork();
 				}
 			}
-//			printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+			if(loopCount > 100000){
+				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
+						_partitionMetaData->getTotalGreyObjectsChunkLevel());
+			}
 			usleep(1000);
 		}
 }
