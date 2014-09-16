@@ -4822,6 +4822,7 @@ void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
 	while (tsk->yielded()) {
 	    tsk->coordinator_yield();
 	    conc_workers()->continue_task(tsk);
+		printf("Task State Yielded.\n");
 	}
 	printf("Trigger Task Completed.\n");
 }

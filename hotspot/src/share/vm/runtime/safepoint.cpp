@@ -99,7 +99,7 @@ static bool timeout_error_printed = false;
 
 // Roll all threads forward to a safepoint and suspend them all
 void SafepointSynchronize::begin() {
-  printf("In Begin SafepointSynchronize.\n");
+//  printf("In Begin SafepointSynchronize.\n");
   Thread* myThread = Thread::current();
   assert(myThread->is_VM_thread(), "Only VM thread may execute a safepoint");
 
@@ -118,12 +118,12 @@ void SafepointSynchronize::begin() {
     ConcurrentGCThread::safepoint_synchronize();
   }
 #endif // SERIALGC
-  printf("Acquiring thread lock.\n");
+//  printf("Acquiring thread lock.\n");
 
   // By getting the Threads_lock, we assure that no threads are about to start or
   // exit. It is released again in SafepointSynchronize::end().
   Threads_lock->lock();
-  printf("Acquired thread lock.\n");
+//  printf("Acquired thread lock.\n");
 
   assert( _state == _not_synchronized, "trying to safepoint synchronize with wrong state");
 
@@ -140,7 +140,7 @@ void SafepointSynchronize::begin() {
 
   // Set number of threads to wait for, before we initiate the callbacks
   _waiting_to_block = nof_threads;
-  printf("Number of active threads %d.\n", nof_threads);
+//  printf("Number of active threads %d.\n", nof_threads);
   TryingToBlock     = 0 ;
   int still_running = nof_threads;
 
@@ -226,7 +226,7 @@ void SafepointSynchronize::begin() {
   // Iterate through all threads until it have been determined how to stop them all at a safepoint
   unsigned int iterations = 0;
   int steps = 0 ;
-  printf("Stopping the different running threads. Still Running %d.\n", still_running);
+//  printf("Stopping the different running threads. Still Running %d.\n", still_running);
   while(still_running > 0) {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
@@ -348,15 +348,15 @@ void SafepointSynchronize::begin() {
 //	       printf("Current State of thread %d, id = %u, state = %d.\n",
 //	    		   current_state->type(), curr->osthread()->thread_id(), curr->thread_state());
 	}
-	printf("Waiting to block %d.\n", _waiting_to_block);
+//	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
     if (!SafepointTimeout || timeout_error_printed) {
-      printf("Waiting on the safepoint_lock.\n");
-      printf("SafepointSynchronize state ==> %d."
-    		  "_not_synchronized = 0,_synchronizing = 1,_synchronized = 2"
-    		  "\n", SafepointSynchronize::getSafepointState());
+//      printf("Waiting on the safepoint_lock.\n");
+//      printf("SafepointSynchronize state ==> %d."
+//    		  "_not_synchronized = 0,_synchronizing = 1,_synchronized = 2"
+//    		  "\n", SafepointSynchronize::getSafepointState());
       Safepoint_lock->wait(true);  // true, means with no safepoint checks
-      printf("Out of the wait on the safepoint_lock.\n");
+//      printf("Out of the wait on the safepoint_lock.\n");
     } else {
       // Compute remaining time
       jlong remaining_time = safepoint_limit_time - os::javaTimeNanos();
@@ -408,7 +408,7 @@ void SafepointSynchronize::begin() {
     update_statistics_on_cleanup_end(os::javaTimeNanos());
   }
   }
-  printf("Out of begin().\n");
+//  printf("Out of begin().\n");
 }
 
 // Wake up all threads, so they are ready to resume execution after the safepoint

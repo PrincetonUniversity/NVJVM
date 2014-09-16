@@ -148,10 +148,6 @@ void VM_OCMS_Mark::doit(){
 	// Clear the modUnionTable
 	modUnionTable->clear_all();
 
-#if OCMS_NO_GREY_LOG
-	printf("Iterate over the modUnionTableBitMap to mark each of the corresponding "
-			"dirty cards within their corresponding pages.\n");
-#endif
 	// Triggering the task
 	_collector->triggerTask(_tsk);
 	_collector->do_CMS_operation(CMSCollector::CMS_op_checkpointRootsFinal);
