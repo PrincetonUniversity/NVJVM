@@ -2343,9 +2343,11 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
+          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+          VMThread::execute(&ocms_mark_op);
 
-          VM_CMS_Final_Remark final_remark_op(this);
-          VMThread::execute(&final_remark_op);
+//          VM_CMS_Final_Remark final_remark_op(this);
+//          VMThread::execute(&final_remark_op);
         }
         assert(_foregroundGCShouldWait, "block post-condition");
         break;
@@ -3665,7 +3667,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);
     if (res) {
-      _collectorState = Precleaning;
+      _collectorState = FinalMarking;//Precleaning;
     } else { // We failed and a foreground collection wants to take over
       assert(_foregroundGCIsActive, "internal state inconsistency");
       assert(_restart_addr == NULL,  "foreground will restart from scratch");
@@ -4849,7 +4851,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
 #if OCMS_NO_GREY_LOG
   printf("Is the task completed = %d."
-		  "We have now marked most of the grey objects. Let us now make stop the mutator threads. ",
+		  "We have now marked most of the grey objects. Let us now make stop the mutator threads.\n",
 		  tsk.completed());
 #endif
 
