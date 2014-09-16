@@ -1291,6 +1291,8 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
+  void triggerTask(CMSConMarkingTask *tsk);
+
   MemRegion getSpan(){
 	  return _span;
   }

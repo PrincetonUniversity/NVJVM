@@ -3950,7 +3950,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 	 return _taskId;
   }
 
-  void triggerTask(CMSConMarkingTask *tsk);
+
   void masterThreadWork();
   void masterThreadWorkFinal();
   void masterThreadWorkInitial();
