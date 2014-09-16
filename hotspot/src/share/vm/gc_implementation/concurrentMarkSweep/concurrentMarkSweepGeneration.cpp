@@ -4330,6 +4330,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			while(_partitionMetaData->isSetToWait());
 // If we find that the master thread has asked us to terminate then we can simply break
 				if(_partitionMetaData->isSetToTerminate()){
+#if OCMS_NO_GREY_LOG
+					printf("Terminating the thread with id =%d.\n", i);
+#endif
 // Before leaving, however, we make sure that the thread count is restored (because of my count the thread
 // count was decremented earlier).
 					_partitionMetaData->decrementWaitThreadCount();
@@ -4943,6 +4946,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  exit(-1);
   }
 #endif
+
+  // Resetting the partition metadata to working state, after
+  _partitionMetaData->setToWork();
 
  return true;
 }
