@@ -3950,6 +3950,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 	 return _taskId;
   }
 
+  void triggerTask(CMSConMarkingTask *tsk);
   void masterThreadWork();
   void masterThreadWorkFinal();
   void masterThreadWorkInitial();
@@ -4772,6 +4773,14 @@ void CMSConcMarkingTask::coordinator_yield() {
   ConcurrentMarkSweepThread::synchronize(true);
   _bit_map_lock->lock_without_safepoint_check();
   _collector->startTimer();
+}
+
+void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
+	conc_workers()->start_task(tsk);
+	while (tsk->yielded()) {
+	    tsk->coordinator_yield();
+	    conc_workers()->continue_task(tsk);
+	  }
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {

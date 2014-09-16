@@ -146,11 +146,9 @@ void VM_OCMS_Mark::doit(){
 	// Clear the modUnionTable
 	modUnionTable->clear_all();
 
-	_collector->conc_workers()->start_task(_tsk);
-	 while (_tsk->yielded()) {
-	    _tsk->coordinator_yield();
-	    _collector->conc_workers()->continue_task(_tsk);
-	  }
+	// Triggering the task
+	_collector->triggerTask(_tsk);
+
 }
 //////////////////////////////////////////////////////////
 // Methods in class VM_CMS_Initial_Mark
