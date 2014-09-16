@@ -1387,12 +1387,13 @@ class CMSCollector: public CHeapObj {
   HeapWord*     _icms_start_limit;
   HeapWord*     _icms_stop_limit;
 
+ public:
   enum CMS_op_type {
     CMS_op_checkpointRootsInitial,
     CMS_op_checkpointRootsFinal
   };
 
- public:
+
   void do_CMS_operation(CMS_op_type op);
   bool stop_world_and_do(CMS_op_type op);
 
