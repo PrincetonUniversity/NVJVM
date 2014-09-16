@@ -632,7 +632,6 @@ void VMThread::execute(VM_Operation* op) {
     // Release all internal handles after operation is evaluated
     HandleMark hm(t);
     _cur_vm_operation = op;
-    printf("Evaluating a safepoint, before we begin the synchronization process.\n");
     if (op->evaluate_at_safepoint() && !SafepointSynchronize::is_at_safepoint()) {
       SafepointSynchronize::begin();
       op->evaluate();

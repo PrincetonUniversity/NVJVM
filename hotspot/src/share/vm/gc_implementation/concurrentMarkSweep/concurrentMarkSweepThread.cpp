@@ -225,7 +225,7 @@ void ConcurrentMarkSweepThread::print_all_on(outputStream* st) {
 }
 
 void ConcurrentMarkSweepThread::synchronize(bool is_cms_thread) {
-  printf("ConcurrentMarkSweepThread::synchronize() method.\n");
+//  printf("ConcurrentMarkSweepThread::synchronize() method.\n");
   assert(UseConcMarkSweepGC, "just checking");
 
   MutexLockerEx x(CGC_lock,

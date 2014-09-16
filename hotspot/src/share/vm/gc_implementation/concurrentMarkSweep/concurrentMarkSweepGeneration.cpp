@@ -4085,6 +4085,9 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
 #endif
 	_partitionMetaData->setToYield();
+#if OCMS_NO_GREY_LOG
+			printf("Tasks set to yield.\n");
+#endif
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
@@ -4382,6 +4385,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #endif
 	}
 	} while(_partitionMetaData->isSetToYield() == false);
+
+#if OCMS_NO_GREY_LOG
+	printf("Yielding thread. Id = %d.\n", id);
+#endif
+
 }
 
 // This method performs scan and marking on a scan chunk region.
@@ -4824,6 +4832,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_NO_GREY_LOG
   printf("Initializing the concurrent marking task.\n");
 #endif
+
   // Get the workers going again
   	Thread* t = Thread::current();
   	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
@@ -4851,9 +4860,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
                            task_queues());
   tsk2.setTaskId(1);
 #if OCMS_NO_GREY_LOG
-
+  printf("Running the VM_OCMS_MARK Task here.\n");
 #endif
- //
+
   ReleaseForegroundGC x(this);
   VM_OCMS_Mark ocms_mark_op(this, &tsk2);
   VMThread::execute(&ocms_mark_op);

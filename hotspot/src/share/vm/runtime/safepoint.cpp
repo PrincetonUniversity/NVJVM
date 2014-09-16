@@ -345,8 +345,8 @@ void SafepointSynchronize::begin() {
 	for (JavaThread *curr = Threads::first(); curr != NULL; curr = curr->next()) {
 	       ThreadSafepointState *current_state = curr->safepoint_state();
 
-	       printf("Current State of thread %d, id = %u, state = %d.\n",
-	    		   current_state->type(), curr->osthread()->thread_id(), curr->thread_state());
+//	       printf("Current State of thread %d, id = %u, state = %d.\n",
+//	    		   current_state->type(), curr->osthread()->thread_id(), curr->thread_state());
 	}
 	printf("Waiting to block %d.\n", _waiting_to_block);
     if (TraceSafepoint) tty->print_cr("Waiting for %d thread(s) to block", _waiting_to_block);
