@@ -4140,6 +4140,10 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 			}
 			usleep(1000);
 		}
+	yield();
+#if OCMS_NO_GREY_LOG
+	printf("Yielding for the master thread's final function.\n");
+#endif
 }
 
 // This is the code that is used by the master thread
