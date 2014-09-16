@@ -4121,7 +4121,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	#endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
 				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
-				while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
+				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
+					printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
+				}
 				printf("All threads suspended.\n");
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
