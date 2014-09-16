@@ -4817,8 +4817,9 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
-	printf("Trigger Task Started.\n");
+	printf("Trigger Task Started. My thread id = %d.\n", Thread::current()->osthread()->thread_id());
 	conc_workers()->start_task(tsk);
+	printf("Start Task Done.\n");
 	while (tsk->yielded()) {
 	    tsk->coordinator_yield();
 	    conc_workers()->continue_task(tsk);

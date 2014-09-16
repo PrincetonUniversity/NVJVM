@@ -152,7 +152,8 @@ void YieldingFlexibleWorkGang::wait_for_gang() {
     assert(finished_workers() <= total_workers(), "invariant");
     assert(yielded_workers() <= total_workers(), "invariant");
     monitor()->wait(Mutex::_no_safepoint_check_flag);
-    printf("I have been woken up from the sleep. I need to move on.\n");
+    printf("I have been woken up from the sleep. I need to move on. "
+    		"My thread id = %d.\n", Thread::current()->osthread()->thread_id());
   }
   switch (yielding_task()->status()) {
     case COMPLETED:
