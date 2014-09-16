@@ -332,7 +332,7 @@ void SafepointSynchronize::begin() {
       iterations ++ ;
     }
     assert(iterations < (uint)max_jint, "We have been iterating in the safepoint loop too long");
-    printf("Threads still running %d.\n", still_running);
+//    printf("Threads still running %d.\n", still_running);
   }
   assert(still_running == 0, "sanity check");
 

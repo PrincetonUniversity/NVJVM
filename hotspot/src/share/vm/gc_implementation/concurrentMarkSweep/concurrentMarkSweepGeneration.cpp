@@ -3950,7 +3950,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 	 return _taskId;
   }
 
-
   void masterThreadWork();
   void masterThreadWorkFinal();
   void masterThreadWorkInitial();
@@ -4828,6 +4827,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Get the workers going again
   	Thread* t = Thread::current();
   	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
+#if OCMS_NO_GREY_LOG
+  	printf("Beginning task 1.\n");
+#endif
 
   conc_workers()->start_task(&tsk);
   while (tsk.yielded()) {
@@ -4848,9 +4850,13 @@ bool CMSCollector::do_marking_mt(bool asynch) {
                            conc_workers(),
                            task_queues());
   tsk2.setTaskId(1);
-      ReleaseForegroundGC x(this);
-	  VM_OCMS_Mark ocms_mark_op(this, &tsk2);
-	  VMThread::execute(&ocms_mark_op);
+#if OCMS_NO_GREY_LOG
+
+#endif
+ //
+  ReleaseForegroundGC x(this);
+  VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+  VMThread::execute(&ocms_mark_op);
 
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
