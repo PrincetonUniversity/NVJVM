@@ -4120,8 +4120,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 				printf("Setting a signal to all the threads to wait/become idle.\n");
 	#endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
-
+				printf("Checking all threads suspended.\n");
 				while(!_partitionMetaData->areThreadsSuspended()); // Checking if the threads are suspended
+				printf("All threads suspended");
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
 	#if OCMS_NO_GREY_LOG
@@ -4947,8 +4948,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
 #endif
 
-  // Resetting the partition metadata to working state, after
+  // Resetting the partition metadata to working state, after the worker threads have all yielded
+  // Missing this can lead to the worker threads yielding before again !!
   _partitionMetaData->setToWork();
+  // Resetting the thread count to 0, since while yileding the thread count is not required
+  _partitionMetaData->resetThreadCount();
 
  return true;
 }

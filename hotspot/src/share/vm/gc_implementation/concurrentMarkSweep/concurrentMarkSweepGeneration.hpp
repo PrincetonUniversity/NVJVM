@@ -724,6 +724,11 @@ class PartitionMetaData : public CHeapObj {
 	};
 
 public:
+
+	void resetThreadCount(){
+		_idleThreadCount[0] = 0;
+	}
+
 	void decreaseBy(int count){
 		totalDecrements +=  count;
 	}
