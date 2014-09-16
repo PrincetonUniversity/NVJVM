@@ -1378,7 +1378,7 @@ class CMSCollector: public CHeapObj {
 
   OopTaskQueueSet* task_queues() { return _task_queues; }
   int*             hash_seed(int i) { return &_hash_seed[i]; }
-  YieldingFlexibleWorkGang* conc_workers() { return _conc_workers; }
+
 
   // Support for parallelizing Eden rescan in CMS remark phase
   void sample_eden(); // ... sample Eden space top
@@ -1510,6 +1510,7 @@ class CMSCollector: public CHeapObj {
 
   void setup_cms_unloading_and_verification_state();
  public:
+  YieldingFlexibleWorkGang* conc_workers() { return _conc_workers; }
   CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
                ConcurrentMarkSweepGeneration* permGen,
                CardTableRS*                   ct,
