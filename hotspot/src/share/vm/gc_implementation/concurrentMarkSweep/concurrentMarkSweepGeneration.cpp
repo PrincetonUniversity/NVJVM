@@ -3964,6 +3964,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 //          VMThread::execute(&final_remark_op);
         }
         assert(_foregroundGCShouldWait, "block post-condition");
+        printf("Final Marking Done.\n");
         break;
       case Sweeping:
         if (UseAdaptiveSizePolicy) {
@@ -4816,11 +4817,13 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
+	printf("Trigger Task Started.\n");
 	conc_workers()->start_task(tsk);
 	while (tsk->yielded()) {
 	    tsk->coordinator_yield();
 	    conc_workers()->continue_task(tsk);
-	  }
+	}
+	printf("Trigger Task Completed.\n");
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
