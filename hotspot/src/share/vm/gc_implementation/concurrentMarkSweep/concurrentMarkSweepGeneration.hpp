@@ -725,6 +725,10 @@ class PartitionMetaData : public CHeapObj {
 
 public:
 
+	int getIdleThreadCount(){
+		return _idleThreadCount[0];
+	}
+
 	void resetThreadCount(){
 		_idleThreadCount[0] = 0;
 	}
