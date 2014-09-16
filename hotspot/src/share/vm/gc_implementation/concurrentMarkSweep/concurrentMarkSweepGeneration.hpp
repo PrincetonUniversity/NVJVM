@@ -958,6 +958,9 @@ public:
 		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
 		totalDecrements = 0;
 		totalDecrements = 0;
+#if	OCMS_NO_GREY_LOG
+		printf("Number of collector threads = %d.\n", _numberCollectorThreads);
+#endif
 	}
 
 	int getTotalGreyObjectsPageLevel(){
