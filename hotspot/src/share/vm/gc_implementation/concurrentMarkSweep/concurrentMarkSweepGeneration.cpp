@@ -4088,6 +4088,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 #if OCMS_NO_GREY_LOG
 			printf("Tasks set to yield.\n");
 #endif
+			yield();
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
@@ -4213,7 +4214,7 @@ void CMSConcMarkingTask::work(int i) {
   }
 
   // Checking if there are oops that are there on the work_queues .....
-  do_work_steal(i);
+//  do_work_steal(i);
 
   // ... do work stealing
   /*_timer.reset();
@@ -4389,7 +4390,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #if OCMS_NO_GREY_LOG
 	printf("Yielding thread. Id = %d.\n", i);
 #endif
-
+	yield();
 }
 
 // This method performs scan and marking on a scan chunk region.
