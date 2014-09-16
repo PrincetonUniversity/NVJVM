@@ -154,6 +154,7 @@ void VM_OCMS_Mark::doit(){
 #endif
 	// Triggering the task
 	_collector->triggerTask(_tsk);
+	_collector->do_CMS_operation(CMSCollector::CMS_op_checkpointRootsFinal);
 
 }
 //////////////////////////////////////////////////////////
