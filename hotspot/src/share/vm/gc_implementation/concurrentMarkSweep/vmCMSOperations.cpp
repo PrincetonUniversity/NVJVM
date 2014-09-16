@@ -137,8 +137,10 @@ void VM_OCMS_Mark::doit(){
 
 	// Iterate over the modUnionTableBitMap to mark each of the corresponding
 	ClearDirtyCardClosure dirtyCardClosure(_collector);
+
 #if OCMS_NO_GREY_LOG
-	printf("Iterate over the modUnionTableBitMap to mark each of the correspondings.\n");
+	printf("Iterate over the modUnionTableBitMap to mark each of the corresponding "
+			"dirty cards within their corresponding pages.\n");
 #endif
 
 	modUnionTable->iterate(&dirtyCardClosure);
@@ -146,6 +148,10 @@ void VM_OCMS_Mark::doit(){
 	// Clear the modUnionTable
 	modUnionTable->clear_all();
 
+#if OCMS_NO_GREY_LOG
+	printf("Iterate over the modUnionTableBitMap to mark each of the corresponding "
+			"dirty cards within their corresponding pages.\n");
+#endif
 	// Triggering the task
 	_collector->triggerTask(_tsk);
 

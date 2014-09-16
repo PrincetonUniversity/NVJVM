@@ -2343,6 +2343,18 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
+
+          CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
+          CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+
+          CMSConcMarkingTask tsk2(this,
+                                   cms_space,
+                                   perm_space,
+                                   false,
+                                   conc_workers(),
+                                   task_queues());
+          tsk2.setTaskId(1);
+
           VM_OCMS_Mark ocms_mark_op(this, &tsk2);
           VMThread::execute(&ocms_mark_op);
 
@@ -4866,9 +4878,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   printf("Running the VM_OCMS_MARK Task here.\n");
 #endif
 
-  ReleaseForegroundGC x(this);
-  VM_OCMS_Mark ocms_mark_op(this, &tsk2);
-  VMThread::execute(&ocms_mark_op);
+//  ReleaseForegroundGC x(this);
+//  VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+//  VMThread::execute(&ocms_mark_op);
 
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
