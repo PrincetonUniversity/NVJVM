@@ -950,9 +950,11 @@ public:
 
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
-			int partitionIndex = nextPartitionIndex(partitionIndex);
-			if(markAtomic(partitionIndex)){
-			int partitionSize = getPartitionSize(partitionIndex);
+			int partitionIndex;
+			do{
+				partitionIndex = nextPartitionIndex(partitionIndex);
+			} while(markAtomic(partitionIndex) == false);
+				int partitionSize = getPartitionSize(partitionIndex);
 				void *address = getPageBase(getPartitionStart(partitionIndex));
 				unsigned char vec[partitionSize];
 				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
@@ -975,7 +977,6 @@ public:
 				if(pageIndices.size() ==0 ){
 					clearAtomic(partitionIndex);
 				}
-			}
 			return pageIndices;
 		}
 
