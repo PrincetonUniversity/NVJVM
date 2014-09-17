@@ -901,10 +901,10 @@ public:
 				count++, index++){
 				greyCount = _pageGOC[index];  		// Get the grey count of the page
 #if PRINT_TO_LOG
-				if(greyCount > 0){
+/*				if(greyCount > 0){
 					sprintf(buf, "%d,%d.\n", index, greyCount);
 					CMSLogs::log(std::string(buf));
-				}
+				}*/
 #endif
 				if((largestGreyCount < greyCount)){
 				   largestGreyCount = greyCount;
@@ -955,6 +955,7 @@ public:
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			int partitionIndex = -1;
+			char buf[20];
 			do{
 				partitionIndex = nextPartitionIndex(partitionIndex);
 			} while(markAtomic(partitionIndex) == false);
@@ -979,6 +980,10 @@ public:
 				if(pageIndices.size() == 0){
 					clearAtomic(partitionIndex);
 				}
+#if PRINT_TO_LOG
+				sprintf(buf, "%d.\n", pageIndices.size());
+				CMSLogs::log(std::string(buf));
+#endif
 			}
 			return pageIndices;
 		}
