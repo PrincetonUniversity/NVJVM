@@ -696,7 +696,7 @@ class PartitionMetaData : public CHeapObj {
 	int totalIncrements;
 	int *_pageGOC;
 // Keeps a track of the number of the grey object count per partition
-	int* _partitionGOC;
+	jubyte* _partitionGOC;
 // Total number of partitions
 	int _numberPartitions;
 // The span that contains the mature and the permanent spaces
@@ -969,7 +969,7 @@ public:
 	int getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;
 			for (index = 0; index < _numberPages; index++){
-				sum += _pageGOC[index];
+				sum += (int)_pageGOC[index];
 			}
 
 #if	OCMS_NO_GREY_LOG_HIGH
@@ -982,7 +982,7 @@ public:
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
 		for (index = 0; index < _numberPartitions; index++){
-			sum += _partitionGOC[index];
+			sum += (int)_partitionGOC[index];
 		}
 #if	OCMS_NO_GREY_LOG_HIGH
 		printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
@@ -1062,25 +1062,25 @@ public:
 
 	unsigned int clearGreyObjectCount_Page(void *pageAddress){
 		int index = getPageIndexFromPageAddress(pageAddress);
-		int *position = &(_pageGOC[index]);
-		unsigned int value = *position;
-		unsigned int newValue = 0;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
+		jubyte *position = &(_pageGOC[index]);
+		jubyte value = *position;
+		jubyte newValue = 0;
+		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+				(signed char)value) != (signed char)value){
 			value = *position;
 		}
-		decreaseBy(value);
-		return value;
+		decreaseBy((unsigned int)value);
+		return (unsigned int)value;
 	}
 
 	unsigned int incrementIndex_AtomicPage(int increment, void *pageAddress){
 		increaseBy(increment);
 		int index = getPageIndexFromPageAddress(pageAddress);
-		int *position = &(_pageGOC[index]);
-		int value = *position;
-		int newValue = value + increment;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
+		jubyte *position = &(_pageGOC[index]);
+		jubyte value = *position;
+		jubyte newValue = value + increment;
+		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+				(signed char)value) != (signed char)value){
 			value = *position;
 			newValue = value + increment;
 		}
@@ -1090,11 +1090,11 @@ public:
 	unsigned int decrementIndex_AtomicPage(int decrement, void *pageAddress){
 		decreaseBy(decrement);
 		int index = getPageIndexFromPageAddress(pageAddress);
-		int *position = &(_pageGOC[index]);
-		int value = *position;
-		int newValue = value - decrement;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
+		jubyte *position = &(_pageGOC[index]);
+		jubyte value = *position;
+		jubyte newValue = value - decrement;
+		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+				(signed char)value) != (signed char)value){
 			value = *position;
 			newValue = value - decrement;
 		}
@@ -1175,9 +1175,7 @@ class CMSCollector: public CHeapObj {
   }
 
   PartitionMetaData* _partitionMetaData;
-
   ChunkList* _collectorChunkList;
-
   OopTaskQueueSet* _task_queues;
 
   // Overflow list of grey objects, threaded through mark-word

@@ -152,8 +152,8 @@ void YieldingFlexibleWorkGang::wait_for_gang() {
     assert(finished_workers() <= total_workers(), "invariant");
     assert(yielded_workers() <= total_workers(), "invariant");
     monitor()->wait(Mutex::_no_safepoint_check_flag);
-    printf("I have been woken up from the sleep. I need to move on. "
-    		"My thread id = %d.\n", Thread::current()->osthread()->thread_id());
+//    printf("I have been woken up from the sleep. I need to move on. "
+//    		"My thread id = %d.\n", Thread::current()->osthread()->thread_id());
   }
   switch (yielding_task()->status()) {
     case COMPLETED:
@@ -167,7 +167,7 @@ void YieldingFlexibleWorkGang::wait_for_gang() {
       assert(yielded_workers() > 0, "Invariant");
       assert(yielded_workers() + finished_workers() == total_workers(),
              "Inconsistent counts");
-      printf("Breaking off, after from my sleep.\n");
+//      printf("Breaking off, after from my sleep.\n");
       break;
     }
     case ACTIVE:
@@ -216,11 +216,11 @@ void YieldingFlexibleWorkGang::yield() {
     // us to return at each potential yield point.
     return;
   }
-  printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
-		  _yielded_workers, finished_workers(), total_workers());
+//  printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
+//		  _yielded_workers, finished_workers(), total_workers());
   if (++_yielded_workers + finished_workers() == total_workers()) {
     yielding_task()->set_status(YIELDED);
-    printf("Notifying all the waiting threads .... \n");
+//    printf("Notifying all the waiting threads .... \n");
     monitor()->notify_all();
   } else {
     yielding_task()->set_status(YIELDING);
