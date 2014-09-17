@@ -4385,23 +4385,22 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 				HeapWord* currPos = sp->block_start_careful(span.start());
 				do{
 					currentMarked = _collector->_markBitMap.isMarked(currPos);
-					if(currentMarked && _skipbits > 0){
-						_skipbits--;
-					} else {
-						if(currentMarked){
+					if(currentMarked){
+						if(_skipbits > 0){
+							_skipbits--;
+						} else { // _skipbits == 0
+							if((uintptr_t)currPos >= (uintptr_t)span.start()){
+								oop p = oop(currPos);
+								if ((p->klass_or_null() != NULL && p->is_parsable())) {
+									break;
+								}
+							}
 							if(_collector->_markBitMap.isMarked(currPos + 1)){
-								_skipbits = 2;
+									_skipbits = 2;
 							}
 						}
 					}
-					currPos++;
-				if(currentMarked && (_skipbits == 0 || _skipbits == 2) && (uintptr_t)currPos >= (uintptr_t)span.start()){
-					oop p = oop(currPos);
-				    if ((p->klass_or_null() != NULL && p->is_parsable())) {
-				    	break;
-				    }
-				}
-
+				currPos++;
 				}while((uintptr_t)currPos <= (uintptr_t)span.end());
 				prev_obj = currPos;//sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
