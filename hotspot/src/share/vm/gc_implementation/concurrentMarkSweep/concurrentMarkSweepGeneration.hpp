@@ -954,7 +954,7 @@ public:
 
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
-			int partitionIndex = -1;
+			int partitionIndex = currentPartition;
 			char buf[20];
 			do{
 				partitionIndex = nextPartitionIndex(partitionIndex);
