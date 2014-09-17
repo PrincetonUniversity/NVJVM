@@ -955,6 +955,7 @@ public:
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			int partitionIndex = currentPartition;
+			int nonZeroCount = 0;
 			char buf[20];
 			do{
 				partitionIndex = nextPartitionIndex(partitionIndex);
@@ -973,6 +974,8 @@ public:
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];
+					if(greyCount > 0)
+						nonZeroCount++;
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
@@ -981,7 +984,7 @@ public:
 					clearAtomic(partitionIndex);
 				}
 #if PRINT_TO_LOG
-				sprintf(buf, "%d.\n", pageIndices.size());
+				sprintf(buf, "%d, %d.\n", pageIndices.size(), nonZeroCount);
 				CMSLogs::log(std::string(buf));
 #endif
 			}
