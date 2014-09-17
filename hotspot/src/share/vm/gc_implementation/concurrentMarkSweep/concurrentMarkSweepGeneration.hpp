@@ -565,7 +565,7 @@ public:
 		}
 	}
 	static void log(string s){
-		fprintf(fp, s);
+		fprintf(fp, s.c_str());
 	}
 };
 
