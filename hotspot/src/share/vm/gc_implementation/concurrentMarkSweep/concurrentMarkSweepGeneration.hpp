@@ -43,6 +43,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <vector>
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
@@ -876,6 +877,23 @@ public:
 			);
 		}
 
+		int getHighPriorityPageNoMinCore(int partitionIndex){
+			int partitionSize = getPartitionSize(partitionIndex);
+			void *address = getPageBase(getPartitionStart(partitionIndex));
+			int index = getPartitionStart(partitionIndex), count, greyCount;
+			int largestGreyCount = 0, lPIndex = -1;
+			for(count = 0;
+				count < getPartitionSize(partitionIndex);
+				count++, index++){
+				greyCount = _pageGOC[index];  		// Get the grey count of the page
+				if((largestGreyCount < greyCount)){
+				   largestGreyCount = greyCount;
+				   lPIndex = index;
+				}
+			}
+			return lPIndex;
+		}
+
 		// Gets a high priority page from a given partition
 		// If all the pages have a zero count then the page index returned would be -1
 		// We would improve this method to get a collection of pages later on. Currently, we only
@@ -914,6 +932,29 @@ public:
 				return lPIndex;
 			}
 
+		std::vector<int> toScanPageList(int currentPartition){
+			std::vector<int> pageIndices;
+			int partitionIndex = nextPartitionIndex(partitionIndex);
+			int partitionSize = getPartitionSize(partitionIndex);
+			void *address = getPageBase(getPartitionStart(partitionIndex));
+			unsigned char vec[partitionSize];
+			if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+				perror("err :");
+				printf("Error in mincore, arguments %p."
+						"Partition Size = %d.\n", address, partitionSize);
+				exit(-1);
+			}
+			int index = getPartitionStart(partitionIndex), count, greyCount;
+			int largestGreyCount = 0, lPIndex = -1;
+			for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
+				greyCount = _pageGOC[index];
+				if((greyCount > 0) && (vec[count] & 1 == 1)){
+					pageIndices.push_back(index);
+				}
+			}
+			return pageIndices;
+		}
+
 		// This method tries to get a high priority page from the set of subsequent partitions.
 		// If, all the pages have zero grey object counts, then the page index returned would be -1.
 		// Currently, the stopping condition for the thread is set to be the case when it has scanned
@@ -938,6 +979,31 @@ public:
 				}
 				return pageIndex;
 			}
+
+			// This method tries to get a high priority page from the set of subsequent partitions.
+			// If, all the pages have zero grey object counts, then the page index returned would be -1.
+			// Currently, the stopping condition for the thread is set to be the case when it has scanned
+			//	all the partitions and has not found a single page with a non zero count.
+				int getPageFromNextPartitionNoMinCore(int currentPartition){
+					int partitionIndex = currentPartition, pageIndex = -1;
+					int partitionsScanned = 0;
+					while(pageIndex ==  -1 && partitionsScanned < _numberPartitions){
+						partitionIndex = nextPartitionIndex(partitionIndex);
+			// If I become the owner of the current partition --> then I can scan for pages within the
+			// current partition else I move on to the next partition.
+						if(markAtomic(partitionIndex)){
+				// We first try and get a high priority page(essentially a page with a non zero grey object count).
+						  pageIndex = getHighPriorityPageNoMinCore(partitionIndex);
+				// If there is no page with a non zero count, then we skip the partition
+						  if(pageIndex == -1){
+				// Before skipping the partition, we clear the boolean flag for it.
+							clearAtomic(partitionIndex);
+						  }
+						}
+						partitionsScanned++;
+					}
+					return pageIndex;
+				}
 
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
 		_collector = cmsCollector;

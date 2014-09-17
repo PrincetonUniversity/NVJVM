@@ -3788,6 +3788,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void bump_global_finger(HeapWord* f);
   void do_scan_and_mark_OCMS(int i);
   void do_scan_and_mark_OCMS_NO_GREY(int i);
+  void scan_a_page(int i);
   bool shouldStop();
 };
 
@@ -4317,6 +4318,116 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	  }
 }
 
+void CMSConcMarkingTask::scan_a_page(int pageIndex){
+	int currentPartitionIndex = -1, pageIndex;
+	void* pageAddress;
+	CompactibleFreeListSpace* sp;
+	HeapWord* prev_obj;
+	u_jbyte oldValue;
+	{
+					// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
+					currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
+					pageAddress = _partitionMetaData->getPageBase(pageIndex);
+		// On acquiring a page we clear the grey object count on the page
+		// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
+					oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
+					if(oldValue == 0){
+						printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");
+						exit (-1);
+					}
+		// On clearing the page level grey object count the chunk level grey object count gets cleared
+					_collector->decGreyObj(pageAddress, (int)oldValue);
+					// Getting the space wherein the page lies
+					sp = getSpace(pageAddress);
+					// The memory region containing the
+					MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
+							(HeapWord *)Utility::getPageEnd(pageAddress));
+					span = span.intersection(sp->used_region());
+					if(!span.is_empty()){
+		// One of questions that we need to get an answer to is the number of extra pages this can touch
+		// (getting the start of the object).
+						// We figure out the first object on the page using the markBitMap
+						bool currentMarked = false;
+						int _skipbits = 0;
+						HeapWord* currPos = sp->block_start_careful(span.start());
+						do{
+							currentMarked = _collector->_markBitMap.isMarked(currPos);
+							if(currentMarked){
+								if(_skipbits > 0){
+									_skipbits--;
+								} else { // _skipbits == 0
+									if((uintptr_t)currPos >= (uintptr_t)span.start()){
+										oop p = oop(currPos);
+										if ((p->klass_or_null() != NULL && p->is_parsable())) {
+											break;
+										}
+									}
+									if(_collector->_markBitMap.isMarked(currPos + 1)){
+											_skipbits = 2;
+									}
+								}
+							}
+						currPos++;
+						}while((uintptr_t)currPos <= (uintptr_t)span.end());
+						prev_obj = currPos;
+						if (prev_obj <= span.end()) {
+						MemRegion my_span = MemRegion(prev_obj, span.end());
+						// Do the marking work within a non-empty span --
+						// the last argument to the constructor indicates whether the
+						// iteration should be incremental with periodic yields.
+						Par_MarkFromGreyRootsClosure cl(_collector,
+									&_collector->_markBitMap,
+									&_collector->_greyMarkBitMap,
+									_collector->getChunkList(),
+									my_span,
+									&_collector->_revisitStack);
+								        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+						// Special case handling the my_span.end(), which does not get iterated
+								        handleOop(my_span.end(), &cl);
+					}
+					// Clearing the mark on the partition, so that the partition can be reused
+				}
+				_partitionMetaData->clearAtomic(currentPartitionIndex);
+			}
+}
+
+void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
+	// Getting the span partition object
+		int currentPartitionIndex = -1, pageIndex;
+		void* pageAddress;
+		CompactibleFreeListSpace* sp;
+		HeapWord* prev_obj;
+		u_jbyte oldValue;
+		do {
+	// After every loop we check whether have been signalled by the master thread to change our current state
+			if(_partitionMetaData->isSetToWait()){ // Checking if the we have to wait,
+			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
+	// if yes then the count of the number of waiting threads is automatically incremented
+				while(_partitionMetaData->isSetToWait()){
+	//				printf("Flag Set To = %d. \n", _partitionMetaData->getFlag());
+					usleep(100);
+				}
+	// If we find that the master thread has asked us to terminate then we can simply break
+					if(_partitionMetaData->isSetToTerminate()){
+	// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
+	// count was decremented earlier).
+						_partitionMetaData->decrementWaitThreadCount();
+					break;
+					}
+	// If we should be working, then lets first decrement the count of the waiting threads
+				_partitionMetaData->decrementWaitThreadCount();
+			}
+			// Getting the page index from the next partitionIndex
+			std::vector<int> pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
+			std::vector<int>::iterator it;
+			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
+				pageIndex = *it;
+				scan_a_page(pageIndex);
+			}
+			pageIndex = _partitionMetaData->getPageFromNextPartitionNoMinCore(currentPartitionIndex);
+		} while(_partitionMetaData->isSetToYield() == false);
+}
+
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 	// Getting the span partition object
 	int currentPartitionIndex = -1, pageIndex;
@@ -4380,7 +4491,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
 // (getting the start of the object).
 				// We figure out the first object on the page using the markBitMap
-				/*bool currentMarked = false;
+				bool currentMarked = false;
 				int _skipbits = 0;
 				HeapWord* currPos = sp->block_start_careful(span.start());
 				do{
@@ -4403,11 +4514,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 				currPos++;
 				}while((uintptr_t)currPos <= (uintptr_t)span.end());
 				prev_obj = currPos;
-				*/
-				prev_obj = sp->block_start_careful(span.start());
+
+				/*prev_obj = sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
 						"page address of span start %d.\n",
-						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));*/
+						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));
 				  while (prev_obj < span.start()) {
 					size_t sz = sp->block_size_no_stall(prev_obj, _collector);
 					if (sz > 0) {
@@ -4418,7 +4529,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 						// locking the free list locks; see bug 6324141.
 					  break;
 						   }
-				 }
+				 }*/
 				if (prev_obj <= span.end()) {
 				MemRegion my_span = MemRegion(prev_obj, span.end());
 				// Do the marking work within a non-empty span --
