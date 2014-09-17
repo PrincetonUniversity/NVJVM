@@ -951,7 +951,7 @@ public:
 			_partitionMap[count] = false;
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
-		_pageGOC = new int[_numberPages];
+		_pageGOC = new jubyte[_numberPages];
 		for(count = 0; count < _numberPages; count++){
 				_pageGOC[count] = 0;
 		}
