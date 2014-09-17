@@ -4384,10 +4384,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 				int _skipbits = 0;
 				HeapWord* currPos = sp->block_start_careful(span.start());
 				do{
-					if(_skipbits > 0){
+					currentMarked = _collector->_markBitMap.isMarked(currPos);
+					if(currentMarked && _skipbits > 0){
 						_skipbits--;
 					} else {
-						currentMarked = _collector->_markBitMap.isMarked(currPos);
 						if(currentMarked){
 							if(_collector->_markBitMap.isMarked(currPos + 1)){
 								_skipbits = 2;
