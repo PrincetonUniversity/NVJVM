@@ -966,10 +966,11 @@ public:
 #endif
 	}
 
-/*	~PartitionMetaData(){
+	~PartitionMetaData(){
 		free(_pageGOC);
-		free(_)
-	}*/
+		free(_partitionGOC);
+		free(_partitionMap);
+	}
 
 	int getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;
@@ -1018,7 +1019,7 @@ public:
 			exit(-1);
 		}
 #endif
-		printf("Value after incrementing the thread count = %d.\n", newValue);
+//		printf("Value after incrementing the thread count = %d.\n", newValue);
 		return (int)newValue;
 	}
 
