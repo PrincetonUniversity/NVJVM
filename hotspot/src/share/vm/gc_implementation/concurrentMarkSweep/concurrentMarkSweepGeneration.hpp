@@ -949,6 +949,7 @@ public:
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];
+					printf("Grey Count = %d.\n", greyCount);
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
