@@ -3788,6 +3788,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void bump_global_finger(HeapWord* f);
   void do_scan_and_mark_OCMS(int i);
   void do_scan_and_mark_OCMS_NO_GREY(int i);
+  void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int i);
   bool shouldStop();
 };
@@ -4223,7 +4224,8 @@ void CMSConcMarkingTask::work(int i) {
   _timer.start();
 
 //  do_scan_and_mark(i, _cms_space);
-  do_scan_and_mark_OCMS_NO_GREY(i);
+//  do_scan_and_mark_OCMS_NO_GREY(i);
+  do_scan_and_mark_OCMS_NO_GREY_BATCHED(i);
 
   _timer.stop();
   if (PrintCMSStatistics != 0) {
@@ -4319,7 +4321,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
-	int currentPartitionIndex = -1, pageIndex;
+	int currentPartitionIndex = -1;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
