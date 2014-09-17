@@ -554,6 +554,7 @@ private:
 };
 
 
+
 /*
  * This is the class that
  */
@@ -568,12 +569,11 @@ public:
     }
 
 	int greyObjectCount() const {
-		jbyte value = *(jbyte *)Universe::getPageTablePosition(_address);
-		return (int)value;
+		return 0;
 	}
 
 	int getPageIndex(){
-		return Universe::getPageIndex(_address);
+		return 0;
 	}
 
 	void* getAddress(){
@@ -834,7 +834,6 @@ public:
 		return true;
 	}
 
-
 	// This method gets the next partition from the list of partitions, if the
 	// currentPartitionIndex is the same as that of the returned value, then the
 	// thread has run through all the different partitions. This is not currently used
@@ -949,7 +948,8 @@ public:
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];
-					printf("Grey Count = %d.\n", greyCount);
+					if(greyCount > 0)
+						printf("Grey Count = %d.\n", greyCount);
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
