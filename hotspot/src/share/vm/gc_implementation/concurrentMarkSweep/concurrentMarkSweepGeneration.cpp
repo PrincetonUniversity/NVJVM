@@ -4148,7 +4148,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 #if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
 #endif
-	yield();
+//	yield();
 }
 
 // This is the code that is used by the master thread
@@ -4423,7 +4423,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 #if OCMS_NO_GREY_LOG
 	printf("Yielding thread. Id = %d.\n", i);
 #endif
-	yield();
+//	yield();
 }
 
 // This method performs scan and marking on a scan chunk region.
