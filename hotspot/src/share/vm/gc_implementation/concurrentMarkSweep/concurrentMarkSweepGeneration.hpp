@@ -556,8 +556,13 @@ private:
 class CMSLogs : public CHeapObj {
 public:
 	static FILE *fp;
-	CMSLogs(){
+
+	static void init(){
 		fp = fopen("/home/tandon/logs/cms.log", "w+");
+		if(fp == NULL){
+			printf("File pointer initialization failed.\n");
+			exit(-1);
+		}
 	}
 	static void log(char *s){
 		fprintf(fp, s);
@@ -956,9 +961,10 @@ public:
 				int index = getPartitionStart(partitionIndex), count, greyCount;
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
-					greyCount = _pageGOC[count];
-					if(greyCount > 0)
-						printf("Grey Count = %d.\n", greyCount);
+					greyCount = _pageGOC[index];
+					if(greyCount > 0){
+						printf("Grey Count = %u, Index %u.\n",greyCount, index);
+					}
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
