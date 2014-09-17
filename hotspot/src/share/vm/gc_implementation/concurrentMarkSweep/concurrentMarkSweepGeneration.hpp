@@ -694,9 +694,9 @@ class ChunkList : public CHeapObj  {
 class PartitionMetaData : public CHeapObj {
 	int totalDecrements;
 	int totalIncrements;
-	int *_pageGOC;
+	jubyte*_pageGOC;
 // Keeps a track of the number of the grey object count per partition
-	jubyte* _partitionGOC;
+	int* _partitionGOC;
 // Total number of partitions
 	int _numberPartitions;
 // The span that contains the mature and the permanent spaces
@@ -965,6 +965,11 @@ public:
 		printf("Number of collector threads = %d.\n", _numberCollectorThreads);
 #endif
 	}
+
+/*	~PartitionMetaData(){
+		free(_pageGOC);
+		free(_)
+	}*/
 
 	int getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;
