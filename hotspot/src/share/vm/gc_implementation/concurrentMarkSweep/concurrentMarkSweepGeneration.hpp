@@ -564,7 +564,7 @@ public:
 			exit(-1);
 		}
 	}
-	static void log(char *s){
+	static void log(string s){
 		fprintf(fp, s);
 	}
 };
@@ -936,6 +936,9 @@ public:
 						count < getPartitionSize(partitionIndex);
 						count++, index++){
 						greyCount = _pageGOC[index];  		// Get the grey count of the page
+						if(greyCount > 0){
+							printf("Grey Count = %u, Index %u.\n",greyCount, index);
+						}
 						if((largestGreyCount < greyCount)){
 						   largestGreyCount = greyCount;
 						   lPIndex = index;
