@@ -895,13 +895,15 @@ public:
 			void *address = getPageBase(getPartitionStart(partitionIndex));
 			int index = getPartitionStart(partitionIndex), count, greyCount;
 			int largestGreyCount = 0, lPIndex = -1;
+			char buf[20];
 			for(count = 0;
 				count < getPartitionSize(partitionIndex);
 				count++, index++){
 				greyCount = _pageGOC[index];  		// Get the grey count of the page
 #if PRINT_TO_LOG
 				if(greyCount > 0){
-					printf("Index = %d, Count = %d.\n", index, greyCount);
+					sprintf(buf, "%d,%d", index, greyCount);
+					CMSLogs::log(std::string(buf));
 				}
 #endif
 				if((largestGreyCount < greyCount)){
@@ -941,9 +943,6 @@ public:
 						count < getPartitionSize(partitionIndex);
 						count++, index++){
 						greyCount = _pageGOC[index];  		// Get the grey count of the page
-						if(greyCount > 0){
-							printf("Grey Count = %u, Index %u.\n",greyCount, index);
-						}
 						if((largestGreyCount < greyCount)){
 						   largestGreyCount = greyCount;
 						   lPIndex = index;
@@ -973,9 +972,6 @@ public:
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];
-					if(greyCount > 0){
-						printf("Grey Count = %u, Index %u.\n",greyCount, index);
-					}
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
