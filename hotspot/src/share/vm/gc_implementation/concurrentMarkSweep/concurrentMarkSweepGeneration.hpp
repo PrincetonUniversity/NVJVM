@@ -953,7 +953,7 @@ public:
 						pageIndices.push_back(index);
 					}
 				}
-				if(pageIndices.size ==0 ){
+				if(pageIndices.size() ==0 ){
 					clearAtomic(partitionIndex);
 				}
 			}

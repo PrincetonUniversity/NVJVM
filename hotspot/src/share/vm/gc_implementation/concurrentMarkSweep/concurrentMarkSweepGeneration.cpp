@@ -4427,7 +4427,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					scan_a_page(pageIndex);
 					currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
 				}
-				if(pageIndices.size == 0){
+				if(pageIndices.size() == 0){
 					pageIndex = _partitionMetaData->getPageFromNextPartitionNoMinCore(currentPartitionIndex);
 					if(pageIndex != -1){
 						scan_a_page(pageIndex);
