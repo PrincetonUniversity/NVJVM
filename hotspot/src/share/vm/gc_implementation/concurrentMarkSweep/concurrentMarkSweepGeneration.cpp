@@ -4103,7 +4103,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 #if OCMS_NO_GREY_LOG
 			printf("Tasks set to yield.\n");
 #endif
-			yield();
+//			yield();
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
