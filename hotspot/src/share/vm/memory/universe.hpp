@@ -37,13 +37,13 @@
 #define SWAP_METRICS 1
 #define SEGMENTATION_LOG 0
 #define MB 1024*1024
-#define OCMS_DEBUG 1
-#define OCMS_LOG 1
-#define OCMS_ASSERT 1
-#define OCMS_NO_GREY_LOG 1
+#define OCMS_DEBUG 0
+#define OCMS_LOG 0
+#define OCMS_ASSERT 0
+#define OCMS_NO_GREY_LOG 0
 #define OCMS_NO_GREY_LOG_HIGH 0
-#define OCMS_NO_GREY_ASSERT 1
-#define OCMS_NO_GREY_DEBUG 1
+#define OCMS_NO_GREY_ASSERT 0
+#define OCMS_NO_GREY_DEBUG 0
 #define OCMS_METRICS 0
 
 #define __check(a, b) \
