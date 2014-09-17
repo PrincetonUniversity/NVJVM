@@ -56,9 +56,12 @@
 #include "services/memoryService.hpp"
 #include "services/runtimeService.hpp"
 
+
+
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
+FILE* CMSLogs::fp = NULL;
 
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
