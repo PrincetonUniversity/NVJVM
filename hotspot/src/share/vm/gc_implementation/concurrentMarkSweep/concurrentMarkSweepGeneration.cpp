@@ -4395,7 +4395,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 						}
 					}
 					currPos++;
-				}while(currentMarked && _skipbits == 0 && (uintptr_t)currPos >= (uintptr_t)span.start());
+				}while(!currentMarked && _skipbits == 0 && (uintptr_t)currPos >= (uintptr_t)span.start());
 				prev_obj = currPos;//sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
 						"page address of span start %d.\n",
