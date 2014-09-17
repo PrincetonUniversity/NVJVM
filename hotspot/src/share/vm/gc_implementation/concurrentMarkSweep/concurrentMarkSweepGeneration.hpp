@@ -935,21 +935,26 @@ public:
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			int partitionIndex = nextPartitionIndex(partitionIndex);
+			if(markAtomic(partitionIndex)){
 			int partitionSize = getPartitionSize(partitionIndex);
-			void *address = getPageBase(getPartitionStart(partitionIndex));
-			unsigned char vec[partitionSize];
-			if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
-				perror("err :");
-				printf("Error in mincore, arguments %p."
-						"Partition Size = %d.\n", address, partitionSize);
-				exit(-1);
-			}
-			int index = getPartitionStart(partitionIndex), count, greyCount;
-			int largestGreyCount = 0, lPIndex = -1;
-			for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
-				greyCount = _pageGOC[index];
-				if((greyCount > 0) && (vec[count] & 1 == 1)){
-					pageIndices.push_back(index);
+				void *address = getPageBase(getPartitionStart(partitionIndex));
+				unsigned char vec[partitionSize];
+				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+					perror("err :");
+					printf("Error in mincore, arguments %p."
+							"Partition Size = %d.\n", address, partitionSize);
+					exit(-1);
+				}
+				int index = getPartitionStart(partitionIndex), count, greyCount;
+				int largestGreyCount = 0, lPIndex = -1;
+				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
+					greyCount = _pageGOC[index];
+					if((greyCount > 0) && (vec[count] & 1 == 1)){
+						pageIndices.push_back(index);
+					}
+				}
+				if(pageIndices.size ==0 ){
+					clearAtomic(partitionIndex);
 				}
 			}
 			return pageIndices;

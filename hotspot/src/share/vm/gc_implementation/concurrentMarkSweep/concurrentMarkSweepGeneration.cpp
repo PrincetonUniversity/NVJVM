@@ -4420,13 +4420,23 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				_partitionMetaData->decrementWaitThreadCount();
 			}
 			// Getting the page index from the next partitionIndex
-			std::vector<int> pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
-			std::vector<int>::iterator it;
-			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
-				pageIndex = *it;
-				scan_a_page(pageIndex);
-			}
-			pageIndex = _partitionMetaData->getPageFromNextPartitionNoMinCore(currentPartitionIndex);
+				std::vector<int> pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
+				std::vector<int>::iterator it;
+				for (it=pageIndices.begin(); it<pageIndices.end(); it++){
+					pageIndex = *it;
+					scan_a_page(pageIndex);
+					currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
+				}
+				if(pageIndices.size == 0){
+					pageIndex = _partitionMetaData->getPageFromNextPartitionNoMinCore(currentPartitionIndex);
+					if(pageIndex != -1){
+						scan_a_page(pageIndex);
+						currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
+						_partitionMetaData->clearAtomic(currentPartitionIndex);
+					}
+				} else {
+					_partitionMetaData->clearAtomic(currentPartitionIndex);
+				}
 		} while(_partitionMetaData->isSetToYield() == false);
 }
 
