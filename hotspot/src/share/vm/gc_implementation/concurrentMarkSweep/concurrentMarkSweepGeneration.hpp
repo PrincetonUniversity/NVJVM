@@ -902,7 +902,7 @@ public:
 				greyCount = _pageGOC[index];  		// Get the grey count of the page
 #if PRINT_TO_LOG
 				if(greyCount > 0){
-					sprintf(buf, "%d,%d", index, greyCount);
+					sprintf(buf, "%d,%d.\n", index, greyCount);
 					CMSLogs::log(std::string(buf));
 				}
 #endif
@@ -976,7 +976,7 @@ public:
 						pageIndices.push_back(index);
 					}
 				}
-				if(pageIndices.size() ==0 ){
+				if(pageIndices.size() == 0){
 					clearAtomic(partitionIndex);
 				}
 			}
