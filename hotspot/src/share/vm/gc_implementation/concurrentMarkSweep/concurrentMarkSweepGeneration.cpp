@@ -4126,7 +4126,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					usleep(100);
 					//printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
 				}
-				printf("All threads suspended.\n");
+//				printf("All threads suspended.\n");
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
 #if OCMS_NO_GREY_LOG
@@ -4873,7 +4873,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   // Get the workers going again
   	Thread* t = Thread::current();
-  	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
+//  	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
 #if OCMS_NO_GREY_LOG
   	printf("Beginning task 1.\n");
 #endif
