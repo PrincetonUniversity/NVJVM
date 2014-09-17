@@ -899,6 +899,11 @@ public:
 				count < getPartitionSize(partitionIndex);
 				count++, index++){
 				greyCount = _pageGOC[index];  		// Get the grey count of the page
+#if PRINT_TO_LOG
+				if(greyCount > 0){
+					printf("Index = %d, Count = %d.\n", index, greyCount);
+				}
+#endif
 				if((largestGreyCount < greyCount)){
 				   largestGreyCount = greyCount;
 				   lPIndex = index;
@@ -950,10 +955,11 @@ public:
 
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
-			int partitionIndex;
+			int partitionIndex = -1;
 			do{
 				partitionIndex = nextPartitionIndex(partitionIndex);
 			} while(markAtomic(partitionIndex) == false);
+			if(partitionIndex != - 1){
 				int partitionSize = getPartitionSize(partitionIndex);
 				void *address = getPageBase(getPartitionStart(partitionIndex));
 				unsigned char vec[partitionSize];
@@ -977,6 +983,7 @@ public:
 				if(pageIndices.size() ==0 ){
 					clearAtomic(partitionIndex);
 				}
+			}
 			return pageIndices;
 		}
 
