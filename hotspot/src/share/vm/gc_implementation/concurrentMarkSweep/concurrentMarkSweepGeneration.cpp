@@ -4381,7 +4381,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // (getting the start of the object).
 				// We figure out the first object on the page using the markBitMap
 				bool prevMarked = false, currentMarked = false, nextMarked = false;
-				HeapWord* currPos = pageAddress - 1;
+				HeapWord* currPos = (HeapWord*)pageAddress - 1;
 				do{
 					currPos++;
 					prevMarked = _collector->_markBitMap.isMarked(currPos - 1);
