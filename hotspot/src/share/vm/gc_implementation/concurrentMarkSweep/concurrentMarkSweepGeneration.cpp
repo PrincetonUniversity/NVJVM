@@ -4379,11 +4379,21 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			if(!span.is_empty()){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
 // (getting the start of the object).
-				prev_obj = sp->block_start_careful(span.start());
+				// We figure out the first object on the page using the markBitMap
+				bool prevMarked = false, currentMarked = false, nextMarked = false;
+				HeapWord* currPos = pageAddress - 1;
+				do{
+					currPos++;
+					prevMarked = _collector->_markBitMap.isMarked(currPos - 1);
+					currentMarked = _collector->_markBitMap.isMarked(currPos);
+					nextMarked = _collector->_markBitMap.isMarked(currPos + 1);
+				}while(!prevMarked && !nextMarked && currentMarked);
+
+				prev_obj = currPos;//sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
 						"page address of span start %d.\n",
 						prev_obj, __pageIndex(prev_obj), span.start(), __pageIndex(span.start()));*/
-				  while (prev_obj < span.start()) {
+				  /*while (prev_obj < span.start()) {
 					size_t sz = sp->block_size_no_stall(prev_obj, _collector);
 					if (sz > 0) {
 						 prev_obj += sz;
@@ -4393,8 +4403,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 						// locking the free list locks; see bug 6324141.
 					  break;
 						   }
-				 }
+				 }*/
 				if (prev_obj <= span.end()) {
+
 				MemRegion my_span = MemRegion(prev_obj, span.end());
 				// Do the marking work within a non-empty span --
 				// the last argument to the constructor indicates whether the
