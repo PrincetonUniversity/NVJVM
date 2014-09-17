@@ -4395,8 +4395,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 						}
 					}
 					currPos++;
-				if(currentMarked && _skipbits == 0 && (uintptr_t)currPos >= (uintptr_t)span.start())
-					break;
+				if(currentMarked && (_skipbits == 0 || _skipbits == 2) && (uintptr_t)currPos >= (uintptr_t)span.start()){
+					oop p = oop(currPos);
+				    if ((p->klass_or_null() != NULL && p->is_parsable())) {
+				    	break;
+				    }
+				}
+
 				}while((uintptr_t)currPos <= (uintptr_t)span.end());
 				prev_obj = currPos;//sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
