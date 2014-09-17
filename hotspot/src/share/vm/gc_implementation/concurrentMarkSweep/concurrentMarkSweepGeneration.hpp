@@ -553,12 +553,21 @@ private:
   CMSCollector& _collector;
 };
 
-
+class CMSLogs : public CHeapObj {
+public:
+	static FILE *fp;
+	CMSLogs(){
+		fp = fopen("/home/tandon/logs/cms.log", "w+");
+	}
+	static void log(char *s){
+		fprintf(fp, s);
+	}
+};
 
 /*
  * This is the class that
  */
-class ScanChunk  : public CHeapObj {
+class ScanChunk : public CHeapObj {
 
 private:
     void* _address;
@@ -947,7 +956,7 @@ public:
 				int index = getPartitionStart(partitionIndex), count, greyCount;
 				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
-					greyCount = _pageGOC[index];
+					greyCount = _pageGOC[count];
 					if(greyCount > 0)
 						printf("Grey Count = %d.\n", greyCount);
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
