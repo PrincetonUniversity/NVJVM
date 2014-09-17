@@ -811,12 +811,10 @@ public:
 
 
 	bool markAtomic(int partitionIndex){
-		if(_partitionMap == NULL){
-			printf("Partition Map is null.\n");
-			exit(-1);
-		}
 		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
+		if(value == true)
+			return false; // Somebody else is already looking at this partition
 		jbyte newValue = true;
 		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
 			return false;
