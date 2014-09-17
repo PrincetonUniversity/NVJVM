@@ -4380,15 +4380,22 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
 // (getting the start of the object).
 				// We figure out the first object on the page using the markBitMap
-				bool prevMarked = false, currentMarked = false, nextMarked = false;
-				HeapWord* currPos = (HeapWord*)pageAddress - 1;
+				bool currentMarked = false;
+				int _skipbits = 0;
+				HeapWord* currPos = sp->block_start_careful(span.start());
 				do{
+					if(_skipbits > 0){
+						_skipbits--;
+					} else {
+						currentMarked = _collector->_markBitMap.isMarked(currPos);
+						if(currentMarked){
+							if(_collector->_markBitMap.isMarked(currPos + 1)){
+								_skipbits = 2;
+							}
+						}
+					}
 					currPos++;
-					prevMarked = _collector->_markBitMap.isMarked(currPos - 1);
-					currentMarked = _collector->_markBitMap.isMarked(currPos);
-					nextMarked = _collector->_markBitMap.isMarked(currPos + 1);
-				}while(!prevMarked && !nextMarked && currentMarked);
-
+				}while(currentMarked && _skipbits == 0 && (uintptr_t)currPos >= (uintptr_t)span.start());
 				prev_obj = currPos;//sp->block_start_careful(span.start());
 				/*printf("Printing the page index of the prev_obj %p, %d, span start address %p, "
 						"page address of span start %d.\n",
