@@ -964,6 +964,12 @@ public:
 			);
 		}
 
+		int getGreyCount(int p){
+			return (
+				_pageGOC[p]
+			);
+		}
+
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			int partitionIndex = currentPartition;
