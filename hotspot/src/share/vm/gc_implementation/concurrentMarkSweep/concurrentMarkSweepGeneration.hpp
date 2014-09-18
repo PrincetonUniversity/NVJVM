@@ -965,29 +965,27 @@ public:
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
-			int partitionIndex = currentPartition;
 			int nonZeroCount = 0;
-			int lPageCount = 0, lPageIndex = -1;
 			char buf[20];
-			if(partitionIndex != - 1){
-				int partitionSize = getPartitionSize(partitionIndex);
-				void *address = getPageBase(getPartitionStart(partitionIndex));
+			if(currentPartition != - 1){
+				int partitionSize = getPartitionSize(currentPartition);
+				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
+				memset(vec, 0, partitionSize);
 				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 					perror("err :");
 					printf("Error in mincore, arguments %p."
 							"Partition Size = %d.\n", address, partitionSize);
 					exit(-1);
 				}
-				int index = getPartitionStart(partitionIndex), count, greyCount;
-				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
+				int index = getPartitionStart(currentPartition), count, greyCount;
+				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 					greyCount = _pageGOC[index];
 					if(greyCount > 0)
 						nonZeroCount++;
-					if((greyCount > 0) && (vec[count] & 1 == 1)){
+					if((greyCount > 0) && ((vec[count] & 1) == 1)){
 						pageIndices.push_back(index);
-					}
-					if((greyCount > 0) && (vec[count] & 1 == 0)){
+					} else if((greyCount > 0) && ((vec[count] & 1) == 0)){
 						pageIndicesOutOfCore.push_back(index);
 					}
 				}
@@ -996,6 +994,12 @@ public:
 			CMSLogs::log(std::string(buf));
 #endif
 			}
+#if OCMS_NO_GREY_ASSERT
+			else {
+				printf("Invalid Partition Index. Index = -1");
+				exit(-1);
+			}
+#endif
 
 			// A better logic is required here to get the
 			if(pageIndices.size() == 0)
@@ -1285,7 +1289,6 @@ int getPartition(int currentPartition){
 	while(true){
 		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
-		printf("PartitionIndex = %d, %u.\n", partitionIndex, getGreyObjectsChunkLevel(partitionIndex));
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
 			if(markAtomic(partitionIndex) == true)
 				return partitionIndex;
