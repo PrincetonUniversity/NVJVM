@@ -46,7 +46,7 @@
 #define OCMS_NO_GREY_DEBUG 0
 #define OCMS_METRICS 0
 #define PRINT_TO_LOG 0
-#define TRACING_SYSTEM_GC 1
+#define TRACING_SYSTEM_GC 0
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
 #define WORKER_THREAD_SLEEP_TIME 100
 // in microseconds, the overall time the master threads sleep for
