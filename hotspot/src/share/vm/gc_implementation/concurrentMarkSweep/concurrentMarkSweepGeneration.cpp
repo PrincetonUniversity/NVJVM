@@ -4131,9 +4131,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 #endif
 				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
 					usleep(100);
-					//printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
 				}
-//				printf("All threads suspended.\n");
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
 #if OCMS_NO_GREY_LOG
