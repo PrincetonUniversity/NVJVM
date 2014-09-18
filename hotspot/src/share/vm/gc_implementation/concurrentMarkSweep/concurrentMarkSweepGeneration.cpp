@@ -3667,7 +3667,9 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . else (oop is to left of current scan pointer)
   //   push oop on marking stack
   // . drain the marking stack
-
+  if(PrintGC){
+	  _cmsGen->printOccupancy("before-mark-from-roots");
+  }
   // Note that when we do a marking step we need to hold the
   // bit map lock -- recall that direct allocation (by mutators)
   // and promotion (by younger generation collectors) is also
@@ -3692,6 +3694,9 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
     result = do_marking_mt(asynch);
   } else {
     result = do_marking_st(asynch);
+  }
+  if(PrintGC){
+	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
   return result;
 }
