@@ -4338,7 +4338,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 					oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
 					if(oldValue == 0){
-						printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");
+						printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
 						exit (-1);
 					}
 		// On clearing the page level grey object count the chunk level grey object count gets cleared
@@ -4393,7 +4393,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 					}
 					// Clearing the mark on the partition, so that the partition can be reused
 				}
-				_partitionMetaData->clearAtomic(currentPartitionIndex);
 			}
 }
 
