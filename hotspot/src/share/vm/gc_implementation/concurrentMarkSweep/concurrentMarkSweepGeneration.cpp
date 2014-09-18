@@ -4094,8 +4094,6 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
-		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
-							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #if OCMS_NO_GREY_LOG_HIGH
 		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
