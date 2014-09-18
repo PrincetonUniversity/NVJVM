@@ -460,6 +460,10 @@ void GenCollectedHeap::do_collection(bool  full,
                                      size_t size,
                                      bool   is_tlab,
                                      int    max_level) {
+#if TRACING_SYSTEM_GC
+  printf("TRACING_SYSTEM_GC :: in do_collection.\n");
+#endif
+
   bool prepared_for_verification = false;
   ResourceMark rm;
   DEBUG_ONLY(Thread* my_thread = Thread::current();)

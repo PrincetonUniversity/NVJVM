@@ -1680,7 +1680,11 @@ void CMSCollector::collect(bool   full,
                            size_t size,
                            bool   tlab)
 {
-  if (!UseCMSCollectionPassing && _collectorState > Idling) {
+#if TRACING_SYSTEM_GC
+  printf("TRACING_SYSTEM_GC :: in CMSCollector::collect().\n");
+#endif
+
+ if (!UseCMSCollectionPassing && _collectorState > Idling) {
     // For debugging purposes skip the collection if the state
     // is not currently idle
     if (TraceCMSState) {
@@ -1792,6 +1796,10 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
+#if TRACING_SYSTEM_GC
+  printf("TRACING_SYSTEM_GC :: in acquire_control_and_collect.\n");
+#endif
+
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
@@ -2107,6 +2115,9 @@ void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
 // concurrent mark-sweep collection.
 void CMSCollector::do_mark_sweep_work(bool clear_all_soft_refs,
   CollectorState first_state, bool should_start_over) {
+#if TRACING_SYSTEM_GC
+	printf("TRACING_SYSTEM_GC::: in do_mark_sweep_work.\n");
+#endif
   if (PrintGC && Verbose) {
     gclog_or_tty->print_cr("Pass concurrent collection to foreground "
       "collector with count %d",
@@ -2197,6 +2208,9 @@ class CMSConcMarkingTask;
 
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
+#if TRACING_SYSTEM_GC
+	printf("TRACING_SYSTEM_GC:: in collect_in_foreground");
+#endif
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
