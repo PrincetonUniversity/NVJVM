@@ -1289,7 +1289,7 @@ int getPartition(int currentPartition){
 		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
-			if(markAtomic(partitionIndex) == false)
+			if(markAtomic(partitionIndex) == true)
 				break;
 		}
 		if(checkToYield())
