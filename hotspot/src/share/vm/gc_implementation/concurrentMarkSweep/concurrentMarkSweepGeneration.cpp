@@ -4424,23 +4424,16 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				_partitionMetaData->decrementWaitThreadCount();
 			}
 			// Getting the page index from the next partitionIndex
+			    // Getting the next available partition
+				currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 				std::vector<int> pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
 				std::vector<int>::iterator it;
 				for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 					pageIndex = *it;
 					scan_a_page(pageIndex);
-					currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
 				}
-				if(pageIndices.size() == 0){
-					pageIndex = _partitionMetaData->getPageFromNextPartitionNoMinCore(currentPartitionIndex);
-					if(pageIndex != -1){
-						scan_a_page(pageIndex);
-						currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
-						_partitionMetaData->clearAtomic(currentPartitionIndex);
-					}
-				} else {
-					_partitionMetaData->clearAtomic(currentPartitionIndex);
-				}
+				// Releasing the partition
+				_partitionMetaData->releasePartition(currentPartitionIndex);
 		} while(_partitionMetaData->isSetToYield() == false);
 }
 
@@ -4492,7 +4485,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 			oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
 			if(oldValue == 0){
-				printf("Something is wrong. Grey Object Count = 0, on the page being scanned.");
+				printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.",
+						_partitionMetaData->getPageIndexFromPageAddress(pageAddress));
 				exit (-1);
 			}
 // On clearing the page level grey object count the chunk level grey object count gets cleared

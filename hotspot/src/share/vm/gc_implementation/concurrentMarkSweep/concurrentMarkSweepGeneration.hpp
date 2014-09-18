@@ -952,14 +952,26 @@ public:
 				return lPIndex;
 			}
 
+		int getPartition(int currentPartition){
+			int partitionIndex = -1;
+			do{
+				partitionIndex = nextPartitionIndex(partitionIndex);
+			} while(markAtomic(partitionIndex) == false);
+			return partitionIndex;
+		}
+
+		bool releasePartition(int partitionIndex){
+			return (
+					clearAtomic(partitionIndex)
+			);
+		}
+
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			int partitionIndex = currentPartition;
 			int nonZeroCount = 0;
+			int lPageCount = -1, lPageIndex = -1;
 			char buf[20];
-			do{
-				partitionIndex = nextPartitionIndex(partitionIndex);
-			} while(markAtomic(partitionIndex) == false);
 			if(partitionIndex != - 1){
 				int partitionSize = getPartitionSize(partitionIndex);
 				void *address = getPageBase(getPartitionStart(partitionIndex));
@@ -979,14 +991,18 @@ public:
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
-				}
-				if(pageIndices.size() == 0){
-					clearAtomic(partitionIndex);
+					if(lPageCount < greyCount){
+						lPageCount = greyCount;
+						lPageIndex = index;
+					}
 				}
 #if PRINT_TO_LOG
 				sprintf(buf, "%d, %d.\n", pageIndices.size(), nonZeroCount);
 				CMSLogs::log(std::string(buf));
 #endif
+			}
+			if(pageIndices.size() == 0 && lPageIndex != -1){
+				pageIndices.push_back(lPageIndex);
 			}
 			return pageIndices;
 		}
@@ -1121,7 +1137,6 @@ public:
 			exit(-1);
 		}
 #endif
-//		printf("Value after incrementing the thread count = %d.\n", newValue);
 		return (int)newValue;
 	}
 
