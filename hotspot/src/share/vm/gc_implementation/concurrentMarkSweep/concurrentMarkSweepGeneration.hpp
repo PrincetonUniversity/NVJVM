@@ -988,9 +988,9 @@ public:
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
-					/*if((greyCount > 0) && (vec[count] & 1 == 0)){
+					if((greyCount > 0) && (vec[count] & 1 == 0)){
 						pageIndicesOutOfCore.push_back(index);
-					}*/
+					}
 				}
 #if PRINT_TO_LOG
 				sprintf(buf, "%d, %d, %d.\n", pageIndices.size(), nonZeroCount, currentPartition);
@@ -1001,8 +1001,8 @@ public:
 			if(pageIndices.size() == 0 && lPageIndex != -1){
 				pageIndices.push_back(lPageIndex);
 			}
-			/*if(pageIndices.size() == 0)
-				return pageIndicesOutOfCore;*/
+			if(pageIndices.size() == 0)
+				return pageIndicesOutOfCore;
 			return pageIndices;
 		}
 
