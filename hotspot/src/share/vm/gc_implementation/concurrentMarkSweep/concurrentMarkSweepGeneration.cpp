@@ -4409,14 +4409,22 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
 		while(true){
-			if (_partitionMetaData->checkToYield())
+			if (_partitionMetaData->checkToYield()){
+				printf("Check To Yield ==> true, Breaking ... \n");
 				break;
+			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			if(currentPartitionIndex == -1)
+			printf("PartitionGot %d.\n", currentPartitionIndex);
+			if(currentPartitionIndex == -1){
+				printf("Current Partition Index = -1, Breaking ... \n");
 				break;
+			}
 			// The page indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
+			if(pageIndices.size() == 0){
+				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
+			}
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
