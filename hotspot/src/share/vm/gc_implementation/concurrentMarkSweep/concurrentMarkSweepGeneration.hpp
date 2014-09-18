@@ -1290,7 +1290,7 @@ int getPartition(int currentPartition){
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
 			if(markAtomic(partitionIndex) == true)
-				return checkToYield;
+				return partitionIndex;
 		}
 		if(checkToYield())
 			return -1;
