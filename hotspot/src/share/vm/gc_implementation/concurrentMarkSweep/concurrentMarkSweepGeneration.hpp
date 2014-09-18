@@ -828,11 +828,9 @@ public:
 	bool markAtomic(int partitionIndex){
 		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
-		if(value == true)
-			return false;
 		// Somebody else is already looking at this partition therefore I cannot scan the pages of this partition
 		jbyte newValue = true;
-		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != false){
 			return false;
 		}
 		return true;

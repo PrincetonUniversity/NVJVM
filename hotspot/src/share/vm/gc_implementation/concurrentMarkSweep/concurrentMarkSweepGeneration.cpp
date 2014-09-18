@@ -4398,7 +4398,8 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
-	// Getting the span partition object
+		std::vector<int>::iterator it;
+		std::vector<int> pageIndices;
 		int currentPartitionIndex = -1, pageIndex;
 		void* pageAddress;
 		CompactibleFreeListSpace* sp;
@@ -4426,8 +4427,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Getting the page index from the next partitionIndex
 			    // Getting the next available partition
 				currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-				std::vector<int> pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
-				std::vector<int>::iterator it;
+				// The page indices of pages that may be scanned in the next iteration
+				pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
 				for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 					pageIndex = *it;
 					scan_a_page(pageIndex);
