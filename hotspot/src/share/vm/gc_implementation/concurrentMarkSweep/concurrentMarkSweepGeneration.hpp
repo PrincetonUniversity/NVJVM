@@ -1288,12 +1288,15 @@ int getPartition(int currentPartition){
 	while(true){
 		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
+		printf("PartitionIndex = %d, %u.\n", partitionIndex, getGreyObjectsChunkLevel(partitionIndex));
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
 			if(markAtomic(partitionIndex) == true)
 				return partitionIndex;
 		}
-		if(checkToYield())
+		if(checkToYield()){
+			printf("Yielding .... \n");
 			return -1;
+		}
 	}
 }
 };
