@@ -77,6 +77,10 @@
 #define __numPages(top, bot) \
 		(((uintptr_t)__page_start(top) - (uintptr_t)__page_start(bot))/(_PAGE_SIZE)) + 1
 
+#define __t_id() \
+	Thread::current()->osthread()->thread_id()
+
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -834,7 +838,7 @@ public:
 				(jbyte)1){
 			return false;
 		}
-		printf("I got partition %u.\n", partitionIndex);
+		printf("I (%u) got partition %u.\n", __t_id(), partitionIndex);
 		return true;
 	}
 
@@ -842,7 +846,7 @@ public:
 		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		jbyte newValue = (jbyte)0;
-		printf("Releasing partition %u.\n", partitionIndex);
+		printf("Releasing partition %u, Id = %u.\n", partitionIndex, __t_id());
 		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == 0){
 			printf("Somebody else cleared it. Something is not correct here.\n");
 			exit(-1);
