@@ -1277,8 +1277,8 @@ bool checkToYield(){
 		decrementWaitThreadCount();
 		return true;
 	}
-	// If we should be working, then lets first decrement the count of the waiting threads
-	decrementWaitThreadCount();
+		// If we should be working, then lets first decrement the count of the waiting threads
+		decrementWaitThreadCount();
 	}
 	return false;
 }
@@ -1290,12 +1290,11 @@ int getPartition(int currentPartition){
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
 			if(markAtomic(partitionIndex) == true)
-				break;
+				return checkToYield;
 		}
 		if(checkToYield())
 			return -1;
 	} while(true);
-	return partitionIndex;
 }
 };
 

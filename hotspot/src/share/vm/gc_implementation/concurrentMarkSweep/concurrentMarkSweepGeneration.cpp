@@ -4100,15 +4100,14 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 #endif
 	}while(greyObjectCount > countThreshold);
 
-#if OCMS_NO_GREY_LOG
+#if 1
 			printf("Grey Object Count (%d) < Threshold. "
-					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
+					"Let me trigger the threads to yield.\n", greyObjectCount);
 #endif
 	_partitionMetaData->setToYield();
 #if OCMS_NO_GREY_LOG
 			printf("Tasks set to yield.\n");
 #endif
-//			yield();
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
