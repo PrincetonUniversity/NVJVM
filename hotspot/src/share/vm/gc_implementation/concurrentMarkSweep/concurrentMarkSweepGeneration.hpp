@@ -1261,12 +1261,13 @@ public:
 	}
 
 bool checkToYield(){
+	if(isSetToYield())
+		return true;
 	// After every loop we check whether have been signalled by the master thread to change our current state
 	if(isSetToWait()){ // Checking if the we have to wait,
 		incrementWaitThreadCount(); // we are waiting for the next signal from the master
 	// if yes then the count of the number of waiting threads is automatically incremented
 	while(isSetToWait()){
-	//				printf("Flag Set To = %d. \n", _partitionMetaData->getFlag());
 		usleep(100);
 	}
 	// If we find that the master thread has asked us to terminate then we can simply break

@@ -4416,7 +4416,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
-			// Getting the page index from the next partitionIndex
 			    // Getting the next available partition
 				currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 				// The page indices of pages that may be scanned in the next iteration
@@ -4427,7 +4426,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				}
 				// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
-		} while(_partitionMetaData->isSetToYield() == false);
+		} while(true);
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
