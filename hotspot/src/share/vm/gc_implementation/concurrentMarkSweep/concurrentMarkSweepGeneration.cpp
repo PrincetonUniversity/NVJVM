@@ -3473,6 +3473,9 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // robust wrt simultaneous marking of bits in the same word,
   // we need to make sure that there is no such interference
   // between concurrent such updates.
+  if(PrintGC){
+		  _cmsGen->printOccupancy("before-mark-from-roots");
+  }
 
   // already have locks
   assert_lock_strong(bitMapLock());
@@ -3490,13 +3493,9 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   } else {
     result = do_marking_st(asynch);
   }
-
-/*#if OCMS_DEBUG
-  bool expr;
-  expr = (Universe::totalGreyObjectCount() == 0);
-  __check(expr, "total grey object count > 0, after mark from roots work.");
-#endif
-*/
+  if(PrintGC){
+	  _cmsGen->printOccupancy("after-mark-from-roots");
+  }
   return result;
 }
 
