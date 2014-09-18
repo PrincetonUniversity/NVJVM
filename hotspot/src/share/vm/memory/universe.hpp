@@ -45,7 +45,7 @@
 #define OCMS_NO_GREY_ASSERT 0
 #define OCMS_NO_GREY_DEBUG 0
 #define OCMS_METRICS 0
-#define PRINT_TO_LOG 1
+#define PRINT_TO_LOG 0
 
 #define __check(a, b) \
 	if(!a){ \
