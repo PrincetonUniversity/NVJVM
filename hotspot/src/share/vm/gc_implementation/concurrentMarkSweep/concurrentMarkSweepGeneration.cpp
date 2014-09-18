@@ -4094,18 +4094,18 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
-#if 1
+#if OCMS_NO_GREY_LOG
 		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
 	}while(greyObjectCount > countThreshold);
 
-#if 1
+#if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d) < Threshold. "
 					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
 #endif
 	_partitionMetaData->setToYield();
-#if 1
+#if OCMS_NO_GREY_LOG
 			printf("Tasks set to yield.\n");
 #endif
 //			yield();
@@ -4410,23 +4410,22 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		CompactibleFreeListSpace* sp;
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
-		do {
-			if (_partitionMetaData->checkToYield()){
+		while(true){
+			if (_partitionMetaData->checkToYield())
 				break;
+			// Getting the next available partition
+			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
+			if(currentPartitionIndex == -1)
+				break;
+			// The page indices of pages that may be scanned in the next iteration
+			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
+			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
+				pageIndex = *it;
+				scan_a_page(pageIndex);
 			}
-			    // Getting the next available partition
-				currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-				if(currentPartitionIndex == -1)
-					break;
-				// The page indices of pages that may be scanned in the next iteration
-				pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
-				for (it=pageIndices.begin(); it<pageIndices.end(); it++){
-					pageIndex = *it;
-					scan_a_page(pageIndex);
-				}
-				// Releasing the partition
+			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
-		} while(true);
+		}
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){

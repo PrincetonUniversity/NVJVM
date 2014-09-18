@@ -998,9 +998,9 @@ public:
 #endif
 			}
 			// A better logic is required here to get the
-			if(pageIndices.size() == 0 && lPageIndex != -1){
+			/*if(pageIndices.size() == 0 && lPageIndex != -1){
 				pageIndices.push_back(lPageIndex);
-			}
+			}*/
 			if(pageIndices.size() == 0)
 				return pageIndicesOutOfCore;
 			return pageIndices;
