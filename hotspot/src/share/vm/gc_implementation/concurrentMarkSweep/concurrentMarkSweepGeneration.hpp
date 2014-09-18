@@ -1268,7 +1268,7 @@ bool checkToYield(){
 		incrementWaitThreadCount(); // we are waiting for the next signal from the master
 	// if yes then the count of the number of waiting threads is automatically incremented
 	while(isSetToWait()){
-		usleep(100);
+		usleep(WORKER_THREAD_SLEEP_TIME);
 	}
 	// If we find that the master thread has asked us to terminate then we can simply break
 	if(isSetToTerminate()){
@@ -1285,7 +1285,7 @@ bool checkToYield(){
 
 int getPartition(int currentPartition){
 	int partitionIndex = currentPartition;
-	do{
+	while(true){
 		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
@@ -1294,7 +1294,7 @@ int getPartition(int currentPartition){
 		}
 		if(checkToYield())
 			return -1;
-	} while(true);
+	}
 }
 };
 
