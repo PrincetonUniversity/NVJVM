@@ -953,8 +953,13 @@ public:
 		int getPartition(int currentPartition){
 			int partitionIndex = currentPartition;
 			do{
+				// we could check the count of the number of
 				partitionIndex = nextPartitionIndex(partitionIndex);
-			} while(markAtomic(partitionIndex) == false);
+				if(getGreyObjectsChunkLevel(partitionIndex) > 0){
+					if(markAtomic(partitionIndex) == false)
+						break;
+				}
+			} while(true);
 			return partitionIndex;
 		}
 
@@ -1107,10 +1112,16 @@ public:
 			return sum;
 	}
 
+	int getGreyObjectsChunkLevel(int p){
+		return (
+			_partitionGOC[p]
+		);
+	}
+
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
 		for (index = 0; index < _numberPartitions; index++){
-			sum += (int)_partitionGOC[index];
+			sum += _partitionGOC[index];
 		}
 #if	OCMS_NO_GREY_LOG_HIGH
 		printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
