@@ -728,7 +728,7 @@ class PartitionMetaData : public CHeapObj {
 	CMSCollector* _collector;
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
-	bool* _partitionMap;
+	jbyte* _partitionMap;
 
 // Message States Used
 	enum MessageState {
@@ -829,9 +829,9 @@ public:
 		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		// Somebody else is already looking at this partition therefore I cannot scan the pages of this partition
-		jbyte newValue = (jbyte)true;
+		jbyte newValue = (jbyte)1;
 		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) ==
-				(jbyte)true){
+				(jbyte)1){
 			return false;
 		}
 		return true;
@@ -840,8 +840,8 @@ public:
 	bool clearAtomic(int partitionIndex){
 		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
-		jbyte newValue = (jbyte)false;
-		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == true){
+		jbyte newValue = (jbyte)0;
+		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == 0){
 			printf("Somebody else cleared it. Something is not correct here.\n");
 			exit(-1);
 			return false;
@@ -1065,11 +1065,11 @@ public:
 		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
-		_partitionMap = new bool[_numberPartitions];
+		_partitionMap = new jbyte[_numberPartitions];
 		int count;
 		for(count = 0; count < _numberPartitions; count++){
 			_partitionGOC[count] = 0;
-			_partitionMap[count] = false;
+			_partitionMap[count] = 0;
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
