@@ -838,7 +838,7 @@ public:
 				(jbyte)1){
 			return false;
 		}
-		printf("I (%u) got partition %u.\n", __t_id(), partitionIndex);
+		printf("I (%u) got partition %u, %d.\n", __t_id(), partitionIndex, value);
 		return true;
 	}
 
@@ -846,7 +846,7 @@ public:
 		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		jbyte newValue = (jbyte)0;
-		printf("Releasing partition %u, Id = %u.\n", partitionIndex, __t_id());
+		printf("I (%u) rel partition %u.\n", __t_id(), partitionIndex);
 		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == 0){
 			printf("Somebody else cleared it. Something is not correct here.\n");
 			exit(-1);

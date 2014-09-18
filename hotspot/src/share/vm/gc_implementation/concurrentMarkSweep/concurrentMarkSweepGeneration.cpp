@@ -4327,8 +4327,8 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
 		printf("Before .... Something is wrong. Grey Object Count = 0, "
-				"on the page (%u, partition index = %u) being scanned.", pageIndex,
-				_partitionMetaData->getPartitionIndexFromPage(pageIndex));
+				"on the page (%u, partition index = %u, id = %u) being scanned.\n", pageIndex,
+				_partitionMetaData->getPartitionIndexFromPage(pageIndex), __t_id());
 		exit (-1);
 	}
 #endif
