@@ -950,19 +950,6 @@ public:
 				return lPIndex;
 			}
 
-		int getPartition(int currentPartition){
-			int partitionIndex = currentPartition;
-			do{
-				// we could check the count of the number of
-				partitionIndex = nextPartitionIndex(partitionIndex);
-				if(getGreyObjectsChunkLevel(partitionIndex) > 0){
-					if(markAtomic(partitionIndex) == false)
-						break;
-				}
-			} while(true);
-			return partitionIndex;
-		}
-
 		bool releasePartition(int partitionIndex){
 			return (
 					clearAtomic(partitionIndex)
@@ -1272,7 +1259,44 @@ public:
 #endif
 		return (unsigned int)newValue;
 	}
+
+bool checkToYield(){
+	// After every loop we check whether have been signalled by the master thread to change our current state
+	if(isSetToWait()){ // Checking if the we have to wait,
+		incrementWaitThreadCount(); // we are waiting for the next signal from the master
+	// if yes then the count of the number of waiting threads is automatically incremented
+	while(isSetToWait()){
+	//				printf("Flag Set To = %d. \n", _partitionMetaData->getFlag());
+		usleep(100);
+	}
+	// If we find that the master thread has asked us to terminate then we can simply break
+	if(isSetToTerminate()){
+	// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
+	// count was decremented earlier).
+		decrementWaitThreadCount();
+		return true;
+	}
+	// If we should be working, then lets first decrement the count of the waiting threads
+	decrementWaitThreadCount();
+	}
+}
+
+int getPartition(int currentPartition){
+	int partitionIndex = currentPartition;
+	do{
+		// we could check the count of the number of
+		partitionIndex = nextPartitionIndex(partitionIndex);
+		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
+			if(markAtomic(partitionIndex) == false)
+				break;
+		}
+		checkToYield();
+	} while(true);
+	return partitionIndex;
+}
+
 };
+
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;

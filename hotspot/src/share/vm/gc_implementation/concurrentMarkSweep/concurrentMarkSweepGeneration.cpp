@@ -4126,7 +4126,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 				printf("Setting a signal to all the threads to wait/become idle.\n");
 #endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
+#if OCMS_NO_GREY_LOG
 				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
+#endif
 				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
 					usleep(100);
 					//printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
@@ -4411,23 +4413,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
 		do {
-	// After every loop we check whether have been signalled by the master thread to change our current state
-			if(_partitionMetaData->isSetToWait()){ // Checking if the we have to wait,
-			_partitionMetaData->incrementWaitThreadCount(); // we are waiting for the next signal from the master
-	// if yes then the count of the number of waiting threads is automatically incremented
-				while(_partitionMetaData->isSetToWait()){
-	//				printf("Flag Set To = %d. \n", _partitionMetaData->getFlag());
-					usleep(100);
-				}
-	// If we find that the master thread has asked us to terminate then we can simply break
-					if(_partitionMetaData->isSetToTerminate()){
-	// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
-	// count was decremented earlier).
-						_partitionMetaData->decrementWaitThreadCount();
-					break;
-					}
-	// If we should be working, then lets first decrement the count of the waiting threads
-				_partitionMetaData->decrementWaitThreadCount();
+			if (_partitionMetaData->checkToYield()){
+				break;
 			}
 			// Getting the page index from the next partitionIndex
 			    // Getting the next available partition
