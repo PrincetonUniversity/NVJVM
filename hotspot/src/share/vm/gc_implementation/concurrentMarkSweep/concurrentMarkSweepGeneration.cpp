@@ -4410,14 +4410,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		u_jbyte oldValue;
 		while(true){
 			if (_partitionMetaData->checkToYield()){
-				printf("Check To Yield ==> true, Breaking ... \n");
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-//			printf("PartitionGot %d.\n", currentPartitionIndex);
 			if(currentPartitionIndex == -1){
-				printf("Current Partition Index = -1, Breaking ... \n");
 				break;
 			}
 			// The page indices of pages that may be scanned in the next iteration

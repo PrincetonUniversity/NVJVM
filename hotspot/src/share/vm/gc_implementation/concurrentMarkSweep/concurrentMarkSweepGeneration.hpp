@@ -829,8 +829,9 @@ public:
 		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
 		// Somebody else is already looking at this partition therefore I cannot scan the pages of this partition
-		jbyte newValue = true;
-		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) == true){
+		jbyte newValue = (jbyte)true;
+		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) ==
+				(jbyte)true){
 			return false;
 		}
 		return true;
@@ -839,8 +840,10 @@ public:
 	bool clearAtomic(int partitionIndex){
 		jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
-		jbyte newValue = false;
-		if(Atomic::cmpxchg(newValue, (volatile jbyte*)position, value) != value){
+		jbyte newValue = (jbyte)false;
+		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == true){
+			printf("Somebody else cleared it. Something is not correct here.\n");
+			exit(-1);
 			return false;
 		}
 		return true;
@@ -981,11 +984,11 @@ public:
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 					greyCount = _pageGOC[index];
-					if(greyCount > 0)
+					if(greyCount > 0){
 						nonZeroCount++;
-					if((greyCount > 0) && ((vec[count] & 1) == 1)){
+					if((vec[count] & 1) == 1)
 						pageIndices.push_back(index);
-					} else if((greyCount > 0) && ((vec[count] & 1) == 0)){
+					 else
 						pageIndicesOutOfCore.push_back(index);
 					}
 				}
@@ -1294,7 +1297,6 @@ int getPartition(int currentPartition){
 				return partitionIndex;
 		}
 		if(checkToYield()){
-			printf("Yielding .... \n");
 			return -1;
 		}
 	}
