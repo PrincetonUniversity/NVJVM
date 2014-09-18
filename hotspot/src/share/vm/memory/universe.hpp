@@ -40,7 +40,7 @@
 #define OCMS_DEBUG 0
 #define OCMS_LOG 0
 #define OCMS_ASSERT 0
-#define OCMS_NO_GREY_LOG 1
+#define OCMS_NO_GREY_LOG 0
 #define OCMS_NO_GREY_LOG_HIGH 0
 #define OCMS_NO_GREY_ASSERT 1
 #define OCMS_NO_GREY_DEBUG 0
