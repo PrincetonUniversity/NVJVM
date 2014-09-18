@@ -951,7 +951,7 @@ public:
 			}
 
 		int getPartition(int currentPartition){
-			int partitionIndex = -1;
+			int partitionIndex = currentPartition;
 			do{
 				partitionIndex = nextPartitionIndex(partitionIndex);
 			} while(markAtomic(partitionIndex) == false);
@@ -1001,7 +1001,7 @@ public:
 					}
 				}
 #if PRINT_TO_LOG
-				sprintf(buf, "%d, %d.\n", pageIndices.size(), nonZeroCount);
+				sprintf(buf, "%d, %d, %d.\n", pageIndices.size(), nonZeroCount, currentPartition);
 				CMSLogs::log(std::string(buf));
 #endif
 			}

@@ -4328,7 +4328,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
-		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
+		printf("Before .... Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
 		exit (-1);
 	}
 #endif
