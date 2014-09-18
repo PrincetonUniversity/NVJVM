@@ -977,6 +977,7 @@ public:
 
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
+			std::vector<int> pageIndicesOutOfCore;
 			int partitionIndex = currentPartition;
 			int nonZeroCount = 0;
 			int lPageCount = 0, lPageIndex = -1;
@@ -1000,9 +1001,8 @@ public:
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
 						pageIndices.push_back(index);
 					}
-					if(lPageCount < greyCount){
-						lPageCount = greyCount;
-						lPageIndex = index;
+					if((greyCount > 0) && (vec[count] & 1 == 0)){
+						pageIndicesOutOfCore.push_back(index);
 					}
 				}
 #if PRINT_TO_LOG
@@ -1010,9 +1010,12 @@ public:
 				CMSLogs::log(std::string(buf));
 #endif
 			}
-			if(pageIndices.size() == 0 && lPageIndex != -1){
+			// A better logic is required here to get the
+			/*if(pageIndices.size() == 0 && lPageIndex != -1){
 				pageIndices.push_back(lPageIndex);
-			}
+			}*/
+			if(pageIndices.size() == 0)
+				return pageIndicesOutOfCore;
 			return pageIndices;
 		}
 
