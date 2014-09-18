@@ -1896,7 +1896,7 @@ NOT_PRODUCT(
     }
   }
 
-  if (should_compact) {
+  if (should_compact && false) {
     // If the collection is being acquired from the background
     // collector, there may be references on the discovered
     // references lists that have NULL referents (being those
