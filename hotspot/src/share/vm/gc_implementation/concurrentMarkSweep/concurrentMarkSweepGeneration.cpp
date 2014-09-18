@@ -4094,10 +4094,11 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
-
+		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
+							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #if OCMS_NO_GREY_LOG_HIGH
-			printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
-					greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
+		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
+							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
 	}while(greyObjectCount > countThreshold);
 
@@ -4325,10 +4326,12 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
+#if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
 		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
 		exit (-1);
 	}
+#endif
 	int currentPartitionIndex = -1;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
@@ -4341,10 +4344,12 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// On acquiring a page we clear the grey object count on the page
 		// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 					oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
+#if OCMS_NO_GREY_ASSERT
 					if(oldValue == 0){
 						printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
 						exit (-1);
 					}
+#endif
 		// On clearing the page level grey object count the chunk level grey object count gets cleared
 					_collector->decGreyObj(pageAddress, (int)oldValue);
 					// Getting the space wherein the page lies
@@ -4395,7 +4400,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 						// Special case handling the my_span.end(), which does not get iterated
 								        handleOop(my_span.end(), &cl);
 					}
-					// Clearing the mark on the partition, so that the partition can be reused
 				}
 			}
 }
@@ -4437,7 +4441,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					scan_a_page(pageIndex);
 				}
 				// Releasing the partition
-				_partitionMetaData->releasePartition(currentPartitionIndex);
+			_partitionMetaData->releasePartition(currentPartitionIndex);
 		} while(_partitionMetaData->isSetToYield() == false);
 }
 

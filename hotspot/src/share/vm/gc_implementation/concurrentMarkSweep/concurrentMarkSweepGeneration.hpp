@@ -993,7 +993,6 @@ public:
 					if(greyCount > 0)
 						nonZeroCount++;
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
-//						printf("grey count = %u, page index = %u.\n", greyCount, index);
 						pageIndices.push_back(index);
 					}
 					if(lPageCount < greyCount){
