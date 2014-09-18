@@ -4335,71 +4335,69 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	u_jbyte oldValue;
-	{
-					// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
-					currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
-					pageAddress = _partitionMetaData->getPageBase(pageIndex);
-		// On acquiring a page we clear the grey object count on the page
-		// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-					oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
+	// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
+	currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
+	pageAddress = _partitionMetaData->getPageBase(pageIndex);
+// On acquiring a page we clear the grey object count on the page
+// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
+	oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
 #if OCMS_NO_GREY_ASSERT
-					if(oldValue == 0){
-						printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
-						exit (-1);
-					}
+	if(oldValue == 0){
+		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
+		exit (-1);
+	}
 #endif
-		// On clearing the page level grey object count the chunk level grey object count gets cleared
-					_collector->decGreyObj(pageAddress, (int)oldValue);
-					// Getting the space wherein the page lies
-					sp = getSpace(pageAddress);
-					// The memory region containing the
-					MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
-							(HeapWord *)Utility::getPageEnd(pageAddress));
-					span = span.intersection(sp->used_region());
-					if(!span.is_empty()){
-		// One of questions that we need to get an answer to is the number of extra pages this can touch
-		// (getting the start of the object).
-						// We figure out the first object on the page using the markBitMap
-						bool currentMarked = false;
-						int _skipbits = 0;
-						HeapWord* currPos = sp->block_start_careful(span.start());
-						do{
-							currentMarked = _collector->_markBitMap.isMarked(currPos);
-							if(currentMarked){
-								if(_skipbits > 0){
-									_skipbits--;
-								} else { // _skipbits == 0
-									if((uintptr_t)currPos >= (uintptr_t)span.start()){
-										oop p = oop(currPos);
-										if ((p->klass_or_null() != NULL && p->is_parsable())) {
-											break;
-										}
-									}
-									if(_collector->_markBitMap.isMarked(currPos + 1)){
-											_skipbits = 2;
-									}
-								}
-							}
-						currPos++;
-						}while((uintptr_t)currPos <= (uintptr_t)span.end());
-						prev_obj = currPos;
-						if (prev_obj <= span.end()) {
-						MemRegion my_span = MemRegion(prev_obj, span.end());
-						// Do the marking work within a non-empty span --
-						// the last argument to the constructor indicates whether the
-						// iteration should be incremental with periodic yields.
-						Par_MarkFromGreyRootsClosure cl(_collector,
-									&_collector->_markBitMap,
-									&_collector->_greyMarkBitMap,
-									_collector->getChunkList(),
-									my_span,
-									&_collector->_revisitStack);
-								        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
-						// Special case handling the my_span.end(), which does not get iterated
-								        handleOop(my_span.end(), &cl);
+// On clearing the page level grey object count the chunk level grey object count gets cleared
+	_collector->decGreyObj(pageAddress, (int)oldValue);
+	// Getting the space wherein the page lies
+	sp = getSpace(pageAddress);
+	// The memory region containing the
+	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
+			(HeapWord *)Utility::getPageEnd(pageAddress));
+	span = span.intersection(sp->used_region());
+	if(!span.is_empty()){
+// One of questions that we need to get an answer to is the number of extra pages this can touch
+// (getting the start of the object).
+		// We figure out the first object on the page using the markBitMap
+		bool currentMarked = false;
+		int _skipbits = 0;
+		HeapWord* currPos = sp->block_start_careful(span.start());
+		do{
+			currentMarked = _collector->_markBitMap.isMarked(currPos);
+			if(currentMarked){
+				if(_skipbits > 0){
+					_skipbits--;
+				} else { // _skipbits == 0
+					if((uintptr_t)currPos >= (uintptr_t)span.start()){
+						oop p = oop(currPos);
+						if ((p->klass_or_null() != NULL && p->is_parsable())) {
+							break;
+						}
+					}
+					if(_collector->_markBitMap.isMarked(currPos + 1)){
+							_skipbits = 2;
 					}
 				}
 			}
+		currPos++;
+		}while((uintptr_t)currPos <= (uintptr_t)span.end());
+		prev_obj = currPos;
+		if (prev_obj <= span.end()) {
+		MemRegion my_span = MemRegion(prev_obj, span.end());
+		// Do the marking work within a non-empty span --
+		// the last argument to the constructor indicates whether the
+		// iteration should be incremental with periodic yields.
+		Par_MarkFromGreyRootsClosure cl(_collector,
+					&_collector->_markBitMap,
+					&_collector->_greyMarkBitMap,
+					_collector->getChunkList(),
+					my_span,
+					&_collector->_revisitStack);
+						_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		// Special case handling the my_span.end(), which does not get iterated
+						handleOop(my_span.end(), &cl);
+	}
+}
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
