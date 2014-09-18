@@ -980,7 +980,6 @@ public:
 					exit(-1);
 				}
 				int index = getPartitionStart(partitionIndex), count, greyCount;
-				int largestGreyCount = 0, lPIndex = -1;
 				for(count = 0; count < getPartitionSize(partitionIndex); count++, index++){
 					greyCount = _pageGOC[index];
 					if(greyCount > 0)
@@ -993,14 +992,12 @@ public:
 					}
 				}
 #if PRINT_TO_LOG
-				sprintf(buf, "%d, %d, %d.\n", pageIndices.size(), nonZeroCount, currentPartition);
-				CMSLogs::log(std::string(buf));
+			sprintf(buf, "%d, %d, %d, %d.\n", pageIndices.size(), pageIndicesOutOfCore.size(), nonZeroCount, currentPartition);
+			CMSLogs::log(std::string(buf));
 #endif
 			}
+
 			// A better logic is required here to get the
-			/*if(pageIndices.size() == 0 && lPageIndex != -1){
-				pageIndices.push_back(lPageIndex);
-			}*/
 			if(pageIndices.size() == 0)
 				return pageIndicesOutOfCore;
 			return pageIndices;
