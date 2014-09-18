@@ -974,7 +974,7 @@ public:
 			std::vector<int> pageIndices;
 			int partitionIndex = currentPartition;
 			int nonZeroCount = 0;
-			int lPageCount = -1, lPageIndex = -1;
+			int lPageCount = 0, lPageIndex = -1;
 			char buf[20];
 			if(partitionIndex != - 1){
 				int partitionSize = getPartitionSize(partitionIndex);
@@ -993,7 +993,7 @@ public:
 					if(greyCount > 0)
 						nonZeroCount++;
 					if((greyCount > 0) && (vec[count] & 1 == 1)){
-						printf("grey count = %u, page index = %u.\n", greyCount, index);
+//						printf("grey count = %u, page index = %u.\n", greyCount, index);
 						pageIndices.push_back(index);
 					}
 					if(lPageCount < greyCount){
