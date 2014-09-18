@@ -834,6 +834,7 @@ public:
 				(jbyte)1){
 			return false;
 		}
+		printf("I got partition %u.", partitionIndex);
 		return true;
 	}
 
@@ -844,8 +845,8 @@ public:
 		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) == 0){
 			printf("Somebody else cleared it. Something is not correct here.\n");
 			exit(-1);
-			return false;
 		}
+		printf("Releasing partition %u.", partitionIndex);
 		return true;
 	}
 
