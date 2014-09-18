@@ -834,7 +834,7 @@ public:
 		jbyte value = *position;
 		// Somebody else is already looking at this partition therefore I cannot scan the pages of this partition
 		jbyte newValue = (jbyte)1;
-		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)value) ==
+		if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)0) ==
 				(jbyte)1){
 			return false;
 		}
