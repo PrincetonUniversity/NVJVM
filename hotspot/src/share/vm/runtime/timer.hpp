@@ -26,6 +26,8 @@
 #define SHARE_VM_RUNTIME_TIMER_HPP
 
 #include "utilities/globalDefinitions.hpp"
+#include "string"
+using namespace std;
 
 // Timers for simple measurement.
 
@@ -117,11 +119,15 @@ class TraceCPUTime: public StackObj {
   double _starting_real_time;   // real time at start of measurement
   outputStream* _logfile;       // output is printed to this stream
   bool _error;                  // true if an error occurred, turns off output
+  std::string _phase_name;
 
  public:
   TraceCPUTime(bool doit = true,
                bool print_cr = true,
                outputStream *logfile = NULL);
+  void setPhase(const char *phase){
+	  _phase_name = std::string(phase);
+  }
   ~TraceCPUTime();
 };
 

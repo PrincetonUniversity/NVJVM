@@ -3606,6 +3606,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
   // However that wouldn't be right, because it's possible that
   // a safepoint is indeed in progress as a younger generation
   // stop-the-world GC happens even as we mark in this generation.
+
   assert(_collectorState == Marking, "inconsistent state?");
   check_correct_thread_executing();
   verify_overflow_empty();
@@ -3667,6 +3668,9 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . else (oop is to left of current scan pointer)
   //   push oop on marking stack
   // . drain the marking stack
+
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("mark-phase");
 
   if(PrintGC){
 	  _cmsGen->printOccupancy("before-mark-from-roots");
@@ -6035,7 +6039,8 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.reset();
   _intra_sweep_timer.start();
   if (asynch) {
-    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	tcpu.setPhase("sweep-phase");
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
     // First sweep the old gen then the perm gen
     {
@@ -6064,6 +6069,8 @@ void CMSCollector::sweep(bool asynch) {
       _collectorState = Resizing;
     }
   } else {
+	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	tcpu.setPhase("sweep-phase");
     // already have needed locks
     sweepWork(_cmsGen,  asynch);
 
