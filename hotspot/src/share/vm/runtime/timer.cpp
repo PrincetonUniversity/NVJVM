@@ -204,7 +204,7 @@ TraceCPUTime::~TraceCPUTime() {
         user_secs = user_time - _starting_user_time;
         system_secs = system_time - _starting_system_time;
         real_secs = real_time - _starting_real_time;
-        if(_phase_name == NULL){
+        if(_phase_name.length() == 0){
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
           user_secs, system_secs, real_secs);
         } else {

@@ -26,7 +26,7 @@
 #define SHARE_VM_RUNTIME_TIMER_HPP
 
 #include "utilities/globalDefinitions.hpp"
-#include "string.h"
+#include "string"
 using namespace std;
 
 // Timers for simple measurement.
@@ -124,7 +124,8 @@ class TraceCPUTime: public StackObj {
  public:
   TraceCPUTime(bool doit = true,
                bool print_cr = true,
-               outputStream *logfile = NULL, std::string phaseName);
+               outputStream *logfile = NULL,
+               std::string phaseName = "");
   ~TraceCPUTime();
 };
 
