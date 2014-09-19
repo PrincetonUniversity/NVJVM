@@ -39,6 +39,11 @@
 #include "utilities/yieldingWorkgroup.hpp"
 #include <sys/mman.h>
 
+#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
+
+#define __page_start(p) \
+	(void *)((long)p & (~(_PAGE_SIZE-1)))
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
