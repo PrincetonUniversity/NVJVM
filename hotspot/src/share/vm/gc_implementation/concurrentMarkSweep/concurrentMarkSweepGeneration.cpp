@@ -4033,11 +4033,6 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
       }
       if (prev_obj < span.end()) {
         MemRegion my_span = MemRegion(prev_obj, span.end());
-//        if(madvise(__page_start(my_span.start()), my_span.byte_size(), MADV_SEQUENTIAL) == -1){
-//        	  perror("err: ");
-//        	  printf("Error in madvise");
-//        	  exit(-1);
-//          }
         // Do the marking work within a non-empty span --
         // the last argument to the constructor indicates whether the
         // iteration should be incremental with periodic yields.
@@ -6213,11 +6208,6 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
   printf("In sweepWork \n");
-  if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
-	  perror("err: ");
-	  printf("Error in madvise");
-	  exit(-1);
-  }
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
