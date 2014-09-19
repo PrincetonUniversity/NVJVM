@@ -167,15 +167,15 @@ TraceTime::~TraceTime() {
 
 TraceCPUTime::TraceCPUTime(bool doit,
                bool print_cr,
-               outputStream *logfile, std::string pname) :
+               outputStream *logfile) :
   _active(doit),
   _print_cr(print_cr),
   _starting_user_time(0.0),
   _starting_system_time(0.0),
   _starting_real_time(0.0),
   _logfile(logfile),
-  _phase_name(pname),
   _error(false) {
+  _phase_name = "";
   if (_active) {
     if (logfile != NULL) {
       _logfile = logfile;

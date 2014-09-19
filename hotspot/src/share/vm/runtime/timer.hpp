@@ -124,8 +124,10 @@ class TraceCPUTime: public StackObj {
  public:
   TraceCPUTime(bool doit = true,
                bool print_cr = true,
-               outputStream *logfile = NULL,
-               std::string phaseName = "");
+               outputStream *logfile = NULL);
+  void setPhase(char* phaseName){
+	  _phase_name = std::string(phaseName);
+  }
   ~TraceCPUTime();
 };
 
