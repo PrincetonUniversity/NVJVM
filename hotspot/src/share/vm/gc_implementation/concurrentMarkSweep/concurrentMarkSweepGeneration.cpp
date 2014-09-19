@@ -7008,7 +7008,11 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
-
+  if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
+		  perror("err: ");
+		  printf("Error in madvise");
+		  exit(-1);
+}
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
