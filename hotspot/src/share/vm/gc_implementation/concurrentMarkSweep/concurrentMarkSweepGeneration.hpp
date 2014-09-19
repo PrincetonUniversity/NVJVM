@@ -37,6 +37,7 @@
 #include "utilities/stack.inline.hpp"
 #include "utilities/taskqueue.hpp"
 #include "utilities/yieldingWorkgroup.hpp"
+#include <sys/mman.h>
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
