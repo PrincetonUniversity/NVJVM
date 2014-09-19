@@ -167,13 +167,14 @@ TraceTime::~TraceTime() {
 
 TraceCPUTime::TraceCPUTime(bool doit,
                bool print_cr,
-               outputStream *logfile) :
+               outputStream *logfile, std::string pname) :
   _active(doit),
   _print_cr(print_cr),
   _starting_user_time(0.0),
   _starting_system_time(0.0),
   _starting_real_time(0.0),
   _logfile(logfile),
+  _phase_name(pname),
   _error(false) {
   if (_active) {
     if (logfile != NULL) {
@@ -203,9 +204,13 @@ TraceCPUTime::~TraceCPUTime() {
         user_secs = user_time - _starting_user_time;
         system_secs = system_time - _starting_system_time;
         real_secs = real_time - _starting_real_time;
-
+        if(_phase_name == NULL){
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
           user_secs, system_secs, real_secs);
+        } else {
+            _logfile->print("Phase: %s, [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
+            		_phase_name, user_secs, system_secs, real_secs);
+        }
 
       } else {
         _logfile->print("[Invalid result in TraceCPUTime]");
