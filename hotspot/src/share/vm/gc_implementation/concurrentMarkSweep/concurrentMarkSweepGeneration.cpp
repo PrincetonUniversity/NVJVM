@@ -3667,11 +3667,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . else (oop is to left of current scan pointer)
   //   push oop on marking stack
   // . drain the marking stack
- if(madvise(_span.start(), _span.byte_size(), MADV_SEQUENTIAL) == -1){
-	  perror("err: ");
-	  printf("Error in madvise");
-	  exit(-1);
-  }
 
   if(PrintGC){
 	  _cmsGen->printOccupancy("before-mark-from-roots");
@@ -4034,6 +4029,11 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
       }
       if (prev_obj < span.end()) {
         MemRegion my_span = MemRegion(prev_obj, span.end());
+        if(madvise(my_span.start(), my_span.byte_size(), MADV_SEQUENTIAL) == -1){
+        	  perror("err: ");
+        	  printf("Error in madvise");
+        	  exit(-1);
+          }
         // Do the marking work within a non-empty span --
         // the last argument to the constructor indicates whether the
         // iteration should be incremental with periodic yields.
@@ -4308,7 +4308,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
     }
     // Adjust the task to restart from _restart_addr
     tsk.reset(_restart_addr);
-    cms_space ->initialize_sequential_subtasks_for_marking(num_workers,
+    cms_space->initialize_sequential_subtasks_for_marking(num_workers,
                   _restart_addr);
     perm_space->initialize_sequential_subtasks_for_marking(num_workers,
                   _restart_addr);
