@@ -3667,6 +3667,12 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . else (oop is to left of current scan pointer)
   //   push oop on marking stack
   // . drain the marking stack
+ if(madvise(_span.start(), _span.byte_size(), MADV_SEQUENTIAL) == -1){
+	  perror("err: ");
+	  printf("Error in madvise");
+	  exit(-1);
+  }
+
   if(PrintGC){
 	  _cmsGen->printOccupancy("before-mark-from-roots");
   }
@@ -6199,6 +6205,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
+  printf("In sweepWork \n");
   if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
 	  perror("err: ");
 	  printf("Error in madvise");
