@@ -3490,6 +3490,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // robust wrt simultaneous marking of bits in the same word,
   // we need to make sure that there is no such interference
   // between concurrent such updates.
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   if(PrintGC){
 	_cmsGen->printOccupancy("before-mark-from-roots");
   }
