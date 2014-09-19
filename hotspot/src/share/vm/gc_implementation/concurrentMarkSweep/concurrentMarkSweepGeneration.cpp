@@ -4029,11 +4029,11 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
       }
       if (prev_obj < span.end()) {
         MemRegion my_span = MemRegion(prev_obj, span.end());
-        if(madvise(__page_start(my_span.start()), my_span.byte_size(), MADV_SEQUENTIAL) == -1){
-        	  perror("err: ");
-        	  printf("Error in madvise");
-        	  exit(-1);
-          }
+//        if(madvise(__page_start(my_span.start()), my_span.byte_size(), MADV_SEQUENTIAL) == -1){
+//        	  perror("err: ");
+//        	  printf("Error in madvise");
+//        	  exit(-1);
+//          }
         // Do the marking work within a non-empty span --
         // the last argument to the constructor indicates whether the
         // iteration should be incremental with periodic yields.

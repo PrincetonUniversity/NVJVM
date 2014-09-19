@@ -41,6 +41,9 @@
 
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 
+#define __numBytes(top, bot) \
+		((((uintptr_t)__page_start(top) - (uintptr_t)__page_start(bot))/(_PAGE_SIZE)) + 1) * _PAGE_SIZE
+
 #define __page_start(p) \
 	(void *)((long)p & (~(_PAGE_SIZE-1)))
 
