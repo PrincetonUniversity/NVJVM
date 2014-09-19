@@ -636,9 +636,9 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
       warning("Failed to allocate CMS Bit Map");
       return;
     }
-    size_t size = _markBitMap.sizeInBits();
+/*    size_t size = _markBitMap.sizeInBits();
     size_t sizeSpan = _span.byte_size();
-    printf("Size of the mark bit map in %u bytes, span size = %u.\n", size/8, sizeSpan);
+    printf("Size of the mark bit map in %u bytes, span size = %u.\n", size/8, sizeSpan);*/
     assert(_markBitMap.covers(_span), "_markBitMap inconsistency?");
   }
   {
