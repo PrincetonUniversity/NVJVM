@@ -1144,7 +1144,7 @@ public:
 			store_Atomic(address, pageIndex);
 		} else {
 			jushort curr_val = _pageStart[pageIndex];
-			if(curr_val > address){
+			if(curr_val > heapWordToShort(address)){
 				store_Atomic(address, pageIndex);
 			}
 		}
