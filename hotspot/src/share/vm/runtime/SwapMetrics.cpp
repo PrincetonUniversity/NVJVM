@@ -9,6 +9,8 @@
 
 SwapMetrics::SwapMetrics(const char* phase) {
   _currentFaults = new int[2];
+  _initialFaults = new int[2];
+  _finalFaults = new int[2];
   _phaseName = std::string(phase);
   getCurrentNumberOfFaults();
   int count;
@@ -16,7 +18,6 @@ SwapMetrics::SwapMetrics(const char* phase) {
 	  _initialFaults[count] = _currentFaults[count];
   }
   _logFilePath = "/home/tandon/logs/cms.log";
-
 }
 
 SwapMetrics::~SwapMetrics() {
