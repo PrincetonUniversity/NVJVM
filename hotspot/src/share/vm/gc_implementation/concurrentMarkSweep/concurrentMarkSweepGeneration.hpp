@@ -66,6 +66,9 @@
 #define __page_start(p) \
 	(void *)((long)p & (~(_PAGE_SIZE-1)))
 
+#define __page_start_long(p) \
+	((long)p & (~(_PAGE_SIZE-1)))
+
 #define __page_end(p) \
 	(void *)((long)p | ((_PAGE_SIZE-1)))
 
@@ -1118,15 +1121,15 @@ public:
 	}
 
 	jushort heapWordToShort(HeapWord* address){
-		return ((jushort)(((long)address) - __page_start(address)));
+		return ((jushort)(((long)address) - __page_start_long(address)));
 	}
 
 	jushort store_Atomic(HeapWord* address, int index){
 		jushort *position = &(_pageStart[index]);
 		jushort value = *position;
 		jushort newValue = heapWordToShort(address);
-		while(Atomic::cmpxchg((jushort)newValue, (volatile jushort*)position,
-				(jushort)value) != (jushort)value){
+		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
+				(jshort)value) != (jshort)value){
 			value = *position;
 			if(newValue > value){
 				break;
