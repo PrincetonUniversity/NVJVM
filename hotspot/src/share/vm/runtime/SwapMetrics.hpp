@@ -22,8 +22,8 @@ class SwapMetrics {
 private:
 	int _majorFaults;
 	int _minorFaults;
-    int _initialFaults[];
-    int _finalFaults[];
+    int* _initialFaults;
+    int* _finalFaults;
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
