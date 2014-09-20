@@ -3671,6 +3671,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-phase");
+  SwapMetrics smet("mark-phase");
 
   if(PrintGC){
 	  _cmsGen->printOccupancy("before-mark-from-roots");
@@ -6066,6 +6067,9 @@ void CMSCollector::sweep(bool asynch) {
   } else {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase");
+
+	SwapMetrics smet("sweep-phase");
+
     // already have needed locks
     sweepWork(_cmsGen,  asynch);
 

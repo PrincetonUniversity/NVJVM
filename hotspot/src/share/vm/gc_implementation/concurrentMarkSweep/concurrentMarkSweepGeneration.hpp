@@ -38,6 +38,7 @@
 #include "utilities/taskqueue.hpp"
 #include "utilities/yieldingWorkgroup.hpp"
 #include <sys/mman.h>
+#include "runtime/SwapMetrics.hpp"
 
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 
