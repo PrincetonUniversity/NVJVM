@@ -44,6 +44,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <vector>
+#include "runtime/SwapMetrics.hpp"
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)

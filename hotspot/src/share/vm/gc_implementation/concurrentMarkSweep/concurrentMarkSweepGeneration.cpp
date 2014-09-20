@@ -3492,6 +3492,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // between concurrent such updates.
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-from-roots");
+  SwapMetrics sMet("mark-from-roots");
   if(PrintGC){
 	_cmsGen->printOccupancy("before-mark-from-roots");
   }
@@ -6842,6 +6843,7 @@ void CMSCollector::sweep(bool asynch) {
   if (asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase");
+	SwapMetrics sMet("sweep-phase");
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
     // First sweep the old gen then the perm gen
     {
@@ -6872,6 +6874,8 @@ void CMSCollector::sweep(bool asynch) {
   } else {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase");
+	SwapMetrics sMet("sweep-phase");
+
     // already have needed locks
     sweepWork(_cmsGen,  asynch);
 
