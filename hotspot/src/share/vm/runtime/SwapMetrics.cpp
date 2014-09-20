@@ -18,7 +18,7 @@ SwapMetrics::SwapMetrics(const char* phase) {
 }
 
 SwapMetrics::~SwapMetrics() {
-  int faults[] = getCurrentNumberOfFaults();
+  int* faults = getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
 	  _finalFaults[count] = faults[count];
