@@ -26,7 +26,7 @@ private:
     int _finalFaults[];
     string _phaseName;
     string _logFilePath;
-    int _currentFaults[];
+    int* _currentFaults;
 
 public:
 	SwapMetrics(const char *phase);
