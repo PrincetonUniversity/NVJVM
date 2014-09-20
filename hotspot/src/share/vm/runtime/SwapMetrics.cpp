@@ -8,6 +8,7 @@
 #include "SwapMetrics.hpp"
 
 SwapMetrics::SwapMetrics(const char* phase) {
+  _currentFaults = new int[2];
   _phaseName = std::string(phase);
   getCurrentNumberOfFaults();
   int count;
@@ -15,7 +16,7 @@ SwapMetrics::SwapMetrics(const char* phase) {
 	  _initialFaults[count] = _currentFaults[count];
   }
   _logFilePath = "/home/tandon/logs/cms.log";
-  _currentFaults = new int[2];
+
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -44,9 +45,11 @@ void SwapMetrics::getCurrentNumberOfFaults(void){
 	  char buf[BUF_MAX];
 	  pid_t pid = getpid();
 	  std::string cmd = std::string("ps -o min_flt,maj_flt ") +
-	           std::string(inToS(pid));
+	    std::string(inToS(pid));
 	  fp = popen(cmd.c_str(), "r");
-	  while(fgets(buf, BUF_MAX, fp) != NULL);
+	  while(fgets(buf, BUF_MAX, fp) != NULL){
+		  cout << buf << endl;
+	  }
 	  istringstream iss(buf);
 	  do
 	   {
