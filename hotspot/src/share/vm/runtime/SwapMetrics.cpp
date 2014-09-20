@@ -9,19 +9,20 @@
 
 SwapMetrics::SwapMetrics(const char* phase) {
   _phaseName = std::string(phase);
-  int* faults = getCurrentNumberOfFaults();
+  getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
-	  _initialFaults[count] = faults[count];
+	  _initialFaults[count] = _currentFaults[count];
   }
   _logFilePath = "/home/tandon/logs/cms.log";
+  _currentFaults = new int[2];
 }
 
 SwapMetrics::~SwapMetrics() {
-  int* faults = getCurrentNumberOfFaults();
+  getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
-	  _finalFaults[count] = faults[count];
+	  _finalFaults[count] = _currentFaults[count];
   }
   // Setting the minor and the major faults
   _minorFaults = _finalFaults[0] - _initialFaults[0];
@@ -37,9 +38,8 @@ std::string inToS(int num){
     return ss.str();
 }
 
-int* SwapMetrics::getCurrentNumberOfFaults(void){
+void SwapMetrics::getCurrentNumberOfFaults(void){
 	  int count = 0;
-	  int faults[] = {0 , 0};
 	  FILE *fp;
 	  char buf[BUF_MAX];
 	  pid_t pid = getpid();
@@ -52,9 +52,8 @@ int* SwapMetrics::getCurrentNumberOfFaults(void){
 	   {
 	       string sub;
 	       iss >> sub;
-	       std::stringstream(sub) >> faults[count];
+	       std::stringstream(sub) >> _currentFaults[count];
 	       count++;
 	    } while(iss);
 
-	  return faults;
 }
