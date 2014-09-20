@@ -9,7 +9,7 @@
 
 SwapMetrics::SwapMetrics(const char* phase) {
   _phaseName = std::string(phase);
-  int faults[] = getCurrentNumberOfFaults();
+  int* faults = getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
 	  _initialFaults[count] = faults[count];
@@ -32,7 +32,8 @@ SwapMetrics::~SwapMetrics() {
 }
 
 std::string inToS(int num){
-    std::ostringstream ss(num);
+    std::ostringstream ss;
+    ss << num;
     return ss.str();
 }
 
