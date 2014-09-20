@@ -75,6 +75,7 @@ class Atomic : AllStatic {
   static jbyte    cmpxchg    (jbyte    exchange_value, volatile jbyte*    dest, jbyte    compare_value);
   static jint     cmpxchg    (jint     exchange_value, volatile jint*     dest, jint     compare_value);
   static jlong    cmpxchg    (jlong    exchange_value, volatile jlong*    dest, jlong    compare_value);
+  static jshort  cmpxchg    (jshort    exchange_value, volatile jshort*    dest, jshort    compare_value);
 
   static unsigned int cmpxchg(unsigned int exchange_value,
                               volatile unsigned int* dest,

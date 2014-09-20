@@ -47,6 +47,10 @@
 #define OCMS_METRICS 0
 #define PRINT_TO_LOG 0
 #define TRACING_SYSTEM_GC 0
+#define NO_OBJECT_START_SHIFT 15 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
+// that represents that no object start is present on the current page
+#define NO_OBJECT_MASK 1 << 15   // the mask that represents that no object start is present on a given page
+
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
 #define WORKER_THREAD_SLEEP_TIME 100

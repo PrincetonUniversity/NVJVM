@@ -714,6 +714,10 @@ class ChunkList : public CHeapObj  {
 class PartitionMetaData : public CHeapObj {
 	int totalDecrements;
 	int totalIncrements;
+//  Keeps the offset of the highest allocated object for each page in order to make sure that the sweep phase can
+//  easily iterate through each page independent of the other pages
+	jushort* _pageStart;
+// Keeps a track of the number of the grey objects per page
 	jubyte*_pageGOC;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
@@ -734,6 +738,7 @@ class PartitionMetaData : public CHeapObj {
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
+	//
 
 // Message States Used
 	enum MessageState {
@@ -1077,8 +1082,10 @@ public:
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
+		_pageStart = new jushort[_numberPages];
 		for(count = 0; count < _numberPages; count++){
 				_pageGOC[count] = 0;
+				_pageStart[count] = NO_OBJECT_MASK; // each page is initialized with t
 		}
 		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
@@ -1108,6 +1115,36 @@ public:
 #endif
 
 			return sum;
+	}
+
+	jushort heapWordToShort(HeapWord* address){
+		return ((jushort)(((long)address) - __page_start(address)));
+	}
+
+	jushort store_Atomic(HeapWord* address, int index){
+		jushort *position = &(_pageStart[index]);
+		jushort value = *position;
+		jushort newValue = heapWordToShort(address);
+		while(Atomic::cmpxchg((jushort)newValue, (volatile jushort*)position,
+				(jushort)value) != (jushort)value){
+			value = *position;
+			if(newValue > value){
+				break;
+			}
+		}
+		return (jushort)newValue;
+	}
+
+	void objectPromoted(HeapWord* address){
+		int pageIndex = getPageIndexFromPageAddress(address);
+		if(_pageStart[pageIndex] == NO_OBJECT_MASK){
+			store_Atomic(address, pageIndex);
+		} else {
+			jushort curr_val = _pageStart[pageIndex];
+			if(curr_val > address){
+				store_Atomic(address, pageIndex);
+			}
+		}
 	}
 
 	int getGreyObjectsChunkLevel(int p){
