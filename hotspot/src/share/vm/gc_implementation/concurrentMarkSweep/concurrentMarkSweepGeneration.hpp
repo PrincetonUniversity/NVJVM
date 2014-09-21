@@ -2728,7 +2728,7 @@ public:
 	size_t do_garbage_chunk(FreeChunk* fc);
 	size_t do_chunk(HeapWord* addr);
 	size_t do_live_chunk(HeapWord* addr);
-	size_t do_free_chunk(HeapWord* fc);
+	size_t do_free_chunk(FreeChunk* fc);
 	size_t do_garbage_chunk(HeapWord* gc);
 };
 

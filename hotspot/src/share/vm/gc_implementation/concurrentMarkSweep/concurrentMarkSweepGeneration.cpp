@@ -3710,6 +3710,7 @@ public:
 	void work(int id);
 	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure);
 	CMSCollector* getCollector() { return _collector; }
+	void coordinator_yield();
 };
 
 // MT Concurrent Marking Task
@@ -4989,6 +4990,10 @@ void CMSConcMarkingTask::do_work_steal(int i) {
       yield();
     }
   }
+}
+
+void CMSConcSweepingTask::coordinator_yield() {
+
 }
 
 // This is run by the CMS (coordinator) thread.
@@ -9187,7 +9192,7 @@ size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
 	return res;
 }
 
-size_t SweepPageClosure::do_free_chunk(HeapWord* fc){
+size_t SweepPageClosure::do_free_chunk(FreeChunk* fc){
 	size_t res = fc->size();
 	return res;
 }
