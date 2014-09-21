@@ -84,6 +84,8 @@
 #define __t_id() \
 	Thread::current()->osthread()->thread_id()
 
+#define _pm_ \
+	getPartitionMetaData()
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
@@ -895,6 +897,11 @@ public:
 			return _partitionSize;
 		}
 
+		void *getPageEnd(int pageIndex){
+			return ((void *)
+							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE) - 1)
+			);
+		}
 		// This function converts a given page index into the base address of the page
 		// All the indexes are now relative to the base of the span start now.
 		void *getPageBase(int pageIndex){
@@ -1124,6 +1131,11 @@ public:
 		return ((jushort)(((long)address) - __page_start_long(address)));
 	}
 
+	void* offsetToWordAddress(jushort off, int pageIndex){
+		uintptr_t obj = getPageBase(pageIndex) + (uintptr_t)(off);
+		return (void*)obj;
+	}
+
 	jushort store_Atomic(HeapWord* address, int index){
 		jushort *position = &(_pageStart[index]);
 		jushort value = *position;
@@ -1138,7 +1150,7 @@ public:
 		return (jushort)newValue;
 	}
 
-	void objectPromoted(HeapWord* address){
+	void objectAllocatedCMSSpace(HeapWord* address){
 		int pageIndex = getPageIndexFromPageAddress(address);
 		if(_pageStart[pageIndex] == NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
@@ -1148,6 +1160,18 @@ public:
 				store_Atomic(address, pageIndex);
 			}
 		}
+	}
+
+	void* objectStartAddress(int pageIndex){
+		return (
+				offsetToWordAddress(_pageStart[pageIndex], pageIndex)
+		);
+	}
+
+	bool shouldSweepScanPage(int pageIndex){
+		return (
+				_pageStart[pageIndex] != NO_OBJECT_MASK
+		);
 	}
 
 	int getGreyObjectsChunkLevel(int p){
@@ -1691,6 +1715,7 @@ class CMSCollector: public CHeapObj {
 
   // concurrent sweeping work
   void sweepWork(ConcurrentMarkSweepGeneration* gen, bool asynch);
+  void sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen, bool asynch);
 
   // (concurrent) resetting of support data structures
   void reset(bool asynch);
@@ -2608,6 +2633,25 @@ class SurvivorSpacePrecleanClosure: public ObjectClosureCareful {
   void do_yield_work();
 };
 
+class SweepPageClosure : public CHeapObj {
+	CMSCollector * _collector;
+	PartitionMetaData* _partitionMetaData;
+	int _id;
+	 CompactibleFreeListSpace*      _sp;   // Space being swept
+
+public:
+	SweepPageClosure(CMSCollector* collector, int id){
+		_collector = collector;
+		_id = id;
+		_partitionMetaData = collector->getPartitionMetaData();
+	}
+	void do_page(int pageIndex);
+	int getId() { return _id; }
+	size_t do_garbage_chunk(FreeChunk* fc);
+	size_t do_chunk(HeapWord* addr);
+	size_t do_live_chunk(HeapWord* addr);
+};
+
 // This closure is used to accomplish the sweeping work
 // after the second checkpoint but before the concurrent reset
 // phase.
@@ -2716,6 +2760,8 @@ class SweepClosure: public BlkClosureCareful {
   void         print() const { print_on(tty); }
   void         print_on(outputStream *st) const;
 };
+
+
 
 // Closures related to weak references processing
 

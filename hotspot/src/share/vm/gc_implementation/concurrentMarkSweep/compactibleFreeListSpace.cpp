@@ -1721,6 +1721,21 @@ CompactibleFreeListSpace::returnChunkToFreeList(FreeChunk* fc) {
 #endif // PRODUCT
 }
 
+// This method adds a given free chunk to the tail for a specific partitioned index
+// Since, the free list is now partitioned there is no need to do any locking.
+void
+CompactibleFreeListSpace::returnChunkToFreeListPartitioned(FreeChunk* fc, int index) {
+#if OC_SWEEP_ASSERT
+	if(index < 0 || index >= FreeListPartitions){ // checking that the index is within the specific range
+		printf("Error in returnChunkToFreeListPartition. Index (%d) out of range. \n", index);
+		exit(-1);
+	}
+#endif
+	size_t size = fc->size();
+	_indexedPartitionedFreeList[index][size].returnChunkAtTail(fc);
+}
+
+
 // Add chunk to end of last block -- if it's the largest
 // block -- and update BOT and census data. We would
 // of course have preferred to coalesce it with the
@@ -1765,6 +1780,13 @@ CompactibleFreeListSpace::addChunkToFreeListsAtEndRecordingStats(
   coalBirth(size);
 }
 
+void CompactibleFreeListSpace::addChunkToFreeListsPartitioned(HeapWord* chunk,
+													size_t size, int index){
+	 FreeChunk* fc = (FreeChunk*) chunk;
+	 fc->setSize(size);
+	 returnChunkToFreeListPartitioned(fc, index);
+}
+
 void
 CompactibleFreeListSpace::addChunkToFreeLists(HeapWord* chunk,
                                               size_t     size) {
@@ -1782,6 +1804,41 @@ CompactibleFreeListSpace::addChunkToFreeLists(HeapWord* chunk,
     returnChunkToDictionary(fc);
   }
 }
+
+// This is the function that adds the elements of a list at the end of the indexedFreeList
+void CompactibleFreeListSpace::addToFreeList(int index){
+	int size = 0;
+	for(; size < IndexSetSize; size++){
+		FreeChunk* _fc = _indexedPartitionedFreeList[index][size].head();
+		if(_fc != NULL){
+			_indexedFreeList[size].returnChunkAtTail(_fc);
+		}
+		_indexedPartitionedFreeList[index][size].reset(); // resetting the partitioned free list
+	}
+}
+
+// This is the function that unifies the free list indices
+void CompactibleFreeListSpace::returnChunksToGlobalFreeList(){
+	int indexCount = 0;
+	for (; indexCount < FreeListPartitions; indexCount++){
+		addToFreeList(indexCount);
+	}
+}
+
+
+void
+CompactibleFreeListSpace::addChunkToFreeListsPartition(HeapWord* chunk,
+														size_t size, int index) {
+	FreeChunk* fc = (FreeChunk*) chunk;
+	fc->setSize(size);
+	if (size < SmallForDictionary) {
+		returnChunkToFreeListPartition(fc, index);
+	} else {
+	    returnChunkToDictionary(fc);
+	}
+}
+
+
 
 void
 CompactibleFreeListSpace::addChunkAndRepairOffsetTable(HeapWord* chunk,

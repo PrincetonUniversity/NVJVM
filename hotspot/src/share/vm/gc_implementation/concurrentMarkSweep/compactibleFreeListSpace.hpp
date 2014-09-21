@@ -102,7 +102,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   enum SomeConstants {
     SmallForLinearAlloc = 16,        // size < this then use _sLAB
     SmallForDictionary  = 257,       // size < this then use _indexedFreeList
-    IndexSetSize        = SmallForDictionary  // keep this odd-sized
+    IndexSetSize        = SmallForDictionary,  // keep this odd-sized
+    FreeListPartitions = ConcSweepThreads
   };
   static int IndexSetStart;
   static int IndexSetStride;
@@ -132,8 +133,11 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   FreeBlockDictionary::DictionaryChoice _dictionaryChoice;
   FreeBlockDictionary* _dictionary;    // ptr to dictionary for large size blocks
 
+  // indexed array for small size blocks
   FreeList _indexedFreeList[IndexSetSize];
-                                       // indexed array for small size blocks
+  // this is the free list that will be used by the worker threads for releasing new partitions into
+  FreeList _indexedPartitionedFreeList[FreeListPartitions][IndexSetSize];
+
   // allocation stategy
   bool       _fitStrategy;      // Use best fit strategy.
   bool       _adaptive_freelists; // Use adaptive freelists
@@ -231,6 +235,12 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   FreeChunk* splitChunkAndReturnRemainder(FreeChunk* chunk, size_t new_size);
   // Add a chunk to the free lists.
   void       addChunkToFreeLists(HeapWord* chunk, size_t size);
+  void 		 addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int index);
+  // Add a chunk to a specified free list partition
+  void addChunkToFreeListsPartition(HeapWord* chunk, size_t size, int partitionIndex);
+  void returnChunksToGlobalFreeList();
+  void addToFreeList(int index);
+
   // Add a chunk to the free lists, preferring to suffix it
   // to the last free chunk at end of space if possible, and
   // updating the block census stats as well as block offset table.
@@ -238,6 +248,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void       addChunkToFreeListsAtEndRecordingStats(HeapWord* chunk, size_t size);
   // Add a free chunk to the indexed free lists.
   void       returnChunkToFreeList(FreeChunk* chunk);
+  // Add a free chunk to the indexed free lists to a specific partition.
+  void 		 returnChunkToFreeListPartitioned(FreeChunk* chunk, int partition);
   // Add a free chunk to the dictionary.
   void       returnChunkToDictionary(FreeChunk* chunk);
 

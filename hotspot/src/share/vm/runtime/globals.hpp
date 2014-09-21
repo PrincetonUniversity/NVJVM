@@ -1394,9 +1394,10 @@ class CommandLineFlags {
   develop(bool, TraceRegionTasksQueuing, false,                             \
           "Trace the queuing of the region tasks")                          \
                                                                             \
+	product(uintx, ConcSweepThreads, 4,                                     \
+			"Number of threads concurrent gc will use")                     \
   product(uintx, ConcGCThreads, 0,                                          \
-          "Number of threads concurrent gc will use")                       \
-                                                                            \
+ 		"Number of threads concurrent gc will use")                         \
   product(uintx, YoungPLABSize, 4096,                                       \
           "Size of young gen promotion labs (in HeapWords)")                \
                                                                             \

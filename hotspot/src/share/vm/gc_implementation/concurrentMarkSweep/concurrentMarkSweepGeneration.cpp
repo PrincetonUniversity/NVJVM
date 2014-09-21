@@ -1062,6 +1062,8 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numObjectsAllocated++;
       _numWordsAllocated += (int)adjustedSize;
     )
+    // Marking the header for the direct allocated objects
+    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj);
   }
   return res;
 }
@@ -1465,6 +1467,9 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
     Atomic::inc_ptr(&_numObjectsPromoted);
     Atomic::add_ptr(alloc_sz, &_numWordsPromoted);
   )
+
+  // The promotion of an object causes the object start to get allocated within the pageStart array
+  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj);
 
   return obj;
 }
@@ -6991,8 +6996,18 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
   }
 }
 
+void CMSCollector::sweepPage(int pageIndex){
+	HeapWord* objectStart = (HeapWord*)_pm_->objectStartAddress();
+
+}
+
+void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
+		  bool asynch){
+
+}
+
 void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
-  bool asynch) {
+		  bool asynch) {
   // We iterate over the space(s) underlying this generation,
   // checking the mark bit map to see if the bits corresponding
   // to specific blocks are marked or not. Blocks that are
@@ -7017,11 +7032,11 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
-  if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
+  /*if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
 		  perror("err: ");
 		  printf("Error in madvise");
 		  exit(-1);
-}
+  }*/
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
@@ -8953,6 +8968,117 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
   }
 }
 
+size_t SweepPageClosure::do_live_chunk(void* fc){
+	  HeapWord* addr = (HeapWord*) fc;
+	  // This object is live: we'd normally expect this to be
+	  // an oop, and like to assert the following:
+	  // assert(oop(addr)->is_oop(), "live block should be an oop");
+	  // However, as we commented above, this may be an object whose
+	  // header hasn't yet been initialized.
+	  size_t size;
+#if OC_SWEEP_ASSERT
+	  if(_bitMap->isMarked(addr) == false){
+		  printf("Live object is not marked. Error in do_live_chunk().\n");
+		  exit(-1);
+	  }
+#endif
+	  if (_bitMap->isMarked(addr + 1)) {
+	    // Determine the size from the bit map, rather than trying to
+	    // compute it from the object header.
+	    HeapWord* nextOneAddr = _bitMap->getNextMarkedWordAddress(addr + 2);
+	    size = pointer_delta(nextOneAddr + 1, addr);
+#if OC_SWEEP_ASSERT
+	    if(size != CompactibleFreeListSpace::adjustObjectSize(size));{
+	    	printf("alignment problem.\n");
+	    	exit(-1);
+	    }
+#endif
+#ifdef DEBUG
+	      if (oop(addr)->klass_or_null() != NULL &&
+	          (   !_collector->should_unload_classes()
+	           || (oop(addr)->is_parsable()) &&
+	               oop(addr)->is_conc_safe())) {
+	        // Ignore mark word because we are running concurrent with mutators
+	        assert(oop(addr)->is_oop(true), "live block should be an oop");
+	        // is_conc_safe is checked before performing this assertion
+	        // because an object that is not is_conc_safe may yet have
+	        // the return from size() correct.
+	        assert(size ==
+	               CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size()),
+	               "P-mark and computed size do not agree");
+	      }
+#endif
+	  } else {
+	    // This should be an initialized object that's alive.
+#if OC_SWEEP_ASSERT
+	    if(oop(addr)->klass_or_null() != NULL &&
+	           (!_collector->should_unload_classes()
+	            || oop(addr)->is_parsable()) == false){
+	           	   printf("Should be an initialized object.\n");
+	           	   exit(-1);
+	    }
+	    if(oop(addr)->is_oop(true) == false){
+	    	printf("live object should be an oop.\n");
+	    	exit(-1);
+	    }
+#endif
+	    // Note that there are objects used during class redefinition,
+	    // e.g. merge_cp in VM_RedefineClasses::merge_cp_and_rewrite(),
+	    // which are discarded with their is_conc_safe state still
+	    // false.  These object may be floating garbage so may be
+	    // seen here.  If they are floating garbage their size
+	    // should be attainable from their klass.  Do not that
+	    // is_conc_safe() is true for oop(addr).
+	    // Ignore mark word because we are running concurrent with mutators
+	    assert(oop(addr)->is_oop(true), "live block should be an oop");
+	    // Verify that the bit map has no bits marked between
+	    // addr and purported end of this block.
+	    size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+	    assert(size >= 3, "Necessary for Printezis marks to work");
+	    assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
+	    DEBUG_ONLY(_bitMap->verifyNoOneBitsInRange(addr+2, addr+size);)
+	  }
+	  return size;
+}
+
+// this method scans a chunk and figures out whether the chunk is free or is alive
+// in case the chunk is alive it figures out it size and returns it
+// in case the chunk is dead it releases the chunk to the free chunk list of the corresponding partition
+// in case the chunk is a free chunk it leaves the chunk as it is
+size_t SweepPageClosure::do_chunk(HeapWord* addr){
+	FreeChunk* fc = (FreeChunk*)addr;
+	size_t res;
+	if(fc->isFree()){
+		// currently we do not perform coleasing of free chunks
+		res = fc->size();
+	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
+		_sp->addChunkToFreeListsPartitioned(chunk, size, getId());
+		// need to reset the
+	} else  { // chunk is alive
+		res = do_live_chunk(addr);
+	}
+	return res;
+}
+
+// this function scans through a page and currently releases all the dead objects that are present
+void SweepPageClosure::do_page(int pIndex){
+	size_t res;
+	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
+		// the case when a page cannot be scanned is when an object spans across the whole page or when there is no object allocated
+		// on this page, in that case the page start has the value NO_OBJECT_MASK
+		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
+		HeapWord* curr = (HeapWord*)pageObjectStart;
+		do{
+			res =  do_chunk(curr);
+			curr += res;
+			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd()){
+// checking if the current heapword is beyond the end of the page, oops we need to go to the next page
+				break;
+			}
+		}while(true);
+	}
+}
+
 // Note that the sweeper runs concurrently with mutators. Thus,
 // it is possible for direct allocation in this generation to happen
 // in the middle of the sweep. Note that the sweeper also coalesces
@@ -9190,12 +9316,20 @@ void SweepClosure::do_already_free_chunk(FreeChunk* fc) {
   }
 }
 
+size_t SweepPageClosure::do_garbage_chunk(FreeChunk* fc){
+	 HeapWord* const addr = (HeapWord*) fc;
+	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+
+
+}
+
+
 size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
   // This is a chunk of garbage.  It is not in any free list.
   // Add it to a free list or let it possibly be coalesced into
   // a larger chunk.
-  HeapWord* const addr = (HeapWord*) fc;
-  const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+	 HeapWord* const addr = (HeapWord*) fc;
+	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 
   if (_sp->adaptive_freelists()) {
     // Verify that the bit map has no bits marked between
@@ -9244,68 +9378,68 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 }
 
 size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
-  HeapWord* addr = (HeapWord*) fc;
-  // The sweeper has just found a live object. Return any accumulated
-  // left hand chunk to the free lists.
-  if (inFreeRange()) {
-    assert(freeFinger() < addr, "freeFinger points too high");
-    flush_cur_free_chunk(freeFinger(), pointer_delta(addr, freeFinger()));
-  }
+	HeapWord* addr = (HeapWord*) fc;
+	  // The sweeper has just found a live object. Return any accumulated
+	  // left hand chunk to the free lists.
+	  if (inFreeRange()) {
+	    assert(freeFinger() < addr, "freeFinger points too high");
+	    flush_cur_free_chunk(freeFinger(), pointer_delta(addr, freeFinger()));
+	  }
 
-  // This object is live: we'd normally expect this to be
-  // an oop, and like to assert the following:
-  // assert(oop(addr)->is_oop(), "live block should be an oop");
-  // However, as we commented above, this may be an object whose
-  // header hasn't yet been initialized.
-  size_t size;
-  assert(_bitMap->isMarked(addr), "Tautology for this control point");
-  if (_bitMap->isMarked(addr + 1)) {
-    // Determine the size from the bit map, rather than trying to
-    // compute it from the object header.
-    HeapWord* nextOneAddr = _bitMap->getNextMarkedWordAddress(addr + 2);
-    size = pointer_delta(nextOneAddr + 1, addr);
-    assert(size == CompactibleFreeListSpace::adjustObjectSize(size),
-           "alignment problem");
+	  // This object is live: we'd normally expect this to be
+	  // an oop, and like to assert the following:
+	  // assert(oop(addr)->is_oop(), "live block should be an oop");
+	  // However, as we commented above, this may be an object whose
+	  // header hasn't yet been initialized.
+	  size_t size;
+	  assert(_bitMap->isMarked(addr), "Tautology for this control point");
+	  if (_bitMap->isMarked(addr + 1)) {
+	    // Determine the size from the bit map, rather than trying to
+	    // compute it from the object header.
+	    HeapWord* nextOneAddr = _bitMap->getNextMarkedWordAddress(addr + 2);
+	    size = pointer_delta(nextOneAddr + 1, addr);
+	    assert(size == CompactibleFreeListSpace::adjustObjectSize(size),
+	           "alignment problem");
 
-#ifdef DEBUG
-      if (oop(addr)->klass_or_null() != NULL &&
-          (   !_collector->should_unload_classes()
-           || (oop(addr)->is_parsable()) &&
-               oop(addr)->is_conc_safe())) {
-        // Ignore mark word because we are running concurrent with mutators
-        assert(oop(addr)->is_oop(true), "live block should be an oop");
-        // is_conc_safe is checked before performing this assertion
-        // because an object that is not is_conc_safe may yet have
-        // the return from size() correct.
-        assert(size ==
-               CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size()),
-               "P-mark and computed size do not agree");
-      }
-#endif
+	#ifdef DEBUG
+	      if (oop(addr)->klass_or_null() != NULL &&
+	          (   !_collector->should_unload_classes()
+	           || (oop(addr)->is_parsable()) &&
+	               oop(addr)->is_conc_safe())) {
+	        // Ignore mark word because we are running concurrent with mutators
+	        assert(oop(addr)->is_oop(true), "live block should be an oop");
+	        // is_conc_safe is checked before performing this assertion
+	        // because an object that is not is_conc_safe may yet have
+	        // the return from size() correct.
+	        assert(size ==
+	               CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size()),
+	               "P-mark and computed size do not agree");
+	      }
+	#endif
 
-  } else {
-    // This should be an initialized object that's alive.
-    assert(oop(addr)->klass_or_null() != NULL &&
-           (!_collector->should_unload_classes()
-            || oop(addr)->is_parsable()),
-           "Should be an initialized object");
-    // Note that there are objects used during class redefinition,
-    // e.g. merge_cp in VM_RedefineClasses::merge_cp_and_rewrite(),
-    // which are discarded with their is_conc_safe state still
-    // false.  These object may be floating garbage so may be
-    // seen here.  If they are floating garbage their size
-    // should be attainable from their klass.  Do not that
-    // is_conc_safe() is true for oop(addr).
-    // Ignore mark word because we are running concurrent with mutators
-    assert(oop(addr)->is_oop(true), "live block should be an oop");
-    // Verify that the bit map has no bits marked between
-    // addr and purported end of this block.
-    size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-    assert(size >= 3, "Necessary for Printezis marks to work");
-    assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
-    DEBUG_ONLY(_bitMap->verifyNoOneBitsInRange(addr+2, addr+size);)
-  }
-  return size;
+	  } else {
+	    // This should be an initialized object that's alive.
+	    assert(oop(addr)->klass_or_null() != NULL &&
+	           (!_collector->should_unload_classes()
+	            || oop(addr)->is_parsable()),
+	           "Should be an initialized object");
+	    // Note that there are objects used during class redefinition,
+	    // e.g. merge_cp in VM_RedefineClasses::merge_cp_and_rewrite(),
+	    // which are discarded with their is_conc_safe state still
+	    // false.  These object may be floating garbage so may be
+	    // seen here.  If they are floating garbage their size
+	    // should be attainable from their klass.  Do not that
+	    // is_conc_safe() is true for oop(addr).
+	    // Ignore mark word because we are running concurrent with mutators
+	    assert(oop(addr)->is_oop(true), "live block should be an oop");
+	    // Verify that the bit map has no bits marked between
+	    // addr and purported end of this block.
+	    size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+	    assert(size >= 3, "Necessary for Printezis marks to work");
+	    assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
+	    DEBUG_ONLY(_bitMap->verifyNoOneBitsInRange(addr+2, addr+size);)
+	  }
+	  return size;
 }
 
 void SweepClosure::do_post_free_or_garbage_chunk(FreeChunk* fc,
