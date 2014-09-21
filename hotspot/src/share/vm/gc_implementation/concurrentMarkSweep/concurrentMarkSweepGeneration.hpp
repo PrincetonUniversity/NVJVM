@@ -1211,9 +1211,9 @@ public:
 	}
 
 	jushort store_Atomic(HeapWord* address, int index){
-		jshort *position = &(_pageStart[index]);
-		jshort value = *position;
-		jshort newValue = heapWordToShort(address);
+		jushort *position = &(_pageStart[index]);
+		jushort value = *position;
+		jushort newValue = heapWordToShort(address);
 		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
 				(jshort)value) != (jshort)value){
 			value = *position;
