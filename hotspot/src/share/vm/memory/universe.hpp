@@ -42,13 +42,13 @@
 #define OCMS_ASSERT 0
 #define OCMS_NO_GREY_LOG 0
 #define OCMS_NO_GREY_LOG_HIGH 0
-#define OCMS_NO_GREY_ASSERT 1
+#define OCMS_NO_GREY_ASSERT 0
 #define OCMS_NO_GREY_DEBUG 0
 #define OCMS_METRICS 0
 #define PRINT_TO_LOG 0
 #define TRACING_SYSTEM_GC 0
-#define OC_SWEEP_ASSERT 1
-#define OC_SWEEP_LOG 1
+#define OC_SWEEP_ASSERT 0
+#define OC_SWEEP_LOG 0
 
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
