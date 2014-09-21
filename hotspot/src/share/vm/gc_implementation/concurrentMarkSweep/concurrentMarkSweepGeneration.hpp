@@ -1227,11 +1227,11 @@ public:
 	void objectAllocatedCMSSpace(HeapWord* address){
 		printf("objectAllocatedCMSSpace Enter.\n");
 		int pageIndex = getPageIndexFromPageAddress(address);
-		if(_pageStart[pageIndex] == (jshort)NO_OBJECT_MASK){
+		jshort curr_val = _pageStart[pageIndex];
+		printf("Values => %u, %u, %u.\n", curr_val, (jshort)NO_OBJECT_MASK, heapWordToShort(address));
+		if(curr_val == (jshort)NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
 		} else {
-			printf("Values => %u, %u, %u.\n", _pageStart[pageIndex], (jshort)NO_OBJECT_MASK, heapWordToShort(address));
-			jshort curr_val = _pageStart[pageIndex];
 			if(curr_val > heapWordToShort(address)){
 				store_Atomic(address, pageIndex);
 			}
