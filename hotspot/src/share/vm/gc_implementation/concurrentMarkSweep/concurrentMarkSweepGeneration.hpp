@@ -1230,7 +1230,7 @@ public:
 		if(_pageStart[pageIndex] == (jshort)NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
 		} else {
-			printf("Values => %u, %u.\n", _pageStart[pageIndex], heapWordToShort(address));
+			printf("Values => %u, %u, %u.\n", _pageStart[pageIndex], (jshort)NO_OBJECT_MASK, heapWordToShort(address));
 			jshort curr_val = _pageStart[pageIndex];
 			if(curr_val > heapWordToShort(address)){
 				store_Atomic(address, pageIndex);
