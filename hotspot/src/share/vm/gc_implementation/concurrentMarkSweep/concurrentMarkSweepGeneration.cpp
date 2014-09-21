@@ -6950,13 +6950,13 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase");
 	SwapMetrics sMet("sweep-phase");
-
-    // already have needed locks
+	sweepWorkPartitioned();
+    /*// already have needed locks
     sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
       sweepWork(_permGen, asynch);
-    }
+    }*/
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
     Universe::update_heap_info_at_gc();
@@ -7072,8 +7072,7 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
 	// local free lists of the threads.
 // Thereafter, once the threads come to a stop, the master thread returns the individual dead chunks to the main free list.
 
-void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
-		  bool asynch){
+void CMSCollector::sweepWorkPartitioned(){
  // We iterate over the space underlying both the generations (cms, perm)
  // one page at a time, checking the mark bit map to see if the bits corresponding
  // to specific blocks are marked or not.  Blocks that are

@@ -1798,7 +1798,7 @@ class CMSCollector: public CHeapObj {
 
   // concurrent sweeping work
   void sweepWork(ConcurrentMarkSweepGeneration* gen, bool asynch);
-  void sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen, bool asynch);
+  void sweepWorkPartitioned();
 
   // (concurrent) resetting of support data structures
   void reset(bool asynch);
