@@ -9198,7 +9198,7 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-	CompactibleFreeListSpace* sp = collector()->getSpace(pageAddress);
+	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
 	return res;
 }
