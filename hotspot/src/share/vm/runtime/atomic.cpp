@@ -73,7 +73,8 @@ jbyte Atomic::cmpxchg(jbyte exchange_value, volatile jbyte* dest, jbyte compare_
 }
 
 jshort Atomic::cmpxchg(jshort exchange_value, volatile jshort* dest, jshort compare_value) {
-	printf("In cmpxchg Enter.\n");
+	printf("In cmpxchg Enter, %u, %u, %u.\n"
+			, (jshort) exchange_value, (jshort*) *dest, (jshort) compare_value);
 	uintptr_t dest_addr = (uintptr_t)dest;
 	uintptr_t offset = dest_addr % sizeof(jint);
 	volatile jint* dest_int = (volatile jint*)(dest_addr - offset);
