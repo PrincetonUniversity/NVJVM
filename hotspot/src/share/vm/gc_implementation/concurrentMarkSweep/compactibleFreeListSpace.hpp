@@ -235,7 +235,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   FreeChunk* splitChunkAndReturnRemainder(FreeChunk* chunk, size_t new_size);
   // Add a chunk to the free lists.
   void       addChunkToFreeLists(HeapWord* chunk, size_t size);
-  void 		 addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int index);
+
   // Add a chunk to a specified free list partition
   void addChunkToFreeListsPartition(HeapWord* chunk, size_t size, int partitionIndex);
   void returnChunksToGlobalFreeList();
@@ -311,6 +311,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // Return the free chunk at the end of the space.  If no such
   // chunk exists, return NULL.
   FreeChunk* find_chunk_at_end();
+  void addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int index);
 
   bool adaptive_freelists() const { return _adaptive_freelists; }
 

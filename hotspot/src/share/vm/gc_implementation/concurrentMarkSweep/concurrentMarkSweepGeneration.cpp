@@ -1469,7 +1469,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   )
 
   // The promotion of an object causes the object start to get allocated within the pageStart array
-  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj);
+  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
 
   return obj;
 }
@@ -7022,6 +7022,7 @@ void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
  // GC's while we do a sweeping step. For the same reason, we might
  // as well take the bit map lock for the entire duration
 
+ // Initially we need to start a set of worker threads
 }
 
 void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
