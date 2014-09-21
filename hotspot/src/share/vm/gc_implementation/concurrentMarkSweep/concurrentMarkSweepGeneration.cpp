@@ -3702,7 +3702,9 @@ class CMSConcSweepingTask: public YieldingFlexibleGangTask {
 	int _n_workers;
 
 public:
-	CMSConcSweepingTask(CMSCollector* collector, int nWorkers){
+	CMSConcSweepingTask(CMSCollector* collector, int nWorkers):
+		YieldingFlexibleGangTask("Concurrent sweeping done multi-threaded")
+		{
 		_collector = collector;
 		_partitionMetaData = collector->getPartitionMetaData();
 		_n_workers = nWorkers;
