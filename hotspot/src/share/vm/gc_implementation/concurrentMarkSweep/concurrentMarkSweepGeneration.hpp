@@ -2730,7 +2730,6 @@ public:
 	size_t do_live_chunk(HeapWord* addr);
 	size_t do_free_chunk(HeapWord* fc);
 	size_t do_garbage_chunk(HeapWord* gc);
-	size_t do_live_chunk(HeapWord* lc);
 };
 
 // This closure is used to accomplish the sweeping work
