@@ -47,9 +47,9 @@
 #define OCMS_METRICS 0
 #define PRINT_TO_LOG 0
 #define TRACING_SYSTEM_GC 0
-#define NO_OBJECT_START_SHIFT 15 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
+#define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
 // that represents that no object start is present on the current page
-#define NO_OBJECT_MASK 1 << 15   // the mask that represents that no object start is present on a given page
+#define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
 #define OC_SWEEP_ASSERT 1
 #define OC_SWEEP_LOG 1
 

@@ -1228,7 +1228,7 @@ public:
 		printf("objectAllocatedCMSSpace Enter.\n");
 		int pageIndex = getPageIndexFromPageAddress(address);
 		jshort curr_val = (jshort)_pageStart[pageIndex];
-		printf("Values => %u, %u, %u.\n", (jshort)curr_val, (jshort)NO_OBJECT_MASK, heapWordToShort(address));
+		printf("Values => %u, %u, %u.\n", (jushort)curr_val, (jshort)NO_OBJECT_MASK, heapWordToShort(address));
 		if((jshort)curr_val == (jshort)NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
 		} else {
