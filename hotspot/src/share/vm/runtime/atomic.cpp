@@ -76,24 +76,25 @@ jshort Atomic::cmpxchg(jshort exchange_value, volatile jshort* dest, jshort comp
 	printf("In cmpxchg Enter, %u, %u, %u.\n"
 			, (jshort) exchange_value, (jshort)*(jshort*) dest, (jshort) compare_value);
 	uintptr_t dest_addr = (uintptr_t)dest;
-	uintptr_t offset = dest_addr % sizeof(jint);
+	uintptr_t offset = (dest_addr % sizeof(jint));
+	int index = offset/2;
 	volatile jint* dest_int = (volatile jint*)(dest_addr - offset);
 	jint cur = *dest_int;
 	jshort* cur_as_bytes = (jshort*)(&cur);
 	jint new_val = cur;
 	jshort* new_val_as_bytes = (jshort*)(&new_val);
-	new_val_as_bytes[offset] = exchange_value;
-	printf("In cmpxchg Loop %u.\n", (jshort) cur_as_bytes[offset]);
-	while (cur_as_bytes[offset] == compare_value) {
+	new_val_as_bytes[index] = exchange_value;
+	printf("Value before loop => %u.\n", (jshort) cur_as_bytes[index]);
+	while (cur_as_bytes[index] == compare_value) {
 		printf("In cmpxchg Loop.\n");
 		jint res = cmpxchg(new_val, dest_int, cur);
 		if (res == cur) break;
 		cur = res;
 		new_val = cur;
-		new_val_as_bytes[offset] = exchange_value;
+		new_val_as_bytes[index] = exchange_value;
 	}
 	printf("In cmpxchg Exit.\n");
-	return cur_as_bytes[offset];
+	return cur_as_bytes[index];
 }
 
 unsigned Atomic::xchg(unsigned int exchange_value, volatile unsigned int* dest) {
