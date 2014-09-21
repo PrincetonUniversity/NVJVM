@@ -1230,10 +1230,8 @@ public:
 	}
 
 	void objectAllocatedCMSSpace(HeapWord* address){
-		printf("objectAllocatedCMSSpace Enter.\n");
 		int pageIndex = getPageIndexFromPageAddress(address);
 		jshort curr_val = (jshort)_pageStart[pageIndex];
-		printf("Values => %u, %u, %u, %u.\n", (jushort)curr_val, (jshort)NO_OBJECT_MASK, heapWordToShort(address), pageIndex);
 		if((jshort)curr_val == (jshort)NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
 		} else {
@@ -1241,7 +1239,6 @@ public:
 				store_Atomic(address, pageIndex);
 			}
 		}
-		printf("objectAllocatedCMSSpace Exit.\n");
 	}
 
 	void* objectStartAddress(int pageIndex){
