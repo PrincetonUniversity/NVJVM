@@ -83,6 +83,7 @@ jshort Atomic::cmpxchg(jshort exchange_value, volatile jshort* dest, jshort comp
 	jint new_val = cur;
 	jshort* new_val_as_bytes = (jshort*)(&new_val);
 	new_val_as_bytes[offset] = exchange_value;
+	printf("In cmpxchg Loop %u.\n", (jshort) cur_as_bytes[offset]);
 	while (cur_as_bytes[offset] == compare_value) {
 		printf("In cmpxchg Loop.\n");
 		jint res = cmpxchg(new_val, dest_int, cur);

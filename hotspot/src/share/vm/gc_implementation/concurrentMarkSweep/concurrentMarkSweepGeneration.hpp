@@ -50,6 +50,7 @@
 // that represents that no object start is present on the current page
 #define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
 
+
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
 
@@ -1218,13 +1219,8 @@ public:
 		jshort *position = &(_pageStart[index]);
 		jshort value = *position;
 		jshort newValue = heapWordToShort(address);
-		jshort rValue;
-		while(true){
-				rValue = Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
-				(jshort)value);
-				if(rValue == value){
-					break;
-				}
+		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
+				(jshort)value) !=  (jshort)value){
 			value = *position;
 			if(newValue > value){
 				break;
