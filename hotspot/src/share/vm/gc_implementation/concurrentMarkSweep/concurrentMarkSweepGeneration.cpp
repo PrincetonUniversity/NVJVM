@@ -1074,7 +1074,7 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numWordsAllocated += (int)adjustedSize;
     )
     // Marking the header for the direct allocated objects
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
+//    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
   }
   return res;
 }
@@ -1480,7 +1480,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   )
 
   // The promotion of an object causes the object start to get allocated within the pageStart array
-  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+//  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
 
   return obj;
 }
@@ -3800,12 +3800,12 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   }
 
   CompactibleFreeListSpace* getSpace(void *address) {
-	  if(_cms_space->is_in(address))
-		  return _cms_space;
-	  if(_perm_space->is_in(address))
-		  return _perm_space;
-	  return NULL;
-  }
+ 	  if(_cms_space->is_in(address))
+ 		  return _cms_space;
+ 	  if(_perm_space->is_in(address))
+ 		  return _perm_space;
+ 	  return NULL;
+   }
 
   OopTaskQueueSet* task_queues()  { return _task_queues; }
 
@@ -9190,7 +9190,8 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-	_sp->addChunkToFreeListsPartitioned(addr, res, getId());
+	CompactibleFreeListSpace* sp = collector()->getSpace(pageAddress);
+	sp->addChunkToFreeListsPartitioned(addr, res, getId());
 	return res;
 }
 

@@ -1620,6 +1620,14 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
+  CompactibleFreeListSpace* getSpace(void *address) {
+ 	  if(_cmsGen->cmsSpace()->is_in(address))
+ 		  return _cmsGen->cmsSpace();
+ 	  if(_permGen->cmsSpace()->is_in(address))
+ 		  return _permGen->cmsSpace();
+ 	  return NULL;
+   }
+
   void triggerTask(CMSConcMarkingTask *tsk);
 
   MemRegion getSpan(){
@@ -2714,7 +2722,6 @@ class SweepPageClosure : public CHeapObj {
 	CMSCollector * _collector;
 	PartitionMetaData* _partitionMetaData;
 	int _id;
-	CompactibleFreeListSpace*      _sp;   // Space being swept
 	CMSBitMap* _bitMap;
 
 public:
@@ -2722,6 +2729,7 @@ public:
 		_collector = collector;
 		_id = id;
 		_partitionMetaData = collector->getPartitionMetaData();
+		_bitMap = collector->markBitMap();
 	}
 	void do_page(int pageIndex);
 	int getId() { return _id; }
