@@ -920,7 +920,12 @@ public:
 			bool markAtomicFailed = false;
 			int count;
 			for(count = 0; count < _numberPartitions; count++){
-				currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
+				// We do not take the circular route of scanning the partitions currently and check if the
+				// partitionIndex returned is -1, that means all the partitions have already been scanned.
+				currentPartitionIndex = currentPartitionIndex + 1;
+				if(currentPartitionIndex >= _numberPartitions){
+					return -1;
+				}
 				if(markAtomic(currentPartitionIndex))
 					return currentPartitionIndex;
 				else
@@ -1035,7 +1040,8 @@ public:
 
 		std::vector<int> toSweepPageList(int currentPartition){
 			std::vector<int> pageIndices;
-//			std::vector<int> pageIndicesOutOfCore;
+			std::vector<int> pageIndicesOutOfCore;
+			std::vector<int>::iterator it;
 			char buf[20];
 			if(currentPartition != - 1){
 				int partitionSize = getPartitionSize(currentPartition);
@@ -1052,8 +1058,8 @@ public:
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 					if((vec[count] & 1) == 1)
 						pageIndices.push_back(index);
-					 //else
-						//pageIndicesOutOfCore.push_back(index);
+					 else
+						pageIndicesOutOfCore.push_back(index);
 				}
 			}
 #if OC_SWEEP_ASSERT
@@ -1062,6 +1068,9 @@ public:
 				exit(-1);
 			}
 #endif
+			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
+				pageIndices.push_back(*it);
+			}
 			return pageIndices;
 		}
 

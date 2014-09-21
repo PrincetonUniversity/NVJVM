@@ -4262,7 +4262,10 @@ void CMSConcSweepingTask::work(int i){
 	int currentPartitionIndex = -1;
     do {
       // each thread tries to get the next partition here
-      currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
+    	currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
+      if(currentPartitionIndex == -1){
+    	  break;
+      }
       // scanning the in-memory pages within the current partition
       do_partition(currentPartitionIndex, &sweepPageClosure);
       // the true flag is to denote that the partition scan is parallel (mt)
