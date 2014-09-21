@@ -1813,7 +1813,7 @@ void CompactibleFreeListSpace::addToFreeList(int index){
 		if(_fc != NULL){
 			_indexedFreeList[size].returnChunkAtTail(_fc);
 		}
-		_indexedPartitionedFreeList[index][size].reset(); // resetting the partitioned free list
+		_indexedPartitionedFreeList[index][size].resetNoHint(); // resetting the partitioned free list
 	}
 }
 
@@ -1832,7 +1832,7 @@ CompactibleFreeListSpace::addChunkToFreeListsPartition(HeapWord* chunk,
 	FreeChunk* fc = (FreeChunk*) chunk;
 	fc->setSize(size);
 	if (size < SmallForDictionary) {
-		returnChunkToFreeListPartition(fc, index);
+		returnChunkToFreeListPartitioned(fc, index);
 	} else {
 	    returnChunkToDictionary(fc);
 	}

@@ -99,6 +99,7 @@ class FreeList VALUE_OBJ_CLASS_SPEC {
 
   // Reset the head, tail, hint, and count of a free list.
   void reset(size_t hint);
+  void resetNoHint();
 
   // Declare the current free list to be protected by the given lock.
 #ifdef ASSERT

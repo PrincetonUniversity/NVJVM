@@ -86,6 +86,12 @@ void FreeList::reset(size_t hint) {
   set_hint(hint);
 }
 
+void FreeList::resetNoHint() {
+  set_count(0);
+  set_head(NULL);
+  set_tail(NULL);
+}
+
 void FreeList::init_statistics(bool split_birth) {
   _allocation_stats.initialize(split_birth);
 }

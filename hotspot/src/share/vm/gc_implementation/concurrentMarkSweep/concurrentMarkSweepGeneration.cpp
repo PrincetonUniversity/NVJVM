@@ -7003,6 +7003,29 @@ void CMSCollector::sweepPage(int pageIndex){
 
 void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
 		  bool asynch){
+ // We iterate over the space underlying both the generations (cms, perm)
+ // one page at a time, checking the mark bit map to see if the bits corresponding
+ // to specific blocks are marked or not.  Blocks that are
+ // marked are live and are not swept up. All remaining blocks
+ // are swept up. We do not perform coalescing on-the-fly as we sweep up
+ // contiguous free and/or garbage blocks:
+ // We need to ensure that the sweeper synchronizes with allocators
+ // and stop-the-world collectors. In particular, the following
+ // locks are used:
+ // . CMS token: if this is held, a stop the world collection cannot occur
+ // . freelistLock: if this is held no allocation can occur from this
+ //                 generation by another thread
+ // . bitMapLock: if this is held, no other thread can access or update
+ // Currently,
+ //	Note that we need to hold the freelistLock if we use
+ // block iterate below; else the iterator might go awry if
+ // a mutator (or promotion) causes block contents to change
+ // (for instance if the allocator divides up a block).
+ // If we hold the free list lock, for all practical purposes
+ // young generation GC's can't occur (they'll usually need to
+ // promote), so we might as well prevent all young generation
+ // GC's while we do a sweeping step. For the same reason, we might
+ // as well take the bit map lock for the entire duration
 
 }
 
