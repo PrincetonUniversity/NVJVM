@@ -1132,7 +1132,7 @@ public:
 	}
 
 	void* offsetToWordAddress(jushort off, int pageIndex){
-		uintptr_t obj = getPageBase(pageIndex) + (uintptr_t)(off);
+		uintptr_t obj = (uintptr_t)getPageBase(pageIndex) + (uintptr_t)(off);
 		return (void*)obj;
 	}
 
