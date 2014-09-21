@@ -671,7 +671,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     return;
   }
 
-  _conc_sweep_workers = YieldingFlexibleWorkGang("Parallel CMS Sweep Threads",
+  _conc_sweep_workers = new YieldingFlexibleWorkGang("Parallel CMS Sweep Threads",
 		  ConcSweepThreads, true);
   if(_conc_sweep_workers == NULL){
 	  CMSConcurrentSweepEnabled = false;
@@ -4225,9 +4225,11 @@ void CMSConcMarkingTask::masterThreadWork(){
 }
 
 // This method scans a partition
-void CMSConcSweepingTask::do_partition(int partitionId, SweepPageClosure* sweepPageClosure){
+void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosure* sweepPageClosure){
 	std::vector<int>::iterator it;
 	std::vector<int> pageIndices;
+	int pageIndex;
+	// this is the method that gets a set of in-memory pages currently
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
@@ -4236,6 +4238,9 @@ void CMSConcSweepingTask::do_partition(int partitionId, SweepPageClosure* sweepP
 	// Releasing the partition
 	_partitionMetaData->releasePartition(currentPartitionIndex);
 }
+
+// This is the task that each of the worker threads have to perform.
+// Each of the worker threads scans through different partitions in order to locate garbage chunks.
 
 void CMSConcSweepingTask::work(int i){
 	SweepPageClosure sweepPageClosure(getCollector(), i);
@@ -9176,6 +9181,17 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 	  return size;
 }
 
+size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
+	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+	_sp->addChunkToFreeListsPartitioned(addr, res, getId());
+	return res;
+}
+
+size_t SweepPageClosure::do_free_chunk(HeapWord* fc){
+	size_t res = fc->size();
+	return res;
+}
+
 // this method scans a chunk and figures out whether the chunk is free or is alive
 	// in case the chunk is alive it figures out it size and returns it
 	// in case the chunk is dead it releases the chunk to the free chunk list of the corresponding partition
@@ -9185,11 +9201,10 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 	size_t res;
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 		// currently we do not perform coalescing of free chunks
-		res = fc->size();
+		res = do_free_chunk(fc);
 	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
-		res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-		_sp->addChunkToFreeListsPartitioned(addr, res, getId());
 		// need to reset the
+		res = do_garbage_chunk(addr);
 	} else  { // chunk is alive
 		res = do_live_chunk(addr);
 	}
@@ -9200,12 +9215,20 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 void SweepPageClosure::do_page(int pIndex){
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
-		// the case when a page cannot be scanned is when an object spans across the whole page or when there is no object allocated
+		// the case when a page cannot be scanned is when an object spans
+		// across the whole page or when there is no object allocated
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
+#if OC_SWEEP_LOG
+		printf("Page Object Start = %p.\n", pageObjectStart);
+#endif
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res =  do_chunk(curr);
+			if(res == 0){
+				printf("The size of the current chunk is zero. We have a problem here.\n");
+				exit(-1);
+			}
 			curr += res;
 			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
 // checking if the current heapword is beyond the end of the page, oops we need to go to the next page
