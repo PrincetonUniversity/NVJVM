@@ -897,10 +897,12 @@ public:
 				newValue = value + 1;
 			}
 #ifdef OC_SWEEP_ASSERT
-			if(value > _numberPartitions){
-				printf("Something is wrong. The number of partitions scanned is out of range. We have a problem here !!");
+			/*if(value > _numberPartitions){
+				printf("Something is wrong."
+						"The number of partitions scanned (%d) is out of range (%d). "
+						"We have a problem here !!", value, _numberPartitions);
 				exit(-1);
-			}
+			}*/
 #endif
 			pScanned = (int)newValue;
 		} else {

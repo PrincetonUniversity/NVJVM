@@ -9236,7 +9236,7 @@ void SweepPageClosure::do_page(int pIndex){
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
 #if OC_SWEEP_LOG
-		printf("Page Object Start = %p.\n", pageObjectStart);
+//		printf("Page Object Start = %p.\n", pageObjectStart);
 #endif
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
