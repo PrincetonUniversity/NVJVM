@@ -1063,7 +1063,7 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numWordsAllocated += (int)adjustedSize;
     )
     // Marking the header for the direct allocated objects
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj);
+    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
   }
   return res;
 }
@@ -6996,11 +6996,6 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
   }
 }
 
-void CMSCollector::sweepPage(int pageIndex){
-	HeapWord* objectStart = (HeapWord*)_pm_->objectStartAddress();
-
-}
-
 void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
 		  bool asynch){
  // We iterate over the space underlying both the generations (cms, perm)
@@ -8991,7 +8986,7 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
   }
 }
 
-size_t SweepPageClosure::do_live_chunk(void* fc){
+size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 	  HeapWord* addr = (HeapWord*) fc;
 	  // This object is live: we'd normally expect this to be
 	  // an oop, and like to assert the following:
@@ -9075,7 +9070,8 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 		// currently we do not perform coleasing of free chunks
 		res = fc->size();
 	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
-		_sp->addChunkToFreeListsPartitioned(chunk, size, getId());
+		res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+		_sp->addChunkToFreeListsPartitioned(addr, res, getId());
 		// need to reset the
 	} else  { // chunk is alive
 		res = do_live_chunk(addr);
@@ -9094,7 +9090,7 @@ void SweepPageClosure::do_page(int pIndex){
 		do{
 			res =  do_chunk(curr);
 			curr += res;
-			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd()){
+			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
 // checking if the current heapword is beyond the end of the page, oops we need to go to the next page
 				break;
 			}

@@ -2637,7 +2637,8 @@ class SweepPageClosure : public CHeapObj {
 	CMSCollector * _collector;
 	PartitionMetaData* _partitionMetaData;
 	int _id;
-	 CompactibleFreeListSpace*      _sp;   // Space being swept
+	CompactibleFreeListSpace*      _sp;   // Space being swept
+	CMSBitMap* _bitMap;
 
 public:
 	SweepPageClosure(CMSCollector* collector, int id){
