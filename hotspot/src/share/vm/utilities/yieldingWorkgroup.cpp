@@ -129,6 +129,7 @@ void YieldingFlexibleWorkGang::start_task(YieldingFlexibleGangTask* new_task) {
   }
   new_task->set_actual_size(_active_workers);
   new_task->set_for_termination(_active_workers);
+  printf("Number of active workers = %d.\n", _active_workers);
 
   assert(_started_workers == 0, "Tabula rasa non");
   assert(_finished_workers == 0, "Tabula rasa non");
@@ -137,7 +138,9 @@ void YieldingFlexibleWorkGang::start_task(YieldingFlexibleGangTask* new_task) {
 
   // Wake up all the workers, the first few will get to work,
   // and the rest will go back to sleep
+  printf("Notifying workers.\n");
   monitor()->notify_all();
+  printf("Waiting for the gang of workers.\n");
   wait_for_gang();
 }
 
@@ -151,6 +154,7 @@ void YieldingFlexibleWorkGang::wait_for_gang() {
     assert(started_workers() <= total_workers(), "invariant");
     assert(finished_workers() <= total_workers(), "invariant");
     assert(yielded_workers() <= total_workers(), "invariant");
+    printf("Waiting on mutex the gang of workers.\n");
     monitor()->wait(Mutex::_no_safepoint_check_flag);
 //    printf("I have been woken up from the sleep. I need to move on. "
 //    		"My thread id = %d.\n", Thread::current()->osthread()->thread_id());

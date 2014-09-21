@@ -678,6 +678,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
 	  printf("Allocation of worker threads for sweep phase failed.\n");
   } else {
 	  CMSConcurrentSweepEnabled = true;
+	  _conc_sweep_workers->initialize_workers();
 	  printf("Allocation of worker threads for sweep phase succeeded.\n");
   }
 
@@ -695,7 +696,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
               "forcing -CMSConcurrentMTEnabled");
         CMSConcurrentMTEnabled = false;
       } else {
-        _conc_workers->initialize_workers();
+    	  _conc_workers->initialize_workers();
       }
     } else {
       CMSConcurrentMTEnabled = false;
