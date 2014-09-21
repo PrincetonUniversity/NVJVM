@@ -1079,6 +1079,14 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
   return res;
 }
 
+CompactibleFreeListSpace* CMSCollector::getSpace(void *address) {
+	  if(_cmsGen->cmsSpace()->is_in(address))
+		  return _cmsGen->cmsSpace();
+	  if(_permGen->cmsSpace()->is_in(address))
+		  return _permGen->cmsSpace();
+	  return NULL;
+ }
+
 // In the case of direct allocation by mutators in a generation that
 // is being concurrently collected, the object must be allocated
 // live (grey) if the background collector has started marking.

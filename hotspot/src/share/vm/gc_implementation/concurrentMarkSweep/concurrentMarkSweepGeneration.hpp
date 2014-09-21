@@ -1620,13 +1620,7 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
-  CompactibleFreeListSpace* getSpace(void *address) {
- 	  if(_cmsGen->cmsSpace()->is_in(address))
- 		  return _cmsGen->cmsSpace();
- 	  if(_permGen->cmsSpace()->is_in(address))
- 		  return _permGen->cmsSpace();
- 	  return NULL;
-   }
+  CompactibleFreeListSpace* getSpace(void *address);
 
   void triggerTask(CMSConcMarkingTask *tsk);
 
