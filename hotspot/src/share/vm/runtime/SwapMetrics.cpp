@@ -48,9 +48,7 @@ void SwapMetrics::getCurrentNumberOfFaults(void){
 	  std::string cmd = std::string("ps -o min_flt,maj_flt ") +
 	    std::string(inToS(pid));
 	  fp = popen(cmd.c_str(), "r");
-	  while(fgets(buf, BUF_MAX, fp) != NULL){
-		  cout << buf << endl;
-	  }
+	  while(fgets(buf, BUF_MAX, fp) != NULL);
 	  istringstream iss(buf);
 	  do
 	   {
