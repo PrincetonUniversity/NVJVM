@@ -46,6 +46,10 @@
 #include <vector>
 #include "runtime/SwapMetrics.hpp"
 
+#define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
+// that represents that no object start is present on the current page
+#define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
+
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
 
@@ -1214,8 +1218,13 @@ public:
 		jshort *position = &(_pageStart[index]);
 		jshort value = *position;
 		jshort newValue = heapWordToShort(address);
-		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
-				(jshort)value) != (jshort)value){
+		jshort rValue;
+		while(true){
+				rValue = Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
+				(jshort)value);
+				if(rValue == value){
+					break;
+				}
 			value = *position;
 			if(newValue > value){
 				break;
