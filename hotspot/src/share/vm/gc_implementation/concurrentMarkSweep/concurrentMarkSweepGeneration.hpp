@@ -722,7 +722,7 @@ class PartitionMetaData : public CHeapObj {
 	int totalIncrements;
 //  Keeps the offset of the highest allocated object for each page in order to make sure that the sweep phase can
 //  easily iterate through each page independent of the other pages
-	jushort* _pageStart;
+	jshort* _pageStart;
 // Keeps a track of the number of the grey objects per page
 	jubyte*_pageGOC;
 // Keeps a track of the number of the grey object count per partition
@@ -1166,10 +1166,10 @@ public:
 				}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
-		_pageStart = new jushort[_numberPages];
+		_pageStart = new jshort[_numberPages];
 		for(count = 0; count < _numberPages; count++){
 				_pageGOC[count] = 0;
-				_pageStart[count] = NO_OBJECT_MASK; // each page is initialized with t
+				_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
 		}
 		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
@@ -1201,19 +1201,19 @@ public:
 			return sum;
 	}
 
-	jushort heapWordToShort(HeapWord* address){
-		return ((jushort)(((long)address) - __page_start_long(address)));
+	jshort heapWordToShort(HeapWord* address){
+		return ((jshort)(((long)address) - __page_start_long(address)));
 	}
 
-	void* offsetToWordAddress(jushort off, int pageIndex){
+	void* offsetToWordAddress(jshort off, int pageIndex){
 		uintptr_t obj = (uintptr_t)getPageBase(pageIndex) + (uintptr_t)(off);
 		return (void*)obj;
 	}
 
-	jushort store_Atomic(HeapWord* address, int index){
-		jushort *position = &(_pageStart[index]);
-		jushort value = *position;
-		jushort newValue = heapWordToShort(address);
+	jshort store_Atomic(HeapWord* address, int index){
+		jshort *position = &(_pageStart[index]);
+		jshort value = *position;
+		jshort newValue = heapWordToShort(address);
 		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
 				(jshort)value) != (jshort)value){
 			value = *position;
@@ -1221,19 +1221,21 @@ public:
 				break;
 			}
 		}
-		return (jushort)newValue;
+		return (jshort)newValue;
 	}
 
 	void objectAllocatedCMSSpace(HeapWord* address){
+		printf("objectAllocatedCMSSpace Enter.\n");
 		int pageIndex = getPageIndexFromPageAddress(address);
-		if(_pageStart[pageIndex] == NO_OBJECT_MASK){
+		if(_pageStart[pageIndex] == (jshort)NO_OBJECT_MASK){
 			store_Atomic(address, pageIndex);
 		} else {
-			jushort curr_val = _pageStart[pageIndex];
+			jshort curr_val = _pageStart[pageIndex];
 			if(curr_val > heapWordToShort(address)){
 				store_Atomic(address, pageIndex);
 			}
 		}
+		printf("objectAllocatedCMSSpace Exit.\n");
 	}
 
 	void* objectStartAddress(int pageIndex){
@@ -1244,7 +1246,7 @@ public:
 
 	bool shouldSweepScanPage(int pageIndex){
 		return (
-				_pageStart[pageIndex] != NO_OBJECT_MASK
+				_pageStart[pageIndex] != (jshort)NO_OBJECT_MASK
 		);
 	}
 
