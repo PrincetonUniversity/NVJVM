@@ -1739,7 +1739,9 @@ class CommandLineFlags {
   product(bool, CMSPLABRecordAlways, true,                                  \
           "Whether to always record survivor space PLAB bdries"             \
           " (effective only if CMSParallelSurvivorRemarkEnabled)")          \
-                                                                            \
+  product(bool, CMSConcurrentSweepEnabled, true,							\
+		  "Multi-threaded sweep phase")                            			\
+  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  	\
   product(bool, CMSConcurrentMTEnabled, true,                               \
           "Whether multi-threaded concurrent work enabled (if ParNewGC)")   \
                                                                             \

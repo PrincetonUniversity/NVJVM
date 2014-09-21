@@ -137,6 +137,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   FreeList _indexedFreeList[IndexSetSize];
   // this is the free list that will be used by the worker threads for releasing new partitions into
   FreeList _indexedPartitionedFreeList[FreeListPartitions][IndexSetSize];
+  std::vector<FreeChunk *> _dictionaryLists[FreeListPartitions];
 
   // allocation stategy
   bool       _fitStrategy;      // Use best fit strategy.
@@ -157,6 +158,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
 
   // Initialization helpers.
   void initializeIndexedFreeListArray();
+  void initializeIndexedPartitionedFreeListArray();
 
   // Extra stuff to manage promotion parallelism.
 
@@ -240,6 +242,9 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void addChunkToFreeListsPartition(HeapWord* chunk, size_t size, int partitionIndex);
   void returnChunksToGlobalFreeList();
   void addToFreeList(int index);
+  void returnChunkToDictionaryPartitioned(FreeChunk* fc, int index);
+  void resetPartitionedDictionaries();
+  void returnPartitionedDictionaries();
 
   // Add a chunk to the free lists, preferring to suffix it
   // to the last free chunk at end of space if possible, and

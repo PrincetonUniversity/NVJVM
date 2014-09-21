@@ -51,7 +51,7 @@
 // that represents that no object start is present on the current page
 #define NO_OBJECT_MASK 1 << 15   // the mask that represents that no object start is present on a given page
 #define OC_SWEEP_ASSERT 1
-
+#define OC_SWEEP_LOG 1
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
 #define WORKER_THREAD_SLEEP_TIME 100

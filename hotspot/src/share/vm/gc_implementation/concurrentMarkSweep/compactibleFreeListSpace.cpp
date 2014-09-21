@@ -109,6 +109,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   // The indexed free lists are initially all empty and are lazily
   // filled in on demand. Initialize the array elements to NULL.
   initializeIndexedFreeListArray();
+  initializeIndexedPartitionedFreeListArray();
 
   // Not using adaptive free lists assumes that allocation is first
   // from the linAB's.  Also a cms perm gen which can be compacted
@@ -247,6 +248,23 @@ void CompactibleFreeListSpace::initializeIndexedFreeListArray() {
     assert(_indexedFreeList[i].tail() == NULL, "reset check failed");
     assert(_indexedFreeList[i].hint() == IndexSetSize, "reset check failed");
   }
+}
+
+// Initialize them to NULL.
+void CompactibleFreeListSpace::initializeIndexedPartitionedFreeListArray() {
+	for(int partitionIndex = 0; partitionIndex < FreeListPartitions; partitionIndex++){
+		for (size_t i = 0; i < IndexSetSize; i++) {
+    // Note that on platforms where objects are double word aligned,
+    // the odd array elements are not used.  It is convenient, however,
+    // to map directly from the object size to the array element.
+	_indexedPartitionedFreeList[partitionIndex][i].reset(IndexSetSize);
+	_indexedPartitionedFreeList[partitionIndex][i].set_size(i);
+    assert(_indexedFreeList[i].count() == 0, "reset check failed");
+    assert(_indexedFreeList[i].head() == NULL, "reset check failed");
+    assert(_indexedFreeList[i].tail() == NULL, "reset check failed");
+    assert(_indexedFreeList[i].hint() == IndexSetSize, "reset check failed");
+  }
+ }
 }
 
 void CompactibleFreeListSpace::resetIndexedFreeListArray() {
@@ -1801,7 +1819,7 @@ CompactibleFreeListSpace::addChunkToFreeLists(HeapWord* chunk,
   if (size < SmallForDictionary) {
     returnChunkToFreeList(fc);
   } else {
-    returnChunkToDictionary(fc);
+	returnChunkToDictionary(fc);
   }
 }
 
@@ -1825,6 +1843,28 @@ void CompactibleFreeListSpace::returnChunksToGlobalFreeList(){
 	}
 }
 
+void CompactibleFreeListSpace::returnChunkToDictionaryPartitioned(FreeChunk* fc, int index){
+	_dictionaryLists[index].push_back(fc);
+}
+
+void CompactibleFreeListSpace::returnPartitionedDictionaries(){
+	std::vector<FreeChunk *> dictionary;
+	std::vector<FreeChunk *>:: iterator it;
+	FreeChunk* _fc;
+	for(int pIndex = 0; pIndex < FreeListPartitions; pIndex++){
+		dictionary = _dictionaryLists[pIndex];
+		for(it = dictionary.begin(); it < dictionary.end(); it++){
+			_fc = *it;
+			returnChunkToDictionary(_fc);
+		}
+	}
+}
+
+void CompactibleFreeListSpace::resetPartitionedDictionaries(){
+	for(int pIndex = 0; pIndex < FreeListPartitions; pIndex++){
+		_dictionaryLists[pIndex].clear();
+	}
+}
 
 void
 CompactibleFreeListSpace::addChunkToFreeListsPartition(HeapWord* chunk,
@@ -1834,7 +1874,7 @@ CompactibleFreeListSpace::addChunkToFreeListsPartition(HeapWord* chunk,
 	if (size < SmallForDictionary) {
 		returnChunkToFreeListPartitioned(fc, index);
 	} else {
-	    returnChunkToDictionary(fc);
+	    returnChunkToDictionaryPartitioned(fc, index);
 	}
 }
 

@@ -717,6 +717,7 @@ class ChunkList : public CHeapObj  {
 };
 
 class PartitionMetaData : public CHeapObj {
+	int _partitionsScanned; // the number of partitions scanned by the mark sweep threads
 	int totalDecrements;
 	int totalIncrements;
 //  Keeps the offset of the highest allocated object for each page in order to make sure that the sweep phase can
@@ -743,7 +744,6 @@ class PartitionMetaData : public CHeapObj {
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
-	//
 
 // Message States Used
 	enum MessageState {
@@ -754,6 +754,23 @@ class PartitionMetaData : public CHeapObj {
 	};
 
 public:
+
+	void resetPartitionsScanned(){
+		_partitionsScanned = 0;
+	}
+
+	void resetPartitionMap(){
+		int count;
+		for(count = 0; count < _numberPartitions; count++){
+			_partitionMap[count] = 0;
+		}
+	}
+
+	bool shouldScanningStop(){
+		return (
+				_partitionsScanned >= _numberPartitions
+		);
+	}
 
 	int getFlag(){
 		return _message[0];
@@ -839,7 +856,6 @@ public:
 		return ((currPartitionIndex + 1) % _numberPartitions);
 	}
 
-
 	bool markAtomic(int partitionIndex){
 		jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
 		jbyte value = *position;
@@ -861,6 +877,32 @@ public:
 			exit(-1);
 		}
 		return true;
+	}
+
+// This method atomically increments the total number of partitions scanned
+	int incrementPartitionsScanned(bool isParallel){
+		int pScanned = -1;
+		if(isParallel){
+			int *position = (int *)&_partitionsScanned;
+			int value = *position;
+			int newValue = value + 1;
+			while(Atomic::cmpxchg((unsigned int)newValue, (volatile unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
+				value = *position;
+				newValue = value + 1;
+			}
+#ifdef OC_SWEEP_ASSERT
+			if(value > _numberPartitions){
+				printf("Something is wrong. The number of partitions scanned is out of range. We have a problem here !!");
+				exit(-1);
+			}
+#endif
+			pScanned = (int)newValue;
+		} else {
+			_partitionsScanned++;
+			pScanned = _partitionsScanned;
+		}
+		return pScanned;
 	}
 
 	// This method gets the next partition from the list of partitions, if the
@@ -984,6 +1026,38 @@ public:
 			);
 		}
 
+		std::vector<int> toSweepPageList(int currentPartition){
+			std::vector<int> pageIndices;
+//			std::vector<int> pageIndicesOutOfCore;
+			char buf[20];
+			if(currentPartition != - 1){
+				int partitionSize = getPartitionSize(currentPartition);
+				void *address = getPageBase(getPartitionStart(currentPartition));
+				unsigned char vec[partitionSize];
+				memset(vec, 0, partitionSize);
+				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+					perror("err :");
+					printf("Error in mincore, arguments %p."
+							"Partition Size = %d.\n", address, partitionSize);
+					exit(-1);
+				}
+				int index = getPartitionStart(currentPartition), count, greyCount;
+				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
+					if((vec[count] & 1) == 1)
+						pageIndices.push_back(index);
+					 //else
+						//pageIndicesOutOfCore.push_back(index);
+				}
+			}
+#if OC_SWEEP_ASSERT
+			else {
+				printf("Invalid Partition Index. Index = -1");
+				exit(-1);
+			}
+#endif
+			return pageIndices;
+		}
+
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
@@ -1086,10 +1160,10 @@ public:
 		_partitionGOC = new int[_numberPartitions];
 		_partitionMap = new jbyte[_numberPartitions];
 		int count;
-		for(count = 0; count < _numberPartitions; count++){
-			_partitionGOC[count] = 0;
-			_partitionMap[count] = 0;
-		}
+				for(count = 0; count < _numberPartitions; count++){
+					_partitionGOC[count] = 0;
+					_partitionMap[count] = 0;
+				}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
 		_pageStart = new jushort[_numberPages];
@@ -1430,6 +1504,8 @@ class CMSCollector: public CHeapObj {
 
   // In support of multi-threaded concurrent phases
   YieldingFlexibleWorkGang* _conc_workers;
+  // The concurrent workers for the sweep task
+  YieldingFlexibleWorkGang* _conc_sweep_workers;
 
   // Performance Counters
   CollectorCounters* _gc_counters;
@@ -1769,6 +1845,7 @@ class CMSCollector: public CHeapObj {
   void setup_cms_unloading_and_verification_state();
  public:
   YieldingFlexibleWorkGang* conc_workers() { return _conc_workers; }
+  YieldingFlexibleWorkGang* conc_sweep_workers() { return _conc_sweep_workers; }
   CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
                ConcurrentMarkSweepGeneration* permGen,
                CardTableRS*                   ct,

@@ -557,6 +557,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _ct(ct),
   _ref_processor(NULL),    // will be set later
   _conc_workers(NULL),     // may be set later
+  _conc_sweep_workers(NULL), // may be set later
   _abort_preclean(false),
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
@@ -670,6 +671,16 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     return;
   }
 
+  _conc_sweep_workers = YieldingFlexibleWorkGang("Parallel CMS Sweep Threads",
+		  ConcSweepThreads, true);
+  if(_conc_sweep_workers == NULL){
+	  CMSConcurrentSweepEnabled = false;
+	  printf("Allocation of worker threads for sweep phase failed.\n");
+  } else {
+	  CMSConcurrentSweepEnabled = true;
+	  printf("Allocation of worker threads for sweep phase succeeded.\n");
+  }
+
   // Support for multi-threaded concurrent phases
   if (CMSConcurrentMTEnabled) {
     if (FLAG_IS_DEFAULT(ConcGCThreads)) {
@@ -678,7 +689,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     }
     if (ConcGCThreads > 1) {
       _conc_workers = new YieldingFlexibleWorkGang("Parallel CMS Threads",
-                                 ConcGCThreads, true);
+              ConcGCThreads, true);
       if (_conc_workers == NULL) {
         warning("GC/CMS: _conc_workers allocation failure: "
               "forcing -CMSConcurrentMTEnabled");
@@ -3685,6 +3696,22 @@ class CMSMetrics: public CHeapObj {
 	}
 };
 
+class CMSConcSweepingTask: public YieldingFlexibleGangTask {
+	CMSCollector* _collector;
+	PartitionMetaData* _partitionMetaData;
+	int _n_workers;
+
+public:
+	CMSConcSweepingTask(CMSCollector* collector, int nWorkers){
+		_collector = collector;
+		_partitionMetaData = collector->getPartitionMetaData();
+		_n_workers = nWorkers;
+	}
+	void work(int id);
+	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure);
+	CMSCollector* getCollector() { return _collector; }
+};
+
 // MT Concurrent Marking Task
 class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSCollector* _collector;
@@ -4195,6 +4222,36 @@ void CMSConcMarkingTask::masterThreadWork(){
 		printf("Something went wrong in. TaskId (%d) mismatched in masterThreadWork.", getTaskId());
 		exit(-1);
 	}
+}
+
+// This method scans a partition
+void CMSConcSweepingTask::do_partition(int partitionId, SweepPageClosure* sweepPageClosure){
+	std::vector<int>::iterator it;
+	std::vector<int> pageIndices;
+	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
+	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
+		pageIndex = *it;
+		sweepPageClosure->do_page(pageIndex);
+	}
+	// Releasing the partition
+	_partitionMetaData->releasePartition(currentPartitionIndex);
+}
+
+void CMSConcSweepingTask::work(int i){
+	SweepPageClosure sweepPageClosure(getCollector(), i);
+#if OC_SWEEP_LOG
+	printf("Starting CMSConcSweepingTask with id %d.\n", i);
+#endif
+	int currentPartitionIndex = -1;
+    do {
+      // each thread tries to get the next partition here
+      currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
+      // scanning the in-memory pages within the current partition
+      do_partition(currentPartitionIndex, &sweepPageClosure);
+      // the true flag is to denote that the partition scan is parallel (mt)
+      _partitionMetaData->incrementPartitionsScanned(true);
+    }  // checking if we have scanned all the partitions
+    while(_partitionMetaData->shouldScanningStop() == false);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -5058,13 +5115,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 		  tsk.completed());
 #endif
 
-//  CMSConcMarkingTask tsk2(this,
-//                           cms_space,
-//                           perm_space,
-//                           asynch,
-//                           conc_workers(),
-//                           task_queues());
-//  tsk2.setTaskId(1);
 #if OCMS_NO_GREY_LOG
   printf("Running the VM_OCMS_MARK Task here.\n");
 #endif
@@ -6996,6 +7046,12 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
   }
 }
 
+// This is the main method that starts the a set of parallel threads for sweeping the mature and the permanent space.
+	// Each of the individual threads picks a set of pages from each partition (over the mature and permanent space span).
+	// Then the page is scanned based for dead objects and chunks containing the dead objects are returned back to the
+	// local free lists of the threads.
+// Thereafter, once the threads come to a stop, the master thread returns the individual dead chunks to the main free list.
+
 void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
 		  bool asynch){
  // We iterate over the space underlying both the generations (cms, perm)
@@ -7023,7 +7079,67 @@ void CMSCollector::sweepWorkPartitioned(ConcurrentMarkSweepGeneration* gen,
  // as well take the bit map lock for the entire duration
 
  // Initially we need to start a set of worker threads
+
+#if OC_SWEEP_LOG
+  printf("Initiaing Creation of CMSConcSweepingTask.\n");
+#endif
+  CMSConcSweepingTask sweepTask(this, ConcSweepThreads);
+#if OC_SWEEP_LOG
+  printf("Creation of CMSConcMarkingTask Done.\n");
+#endif
+#if OC_SWEEP_LOG
+  printf("Starting the CMSConcSweepingTask.\n");
+#endif
+  // Resetting the number of partitions to be scanned
+  _partitionMetaData->resetPartitionsScanned();
+  // Resetting the partitionMap
+  _partitionMetaData->resetPartitionMap();
+  // Starting the CMSConcSweepingTask with the sweep worker tasks here
+  conc_sweep_workers()->start_task(&sweepTask);
+#if OC_SWEEP_LOG
+  printf("CMSConcSweepingTask Completed.\n");
+#endif
+#if OC_SWEEP_ASSERT
+  if(sweepTask.completed() == false){
+	  printf("The CMSConcSweepingTask is still not completed. There is still something wrong with the task\n");
+  }
+#endif
+#if OC_SWEEP_LOG
+  printf("We have completed the sweep task. Now we let the free chunks back.");
+#endif
+
+  // Getting the cms and the permanent spaces
+  CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
+  CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+
+  // Returning the chunks back to the cms space and the permanent space
+  cms_space->returnChunksToGlobalFreeList();
+  perm_space->returnChunksToGlobalFreeList();
+
+#if OC_SWEEP_LOG
+  printf("Successfully returned the chunks to the global free list of the cms and the permanent spaces."
+		  "Returning free chunks from the partitioned dictionaries.\n");
+#endif
+
+  // Returning the freeChunks from the threads to the
+  cms_space->returnPartitionedDictionaries();
+  cms_space->resetPartitionedDictionaries();
+
+#if OC_SWEEP_LOG
+  printf("Successfully returned the chunks to the partitioned dictionaries of the cms and the permanent spaces."
+		  "Resetting the partitioned dictionaries.\n");
+#endif
+
+  // Resetting the partitioned dictionaries
+  perm_space->returnPartitionedDictionaries();
+  perm_space->resetPartitionedDictionaries();
+
+#if OC_SWEEP_LOG
+  printf("Completed the sweep phase.\n");
+#endif
 }
+
+
 
 void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
 		  bool asynch) {
@@ -9061,14 +9177,14 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 }
 
 // this method scans a chunk and figures out whether the chunk is free or is alive
-// in case the chunk is alive it figures out it size and returns it
-// in case the chunk is dead it releases the chunk to the free chunk list of the corresponding partition
-// in case the chunk is a free chunk it leaves the chunk as it is
+	// in case the chunk is alive it figures out it size and returns it
+	// in case the chunk is dead it releases the chunk to the free chunk list of the corresponding partition
+	// in case the chunk is a free chunk it leaves the chunk as it is
 size_t SweepPageClosure::do_chunk(HeapWord* addr){
 	FreeChunk* fc = (FreeChunk*)addr;
 	size_t res;
-	if(fc->isFree()){
-		// currently we do not perform coleasing of free chunks
+	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
+		// currently we do not perform coalescing of free chunks
 		res = fc->size();
 	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
 		res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
