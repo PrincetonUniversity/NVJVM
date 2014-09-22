@@ -851,6 +851,7 @@ void ParNewGeneration::collect(bool   full,
                                bool   clear_all_soft_refs,
                                size_t size,
                                bool   is_tlab) {
+  SwapMetrics sMet("par-task");
   assert(full || size > 0, "otherwise we don't want to collect");
   GenCollectedHeap* gch = GenCollectedHeap::heap();
   assert(gch->kind() == CollectedHeap::GenCollectedHeap,
@@ -898,6 +899,7 @@ void ParNewGeneration::collect(bool   full,
   ParScanThreadStateSet thread_state_set(workers->total_workers(),
                                          *to(), *this, *_next_gen, *task_queues(),
                                          _overflow_stacks, desired_plab_sz(), _term);
+
 
   ParNewGenTask tsk(this, _next_gen, reserved().end(), &thread_state_set);
   int n_workers = workers->total_workers();
