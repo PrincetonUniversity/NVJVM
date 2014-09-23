@@ -27,7 +27,9 @@ private:
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
-
+    static int _markPhaseFaults;
+    static int _sweepPhaseFaults;
+    int _phaseId;
 
 public:
 	SwapMetrics(const char *phase);
@@ -36,6 +38,11 @@ public:
 	int getMinorFaultsMetrics() { return _minorFaults; }
 	void getCurrentNumberOfFaults();
 	static void printTotalFaults();
+	void setPhase(int phaseId);
+    enum PhaseIds{
+    	markPhase = 1,
+    	sweepPhase = 2
+    };
 };
 
 #endif /* SWAPMETRICS_HPP_ */

@@ -7,6 +7,13 @@
 
 #include "SwapMetrics.hpp"
 
+int SwapMetrics::_markPhaseFaults = 0;
+int SwapMetrics::_sweepPhaseFaults = 0;
+
+void SwapMetrics::setPhase(int phaseId){
+	_phaseId = phaseId;
+}
+
 SwapMetrics::SwapMetrics(const char* phase) {
   _currentFaults = new int[2];
   _initialFaults = new int[2];
@@ -29,6 +36,11 @@ SwapMetrics::~SwapMetrics() {
   // Setting the minor and the major faults
   _minorFaults = _finalFaults[0] - _initialFaults[0];
   _majorFaults = _finalFaults[1] - _initialFaults[1];
+  if(_phaseId == markPhase){
+	  _markPhaseFaults += _majorFaults;
+  } else if (_phaseId == sweepPhase) {
+	  _sweepPhaseFaults += _majorFaults;
+  }
 
   // Writing the minor and the major faults to the output
   cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
@@ -51,6 +63,8 @@ void SwapMetrics::printTotalFaults(){
 	  while(fgets(buf, BUF_MAX, fp) != NULL){
 		  cout << buf << endl;
 	  }
+	  cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
+	  cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
