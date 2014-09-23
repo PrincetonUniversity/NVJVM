@@ -1321,12 +1321,13 @@ public:
 	}
 
 	void getZeroPages(){
-		int partitionSize, numberZeroedPages = 0, pageIndex, count, partitionIndex;
+		int partitionSize, numberZeroedPages = 0, pageIndex, count, partitionIndex, totalPages = 0;
 		void *address;
 		for(partitionIndex = 0; partitionIndex <_numberPartitions; partitionIndex++){
 			address = getPageBase(getPartitionStart(partitionIndex));
 			pageIndex = getPartitionStart(partitionIndex);
 			partitionSize = getPartitionSize(partitionIndex);
+			totalPages += partitionSize;
 			unsigned char vec[partitionSize];
 			if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 				perror("error:");
@@ -1337,7 +1338,7 @@ public:
 					numberZeroedPages++;
 			}
 		}
-		printf("Zero Pages In Core = %d.\n", numberZeroedPages);
+		printf("Zero Pages In Core = %d, %d.\n", numberZeroedPages, totalPages);
 	}
 
 	int getTotalGreyObjectsChunkLevel(){

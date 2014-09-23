@@ -4137,10 +4137,6 @@ void CMSConcMarkingTerminator::yield() {
   }
 }
 
-void printInCoreZeroedPages(){
-	 _collector->getPartitionMetaData()
-}
-
 void CMSConcMarkingTask::masterThreadWorkInitial() {
 
 #if OCMS_NO_GREY_LOG
