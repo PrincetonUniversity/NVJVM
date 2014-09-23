@@ -4014,7 +4014,8 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
       case FinalMarking:
         {
           ReleaseForegroundGC x(this);
-
+          TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+          tcpu.setPhase("final-marking-phase");
           CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
           CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
           CMSConcMarkingTask tsk2(this,
@@ -9218,12 +9219,26 @@ size_t SweepPageClosure::do_free_chunk(FreeChunk* fc){
 	// in case the chunk is a free chunk it leaves the chunk as it is
 size_t SweepPageClosure::do_chunk(HeapWord* addr){
 	FreeChunk* fc = (FreeChunk*)addr;
-	size_t res;
+	size_t res, dRes;
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 		// currently we do not perform coalescing of free chunks
 		res = do_free_chunk(fc);
 	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
 		// need to reset the
+#if	OC_SWEEP_ASSERT
+		/*if(_partitionMetaData->isPageStart(addr)){
+			printf("Can a page start chunk be garbage ...");
+			exit(-1);
+		}*/
+		if(oop(addr)->is_oop(true) == false){
+			printf("Inconsistency in do_chunk() -> Chunk is garbage but not oop.\n");
+			exit(-1);
+		}
+		dRes = oop(addr)->size();
+		if(dRes == 0){
+			exit(-1);
+		}
+#endif
 		res = do_garbage_chunk(addr);
 	} else  { // chunk is alive
 		res = do_live_chunk(addr);

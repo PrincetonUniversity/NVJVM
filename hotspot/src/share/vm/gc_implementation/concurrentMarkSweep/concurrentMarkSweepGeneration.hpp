@@ -1259,8 +1259,8 @@ public:
 // the newAddress lies on the starting address of the page then it gets exchanged
 	bool objectDeallocatedCMSSpace(HeapWord* address, HeapWord* newAddress){
 		int pageIndex = getPageIndexFromPageAddress(address);
-		jshort curr_val = (jshort)_pageStart[pageIndex];
-		if((jshort)curr_val == heapWordToShort(address)){ // checking if this object is at the start of the page
+				jshort curr_val = (jshort)_pageStart[pageIndex];
+				if((jshort)curr_val == heapWordToShort(address)){ // checking if this object is at the start of the page
 		  int newPageIndex = getPageIndexFromPageAddress(newAddress);
 		  if(pageIndex == newPageIndex) // checking if the next object lies on the same page index
 			  store_Atomic(newAddress, pageIndex); // we put in the next address denoting the page start if the page indices are the same
@@ -1282,6 +1282,16 @@ public:
 			}
 		}
 	}
+
+	bool isPageStart(HeapWord* address){
+		int pageIndex = getPageIndexFromPageAddress(address);
+		jshort curr_val = (jshort)_pageStart[pageIndex];
+		if((jshort)curr_val == heapWordToShort(address)){
+			return true;
+		}
+		return false;
+	}
+
 
 	void* objectStartAddress(int pageIndex){
 		return (
