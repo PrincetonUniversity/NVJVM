@@ -58,7 +58,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 #endif
 	 }
 	 return;
-  } else if(si->si_code == SIGSEGV && si->si_addr == 0){
+  } else if(false && si->si_code == SIGSEGV && si->si_addr == 0){
 	  void *array[10];
 	  size_t size;
 
@@ -74,6 +74,7 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 }
 
 void SignalHandler::init(){
+	printf("In signal handler init.\n");
 	sa.sa_flags = SA_SIGINFO; // The siginfo_t structure is passed as a second parameter to the user signal handler function
 	sigemptyset(&sa.sa_mask); // Emptying the signal set associated with the structure sigaction_t
 	sa.sa_sigaction = seg_handler; // Assigning the fault handler
