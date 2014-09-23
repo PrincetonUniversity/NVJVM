@@ -9203,8 +9203,8 @@ size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
-	HeapWord* newAddr = (res + addr); // Getting the location of the next object
-	_partitionMetaData->objectDeallocatedCMSSpace(addr, newAddr); // Updating the page start
+//	HeapWord* newAddr = (res + addr); // Getting the location of the next object
+//	_partitionMetaData->objectDeallocatedCMSSpace(addr, newAddr); // Updating the page start
 	return res;
 }
 
@@ -9228,7 +9228,7 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 #if	OC_SWEEP_ASSERT
 		if(oop(addr)->is_oop(true) == false){
 			bool isPageStart = _partitionMetaData->isPageStart(addr);
-			printf("Inconsistency in do_chunk() -> Chunk is garbage but not oop, isPageStart = %d.\n", isPageStart);
+			printf("Inconsistency in do_chunk() -> Chunk (%p) is garbage but not oop, isPageStart = %d.\n", addr, isPageStart);
 			exit(-1);
 		}
 #endif
