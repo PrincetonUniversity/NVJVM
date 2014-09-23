@@ -1241,6 +1241,36 @@ public:
 		return (jshort)newValue;
 	}
 
+	jshort store_AtomicShort(jshort newValue, int index){
+		jshort *position = &(_pageStart[index]);
+		jshort value = *position;
+		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
+				(jshort)value) !=  (jshort)value){
+			value = *position;
+			if(newValue > value){
+				break;
+			}
+		}
+		return (jshort)newValue;
+	}
+
+// An object gets deallocated from the page on which address lies, the next address is newAddress here
+// The function returns true if the current object was the top level object on the page and if
+// the newAddress lies on the starting address of the page then it gets exchanged
+	bool objectDeallocatedCMSSpace(HeapWord* address, HeapWord* newAddress){
+		int pageIndex = getPageIndexFromPageAddress(address);
+		jshort curr_val = (jshort)_pageStart[pageIndex];
+		if((jshort)curr_val == heapWordToShort(address)){ // checking if this object is at the start of the page
+		  int newPageIndex = getPageIndexFromPageAddress(newAddress);
+		  if(pageIndex == newPageIndex) // checking if the next object lies on the same page index
+			  store_Atomic(newAddress, pageIndex); // we put in the next address denoting the page start if the page indices are the same
+		  else
+			  store_AtomicShort((jshort)NO_OBJECT_MASK, pageIndex); // we reset the value on the page otherwise
+		  return true;
+		}
+		return false;
+	}
+
 	void objectAllocatedCMSSpace(HeapWord* address){
 		int pageIndex = getPageIndexFromPageAddress(address);
 		jshort curr_val = (jshort)_pageStart[pageIndex];
