@@ -1310,6 +1310,34 @@ public:
 		);
 	}
 
+	bool isZero(int pageIndex){
+		char* pageStart = getPageBase(pageIndex);
+		for(int count = 0; count < _PAGE_SIZE; count++){
+			if((int)pageStart[count] != 0){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	void getZeroPages(){
+		int partitionSize, numberZeroedPages = 0, pageIndex, count, partitionIndex;
+		for(partitionIndex = 0; partitionIndex <_numberPartitions; partitionIndex++){
+			pageIndex = getPartitionStart(partitionIndex);
+			partitionSize = getPartitionSize(partitionIndex);
+			unsigned char vec[partitionSize];
+			if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+				perror("error:");
+				printf("error in mincore.");
+			}
+			for(count = 0; count < partitionSize; count++, pageIndex++){
+				if(((vec[count] & 1) == 1) && (isZero(pageIndex) == true))
+					numberZeroedPages++;
+			}
+		}
+		printf("Zero Pages In Core = %d.\n", numberZeroedPages);
+	}
+
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
 		for (index = 0; index < _numberPartitions; index++){

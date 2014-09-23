@@ -4137,6 +4137,10 @@ void CMSConcMarkingTerminator::yield() {
   }
 }
 
+void printInCoreZeroedPages(){
+	 _collector->getPartitionMetaData()
+}
+
 void CMSConcMarkingTask::masterThreadWorkInitial() {
 
 #if OCMS_NO_GREY_LOG
@@ -4154,6 +4158,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	MasterThreadState masterThreadState = INITIAL;
 	do{
 		// This is the master thread that wakes up after every 1 second
+		_collector->getPartitionMetaData()->getZeroPages();
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
@@ -6956,13 +6961,13 @@ void CMSCollector::sweep(bool asynch) {
 	tcpu.setPhase("sweep-phase");
 	SwapMetrics sMet("sweep-phase");
 	sMet.setPhase(SwapMetrics::sweepPhase);
-	sweepWorkPartitioned();
-    /*// already have needed locks
+    //sweepWorkPartitioned();
+    // already have needed locks
     sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
       sweepWork(_permGen, asynch);
-    }*/
+    }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
     Universe::update_heap_info_at_gc();
