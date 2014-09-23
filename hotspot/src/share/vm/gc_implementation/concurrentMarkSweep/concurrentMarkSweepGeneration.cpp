@@ -9226,16 +9226,9 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 	}  else if (!_bitMap->isMarked(addr)) { // this is the case when the block is a garbage block
 		// need to reset the
 #if	OC_SWEEP_ASSERT
-		/*if(_partitionMetaData->isPageStart(addr)){
-			printf("Can a page start chunk be garbage ...");
-			exit(-1);
-		}*/
 		if(oop(addr)->is_oop(true) == false){
-			printf("Inconsistency in do_chunk() -> Chunk is garbage but not oop.\n");
-			exit(-1);
-		}
-		dRes = oop(addr)->size();
-		if(dRes == 0){
+			bool isPageStart = _partitionMetaData->isPageStart(addr);
+			printf("Inconsistency in do_chunk() -> Chunk is garbage but not oop, isPageStart = %d.\n", isPageStart);
 			exit(-1);
 		}
 #endif
