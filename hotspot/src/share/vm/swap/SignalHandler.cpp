@@ -6,6 +6,11 @@
  */
 
 #include "SignalHandler.h"
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 struct sigaction sa;
 struct sigaction oldSigAct;
@@ -53,6 +58,17 @@ void seg_handler(int sig, siginfo_t *si, void *unused){
 #endif
 	 }
 	 return;
+  } else if(si->si_code == SIGSEGV && si->si_addr == 0){
+	  void *array[10];
+	  size_t size;
+
+	  // get void*'s for all entries on the stack
+	  size = backtrace(array, 10);
+
+	  // print out all the frames to stderr
+	  fprintf(stderr, "Error: signal %d:\n", sig);
+	  backtrace_symbols_fd(array, size, STDERR_FILENO);
+	  exit(1);
   }
   (*oldSigAct.sa_sigaction)(sig, si, unused);
 }

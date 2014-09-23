@@ -49,6 +49,7 @@
 #define TRACING_SYSTEM_GC 0
 #define OC_SWEEP_ASSERT 1
 #define OC_SWEEP_LOG 0
+#define SEG_DEBUG 1
 
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait

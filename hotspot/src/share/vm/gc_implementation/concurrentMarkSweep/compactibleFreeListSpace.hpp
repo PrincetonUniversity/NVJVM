@@ -312,6 +312,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
 
   // Set CMS global values
   static void set_cms_values();
+  static int getIndexedSetSize(){ return IndexSetSize; }
 
   // Return the free chunk at the end of the space.  If no such
   // chunk exists, return NULL.

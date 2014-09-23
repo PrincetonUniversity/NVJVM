@@ -1745,11 +1745,17 @@ void
 CompactibleFreeListSpace::returnChunkToFreeListPartitioned(FreeChunk* fc, int index) {
 #if OC_SWEEP_ASSERT
 	if(index < 0 || index >= FreeListPartitions){ // checking that the index is within the specific range
-		printf("Error in returnChunkToFreeListPartition. Index (%d) out of range. \n", index);
+		printf("Error in returnChunkToFreeListPartition. Index (%d) out of range.\n", index);
 		exit(-1);
 	}
 #endif
 	size_t size = fc->size();
+#if OC_SWEEP_ASSERT
+	if(size < 0 || size >= getIndexedSetSize()){
+		printf("Error in returnChunkToFreeListPartitioned(). Size (%d) in out of range.\n", size);
+		exit(-1);
+	}
+#endif
 	_indexedPartitionedFreeList[index][size].returnChunkAtTail(fc);
 }
 
