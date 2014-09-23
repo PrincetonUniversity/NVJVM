@@ -1808,7 +1808,12 @@ void CompactibleFreeListSpace::addChunkToFreeListsPartitioned(HeapWord* chunk,
 													size_t size, int index){
 	 FreeChunk* fc = (FreeChunk*) chunk;
 	 fc->setSize(size);
-	 returnChunkToFreeListPartitioned(fc, index);
+	  if (size < SmallForDictionary) {
+		 returnChunkToFreeListPartitioned(fc, index);
+	  } else {
+		  returnChunkToDictionaryPartitioned(fc, index);
+	  }
+
 }
 
 void
