@@ -3588,6 +3588,7 @@ void Threads::create_vm_init_libraries() {
 
 // Last thread running calls java.lang.Shutdown.shutdown()
 void JavaThread::invoke_shutdown_hooks() {
+  printf("Here Invoking shutdown hooks.\n");
   HandleMark hm(this);
 
   // We could get here with a pending exception, if so clear it now.
@@ -3652,6 +3653,7 @@ void JavaThread::invoke_shutdown_hooks() {
 //   + Return to caller
 
 bool Threads::destroy_vm() {
+  printf("In destroy_vm");
   JavaThread* thread = JavaThread::current();
 
   // Wait until we are the last non-daemon thread to execute

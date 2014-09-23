@@ -40,22 +40,35 @@ std::string inToS(int num){
     return ss.str();
 }
 
-void SwapMetrics::getCurrentNumberOfFaults(void){
-	  int count = 0;
+void SwapMetrics::printTotalFaults(){
+	 int count = 0;
 	  FILE *fp;
 	  char buf[BUF_MAX];
 	  pid_t pid = getpid();
 	  std::string cmd = std::string("ps -o min_flt,maj_flt ") +
-	    std::string(inToS(pid));
+		std::string(inToS(pid));
 	  fp = popen(cmd.c_str(), "r");
-	  while(fgets(buf, BUF_MAX, fp) != NULL);
-	  istringstream iss(buf);
-	  do
-	   {
-	       string sub;
-	       iss >> sub;
-	       std::stringstream(sub) >> _currentFaults[count];
-	       count++;
-	    } while(iss);
+	  while(fgets(buf, BUF_MAX, fp) != NULL){
+		  cout << buf << endl;
+	  }
+}
+
+void SwapMetrics::getCurrentNumberOfFaults(void){
+	 int count = 0;
+		  FILE *fp;
+		  char buf[BUF_MAX];
+		  pid_t pid = getpid();
+		  std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+		    std::string(inToS(pid));
+		  fp = popen(cmd.c_str(), "r");
+		  while(fgets(buf, BUF_MAX, fp) != NULL);
+		  istringstream iss(buf);
+		  do
+		   {
+		       string sub;
+		       iss >> sub;
+		       std::stringstream(sub) >> _currentFaults[count];
+		       count++;
+		    } while(iss);
 
 }

@@ -28,12 +28,14 @@ private:
     string _logFilePath;
     int* _currentFaults;
 
+
 public:
 	SwapMetrics(const char *phase);
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
 	int getMinorFaultsMetrics() { return _minorFaults; }
 	void getCurrentNumberOfFaults();
+	static void printTotalFaults();
 };
 
 #endif /* SWAPMETRICS_HPP_ */
