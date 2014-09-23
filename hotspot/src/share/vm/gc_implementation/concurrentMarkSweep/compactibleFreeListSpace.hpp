@@ -239,7 +239,6 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void       addChunkToFreeLists(HeapWord* chunk, size_t size);
 
   // Add a chunk to a specified free list partition
-  void addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int partitionIndex);
   void returnChunksToGlobalFreeList();
   void addToFreeList(int index);
   void returnChunkToDictionaryPartitioned(FreeChunk* fc, int index);
@@ -327,7 +326,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void initialize_sequential_subtasks_for_rescan(int n_threads);
   void initialize_sequential_subtasks_for_marking(int n_threads,
          HeapWord* low = NULL);
-
+  void addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int partitionIndex);
   // Space enquiries
   size_t used() const;
   size_t free() const;
