@@ -1751,7 +1751,7 @@ CompactibleFreeListSpace::returnChunkToFreeListPartitioned(FreeChunk* fc, int in
 #endif
 	size_t size = fc->size();
 #if OC_SWEEP_ASSERT
-	if(size < 0 || size >= getIndexedSetSize()){
+	if(size < 0 || size >= (size_t)getIndexedSetSize()){
 		printf("Error in returnChunkToFreeListPartitioned(). Size (%d) in out of range.\n", size);
 		exit(-1);
 	}
