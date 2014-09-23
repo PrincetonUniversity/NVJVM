@@ -9203,7 +9203,7 @@ size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
-	HeapWord* newAddr = (HeapWord*)((uintptr_t)res + (uintptr_t)addr); // Getting the location of the next object
+	HeapWord* newAddr = (res + addr); // Getting the location of the next object
 	_partitionMetaData->objectDeallocatedCMSSpace(addr, newAddr); // Updating the page start
 	return res;
 }
@@ -9253,10 +9253,12 @@ void SweepPageClosure::do_page(int pIndex){
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res =  do_chunk(curr);
+#if	OC_SWEEP_ASSERT
 			if(res == 0){
 				printf("The size of the current chunk is zero. We have a problem here.\n");
 				exit(-1);
 			}
+#endif
 			curr += res;
 			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
 // checking if the current heapword is beyond the end of the page, oops we need to go to the next page
