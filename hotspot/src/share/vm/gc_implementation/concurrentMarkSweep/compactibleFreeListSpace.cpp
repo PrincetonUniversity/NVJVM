@@ -1813,7 +1813,6 @@ void CompactibleFreeListSpace::addChunkToFreeListsPartitioned(HeapWord* chunk,
 	  } else {
 		  returnChunkToDictionaryPartitioned(fc, index);
 	  }
-
 }
 
 void
@@ -1876,20 +1875,6 @@ void CompactibleFreeListSpace::resetPartitionedDictionaries(){
 		_dictionaryLists[pIndex].clear();
 	}
 }
-
-void
-CompactibleFreeListSpace::addChunkToFreeListsPartition(HeapWord* chunk,
-														size_t size, int index) {
-	FreeChunk* fc = (FreeChunk*) chunk;
-	fc->setSize(size);
-	if (size < SmallForDictionary) {
-		returnChunkToFreeListPartitioned(fc, index);
-	} else {
-	    returnChunkToDictionaryPartitioned(fc, index);
-	}
-}
-
-
 
 void
 CompactibleFreeListSpace::addChunkAndRepairOffsetTable(HeapWord* chunk,

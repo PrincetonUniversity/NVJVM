@@ -239,7 +239,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   void       addChunkToFreeLists(HeapWord* chunk, size_t size);
 
   // Add a chunk to a specified free list partition
-  void addChunkToFreeListsPartition(HeapWord* chunk, size_t size, int partitionIndex);
+  void addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int partitionIndex);
   void returnChunksToGlobalFreeList();
   void addToFreeList(int index);
   void returnChunkToDictionaryPartitioned(FreeChunk* fc, int index);
@@ -317,10 +317,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // Return the free chunk at the end of the space.  If no such
   // chunk exists, return NULL.
   FreeChunk* find_chunk_at_end();
-  void addChunkToFreeListsPartitioned(HeapWord* chunk, size_t size, int index);
-
   bool adaptive_freelists() const { return _adaptive_freelists; }
-
   void set_collector(CMSCollector* collector) { _collector = collector; }
 
   // Support for parallelization of rescan and marking
