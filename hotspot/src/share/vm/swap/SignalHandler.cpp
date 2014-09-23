@@ -19,7 +19,7 @@ bool SignalHandler::_isInit = false;
 
 void seg_handler(int sig, siginfo_t *si, void *unused){
   void *addr = (void *)si->si_addr;
-  if (si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
+  if (false && si->si_code == SEGV_ACCERR && Utility::liesWithinHeap(addr)){
 #if SWAP_METRICS
 	  Thread *threadC = Thread::current();
 	  SwapMetric::incrementSegFaults();
