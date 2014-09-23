@@ -7,6 +7,13 @@
 
 #include "SwapMetrics.hpp"
 
+int SwapMetrics::_markPhaseFaults = 0;
+int SwapMetrics::_sweepPhaseFaults = 0;
+
+void SwapMetrics::setPhase(int phaseId){
+     _phaseId = phaseId;
+}
+
 SwapMetrics::SwapMetrics(const char* phase) {
   _currentFaults = new int[2];
   _initialFaults = new int[2];
@@ -15,7 +22,7 @@ SwapMetrics::SwapMetrics(const char* phase) {
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
-	  _initialFaults[count] = _currentFaults[count];
+       _initialFaults[count] = _currentFaults[count];
   }
   _logFilePath = "/home/tandon/logs/cms.log";
 }
@@ -24,11 +31,16 @@ SwapMetrics::~SwapMetrics() {
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
-	  _finalFaults[count] = _currentFaults[count];
+       _finalFaults[count] = _currentFaults[count];
   }
   // Setting the minor and the major faults
   _minorFaults = _finalFaults[0] - _initialFaults[0];
   _majorFaults = _finalFaults[1] - _initialFaults[1];
+  if(_phaseId == markPhase){
+       _markPhaseFaults += _majorFaults;
+  } else if (_phaseId == sweepPhase) {
+       _sweepPhaseFaults += _majorFaults;
+  }
 
   // Writing the minor and the major faults to the output
   cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
@@ -40,24 +52,37 @@ std::string inToS(int num){
     return ss.str();
 }
 
+void SwapMetrics::printTotalFaults(){
+      int count = 0;
+       FILE *fp;
+       char buf[BUF_MAX];
+       pid_t pid = getpid();
+       std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+          std::string(inToS(pid));
+       fp = popen(cmd.c_str(), "r");
+       while(fgets(buf, BUF_MAX, fp) != NULL){
+            cout << buf << endl;
+       }
+       cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
+       cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
+}
+
 void SwapMetrics::getCurrentNumberOfFaults(void){
-	  int count = 0;
-	  FILE *fp;
-	  char buf[BUF_MAX];
-	  pid_t pid = getpid();
-	  std::string cmd = std::string("ps -o min_flt,maj_flt ") +
-	    std::string(inToS(pid));
-	  fp = popen(cmd.c_str(), "r");
-	  while(fgets(buf, BUF_MAX, fp) != NULL){
-		  cout << buf << endl;
-	  }
-	  istringstream iss(buf);
-	  do
-	   {
-	       string sub;
-	       iss >> sub;
-	       std::stringstream(sub) >> _currentFaults[count];
-	       count++;
-	    } while(iss);
+      int count = 0;
+            FILE *fp;
+            char buf[BUF_MAX];
+            pid_t pid = getpid();
+            std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+              std::string(inToS(pid));
+            fp = popen(cmd.c_str(), "r");
+            while(fgets(buf, BUF_MAX, fp) != NULL);
+            istringstream iss(buf);
+            do
+             {
+                 string sub;
+                 iss >> sub;
+                 std::stringstream(sub) >> _currentFaults[count];
+                 count++;
+              } while(iss);
 
 }

@@ -145,6 +145,7 @@ jint init_globals() {
 
 
 void exit_globals() {
+  SwapMetrics::printTotalFaults();
   static bool destructorsCalled = false;
   if (!destructorsCalled) {
     destructorsCalled = true;
