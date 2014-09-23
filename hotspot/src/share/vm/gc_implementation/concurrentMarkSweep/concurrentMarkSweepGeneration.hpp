@@ -1311,7 +1311,7 @@ public:
 	}
 
 	bool isZero(int pageIndex){
-		char* pageStart = getPageBase(pageIndex);
+		char* pageStart = (char *)getPageBase(pageIndex);
 		for(int count = 0; count < _PAGE_SIZE; count++){
 			if((int)pageStart[count] != 0){
 				return false;
@@ -1322,7 +1322,9 @@ public:
 
 	void getZeroPages(){
 		int partitionSize, numberZeroedPages = 0, pageIndex, count, partitionIndex;
+		void *address;
 		for(partitionIndex = 0; partitionIndex <_numberPartitions; partitionIndex++){
+			address = getPageBase(getPartitionStart(partitionIndex));
 			pageIndex = getPartitionStart(partitionIndex);
 			partitionSize = getPartitionSize(partitionIndex);
 			unsigned char vec[partitionSize];
