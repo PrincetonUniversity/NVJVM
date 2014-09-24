@@ -1556,10 +1556,18 @@ HeapWord*  CompactibleFreeListSpace::getChunkFromLinearAllocBlockRemainder(
 
 FreeChunk*
 CompactibleFreeListSpace::getChunkFromIndexedFreeList(size_t size) {
+  int attempts = 10;
   assert_locked();
   assert(size < SmallForDictionary, "just checking");
   FreeChunk* res;
   res = _indexedFreeList[size].getChunkAtHead();
+  while(attempts > 0){
+	  attempts--;
+	  if(__page_start_long(res) != __page_start_long(res+size)){
+		_indexedFreeList[size].returnChunkAtTail(res);
+	  }
+	  res = _indexedFreeList[size].getChunkAtHead();
+  }
   if (res == NULL) {
     res = getChunkFromIndexedFreeListHelper(size);
   }

@@ -31,6 +31,14 @@
 #include "memory/blockOffsetTable.inline.hpp"
 #include "memory/space.hpp"
 
+#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
+
+#define __page_start(p) \
+	(void *)((long)p & (~(_PAGE_SIZE-1)))
+
+#define __page_start_long(p) \
+	((long)p & (~(_PAGE_SIZE-1)))
+
 // Classes in support of keeping track of promotions into a non-Contiguous
 // space, in this case a CompactibleFreeListSpace.
 
