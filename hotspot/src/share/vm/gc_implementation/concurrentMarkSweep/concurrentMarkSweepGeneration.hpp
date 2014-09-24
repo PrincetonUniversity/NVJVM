@@ -1329,10 +1329,10 @@ public:
 			partitionSize = getPartitionSize(partitionIndex);
 			totalPages += partitionSize;
 			unsigned char vec[partitionSize];
-			if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
-				perror("error:");
-				printf("error in mincore.");
-			}
+						if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+							perror("error:");
+							printf("error in mincore.");
+						}
 			for(count = 0; count < partitionSize; count++, pageIndex++){
 				if(((vec[count] & 1) == 1) && (isZero(pageIndex) == true))
 					numberZeroedPages++;

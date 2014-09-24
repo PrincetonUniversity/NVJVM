@@ -25,6 +25,8 @@
 #ifndef SHARE_VM_MEMORY_SPACE_HPP
 #define SHARE_VM_MEMORY_SPACE_HPP
 
+#include <sys/mman.h>
+#include <unistd.h>
 #include "memory/allocation.hpp"
 #include "memory/blockOffsetTable.hpp"
 #include "memory/cardTableModRefBS.hpp"
@@ -849,6 +851,38 @@ class ContiguousSpace: public CompactibleSpace {
   bool is_in(const void* p) const;
 
   virtual bool is_free_block(const HeapWord* p) const;
+
+  int byteToPages(size_t bytes){
+	  return (
+		bytes/sysconf(_SC_PAGE_SIZE)
+	  );
+  }
+	bool isZero(void* address){
+		char* pageStart = (char *)address;
+		for(int count = 0; count < _PAGE_SIZE; count++){
+			if((int)pageStart[count] != 0){
+				return false;
+			}
+		}
+		return true;
+	}
+
+  void getZeroedCount(){
+	  void* curr = bottom();
+	  int numPages = 0, totalPages = byteToPages(capacity()), count;
+	  unsigned char vec[totalPages];
+	  if(mincore(curr, totalPages * sysconf(_SC_PAGE_SIZE), vec) == -1){
+	  				perror("error:");
+	  				printf("error in mincore.");
+	  }
+	  for(count = 0; count < totalPages; count++){
+		  if(((vec[count] & 1) == 1) && (isZero(curr))){
+			  numPages++;
+		  }
+		  curr = (void*)((uintptr_t)curr+ sysconf(_SC_PAGE_SIZE));
+	  }
+	  printf("Zeroed Pages = %d, %d.\n", numPages, totalPages);
+  }
 
   // In a contiguous space we have a more obvious bound on what parts
   // contain objects.
