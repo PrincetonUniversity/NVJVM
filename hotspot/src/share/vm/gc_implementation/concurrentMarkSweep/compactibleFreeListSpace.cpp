@@ -1561,9 +1561,11 @@ CompactibleFreeListSpace::getChunkFromIndexedFreeList(size_t size) {
   assert(size < SmallForDictionary, "just checking");
   FreeChunk* res;
   res = _indexedFreeList[size].getChunkAtHead();
+  void *end;
   while(attempts > 0){
+	  end = (void*)(res + size);
 	  attempts--;
-	  if(__page_start_long(res) != __page_start_long(res+size)){
+	  if(__page_start_long(res) != __page_start_long(end)){
 		_indexedFreeList[size].returnChunkAtTail(res);
 	  }
 	  res = _indexedFreeList[size].getChunkAtHead();
