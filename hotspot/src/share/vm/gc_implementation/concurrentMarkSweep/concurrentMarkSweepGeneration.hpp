@@ -1077,10 +1077,14 @@ public:
 		std::vector<int> toScanPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
+			std::vector<int>::iterator it;
 			int nonZeroCount = 0;
+			int pageCount = 0, maxPageCount;
+			double threshold = 0.2;
 			char buf[20];
 			if(currentPartition != - 1){
 				int partitionSize = getPartitionSize(currentPartition);
+				maxPageCount = (int)(threshold * partitionSize);
 				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
 				memset(vec, 0, partitionSize);
@@ -1112,10 +1116,16 @@ public:
 				exit(-1);
 			}
 #endif
-
+			pageCount = pageIndices.size();
 			// A better logic is required here to get the
-			if(pageIndices.size() == 0)
-				return pageIndicesOutOfCore;
+			if(pageIndices.size() < maxPageCount){
+				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
+					pageIndices.push_back(*it);
+					pageCount++;
+					if(pageCount >= maxPageCount)
+						break;
+				}
+			}
 			return pageIndices;
 		}
 

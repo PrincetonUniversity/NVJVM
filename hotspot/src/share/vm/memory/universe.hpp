@@ -50,7 +50,7 @@
 #define OC_SWEEP_ASSERT 1
 #define OC_SWEEP_LOG 0
 #define SEG_DEBUG 0
-#define MADVISE 1
+#define MADVISE 0
 
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
