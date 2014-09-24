@@ -1012,10 +1012,12 @@ void ParNewGeneration::collect(bool   full,
     rp->enqueue_discovered_references(NULL);
   }
   rp->verify_no_references_recorded();
+#if MADVISE
   if(eden()->is_empty())
   madvise(eden()->bottom(), eden()->capacity(), MADV_DONTNEED);
   if(to()->is_empty())
   madvise(to()->bottom(), to()->capacity(), MADV_DONTNEED);
+#endif
 }
 
 static int sum;
