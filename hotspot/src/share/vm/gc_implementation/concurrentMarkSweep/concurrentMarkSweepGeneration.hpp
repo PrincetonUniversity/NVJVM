@@ -40,6 +40,8 @@
 #include <sys/mman.h>
 #include "runtime/SwapMetrics.hpp"
 
+#define TRACING_COLLECTION 1
+
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 
 #define __numBytes(top, bot) \
