@@ -1224,6 +1224,7 @@ HeapWord* CompactibleFreeListSpace::allocate(size_t size) {
          "use adjustObjectSize() before calling into allocate()");
 
   if (_adaptive_freelists) {
+	printf("Using adaptive freelists.\n");
     res = allocate_adaptive_freelists(size);
   } else {  // non-adaptive free lists
     res = allocate_non_adaptive_freelists(size);
@@ -1565,9 +1566,10 @@ CompactibleFreeListSpace::getChunkFromIndexedFreeList(size_t size) {
   while(attempts > 0){
 	  end = (void*)(res + size);
 	  attempts--;
-	  if(__page_start_long(res) != __page_start_long(end)){
-		_indexedFreeList[size].returnChunkAtTail(res);
+	  if(__page_start_long(res) == __page_start_long(end)){
+		break;
 	  }
+	  _indexedFreeList[size].returnChunkAtTail(res);
 	  res = _indexedFreeList[size].getChunkAtHead();
   }
   if (res == NULL) {
