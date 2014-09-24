@@ -1012,9 +1012,9 @@ void ParNewGeneration::collect(bool   full,
     rp->enqueue_discovered_references(NULL);
   }
   rp->verify_no_references_recorded();
-  to()->getZeroedCount();
-  from()->getZeroedCount();
-  eden()->getZeroedCount();
+//  to()->getZeroedCount();
+//  from()->getZeroedCount();
+//  eden()->getZeroedCount();
 }
 
 static int sum;
