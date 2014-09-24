@@ -942,6 +942,8 @@ void ParNewGeneration::collect(bool   full,
     // Swap the survivor spaces.
     eden()->clear(SpaceDecorator::Mangle);
     from()->clear(SpaceDecorator::Mangle);
+    madvise(eden()->bottom(), eden()->capacity(), MADV_DONTNEED);
+    madvise(from()->bottom(), eden()->capacity(), MADV_DONTNEED);
     if (ZapUnusedHeapArea) {
       // This is now done here because of the piece-meal mangling which
       // can check for valid mangling at intermediate points in the
