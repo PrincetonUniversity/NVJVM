@@ -60,29 +60,27 @@ void SwapMetrics::printTotalFaults(){
        std::string cmd = std::string("ps -o min_flt,maj_flt ") +
           std::string(inToS(pid));
        fp = popen(cmd.c_str(), "r");
-       while(fgets(buf, BUF_MAX, fp) != NULL){
-            cout << buf << endl;
-       }
+       while(fgets(buf, BUF_MAX, fp) != NULL);
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
-      int count = 0;
-            FILE *fp;
-            char buf[BUF_MAX];
-            pid_t pid = getpid();
-            std::string cmd = std::string("ps -o min_flt,maj_flt ") +
-              std::string(inToS(pid));
-            fp = popen(cmd.c_str(), "r");
-            while(fgets(buf, BUF_MAX, fp) != NULL);
-            istringstream iss(buf);
-            do
-             {
-                 string sub;
-                 iss >> sub;
-                 std::stringstream(sub) >> _currentFaults[count];
-                 count++;
-              } while(iss);
+	int count = 0;
+	            FILE *fp;
+	            char buf[BUF_MAX];
+	            pid_t pid = getpid();
+	            std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+	              std::string(inToS(pid));
+	            fp = popen(cmd.c_str(), "r");
+	            while(fgets(buf, BUF_MAX, fp) != NULL);
+	            istringstream iss(buf);
+	            do
+	             {
+	                 string sub;
+	                 iss >> sub;
+	                 std::stringstream(sub) >> _currentFaults[count];
+	                 count++;
+	              } while(iss);
 
 }

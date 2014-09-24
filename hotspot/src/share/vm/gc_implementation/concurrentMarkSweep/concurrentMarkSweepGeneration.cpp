@@ -8020,7 +8020,6 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
 // uninitialized state.
 
 size_t SweepClosure::do_blk_careful(HeapWord* addr) {
-  usleep(1);
   FreeChunk* fc = (FreeChunk*)addr;
   size_t res;
 
