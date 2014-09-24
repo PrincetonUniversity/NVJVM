@@ -942,9 +942,6 @@ void ParNewGeneration::collect(bool   full,
     // Swap the survivor spaces.
     eden()->clear(SpaceDecorator::Mangle);
     from()->clear(SpaceDecorator::Mangle);
-    bool isFromEmpty = from()->is_empty();
-    bool isEdenEmpty = eden()->is_empty();
-    printf("Is FromEmpty = %d, Is EdenEmpty %d.\n", isFromEmpty, isEdenEmpty);
     if (ZapUnusedHeapArea) {
       // This is now done here because of the piece-meal mangling which
       // can check for valid mangling at intermediate points in the
@@ -1018,6 +1015,8 @@ void ParNewGeneration::collect(bool   full,
 //  to()->getZeroedCount();
 //  from()->getZeroedCount();
 //  eden()->getZeroedCount();
+   madvise(eden()->bottom(), eden()->capacity(), MADV_DONTNEED);
+   madvise(to()->bottom(), to()->capacity(), MADV_DONTNEED);
 }
 
 static int sum;
