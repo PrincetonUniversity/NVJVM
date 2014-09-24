@@ -296,7 +296,8 @@ void ConcurrentMarkSweepThread::wait_on_cms_lock(long t_millis) {
   set_CMS_flag(CMS_cms_wants_token);   // to provoke notifies
   CGC_lock->wait(Mutex::_no_safepoint_check_flag, t_millis);
   clear_CMS_flag(CMS_cms_wants_token);
-  assert(!CMS_flag_is_set(CMS_cms_has_token | CMS_cms_wants_token),
+  assert(!CMS_flag_is_set(CMS_cms_has_token | CMS_cms
+		  _wants_token),
          "Should not be set");
 }
 

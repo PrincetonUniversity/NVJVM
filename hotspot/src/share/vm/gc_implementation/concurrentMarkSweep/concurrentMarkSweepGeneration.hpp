@@ -39,6 +39,8 @@
 #include "utilities/yieldingWorkgroup.hpp"
 #include <sys/mman.h>
 #include "runtime/SwapMetrics.hpp"
+#include "time.h"
+#include "unistd.h"
 
 #define TRACING_COLLECTION 1
 

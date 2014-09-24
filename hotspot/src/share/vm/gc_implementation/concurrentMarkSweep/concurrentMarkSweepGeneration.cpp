@@ -2415,6 +2415,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 }
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
+  printf("Collect in foreground called.\n");
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
@@ -8019,8 +8020,10 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
 // uninitialized state.
 
 size_t SweepClosure::do_blk_careful(HeapWord* addr) {
+  usleep(1);
   FreeChunk* fc = (FreeChunk*)addr;
   size_t res;
+
 
   // Check if we are done sweeping. Below we check "addr >= _limit" rather
   // than "addr == _limit" because although _limit was a block boundary when

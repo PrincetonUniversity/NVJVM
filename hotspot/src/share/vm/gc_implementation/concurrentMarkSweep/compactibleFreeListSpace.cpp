@@ -763,6 +763,13 @@ void CompactibleFreeListSpace::blk_iterate_careful(BlkClosureCareful* cl) {
        cur += cl->do_blk_careful(cur));
 }
 
+/*void CompactibleFreeListSpace::blk_iterate_careful_with_wait(BlkClosureCareful* cl, bool doSleep) {
+  assert_lock_strong(freelistLock());
+  HeapWord *cur, *limit;
+  for (cur = bottom(), limit = end(); cur < limit;
+       cur += cl->do_blk_careful(cur, doSleep));
+}*/
+
 // Apply the given closure to each block in the space.
 void CompactibleFreeListSpace::blk_iterate(BlkClosure* cl) {
   assert_lock_strong(freelistLock());
