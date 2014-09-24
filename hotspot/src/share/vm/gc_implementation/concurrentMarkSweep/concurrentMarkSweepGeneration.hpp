@@ -750,6 +750,7 @@ class PartitionMetaData : public CHeapObj {
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
 
+
 // Message States Used
 	enum MessageState {
 		WORK = 0,
@@ -1194,9 +1195,9 @@ public:
 		_pageGOC = new jubyte[_numberPages];
 		_pageStart = new jshort[_numberPages];
 		for(count = 0; count < _numberPages; count++){
-				_pageGOC[count] = 0;
-				_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
-		}
+						_pageGOC[count] = 0;
+						_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
+				}
 		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
@@ -1212,6 +1213,12 @@ public:
 		free(_pageGOC);
 		free(_partitionGOC);
 		free(_partitionMap);
+	}
+
+	void resetGOCPage(){
+		for(int count = 0; count < _numberPages; count++){
+			_pageGOC[count] = 0;
+		}
 	}
 
 	int getTotalGreyObjectsPageLevel(){
@@ -1799,6 +1806,7 @@ class CMSCollector: public CHeapObj {
   HeapWord*     _icms_stop_limit;
 
  public:
+  bool _sweepIncomplete;
   enum CMS_op_type {
     CMS_op_checkpointRootsInitial,
     CMS_op_checkpointRootsFinal
