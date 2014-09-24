@@ -4154,7 +4154,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	MasterThreadState masterThreadState = INITIAL;
 	do{
 		// This is the master thread that wakes up after every 1 second
-		_collector->getPartitionMetaData()->getZeroPages();
+//		_collector->getPartitionMetaData()->getZeroPages();
 		usleep(sleepTime);
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
