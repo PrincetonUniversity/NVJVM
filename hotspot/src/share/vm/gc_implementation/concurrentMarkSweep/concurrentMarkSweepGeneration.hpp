@@ -1118,7 +1118,7 @@ public:
 #endif
 			pageCount = pageIndices.size();
 			// A better logic is required here to get the
-			if(pageIndices.size() < maxPageCount){
+			if(pageIndices.size() < (unsigned int)maxPageCount){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
 					pageIndices.push_back(*it);
 					pageCount++;
