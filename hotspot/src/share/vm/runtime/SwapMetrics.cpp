@@ -53,7 +53,6 @@ void* monitorIOs(void* arg){
   string temp;
   FILE *fp;
   char buf[BUF_MAX];
-  std::fstream myfile;
   count++;
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-0");;

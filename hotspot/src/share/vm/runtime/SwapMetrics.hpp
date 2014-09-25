@@ -29,15 +29,6 @@ private:
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
-    static int _markPhaseFaults;
-    static int _sweepPhaseFaults;
-    int _phaseId;
-    static int _numberReportsMark;
-    static int _numberReportsSweep;
-    static double _sumDiskUtilizationMark;
-    static double _sumDiskUtilizationSweep;
-    static double _ioUtilizationMark;
-    static double _ioUtilizationSweep;
 
 public:
 	SwapMetrics(const char *phase, int phaseId);
@@ -52,6 +43,15 @@ public:
     	sweepPhase = 2
     };
     void threadFunction(int id);
+    static int _markPhaseFaults;
+	static int _sweepPhaseFaults;
+	int _phaseId;
+	static int _numberReportsMark;
+	static int _numberReportsSweep;
+	static double _sumDiskUtilizationMark;
+	static double _sumDiskUtilizationSweep;
+	static double _ioUtilizationMark;
+	static double _ioUtilizationSweep;
 };
 
 #endif /* SWAPMETRICS_HPP_ */
