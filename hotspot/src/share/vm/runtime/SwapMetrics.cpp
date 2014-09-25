@@ -38,7 +38,7 @@ std::string splitString(std::string buf, int index){
         string sub;
         iss >> sub;
         if(count == index){
-            cout << "Substring: " << sub << endl;
+//            cout << "Substring: " << sub << endl;
             return sub;
         }
         count++;
