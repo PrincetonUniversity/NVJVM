@@ -50,6 +50,7 @@ std::string splitString(std::string buf, int index){
 
 void* monitorIOs(void* arg){
   int id = *(int *)arg;
+  cout << "id ==> " << id << endl;
   double value;
   int count = 0;
   string temp;
@@ -90,7 +91,7 @@ void* monitorIOs(void* arg){
 void SwapMetrics::threadFunction(int id){
   pthread_t thread;
   long arg = (long)id;
-  int rc = pthread_create(&thread, NULL, monitorIOs, (void *)&id);
+  int rc = pthread_create(&thread, NULL, monitorIOs, (void *)&arg);
   if (rc){
          printf("ERROR; return code from pthread_create() is %d\n", rc);
          exit(-1);
