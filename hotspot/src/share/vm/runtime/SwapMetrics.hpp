@@ -30,6 +30,10 @@ private:
     static int _markPhaseFaults;
     static int _sweepPhaseFaults;
     int _phaseId;
+    int _numberReportsMark;
+    int _numberReportsSweep;
+    double _sumDiskUtilizationMark;
+    double _sumDiskUtilizationSweep;
 
 public:
 	SwapMetrics(const char *phase);
@@ -43,6 +47,7 @@ public:
     	markPhase = 1,
     	sweepPhase = 2
     };
+    void generateIOReport(bool doAdd);
 };
 
 #endif /* SWAPMETRICS_HPP_ */
