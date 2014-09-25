@@ -66,6 +66,7 @@ void* monitorIOs(void* arg){
       value = sToDub(ret);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioUtilizationMark += value;
+    	  cout <<  "IOUtilization --> " << SwapMetrics::_ioUtilizationMark << endl;
       } else if(id == SwapMetrics::sweepPhase){
     	  SwapMetrics::_ioUtilizationSweep += value;
       }
