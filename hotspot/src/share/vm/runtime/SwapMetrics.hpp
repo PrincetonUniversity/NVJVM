@@ -14,8 +14,10 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include <pthread.h>
+
 using namespace std;
-#define BUF_MAX 50
+#define BUF_MAX 1000
 
 
 class SwapMetrics {
@@ -38,7 +40,7 @@ private:
     static double _ioUtilizationSweep;
 
 public:
-	SwapMetrics(const char *phase);
+	SwapMetrics(const char *phase, int phaseId);
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
 	int getMinorFaultsMetrics() { return _minorFaults; }
@@ -49,7 +51,7 @@ public:
     	markPhase = 1,
     	sweepPhase = 2
     };
-    void generateIOReport(bool doAdd);
+    void threadFunction(int id);
 };
 
 #endif /* SWAPMETRICS_HPP_ */
