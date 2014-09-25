@@ -14,6 +14,8 @@ double SwapMetrics::_sumDiskUtilizationMark = 0;
 int SwapMetrics::_numberReportsMark = 0;
 double SwapMetrics::_sumDiskUtilizationSweep = 0;
 int SwapMetrics::_numberReportsSweep = 0;
+double SwapMetrics::_ioUtilizationMark = 0;
+double SwapMetrics::_ioUtilizationSweep = 0;
 
 void SwapMetrics::setPhase(int phaseId){
      _phaseId = phaseId;

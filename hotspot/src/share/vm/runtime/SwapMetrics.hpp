@@ -32,8 +32,10 @@ private:
     int _phaseId;
     int _numberReportsMark;
     int _numberReportsSweep;
-    double _sumDiskUtilizationMark;
-    double _sumDiskUtilizationSweep;
+    static double _sumDiskUtilizationMark;
+    static double _sumDiskUtilizationSweep;
+    static double _ioUtilizationMark;
+    static double _ioUtilizationSweep;
 
 public:
 	SwapMetrics(const char *phase);
