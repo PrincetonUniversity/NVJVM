@@ -60,7 +60,7 @@ void* monitorIOs(void* arg){
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
     if(count == 10){
-      ret = splitString(temp, 4);
+      ret = splitString(temp, 3);
       value = sToDub(ret);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioUtilizationMark += value;
@@ -145,6 +145,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
+       cout << "SweepIOWait : " << _ioUtilizationSweep / _numberReportsSweep << endl;
+       cout << "MarkIOWait : " << _ioUtilizationMark / _numberReportsMark << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
