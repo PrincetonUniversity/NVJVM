@@ -30,8 +30,8 @@ private:
     static int _markPhaseFaults;
     static int _sweepPhaseFaults;
     int _phaseId;
-    int _numberReportsMark;
-    int _numberReportsSweep;
+    static int _numberReportsMark;
+    static int _numberReportsSweep;
     static double _sumDiskUtilizationMark;
     static double _sumDiskUtilizationSweep;
     static double _ioUtilizationMark;
