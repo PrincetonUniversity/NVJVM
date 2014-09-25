@@ -50,8 +50,8 @@ public:
 	static int _numberReportsSweep;
 	static double _sumDiskUtilizationMark;
 	static double _sumDiskUtilizationSweep;
-	static double _ioUtilizationMark;
-	static double _ioUtilizationSweep;
+	static double _ioWaitMark;
+	static double _ioWaitSweep;
 };
 
 #endif /* SWAPMETRICS_HPP_ */

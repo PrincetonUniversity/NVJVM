@@ -14,8 +14,8 @@ double SwapMetrics::_sumDiskUtilizationMark = 0;
 int SwapMetrics::_numberReportsMark = 0;
 double SwapMetrics::_sumDiskUtilizationSweep = 0;
 int SwapMetrics::_numberReportsSweep = 0;
-double SwapMetrics::_ioUtilizationMark = 0;
-double SwapMetrics::_ioUtilizationSweep = 0;
+double SwapMetrics::_ioWaitMark = 0;
+double SwapMetrics::_ioWaitSweep = 0;
 
 std::string inToS(int num){
     std::ostringstream ss;
@@ -65,10 +65,9 @@ void* monitorIOs(void* arg){
       ret = splitString(temp, 3);
       value = sToDub(ret);
       if(id == SwapMetrics::markPhase){
-    	  SwapMetrics::_ioUtilizationMark += value;
-    	  cout <<  "IOUtilization --> " << SwapMetrics::_ioUtilizationMark << endl;
+    	  SwapMetrics::_ioWaitMark += value;
       } else if(id == SwapMetrics::sweepPhase){
-    	  SwapMetrics::_ioUtilizationSweep += value;
+    	  SwapMetrics::_ioWaitSweep += value;
       }
     }
     if(count == 13){
@@ -149,8 +148,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
-       cout << "SweepIOWait : " << _ioUtilizationSweep / _numberReportsSweep << endl;
-       cout << "MarkIOWait : " << _ioUtilizationMark / _numberReportsMark << endl;
+       cout << "SweepIOWait : " << _ioWaitSweep / _numberReportsSweep << endl;
+       cout << "MarkIOWait : " << _ioWaitMark / _numberReportsMark << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
