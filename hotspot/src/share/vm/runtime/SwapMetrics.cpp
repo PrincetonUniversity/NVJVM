@@ -30,7 +30,7 @@ double sToDub(string str){
 }
 
 std::string splitString(std::string buf, int index){
-    int count = 0;
+	int count = 0;
     std::string ret = "";
     istringstream iss(buf);
     do
@@ -43,6 +43,8 @@ std::string splitString(std::string buf, int index){
         }
         count++;
     } while (iss);
+    cout << "Something is wrong -->" << buf << endl;
+    exit(-1);
     return ret;
 }
 
