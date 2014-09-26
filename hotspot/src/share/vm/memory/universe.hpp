@@ -30,6 +30,7 @@
 #include "stdlib.h"
 #include "malloc.h"
 #include "runtime/atomic.hpp"
+#include "runtime/SwapMetrics.hpp"
 
 /******************************************************************************************************/
 // List of checks

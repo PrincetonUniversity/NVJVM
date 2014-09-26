@@ -3515,9 +3515,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // we need to make sure that there is no such interference
   // between concurrent such updates.
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-  tcpu.setPhase("mark-from-roots");
-  SwapMetrics sMet("mark-from-roots");
-  sMet.setPhase(SwapMetrics::markPhase);
+  tcpu.setPhase("mark-from-roots", SwapMetrics::markPhase);
+  SwapMetrics sMet("mark-from-roots", SwapMetrics::markPhase);
   if(PrintGC){
 	_cmsGen->printOccupancy("before-mark-from-roots");
   }
@@ -6923,9 +6922,8 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.start();
   if (asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-	tcpu.setPhase("sweep-phase");
-	SwapMetrics sMet("sweep-phase");
-	sMet.setPhase(SwapMetrics::sweepPhase);
+	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
+	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
     // First sweep the old gen then the perm gen
     {
@@ -6955,9 +6953,8 @@ void CMSCollector::sweep(bool asynch) {
     }
   } else {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-	tcpu.setPhase("sweep-phase");
-	SwapMetrics sMet("sweep-phase");
-	sMet.setPhase(SwapMetrics::sweepPhase);
+	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
+	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
     //sweepWorkPartitioned();
     // already have needed locks
     sweepWork(_cmsGen,  asynch);
