@@ -1198,10 +1198,10 @@ public:
 		_partitionGOC = new int[_numberPartitions];
 		_partitionMap = new jbyte[_numberPartitions];
 		int count;
-				for(count = 0; count < _numberPartitions; count++){
-					_partitionGOC[count] = 0;
-					_partitionMap[count] = 0;
-				}
+		for(count = 0; count < _numberPartitions; count++){
+			_partitionGOC[count] = 0;
+			_partitionMap[count] = 0;
+		}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
 		_pageStart = new jshort[_numberPages];
@@ -1226,6 +1226,12 @@ public:
 		free(_partitionMap);
 	}
 
+	void resetGOCPartition(){
+	for(int count = 0; count < _numberPartitions; count++){
+		_partitionGOC[count] = 0;
+	}
+	}
+
 	void resetGOCPage(){
 		for(int count = 0; count < _numberPages; count++){
 			_pageGOC[count] = 0;
@@ -1234,6 +1240,7 @@ public:
 
 	void reset(){
 		resetPartitionMap();
+		resetGOCPartition();
 		resetThreadCount();
 		resetGOCPage();
 		setToWork();

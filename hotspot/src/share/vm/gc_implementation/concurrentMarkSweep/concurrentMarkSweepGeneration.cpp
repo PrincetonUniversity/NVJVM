@@ -3973,6 +3973,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         {
           ReleaseForegroundGC x(this);
           stats().record_cms_begin();
+    // Resetting all the data structures associated with partitionMetaData
           _partitionMetaData->reset();
 
           VM_CMS_Initial_Mark initial_mark_op(this);
@@ -5212,9 +5213,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
-  _partitionMetaData->setToWork();
-  // Resetting the thread count to 0, since while yileding the thread count is not required
-  _partitionMetaData->resetThreadCount();
+  _partitionMetaData->reset();
 
  return true;
 }
