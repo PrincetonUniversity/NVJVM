@@ -4152,18 +4152,21 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
+	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
+	unsigned int timeMasterThread = 1500;
 	MasterThreadState masterThreadState = INITIAL;
 	do{
 		// This is the master thread that wakes up after every 1 second
 //		_collector->getPartitionMetaData()->getZeroPages();
 		usleep(sleepTime);
+		timeMasterThread--;
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
 #if OCMS_NO_GREY_LOG
 		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
-	}while(greyObjectCount > countThreshold);
+	}while(greyObjectCount > countThreshold && timeMasterThread > 0);
 
 #if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d) < Threshold. "
@@ -4206,7 +4209,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setToTerminate();
 					break; // The master thread can now exit
 				} else {
-					_partitionMetaData->setToWork();
+					_partitionMetaData->setToWorkFinal();
 				}
 			}
 			if(loopCount > 100000){
@@ -4513,6 +4516,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		CompactibleFreeListSpace* sp;
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
+		bool isSetToFinalWork;
 		while(true){
 			if (_partitionMetaData->checkToYield()){
 				break;
@@ -4522,8 +4526,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			if(currentPartitionIndex == -1){
 				break;
 			}
+			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
 			// The page indices of pages that may be scanned in the next iteration
-			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex);
+			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, isSetToFinalWork);
 #if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);

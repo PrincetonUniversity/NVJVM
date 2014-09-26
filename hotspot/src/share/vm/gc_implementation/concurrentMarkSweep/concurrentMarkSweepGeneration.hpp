@@ -756,7 +756,8 @@ class PartitionMetaData : public CHeapObj {
 		WORK = 0,
 		WAIT = 1,
 		TERMINATE = 2,
-		YIELD = 3
+		YIELD = 3,
+		WORK_FINAL = 4
 	};
 
 public:
@@ -801,6 +802,13 @@ public:
 		_message[0] = (int)state;
 	}
 
+	bool isSetToWorkFinal(){
+		return (
+			_message[0]	== WORK_FINAL
+		);
+	}
+
+
 	bool isSetToYield(){
 		return(
 			_message[0] == YIELD
@@ -829,6 +837,10 @@ public:
 
 	void setToWork(){
 		setMessageState(WORK);
+	}
+
+	void setToWorkFinal(){
+		setMessageState(WORK_FINAL);
 	}
 
 	void setToTerminate(){
@@ -1075,7 +1087,7 @@ public:
 			return pageIndices;
 		}
 
-		std::vector<int> toScanPageList(int currentPartition){
+		std::vector<int> toScanPageList(int currentPartition, bool finalWork){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
 			std::vector<int>::iterator it;
@@ -1119,7 +1131,7 @@ public:
 #endif
 			pageCount = pageIndices.size();
 			// A better logic is required here to get the
-			if(pageIndices.size() < (unsigned int)maxPageCount){
+			if(pageIndices.size() < (unsigned int)maxPageCount && finalWork){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
 					pageIndices.push_back(*it);
 					pageCount++;
@@ -1513,7 +1525,7 @@ public:
 bool checkToYield(){
 	if(isSetToYield())
 		return true;
-	// After every loop we check whether have been signalled by the master thread to change our current state
+	// After every loop we check whether have been signaled by the master thread to change our current state
 	if(isSetToWait()){ // Checking if the we have to wait,
 		incrementWaitThreadCount(); // we are waiting for the next signal from the master
 	// if yes then the count of the number of waiting threads is automatically incremented
