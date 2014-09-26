@@ -189,7 +189,8 @@ SwapMetrics::~SwapMetrics() {
 }
 
 void SwapMetrics::printTotalFaults(){
-      int count = 0;
+    int totalFaults[2];
+	int count = 0;
        FILE *fp;
        char buf[BUF_MAX];
        pid_t pid = getpid();
@@ -202,10 +203,10 @@ void SwapMetrics::printTotalFaults(){
        	 {
        		 string sub;
        		 iss >> sub;
-       		 std::stringstream(sub) >> _currentFaults[count];
+       		 std::stringstream(sub) >> totalFaults[count];
        		 count++;
        	  } while(iss);
-       cout << "Total number of major faults : " << _currentFaults[1];
+       cout << "Total number of major faults : " << totalFaults[1];
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
 
