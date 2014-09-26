@@ -4528,12 +4528,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				break;
 			}
 			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
-			if(isSetToFinalWork){
-				printf("isSetToFinalWork == true.\n");
-			}
 			// The page indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, isSetToFinalWork);
-#if 1
+#if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0 && isSetToFinalWork){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 			}
