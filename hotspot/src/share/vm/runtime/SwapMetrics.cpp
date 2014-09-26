@@ -261,6 +261,10 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
 
+       cout << "Number of mark phases : " << _numberReportsMark << endl;
+       cout << "Number of sweep phases : " << _numberReportsSweep << endl;
+       cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
+
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
