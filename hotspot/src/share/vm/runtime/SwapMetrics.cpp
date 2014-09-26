@@ -144,7 +144,8 @@ void* monitorIOs(void* arg){
      	  SwapMetrics::_sumDiskUtilizationSweep += value;
      	 SwapMetrics::_numberReportsSweep++;
        }else if(id == SwapMetrics::compactPhase){
-   		SwapMetrics::_numberReportsCompaction += value;
+    	   SwapMetrics::_sumDiskUtilizationCompaction += value;
+    	   SwapMetrics::_numberReportsCompaction++;
    	}
     }
     count++;
