@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 #include <pthread.h>
+#include<time.h>
 
 using namespace std;
 #define BUF_MAX 1000
@@ -57,6 +58,10 @@ public:
 	static double _ioWaitSweep;
 	static double _ioWaitMutator;
 	static double _sumDiskUtilizationMutator;
+	static double _userTimeMutator;
+	static double _userTimeSweep;
+	static double _userTimeMark;
+	clock_t _timeInit, _timeFinal;
 };
 
 #endif /* SWAPMETRICS_HPP_ */

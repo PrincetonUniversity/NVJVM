@@ -22,6 +22,10 @@ int SwapMetrics::_numberReportsSweep = 0;
 int SwapMetrics::_numberReportsMark = 0;
 int SwapMetrics::_numberReportsMutator = 0;
 
+double SwapMetrics::_userTimeMutator = 0;
+double SwapMetrics::_userTimeMark = 0;
+double SwapMetrics::_userTimeSweep = 0;
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -68,6 +72,8 @@ void* monitorIOMutators(void* arg){
 	count++;
 	temp = std::string(buf);
 	if(count == 10){
+	  ret = splitString(temp, 0);
+	  SwapMetrics::_userTimeMutator += value;
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
@@ -97,6 +103,12 @@ void* monitorIOs(void* arg){
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
     if(count == 10){
+	ret = splitString(temp, 0);
+	if(id == SwapMetrics::markPhase){
+	  SwapMetrics::_userTimeMark += value;
+	} else if(id == SwapMetrics::sweepPhase){
+	  SwapMetrics::_userTimeSweep += value;
+	}
       ret = splitString(temp, 3);
       value = sToDub(ret);
       if(id == SwapMetrics::markPhase){
@@ -151,6 +163,7 @@ void SwapMetrics::universeInit(){
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
+	_timeInit = clock();
   _currentFaults = new int[2];
   _initialFaults = new int[2];
   _finalFaults = new int[2];
@@ -166,6 +179,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 }
 
 SwapMetrics::~SwapMetrics() {
+  _timeFinal = clock();
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
@@ -213,6 +227,10 @@ void SwapMetrics::printTotalFaults(){
        cout << "SweepIOWait : " << _ioWaitSweep / _numberReportsSweep << endl;
        cout << "MarkIOWait : " << _ioWaitMark / _numberReportsMark << endl;
        cout << "MutatorIOWait : " << _ioWaitMutator / _numberReportsMutator << endl;
+
+       cout << "UserTimeMutator : " << _userTimeMutator /_numberReportsMutator << endl;
+       cout << "UserTimeMark : " << _userTimeMark /_numberReportsMark << endl;
+       cout << "UserTimeSweep : " << _userTimeSweep /_numberReportsSweep << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
