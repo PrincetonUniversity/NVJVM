@@ -4153,7 +4153,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
-	unsigned int timeMasterThread = 1500;
+	unsigned int timeMasterThread = 150;
 	MasterThreadState masterThreadState = INITIAL;
 	do{
 		// This is the master thread that wakes up after every 1 second
