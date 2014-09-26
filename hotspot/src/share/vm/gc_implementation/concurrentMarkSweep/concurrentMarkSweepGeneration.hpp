@@ -1093,7 +1093,7 @@ public:
 			std::vector<int>::iterator it;
 			int nonZeroCount = 0;
 			int pageCount = 0, maxPageCount;
-			double threshold = 0.2;
+			double threshold = 0.5;
 			char buf[20];
 			if(currentPartition != - 1){
 				int partitionSize = getPartitionSize(currentPartition);
@@ -1131,7 +1131,7 @@ public:
 #endif
 			pageCount = pageIndices.size();
 			// A better logic is required here to get the
-			if(pageIndices.size() < (unsigned int)maxPageCount && finalWork){
+			if((pageIndices.size() < (unsigned int)maxPageCount) && (finalWork)){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
 					pageIndices.push_back(*it);
 					pageCount++;
