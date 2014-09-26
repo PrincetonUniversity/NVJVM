@@ -186,6 +186,7 @@ TraceCPUTime::TraceCPUTime(bool doit,
                                &_starting_user_time,
                                &_starting_system_time);
   }
+  _phaseId = SwapMetrics::unknownPhase;
 }
 
 TraceCPUTime::~TraceCPUTime() {
@@ -203,6 +204,12 @@ TraceCPUTime::~TraceCPUTime() {
         user_secs = user_time - _starting_user_time;
         system_secs = system_time - _starting_system_time;
         real_secs = real_time - _starting_real_time;
+
+        if(_phaseId == SwapMetrics::markPhase){
+        	SwapMetrics::markTimeIncrement(real_secs);
+        } else if(_phaseId == SwapMetrics::sweepPhase) {
+        	SwapMetrics::sweepTimeIncrement(real_secs);
+        }
 
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
           user_secs, system_secs, real_secs);

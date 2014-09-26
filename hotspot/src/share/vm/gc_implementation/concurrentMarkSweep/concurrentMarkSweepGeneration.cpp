@@ -3672,7 +3672,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . drain the marking stack
 
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-  tcpu.setPhase("mark-phase");
+  tcpu.setPhase("mark-phase", SwapMetrics::markPhase);
   SwapMetrics smet("mark-phase", SwapMetrics::markPhase);
 
   if(PrintGC){
@@ -6038,7 +6038,7 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.start();
   if (asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-	tcpu.setPhase("sweep-phase");
+	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics smet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
     // First sweep the old gen then the perm gen
@@ -6069,7 +6069,7 @@ void CMSCollector::sweep(bool asynch) {
     }
   } else {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-	tcpu.setPhase("sweep-phase");
+	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 
 	SwapMetrics smet("sweep-phase", SwapMetrics::sweepPhase);
 

@@ -41,6 +41,7 @@ public:
 	static void printTotalFaults();
 	void setPhase(int phaseId);
     enum PhaseIds{
+    	unknownPhase = 0,
     	markPhase = 1,
     	sweepPhase = 2
     };
@@ -61,7 +62,6 @@ public:
 	static double _userTimeMutator;
 	static double _userTimeSweep;
 	static double _userTimeMark;
-	clock_t _timeInit, _timeFinal;
 
 	static double _markTime;
 	static void markTimeIncrement(double v) { _markTime += v; }

@@ -27,6 +27,7 @@
 
 #include "utilities/globalDefinitions.hpp"
 #include "string"
+#include "runtime/SwapMetrics.hpp"
 using namespace std;
 
 // Timers for simple measurement.
@@ -120,13 +121,15 @@ class TraceCPUTime: public StackObj {
   outputStream* _logfile;       // output is printed to this stream
   bool _error;                  // true if an error occurred, turns off output
   std::string _phase_name;
+  int _phaseId;
 
  public:
   TraceCPUTime(bool doit = true,
                bool print_cr = true,
                outputStream *logfile = NULL);
-  void setPhase(const char *phase){
+  void setPhase(const char *phase, int phaseId){
 	  _phase_name = std::string(phase);
+	  _phaseId = phaseId;
   }
   ~TraceCPUTime();
 };

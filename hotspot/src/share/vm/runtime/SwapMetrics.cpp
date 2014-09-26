@@ -170,7 +170,6 @@ void SwapMetrics::universeInit(){
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
-	_timeInit = clock();
   _currentFaults = new int[2];
   _initialFaults = new int[2];
   _finalFaults = new int[2];
@@ -186,7 +185,6 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 }
 
 SwapMetrics::~SwapMetrics() {
-  _timeFinal = clock();
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
@@ -239,7 +237,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "UserTimeMark : " << _userTimeMark /_numberReportsMark << endl;
        cout << "UserTimeSweep : " << _userTimeSweep /_numberReportsSweep << endl;
 
-
+       cout << "TotalMarkTime : " << _markTime << endl;
+       cout << "TotalSweepTime : " << _sweepTime << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
