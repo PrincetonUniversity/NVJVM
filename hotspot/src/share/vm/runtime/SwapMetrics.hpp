@@ -43,25 +43,40 @@ public:
     enum PhaseIds{
     	unknownPhase = 0,
     	markPhase = 1,
-    	sweepPhase = 2
+    	sweepPhase = 2,
+    	compactPhase = 3
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
+
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
+	static int _compactionPhaseFaults;
+
 	int _phaseId;
+
 	static int _numberReportsMark;
 	static int _numberReportsSweep;
 	static int _numberReportsMutator;
+	static int _numberReportsCompaction;
+
 	static double _sumDiskUtilizationMark;
 	static double _sumDiskUtilizationSweep;
+	static double _sumDiskUtilizationMutator;
+	static double _sumDiskUtilizationCompaction;
+
 	static double _ioWaitMark;
 	static double _ioWaitSweep;
 	static double _ioWaitMutator;
-	static double _sumDiskUtilizationMutator;
+	static double _ioWaitCompaction;
+
 	static double _userTimeMutator;
 	static double _userTimeSweep;
 	static double _userTimeMark;
+	static double _userTimeCompaction;
+
+	static double _compactionTime;
+	static void compactionTimeIncrement(double v) { _compactionTime += v; }
 
 	static double _markTime;
 	static void markTimeIncrement(double v) { _markTime += v; }

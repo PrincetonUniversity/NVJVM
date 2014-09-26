@@ -1978,6 +1978,10 @@ void CMSCollector::decide_foreground_collection_type(
 // a mark-sweep-compact.
 void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
   GenCollectedHeap* gch = GenCollectedHeap::heap();
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("compact-phase", SwapMetrics::compactPhase);
+  SwapMetrics sMet("compact-phase", SwapMetrics::compactPhase);
+
   TraceTime t("CMS:MSC ", PrintGCDetails && Verbose, true, gclog_or_tty);
   if (PrintGC && Verbose && !(GCCause::is_user_requested_gc(gch->gc_cause()))) {
     gclog_or_tty->print_cr("Compact ConcurrentMarkSweepGeneration after %d "

@@ -209,6 +209,8 @@ TraceCPUTime::~TraceCPUTime() {
         	SwapMetrics::markTimeIncrement(real_secs);
         } else if(_phaseId == SwapMetrics::sweepPhase) {
         	SwapMetrics::sweepTimeIncrement(real_secs);
+        } else if(_phaseId == SwapMetrics::compactPhase) {
+        	SwapMetrics::compactionTimeIncrement(real_secs);
         }
 
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
