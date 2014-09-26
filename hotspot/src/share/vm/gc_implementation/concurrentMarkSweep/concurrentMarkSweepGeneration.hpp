@@ -808,7 +808,6 @@ public:
 		);
 	}
 
-
 	bool isSetToYield(){
 		return(
 			_message[0] == YIELD
@@ -1232,6 +1231,14 @@ public:
 			_pageGOC[count] = 0;
 		}
 	}
+
+	void reset(){
+		resetPartitionMap();
+		resetThreadCount();
+		resetGOCPage();
+		setToWork();
+	}
+
 
 	int getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;

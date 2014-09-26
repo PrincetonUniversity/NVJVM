@@ -3973,6 +3973,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         {
           ReleaseForegroundGC x(this);
           stats().record_cms_begin();
+          _partitionMetaData->reset();
 
           VM_CMS_Initial_Mark initial_mark_op(this);
           VMThread::execute(&initial_mark_op);

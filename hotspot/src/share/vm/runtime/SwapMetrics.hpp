@@ -48,6 +48,9 @@ public:
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
+    static void incrementFalsePositive(void);
+    static void incrementPageTouches(void);
+    static void incrementObjectSpills(void);
 
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
@@ -74,6 +77,10 @@ public:
 	static double _userTimeSweep;
 	static double _userTimeMark;
 	static double _userTimeCompaction;
+
+	static int _falsePositives;
+	static int _pageTouches;
+	static int _objectSpills;
 
 	static double _compactionTime;
 	static void compactionTimeIncrement(double v) { _compactionTime += v; }

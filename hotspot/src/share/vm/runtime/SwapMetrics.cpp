@@ -35,6 +35,22 @@ double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
 double SwapMetrics::_compactionTime = 0;
 
+int SwapMetrics::_falsePositives = 0;
+int SwapMetrics::_pageTouches = 0;
+int SwapMetrics::_objectSpills = 0;
+
+void SwapMetrics::incrementObjectSpills(void){
+	_objectSpills++;
+}
+
+void SwapMetrics::incrementFalsePositive(void){
+	_falsePositives++;
+}
+
+void SwapMetrics::incrementPageTouches(void){
+	_pageTouches++;
+}
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -260,6 +276,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
+
+       cout << "False Positives : " << _falsePositives << endl;
 
 }
 
