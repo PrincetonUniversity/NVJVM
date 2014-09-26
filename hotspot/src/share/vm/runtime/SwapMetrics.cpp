@@ -23,6 +23,8 @@ int SwapMetrics::_numberReportsMark = 0;
 int SwapMetrics::_numberReportsMutator = 0;
 
 
+
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -71,12 +73,12 @@ void* monitorIOMutators(void* arg){
 	if(count == 10){
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
-	  SwapMetrics::_ioWaitMutator = value;
+	  SwapMetrics::_ioWaitMutator += value;
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
 	   value = sToDub(ret);
-	   SwapMetrics::_sumDiskUtilizationMutator = value;
+	   SwapMetrics::_sumDiskUtilizationMutator += value;
 	}
 	count++;
   }
@@ -195,14 +197,25 @@ void SwapMetrics::printTotalFaults(){
           std::string(inToS(pid));
        fp = popen(cmd.c_str(), "r");
        while(fgets(buf, BUF_MAX, fp) != NULL);
+       istringstream iss(buf);
+       	do
+       	 {
+       		 string sub;
+       		 iss >> sub;
+       		 std::stringstream(sub) >> _currentFaults[count];
+       		 count++;
+       	  } while(iss);
+       cout << "Total number of major faults : " << _currentFaults[1];
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
+
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
        cout << "MutatorDiskUtilization : " << _sumDiskUtilizationMutator / _numberReportsMutator << endl;
+
        cout << "SweepIOWait : " << _ioWaitSweep / _numberReportsSweep << endl;
        cout << "MarkIOWait : " << _ioWaitMark / _numberReportsMark << endl;
-       cout << "MarkIOWait : " << _ioWaitMutator / _numberReportsMutator << endl;
+       cout << "MutatorIOWait : " << _ioWaitMutator / _numberReportsMutator << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
@@ -215,11 +228,11 @@ void SwapMetrics::getCurrentNumberOfFaults(void){
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
 	istringstream iss(buf);
-	do
-	 {
-		 string sub;
-		 iss >> sub;
-		 std::stringstream(sub) >> _currentFaults[count];
-		 count++;
-	  } while(iss);
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> _currentFaults[count];
+			 count++;
+		  } while(iss);
 }
