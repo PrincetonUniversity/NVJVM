@@ -33,7 +33,7 @@ double SwapMetrics::_userTimeCompaction = 0;
 
 double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
-double SwapMetrics::_userTimeCompaction = 0;
+double SwapMetrics::_compactionTime = 0;
 
 std::string inToS(int num){
     std::ostringstream ss;
