@@ -26,6 +26,9 @@ double SwapMetrics::_userTimeMutator = 0;
 double SwapMetrics::_userTimeMark = 0;
 double SwapMetrics::_userTimeSweep = 0;
 
+double SwapMetrics::_markTime = 0;
+double SwapMetrics::_sweepTime = 0;
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -73,7 +76,9 @@ void* monitorIOMutators(void* arg){
 	temp = std::string(buf);
 	if(count == 10){
 	  ret = splitString(temp, 0);
+	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
+	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
@@ -104,12 +109,14 @@ void* monitorIOs(void* arg){
     temp = std::string(buf);
     if(count == 10){
 	ret = splitString(temp, 0);
+	value = sToDub(ret);
 	if(id == SwapMetrics::markPhase){
 	  SwapMetrics::_userTimeMark += value;
 	} else if(id == SwapMetrics::sweepPhase){
 	  SwapMetrics::_userTimeSweep += value;
 	}
-      ret = splitString(temp, 3);
+	  temp = std::string(buf);
+	  ret = splitString(temp, 3);
       value = sToDub(ret);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
@@ -231,6 +238,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "UserTimeMutator : " << _userTimeMutator /_numberReportsMutator << endl;
        cout << "UserTimeMark : " << _userTimeMark /_numberReportsMark << endl;
        cout << "UserTimeSweep : " << _userTimeSweep /_numberReportsSweep << endl;
+
+
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){

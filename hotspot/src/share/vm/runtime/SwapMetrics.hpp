@@ -62,6 +62,13 @@ public:
 	static double _userTimeSweep;
 	static double _userTimeMark;
 	clock_t _timeInit, _timeFinal;
+
+	static double _markTime;
+	static void markTimeIncrement(double v) { _markTime += v; }
+
+	static double _sweepTime;
+	static void sweepTimeIncrement(double v) { _sweepTime += v; }
+
 };
 
 #endif /* SWAPMETRICS_HPP_ */
