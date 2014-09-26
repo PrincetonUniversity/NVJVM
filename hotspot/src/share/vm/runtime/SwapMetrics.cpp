@@ -22,9 +22,6 @@ int SwapMetrics::_numberReportsSweep = 0;
 int SwapMetrics::_numberReportsMark = 0;
 int SwapMetrics::_numberReportsMutator = 0;
 
-
-
-
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -80,7 +77,6 @@ void* monitorIOMutators(void* arg){
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
 	}
-	count++;
   }
   	  SwapMetrics::_numberReportsMutator++;
   	  sleep(1);
@@ -199,14 +195,14 @@ void SwapMetrics::printTotalFaults(){
        fp = popen(cmd.c_str(), "r");
        while(fgets(buf, BUF_MAX, fp) != NULL);
        istringstream iss(buf);
-       	do
+       do
        	 {
        		 string sub;
        		 iss >> sub;
        		 std::stringstream(sub) >> totalFaults[count];
        		 count++;
        	  } while(iss);
-       cout << "Total number of major faults : " << totalFaults[1];
+       cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
 
