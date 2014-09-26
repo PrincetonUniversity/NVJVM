@@ -4016,7 +4016,6 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         {
           ReleaseForegroundGC x(this);
           TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
-          tcpu.setPhase("final-marking-phase");
           CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
           CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
           CMSConcMarkingTask tsk2(this,
