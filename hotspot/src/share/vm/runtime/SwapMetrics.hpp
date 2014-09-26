@@ -31,6 +31,7 @@ private:
     int* _currentFaults;
 
 public:
+    static void universeInit();
 	SwapMetrics(const char *phase, int phaseId);
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
@@ -43,15 +44,19 @@ public:
     	sweepPhase = 2
     };
     void threadFunction(int id);
+    static void mutatorMonitorThreadFunction(void);
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
 	int _phaseId;
 	static int _numberReportsMark;
 	static int _numberReportsSweep;
+	static int _numberReportsMutator;
 	static double _sumDiskUtilizationMark;
 	static double _sumDiskUtilizationSweep;
 	static double _ioWaitMark;
 	static double _ioWaitSweep;
+	static double _ioWaitMutator;
+	static double _sumDiskUtilizationMutator;
 };
 
 #endif /* SWAPMETRICS_HPP_ */

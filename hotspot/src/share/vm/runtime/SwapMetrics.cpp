@@ -11,11 +11,17 @@ int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 
 double SwapMetrics::_sumDiskUtilizationMark = 0;
-int SwapMetrics::_numberReportsMark = 0;
 double SwapMetrics::_sumDiskUtilizationSweep = 0;
-int SwapMetrics::_numberReportsSweep = 0;
+double SwapMetrics::_sumDiskUtilizationMutator = 0;
+
 double SwapMetrics::_ioWaitMark = 0;
 double SwapMetrics::_ioWaitSweep = 0;
+double SwapMetrics::_ioWaitMutator = 0;
+
+int SwapMetrics::_numberReportsSweep = 0;
+int SwapMetrics::_numberReportsMark = 0;
+int SwapMetrics::_numberReportsMutator = 0;
+
 
 std::string inToS(int num){
     std::ostringstream ss;
@@ -38,7 +44,6 @@ std::string splitString(std::string buf, int index){
         string sub;
         iss >> sub;
         if(count == index){
-//            cout << "Substring: " << sub << endl;
             return sub;
         }
         count++;
@@ -46,6 +51,38 @@ std::string splitString(std::string buf, int index){
     cout << "Something is wrong -->" << buf << endl;
     exit(-1);
     return ret;
+}
+
+void* monitorIOMutators(void* arg){
+  printf("Starting the mutator IO monitor.\n");
+  double value;
+  int count;
+  string temp;
+  FILE *fp;
+  char buf[BUF_MAX];
+  std::string ret;
+  std::string cmd = std::string("iostat -x 1 2 dm-0");
+  while(true){
+  count = 0;
+  fp = popen(cmd.c_str(), "r");
+  while(fgets(buf, BUF_MAX, fp) != NULL){
+	count++;
+	temp = std::string(buf);
+	if(count == 10){
+	  ret = splitString(temp, 3);
+	  value = sToDub(ret);
+	  SwapMetrics::_ioWaitMutator = value;
+	}
+	if(count == 13){
+	   ret = splitString(temp, 13);
+	   value = sToDub(ret);
+	   SwapMetrics::_sumDiskUtilizationMutator = value;
+	}
+	count++;
+  }
+  	  SwapMetrics::_numberReportsMutator++;
+  	  sleep(1);
+  }
 }
 
 void* monitorIOs(void* arg){
@@ -92,13 +129,27 @@ void SwapMetrics::threadFunction(int id){
   *arg = id;
   int rc = pthread_create(&thread, NULL, monitorIOs, (void *)arg);
   if (rc){
-         printf("ERROR; return code from pthread_create() is %d\n", rc);
-         exit(-1);
-      }
+		 printf("ERROR; return code from pthread_create() is %d\n", rc);
+		 exit(-1);
+	  }
+}
+
+void SwapMetrics::mutatorMonitorThreadFunction(void){
+  pthread_t thread;
+  int rc = pthread_create(&thread, NULL, monitorIOMutators, NULL);
+  if (rc){
+		 printf("ERROR; return code from pthread_create() is %d\n", rc);
+		 exit(-1);
+	  }
 }
 
 void SwapMetrics::setPhase(int phaseId){
      _phaseId = phaseId;
+}
+
+void SwapMetrics::universeInit(){
+	printf("Initializing the swapMetrics.\n");
+	mutatorMonitorThreadFunction();
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -148,8 +199,10 @@ void SwapMetrics::printTotalFaults(){
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
+       cout << "MutatorDiskUtilization : " << _sumDiskUtilizationMutator / _numberReportsMutator << endl;
        cout << "SweepIOWait : " << _ioWaitSweep / _numberReportsSweep << endl;
        cout << "MarkIOWait : " << _ioWaitMark / _numberReportsMark << endl;
+       cout << "MarkIOWait : " << _ioWaitMutator / _numberReportsMutator << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){

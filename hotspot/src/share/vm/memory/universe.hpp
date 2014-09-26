@@ -27,6 +27,7 @@
 
 #include "runtime/handles.hpp"
 #include "utilities/growableArray.hpp"
+#include "runtime/SwapMetrics.hpp"
 
 // Universe is a name space holding known system classes and objects in the VM.
 //
