@@ -4216,6 +4216,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
 			}
+			_partitionMetaData->setToWorkFinal();
 			usleep(1000);
 		}
 #if OCMS_NO_GREY_LOG
