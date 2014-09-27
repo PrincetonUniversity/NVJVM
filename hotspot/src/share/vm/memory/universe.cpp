@@ -937,7 +937,7 @@ void* Universe::non_oop_word() {
 }
 
 jint universe_init() {
-  printf(" ******************** This is the custom image ********************.\n");
+  printf(" ********************************************************** This is the custom image **********************************************************.\n");
   SwapMetrics::universeInit();
   assert(!Universe::_fully_initialized, "called after initialize_vtables");
   guarantee(1 << LogHeapWordSize == sizeof(HeapWord),

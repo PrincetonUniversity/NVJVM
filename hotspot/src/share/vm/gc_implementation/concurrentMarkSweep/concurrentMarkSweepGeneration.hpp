@@ -1208,7 +1208,7 @@ public:
 		for(count = 0; count < _numberPages; count++){
 						_pageGOC[count] = 0;
 						_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
-				}
+		}
 		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
 		setToWork();
