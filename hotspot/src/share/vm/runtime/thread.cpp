@@ -1317,6 +1317,7 @@ void JavaThread::initialize() {
   _popframe_preserved_args_size = 0;
 
   pd_initialize();
+  printf("Initialized a JavaThread with id = %d.\n", osthread()->thread_id());
 }
 
 #ifndef SERIALGC
