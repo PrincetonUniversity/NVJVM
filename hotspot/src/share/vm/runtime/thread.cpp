@@ -1317,7 +1317,6 @@ void JavaThread::initialize() {
   _popframe_preserved_args_size = 0;
 
   pd_initialize();
-  printf("Initialized a JavaThread with id = %d.\n", osthread()->thread_id());
 }
 
 #ifndef SERIALGC
@@ -1397,6 +1396,7 @@ JavaThread::JavaThread(ThreadFunction entry_point, size_t stack_sz) :
   thr_type = entry_point == &compiler_thread_entry ? os::compiler_thread :
                                                      os::java_thread;
   os::create_thread(this, thr_type, stack_sz);
+  printf("Created a new JavaThread with id = %d.\n", osthread()->thread_id());
 
   // The _osthread may be NULL here because we ran out of memory (too many threads active).
   // We need to throw and OutOfMemoryError - however we cannot do this here because the caller
