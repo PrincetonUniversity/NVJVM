@@ -831,6 +831,18 @@ static void *java_start(Thread *thread) {
   // thread_id is kernel thread id (similar to Solaris LWP id)
   osthread->set_thread_id(os::Linux::gettid());
 
+  pid_t threadId = os::Linux::gettid();
+  ThreadType thr_type = osthread->thread_type();
+  if(thr_type == vm_thread){
+  	printf("Creating a VM thread. Id = %d.\n", threadId);
+  } else if(thr_type == cgc_thread){
+  	printf("Creating a CGC thread. Id = %d.\n", threadId);
+  } else if(thr_type == pgc_thread){
+  	printf("Creating a PGC thread. Id = %d.\n", threadId);
+  } else if(thr_type == java_thread){
+  	printf("Creating a Java thread. Id = %d.\n", threadId);
+  }
+
   if (UseNUMA) {
     int lgrp_id = os::numa_get_group_id();
     if (lgrp_id != -1) {
@@ -946,18 +958,6 @@ bool os::create_thread(Thread* thread, ThreadType thr_type, size_t stack_size) {
       if (lock) os::Linux::createThread_lock()->unlock();
       return false;
     }
-
-    if(thr_type == vm_thread){
-    	printf("Creating a VM thread. Id = %d.\n", tid);
-    } else if(thr_type == cgc_thread){
-    	printf("Creating a CGC thread. Id = %d.\n", tid);
-    } else if(thr_type == pgc_thread){
-    	printf("Creating a PGC thread. Id = %d.\n", tid);
-    } else if(thr_type == java_thread){
-    	printf("Creating a Java thread. Id = %d.\n", tid);
-    }
-
-
     // Store pthread info into the OSThread
     osthread->set_pthread_id(tid);
 
