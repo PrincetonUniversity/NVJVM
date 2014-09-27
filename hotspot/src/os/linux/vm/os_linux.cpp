@@ -947,6 +947,17 @@ bool os::create_thread(Thread* thread, ThreadType thr_type, size_t stack_size) {
       return false;
     }
 
+    if(thr_type == vm_thread){
+    	printf("Creating a VM thread. Id = %d.\n", tid);
+    } else if(thr_type == cgc_thread){
+    	printf("Creating a CGC thread. Id = %d.\n", tid);
+    } else if(thr_type == pgc_thread){
+    	printf("Creating a PGC thread. Id = %d.\n", tid);
+    } else if(thr_type == java_thread){
+    	printf("Creating a Java thread. Id = %d.\n", tid);
+    }
+
+
     // Store pthread info into the OSThread
     osthread->set_pthread_id(tid);
 
