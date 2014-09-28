@@ -41,6 +41,7 @@
 #include "runtime/SwapMetrics.hpp"
 #include "time.h"
 #include "unistd.h"
+#include "utilities/dtrace.hpp"
 
 #define TRACING_COLLECTION 1
 
