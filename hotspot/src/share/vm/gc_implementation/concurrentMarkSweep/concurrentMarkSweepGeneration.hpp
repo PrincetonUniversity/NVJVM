@@ -42,6 +42,7 @@
 #include "time.h"
 #include "unistd.h"
 #include "utilities/dtrace.hpp"
+#include <sys/sdt.h>
 
 #define TRACING_COLLECTION 1
 
