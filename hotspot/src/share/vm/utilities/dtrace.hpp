@@ -25,7 +25,7 @@
 #ifndef SHARE_VM_UTILITIES_DTRACE_HPP
 #define SHARE_VM_UTILITIES_DTRACE_HPP
 
-#if defined(SOLARIS) && defined(DTRACE_ENABLED)
+#if 1 || (defined(SOLARIS) && defined(DTRACE_ENABLED))
 
 #include <sys/sdt.h>
 
