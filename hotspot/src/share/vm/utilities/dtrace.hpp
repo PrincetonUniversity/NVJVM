@@ -38,7 +38,7 @@
 
 #else // ndef SOLARIS || ndef DTRACE_ENABLED
 
-#define DTRACE_ONLY(x) x
+#define DTRACE_ONLY(x)
 #define NOT_DTRACE(x) x
 
 #define DTRACE_PROBE(a,b) {;}

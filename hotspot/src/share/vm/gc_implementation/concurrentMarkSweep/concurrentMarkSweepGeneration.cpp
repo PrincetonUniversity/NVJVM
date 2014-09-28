@@ -3607,7 +3607,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
 
 bool CMSCollector::markFromRoots(bool asynch) {
 
-  HS_DTRACE_PROBE(hotspot, mark__from__roots);
+  DTRACE_PROBE(hotspot, mark_from_roots);
   // we might be tempted to assert that:
   // assert(asynch == !SafepointSynchronize::is_at_safepoint(),
   //        "inconsistent argument?");
