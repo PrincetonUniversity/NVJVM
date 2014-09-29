@@ -33,6 +33,7 @@
 #include "runtime/init.hpp"
 #include "runtime/safepoint.hpp"
 #include "runtime/sharedRuntime.hpp"
+#include <sys/sdt.h>
 
 // Initialization done by VM thread in vm_init_globals()
 void check_ThreadShadow();
@@ -145,6 +146,10 @@ jint init_globals() {
 
 
 void exit_globals() {
+
+#if ENABLE_PROBES
+  DTRACE_PROBE(hotspot, vm_exit);
+#endif
   SwapMetrics::printTotalFaults();
   static bool destructorsCalled = false;
   if (!destructorsCalled) {
