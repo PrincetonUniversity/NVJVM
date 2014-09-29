@@ -16,10 +16,28 @@
 #include <string>
 #include <pthread.h>
 #include<time.h>
+#include <vector>
+#include <fstream>
 
 using namespace std;
 #define BUF_MAX 1000
 
+class ThreadStruct {
+private:
+	pid_t _threadId;
+	int _threadType;
+public:
+	ThreadStruct(pid_t tid, int tType){
+		_threadId = tid;
+		_threadType = tType;
+	}
+	pid_t getThreadId(){
+		return _threadId;
+	}
+	int getThreadType(){
+		return _threadType;
+	}
+};
 
 class SwapMetrics {
 private:
@@ -83,6 +101,29 @@ public:
 
 	static double _sweepTime;
 	static void sweepTimeIncrement(double v) { _sweepTime += v; }
+
+	static void addThreadToList(pid_t threadId, int thr_type){
+		_threadList.push_back(new ThreadStruct(threadId, thr_type));
+	}
+	static std::vector<ThreadStruct *> _threadList;
+
+	static void printThreads(){
+		  ThreadStruct *thread;
+		  ofstream myfile;
+		  myfile.open ("/home/tandon/data/threads.txt");
+		  std::vector<ThreadStruct *>::iterator it;
+		  int maxCount = 4;
+		  for(int count = 0; count < maxCount; count++){
+			  for (it = _threadList.begin(); it < _threadList.end(); it++){
+				  thread = *it;
+				  if(thread->getThreadType() == count){
+					  myfile << thread->getThreadId() << "," ;
+				  }
+			  }
+			  myfile << "\b \b\n" ;
+		  }
+		  myfile.close();
+	}
 
 };
 

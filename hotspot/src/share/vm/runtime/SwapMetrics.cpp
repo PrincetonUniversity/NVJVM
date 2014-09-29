@@ -35,6 +35,8 @@ double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
 double SwapMetrics::_compactionTime = 0;
 
+std::vector<ThreadStruct *> _threadList;
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -219,6 +221,7 @@ SwapMetrics::~SwapMetrics() {
 }
 
 void SwapMetrics::printTotalFaults(){
+	printThreads();
     int totalFaults[2];
 	int count = 0;
        FILE *fp;
