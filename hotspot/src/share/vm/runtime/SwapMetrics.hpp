@@ -105,6 +105,7 @@ public:
 	static void addThreadToList(pid_t threadId, int thr_type){
 		_threadList.push_back(new ThreadStruct(threadId, thr_type));
 	}
+
 	static std::vector<ThreadStruct *> _threadList;
 
 	static void printThreads(){
