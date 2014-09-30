@@ -1977,6 +1977,11 @@ void CMSCollector::decide_foreground_collection_type(
 // A work method used by the foreground collector to do
 // a mark-sweep-compact.
 void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
+
+#if ENABLE_COMPACT_PROBES
+  DTRACE_PROBE(hotspot, compaction_begin);
+#endif
+
   GenCollectedHeap* gch = GenCollectedHeap::heap();
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("compact-phase", SwapMetrics::compactPhase);
@@ -2079,6 +2084,9 @@ void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
 
   // For a mark-sweep-compact, compute_new_size() will be called
   // in the heap's do_collection() method.
+#if ENABLE_COMPACT_PROBES
+  DTRACE_PROBE(hotspot, compaction_end);
+#endif
 }
 
 // A work method used by the foreground collector to do
