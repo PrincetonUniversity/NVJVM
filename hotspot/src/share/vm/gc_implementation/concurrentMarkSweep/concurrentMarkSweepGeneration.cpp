@@ -6212,6 +6212,11 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
 
 void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   bool asynch) {
+
+#if ENABLE_SWEEP_PROBES
+  DTRACE_PROBE(hotspot, sweep_begin);
+#endif
+
   // We iterate over the space(s) underlying this generation,
   // checking the mark bit map to see if the bits corresponding
   // to specific blocks are marked or not. Blocks that are
@@ -6268,6 +6273,10 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   } else {                                      // did not unload classes,
     _concurrent_cycles_since_last_unload++;     // ... increment count
   }
+
+#if ENABLE_SWEEP_PROBES
+  DTRACE_PROBE(hotspot, sweep_end);
+#endif
 }
 
 // Reset CMS data structures (for now just the marking bit map)

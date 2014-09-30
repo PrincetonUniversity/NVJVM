@@ -32,6 +32,7 @@
 #define ENABLE_PROBES 1
 #define ENABLE_MARK_PROBES ENABLE_PROBES && 1
 #define ENABLE_COMPACT_PROBES ENABLE_PROBES && 1
+#define ENABLE_SWEEP_PROBES ENABLE_PROBES && 1
 
 // Universe is a name space holding known system classes and objects in the VM.
 //
