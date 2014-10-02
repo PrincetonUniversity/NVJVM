@@ -3974,7 +3974,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
           ReleaseForegroundGC x(this);
           stats().record_cms_begin();
     // Resetting all the data structures associated with partitionMetaData
-          _partitionMetaData->reset();
+//     _partitionMetaData->reset();
 
           VM_CMS_Initial_Mark initial_mark_op(this);
           VMThread::execute(&initial_mark_op);
@@ -4168,7 +4168,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
-	}while(greyObjectCount > countThreshold && timeMasterThread > 0);
+	}while(greyObjectCount > countThreshold);
 
 #if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d) < Threshold. "
@@ -4529,9 +4529,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			if(currentPartitionIndex == -1){
 				break;
 			}
-			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
+//			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
 			// The page indices of pages that may be scanned in the next iteration
-			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, isSetToFinalWork);
+			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
 #if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0 && isSetToFinalWork){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
@@ -5213,7 +5213,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
-  _partitionMetaData->reset();
+  //_partitionMetaData->reset();
  return true;
 }
 
