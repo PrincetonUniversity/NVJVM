@@ -560,7 +560,6 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
-  _deadObjBitMap(0, Mutex::leaf + 1, "CMS_deadObjBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -645,7 +644,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
   }
-  {
+  /*{
     MutexLockerEx x(_deadObjBitMap.lock(), Mutex::_no_safepoint_check_flag);
     if (!_deadObjBitMap.allocate(_span)) {
       warning("Failed to allocate Dead Object Mark CMS Bit Map");
@@ -6966,13 +6965,13 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
-    //sweepWorkPartitioned();
+    sweepWorkPartitioned();
     // already have needed locks
-    sweepWork(_cmsGen,  asynch);
+//    sweepWork(_cmsGen,  asynch);
 
-    if (should_unload_classes()) {
+    /*if (should_unload_classes()) {
       sweepWork(_permGen, asynch);
-    }
+    }*/
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
     Universe::update_heap_info_at_gc();
