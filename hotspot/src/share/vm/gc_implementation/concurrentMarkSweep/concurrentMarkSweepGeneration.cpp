@@ -8308,11 +8308,11 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 }
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
-		CMSCollector* collector, CMSBitMap* bit_map,  CMSBitMap* grey_bit_map,
+		CMSCollector* collector, CMSBitMap* bit_map,
 		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack){
 	_collector = collector;
 	_bit_map = bit_map;
-	_grey_bit_map = grey_bit_map;
+
 	_chunkList = chunkList;
 	_whole_span = span;
 	_skip_bits = 0;
@@ -8401,7 +8401,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map, _grey_bit_map,
+	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
@@ -8721,7 +8721,7 @@ void PushOrMarkClosure::do_oop(oop obj) {
 }
 
 Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
-		CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
+		CMSBitMap* bitMap,
 		ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack) :
   Par_KlassRememberingOopClosure(collector,
 		                         collector->ref_processor(),
@@ -8729,7 +8729,7 @@ Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
 {
 	_whole_span = memRegion;
 	_bit_map = bitMap;
-	_grey_bit_map = greyMarkBitMap;
+
 	_chunk_list = chunkList;
 	_collector = collector;
 }
