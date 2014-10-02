@@ -1847,13 +1847,16 @@ CompactibleFreeListSpace::addChunkToFreeLists(HeapWord* chunk,
 // This is the function that adds the elements of a list at the end of the indexedFreeList
 void CompactibleFreeListSpace::addToFreeList(int index){
 	int size = 0;
+	size_t freeSize = 0;
 	for(; size < IndexSetSize; size++){
 		FreeChunk* _fc = _indexedPartitionedFreeList[index][size].head();
 		if(_fc != NULL){
 			_indexedFreeList[size].returnChunkAtTail(_fc);
+			freeSize += size * _indexedPartitionedFreeList[index][size].count();
 		}
 		_indexedPartitionedFreeList[index][size].resetNoHint(); // resetting the partitioned free list
 	}
+	printf("Total Free Size = %u.\n", freeSize);
 }
 
 // This is the function that unifies the free list indices
