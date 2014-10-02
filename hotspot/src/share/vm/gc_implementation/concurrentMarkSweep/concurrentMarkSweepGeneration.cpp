@@ -1726,7 +1726,7 @@ void CMSCollector::collect(bool   full,
   // assert(!GC_locker.is_active(), "Can't be called otherwise");
   // But I am not placing that assert here to allow future
   // generality in invoking this interface.
-  if (GC_locker::is_active()) {
+  if (GC_locker::is_active() || true) {
     // A consistency test for GC_locker
     assert(GC_locker::needs_gc(), "Should have been set already");
     // Skip this foreground collection, instead
@@ -1735,6 +1735,9 @@ void CMSCollector::collect(bool   full,
     compute_new_size();
     return;
   }
+
+  printf("GC_locker is active false. Calling acquire_control_and_collect().\n");
+
   acquire_control_and_collect(full, clear_all_soft_refs);
   _full_gcs_since_conc_gc++;
 
@@ -4141,7 +4144,7 @@ void CMSConcMarkingTerminator::yield() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkInitial() {
-	printf("In master thread work initial entered.\n");
+//	printf("In master thread work initial entered.\n");
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work initial.\n");
 	Thread* t = Thread::current();
@@ -4179,11 +4182,11 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 			printf("Tasks set to yield.\n");
 #endif
 //			yield();
-	printf("In master thread work initial finished.\n");
+//	printf("In master thread work initial finished.\n");
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-  printf("In master thread work final entered.\n");
+//  printf("In master thread work final entered.\n");
   int loopCount = 0;
 #if OCMS_NO_GREY_LOG
  printf("In master thread work final.\n");
@@ -4227,7 +4230,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	printf("Yielding for the master thread's final function.\n");
 #endif
 //	yield();
-  printf("In master thread work final done.\n");
+//  printf("In master thread work final done.\n");
 }
 
 // This is the code that is used by the master thread
@@ -4523,7 +4526,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
 		bool isSetToFinalWork;
-		printf("Entering do_scan_and_mark. Id = %d.\n", i);
+//		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
 			if (_partitionMetaData->checkToYield()){
 				break;
@@ -4548,7 +4551,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
+//		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
