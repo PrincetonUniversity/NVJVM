@@ -1726,7 +1726,7 @@ void CMSCollector::collect(bool   full,
   // assert(!GC_locker.is_active(), "Can't be called otherwise");
   // But I am not placing that assert here to allow future
   // generality in invoking this interface.
-  if (GC_locker::is_active() || true) {
+  if (GC_locker::is_active()) {
     // A consistency test for GC_locker
     assert(GC_locker::needs_gc(), "Should have been set already");
     // Skip this foreground collection, instead
