@@ -560,7 +560,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
-  _greyMarkBitMap(0, Mutex::leaf + 1, "CMS_greyMarkBitMap_lock"),
+  _deadObjBitMap(0, Mutex::leaf + 1, "CMS_deadObjBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -645,14 +645,14 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
   }
-  /*{
-    MutexLockerEx x(_greyMarkBitMap.lock(), Mutex::_no_safepoint_check_flag);
-    if (!_greyMarkBitMap.allocate(_span)) {
-      warning("Failed to allocate Grey Mark CMS Bit Map");
+  {
+    MutexLockerEx x(_deadObjBitMap.lock(), Mutex::_no_safepoint_check_flag);
+    if (!_deadObjBitMap.allocate(_span)) {
+      warning("Failed to allocate Dead Object Mark CMS Bit Map");
       return;
     }
-    assert(_greyMarkBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
-  }*/
+    assert(_deadObjBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
+  }
   /*{
      MutexLockerEx x(_dummyBitMap.lock(), Mutex::_no_safepoint_check_flag);
      if (!_dummyBitMap.allocate(_span)) {
@@ -3388,7 +3388,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
   // The final 'true' flag to gen_process_strong_roots will ensure this.
   // If 'async' is true, we can relax the nmethod tracing.
   // MarkRefsIntoClosure notOlder(_span, &_markBitMap);
-  MarkRefsAndUpdateChunkTableClosure notOlder(_span, &_markBitMap, &_greyMarkBitMap, _collectorChunkList, this);
+  MarkRefsAndUpdateChunkTableClosure notOlder(_span, &_markBitMap, _collectorChunkList, this);
   GenCollectedHeap* gch = GenCollectedHeap::heap();
 
   verify_work_stacks_empty();
@@ -4506,7 +4506,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// iteration should be incremental with periodic yields.
 		Par_MarkFromGreyRootsClosure cl(_collector,
 					&_collector->_markBitMap,
-					&_collector->_greyMarkBitMap,
 					_collector->getChunkList(),
 					my_span,
 					&_collector->_revisitStack);
@@ -4664,7 +4663,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 				// iteration should be incremental with periodic yields.
 				Par_MarkFromGreyRootsClosure cl(_collector,
 							&_collector->_markBitMap,
-							&_collector->_greyMarkBitMap,
 							_collector->getChunkList(),
 							my_span,
 							&_collector->_revisitStack);
@@ -4741,7 +4739,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		        // iteration should be incremental with periodic yields.
 		        Par_MarkFromGreyRootsClosure cl(_collector,
 		                                    &_collector->_markBitMap,
-		                                    &_collector->_greyMarkBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span,
 		                                    &_collector->_revisitStack);
@@ -7592,11 +7589,10 @@ void CMSMarkStack::expand() {
 
 
 MarkRefsAndUpdateChunkTableClosure::MarkRefsAndUpdateChunkTableClosure(
-		MemRegion span, CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap, ChunkList* chunkList, CMSCollector* collector):
+		MemRegion span, CMSBitMap* bitMap,  ChunkList* chunkList, CMSCollector* collector):
 				_span(span),
 				_bitMap(bitMap),
 				_chunkList(chunkList),
-				_greyMarkBitMap(greyMarkBitMap),
 				_collector(collector)
 {
 
