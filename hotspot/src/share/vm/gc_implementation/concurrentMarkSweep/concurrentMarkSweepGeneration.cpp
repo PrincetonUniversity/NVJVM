@@ -4141,7 +4141,7 @@ void CMSConcMarkingTerminator::yield() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkInitial() {
-
+	printf("In master thread work initial entered.\n");
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work initial.\n");
 	Thread* t = Thread::current();
@@ -4179,12 +4179,14 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 			printf("Tasks set to yield.\n");
 #endif
 //			yield();
+	printf("In master thread work initial finished.\n");
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
- int loopCount = 0;
+  printf("In master thread work final entered.\n");
+  int loopCount = 0;
 #if OCMS_NO_GREY_LOG
-	printf("In master thread work final.\n");
+ printf("In master thread work final.\n");
 #endif
 	// After clearing the dirty card bit map mark, the master thread has to make sure
 	// that the collector threads come to a termination point.
@@ -4225,6 +4227,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	printf("Yielding for the master thread's final function.\n");
 #endif
 //	yield();
+  printf("In master thread work final done.\n");
 }
 
 // This is the code that is used by the master thread
