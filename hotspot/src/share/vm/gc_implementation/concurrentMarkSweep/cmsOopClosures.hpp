@@ -54,15 +54,13 @@ private:
   const MemRegion _span;
   CMSBitMap*      _bitMap;
   ChunkList* _chunkList;
-  CMSBitMap*	_greyMarkBitMap;
   CMSCollector* _collector;
 
 protected:
   DO_OOP_WORK_DEFN
 
  public:
-  MarkRefsAndUpdateChunkTableClosure(MemRegion span, CMSBitMap* bitMap,
-		  CMSBitMap* greyMarkBitMap, ChunkList *chunkList, CMSCollector* collector);
+  MarkRefsAndUpdateChunkTableClosure(MemRegion span, CMSBitMap* bitMap, ChunkList *chunkList, CMSCollector* collector);
   virtual void do_oop(oop* p);
   virtual void do_oop(narrowOop* p);
   inline void do_oop_nv(oop* p)       { MarkRefsAndUpdateChunkTableClosure::do_oop_work(p); }
@@ -355,7 +353,6 @@ class Par_GreyMarkClosure: public Par_KlassRememberingOopClosure {
 private:
 	MemRegion _whole_span;
 	CMSBitMap* _bit_map;
-	CMSBitMap* _grey_bit_map;
 	ChunkList* _chunk_list;
 	CMSCollector* _collector;
 
@@ -363,7 +360,7 @@ protected:
 	DO_OOP_WORK_DEFN
 public:
 	Par_GreyMarkClosure(MemRegion memRegion,
-			CMSBitMap* bitMap, CMSBitMap* greyMarkBitMap,
+			CMSBitMap* bitMap,
 			ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack);
 	virtual void do_oop(oop* p);
 	virtual void do_oop(narrowOop* p);
