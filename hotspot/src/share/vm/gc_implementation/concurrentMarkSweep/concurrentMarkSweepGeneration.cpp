@@ -4523,6 +4523,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
 		bool isSetToFinalWork;
+		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
 			if (_partitionMetaData->checkToYield()){
 				break;
@@ -4547,6 +4548,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
+		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
