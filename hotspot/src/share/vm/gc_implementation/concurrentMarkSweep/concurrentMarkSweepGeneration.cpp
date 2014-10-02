@@ -6935,19 +6935,21 @@ void CMSCollector::sweep(bool asynch) {
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
+
     // First sweep the old gen then the perm gen
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-      sweepWork(_cmsGen, asynch);
+      sweepWorkPartitioned();
+//      sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
-    if (should_unload_classes()) {
+    /*if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
       sweepWork(_permGen, asynch);
-    }
+    }*/
 
     // Update Universe::_heap_*_at_gc figures.
     // We need all the free list locks to make the abstract state
@@ -6965,7 +6967,7 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
-    sweepWorkPartitioned();
+	sweepWorkPartitioned();
     // already have needed locks
 //    sweepWork(_cmsGen,  asynch);
 
