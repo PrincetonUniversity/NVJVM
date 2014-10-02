@@ -1786,11 +1786,6 @@ class CMSCollector: public CHeapObj {
 		  return _collectorChunkList;
   }
 
-  bool compareBitMaps(){
-	  return  _markBitMap.isSame(_greyMarkBitMap);
-  }
-
-
  protected:
   static CollectorState _collectorState;
 
