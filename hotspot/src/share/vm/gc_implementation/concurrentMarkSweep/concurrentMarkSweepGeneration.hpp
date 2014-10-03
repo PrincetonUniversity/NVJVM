@@ -1807,6 +1807,10 @@ class SweepClosure: public BlkClosureCareful {
   size_t       do_blk_careful(HeapWord* addr);
   void         print() const { print_on(tty); }
   void         print_on(outputStream *st) const;
+  int _numberOfGarbageChunks;
+  public int getNumberOfGarbageChunks(){
+	  return _numberOfGarbageChunks;
+  }
 };
 
 // Closures related to weak references processing

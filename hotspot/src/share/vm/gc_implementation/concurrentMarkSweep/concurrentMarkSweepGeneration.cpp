@@ -6265,6 +6265,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
     // co-terminal free run. This is done in the SweepClosure
     // destructor; so, do not remove this scope, else the
     // end-of-sweep-census below will be off by a little bit.
+    printf("Number of garbage chunks = %d.\n", sweepClosure->getNumberGarbageChunks());
   }
   gen->cmsSpace()->sweep_completed();
   gen->cmsSpace()->endSweepFLCensus(sweep_count());
@@ -7942,6 +7943,7 @@ SweepClosure::SweepClosure(CMSCollector* collector,
     gclog_or_tty->print_cr("\n====================\nStarting new sweep with limit " PTR_FORMAT,
                         _limit);
   }
+  _numberOfGarbageChunks = 0;
 }
 
 void SweepClosure::print_on(outputStream* st) const {
@@ -8262,6 +8264,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
   // This is a chunk of garbage.  It is not in any free list.
   // Add it to a free list or let it possibly be coalesced into
   // a larger chunk.
+  _numberOfGarbageChunks++;
   HeapWord* const addr = (HeapWord*) fc;
   const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 
