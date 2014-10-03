@@ -9167,7 +9167,7 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 	    size = pointer_delta(nextOneAddr + 1, addr);
 #if OC_SWEEP_ASSERT
 	    if(size != CompactibleFreeListSpace::adjustObjectSize(size));{
-	    	printf("alignment problem.\n");
+	    	printf("alignment problem size = %d, size after adjustment %d.\n", size, CompactibleFreeListSpace::adjustObjectSize(size));
 	    	exit(-1);
 	    }
 #endif
