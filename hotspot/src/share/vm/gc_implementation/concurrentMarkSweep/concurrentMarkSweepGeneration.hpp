@@ -731,6 +731,7 @@ class PartitionMetaData : public CHeapObj {
 	jshort* _pageStart;
 // Keeps a track of the number of the grey objects per page
 	jubyte*_pageGOC;
+	jubyte* _pageScanned;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
 // Total number of partitions
@@ -1226,9 +1227,11 @@ public:
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
+		_pageScanned = new jubyte[_numberPages];
 		_pageStart = new jshort[_numberPages];
 		for(count = 0; count < _numberPages; count++){
 						_pageGOC[count] = 0;
+						_pageScanned[count] = 0;
 						_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
 		}
 		_partitionSize = (int)_numberPages/_numberPartitions;
@@ -1257,6 +1260,12 @@ public:
 	void resetGOCPage(){
 		for(int count = 0; count < _numberPages; count++){
 			_pageGOC[count] = 0;
+		}
+	}
+
+	void resetPageScanned(){
+		for(int count = 0; count < _numberPages; count++){
+			_pageScanned[count] = 0;
 		}
 	}
 
@@ -1372,10 +1381,10 @@ public:
 	int numPagesWithNoStartMark(){
 		int index, count = 0;
 		for (index = 0; index < _numberPages; index++){
-			if(_pageStart[index] == (jshort)NO_OBJECT_MASK)
+			if(_pageStart[index] != (jshort)NO_OBJECT_MASK)
 				count++;
 		}
-		printf("Total Number of pages = %d, Total Number of pages with no object start mark = %d.\n", _numberPages, count);
+		printf("Total Number of pages = %d, Total Number of pages with an object start mark = %d.\n", _numberPages, count);
 	}
 
 	int getGreyObjectsChunkLevel(int p){
@@ -1509,12 +1518,12 @@ public:
 	}
 
 	void pageScanned(int pageIndex){
-		jubyte *position = &(_pageGOC[pageIndex]);
+		jubyte *position = &(_pageScanned[pageIndex]);
 		*position = (jubyte)1;
 	}
 
 	bool isPageScanned(int pageIndex){
-		jubyte *position = &(_pageGOC[pageIndex]);
+		jubyte *position = &(_pageScanned[pageIndex]);
 		return (*position ==(jubyte)1);
 	}
 

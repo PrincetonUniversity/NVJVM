@@ -4275,7 +4275,7 @@ void CMSConcSweepingTask::work(int i){
 	int currentPartitionIndex = -1;
     do {
       // each thread tries to get the next partition here
-    	currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
+      currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
       if(currentPartitionIndex == -1){
     	  break;
       }
@@ -7132,7 +7132,7 @@ void CMSCollector::sweepWorkPartitioned(){
   _partitionMetaData->resetPartitionsScanned();
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
-  _partitionMetaData->resetGOCPage();
+  _partitionMetaData->resetPageScanned();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
 #if OC_SWEEP_LOG
