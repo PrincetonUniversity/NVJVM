@@ -1347,6 +1347,15 @@ public:
 		);
 	}
 
+	int numPagesWithNoStartMark(){
+		int index, count = 0;
+		for (index = 0; index < _numberPages; index++){
+			if(_pageStart[index] == (jshort)NO_OBJECT_MASK)
+				count++;
+		}
+		printf("Total Number of pages = %d, Total Number of pages with an object start mark = %d.\n", count);
+	}
+
 	int getGreyObjectsChunkLevel(int p){
 		return (
 			_partitionGOC[p]

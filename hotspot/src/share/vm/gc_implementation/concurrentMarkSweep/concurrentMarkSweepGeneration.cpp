@@ -7090,6 +7090,7 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
 // Thereafter, once the threads come to a stop, the master thread returns the individual dead chunks to the main free list.
 
 void CMSCollector::sweepWorkPartitioned(){
+ _partitionMetaData->numPagesWithNoStartMark();
  // We iterate over the space underlying both the generations (cms, perm)
  // one page at a time, checking the mark bit map to see if the bits corresponding
  // to specific blocks are marked or not.  Blocks that are
