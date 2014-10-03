@@ -6940,15 +6940,15 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-      sweepWorkPartitioned();
-//      sweepWork(_cmsGen, asynch);
+//      sweepWorkPartitioned();
+      sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
-//      sweepWork(_permGen, asynch);
+      sweepWork(_permGen, asynch);
     }
 
     // Update Universe::_heap_*_at_gc figures.
@@ -6967,12 +6967,12 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
-	sweepWorkPartitioned();
+//	sweepWorkPartitioned();
     // already have needed locks
-//    sweepWork(_cmsGen,  asynch);
+    sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
-//      sweepWork(_permGen, asynch);
+      sweepWork(_permGen, asynch);
     }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
@@ -7207,11 +7207,11 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
-  /*if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
+  if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
 		  perror("err: ");
 		  printf("Error in madvise");
 		  exit(-1);
-  }*/
+  }
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
@@ -9219,7 +9219,9 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 // Cleaning the garbage chunk updating the page start, if required.
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
-	_partitionMetaData->incrementGarbageChunks();
+#ifdef SWEEP_TESTS
+		_partitionMetaData->incrementGarbageChunks();
+#endif
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
