@@ -9257,9 +9257,9 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
-	_partitionMetaData->incrementPagesScanned();
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
+		_partitionMetaData->incrementPagesScanned();
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
