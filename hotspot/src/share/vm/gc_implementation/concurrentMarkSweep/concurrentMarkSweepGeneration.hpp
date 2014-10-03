@@ -722,6 +722,7 @@ class ChunkList : public CHeapObj  {
 };
 
 class PartitionMetaData : public CHeapObj {
+	int _pagesScanned;
 	int _partitionsScanned; // the number of partitions scanned by the mark sweep threads
 	int totalDecrements;
 	int totalIncrements;
@@ -762,8 +763,17 @@ class PartitionMetaData : public CHeapObj {
 
 public:
 
+	void incrementPagesScanned(){
+		_pagesScanned++;
+	}
+
+	int getPagesScanned(){
+		return _pagesScanned;
+	}
+
 	void resetPartitionsScanned(){
 		_partitionsScanned = 0;
+		_pagesScanned = 0;
 	}
 
 	void resetPartitionMap(){
@@ -1353,7 +1363,7 @@ public:
 			if(_pageStart[index] == (jshort)NO_OBJECT_MASK)
 				count++;
 		}
-		printf("Total Number of pages = %d, Total Number of pages with an object start mark = %d.\n", _numberPages, count);
+		printf("Total Number of pages = %d, Total Number of pages with no object start mark = %d.\n", _numberPages, count);
 	}
 
 	int getGreyObjectsChunkLevel(int p){

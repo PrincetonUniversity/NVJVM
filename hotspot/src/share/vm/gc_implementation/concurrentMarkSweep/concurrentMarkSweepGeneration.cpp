@@ -7171,6 +7171,8 @@ void CMSCollector::sweepWorkPartitioned(){
   perm_space->returnPartitionedDictionaries();
   perm_space->resetPartitionedDictionaries();
 
+  printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
+
 #if OC_SWEEP_LOG
   printf("Completed the sweep phase.\n");
 #endif
@@ -9255,6 +9257,7 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
+	_partitionMetaData->incrementPagesScanned();
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
 		// the case when a page cannot be scanned is when an object spans
