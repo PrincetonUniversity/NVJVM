@@ -6265,7 +6265,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
     // co-terminal free run. This is done in the SweepClosure
     // destructor; so, do not remove this scope, else the
     // end-of-sweep-census below will be off by a little bit.
-    printf("Number of garbage chunks = %d.\n", sweepClosure->getNumberGarbageChunks());
+    printf("Number of garbage chunks = %d.\n", sweepClosure.getNumberGarbageChunks());
   }
   gen->cmsSpace()->sweep_completed();
   gen->cmsSpace()->endSweepFLCensus(sweep_count());
