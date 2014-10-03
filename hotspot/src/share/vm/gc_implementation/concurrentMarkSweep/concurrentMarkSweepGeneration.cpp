@@ -1073,7 +1073,7 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numWordsAllocated += (int)adjustedSize;
     )
     // Marking the header for the direct allocated objects
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
+//    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
   }
   return res;
 }
@@ -1487,7 +1487,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   )
 
   // The promotion of an object causes the object start to get allocated within the pageStart array
-  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+//  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
 
   return obj;
 }
@@ -7207,11 +7207,11 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
-  if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
+  /*if(madvise(gen->used_region().start(), gen->used(), MADV_SEQUENTIAL) == -1){
 		  perror("err: ");
 		  printf("Error in madvise");
 		  exit(-1);
-  }
+  }*/
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
