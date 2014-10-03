@@ -2978,6 +2978,7 @@ class SweepClosure: public BlkClosureCareful {
   SweepClosure(CMSCollector* collector, ConcurrentMarkSweepGeneration* g,
                CMSBitMap* bitMap, bool should_yield);
   ~SweepClosure() PRODUCT_RETURN;
+  int _numberOfGarbageChunks;
 
   size_t       do_blk_careful(HeapWord* addr);
   void         print() const { print_on(tty); }
