@@ -7132,6 +7132,7 @@ void CMSCollector::sweepWorkPartitioned(){
   _partitionMetaData->resetPartitionsScanned();
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
+  _partitionMetaData->resetGOCPage();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
 #if OC_SWEEP_LOG
@@ -7177,6 +7178,7 @@ void CMSCollector::sweepWorkPartitioned(){
 #if OC_SWEEP_LOG
   printf("Completed the sweep phase.\n");
 #endif
+  _partitionMetaData->resetGOCPage();
 }
 
 
@@ -9264,7 +9266,8 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
 	size_t res;
-	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
+	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
+		_partitionMetaData->pageScanned(pIndex);
 		_partitionMetaData->incrementPagesScanned();
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated

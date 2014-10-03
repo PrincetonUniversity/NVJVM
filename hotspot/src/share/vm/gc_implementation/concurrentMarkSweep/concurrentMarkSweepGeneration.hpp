@@ -1508,6 +1508,16 @@ public:
 		return (unsigned int)value;
 	}
 
+	void pageScanned(int pageIndex){
+		jubyte *position = &(_pageGOC[pageIndex]);
+		*position = (jubyte)1;
+	}
+
+	bool isPageScanned(int pageIndex){
+		jubyte *position = &(_pageGOC[pageIndex]);
+		return (*position ==(jubyte)1);
+	}
+
 	unsigned int incrementIndex_AtomicPage(int increment, void *pageAddress){
 		increaseBy(increment);
 		int index = getPageIndexFromPageAddress(pageAddress);
