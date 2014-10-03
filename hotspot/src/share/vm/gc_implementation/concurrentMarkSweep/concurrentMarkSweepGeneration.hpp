@@ -750,6 +750,7 @@ class PartitionMetaData : public CHeapObj {
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
+	int _garbageChunks;
 
 
 // Message States Used
@@ -774,6 +775,15 @@ public:
 	void resetPartitionsScanned(){
 		_partitionsScanned = 0;
 		_pagesScanned = 0;
+		_garbageChunks =0;
+	}
+
+	void incrementGarbageChunks(){
+		_garbageChunks++;
+	}
+
+	int getGarbageChunks(){
+		return _garbageChunks;
 	}
 
 	void resetPartitionMap(){

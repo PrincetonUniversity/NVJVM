@@ -6940,15 +6940,15 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-//      sweepWorkPartitioned();
-      sweepWork(_cmsGen, asynch);
+      sweepWorkPartitioned();
+//      sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
-      sweepWork(_permGen, asynch);
+//      sweepWork(_permGen, asynch);
     }
 
     // Update Universe::_heap_*_at_gc figures.
@@ -6967,12 +6967,12 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
-//	sweepWorkPartitioned();
+	sweepWorkPartitioned();
     // already have needed locks
-    sweepWork(_cmsGen,  asynch);
+//    sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
-      sweepWork(_permGen, asynch);
+//      sweepWork(_permGen, asynch);
     }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
@@ -6989,6 +6989,7 @@ void CMSCollector::sweep(bool asynch) {
   _inter_sweep_timer.start();
 
   update_time_of_last_gc(os::javaTimeMillis());
+  printf("Total Number of garbage chunks = %d\n", _partitionMetaData->getGarbageChunks());
 
   // NOTE on abstract state transitions:
   // Mutators allocate-live and/or mark the mod-union table dirty
@@ -9218,6 +9219,7 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 // Cleaning the garbage chunk updating the page start, if required.
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
+	_partitionMetaData->incrementGarbageChunks();
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
