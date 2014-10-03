@@ -7119,7 +7119,7 @@ void CMSCollector::sweepWorkPartitioned(){
  // Initially we need to start a set of worker threads
 
 #if OC_SWEEP_LOG
-  printf("Initiaing Creation of CMSConcSweepingTask.\n");
+  printf("Initiating Creation of CMSConcSweepingTask.\n");
 #endif
   CMSConcSweepingTask sweepTask(this, ConcSweepThreads);
 #if OC_SWEEP_LOG

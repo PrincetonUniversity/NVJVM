@@ -795,7 +795,7 @@ public:
 
 	bool shouldScanningStop(){
 		return (
-				_partitionsScanned >= _numberPartitions
+				_partitionsScanned >= 3 * _numberPartitions
 		);
 	}
 
@@ -954,7 +954,8 @@ public:
 			for(count = 0; count < _numberPartitions; count++){
 				// We do not take the circular route of scanning the partitions currently and check if the
 				// partitionIndex returned is -1, that means all the partitions have already been scanned.
-				currentPartitionIndex = currentPartitionIndex + 1;
+				currentPartitionIndex = nextPartitionIndex(currentPartitionIndex);
+				//currentPartitionIndex = currentPartitionIndex + 1;
 				if(currentPartitionIndex >= _numberPartitions){
 					return -1;
 				}
@@ -1101,6 +1102,7 @@ public:
 			}
 #endif
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
+				break;
 				pageIndices.push_back(*it);
 			}
 			return pageIndices;
