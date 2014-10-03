@@ -985,7 +985,7 @@ public:
 
 		void *getPageEnd(int pageIndex){
 			return ((void *)
-							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE) - 1)
+							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)((pageIndex +1) * _PAGE_SIZE) - 1)
 			);
 		}
 		// This function converts a given page index into the base address of the page

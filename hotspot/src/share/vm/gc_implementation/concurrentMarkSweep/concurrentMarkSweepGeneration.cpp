@@ -9239,7 +9239,7 @@ size_t SweepPageClosure::do_free_chunk(FreeChunk* fc){
 	// in case the chunk is a free chunk it leaves the chunk as it is
 size_t SweepPageClosure::do_chunk(HeapWord* addr){
 	FreeChunk* fc = (FreeChunk*)addr;
-	size_t res, dRes;
+	size_t res = 0, dRes;
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 		// currently we do not perform coalescing of free chunks
 		res = do_free_chunk(fc);
