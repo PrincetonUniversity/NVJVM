@@ -1808,7 +1808,7 @@ class SweepClosure: public BlkClosureCareful {
   void         print() const { print_on(tty); }
   void         print_on(outputStream *st) const;
   int _numberOfGarbageChunks;
-  public int getNumberOfGarbageChunks(){
+  int getNumberOfGarbageChunks(){
 	  return _numberOfGarbageChunks;
   }
 };
