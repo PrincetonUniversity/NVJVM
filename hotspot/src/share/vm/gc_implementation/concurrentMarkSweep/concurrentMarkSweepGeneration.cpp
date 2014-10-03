@@ -1073,7 +1073,7 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numWordsAllocated += (int)adjustedSize;
     )
     // Marking the header for the direct allocated objects
-//    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
+    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
   }
   return res;
 }
@@ -1487,7 +1487,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   )
 
   // The promotion of an object causes the object start to get allocated within the pageStart array
-//  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
 
   return obj;
 }
