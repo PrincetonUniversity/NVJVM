@@ -6940,15 +6940,15 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-//      sweepWorkPartitioned();
-      sweepWork(_cmsGen, asynch);
+      sweepWorkPartitioned();
+//      sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
-      sweepWork(_permGen, asynch);
+//      sweepWork(_permGen, asynch);
     }
 
     // Update Universe::_heap_*_at_gc figures.
@@ -6967,9 +6967,9 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
-//	sweepWorkPartitioned();
+	sweepWorkPartitioned();
     // already have needed locks
-    sweepWork(_cmsGen,  asynch);
+//    sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
       sweepWork(_permGen, asynch);
