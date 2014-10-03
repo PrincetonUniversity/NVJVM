@@ -1353,7 +1353,7 @@ public:
 			if(_pageStart[index] == (jshort)NO_OBJECT_MASK)
 				count++;
 		}
-		printf("Total Number of pages = %d, Total Number of pages with an object start mark = %d.\n", count);
+		printf("Total Number of pages = %d, Total Number of pages with an object start mark = %d.\n", _numberPages, count);
 	}
 
 	int getGreyObjectsChunkLevel(int p){
