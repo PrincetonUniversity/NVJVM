@@ -6940,15 +6940,22 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
+#if SWEEP_PARTITIONED
       sweepWorkPartitioned();
-//      sweepWork(_cmsGen, asynch);
+#endif
+
+#if SWEEP_REGULAR
+      sweepWork(_cmsGen, asynch);
+#endif
     }
 
     // Now repeat for perm gen
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
-//      sweepWork(_permGen, asynch);
+#if SWEEP_REGULAR
+      sweepWork(_permGen, asynch);
+#endif
     }
 
     // Update Universe::_heap_*_at_gc figures.
@@ -6967,12 +6974,20 @@ void CMSCollector::sweep(bool asynch) {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
+
+#if SWEEP_PARTITIONED
 	sweepWorkPartitioned();
+#endif
+
     // already have needed locks
-//    sweepWork(_cmsGen,  asynch);
+#if SWEEP_REGULAR
+	sweepWork(_cmsGen,  asynch);
+#endif
 
     if (should_unload_classes()) {
-//      sweepWork(_permGen, asynch);
+#if SWEEP_REGULAR
+    sweepWork(_permGen, asynch);
+#endif
     }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
@@ -9542,6 +9557,12 @@ size_t SweepPageClosure::do_garbage_chunk(FreeChunk* fc){
 
 size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 	_numberOfGarbageChunks++;
+	PartitionMetaData* pmd = _collector->getPartitionMetaData();
+	bool shouldScan = pmd->shouldSweepScanPageAddr((void *)fc);
+	if(shouldScan == false){
+		printf("A page with no object start has a free chunk.\n");
+		exit(-1);
+	}
 
   // This is a chunk of garbage.  It is not in any free list.
   // Add it to a free list or let it possibly be coalesced into

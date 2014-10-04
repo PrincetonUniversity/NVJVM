@@ -1380,6 +1380,10 @@ public:
 				_pageStart[pageIndex] != (jshort)NO_OBJECT_MASK
 		);
 	}
+	bool shouldSweepScanPageAddr(void *addr){
+		int pageIndex = getPageIndexFromPageAddress(addr);
+		return shouldSweepScanPage(pageIndex);
+	}
 
 	int numPagesWithNoStartMark(){
 		int index, count = 0;
