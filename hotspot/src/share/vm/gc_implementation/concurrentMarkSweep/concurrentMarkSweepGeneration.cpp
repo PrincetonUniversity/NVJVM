@@ -6972,7 +6972,7 @@ void CMSCollector::sweep(bool asynch) {
 //    sweepWork(_cmsGen,  asynch);
 
     if (should_unload_classes()) {
-      sweepWork(_permGen, asynch);
+//      sweepWork(_permGen, asynch);
     }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
