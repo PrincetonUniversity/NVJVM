@@ -7130,6 +7130,7 @@ void CMSCollector::sweepWorkPartitioned(){
 #endif
   // Resetting the number of partitions to be scanned
   _partitionMetaData->resetPartitionsScanned();
+  _partitionMetaData->resetPagesScanned();
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
   _partitionMetaData->resetPageScanned();
@@ -9532,10 +9533,10 @@ void SweepClosure::do_already_free_chunk(FreeChunk* fc) {
 }
 
 size_t SweepPageClosure::do_garbage_chunk(FreeChunk* fc){
+     printf("Bug\n");
+     exit (-1);
 	 HeapWord* const addr = (HeapWord*) fc;
 	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-
-
 }
 
 

@@ -765,6 +765,10 @@ class PartitionMetaData : public CHeapObj {
 
 public:
 
+	void resetPagesScanned(){
+		_pagesScanned = 0;
+	}
+
 	void incrementPagesScanned(){
 		_pagesScanned++;
 	}
@@ -775,7 +779,6 @@ public:
 
 	void resetPartitionsScanned(){
 		_partitionsScanned = 0;
-		_pagesScanned = 0;
 		_garbageChunks =0;
 	}
 
@@ -796,7 +799,7 @@ public:
 
 	bool shouldScanningStop(){
 		return (
-				_partitionsScanned >= 3 * _numberPartitions
+				_partitionsScanned >= 6 * _numberPartitions
 		);
 	}
 
