@@ -1807,13 +1807,8 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
-  int getSpaceType(CompactibleFreeListSpace* address) /* Returns the type of space, 1 for Mature Gen, 2 for Perm Gen. */ {
-	  if(address == _cmsGen->cmsSpace())
-		  return 1;
-	  if(address == _permGen->cmsSpace())
-		  return 2;
-	  return 0;
-  }
+  /* Returns the type of space, 1 for Mature Gen, 2 for Perm Gen. */
+  int getSpaceType(CompactibleFreeListSpace* address);
 
   CompactibleFreeListSpace* getSpace(void *address);
 
