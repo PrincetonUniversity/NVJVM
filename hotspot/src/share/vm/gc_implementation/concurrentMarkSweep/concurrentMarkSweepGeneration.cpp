@@ -6953,6 +6953,7 @@ void CMSCollector::sweep(bool asynch) {
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
+      printf("Unloading Classes.\n");
 #if SWEEP_REGULAR
       sweepWork(_permGen, asynch);
 #endif
@@ -6988,6 +6989,7 @@ void CMSCollector::sweep(bool asynch) {
 #if SWEEP_REGULAR
     sweepWork(_permGen, asynch);
 #endif
+    printf("Unloading Classes.\n");
     }
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
@@ -9547,13 +9549,12 @@ void SweepClosure::do_already_free_chunk(FreeChunk* fc) {
   }
 }
 
-size_t SweepPageClosure::do_garbage_chunk(FreeChunk* fc){
+/*size_t SweepPageClosure::do_garbage_chunk(FreeChunk* fc){
      printf("Bug\n");
      exit (-1);
 	 HeapWord* const addr = (HeapWord*) fc;
 	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-}
-
+}*/
 
 size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 	_numberOfGarbageChunks++;
@@ -9561,6 +9562,8 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
 	bool shouldScan = pmd->shouldSweepScanPageAddr((void *)fc);
 	if(shouldScan == false){
 		printf("A page with no object start has a free chunk.\n");
+		int type = _collector->getSpaceType(_sp);
+		printf("Space Type (1 for Mature, 2 for Permanent) = %d.\n", type);
 		exit(-1);
 	}
 

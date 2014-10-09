@@ -1807,6 +1807,14 @@ class CMSCollector: public CHeapObj {
     Sweeping            = 8
   };
 
+  int getSpaceType(CompactibleFreeListSpace* address) /* Returns the type of space, 1 for Mature Gen, 2 for Perm Gen. */ {
+	  if(address == _cmsGen->cmsSpace())
+		  return 1;
+	  if(address == _permGen->cmsSpace())
+		  return 2;
+	  return 0;
+  }
+
   CompactibleFreeListSpace* getSpace(void *address);
 
   void triggerTask(CMSConcMarkingTask *tsk);
@@ -2906,7 +2914,6 @@ public:
 	}
 	void do_page(int pageIndex);
 	int getId() { return _id; }
-	size_t do_garbage_chunk(FreeChunk* fc);
 	size_t do_chunk(HeapWord* addr);
 	size_t do_live_chunk(HeapWord* addr);
 	size_t do_free_chunk(FreeChunk* fc);
