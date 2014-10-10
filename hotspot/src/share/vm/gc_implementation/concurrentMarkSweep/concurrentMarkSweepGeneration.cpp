@@ -1348,7 +1348,7 @@ oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
         (int)(CompactibleFreeListSpace::adjustObjectSize(obj->size()));
     )
     // The promotion of an object causes the object start to get allocated within the pageStart array
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
 
   }
   return res;
