@@ -1310,8 +1310,7 @@ CMSCollector::allocation_limit_reached(Space* space, HeapWord* top,
 }
 
 oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
-  printf("In promote which is not parallel. \n");
-  exit(-1);
+
   assert(obj_size == (size_t)obj->size(), "bad obj_size passed in");
   // allocate, copy and if necessary update promoinfo --
   // delegate to underlying space.
@@ -1348,6 +1347,9 @@ oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
       _numWordsPromoted +=
         (int)(CompactibleFreeListSpace::adjustObjectSize(obj->size()));
     )
+    // The promotion of an object causes the object start to get allocated within the pageStart array
+    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+
   }
   return res;
 }
