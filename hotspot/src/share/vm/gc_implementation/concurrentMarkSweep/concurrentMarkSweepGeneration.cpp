@@ -4063,7 +4063,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         }
 
 #if INC_SWEEP
-        if(collectorState == Sweeping)
+        if(_collectorState == Sweeping)
     	   break;
 #endif
 
