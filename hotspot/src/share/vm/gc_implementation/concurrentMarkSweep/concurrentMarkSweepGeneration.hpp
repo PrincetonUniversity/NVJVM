@@ -731,6 +731,7 @@ class PartitionMetaData : public CHeapObj {
 	jshort* _pageStart;
 // Keeps a track of the number of the grey objects per page
 	jubyte*_pageGOC;
+// Metadata that keeps a track of whether each page has been scanned or not
 	jubyte* _pageScanned;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
@@ -751,7 +752,10 @@ class PartitionMetaData : public CHeapObj {
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
+	// Bookkeeping metadata for counting the number of garbage chunks
 	int _garbageChunks;
+	// The threshold after which we assume that the sweeping has been completed and we should restart the garbage collection
+	double _sweepThreshold;
 
 
 // Message States Used
@@ -779,7 +783,7 @@ public:
 
 	void resetPartitionsScanned(){
 		_partitionsScanned = 0;
-		_garbageChunks =0;
+		_garbageChunks = 0;
 	}
 
 	void incrementGarbageChunks(){
@@ -1218,6 +1222,7 @@ public:
 				}
 
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
+		_sweepThreshold = SWEEP_THRESHOLD;
 		_collector = cmsCollector;
 		_span = span;
 		_numberPartitions = NumberPartitions;
@@ -1264,6 +1269,23 @@ public:
 		for(int count = 0; count < _numberPages; count++){
 			_pageGOC[count] = 0;
 		}
+	}
+
+	int numberPagesScanned(){
+		int num = 0;
+		for(int count = 0; count < _numberPages; count++){
+			if(_pageScanned[count] == 1)
+				num++;
+		}
+		return num;
+	}
+
+	double fracPagesScanned(){
+		return (double)numberPagesScanned()/_numberPages;
+	}
+
+	bool isSweepDone(){
+		return (fracPagesScanned() > _sweepThreshold);
 	}
 
 	void resetPageScanned(){

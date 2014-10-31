@@ -4062,6 +4062,20 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
                                              _cmsGen->free());
         }
 
+#if INC_SWEEP
+        if(collectorState == Sweeping)
+    	   break;
+        else
+#else
+        {
+        	 // Resetting the number of partitions to be scanned
+        	  _partitionMetaData->resetPartitionsScanned();
+        	  _partitionMetaData->resetPagesScanned();
+        	  _partitionMetaData->resetPageScanned();
+        	  // Starting the CMSConcSweepingTask with the sweep worker tasks here
+        }
+#endif
+
       case Resizing: {
         // Sweeping has been completed...
         // At this point the background collection has completed.
@@ -6998,7 +7012,15 @@ void CMSCollector::sweep(bool asynch) {
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
     Universe::update_heap_info_at_gc();
+#if INC_SWEEP
+    // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
+    // state can be changed to resizing the heap
+    if(_partitionMetaData->isSweepDone()){
+    	_collectorState = Resizing;
+    }
+#else
     _collectorState = Resizing;
+#endif
   }
   verify_work_stacks_empty();
   verify_overflow_empty();
@@ -7142,6 +7164,10 @@ void CMSCollector::sweepWorkPartitioned(){
 #if OC_SWEEP_LOG
   printf("Initiating Creation of CMSConcSweepingTask.\n");
 #endif
+
+  // Resetting the partitionMap
+  _partitionMetaData->resetPartitionMap();
+
   CMSConcSweepingTask sweepTask(this, ConcSweepThreads);
 #if OC_SWEEP_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
@@ -7149,13 +7175,6 @@ void CMSCollector::sweepWorkPartitioned(){
 #if OC_SWEEP_LOG
   printf("Starting the CMSConcSweepingTask.\n");
 #endif
-  // Resetting the number of partitions to be scanned
-  _partitionMetaData->resetPartitionsScanned();
-  _partitionMetaData->resetPagesScanned();
-  // Resetting the partitionMap
-  _partitionMetaData->resetPartitionMap();
-  _partitionMetaData->resetPageScanned();
-  // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
 #if OC_SWEEP_LOG
   printf("CMSConcSweepingTask Completed.\n");
@@ -9288,16 +9307,19 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
 	size_t res;
-	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
+
+	// Checking if the page has not been scanned
+	if(!_partitionMetaData->isPageScanned(pIndex))
 		_partitionMetaData->pageScanned(pIndex);
+	else
+		return;
+
+	if(_partitionMetaData->shouldSweepScanPage(pIndex)){ // checking if the page can be scanned,
 		_partitionMetaData->incrementPagesScanned();
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
-#if OC_SWEEP_LOG
-//		printf("Page Object Start = %p.\n", pageObjectStart);
-#endif
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res =  do_chunk(curr);
