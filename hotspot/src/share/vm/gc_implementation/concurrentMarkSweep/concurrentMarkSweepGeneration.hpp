@@ -783,6 +783,9 @@ public:
 
 	void resetPartitionsScanned(){
 		_partitionsScanned = 0;
+	}
+
+	void resetGarbageChunks(){
 		_garbageChunks = 0;
 	}
 

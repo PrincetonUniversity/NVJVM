@@ -4065,15 +4065,6 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 #if INC_SWEEP
         if(collectorState == Sweeping)
     	   break;
-        else
-#else
-        {
-        	 // Resetting the number of partitions to be scanned
-        	  _partitionMetaData->resetPartitionsScanned();
-        	  _partitionMetaData->resetPagesScanned();
-        	  _partitionMetaData->resetPageScanned();
-        	  // Starting the CMSConcSweepingTask with the sweep worker tasks here
-        }
 #endif
 
       case Resizing: {
@@ -7012,14 +7003,29 @@ void CMSCollector::sweep(bool asynch) {
     // Update heap occupancy information which is used as
     // input to soft ref clearing policy at the next gc.
     Universe::update_heap_info_at_gc();
+
+    // Resetting the number of partitions scanned in this round of sweeping
+    _partitionMetaData->resetPartitionsScanned();
+
 #if INC_SWEEP
     // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
     // state can be changed to resizing the heap
     if(_partitionMetaData->isSweepDone()){
     	_collectorState = Resizing;
+        {
+        	  _partitionMetaData->resetPagesScanned();
+        	  _partitionMetaData->resetPageScanned();
+        	  _partitionMetaData->resetGarbageChunks();
+        }
+
     }
 #else
     _collectorState = Resizing;
+    {
+        	  _partitionMetaData->resetPagesScanned();
+        	  _partitionMetaData->resetPageScanned();
+        	  _partitionMetaData->resetGarbageChunks();
+    }
 #endif
   }
   verify_work_stacks_empty();
