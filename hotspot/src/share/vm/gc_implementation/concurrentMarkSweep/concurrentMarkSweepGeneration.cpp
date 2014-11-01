@@ -7068,7 +7068,6 @@ void CMSCollector::sweep(bool asynch) {
   _inter_sweep_timer.start();
 
   update_time_of_last_gc(os::javaTimeMillis());
-  printf("Total Number of garbage chunks = %d\n", _partitionMetaData->getGarbageChunks());
 
   // NOTE on abstract state transitions:
   // Mutators allocate-live and/or mark the mod-union table dirty

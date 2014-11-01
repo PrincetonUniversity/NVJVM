@@ -1120,12 +1120,12 @@ public:
 						pageIndicesOutOfCore.push_back(index);
 				}
 			}
-//#if OC_SWEEP_ASSERT
+#if OC_SWEEP_ASSERT
 			else {
 				printf("Invalid Partition Index. Index = -1");
 				exit(-1);
 			}
-//#endif
+#endif
 			int cBPages = 0;
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
 				pageIndices.push_back(*it);
@@ -1133,6 +1133,7 @@ public:
 				if(cBPages >= numBufferPages())
 					break;
 			}
+			printf("Size of pageIndices = %d.\n", pageIndices.size());
 			return pageIndices;
 		}
 
