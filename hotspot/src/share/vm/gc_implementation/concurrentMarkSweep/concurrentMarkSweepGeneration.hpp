@@ -1133,7 +1133,7 @@ public:
 				if(cBPages >= numBufferPages())
 					break;
 			}
-			printf("Size of pageIndices = %d.\n", pageIndices.size());
+			printf("Size of pageIndices = %d, currentPartition = %d.\n", pageIndices.size(), currentPartition);
 			return pageIndices;
 		}
 

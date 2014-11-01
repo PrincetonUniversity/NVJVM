@@ -6985,6 +6985,9 @@ void CMSCollector::sweep(bool asynch) {
       // Update heap occupancy information which is used as
       // input to soft ref clearing policy at the next gc.
       Universe::update_heap_info_at_gc();
+      // Resetting the number of partitions scanned in this round of sweeping
+      _partitionMetaData->resetPartitionsScanned();
+
 #if INC_SWEEP
     // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
     // state can be changed to resizing the heap
