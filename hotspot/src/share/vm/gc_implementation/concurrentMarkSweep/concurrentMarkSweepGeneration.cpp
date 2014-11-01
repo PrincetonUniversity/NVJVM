@@ -4273,7 +4273,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
-		printf("In do_partition() -> pIndex = %d, partitionIndex = %d.\n", pageIndex, currentPartitionIndex);
+//		printf("In do_partition() -> pIndex = %d, partitionIndex = %d.\n", pageIndex, currentPartitionIndex);
 		sweepPageClosure->do_page(pageIndex);
 	}
 	// Releasing the partition
