@@ -1128,12 +1128,13 @@ public:
 #endif
 			int cBPages = 0;
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
+				break;
 				pageIndices.push_back(*it);
 				cBPages++;
 				if(cBPages >= numBufferPages())
 					break;
 			}
-			printf("Size of pageIndices = %d, currentPartition = %d.\n", pageIndices.size(), currentPartition);
+//			printf("Size of pageIndices = %d, currentPartition = %d.\n", pageIndices.size(), currentPartition);
 			return pageIndices;
 		}
 
