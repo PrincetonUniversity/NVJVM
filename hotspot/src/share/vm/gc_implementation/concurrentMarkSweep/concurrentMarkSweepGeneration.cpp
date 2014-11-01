@@ -9319,6 +9319,7 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
+	printf("In do_page() -> pIndex = %d.\n", pIndex);
 	size_t res;
 
 	// Checking if the page has not been scanned
