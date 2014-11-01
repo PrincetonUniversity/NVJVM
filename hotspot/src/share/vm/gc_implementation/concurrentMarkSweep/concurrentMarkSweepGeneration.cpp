@@ -4273,6 +4273,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
+		printf("In do_partition() -> pIndex = %d, partitionIndex = %d.\n", pageIndex, currentPartitionIndex);
 		sweepPageClosure->do_page(pageIndex);
 	}
 	// Releasing the partition
@@ -9319,7 +9320,6 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
-	printf("In do_page() -> pIndex = %d.\n", pIndex);
 	size_t res;
 
 	// Checking if the page has not been scanned

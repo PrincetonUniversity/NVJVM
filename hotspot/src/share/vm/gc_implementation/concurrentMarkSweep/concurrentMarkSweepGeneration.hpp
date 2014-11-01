@@ -957,7 +957,7 @@ public:
 
 	// This method gets the next partition from the list of partitions, if the
 	// currentPartitionIndex is the same as that of the returned value, then the
-	// thread has run through all the different partitions. This is not currently used
+	// thread has run through all the different partitions.
 		int getNextPartition(int currentPartitionIndex){
 			int originalPartitionIndex = currentPartitionIndex;
 			bool markAtomicFailed = false;
@@ -975,6 +975,7 @@ public:
 				else
 					markAtomicFailed = true;
 			}
+			return -1;
 		}
 
 		int getPageIndexFromPageAddress(void *address){
@@ -1119,15 +1120,18 @@ public:
 						pageIndicesOutOfCore.push_back(index);
 				}
 			}
-#if OC_SWEEP_ASSERT
+//#if OC_SWEEP_ASSERT
 			else {
 				printf("Invalid Partition Index. Index = -1");
 				exit(-1);
 			}
-#endif
+//#endif
 			int cBPages = 0;
-			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(), cBPages < numBufferPages(); it++, cBPages++){
+			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
 				pageIndices.push_back(*it);
+				cBPages++;
+				if(cBPages >= numBufferPages())
+					break;
 			}
 			return pageIndices;
 		}
