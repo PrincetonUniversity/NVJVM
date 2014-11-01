@@ -1082,6 +1082,19 @@ public:
 			);
 		}
 
+		int numPagesWithStartMark(){
+				int index, count = 0;
+				for (index = 0; index < _numberPages; index++){
+					if(_pageStart[index] != (jshort)NO_OBJECT_MASK)
+						count++;
+				}
+				return count;
+			}
+
+		int numBufferPages(){
+			return (int)(0.1 * (double)numPagesWithStartMark());
+		}
+
 		std::vector<int> toSweepPageList(int currentPartition){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
@@ -1112,8 +1125,8 @@ public:
 				exit(-1);
 			}
 #endif
-			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
-				break;
+			int cBPages = 0;
+			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(), cBPages < numBufferPages(); it++, cBPages++){
 				pageIndices.push_back(*it);
 			}
 			return pageIndices;
@@ -1284,7 +1297,7 @@ public:
 	}
 
 	double fracPagesScanned(){
-		return (double)numberPagesScanned()/_numberPages;
+		return (double)numberPagesScanned()/numPagesWithStartMark();
 	}
 
 	bool isSweepDone(){
@@ -1410,7 +1423,9 @@ public:
 		return shouldSweepScanPage(pageIndex);
 	}
 
-	int numPagesWithNoStartMark(){
+
+
+	void numPagesWithNoStartMark(){
 		int index, count = 0;
 		for (index = 0; index < _numberPages; index++){
 			if(_pageStart[index] != (jshort)NO_OBJECT_MASK)

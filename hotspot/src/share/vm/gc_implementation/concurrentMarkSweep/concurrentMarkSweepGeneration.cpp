@@ -4063,8 +4063,14 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         }
 
 #if INC_SWEEP
-        if(_collectorState == Sweeping)
+        printf("Sweeping Done.\n");
+        if(_collectorState == Sweeping){
+        	printf("Collector is in state Sweeping.\n");
     	   break;
+        }
+        else {
+          printf("Collector is not in Sweeping State.\n");
+        }
 #endif
 
       case Resizing: {
@@ -7012,6 +7018,7 @@ void CMSCollector::sweep(bool asynch) {
     // state can be changed to resizing the heap
     if(_partitionMetaData->isSweepDone()){
     	_collectorState = Resizing;
+    	printf("Setting the state of the collector to resizing.\n");
         {
         	  _partitionMetaData->resetPagesScanned();
         	  _partitionMetaData->resetPageScanned();
