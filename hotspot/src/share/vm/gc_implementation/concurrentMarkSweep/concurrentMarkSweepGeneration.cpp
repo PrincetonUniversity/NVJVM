@@ -6985,7 +6985,27 @@ void CMSCollector::sweep(bool asynch) {
       // Update heap occupancy information which is used as
       // input to soft ref clearing policy at the next gc.
       Universe::update_heap_info_at_gc();
-      _collectorState = Resizing;
+#if INC_SWEEP
+    // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
+    // state can be changed to resizing the heap
+    if(_partitionMetaData->isSweepDone()){
+    	_collectorState = Resizing;
+    	printf("Setting the state of the collector to resizing.\n");
+        {
+        	  _partitionMetaData->resetPagesScanned();
+        	  _partitionMetaData->resetPageScanned();
+        	  _partitionMetaData->resetGarbageChunks();
+        }
+
+    }
+#else
+    _collectorState = Resizing;
+    {
+        	  _partitionMetaData->resetPagesScanned();
+        	  _partitionMetaData->resetPageScanned();
+        	  _partitionMetaData->resetGarbageChunks();
+    }
+#endif
     }
   } else {
 	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
@@ -7014,7 +7034,7 @@ void CMSCollector::sweep(bool asynch) {
     // Resetting the number of partitions scanned in this round of sweeping
     _partitionMetaData->resetPartitionsScanned();
 
-    printf("Collector State = %d.\n", _collectorState);
+//    printf("Collector State = %d.\n", _collectorState);
 
 #if INC_SWEEP
     // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
