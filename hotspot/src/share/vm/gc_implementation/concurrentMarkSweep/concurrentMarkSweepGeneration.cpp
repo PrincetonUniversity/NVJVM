@@ -7037,8 +7037,6 @@ void CMSCollector::sweep(bool asynch) {
     // Resetting the number of partitions scanned in this round of sweeping
     _partitionMetaData->resetPartitionsScanned();
 
-//    printf("Collector State = %d.\n", _collectorState);
-
 #if INC_SWEEP
     // Checking if the collector state should get changed, if we have swept sufficient number of pages then the
     // state can be changed to resizing the heap
