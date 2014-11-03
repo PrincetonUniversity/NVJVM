@@ -1106,7 +1106,6 @@ public:
 			}
 #endif
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
-				break;
 				pageIndices.push_back(*it);
 			}
 			return pageIndices;
