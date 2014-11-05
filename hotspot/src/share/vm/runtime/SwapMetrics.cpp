@@ -125,7 +125,7 @@ void* monitorIOs(void* arg){
   char buf[BUF_MAX];
   count++;
   std::string ret;
-  std::string cmd = std::string("iostat -x 1 2 dm-0");;
+  std::string cmd = std::string("iostat -x 1 2 dm-2");;
   fp = popen(cmd.c_str(), "r");
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
