@@ -75,7 +75,7 @@ void* monitorIOMutators(void* arg){
   FILE *fp;
   char buf[BUF_MAX];
   std::string ret;
-  std::string cmd = std::string("iostat -x 1 2 dm-0");
+  std::string cmd = std::string("iostat -x 1 2 dm-2");
   while(true){
   count = 0;
   fp = popen(cmd.c_str(), "r");
