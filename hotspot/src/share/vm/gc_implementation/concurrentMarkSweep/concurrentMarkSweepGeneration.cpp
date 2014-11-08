@@ -6944,13 +6944,10 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-#if SWEEP_PARTITIONED
-      sweepWorkPartitioned();
-#endif
-
-#if SWEEP_REGULAR
-      sweepWork(_cmsGen, asynch);
-#endif
+      if(SweepPartitioned)
+    	  sweepWorkPartitioned();
+      else
+    	  sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
@@ -6958,9 +6955,9 @@ void CMSCollector::sweep(bool asynch) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
       printf("Unloading Classes.\n");
-#if SWEEP_REGULAR
-      sweepWork(_permGen, asynch);
-#endif
+      if(!SweepPartitioned)
+    	  sweepWork(_permGen, asynch);
+
     }
 
     // Update Universe::_heap_*_at_gc figures.
@@ -6980,19 +6977,16 @@ void CMSCollector::sweep(bool asynch) {
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
 
-#if SWEEP_PARTITIONED
+if(SweepPartitioned)
 	sweepWorkPartitioned();
-#endif
-
     // already have needed locks
-#if SWEEP_REGULAR
+else
 	sweepWork(_cmsGen,  asynch);
-#endif
+
 
     if (should_unload_classes()) {
-#if SWEEP_REGULAR
+if(!SweepPartitioned)
     sweepWork(_permGen, asynch);
-#endif
     printf("Unloading Classes.\n");
     }
     // Update heap occupancy information which is used as

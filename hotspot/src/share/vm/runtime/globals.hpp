@@ -3138,6 +3138,8 @@ class CommandLineFlags {
   product(intx, SurvivorRatio, 8,                                           \
           "Ratio of eden/survivor space size")                              \
                                                                             \
+  product(bool, SweepPartitioned, false,									\
+  "enabling sweep partitioned")												\
   product(intx, NumberPartitions, 1000,   									\
 		  "these are the number of partitions") 							\
   product(intx, NewRatio, 2,                                                \
