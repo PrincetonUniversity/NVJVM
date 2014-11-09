@@ -9268,8 +9268,10 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 		// need to reset the
 #if	OC_SWEEP_ASSERT
 		if(oop(addr)->is_oop(true) == false){
+
 			bool isPageStart = _partitionMetaData->isPageStart(addr);
 			printf("Inconsistency in do_chunk() -> Chunk (%p) is garbage but not oop, isPageStart = %d.\n", addr, isPageStart);
+			return _PAGE_SIZE;
 			exit(-1);
 		}
 #endif
