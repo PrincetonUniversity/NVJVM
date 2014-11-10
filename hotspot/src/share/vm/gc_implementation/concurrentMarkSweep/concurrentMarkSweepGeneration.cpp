@@ -4553,9 +4553,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				pagesScanned++;
 				if(pagesScanned>inCoreCount){
-					if(madvise(_partitionMetaData->getPageBase(pageIndex),
-							_PAGE_SIZE, MADV_DONTNEED) == -1){
-						printf("Error in madvise.\n");
+					if(mysnc(_partitionMetaData->getPageBase(pageIndex),
+							_PAGE_SIZE, MS_INVALIDATE) == -1){
+						printf("Error in msync.\n");
 						perror("Error:");
 						exit (-1);
 					}
