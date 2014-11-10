@@ -3140,6 +3140,8 @@ class CommandLineFlags {
                                                                             \
   product(bool, SweepPartitioned, false,									\
   "enabling sweep partitioned")												\
+  product(bool, EnableProbSweep, false, 									\
+  		  "Enables probabilistic sweep")									\
   product(intx, NumberPartitions, 1000,   									\
 		  "these are the number of partitions") 							\
   product(intx, NewRatio, 2,                                                \
