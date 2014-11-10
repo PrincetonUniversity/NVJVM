@@ -41,7 +41,6 @@ public:
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
 	int getMinorFaultsMetrics() { return _minorFaults; }
-	int getCurrentNumberOfSwapOuts();
 	void getCurrentNumberOfFaults();
 	static void printTotalFaults();
 	void setPhase(int phaseId);
@@ -53,6 +52,7 @@ public:
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
+    static void getCurrentNumberOfSwapOuts();
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
