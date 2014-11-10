@@ -834,7 +834,7 @@ static void *java_start(Thread *thread) {
 
   pid_t threadId = os::Linux::gettid();
   os::ThreadType thr_type = (os::ThreadType)osthread->thread_type();
-  SwapMetrics::addThreadToList(threadId, thr_type);
+  //SwapMetrics::addThreadToList(threadId, thr_type);
   if(thr_type == os::vm_thread){
   	printf("Creating a VM thread. Id = %d.\n", threadId);
   } else if(thr_type == os::cgc_thread){
