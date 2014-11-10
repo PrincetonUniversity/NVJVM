@@ -310,6 +310,7 @@ void ReservedSpace::initialize(size_t size, size_t alignment, bool large,
 
     if (requested_address != 0) {
       base = os::attempt_reserve_memory_at(size, requested_address);
+      printf("requested address not null, attempting allocation at %p.\n", requested_address);
       if (failed_to_reserve_as_requested(base, requested_address, size, false)) {
         // OS ignored requested address. Try different address.
         base = NULL;
