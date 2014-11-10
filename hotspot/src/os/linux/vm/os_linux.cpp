@@ -3151,8 +3151,11 @@ char* os::attempt_reserve_memory_at(size_t bytes, char* requested_addr) {
 
   // Linux mmap allows caller to pass an address as hint; give it a try first,
   // if kernel honors the hint then we can return immediately.
-  //char * addr = anon_mmap(requested_addr, bytes, false);
-  char *addr = memory_map(requested_addr, bytes, false);
+  char *addr;
+  if(UseMMap)
+	  addr = memory_map(requested_addr, bytes, false);
+  else
+	  addr = anon_mmap(requested_addr, bytes, false);
   if (addr == requested_addr) {
      return requested_addr;
   }
