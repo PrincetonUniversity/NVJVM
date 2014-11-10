@@ -4274,7 +4274,8 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 			if(doSweep){
 				sweepPageClosure->do_page(pageIndex, g, d);
 			}
-		}
+		} else
+			sweepPageClosure->do_page(pageIndex, g, d);
 		pagesScanned++;
 	}
 	// Releasing the partition
