@@ -4253,11 +4253,6 @@ void CMSConcMarkingTask::masterThreadWork(){
 	}
 }
 
-double getRandomNumber(){
-	unsigned int x;
-	return (double)x/(double)INT_MAX;
-}
-
 // This method scans a partition
 void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosure* sweepPageClosure, int *g, int *d){
 	std::vector<int>::iterator it;

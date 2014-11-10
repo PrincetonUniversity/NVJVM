@@ -30,6 +30,11 @@ private:
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
+    int _currentSwapOuts;
+    int _initialSwapOuts;
+    int _finalSwapOuts;
+    int _processInitialSwapOuts;
+    int _processFinalSwapOuts;
 
 public:
     static void universeInit();
@@ -37,6 +42,7 @@ public:
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
 	int getMinorFaultsMetrics() { return _minorFaults; }
+	void getCurrentNumberOfSwapOuts();
 	void getCurrentNumberOfFaults();
 	static void printTotalFaults();
 	void setPhase(int phaseId);
@@ -51,6 +57,10 @@ public:
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
+
+    static int _markPhaseSwapOuts;
+    static int _sweepPhaseSwapOuts;
+    static int _compactionPhaseSwapOuts;
 
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
