@@ -2787,7 +2787,7 @@ static char* memory_map(char* requested_addr, size_t bytes, bool fixed) {
 	  }
 
 
-	  int fd = open ("/home/tandon/swap.txt", O_RDWR | O_CREAT);
+	  int fd = open ("/home/tandon/swap.txt", O_RDWR | O_CREAT | O_DIRECT);
 	  if(fd == -1){
 		  printf("File Creation Failed.\n");
 		  perror("error:");
