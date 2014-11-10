@@ -52,7 +52,7 @@ public:
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
-    static void getCurrentNumberOfSwapOuts();
+    static int getCurrentNumberOfSwapOuts();
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
