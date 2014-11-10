@@ -1111,7 +1111,7 @@ public:
 			return pageIndices;
 		}
 
-		std::vector<int> toScanPageList(int currentPartition, bool finalWork){
+		std::vector<int> toScanPageList(int currentPartition, bool finalWork, int*inCoreCount){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
 			std::vector<int>::iterator it;
@@ -1154,6 +1154,7 @@ public:
 			}
 #endif
 			pageCount = pageIndices.size();
+			*inCoreCount = pageCount;
 			// A better logic is required here to get the
 			if((pageIndices.size() < (unsigned int)maxPageCount) && (finalWork)){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){

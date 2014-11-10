@@ -22,6 +22,7 @@
  *
  */
 
+#include <sys/mman.h>
 #include "precompiled.hpp"
 #include "classfile/symbolTable.hpp"
 #include "classfile/systemDictionary.hpp"
@@ -4540,7 +4541,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 //			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
 			// The page indices of pages that may be scanned in the next iteration
-			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
+			int inCoreCount = 0, pagesScanned=0;
+			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true, &inCoreCount);
 #if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0 && isSetToFinalWork){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
@@ -4549,6 +4551,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
+				pagesScanned++;
+				if(pagesScanned>inCoreCount){
+					madvise(_partitionMetaData->getPageBase(pageIndex),
+							_PAGE_SIZE, MADV_DONTNEED);
+				}
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
