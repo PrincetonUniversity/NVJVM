@@ -4269,7 +4269,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 		if(pageCount>inCoreCount){
 			if(UseMMap){
 				if(msync(_partitionMetaData->getPageBase(pageIndex),
-					_PAGE_SIZE, MS_ASYNC) == -1){
+					_PAGE_SIZE, MS_INVALIDATE | MS_ASYNC) == -1){
 				printf("Error in msync.\n");
 				perror("Error:");
 				exit (-1);
@@ -4567,7 +4567,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				if(pagesScanned>inCoreCount){
 					if(UseMMap){
 						if(msync(_partitionMetaData->getPageBase(pageIndex),
-							_PAGE_SIZE, MS_ASYNC) == -1){
+							_PAGE_SIZE, MS_INVALIDATE | MS_ASYNC) == -1){
 						printf("Error in msync.\n");
 						perror("Error:");
 						exit (-1);

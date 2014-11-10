@@ -2780,7 +2780,7 @@ static char* memory_map(char* requested_addr, size_t bytes, bool fixed) {
 	  char * addr;
 	  int flags;
 
-	  flags = MAP_PRIVATE | MAP_NORESERVE;
+	  flags = MAP_SHARED | MAP_NORESERVE;
 	  if (fixed) {
 	    assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
 	    flags |= MAP_FIXED;
