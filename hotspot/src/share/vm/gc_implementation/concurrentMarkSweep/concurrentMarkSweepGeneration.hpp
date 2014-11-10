@@ -1075,7 +1075,7 @@ public:
 			);
 		}
 
-		std::vector<int> toSweepPageList(int currentPartition){
+		std::vector<int> toSweepPageList(int currentPartition, int*inCoreCount){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
 			std::vector<int>::iterator it;
@@ -1105,6 +1105,7 @@ public:
 				exit(-1);
 			}
 #endif
+			*inCoreCount = pageIndices.size();
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
 				pageIndices.push_back(*it);
 			}

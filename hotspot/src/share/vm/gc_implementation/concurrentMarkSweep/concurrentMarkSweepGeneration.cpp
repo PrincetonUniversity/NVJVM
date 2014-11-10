@@ -4260,10 +4260,20 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	std::vector<int> pageIndices;
 	int pageIndex;
 	// this is the method that gets a set of in-memory pages currently
-	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
+	int inCoreCount=0, pageCount=0;
+	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex, &inCoreCount);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
 		sweepPageClosure->do_page(pageIndex);
+		pageCount++;
+		if(pageCount>inCoreCount){
+			if(msync(_partitionMetaData->getPageBase(pageIndex),
+					_PAGE_SIZE, MS_INVALIDATE) == -1){
+				printf("Error in msync.\n");
+				perror("Error:");
+				exit (-1);
+			}
+		}
 	}
 	// Releasing the partition
 	_partitionMetaData->releasePartition(currentPartitionIndex);
