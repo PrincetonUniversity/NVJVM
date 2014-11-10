@@ -7,6 +7,9 @@
 
 #include "SwapMetrics.hpp"
 
+
+int SwapMetrics::_processInitialSwapOuts=0;
+
 int SwapMetrics::_sweepPhaseSwapOuts=0;
 int SwapMetrics::_markPhaseSwapOuts=0;
 int SwapMetrics::_compactionPhaseSwapOuts=0;
@@ -266,6 +269,7 @@ void SwapMetrics::printTotalFaults(){
        		 count++;
        	  } while(iss);
 
+        int finalFaults;
         count = 0;
        	cmd = std::string("vmstat -s | grep \"pages swapped out\"");
        	fp = popen(cmd.c_str(), "r");
@@ -275,12 +279,12 @@ void SwapMetrics::printTotalFaults(){
        		 {
        			 string sub;
        			 iss >> sub;
-       			 std::stringstream(sub) >> _processFinalSwapOuts;
+       			 std::stringstream(sub) >> finalFaults;
        			 break;
        		  } while(iss);
 
        cout << "Total number of major faults : " << totalFaults[1] << endl;
-       cout << "Total number of swapOuts : " << (_processFinalSwapOuts-_processInitialSwapOuts) << endl;
+       cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
 
 
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;

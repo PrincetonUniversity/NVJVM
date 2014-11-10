@@ -33,7 +33,6 @@ private:
     int _currentSwapOuts;
     int _initialSwapOuts;
     int _finalSwapOuts;
-    int _processInitialSwapOuts;
     int _processFinalSwapOuts;
 
 public:
@@ -57,6 +56,8 @@ public:
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
+
+    static int _processInitialSwapOuts;
 
     static int _markPhaseSwapOuts;
     static int _sweepPhaseSwapOuts;
