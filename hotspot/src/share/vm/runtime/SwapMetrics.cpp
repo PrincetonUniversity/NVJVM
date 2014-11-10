@@ -203,8 +203,7 @@ void SwapMetrics::setPhase(int phaseId){
 void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
-	getCurrentNumberOfSwapOuts();
-	_processInitialSwapOuts = _currentSwapOuts;
+	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -213,8 +212,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _finalFaults = new int[2];
   _phaseName = std::string(phase);
   getCurrentNumberOfFaults();
-  getCurrentNumberOfSwapOuts();
-  _initialSwapOuts = _currentSwapOuts;
+  _initialSwapOuts = getCurrentNumberOfSwapOuts();
   int count;
   for (count = 0; count < 2; count++){
        _initialFaults[count] = _currentFaults[count];
@@ -226,8 +224,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 
 SwapMetrics::~SwapMetrics() {
   getCurrentNumberOfFaults();
-  getCurrentNumberOfSwapOuts();
-  _finalSwapOuts = _currentSwapOuts;
+  _finalSwapOuts = getCurrentNumberOfSwapOuts();
   int count;
   for (count = 0; count < 2; count++){
        _finalFaults[count] = _currentFaults[count];
@@ -270,18 +267,17 @@ void SwapMetrics::printTotalFaults(){
        	  } while(iss);
 
         int finalFaults;
-        count = 0;
        	cmd = std::string("vmstat -s | grep \"pages swapped out\"");
        	fp = popen(cmd.c_str(), "r");
        	while(fgets(buf, BUF_MAX, fp) != NULL);
-       	istringstream iss(buf);
+       	istringstream iss2(buf);
        		do
        		 {
        			 string sub;
-       			 iss >> sub;
+       			 iss2 >> sub;
        			 std::stringstream(sub) >> finalFaults;
        			 break;
-       		  } while(iss);
+       		  } while(iss2);
 
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
@@ -320,11 +316,11 @@ void SwapMetrics::printTotalFaults(){
 }
 
 
-void SwapMetrics::getCurrentNumberOfSwapOuts(void){
+int SwapMetrics::getCurrentNumberOfSwapOuts(void){
+	int swapOuts = 0;
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
-	pid_t pid = getpid();
 	std::string cmd = std::string("vmstat -s | grep \"pages swapped out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
@@ -333,9 +329,10 @@ void SwapMetrics::getCurrentNumberOfSwapOuts(void){
 		 {
 			 string sub;
 			 iss >> sub;
-			 std::stringstream(sub) >> _currentSwapOuts;
+			 std::stringstream(sub) >> swapOuts;
 			 break;
 		  } while(iss);
+		return swapOuts;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){

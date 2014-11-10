@@ -41,7 +41,7 @@ public:
 	virtual ~SwapMetrics();
 	int getMajorFaultMetrics() { return _majorFaults; }
 	int getMinorFaultsMetrics() { return _minorFaults; }
-	void getCurrentNumberOfSwapOuts();
+	int getCurrentNumberOfSwapOuts();
 	void getCurrentNumberOfFaults();
 	static void printTotalFaults();
 	void setPhase(int phaseId);
