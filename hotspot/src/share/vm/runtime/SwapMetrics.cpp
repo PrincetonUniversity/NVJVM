@@ -196,6 +196,25 @@ void SwapMetrics::mutatorMonitorThreadFunction(void){
 	  }
 }
 
+int SwapMetrics::getCurrentNumberOfSwapOuts(void){
+	int swapOuts = 0;
+	int count = 0;
+	FILE *fp;
+	char buf[BUF_MAX];
+	std::string cmd = std::string("vmstat -s | grep \"pages swapped out\"");
+	fp = popen(cmd.c_str(), "r");
+	while(fgets(buf, BUF_MAX, fp) != NULL);
+	istringstream iss(buf);
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> swapOuts;
+			 break;
+		  } while(iss);
+		return swapOuts;
+}
+
 void SwapMetrics::setPhase(int phaseId){
      _phaseId = phaseId;
 }
@@ -313,26 +332,6 @@ void SwapMetrics::printTotalFaults(){
        cout << "Number of mark phases : " << _numberReportsMark << endl;
        cout << "Number of sweep phases : " << _numberReportsSweep << endl;
        cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
-}
-
-
-int SwapMetrics::getCurrentNumberOfSwapOuts(void){
-	int swapOuts = 0;
-	int count = 0;
-	FILE *fp;
-	char buf[BUF_MAX];
-	std::string cmd = std::string("vmstat -s | grep \"pages swapped out\"");
-	fp = popen(cmd.c_str(), "r");
-	while(fgets(buf, BUF_MAX, fp) != NULL);
-	istringstream iss(buf);
-		do
-		 {
-			 string sub;
-			 iss >> sub;
-			 std::stringstream(sub) >> swapOuts;
-			 break;
-		  } while(iss);
-		return swapOuts;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
