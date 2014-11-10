@@ -9284,11 +9284,6 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 
 // this function scans through a page and currently releases all the dead objects that are present
 void SweepPageClosure::do_page(int pIndex){
-	void *address = _partitionMetaData->getPageBase(pIndex);
-	unsigned char vec[1];
-	if(mincore(address, 1 * sysconf(_SC_PAGE_SIZE), vec) == -1){
-		exit(-1);
-	}
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
 		_partitionMetaData->pageScanned(pIndex);
