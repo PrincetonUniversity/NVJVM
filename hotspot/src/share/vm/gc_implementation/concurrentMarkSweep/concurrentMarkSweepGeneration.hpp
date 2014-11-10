@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CONCURRENTMARKSWEEPGENERATION_HPP
 #define SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CONCURRENTMARKSWEEPGENERATION_HPP
 
+#include "time.h"
 #include "gc_implementation/concurrentMarkSweep/freeBlockDictionary.hpp"
 #include "gc_implementation/shared/gSpaceCounters.hpp"
 #include "gc_implementation/shared/gcStats.hpp"
@@ -1075,7 +1076,7 @@ public:
 			);
 		}
 
-		std::vector<int> toSweepPageList(int currentPartition){
+		std::vector<int> toSweepPageList(int currentPartition, int *inCoreCount){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
 			std::vector<int>::iterator it;
@@ -1105,6 +1106,7 @@ public:
 				exit(-1);
 			}
 #endif
+			*inCoreCount = pageIndices.size();
 			for (it=pageIndicesOutOfCore.begin(); it<pageIndicesOutOfCore.end(); it++){
 				pageIndices.push_back(*it);
 			}
@@ -2906,9 +2908,9 @@ public:
 		_partitionMetaData = collector->getPartitionMetaData();
 		_bitMap = collector->markBitMap();
 	}
-	void do_page(int pageIndex);
+	void do_page(int pageIndex, int *, int *);
 	int getId() { return _id; }
-	size_t do_chunk(HeapWord* addr);
+	size_t do_chunk(HeapWord* addr, int *, int *);
 	size_t do_live_chunk(HeapWord* addr);
 	size_t do_free_chunk(FreeChunk* fc);
 	size_t do_garbage_chunk(HeapWord* gc);

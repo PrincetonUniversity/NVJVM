@@ -3726,7 +3726,7 @@ public:
 		_n_workers = nWorkers;
 	}
 	void work(int id);
-	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure);
+	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure, int *, int *);
 	CMSCollector* getCollector() { return _collector; }
 	void coordinator_yield();
 };
@@ -4253,16 +4253,29 @@ void CMSConcMarkingTask::masterThreadWork(){
 	}
 }
 
+double getRandomNumber(){
+	srand (time(NULL));
+	double r = ((double) rand() / (RAND_MAX));
+	return r;
+}
+
 // This method scans a partition
-void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosure* sweepPageClosure){
+void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosure* sweepPageClosure, int *g, int *d){
 	std::vector<int>::iterator it;
 	std::vector<int> pageIndices;
-	int pageIndex;
+	int pageIndex, inCoreCount, pagesScanned=0;
+	bool doSweep=false;
 	// this is the method that gets a set of in-memory pages currently
-	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex);
+	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex, &inCoreCount);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
-		sweepPageClosure->do_page(pageIndex);
+		if(pagesScanned>inCoreCount){
+			doSweep = getRandomNumber() < ((double)g/(double)d);
+			if(doSweep){
+				sweepPageClosure->do_page(pageIndex, g, d);
+			}
+		}
+		pagesScanned++;
 	}
 	// Releasing the partition
 	_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -4277,6 +4290,7 @@ void CMSConcSweepingTask::work(int i){
 	printf("Starting CMSConcSweepingTask with id %d.\n", i);
 #endif
 	int currentPartitionIndex = -1;
+	int totalGarbage = 0, totalData = 0;
     do {
       // each thread tries to get the next partition here
       currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
@@ -4284,7 +4298,7 @@ void CMSConcSweepingTask::work(int i){
     	  break;
       }
       // scanning the in-memory pages within the current partition
-      do_partition(currentPartitionIndex, &sweepPageClosure);
+      do_partition(currentPartitionIndex, &sweepPageClosure, &totalGarbage, &totalData);
       // the true flag is to denote that the partition scan is parallel (mt)
       _partitionMetaData->incrementPartitionsScanned(true);
     }  // checking if we have scanned all the partitions
@@ -9258,7 +9272,7 @@ size_t SweepPageClosure::do_free_chunk(FreeChunk* fc){
 	// in case the chunk is alive it figures out it size and returns it
 	// in case the chunk is dead it releases the chunk to the free chunk list of the corresponding partition
 	// in case the chunk is a free chunk it leaves the chunk as it is
-size_t SweepPageClosure::do_chunk(HeapWord* addr){
+size_t SweepPageClosure::do_chunk(HeapWord* addr, int *g, int *d){
 	FreeChunk* fc = (FreeChunk*)addr;
 	size_t res = 0, dRes;
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
@@ -9276,14 +9290,16 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr){
 		}
 #endif
 		res = do_garbage_chunk(addr);
+		*g += res;
 	} else  { // chunk is alive
 		res = do_live_chunk(addr);
 	}
+	*d += res;
 	return res;
 }
 
 // this function scans through a page and currently releases all the dead objects that are present
-void SweepPageClosure::do_page(int pIndex){
+void SweepPageClosure::do_page(int pIndex, int *g, int *d){
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
 		_partitionMetaData->pageScanned(pIndex);
@@ -9297,7 +9313,7 @@ void SweepPageClosure::do_page(int pIndex){
 #endif
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
-			res =  do_chunk(curr);
+			res =  do_chunk(curr, g, d);
 #if	OC_SWEEP_ASSERT
 			if(res == 0){
 				printf("The size of the current chunk is zero. We have a problem here.\n");
