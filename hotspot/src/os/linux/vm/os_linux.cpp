@@ -2749,32 +2749,68 @@ static address _highest_vm_reserved_address = NULL;
 // may not start from the requested address. Unlike Linux mmap(), this
 // function returns NULL to indicate failure.
 static char* anon_mmap(char* requested_addr, size_t bytes, bool fixed) {
-  char * addr;
-  int flags;
+	  char * addr;
+	  int flags;
 
-  flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS;
-  if (fixed) {
-    assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
-    flags |= MAP_FIXED;
-  }
+	  flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS;
+	  if (fixed) {
+	    assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
+	    flags |= MAP_FIXED;
+	  }
 
-  // Map uncommitted pages PROT_READ and PROT_WRITE, change access
-  // to PROT_EXEC if executable when we commit the page.
-  addr = (char*)::mmap(requested_addr, bytes, PROT_READ|PROT_WRITE,
-                       flags, -1, 0);
+	  // Map uncommitted pages PROT_READ and PROT_WRITE, change access
+	  // to PROT_EXEC if executable when we commit the page.
+	  addr = (char*)::mmap(requested_addr, bytes, PROT_READ|PROT_WRITE,
+	                       flags, -1, 0);
 
-  if (addr != MAP_FAILED) {
-    // anon_mmap() should only get called during VM initialization,
-    // don't need lock (actually we can skip locking even it can be called
-    // from multiple threads, because _highest_vm_reserved_address is just a
-    // hint about the upper limit of non-stack memory regions.)
-    if ((address)addr + bytes > _highest_vm_reserved_address) {
-      _highest_vm_reserved_address = (address)addr + bytes;
-    }
-  }
+	  if (addr != MAP_FAILED) {
+	    // anon_mmap() should only get called during VM initialization,
+	    // don't need lock (actually we can skip locking even it can be called
+	    // from multiple threads, because _highest_vm_reserved_address is just a
+	    // hint about the upper limit of non-stack memory regions.)
+	    if ((address)addr + bytes > _highest_vm_reserved_address) {
+	      _highest_vm_reserved_address = (address)addr + bytes;
+	    }
+	  }
 
-  return addr == MAP_FAILED ? NULL : addr;
-}
+	  return addr == MAP_FAILED ? NULL : addr;
+	}
+
+static char* memory_map(char* requested_addr, size_t bytes, bool fixed) {
+	  char * addr;
+	  int flags;
+
+	  flags = MAP_PRIVATE | MAP_NORESERVE;
+	  if (fixed) {
+	    assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
+	    flags |= MAP_FIXED;
+	  }
+
+
+	  int fd = open ("/home/tandon/swap.txt", O_RDWR | O_CREAT);
+	  if(fd == -1){
+		  printf("File Creation Failed.\n");
+		  perror("error:");
+		  exit(-1);
+	  }
+	  // Map uncommitted pages PROT_READ and PROT_WRITE, change access
+	  // to PROT_EXEC if executable when we commit the page.
+	  addr = (char*)::mmap(requested_addr, bytes, PROT_READ | PROT_WRITE,
+	                       flags, fd, 0);
+
+	  if (addr != MAP_FAILED) {
+	    // anon_mmap() should only get called during VM initialization,
+	    // don't need lock (actually we can skip locking even it can be called
+	    // from multiple threads, because _highest_vm_reserved_address is just a
+	    // hint about the upper limit of non-stack memory regions.)
+	    if ((address)addr + bytes > _highest_vm_reserved_address) {
+	      _highest_vm_reserved_address = (address)addr + bytes;
+	    }
+	  }
+
+	  return addr == MAP_FAILED ? NULL : addr;
+	}
+
 
 // Don't update _highest_vm_reserved_address, because there might be memory
 // regions above addr + size. If so, releasing a memory region only creates
@@ -3109,6 +3145,7 @@ char* os::attempt_reserve_memory_at(size_t bytes, char* requested_addr) {
   // Linux mmap allows caller to pass an address as hint; give it a try first,
   // if kernel honors the hint then we can return immediately.
   char * addr = anon_mmap(requested_addr, bytes, false);
+  char *addr =
   printf("addr = %p. Reserving anon_memory.\n", addr);
   if (addr == requested_addr) {
      return requested_addr;
