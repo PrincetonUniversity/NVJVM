@@ -4270,7 +4270,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
 		if(pagesScanned>inCoreCount){
-			doSweep = getRandomNumber() < ((double)g/(double)d);
+			doSweep = getRandomNumber() < ((double)(*g)/(double)(*d));
 			if(doSweep){
 				sweepPageClosure->do_page(pageIndex, g, d);
 			}
