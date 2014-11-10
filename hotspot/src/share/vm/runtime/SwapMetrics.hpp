@@ -30,6 +30,10 @@ private:
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
+    int _currentSwapOuts;
+    int _initialSwapOuts;
+    int _finalSwapOuts;
+    int _processFinalSwapOuts;
 
 public:
     static void universeInit();
@@ -48,9 +52,16 @@ public:
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
+    static int getCurrentNumberOfSwapOuts();
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
+
+    static int _processInitialSwapOuts;
+
+    static int _markPhaseSwapOuts;
+    static int _sweepPhaseSwapOuts;
+    static int _compactionPhaseSwapOuts;
 
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
