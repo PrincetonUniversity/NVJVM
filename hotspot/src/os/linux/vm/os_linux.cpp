@@ -2795,6 +2795,11 @@ static char* memory_map(char* requested_addr, size_t bytes, bool fixed) {
 	  } else {
 		  printf("Memory Mapped to file with descriptor %d.\n", fd);
 	  }
+	  if(ftruncate(fd, bytes) == -1){
+		  printf("Error in ftruncate.\n");
+		  perror("error:");
+		  exit(-1);
+	  }
 	  // Map uncommitted pages PROT_READ and PROT_WRITE, change access
 	  // to PROT_EXEC if executable when we commit the page.
 	  addr = (char*)::mmap(requested_addr, bytes, PROT_READ | PROT_WRITE,
