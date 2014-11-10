@@ -4269,7 +4269,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex, &inCoreCount);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
-		if(pagesScanned>inCoreCount){
+		if(EnableProbSweep && pagesScanned>inCoreCount){
 			doSweep = getRandomNumber() < ((double)(*g)/(double)(*d));
 			if(doSweep){
 				sweepPageClosure->do_page(pageIndex, g, d);
