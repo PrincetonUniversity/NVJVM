@@ -2792,6 +2792,8 @@ static char* memory_map(char* requested_addr, size_t bytes, bool fixed) {
 		  printf("File Creation Failed.\n");
 		  perror("error:");
 		  exit(-1);
+	  } else {
+		  printf("Memory Mapped to file with descriptor %d.\n", fd);
 	  }
 	  // Map uncommitted pages PROT_READ and PROT_WRITE, change access
 	  // to PROT_EXEC if executable when we commit the page.
