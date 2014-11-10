@@ -4254,9 +4254,8 @@ void CMSConcMarkingTask::masterThreadWork(){
 }
 
 double getRandomNumber(){
-	srand (time(NULL));
-	double r = ((double) rand() / (RAND_MAX));
-	return r;
+	unsigned int x;
+	return (double)x/(double)INT_MAX;
 }
 
 // This method scans a partition
@@ -4270,7 +4269,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
 		if(EnableProbSweep && pagesScanned>inCoreCount){
-			doSweep = getRandomNumber() < ((double)(*g)/(double)(*d));
+			doSweep = (double)(*d % 9)/(double)9 < ((double)(*g)/(double)(*d));
 			if(doSweep){
 				sweepPageClosure->do_page(pageIndex, g, d);
 			}
