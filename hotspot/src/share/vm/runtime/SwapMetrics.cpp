@@ -266,8 +266,18 @@ void SwapMetrics::printTotalFaults(){
        		 count++;
        	  } while(iss);
 
-   	getCurrentNumberOfSwapOuts();
-   	_processFinalSwapOuts = _currentSwapOuts;
+        count = 0;
+       	cmd = std::string("vmstat -s | grep \"pages swapped out\"");
+       	fp = popen(cmd.c_str(), "r");
+       	while(fgets(buf, BUF_MAX, fp) != NULL);
+       	istringstream iss(buf);
+       		do
+       		 {
+       			 string sub;
+       			 iss >> sub;
+       			 std::stringstream(sub) >> _processFinalSwapOuts;
+       			 break;
+       		  } while(iss);
 
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (_processFinalSwapOuts-_processInitialSwapOuts) << endl;
