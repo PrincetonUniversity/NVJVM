@@ -3865,6 +3865,10 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int i);
   bool shouldStop();
+  bool isChunkAliveOrFree(void *curr);
+  void check_if_all_alive_page(int pIndex);
+  int do_chunk_size(void *);
+  int do_live_chunk_size(HeapWord *);
 };
 
 // There are separate collect_in_background and collect_in_foreground because of
@@ -4519,6 +4523,43 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 }
 }
 
+int CMSConcMarkingTask::do_chunk_size(void *curr){
+	FreeChunk* fc = (FreeChunk*)curr;
+	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
+	// currently we do not perform coalescing of free chunks
+		return fc->size();
+	}  else if (_bitMap->isMarked(addr)) {
+		return do_live_chunk_size((HeapWord *)addr);
+	}
+	return -1;
+}
+
+void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
+	size_t res;
+	bool allScanned = false;
+	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
+		// the case when a page cannot be scanned is when an object spans
+		// across the whole page or when there is no object allocated
+		// on this page, in that case the page start has the value NO_OBJECT_MASK
+		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
+#if OC_SWEEP_LOG
+//		printf("Page Object Start = %p.\n", pageObjectStart);
+#endif
+		HeapWord* curr = (HeapWord*)pageObjectStart;
+		do{
+			res = do_chunk_size(curr);
+			if(res<0) // size<0 means that the object is garbage as of now
+				return;
+			curr += res;
+			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
+// checking if the current heapword is beyond the end of the page, oops we need to go to the next page
+				break;
+			}
+		}while(true);
+	}
+	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
+}
+
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		std::vector<int>::iterator it;
 		std::vector<int> pageIndices;
@@ -4549,6 +4590,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
+				// Checking if all the objects are marked ...
+				check_if_all_alive_page(pageIndex);
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -7149,7 +7192,6 @@ void CMSCollector::sweepWorkPartitioned(){
   _partitionMetaData->resetPagesScanned();
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
-  _partitionMetaData->resetPageScanned();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
 #if OC_SWEEP_LOG
@@ -7196,6 +7238,7 @@ void CMSCollector::sweepWorkPartitioned(){
   printf("Completed the sweep phase.\n");
 #endif
   _partitionMetaData->resetGOCPage();
+  _partitionMetaData->resetPageScanned();
 }
 
 
@@ -9161,6 +9204,79 @@ void SweepClosure::initialize_free_range(HeapWord* freeFinger,
       assert(_sp->verifyChunkInFreeLists(fc), "Chunk is not in free lists");
     }
   }
+}
+
+int CMSConcMarkingTask::do_live_chunk_size(HeapWord* fc){
+		  HeapWord* addr = (HeapWord*) fc;
+		  // This object is live: we'd normally expect this to be
+		  // an oop, and like to assert the following:
+		  // assert(oop(addr)->is_oop(), "live block should be an oop");
+		  // However, as we commented above, this may be an object whose
+		  // header hasn't yet been initialized.
+		  size_t size;
+	#if OC_SWEEP_ASSERT
+		  if(_bitMap->isMarked(addr) == false){
+			  printf("Live object is not marked. Error in do_live_chunk().\n");
+			  exit(-1);
+		  }
+	#endif
+		  if (_bitMap->isMarked(addr + 1)) {
+		    // Determine the size from the bit map, rather than trying to
+		    // compute it from the object header.
+		    HeapWord* nextOneAddr = _bitMap->getNextMarkedWordAddress(addr + 2);
+		    size = pointer_delta(nextOneAddr + 1, addr);
+	#if OC_SWEEP_ASSERT
+		    if(size != CompactibleFreeListSpace::adjustObjectSize(size)){
+		    	printf("alignment problem size = %d, size after adjustment %d.\n", size, CompactibleFreeListSpace::adjustObjectSize(size));
+		    	exit(-1);
+		    }
+	#endif
+	#ifdef DEBUG
+		      if (oop(addr)->klass_or_null() != NULL &&
+		          (   !_collector->should_unload_classes()
+		           || (oop(addr)->is_parsable()) &&
+		               oop(addr)->is_conc_safe())) {
+		        // Ignore mark word because we are running concurrent with mutators
+		        assert(oop(addr)->is_oop(true), "live block should be an oop");
+		        // is_conc_safe is checked before performing this assertion
+		        // because an object that is not is_conc_safe may yet have
+		        // the return from size() correct.
+		        assert(size ==
+		               CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size()),
+		               "P-mark and computed size do not agree");
+		      }
+	#endif
+		  } else {
+		    // This should be an initialized object that's alive.
+	#if OC_SWEEP_ASSERT
+		    if(oop(addr)->klass_or_null() != NULL &&
+		           (!_collector->should_unload_classes()
+		            || oop(addr)->is_parsable()) == false){
+		           	   printf("Should be an initialized object.\n");
+		           	   exit(-1);
+		    }
+		    if(oop(addr)->is_oop(true) == false){
+		    	printf("live object should be an oop.\n");
+		    	exit(-1);
+		    }
+	#endif
+		    // Note that there are objects used during class redefinition,
+		    // e.g. merge_cp in VM_RedefineClasses::merge_cp_and_rewrite(),
+		    // which are discarded with their is_conc_safe state still
+		    // false.  These object may be floating garbage so may be
+		    // seen here.  If they are floating garbage their size
+		    // should be attainable from their klass.  Do not that
+		    // is_conc_safe() is true for oop(addr).
+		    // Ignore mark word because we are running concurrent with mutators
+		    assert(oop(addr)->is_oop(true), "live block should be an oop");
+		    // Verify that the bit map has no bits marked between
+		    // addr and purported end of this block.
+		    size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+		    assert(size >= 3, "Necessary for Printezis marks to work");
+		    assert(!_bitMap->isMarked(addr+1), "Tautology for this control point");
+		    DEBUG_ONLY(_bitMap->verifyNoOneBitsInRange(addr+2, addr+size);)
+		  }
+		  return size;
 }
 
 size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
