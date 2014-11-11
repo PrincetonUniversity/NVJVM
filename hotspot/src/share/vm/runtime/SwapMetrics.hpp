@@ -48,6 +48,9 @@ private:
     string _phaseName;
     string _logFilePath;
     int* _currentFaults;
+    int _initialSwapOuts;
+    int _finalSwapOuts;
+    int _processFinalSwapOuts;
 
 public:
     static void universeInit();
@@ -66,10 +69,15 @@ public:
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
+    static int getCurrentNumberOfSwapOuts();
 
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
 	static int _compactionPhaseFaults;
+	static int _processInitialSwapOuts;
+	static int _compactionPhaseSwapOuts;
+	static int _markPhaseSwapOuts;
+	static int _sweepPhaseSwapOuts;
 
 	int _phaseId;
 

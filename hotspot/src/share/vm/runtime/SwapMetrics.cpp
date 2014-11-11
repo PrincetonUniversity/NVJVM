@@ -10,6 +10,12 @@
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
+int SwapMetrics::_processInitialSwapOuts=0;
+
+int SwapMetrics:: _compactionPhaseSwapOuts = 0;
+int SwapMetrics:: _markPhaseSwapOuts = 0;
+int SwapMetrics:: _sweepPhaseSwapOuts = 0;
+
 
 double SwapMetrics::_sumDiskUtilizationMark = 0;
 double SwapMetrics::_sumDiskUtilizationSweep = 0;
@@ -65,6 +71,25 @@ std::string splitString(std::string buf, int index){
     cout << "Something is wrong -->" << buf << endl;
     exit(-1);
     return ret;
+}
+
+int SwapMetrics::getCurrentNumberOfSwapOuts(void){
+	int swapOuts = 0;
+	int count = 0;
+	FILE *fp;
+	char buf[BUF_MAX];
+	std::string cmd = std::string("vmstat -s | grep \"pages swapped out\"");
+	fp = popen(cmd.c_str(), "r");
+	while(fgets(buf, BUF_MAX, fp) != NULL);
+	istringstream iss(buf);
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> swapOuts;
+			 break;
+		  } while(iss);
+		return swapOuts;
 }
 
 void* monitorIOMutators(void* arg){
@@ -182,6 +207,7 @@ void SwapMetrics::setPhase(int phaseId){
 void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
+	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -197,9 +223,11 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _logFilePath = "/home/tandon/logs/cms.log";
   _phaseId = phaseId;
   threadFunction(phaseId);
+  _initialSwapOuts = getCurrentNumberOfSwapOuts();
 }
 
 SwapMetrics::~SwapMetrics() {
+  _finalSwapOuts = getCurrentNumberOfSwapOuts();
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
@@ -210,10 +238,13 @@ SwapMetrics::~SwapMetrics() {
   _majorFaults = _finalFaults[1] - _initialFaults[1];
   if(_phaseId == markPhase){
        _markPhaseFaults += _majorFaults;
+       _markPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
   } else if (_phaseId == sweepPhase) {
        _sweepPhaseFaults += _majorFaults;
+       _sweepPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
   } else if(_phaseId == compactPhase) {
 	  _compactionPhaseFaults += _majorFaults;
+	  _compactionPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
   }
 
   // Writing the minor and the major faults to the output
@@ -239,11 +270,29 @@ void SwapMetrics::printTotalFaults(){
        		 std::stringstream(sub) >> totalFaults[count];
        		 count++;
        	  } while(iss);
+       int finalFaults;
+              	cmd = std::string("vmstat -s | grep \"pages swapped out\"");
+              	fp = popen(cmd.c_str(), "r");
+              	while(fgets(buf, BUF_MAX, fp) != NULL);
+              	istringstream iss2(buf);
+              		do
+              		 {
+              			 string sub;
+              			 iss2 >> sub;
+              			 std::stringstream(sub) >> finalFaults;
+              			 break;
+              		  } while(iss2);
+
        cout << "Total number of major faults : " << totalFaults[1] << endl;
+       cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
 
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "CompactionPhaseFaults : " << _compactionPhaseFaults << endl;
+
+       cout << "MarkPhaseSwapOuts : " << _markPhaseSwapOuts << endl;
+       cout << "SweepPhaseSwapOuts : " << _sweepPhaseSwapOuts << endl;
+       cout << "CompactionPhaseSwapOuts : " << _compactionPhaseSwapOuts << endl;
 
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
