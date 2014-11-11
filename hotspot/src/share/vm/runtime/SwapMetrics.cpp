@@ -104,6 +104,7 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
+	cout << "Executing current number of page outs" << endl;
 	std::string cmd = std::string("vmstat -s | grep \"pages paged out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
@@ -235,7 +236,7 @@ void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
-	_processInitialPageOuts = getCurrentNumberOfPageOuts();
+	//_processInitialPageOuts = getCurrentNumberOfPageOuts();
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -248,16 +249,16 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   for (count = 0; count < 2; count++){
        _initialFaults[count] = _currentFaults[count];
   }
-  _logFilePath = "/home/tandon/logs/cms.log";
+//  _logFilePath = "/home/tandon/logs/cms.log";
   _phaseId = phaseId;
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
-  _initialPageOuts = getCurrentNumberOfPageOuts();
+  //_initialPageOuts = getCurrentNumberOfPageOuts();
 }
 
 SwapMetrics::~SwapMetrics() {
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
-  _finalPageOuts = getCurrentNumberOfPageOuts();
+  //_finalPageOuts = getCurrentNumberOfPageOuts();
   getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
