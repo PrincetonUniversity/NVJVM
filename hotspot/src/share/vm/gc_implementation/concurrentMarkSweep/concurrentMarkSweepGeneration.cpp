@@ -4528,7 +4528,7 @@ int CMSConcMarkingTask::do_chunk_size(void *curr){
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 	// currently we do not perform coalescing of free chunks
 		return fc->size();
-	}  else if (_collector->_markBitMap->isMarked(curr)) {
+	}  else if (_collector->_markBitMap.isMarked(curr)) {
 		return do_live_chunk_size((HeapWord *)addr);
 	}
 	return -1;
@@ -9215,15 +9215,15 @@ int CMSConcMarkingTask::do_live_chunk_size(HeapWord* fc){
 		  // header hasn't yet been initialized.
 		  size_t size;
 	#if OC_SWEEP_ASSERT
-		  if(_collector->_markBitMap->isMarked(addr) == false){
+		  if(_collector->_markBitMap.isMarked(addr) == false){
 			  printf("Live object is not marked. Error in do_live_chunk().\n");
 			  exit(-1);
 		  }
 	#endif
-		  if (_collector->_markBitMap->isMarked(addr + 1)) {
+		  if (_collector->_markBitMap.isMarked(addr + 1)) {
 		    // Determine the size from the bit map, rather than trying to
 		    // compute it from the object header.
-		    HeapWord* nextOneAddr = _collector->_markBitMap->getNextMarkedWordAddress(addr + 2);
+		    HeapWord* nextOneAddr = _collector->_markBitMap.getNextMarkedWordAddress(addr + 2);
 		    size = pointer_delta(nextOneAddr + 1, addr);
 	#if OC_SWEEP_ASSERT
 		    if(size != CompactibleFreeListSpace::adjustObjectSize(size)){
