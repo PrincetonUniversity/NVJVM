@@ -87,6 +87,7 @@ int SwapMetrics::getCurrentNumberOfSwapOuts(void){
 	std::string cmd = std::string("vmstat -s | grep \"pages swapped out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
+	cout << "Swap Outs::" << buf << endl;
 	istringstream iss(buf);
 		do
 		 {
@@ -106,6 +107,7 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 	std::string cmd = std::string("vmstat -s | grep \"pages paged out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
+	cout << "Page Outs::" << buf << endl;
 	istringstream iss(buf);
 		do
 		 {
