@@ -250,7 +250,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseId = phaseId;
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
-  _intialPageOuts = getCurrentNumberOfPageOuts();
+  _initialPageOuts = getCurrentNumberOfPageOuts();
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -319,14 +319,14 @@ void SwapMetrics::printTotalFaults(){
               		              	cmd = std::string("vmstat -s | grep \"pages paged out\"");
               		              	fp = popen(cmd.c_str(), "r");
               		              	while(fgets(buf, BUF_MAX, fp) != NULL);
-              		              	istringstream iss2(buf);
+              		              	istringstream iss3(buf);
               		              		do
               		              		 {
               		              			 string sub;
-              		              			 iss2 >> sub;
+              		              			 iss3 >> sub;
               		              			 std::stringstream(sub) >> finalPageOuts;
               		              			 break;
-              		              		  } while(iss2);
+              		              		  } while(iss3);
 
 
 
