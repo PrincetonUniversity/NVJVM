@@ -4528,8 +4528,8 @@ int CMSConcMarkingTask::do_chunk_size(void *curr){
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 	// currently we do not perform coalescing of free chunks
 		return fc->size();
-	}  else if (_collector->_markBitMap.isMarked(curr)) {
-		return do_live_chunk_size((HeapWord *)addr);
+	}  else if (_collector->_markBitMap.isMarked((HeapWord *)curr)) {
+		return do_live_chunk_size((HeapWord *)curr);
 	}
 	return -1;
 }
