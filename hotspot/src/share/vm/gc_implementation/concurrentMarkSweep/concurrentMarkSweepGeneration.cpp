@@ -2474,6 +2474,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         }
         {
           bool res = markFromRoots(false);
+          cout << "mark from roots done" << endl;
           assert(res && _collectorState == FinalMarking, "Collector state should "
             "have changed");
           break;
@@ -2484,8 +2485,10 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
           gclog_or_tty->print("Verify before re-mark: ");
           Universe::verify(true);
         }
+        cout << "before checkpointRootsFinal" << endl;
         checkpointRootsFinal(false, clear_all_soft_refs,
                              init_mark_was_synchronous);
+        cout << "after checkpointRootsFinal" << endl;
         assert(_collectorState == Sweeping, "Collector state should not "
           "have changed within checkpointRootsFinal()");
         break;

@@ -236,7 +236,7 @@ void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
-	//_processInitialPageOuts = getCurrentNumberOfPageOuts();
+	_processInitialPageOuts = getCurrentNumberOfPageOuts();
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -245,7 +245,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _initialFaults = new int[2];
   _finalFaults = new int[2];
   _phaseName = std::string(phase);
-//  getCurrentNumberOfFaults();
+  getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
        _initialFaults[count] = _currentFaults[count];
@@ -254,13 +254,13 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseId = phaseId;
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
-  //_initialPageOuts = getCurrentNumberOfPageOuts();
+  _initialPageOuts = getCurrentNumberOfPageOuts();
 }
 
 SwapMetrics::~SwapMetrics() {
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
-  //_finalPageOuts = getCurrentNumberOfPageOuts();
-//  getCurrentNumberOfFaults();
+  _finalPageOuts = getCurrentNumberOfPageOuts();
+  getCurrentNumberOfFaults();
   _currentFaults = new int[2];
   int count;
   for (count = 0; count < 2; count++){
