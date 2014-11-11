@@ -271,7 +271,7 @@ void SwapMetrics::printTotalFaults(){
        		 count++;
        	  } while(iss);
        int finalFaults;
-              	cmd = std::string("vmstat -s | grep \"pages swapped out\"");
+              	cmd = std::string("vmstat -s | grep \"pages paged out\"");
               	fp = popen(cmd.c_str(), "r");
               	while(fgets(buf, BUF_MAX, fp) != NULL);
               	istringstream iss2(buf);
