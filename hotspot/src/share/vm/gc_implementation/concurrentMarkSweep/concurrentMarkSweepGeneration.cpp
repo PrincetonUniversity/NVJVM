@@ -4595,7 +4595,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
 				// Checking if all the objects are marked ...
-				check_if_all_alive_page(pageIndex);
+//				check_if_all_alive_page(pageIndex);
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
