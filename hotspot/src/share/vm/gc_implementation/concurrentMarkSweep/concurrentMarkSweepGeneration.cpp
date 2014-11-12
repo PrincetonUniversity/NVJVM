@@ -4527,7 +4527,7 @@ int CMSConcMarkingTask::do_chunk_size(void *curr){
 	FreeChunk* fc = (FreeChunk*)curr;
 	if(fc == NULL){
 		printf("free chunk is null \n");
-		exit(-1);
+		return -1;
 	}
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 	// currently we do not perform coalescing of free chunks
@@ -4551,7 +4551,9 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
-			res = do_chunk_size(curr);
+			//res = do_chunk_size(curr);
+			return;
+			//break;
 			if(res<0) // size<0 means that the object is garbage as of now
 				return;
 			curr += res;
