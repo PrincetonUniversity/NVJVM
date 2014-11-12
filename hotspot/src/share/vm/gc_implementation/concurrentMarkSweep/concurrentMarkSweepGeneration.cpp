@@ -4543,7 +4543,7 @@ int CMSConcMarkingTask::do_chunk_size(void *curr){
 }
 
 void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
-	size_t res;
+	int res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated
@@ -4552,9 +4552,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res = do_chunk_size((void *)curr);
-			//return;
-			break;
-			if(res<0) // size<0 means that the object is garbage as of now
+			if(res<0) // res<0 means that the object is garbage as of now
 				return;
 			curr += res;
 			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
