@@ -4561,6 +4561,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 			}
 		}while(true);
 	}
+	printf("All objects on the page are alive.\n");
 	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
 }
 
