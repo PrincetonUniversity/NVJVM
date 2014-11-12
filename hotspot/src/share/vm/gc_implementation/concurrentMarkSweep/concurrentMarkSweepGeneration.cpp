@@ -3865,7 +3865,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int i);
   bool shouldStop();
-  bool isChunkAliveOrFree(void *curr);
   void check_if_all_alive_page(int pIndex);
   int do_chunk_size(void *);
   int do_live_chunk_size(HeapWord *);
@@ -4595,7 +4594,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
 				// Checking if all the objects are marked ...
-//				check_if_all_alive_page(pageIndex);
+			if(EnableMarkCheck)
+				check_if_all_alive_page(pageIndex);
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
