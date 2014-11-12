@@ -4525,10 +4525,18 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 
 int CMSConcMarkingTask::do_chunk_size(void *curr){
 	FreeChunk* fc = (FreeChunk*)curr;
+	if(fc == NULL){
+		printf("free chunk is null \n");
+		exit(-1);
+	}
 	if(fc->isFree()){// if the current chunk is free, nothing is done, coalescing not done currently
 	// currently we do not perform coalescing of free chunks
 		return fc->size();
 	}  else if (_collector->_markBitMap.isMarked((HeapWord *)curr)) {
+	    if(oop(curr)->is_oop(true) == false){
+	    	printf("live object should be an oop.\n");
+	    	return -1;
+	    }
 		return do_live_chunk_size((HeapWord *)curr);
 	}
 	return -1;
@@ -4536,15 +4544,11 @@ int CMSConcMarkingTask::do_chunk_size(void *curr){
 
 void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 	size_t res;
-	bool allScanned = false;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
-#if OC_SWEEP_LOG
-//		printf("Page Object Start = %p.\n", pageObjectStart);
-#endif
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res = do_chunk_size(curr);
