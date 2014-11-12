@@ -4551,7 +4551,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		void* pageObjectStart = _partitionMetaData->objectStartAddress(pIndex);
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
-			//res = do_chunk_size(curr);
+			res = do_chunk_size(curr);
 			//return;
 			break;
 			if(res<0) // size<0 means that the object is garbage as of now
