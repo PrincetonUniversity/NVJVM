@@ -522,6 +522,8 @@ private:
 };
 
 
+
+
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
   friend class ConcurrentMarkSweepThread;
