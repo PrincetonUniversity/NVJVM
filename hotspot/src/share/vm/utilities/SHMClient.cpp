@@ -252,7 +252,7 @@ void SHM_Client::triggerGCRequestInMemory(void){
   char newLine ='\n', delimiter = ':';
   int startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0), endPos, length;
   int pos = findNthPositionOfCharAfter(shmStr, 1, delimiter, startPos);
-  shmStr.replace(pos+1, 1, string('Q'));
+  shmStr.replace(pos+1, 1, "Q");
   string timeStr = long_to_string(getCurrentTime());
   pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
   endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
