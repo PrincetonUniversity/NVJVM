@@ -2188,8 +2188,8 @@ class ReleaseForegroundGC: public StackObj {
 void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 
  if(UseSharedMemoryClient){
-	  shmClient()->triggerGCRequest();
-	  while(shmClient()->isGCAllowed() == false){
+	  shmClient->triggerGCRequest();
+	  while(shmClient->isGCAllowed() == false){
 		  usleep(10);
 	  }
   }
@@ -2434,7 +2434,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
     _cmsGen->print_heap_change(prev_used);
   }
   if(UseSharedMemoryClient)
-	  shmClient()->triggerGCDone();
+	  shmClient->triggerGCDone();
 }
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {

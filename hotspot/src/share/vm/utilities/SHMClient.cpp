@@ -190,7 +190,7 @@ void SHM_Client::registerClient(char *shm){
 				string str = processId + (newLine) + msgStr;
 				copyToSharedMemory(str);
 			}
-		cout << "After adding the new process" << endl << shm << endl;
+	cout << "Client Registration Done. After adding the new process" << endl << shm << endl;
 }
 
 void SHM_Client::runClient(void)
@@ -234,8 +234,6 @@ void SHM_Client::runClient(void)
 	registerClient(shm);
 	// Releasing the lock
 	sem_post(mutex);
-    cout << "Final State" << endl << shm << endl;
-    exit(0);
 }
 
 void SHM_Client::copyToSharedMemory(string str){
