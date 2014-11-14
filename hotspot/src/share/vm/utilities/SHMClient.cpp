@@ -100,30 +100,18 @@ void SHM_Client::changeStateToIdle(void){
 	endPos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	length = endPos-pos-1;
 	shmStr.replace(pos+1, length, "I");
-#if LOG_CLIENT
-	cout << "State" << endl << shmStr << endl;
-#endif
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	length = endPos-pos-1;
 	shmStr.replace(pos+1, length, "N");
-#if LOG_CLIENT
-	cout << "State" << endl << shmStr << endl;
-#endif
 	pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 	length = endPos-pos-1;
 	shmStr.replace(pos+1, length, long_to_string(getCurrentTime()));
-#if LOG_CLIENT
-	cout << "State" << endl << shmStr << endl;
-#endif
 	pos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos);
 	length = endPos-pos-1;
 	shmStr.replace(pos+1, length, long_to_string(getCurrentTime()));
-#if LOG_CLIENT
-	cout << "State" << endl << shmStr << endl;
-#endif
 	copyToSharedMemory(shmStr);
 }
 

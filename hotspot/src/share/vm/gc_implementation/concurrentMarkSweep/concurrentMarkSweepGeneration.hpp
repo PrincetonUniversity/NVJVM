@@ -45,6 +45,7 @@
 #include <sys/sdt.h>
 #include "utilities/SHMClient.hpp"
 
+#define CMS_SLEEP_TIME 1000
 #define TRACING_COLLECTION 1
 
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)

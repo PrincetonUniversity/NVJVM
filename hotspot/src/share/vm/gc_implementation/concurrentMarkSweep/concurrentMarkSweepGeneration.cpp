@@ -2193,7 +2193,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 #if LOG_CLIENT
 		  cout << "Waiting for the server to allow me to start the garbage collection." << endl;
 #endif
-		  usleep(10);
+		  usleep(CMS_SLEEP_TIME);
 	  }
   }
   assert(Thread::current()->is_ConcurrentGC_thread(),
@@ -2446,7 +2446,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
  #if LOG_CLIENT
  		  cout << "Waiting for the server to allow me to start the garbage collection." << endl;
  #endif
- 		  usleep(10);
+ 		  usleep(CMS_SLEEP_TIME);
  	  }
    }
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
