@@ -57,9 +57,8 @@ public:
 	void runClient(void);
 	void triggerGCRequestInMemory(void);
 	void copyToSharedMemory(string str);
-	/* These are the interfaces through which
-	 * the concurrent mark sweep algorithm
-	   interacts with the SHM Client*/
+
+/* These are the interfaces through which the concurrent mark sweep algorithm interacts with the SHM Client*/
 	void triggerGCRequest(void); // Marks the state as requesting for the GC
 	bool isGCAllowed(void);      // Checks if the GC is allowed, if yes then the state is changed to GC_Busy
 	void triggerGCDone(void);    // Marks in-memory that GC has been completed by the client
