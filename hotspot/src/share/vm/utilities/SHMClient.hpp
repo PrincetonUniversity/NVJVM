@@ -55,8 +55,10 @@ public:
 	bool checkIfCanGC(char *shm);
 	void registerClient(char *shm);
 	void runClient(void);
+
 	void changeStateToQuery(void);
 	void copyToSharedMemory(string str);
+
 	void printSMState(string);
 
 /* These are the interfaces through which the concurrent mark sweep algorithm interacts with the SHM Client*/

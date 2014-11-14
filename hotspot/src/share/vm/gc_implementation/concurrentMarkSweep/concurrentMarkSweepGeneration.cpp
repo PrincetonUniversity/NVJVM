@@ -2440,6 +2440,15 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
   printf("Collect in foreground called.\n");
+  if(UseSharedMemoryClient){
+ 	  shmClient->triggerGCRequest();
+ 	  while(shmClient->isGCAllowed() == false){
+ #if LOG_CLIENT
+ 		  cout << "Waiting for the server to allow me to start the garbage collection." << endl;
+ #endif
+ 		  usleep(10);
+ 	  }
+   }
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
@@ -2556,6 +2565,8 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
       " exiting collection CMS state %d",
       Thread::current(), _collectorState);
   }
+  if(UseSharedMemoryClient)
+	  shmClient->triggerGCDone();
 }
 
 bool CMSCollector::waitForForegroundGC() {
