@@ -57,6 +57,7 @@ public:
 	void runClient(void);
 	void triggerGCRequestInMemory(void);
 	void copyToSharedMemory(string str);
+	void printSMState(string);
 
 /* These are the interfaces through which the concurrent mark sweep algorithm interacts with the SHM Client*/
 	void triggerGCRequest(void); // Marks the state as requesting for the GC

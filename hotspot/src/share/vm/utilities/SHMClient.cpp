@@ -160,7 +160,6 @@ void SHM_Client::registerClient(char *shm){
 	cout << "In register client" << endl;
 #endif
 	string processId = int_to_string(getpid());
-	// Check if there is already an existing process
 	int pos, size;
 	std::string line;
 	std::string shmStr = string(shm);
@@ -242,21 +241,26 @@ void SHM_Client::copyToSharedMemory(string str){
 }
 
 void SHM_Client::triggerGCRequestInMemory(void){
-  cout << "In trigger GC In Memory" << endl;
+#if LOG_CLIENT
+	cout << "In trigger GC In Memory" << endl;
+#endif
   string processId = int_to_string(getpid());
-  // Check if there is already an existing process
   std::string shmStr = string(shm);
   int index = getIndex(shmStr, processId);
   char newLine ='\n', delimiter = ':';
   int startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0), endPos, length;
   int pos = findNthPositionOfCharAfter(shmStr, 1, delimiter, startPos);
-  shmStr.replace(pos+1, 1, "Q");
+  shmStr.replace(pos+1, 1, "Q"); // Replacing I to Q here
   string timeStr = long_to_string(getCurrentTime());
   pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
   endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
   length = endPos - pos - 1;
   shmStr.replace(pos+1, length, timeStr);
   copyToSharedMemory(shmStr);
+}
+
+void SHM_Client::printSMState(string msg){
+	cout << msg << endl << " Shared Memory State " << endl << shm << endl;
 }
 
 void SHM_Client::triggerGCRequest(void){
@@ -269,6 +273,11 @@ void SHM_Client::triggerGCRequest(void){
     triggerGCRequestInMemory();
     // Releasing the lock
     sem_post(mutex);
+
+#if LOG_CLIENT
+	printSMState("After triggering GC Request");
+#endif
+
 }
 
 void SHM_Client::triggerGCDone(void){
@@ -281,10 +290,15 @@ void SHM_Client::triggerGCDone(void){
     changeStateToIdle();
     // Releasing the lock
     sem_post(mutex);
+#if LOG_CLIENT
+	printSMState("After trigger GC Done");
+#endif
 }
 
 bool SHM_Client::isGCAllowed(void){
+#if LOG_CLIENT
 	cout << "Checking if GC is allowed" << endl;
+#endif
 	bool isGC= false;
     // Getting the lock
     sem_wait(mutex);
