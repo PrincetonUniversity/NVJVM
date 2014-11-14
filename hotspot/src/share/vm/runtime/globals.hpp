@@ -437,6 +437,8 @@ class CommandLineFlags {
    */                                                                       \
   product(bool, UsePPCLWSYNC, true,                                         \
           "Use lwsync instruction if true, else use slower sync")           \
+  product(bool, UseSharedMemoryClient, false, 								\
+		  "flag to trigger shared memory client")							\
                                                                             \
   /* Temporary: See 6948537 */                                             \
   experimental(bool, UseMemSetInBOT, true,                                  \
