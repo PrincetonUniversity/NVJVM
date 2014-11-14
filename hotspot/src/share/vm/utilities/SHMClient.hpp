@@ -30,10 +30,18 @@
 #define SHMSZ _PAGE_SIZE
 #define CLIENT_KEY 5678
 #define CLIENT_SLEEP_TIME 1000
+#define LOG_CLIENT 1
 
 using namespace std;
 
 class SHM_Client {
+private:
+	sem_t* mutex;
+	char *shm;
+	int sizeSharedMemory;
+    int shmid;
+    key_t key;
+
 public:
 	SHM_Client();
 	virtual ~SHM_Client();
@@ -43,10 +51,18 @@ public:
 	string int_to_string(int value);
 	vector<string> splitStrings(string inputString);
 	int getIndex(string str, string searchString);
-	void changeStateToIdle(char *shm);
+	void changeStateToIdle(void);
 	bool checkIfCanGC(char *shm);
 	void registerClient(char *shm);
 	void runClient(void);
+	void triggerGCRequestInMemory(void);
+	void copyToSharedMemory(string str);
+	/* These are the interfaces through which
+	 * the concurrent mark sweep algorithm
+	   interacts with the SHM Client*/
+	void triggerGCRequest(void); // Marks the state as requesting for the GC
+	bool isGCAllowed(void);      // Checks if the GC is allowed, if yes then the state is changed to GC_Busy
+	void triggerGCDone(void);    // Marks in-memory that GC has been completed by the client
 };
 
 #endif /* SHMCLIENT_HPP_ */

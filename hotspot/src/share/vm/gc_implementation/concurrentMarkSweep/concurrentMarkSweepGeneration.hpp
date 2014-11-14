@@ -43,6 +43,7 @@
 #include "unistd.h"
 #include "utilities/dtrace.hpp"
 #include <sys/sdt.h>
+#include "utilities/SHMClient.hpp"
 
 #define TRACING_COLLECTION 1
 
@@ -558,6 +559,7 @@ class CMSCollector: public CHeapObj {
   friend class TraceCMSMemoryManagerStats;
 
  private:
+  SHM_Client* shmClient;
   jlong _time_of_last_gc;
   void update_time_of_last_gc(jlong now) {
     _time_of_last_gc = now;
@@ -679,6 +681,8 @@ class CMSCollector: public CHeapObj {
   // . _collectorState in (Idling, Sweeping) == {initial,final}marking ||
   //                                            precleaning || abortablePrecleanb
  public:
+  SHM_Client* getSHMClient() { return shmClient; }
+
   enum CollectorState {
     Resizing            = 0,
     Resetting           = 1,

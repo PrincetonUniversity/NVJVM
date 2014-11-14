@@ -605,6 +605,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   // Now expand the span and allocate the collection support structures
   // (MUT, marking bit map etc.) to cover both generations subject to
   // collection.
+  shmClient = new SHM_Client();
 
   // First check that _permGen is adjacent to _cmsGen and above it.
   assert(   _cmsGen->reserved().word_size()  > 0

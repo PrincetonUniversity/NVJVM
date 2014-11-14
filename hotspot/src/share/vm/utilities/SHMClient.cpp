@@ -8,6 +8,12 @@
 #include "SHMClient.hpp"
 
 SHM_Client::SHM_Client() {
+	sizeSharedMemory = _PAGE_SIZE;
+	 /*
+	     * We need to get the segment named
+	     * "5678", created by the server.
+	     */
+	key = CLIENT_KEY;
 	runClient();
 }
 
@@ -78,14 +84,13 @@ int SHM_Client::getIndex(string str, string searchString){
 	}
 }
 
-void SHM_Client::changeStateToIdle(char *shm){
+void SHM_Client::changeStateToIdle(void){
+#if LOG_CLIENT
 	cout << "In changeStateToIdle" << endl;
-	cout << "State" << endl << shm << endl;
+#endif
 	string processId = int_to_string((int)getpid());
 	int pos, size, startPos, endPos, length;
-	std::string line;
-	std::string shmStr = string(shm);
-	std::stringstream stringStream(shmStr);
+	std::string line, shmStr = string(shm);
 	char newLine ='\n', delimiter = ':';
 	vector<string> process_Ids = splitStrings(line);
 	size = process_Ids.size();
@@ -94,34 +99,38 @@ void SHM_Client::changeStateToIdle(char *shm){
 	pos = findNthPositionOfCharAfter(shmStr, 1, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	length = endPos-pos-1;
-	shmStr.erase(pos+1, length);
-	shmStr.insert(pos+1, "I");
+	shmStr.replace(pos+1, length, "I");
+#if LOG_CLIENT
 	cout << "State" << endl << shmStr << endl;
+#endif
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	length = endPos-pos-1;
-	shmStr.erase(pos+1, length);
-	shmStr.insert(pos+1, "N");
+	shmStr.replace(pos+1, length, "N");
+#if LOG_CLIENT
 	cout << "State" << endl << shmStr << endl;
+#endif
 	pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 	length = endPos-pos-1;
-	shmStr.erase(pos+1, length);
-	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
+	shmStr.replace(pos+1, length, long_to_string(getCurrentTime()));
+#if LOG_CLIENT
 	cout << "State" << endl << shmStr << endl;
+#endif
 	pos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos);
 	length = endPos-pos-1;
-	shmStr.erase(pos+1, length);
+	shmStr.replace(pos+1, length, long_to_string(getCurrentTime()));
+#if LOG_CLIENT
 	cout << "State" << endl << shmStr << endl;
-	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
-	cout << "State" << endl << shmStr << endl;
-	memcpy(shm, shmStr.c_str(), shmStr.size());
-	memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
+#endif
+	copyToSharedMemory(shmStr);
 }
 
 bool SHM_Client::checkIfCanGC(char *shm){
+#if LOG_CLIENT
 	cout << "In checkIfCanGC" << endl;
+#endif
 	string processId = int_to_string((int)getpid());
 	int pos, size, startPos, endPos, length;
 	std::string line;
@@ -134,23 +143,22 @@ bool SHM_Client::checkIfCanGC(char *shm){
 	startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0);
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	if(shmStr.compare(pos+1, 3, "GCS") == 0){
-		shmStr.erase(pos-1, 1);
-		shmStr.insert(pos-1, "GCB");
+		shmStr.replace(pos-1, 1, "GCB");
 		string timeStr = long_to_string(getCurrentTime());
 		pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 		endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 		length = endPos - pos - 1;
-		shmStr.erase(pos+1, length);
-		shmStr.insert(pos+1, timeStr);
-		memcpy(shm, shmStr.c_str(), shmStr.size());
-		memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
+		shmStr.replace(pos+1, length, timeStr);
+		copyToSharedMemory(shmStr);
 		return true;
 	}
 	return false;
 }
 
 void SHM_Client::registerClient(char *shm){
+#if LOG_CLIENT
 	cout << "In register client" << endl;
+#endif
 	string processId = int_to_string(getpid());
 	// Check if there is already an existing process
 	int pos, size;
@@ -161,7 +169,7 @@ void SHM_Client::registerClient(char *shm){
 	string delimiterStr = ":";
 	string msgStr =
 		processId + (delimiter) +
-		('Q') + (delimiter) +
+		('I') + (delimiter) +
 		('N') + (delimiter) +
 		long_to_string((getCurrentTime())) + (delimiter) +
 		long_to_string((getCurrentTime())) + (newLine);
@@ -175,30 +183,18 @@ void SHM_Client::registerClient(char *shm){
 				shmStr.insert(pos, delimiterStr);
 				shmStr.insert(pos+1, (processId));
 				shmStr += msgStr;
-				memcpy(shm, shmStr.c_str(), shmStr.size());
-				memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
+				copyToSharedMemory(shmStr);
 			} else {
 			// else add its process id at the front
 				cout << "No old process found" << endl;
 				string str = processId + (newLine) + msgStr;
-				memcpy(shm, str.c_str(), str.size());
-				memset(shm+str.size(), 0, _PAGE_SIZE-str.size());
+				copyToSharedMemory(str);
 			}
 		cout << "After adding the new process" << endl << shm << endl;
 }
 
 void SHM_Client::runClient(void)
 {
-    int shmid;
-    key_t key;
-    char *shm, *s;
-
-    /*
-     * We need to get the segment named
-     * "5678", created by the server.
-     */
-    key = CLIENT_KEY;
-
     /*
      * Locate the segment.
      */
@@ -222,30 +218,81 @@ void SHM_Client::runClient(void)
     mode_t mode = 0644;
     unsigned int initialValue = 0;
     string sem_name = string("gc_sem");
-    sem_t* mutex = sem_open(sem_name.c_str(), oflags, mode, initialValue);
+    mutex = sem_open(sem_name.c_str(), oflags, mode, initialValue);
     if(mutex == SEM_FAILED){
     	perror("unable to create semaphore");
     	sem_unlink(sem_name.c_str());
     	exit(-1);
     }
+
+#if LOG_CLIENT
     cout << "Client::Created the semaphore" << endl;
-    bool isGC=false;
+#endif
+
 	sem_wait(mutex);
 	// Registering the client
 	registerClient(shm);
 	// Releasing the lock
 	sem_post(mutex);
-    while(isGC==false){
-    	// Getting the lock
-    	sem_wait(mutex);
-    	// Checking the memory segment
-    	isGC = checkIfCanGC(shm);
-    	// Releasing the lock
-    	sem_post(mutex);
-    	usleep(CLIENT_SLEEP_TIME);
-    }
-    // Change the state to Idle
-    changeStateToIdle(shm);
     cout << "Final State" << endl << shm << endl;
     exit(0);
+}
+
+void SHM_Client::copyToSharedMemory(string str){
+	memcpy(shm, str.c_str(), str.size());
+	memset(shm+str.size(), 0, sizeSharedMemory - str.size());
+}
+
+void SHM_Client::triggerGCRequestInMemory(void){
+  cout << "In trigger GC In Memory" << endl;
+  string processId = int_to_string(getpid());
+  // Check if there is already an existing process
+  std::string shmStr = string(shm);
+  int index = getIndex(shmStr, processId);
+  char newLine ='\n', delimiter = ':';
+  int startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0), endPos, length;
+  int pos = findNthPositionOfCharAfter(shmStr, 1, delimiter, startPos);
+  shmStr.replace(pos+1, 1, string('Q'));
+  string timeStr = long_to_string(getCurrentTime());
+  pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
+  endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
+  length = endPos - pos - 1;
+  shmStr.replace(pos+1, length, timeStr);
+  copyToSharedMemory(shmStr);
+}
+
+void SHM_Client::triggerGCRequest(void){
+#if LOG_CLIENT
+	cout << "Triggering the GC signal in the client" << endl;
+#endif
+    // Getting the lock
+    sem_wait(mutex);
+    // Checking the memory segment
+    triggerGCRequestInMemory();
+    // Releasing the lock
+    sem_post(mutex);
+}
+
+void SHM_Client::triggerGCDone(void){
+#if LOG_CLIENT
+	cout << "Triggering the GC done signal in the client" << endl;
+#endif
+    // Getting the lock
+    sem_wait(mutex);
+    // Checking the memory segment
+    changeStateToIdle();
+    // Releasing the lock
+    sem_post(mutex);
+}
+
+bool SHM_Client::isGCAllowed(void){
+	cout << "Checking if GC is allowed" << endl;
+	bool isGC= false;
+    // Getting the lock
+    sem_wait(mutex);
+    // Checking the memory segment
+    isGC = checkIfCanGC(shm);
+    // Releasing the lock
+    sem_post(mutex);
+    return isGC;
 }
