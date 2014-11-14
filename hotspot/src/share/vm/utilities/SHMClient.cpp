@@ -240,7 +240,7 @@ void SHM_Client::copyToSharedMemory(string str){
 	memset(shm+str.size(), 0, sizeSharedMemory - str.size());
 }
 
-void SHM_Client::triggerGCRequestInMemory(void){
+void SHM_Client::changeStateToQuery(void){
 #if LOG_CLIENT
 	cout << "In trigger GC In Memory" << endl;
 #endif
@@ -270,7 +270,7 @@ void SHM_Client::triggerGCRequest(void){
     // Getting the lock
     sem_wait(mutex);
     // Checking the memory segment
-    triggerGCRequestInMemory();
+    changeStateToQuery();
     // Releasing the lock
     sem_post(mutex);
 

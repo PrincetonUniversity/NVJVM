@@ -55,7 +55,7 @@ public:
 	bool checkIfCanGC(char *shm);
 	void registerClient(char *shm);
 	void runClient(void);
-	void triggerGCRequestInMemory(void);
+	void changeStateToQuery(void);
 	void copyToSharedMemory(string str);
 	void printSMState(string);
 
