@@ -43,6 +43,21 @@ double SwapMetrics::_compactionTime = 0;
 
 std::vector<ThreadStruct *> SwapMetrics::_threadList;
 
+long int getCurrentTime(){
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	return ms;
+}
+
+string long_to_string(long int value){
+	  std::ostringstream os ;
+      //throw the value into the string stream
+      os << value ;
+      //convert the string stream into a string and return
+      return os.str() ;
+}
+
 std::string inToS(int num){
     std::ostringstream ss;
     ss << num;
@@ -224,6 +239,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseId = phaseId;
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
+  cout << "Start of" << phase << ", timestamp ="<< getCurrentTime() << endl;
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -249,6 +265,7 @@ SwapMetrics::~SwapMetrics() {
 
   // Writing the minor and the major faults to the output
   cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+  cout << "End of" << _phaseName << ", timestamp ="<< getCurrentTime() << endl;
 }
 
 void SwapMetrics::printTotalFaults(){
