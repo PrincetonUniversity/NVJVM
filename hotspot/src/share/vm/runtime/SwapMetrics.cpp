@@ -46,6 +46,21 @@ int SwapMetrics::_falsePositives = 0;
 int SwapMetrics::_pageTouches = 0;
 int SwapMetrics::_objectSpills = 0;
 
+long int getCurrentTime(){
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	return ms;
+}
+
+string long_to_string(long int value){
+	  std::ostringstream os ;
+      //throw the value into the string stream
+      os << value ;
+      //convert the string stream into a string and return
+      return os.str() ;
+}
+
 void SwapMetrics::incrementObjectSpills(void){
 	_objectSpills++;
 }
@@ -223,6 +238,7 @@ void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
+	cout << "Universe Init: "<< "timestamp" << getCurrentTime() << endl;
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -239,6 +255,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _logFilePath = "/home/tandon/logs/cms.log";
   _phaseId = phaseId;
   threadFunction(phaseId);
+  cout << "Start of phase: "<< phase << ",timestamp" << getCurrentTime() << endl;
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -264,6 +281,7 @@ SwapMetrics::~SwapMetrics() {
 
   // Writing the minor and the major faults to the output
   cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+  cout << "End of phase: "<< _phaseName << ",timestamp" << getCurrentTime() << endl;
 }
 
 void SwapMetrics::printTotalFaults(){

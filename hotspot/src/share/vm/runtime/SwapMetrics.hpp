@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 #include <pthread.h>
-#include<time.h>
+#include <sys/time.h>
 
 using namespace std;
 #define BUF_MAX 1000
