@@ -9367,9 +9367,7 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 // Cleaning the garbage chunk updating the page start, if required.
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
-#ifdef SWEEP_TESTS
-		_partitionMetaData->incrementGarbageChunks();
-#endif
+	_partitionMetaData->incrementGarbageChunks();
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
