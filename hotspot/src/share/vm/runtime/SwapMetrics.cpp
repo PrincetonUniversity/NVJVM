@@ -47,6 +47,13 @@ double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
 double SwapMetrics::_compactionTime = 0;
 
+long int getCurrentTime(){
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	return ms;
+}
+
 std::vector<ThreadStruct *> SwapMetrics::_threadList;
 
 std::string inToS(int num){
@@ -237,6 +244,7 @@ void SwapMetrics::universeInit(){
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 	_processInitialPageOuts = getCurrentNumberOfPageOuts();
+	cout << "Timestamp at initialization::" << getCurrentTime() << endl;
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
@@ -255,6 +263,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
   _initialPageOuts = getCurrentNumberOfPageOuts();
+  cout << "Start of phase :: " << phase << ", timestamp::"<< getCurrentTime() << endl;
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -285,6 +294,7 @@ SwapMetrics::~SwapMetrics() {
 
   // Writing the minor and the major faults to the output
   cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+  cout << "End of phase :: " << _phaseName << ", timestamp::"<< getCurrentTime() << endl;
 }
 
 void SwapMetrics::printTotalFaults(){

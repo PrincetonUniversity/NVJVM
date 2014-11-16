@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 #include <pthread.h>
-#include<time.h>
+#include <sys/time.h>
 #include <vector>
 #include <fstream>
 
