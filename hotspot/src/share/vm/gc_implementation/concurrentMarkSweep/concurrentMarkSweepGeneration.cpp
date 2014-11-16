@@ -3877,6 +3877,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 // collector but the if-then-else required made it cleaner to have
 // separate methods.
 void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
+  cout << "In Collect In Background" << endl;
   assert(Thread::current()->is_ConcurrentGC_thread(),
     "A CMS asynchronous collection is only allowed on a CMS thread.");
 
