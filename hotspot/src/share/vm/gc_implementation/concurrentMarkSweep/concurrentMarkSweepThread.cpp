@@ -127,7 +127,7 @@ void ConcurrentMarkSweepThread::run() {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
     cout << "Calling Collect In BackGround from the ConcurrentMarkSweepThread::run()" << endl;
-    _collector->collect_in_background(false);  // !clear_all_soft_refs
+//    _collector->collect_in_background(false);  // !clear_all_soft_refs
   }
   assert(_should_terminate, "just checking");
   // Check that the state of any protocol for synchronization
