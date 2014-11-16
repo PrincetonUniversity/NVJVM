@@ -123,6 +123,7 @@ void ConcurrentMarkSweepThread::run() {
     clear_CMS_flag(CMS_cms_wants_token);
   }
 
+  cout << "Checking if should_terminate" << endl;
   while (!_should_terminate) {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
