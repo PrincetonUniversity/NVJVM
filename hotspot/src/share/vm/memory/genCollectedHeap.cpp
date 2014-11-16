@@ -835,7 +835,7 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
 	 cout << "should_do_concurrent_full_gc(cause) false, calling stw :: collect " << endl;
      //collect(cause, n_gens() - 1);
 
-	ConcurrentMarkSweepGeneration* cmsCMSG = _gens[1];
+	ConcurrentMarkSweepGeneration* cmsCMSG = (ConcurrentMarkSweepGeneration*)_gens[1];
 	cmsCMSG->collector()->collect_in_background(false);
 
 #endif
