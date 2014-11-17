@@ -253,7 +253,7 @@ void ConcurrentMarkSweepThread::synchronize(bool is_cms_thread) {
     assert(Thread::current()->is_ConcurrentGC_thread(),
            "Not a CMS thread");
     // The following barrier assumes there's only one CMS thread.
-    // This will need to be modified is there are more CMS threads than one.
+    // This will need to be modified if there are more CMS threads than one.
     while (CMS_flag_is_set(CMS_vm_has_token | CMS_vm_wants_token)) {
       set_CMS_flag(CMS_cms_wants_token);
       CGC_lock->wait(true);

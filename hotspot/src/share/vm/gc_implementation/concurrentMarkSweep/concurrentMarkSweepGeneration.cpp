@@ -3471,8 +3471,9 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // Weak ref discovery note: We may be discovering weak
     // refs in this generation concurrent (but interleaved) with
     // weak ref discovery by a younger generation collector.
-
-    CMSTokenSyncWithLocks ts(true, bitMapLock());
+    cout << "Before CMSTokenSyncWithLocks" << endl;
+//    CMSTokenSyncWithLocks ts(true, bitMapLock());
+    cout << "After CMSTokenSyncWithLocks" << endl;
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);
