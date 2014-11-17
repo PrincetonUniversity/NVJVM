@@ -319,7 +319,7 @@ void ConcurrentMarkSweepThread::sleepBeforeNextCycle() {
       wait_on_cms_lock(CMSWaitDuration);
     }
     // Check if we should start a CMS collection cycle
-    if (true && _collector->shouldConcurrentCollect()) {
+    if (true || _collector->shouldConcurrentCollect()) {
       return;
     }
     // .. collection criterion not yet met, let's go back
