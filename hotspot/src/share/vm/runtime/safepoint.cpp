@@ -229,7 +229,7 @@ void SafepointSynchronize::begin() {
 //  printf("Stopping the different running threads. Still Running %d.\n", still_running);
   while(still_running > 0) {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
-      cout << "Stopping suspended thread with thread id:" << cur->osthread()->thread_id() << endl;
+      cout << "Stopping running thread with thread id:" << cur->osthread()->thread_id() << endl;
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
       ThreadSafepointState *cur_state = cur->safepoint_state();
       if (cur_state->is_running()) {

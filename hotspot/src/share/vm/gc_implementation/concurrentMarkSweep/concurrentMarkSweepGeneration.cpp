@@ -3456,6 +3456,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
   check_correct_thread_executing();
   verify_overflow_empty();
 
+  cout << "In mark from roots : asynch = " << asynch << endl;
   bool res;
   if (asynch) {
 
@@ -3878,6 +3879,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 // separate methods.
 void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
   cout << "In Collect In Background" << endl;
+
   assert(Thread::current()->is_ConcurrentGC_thread(),
     "A CMS asynchronous collection is only allowed on a CMS thread.");
 
@@ -3992,10 +3994,11 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         // The collector state may be any legal state at this point
         // since the background collector may have yielded to the
         // foreground collector.
-        break;
+//        break;
       case Marking:
         // initial marking in checkpointRootsInitialWork has been completed
-        if (markFromRoots(true)) { // we were successful
+        cout << "Before Mark From Roots" << endl;
+    	if (markFromRoots(true)) { // we were successful
           assert(_collectorState == Precleaning, "Collector state should "
             "have changed");
         } else {
