@@ -4338,8 +4338,8 @@ void CMSConcSweepingTask::work(int i){
 // -- Terminate and return result
 //
 void CMSConcMarkingTask::work(int i) {
-	cout << "Before thread loop" << endl;
-	while(true);
+//	cout << "Before thread loop" << endl;
+//	/while(true);
 
 #if OCMS_NO_GREY_LOG
 	printf("Starting CMSConcMarkingTask with id %d.\n", i);
