@@ -832,9 +832,9 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
     }
 #else
     // Stop-the-world full collection
-	 cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;
      //collect(cause, n_gens() - 1);
 	 Universe::isGCSignalled=true;
+	 cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;
 #endif
   }
 }
