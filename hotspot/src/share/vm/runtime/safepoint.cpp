@@ -229,6 +229,7 @@ void SafepointSynchronize::begin() {
 //  printf("Stopping the different running threads. Still Running %d.\n", still_running);
   while(still_running > 0) {
     for (JavaThread *cur = Threads::first(); cur != NULL; cur = cur->next()) {
+      cout << "Stopping suspended thread with thread id:" << cur->osthread()->thread_id() << endl;
       assert(!cur->is_ConcurrentGC_thread(), "A concurrent GC thread is unexpectly being suspended");
       ThreadSafepointState *cur_state = cur->safepoint_state();
       if (cur_state->is_running()) {
@@ -464,7 +465,7 @@ void SafepointSynchronize::end() {
 
     // Start suspended threads
     for(JavaThread *current = Threads::first(); current; current = current->next()) {
-      cout << "Starting suspended thread with thread id:" << current->osthread()->thread_id() << endl;
+    	cout << "Starting suspended thread with thread id:" << current->osthread()->thread_id() << endl;
       // A problem occurring on Solaris is when attempting to restart threads
       // the first #cpus - 1 go well, but then the VMThread is preempted when we get
       // to the next one (since it has been running the longest).  We then have
