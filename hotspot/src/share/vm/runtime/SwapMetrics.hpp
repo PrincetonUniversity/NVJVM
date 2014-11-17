@@ -34,6 +34,8 @@ private:
     int _initialSwapOuts;
     int _finalSwapOuts;
     int _processFinalSwapOuts;
+    int _initialPageOuts;
+    int _finalPageOuts;
 
 public:
     static void universeInit();
@@ -53,15 +55,21 @@ public:
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
     static int getCurrentNumberOfSwapOuts();
+    static int getCurrentNumberOfPageOuts();
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
 
     static int _processInitialSwapOuts;
+    static int _processInitialPageOuts;
 
     static int _markPhaseSwapOuts;
     static int _sweepPhaseSwapOuts;
     static int _compactionPhaseSwapOuts;
+
+    static int _markPhasePageOuts;
+    static int _sweepPhasePageOuts;
+    static int _compactionPhasePageOuts;
 
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;

@@ -9,6 +9,7 @@
 
 
 int SwapMetrics::_processInitialSwapOuts=0;
+int SwapMetrics::_processInitialPageOuts=0;
 
 int SwapMetrics::_sweepPhaseSwapOuts=0;
 int SwapMetrics::_markPhaseSwapOuts=0;
@@ -230,6 +231,25 @@ int SwapMetrics::getCurrentNumberOfSwapOuts(void){
 		return swapOuts;
 }
 
+int SwapMetrics::getCurrentNumberOfPageOuts(void){
+	int swapOuts = 0;
+	int count = 0;
+	FILE *fp;
+	char buf[BUF_MAX];
+	std::string cmd = std::string("vmstat -s | grep \"pages paged out\"");
+	fp = popen(cmd.c_str(), "r");
+	while(fgets(buf, BUF_MAX, fp) != NULL);
+	istringstream iss(buf);
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> swapOuts;
+			 break;
+		  } while(iss);
+		return swapOuts;
+}
+
 void SwapMetrics::setPhase(int phaseId){
      _phaseId = phaseId;
 }
@@ -238,6 +258,7 @@ void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
+	_processInitialPageOuts = getCurrentNumberOfSwapOuts();
 	cout << "Universe Init: "<< "timestamp ::" << getCurrentTime() << endl;
 }
 
@@ -248,6 +269,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseName = std::string(phase);
   getCurrentNumberOfFaults();
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
+  _initialPageOuts = getCurrentNumberOfPageOuts();
   int count;
   for (count = 0; count < 2; count++){
        _initialFaults[count] = _currentFaults[count];
@@ -261,6 +283,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 SwapMetrics::~SwapMetrics() {
   getCurrentNumberOfFaults();
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
+  _finalPageOuts = getCurrentNumberOfPageOuts();
   int count;
   for (count = 0; count < 2; count++){
        _finalFaults[count] = _currentFaults[count];
@@ -271,12 +294,15 @@ SwapMetrics::~SwapMetrics() {
   if(_phaseId == markPhase){
        _markPhaseFaults += _majorFaults;
        _markPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
+       _markPhasePageOuts += _finalPageOuts-_initialPageOuts;
   } else if (_phaseId == sweepPhase) {
        _sweepPhaseFaults += _majorFaults;
        _sweepPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
+       _sweepPhasePageOuts += _finalPageOuts-_initialPageOuts;
   } else if(_phaseId == compactPhase) {
 	  _compactionPhaseFaults += _majorFaults;
 	  _compactionPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
+	  _compactionPhasePageOuts += _finalPageOuts-_initialPageOuts;
   }
 
   // Writing the minor and the major faults to the output
@@ -316,8 +342,23 @@ void SwapMetrics::printTotalFaults(){
        			 break;
        		  } while(iss2);
 
+       	int finalPageOuts;
+     	cmd = std::string("vmstat -s | grep \"pages paged out\"");
+       	fp = popen(cmd.c_str(), "r");
+       	while(fgets(buf, BUF_MAX, fp) != NULL);
+       	istringstream iss3(buf);
+       		do
+       		 {
+       			 string sub;
+       			 iss3 >> sub;
+       			 std::stringstream(sub) >> finalPageOuts;
+       			 break;
+       		  } while(iss3);
+
+
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
+       cout << "Total number of pageOuts : " << (finalPageOuts-_processInitialPageOuts) << endl;
 
 
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
@@ -327,6 +368,10 @@ void SwapMetrics::printTotalFaults(){
        cout << "MarkPhaseSwapOuts : " << _markPhaseSwapOuts << endl;
        cout << "SweepPhaseSwapOuts : " << _sweepPhaseSwapOuts << endl;
        cout << "CompactionPhaseSwapOuts : " << _compactionPhaseSwapOuts << endl;
+
+       cout << "MarkPhasePageOuts : " << _markPhasePageOuts << endl;
+        cout << "SweepPhasePageOuts : " << _sweepPhasePageOuts << endl;
+        cout << "CompactionPhasePageOuts : " << _compactionPhasePageOuts << endl;
 
        cout << "SweepPhaseDiskUtilization : " << _sumDiskUtilizationSweep / _numberReportsSweep << endl;
        cout << "MarkPhaseDiskUtilization : " << _sumDiskUtilizationMark / _numberReportsMark << endl;
