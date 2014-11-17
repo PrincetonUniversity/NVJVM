@@ -127,7 +127,6 @@ void ConcurrentMarkSweepThread::run() {
   while (!_should_terminate) {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
-    cout << "Calling Collect In BackGround from the ConcurrentMarkSweepThread::run()" << endl;
     if(Universe::isGCSignalled){
     	cout << "Calling collect_in_background isGCSignalled =  "<< Universe::isGCSignalled << endl;
     	_collector->collect_in_background(false);  // !clear_all_soft_refs
