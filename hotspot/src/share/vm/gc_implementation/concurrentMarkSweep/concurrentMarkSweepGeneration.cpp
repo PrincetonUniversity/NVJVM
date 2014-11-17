@@ -2298,7 +2298,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         // The collector state may be any legal state at this point
         // since the background collector may have yielded to the
         // foreground collector.
-        break;
+//        break;
       case Marking:
         // initial marking in checkpointRootsInitialWork has been completed
         if (markFromRoots(true)) { // we were successful
@@ -3648,7 +3648,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // refs in this generation concurrent (but interleaved) with
     // weak ref discovery by a younger generation collector.
 
-    CMSTokenSyncWithLocks ts(true, bitMapLock());
+//    CMSTokenSyncWithLocks ts(true, bitMapLock());
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);

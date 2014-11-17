@@ -823,8 +823,10 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
 #else
     // Stop-the-world full collection
 //    collect(cause, n_gens() - 1);
-	ConcurrentMarkSweepGeneration* cmsCMSG = (ConcurrentMarkSweepGeneration*)_gens[1];
-	cmsCMSG->collector()->collect_in_background(false);
+//	ConcurrentMarkSweepGeneration* cmsCMSG = (ConcurrentMarkSweepGeneration*)_gens[1];
+//	cmsCMSG->collector()->collect_in_background(false);
+    Universe::isGCSignalled=true;
+    cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;
 #endif
   }
 }

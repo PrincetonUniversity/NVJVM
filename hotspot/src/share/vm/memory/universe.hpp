@@ -256,6 +256,7 @@ class Universe: AllStatic {
   static void compute_verify_oop_data();
 
  public:
+  static bool isGCSignalled;
   // Known classes in the VM
   static klassOop boolArrayKlassObj()                 { return _boolArrayKlassObj;   }
   static klassOop byteArrayKlassObj()                 { return _byteArrayKlassObj;   }

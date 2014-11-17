@@ -154,6 +154,7 @@ oop Universe::_null_ptr_exception_instance            = NULL;
 oop Universe::_arithmetic_exception_instance          = NULL;
 oop Universe::_virtual_machine_error_instance         = NULL;
 oop Universe::_vm_exception                           = NULL;
+bool Universe::isGCSignalled=false;
 
 // These variables are guarded by FullGCALot_lock.
 debug_only(objArrayOop Universe::_fullgc_alot_dummy_array = NULL;)
