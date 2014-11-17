@@ -269,8 +269,8 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 SwapMetrics::~SwapMetrics() {
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
   _finalPageOuts = getCurrentNumberOfPageOuts();
-  getCurrentNumberOfFaults();
   _currentFaults = new int[2];
+  getCurrentNumberOfFaults();
   int count;
   for (count = 0; count < 2; count++){
        _finalFaults[count] = _currentFaults[count];
