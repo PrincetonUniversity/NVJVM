@@ -308,6 +308,7 @@ class Universe: AllStatic {
   static size_t _pageTableSize; // size of the page table in bytes == number of pages in the heap
   static int _increments;
   static int _decrements;
+  static bool isGCSignalled;
 
   static void setHeapBase(void* start)                  { _heapBase = start;}
   static void setHeapSize(size_t size)					{ _heapSize = size; }
