@@ -15,6 +15,10 @@ int SwapMetrics::_sweepPhaseSwapOuts=0;
 int SwapMetrics::_markPhaseSwapOuts=0;
 int SwapMetrics::_compactionPhaseSwapOuts=0;
 
+int SwapMetrics::_sweepPhasePageOuts=0;
+int SwapMetrics::_markPhasePageOuts=0;
+int SwapMetrics::_compactionPhasePageOuts=0;
+
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
