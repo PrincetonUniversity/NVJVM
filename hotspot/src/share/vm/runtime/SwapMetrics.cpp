@@ -111,7 +111,7 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
-	cout << "Executing current number of page outs" << endl;
+//	cout << "Executing current number of page outs" << endl;
 	std::string cmd = std::string("vmstat -s | grep \"pages paged out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
@@ -387,7 +387,7 @@ void SwapMetrics::printTotalFaults(){
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
-	cout  << "In Get Current Number Faults" << endl;
+//	cout  << "In Get Current Number Faults" << endl;
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
