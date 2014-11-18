@@ -132,7 +132,7 @@ void* monitorIOMutators(void* arg){
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
 	  SwapMetrics::_shouldWait = (value > 15);
-	  cout << SwapMetrics::_ioWaitMutator/(SwapMetrics::_numberReportsMutator+1) << endl;
+	  cout << "IO Wait" << SwapMetrics::_ioWaitMutator/(SwapMetrics::_numberReportsMutator+1) << endl;
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
