@@ -172,6 +172,7 @@ void* monitorIOs(void* arg){
       SwapMetrics::_shouldWait = (value > 20);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
+    	  cout << SwapMetrics::_ioWaitMark/(SwapMetrics::_numberReportsMark+1) << endl;
       } else if(id == SwapMetrics::sweepPhase){
     	  SwapMetrics::_ioWaitSweep += value;
       } else if(id == SwapMetrics::compactPhase){
