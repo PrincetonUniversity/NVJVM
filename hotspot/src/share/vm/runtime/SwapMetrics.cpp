@@ -169,7 +169,7 @@ void* monitorIOs(void* arg){
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
       value = sToDub(ret);
-      SwapMetrics::_shouldWait = (value > 20);
+      SwapMetrics::_shouldWait = (value > 15);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
     	  cout << SwapMetrics::_ioWaitMark/(SwapMetrics::_numberReportsMark+1) << endl;
