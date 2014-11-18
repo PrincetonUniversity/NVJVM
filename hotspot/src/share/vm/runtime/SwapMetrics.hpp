@@ -16,11 +16,9 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
-#include "memory/universe.hpp"
 
 using namespace std;
 #define BUF_MAX 1000
-
 
 class SwapMetrics {
 private:
@@ -61,6 +59,7 @@ public:
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
 
+    static bool _shouldWait;
     static int _processInitialSwapOuts;
     static int _processInitialPageOuts;
 

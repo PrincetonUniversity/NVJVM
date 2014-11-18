@@ -7,7 +7,7 @@
 
 #include "SwapMetrics.hpp"
 
-
+bool SwapMetrics::_shouldWait=false;
 int SwapMetrics::_processInitialSwapOuts=0;
 int SwapMetrics::_processInitialPageOuts=0;
 
@@ -169,7 +169,7 @@ void* monitorIOs(void* arg){
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
       value = sToDub(ret);
-      Universe::_shouldWait = (value > 20);
+      SwapMetrics::_shouldWait = (value > 20);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
       } else if(id == SwapMetrics::sweepPhase){

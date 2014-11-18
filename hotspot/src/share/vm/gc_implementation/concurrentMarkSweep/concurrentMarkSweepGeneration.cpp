@@ -4295,7 +4295,7 @@ void CMSConcSweepingTask::work(int i){
 	int currentPartitionIndex = -1;
 	int totalGarbage = 0, totalData = 0;
     do {
-    if(Universe::_shouldWait)
+    if(SwapMetrics::_shouldWait)
     	usleep(1000);
       // each thread tries to get the next partition here
       currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
