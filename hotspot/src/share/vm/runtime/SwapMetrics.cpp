@@ -131,6 +131,8 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
+	  SwapMetrics::_shouldWait = (value > 15);
+	  cout << SwapMetrics::_ioWaitMutator/(SwapMetrics::_numberReportsMutator+1) << endl;
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
@@ -169,10 +171,8 @@ void* monitorIOs(void* arg){
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
       value = sToDub(ret);
-      SwapMetrics::_shouldWait = (value > 15);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
-    	  cout << SwapMetrics::_ioWaitMark/(SwapMetrics::_numberReportsMark+1) << endl;
       } else if(id == SwapMetrics::sweepPhase){
     	  SwapMetrics::_ioWaitSweep += value;
       } else if(id == SwapMetrics::compactPhase){
