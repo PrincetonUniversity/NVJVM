@@ -16,6 +16,7 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
+#include "memory/universe.hpp"
 
 using namespace std;
 #define BUF_MAX 1000
