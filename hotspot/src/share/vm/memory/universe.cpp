@@ -111,6 +111,7 @@ size_t Universe::_pageTableSize = 0;
 int Universe::_increments = 0;
 int Universe::_decrements = 0;
 bool Universe::isGCSignalled = false;
+bool Universe::_shouldWait=false;
 
 // Known objects
 klassOop Universe::_boolArrayKlassObj                 = NULL;

@@ -169,6 +169,7 @@ void* monitorIOs(void* arg){
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
       value = sToDub(ret);
+      Universe::_shouldWait = (value > 20);
       if(id == SwapMetrics::markPhase){
     	  SwapMetrics::_ioWaitMark += value;
       } else if(id == SwapMetrics::sweepPhase){

@@ -309,6 +309,7 @@ class Universe: AllStatic {
   static int _increments;
   static int _decrements;
   static bool isGCSignalled;
+  static bool _shouldWait;
 
   static void setHeapBase(void* start)                  { _heapBase = start;}
   static void setHeapSize(size_t size)					{ _heapSize = size; }
