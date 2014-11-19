@@ -3648,7 +3648,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // refs in this generation concurrent (but interleaved) with
     // weak ref discovery by a younger generation collector.
 
-    CMSTokenSyncWithLocks ts(true, bitMapLock());
+//    CMSTokenSyncWithLocks ts(true, bitMapLock());
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);
@@ -4311,8 +4311,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
     	tsk.coordinator_yield();
     	conc_workers()->continue_task(&tsk);
     	cout << "Continuing Tasks:" << endl;
+    } else {
+    	sleep(1);
     }
-	sleep(1);
   }
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
