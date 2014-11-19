@@ -7404,7 +7404,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   while (true) {
     oop new_oop;
     	if(SwapMetrics::_overutilized){
-    		usleep(10000);
+    		sleep(1);
     	}//while(SwapMetrics::_overutilized);
     if (!_work_queue->pop_local(new_oop)) {
       // We emptied our work_queue; check if there's stuff that can
