@@ -7404,8 +7404,8 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(res, "Will hold once we use workqueues");
   while (true) {
     oop new_oop;
+    usleep(10);
     if (!_work_queue->pop_local(new_oop)) {
-    	usleep(10);
       // We emptied our work_queue; check if there's stuff that can
       // be gotten from the overflow stack.
       if (CMSConcMarkingTask::get_work_from_overflow_stack(
