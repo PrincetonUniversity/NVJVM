@@ -146,21 +146,24 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
+	  cout << "UserTimeMutator::" << value << endl;
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
+	  cout << "IOWait::" << value << endl;
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
+	   cout << "UserDiskUtilization::" << value << endl;
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
-  	  cout << "UserDiskUtilization::" << SwapMetrics::_sumDiskUtilizationMutator/SwapMetrics::_numberReportsMutator << endl;
-  	  cout << "UserTimeMutator::" << SwapMetrics::_userTimeMutator/SwapMetrics::_numberReportsMutator << endl;
-  	  cout << "IOWait::" << SwapMetrics::_ioWaitMutator/SwapMetrics::_numberReportsMutator << endl;
+
+
+
   	  sleep(1);
   }
 }
