@@ -7403,7 +7403,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(res, "Will hold once we use workqueues");
   while (true) {
     oop new_oop;
-    	if(SwapMetrics::_overutilized){
+    	while(SwapMetrics::_overutilized){
     		sleep(1);
     	}//while(SwapMetrics::_overutilized);
     if (!_work_queue->pop_local(new_oop)) {
