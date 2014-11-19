@@ -158,6 +158,7 @@ void* monitorIOMutators(void* arg){
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
+  	  cout << "UserTimeMutator::" << SwapMetrics::_userTimeMutator/SwapMetrics::_numberReportsMutator << endl;
   	  cout << "IOWait::" << SwapMetrics::_ioWaitMutator/SwapMetrics::_numberReportsMutator << endl;
   	  sleep(1);
   }
