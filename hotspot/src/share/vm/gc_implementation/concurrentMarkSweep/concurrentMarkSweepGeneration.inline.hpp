@@ -453,7 +453,6 @@ inline void Par_MarkFromRootsClosure::do_yield_check() {
   }
   if(SwapMetrics::_overutilized){
 	  do_yield_work();
-	  cout << "Yielding thread" << endl;
   }
 }
 
