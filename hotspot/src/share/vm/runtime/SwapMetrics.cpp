@@ -149,13 +149,13 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
-	  cout << "UserTimeMutator::" << value << endl;
+	  cout << "UserTimeMutator::" << value << ",";
 	  cpuUtilization = value;
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  cout << "IOWait::" << value << endl;
+	  cout << "IOWait::" << value << ",";
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
@@ -166,7 +166,7 @@ void* monitorIOMutators(void* arg){
 	}
   }
   	  SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95);
-  	  cout << "OverUtilized Metric" << SwapMetrics::_overutilized << endl;
+  	  cout << "OverUtilized Metric = " << SwapMetrics::_overutilized << endl;
   	  SwapMetrics::_numberReportsMutator++;
   	  sleep(1);
   }
