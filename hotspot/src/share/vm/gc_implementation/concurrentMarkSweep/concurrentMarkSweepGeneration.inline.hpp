@@ -451,8 +451,10 @@ inline void Par_MarkFromRootsClosure::do_yield_check() {
       _yield) {
 	  do_yield_work();
   }
-  if(SwapMetrics::_overutilized)
+  if(SwapMetrics::_overutilized){
 	  do_yield_work();
+	  cout << "Yielding thread" << endl;
+  }
 }
 
 // Return value of "true" indicates that the on-going preclean
