@@ -4307,8 +4307,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
   conc_workers()->start_task(&tsk);
   while (tsk.yielded()) {
-    tsk.coordinator_yield();
-    conc_workers()->continue_task(&tsk);
+	 if(SwapMetrics::_overutilized==false){
+    	tsk.coordinator_yield();
+    	conc_workers()->continue_task(&tsk);
+    	cout << "Continuing Tasks:" << endl;
+    }
   }
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
