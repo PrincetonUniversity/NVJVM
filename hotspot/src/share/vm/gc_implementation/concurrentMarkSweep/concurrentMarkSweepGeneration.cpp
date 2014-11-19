@@ -7405,9 +7405,11 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
     oop new_oop;
     	if(SwapMetrics::_overutilized){
     		sleep(1);
+    		cout << "Off to Sleep" << endl;
     		continue;
     		// acquire a lock here
     	}//while(SwapMetrics::_overutilized);
+    	cout << "Doing Some Work" << endl;
     if (!_work_queue->pop_local(new_oop)) {
       // We emptied our work_queue; check if there's stuff that can
       // be gotten from the overflow stack.
