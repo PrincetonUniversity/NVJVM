@@ -449,8 +449,10 @@ inline void Par_MarkFromRootsClosure::do_yield_check() {
   if (ConcurrentMarkSweepThread::should_yield() &&
       !_collector->foregroundGCIsActive() &&
       _yield) {
-    do_yield_work();
+	  do_yield_work();
   }
+  if(SwapMetrics::_overutilized)
+	  do_yield_work();
 }
 
 // Return value of "true" indicates that the on-going preclean
