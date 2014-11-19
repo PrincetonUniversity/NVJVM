@@ -146,12 +146,12 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
-	  cout << "UserTimeMutator::" << value << endl;
+	  cout << endl << "UserTimeMutator::" << value << ", ";
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  cout << "IOWait::" << value << endl;
+	  cout << "IOWait::" << value << ", ";
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
@@ -161,9 +161,6 @@ void* monitorIOMutators(void* arg){
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
-
-
-
   	  sleep(1);
   }
 }
