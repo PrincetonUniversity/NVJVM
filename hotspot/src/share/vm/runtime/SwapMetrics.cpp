@@ -165,7 +165,7 @@ void* monitorIOMutators(void* arg){
 	   diskUtilization = value;
 	}
   }
-  	  SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95) || true;
+  	  SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95) ;
   	  cout << "OverUtilized Metric = " << SwapMetrics::_overutilized << endl;
   	  SwapMetrics::_numberReportsMutator++;
   	  sleep(1);
