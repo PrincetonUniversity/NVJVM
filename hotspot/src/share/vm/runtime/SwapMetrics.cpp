@@ -7,6 +7,8 @@
 
 #include "SwapMetrics.hpp"
 
+bool SwapMetrics::_overutilized = false;
+
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
@@ -130,6 +132,7 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 void* monitorIOMutators(void* arg){
   printf("Starting the mutator IO monitor.\n");
   double value;
+  double cpuUtilization, diskUtilization;
   int count;
   string temp;
   FILE *fp;
@@ -147,6 +150,7 @@ void* monitorIOMutators(void* arg){
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
 	  cout << "UserTimeMutator::" << value << endl;
+	  cpuUtilization = value;
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
@@ -158,8 +162,10 @@ void* monitorIOMutators(void* arg){
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
 	   cout << "UserDiskUtilization::" << value << endl;
+	   diskUtilization = value;
 	}
   }
+  	  SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95);
   	  SwapMetrics::_numberReportsMutator++;
 
 

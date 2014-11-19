@@ -7339,7 +7339,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
-  usleep(10);
+
   assert(_bit_map->isMarked(ptr), "expected bit to be set");
   // Should we assert that our work queue is empty or
   // below some drain limit?
@@ -7404,7 +7404,9 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(res, "Will hold once we use workqueues");
   while (true) {
     oop new_oop;
-    usleep(10);
+    	do{
+    		usleep(10);
+    	}while(SwapMetrics::_overutilized);
     if (!_work_queue->pop_local(new_oop)) {
       // We emptied our work_queue; check if there's stuff that can
       // be gotten from the overflow stack.
