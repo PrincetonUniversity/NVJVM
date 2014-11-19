@@ -126,7 +126,7 @@ class CMSTokenSync: public StackObj {
     _is_cms_thread(is_cms_thread) {
     assert(is_cms_thread == Thread::current()->is_ConcurrentGC_thread(),
            "Incorrect argument to constructor");
-//    ConcurrentMarkSweepThread::synchronize(_is_cms_thread);
+    ConcurrentMarkSweepThread::synchronize(_is_cms_thread);
   }
 
   ~CMSTokenSync() {
@@ -146,7 +146,7 @@ class CMSTokenSyncWithLocks: public CMSTokenSync {
   // and released in the opposite order
   MutexLockerEx _locker1, _locker2, _locker3;
  public:
-  CMSTokenSyncWithLocks(bool is_cms_thread, Mutex* mutex1,
+  CMSTokenSyncWithLocks(bool is_cms_thread, Mutex* mutex1 = NULL,
                         Mutex* mutex2 = NULL, Mutex* mutex3 = NULL):
     CMSTokenSync(is_cms_thread),
     _locker1(mutex1, Mutex::_no_safepoint_check_flag),
@@ -3648,7 +3648,8 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // refs in this generation concurrent (but interleaved) with
     // weak ref discovery by a younger generation collector.
 
-    CMSTokenSyncWithLocks ts(true, bitMapLock());
+//    CMSTokenSyncWithLocks ts(true, bitMapLock());
+    CMSTokenSyncWithLocks ts(true);
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);
