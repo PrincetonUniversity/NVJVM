@@ -4308,12 +4308,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
   conc_workers()->start_task(&tsk);
   while (tsk.yielded()) {
-	 if(SwapMetrics::_overutilized==false){
-	    	tsk.coordinator_yield();
-	    	conc_workers()->continue_task(&tsk);
+	  tsk.coordinator_yield();
+	  if(SwapMetrics::_overutilized==false){
 	    	cout << "Continuing Tasks:" << endl;
+	    	conc_workers()->continue_task(&tsk);
     } else {
-    	tsk.coordinator_yield();
     	sleep(1);
     }
   }
