@@ -3474,7 +3474,7 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // refs in this generation concurrent (but interleaved) with
     // weak ref discovery by a younger generation collector.
     cout << "Before CMSTokenSyncWithLocks" << endl;
-//    CMSTokenSyncWithLocks ts(true, bitMapLock());
+    CMSTokenSyncWithLocks ts(true, bitMapLock());
     cout << "After CMSTokenSyncWithLocks" << endl;
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
@@ -4209,7 +4209,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-//  printf("In master thread work final entered.\n");
+  printf("In master thread work final entered.\n");
   int loopCount = 0;
 #if OCMS_NO_GREY_LOG
  printf("In master thread work final.\n");
