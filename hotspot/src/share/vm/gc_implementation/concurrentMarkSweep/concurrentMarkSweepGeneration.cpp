@@ -4166,7 +4166,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
-    bool
+    Thread* t = Thread::current();
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
