@@ -129,24 +129,24 @@ void* monitorIOMutators(void* arg){
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
 	  cpuUtilization[SwapMetrics::_numberReportsMutator%3] = value;
-	  cout << endl << "cpuTime::" << value << ",";
+//	  cout << endl << "cpuTime::" << value << ",";
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  cout << "ioWait::" << value << ",";
+//	  cout << "ioWait::" << value << ",";
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
-	   cout << "diskUtilization::" << value << ",";
+//	   cout << "diskUtilization::" << value << ",";
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
   	  average = (cpuUtilization[0]+cpuUtilization[1]+cpuUtilization[2])/3;
   	  SwapMetrics::_shouldWait = (average > 12.5);
-  	  cout << "Waitflag::" << SwapMetrics::_shouldWait << endl;
+//  	  cout << "Waitflag::" << SwapMetrics::_shouldWait << endl;
   	  sleep(1);
   }
 }

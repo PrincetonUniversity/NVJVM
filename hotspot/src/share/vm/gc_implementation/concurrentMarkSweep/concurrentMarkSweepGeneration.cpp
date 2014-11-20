@@ -56,6 +56,8 @@
 #include "services/memoryService.hpp"
 #include "services/runtimeService.hpp"
 
+#define AdaptiveGC 0
+
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
@@ -4173,13 +4175,13 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	unsigned int timeMasterThread = 150;
 	MasterThreadState masterThreadState = INITIAL;
 	do{
-		while(SwapMetrics::_shouldWait){
+		while(SwapMetrics::_shouldWait && AdaptiveGC){
 			wasSleeping = true;
-			cout << "Going for sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
+//			cout << "Going for sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
 			sleep(1);
 		}
 		if(wasSleeping){
-			cout << "Just woken from sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
+//			cout << "Just woken from sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
 			wasSleeping = false;
 		}
 		// This is the master thread that wakes up after every 1 second
@@ -4216,7 +4218,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	// that the collector threads come to a termination point.
 	// Currently, all the threads are in a working state.
 	while(true){
-		while(SwapMetrics::_shouldWait)
+		while(SwapMetrics::_shouldWait && AdaptiveGC)
 			sleep(1);
 		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
@@ -4573,8 +4575,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			if(currentPartitionIndex == -1){
 				break;
 			}
-//			isSetToFinalWork = _partitionMetaData->isSetToWorkFinal();
-			// The page indices of pages that may be scanned in the next iteration
+			// The indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
 #if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0 && isSetToFinalWork){
@@ -4586,13 +4587,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				while(SwapMetrics::_shouldWait){
+				while(SwapMetrics::_shouldWait && AdaptiveGC){
 					wasSleeping=true;
-					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
+//					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					sleep(1);
 				}
 				if(wasSleeping){
-					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
+//					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					wasSleeping = false;
 				}
 			}
