@@ -4172,8 +4172,10 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	unsigned int timeMasterThread = 150;
 	MasterThreadState masterThreadState = INITIAL;
 	do{
-		while(SwapMetrics::_shouldWait)
+		while(SwapMetrics::_shouldWait){
+			cout << "Going for sleep:: master thread" << endl;
 			sleep(1);
+		}
 		// This is the master thread that wakes up after every 1 second
 //		_collector->getPartitionMetaData()->getZeroPages();
 //		usleep(sleepTime);
@@ -4576,8 +4578,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				while(SwapMetrics::_shouldWait)
+				while(SwapMetrics::_shouldWait){
+					cout << "Going for sleep:: worker thread" << endl;
 					sleep(1);
+				}
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
