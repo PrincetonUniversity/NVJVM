@@ -4172,11 +4172,11 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	unsigned int timeMasterThread = 150;
 	MasterThreadState masterThreadState = INITIAL;
 	do{
-		if(SwapMetrics::_shouldWait)
+		while(SwapMetrics::_shouldWait)
 			sleep(1);
 		// This is the master thread that wakes up after every 1 second
 //		_collector->getPartitionMetaData()->getZeroPages();
-		usleep(sleepTime);
+//		usleep(sleepTime);
 		timeMasterThread--;
 		// The master thread gets the total count of the number of grey objects
 		greyObjectCount = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
@@ -4208,7 +4208,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	// that the collector threads come to a termination point.
 	// Currently, all the threads are in a working state.
 	while(true){
-		if(SwapMetrics::_shouldWait)
+		while(SwapMetrics::_shouldWait)
 			sleep(1);
 		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
@@ -4299,8 +4299,8 @@ void CMSConcSweepingTask::work(int i){
 	int currentPartitionIndex = -1;
 	int totalGarbage = 0, totalData = 0;
     do {
-    if(EnableDynamicWait && SwapMetrics::_shouldWait)
-    	usleep(1000);
+//    if(EnableDynamicWait && SwapMetrics::_shouldWait)
+//    	usleep(1000);
       // each thread tries to get the next partition here
       currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
       if(currentPartitionIndex == -1){
@@ -4576,7 +4576,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				if(SwapMetrics::_shouldWait)
+				while(SwapMetrics::_shouldWait)
 					sleep(1);
 			}
 			// Releasing the partition
