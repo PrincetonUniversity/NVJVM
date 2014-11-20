@@ -4156,6 +4156,7 @@ void CMSConcMarkingTerminator::yield() {
 
 void CMSConcMarkingTask::masterThreadWorkInitial() {
 //	printf("In master thread work initial entered.\n");
+	bool wasSleeping = false;
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work initial.\n");
 	Thread* t = Thread::current();
@@ -4165,7 +4166,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel());
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
-
+    bool
 	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
@@ -4173,8 +4174,13 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	MasterThreadState masterThreadState = INITIAL;
 	do{
 		while(SwapMetrics::_shouldWait){
-			cout << "Going for sleep:: master thread" << endl;
+			wasSleeping = true;
+			cout << "Going for sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
 			sleep(1);
+		}
+		if(wasSleeping){
+			cout << "Just woken from sleep:: master thread:: thread Id" << t->osthread()->thread_id() << endl;
+			wasSleeping = false;
 		}
 		// This is the master thread that wakes up after every 1 second
 //		_collector->getPartitionMetaData()->getZeroPages();
@@ -4555,6 +4561,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		HeapWord* prev_obj;
 		u_jbyte oldValue;
 		bool isSetToFinalWork;
+		Thread* t = Thread::current();
+		bool wasSleeping = false;
 //		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
 			if (_partitionMetaData->checkToYield()){
@@ -4579,8 +4587,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
 				while(SwapMetrics::_shouldWait){
-					cout << "Going for sleep:: worker thread" << endl;
+					wasSleeping=true;
+					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					sleep(1);
+				}
+				if(isSleeping){
+					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
+					wasSleeping = false;
 				}
 			}
 			// Releasing the partition
