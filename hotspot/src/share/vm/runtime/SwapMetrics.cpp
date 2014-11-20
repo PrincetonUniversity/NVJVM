@@ -145,7 +145,7 @@ void* monitorIOMutators(void* arg){
   }
   	  SwapMetrics::_numberReportsMutator++;
   	  average = (cpuUtilization[0]+cpuUtilization[1]+cpuUtilization[2])/3;
-  	  SwapMetrics::_shouldWait = (average > 15);
+  	  SwapMetrics::_shouldWait = (average > 10);
   	  cout << "Waitflag::" << SwapMetrics::_shouldWait << endl;
   	  sleep(1);
   }
