@@ -130,6 +130,7 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 }
 
 void* monitorIOMutators(void* arg){
+  int cpuUtilizationArr[] = {0,0,0};
   printf("Starting the mutator IO monitor.\n");
   double value;
   double cpuUtilization, diskUtilization;
@@ -165,9 +166,11 @@ void* monitorIOMutators(void* arg){
 	   diskUtilization = value;
 	}
   }
-  	  SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95) ;
-  	  cout << "OverUtilized Metric = " << SwapMetrics::_overutilized << endl;
+//    SwapMetrics::_overutilized = (cpuUtilization>10) || (diskUtilization>95) ;
   	  SwapMetrics::_numberReportsMutator++;
+  	  cpuUtilizationArr[SwapMetrics::_numberReportsMutator%3]=cpuUtilization;
+  	  SwapMetrics::_overutilized = ((cpuUtilizationArr[0]+ cpuUtilizationArr[1]+cpuUtilizationArr[2])/3)>10;
+  	  cout << "OverUtilized Metric = " << SwapMetrics::_overutilized << endl;
   	  sleep(1);
   }
 }
