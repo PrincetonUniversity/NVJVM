@@ -110,13 +110,14 @@ std::string splitString(std::string buf, int index){
 
 void* monitorIOMutators(void* arg){
   printf("Starting the mutator IO monitor.\n");
-  double value;
+  double value, average;
   int count;
   string temp;
   FILE *fp;
   char buf[BUF_MAX];
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-2");
+  double cpuUtilization[] = {0, 0, 0};
   while(true){
   count = 0;
   fp = popen(cmd.c_str(), "r");
@@ -127,11 +128,12 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
+	  cpuUtilization[SwapMetrics::_numberReportsMutator%3] = value;
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  SwapMetrics::_shouldWait = (value > 15);
+//	  SwapMetrics::_shouldWait = (value > 15);
 	  cout << "IO Wait" << SwapMetrics::_ioWaitMutator/(SwapMetrics::_numberReportsMutator+1) << endl;
 	}
 	if(count == 13){
@@ -141,6 +143,8 @@ void* monitorIOMutators(void* arg){
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
+  	  average = (cpuUtilization[0]+cpuUtilization[1]+cpuUtilization[2])/3;
+  	  SwapMetrics::_shouldWait = (average > 15);
   	  sleep(1);
   }
 }
