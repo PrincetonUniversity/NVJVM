@@ -4308,6 +4308,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   conc_workers()->start_task(&tsk);
   while (tsk.yielded()) {
     tsk.coordinator_yield();
+    cout << "Continuing workers" << endl;
     conc_workers()->continue_task(&tsk);
   }
   // If the task was aborted, _restart_addr will be non-NULL
