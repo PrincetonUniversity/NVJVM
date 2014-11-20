@@ -4591,7 +4591,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					sleep(1);
 				}
-				if(isSleeping){
+				if(wasSleeping){
 					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					wasSleeping = false;
 				}
