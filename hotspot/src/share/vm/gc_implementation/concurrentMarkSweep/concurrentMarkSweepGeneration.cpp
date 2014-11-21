@@ -3997,7 +3997,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         // The collector state may be any legal state at this point
         // since the background collector may have yielded to the
         // foreground collector.
-//        break;
+        break;
       case Marking:
         // initial marking in checkpointRootsInitialWork has been completed
         cout << "Before Mark From Roots" << endl;
@@ -5305,8 +5305,9 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_NO_GREY_LOG
   	printf("Beginning task 1.\n");
 #endif
-
+  cout << "Starting the concurrent tasks" << endl;
   conc_workers()->start_task(&tsk);
+  cout << "Tasks yielded/aborted" << endl;
   while (tsk.yielded()) {
     tsk.coordinator_yield();
     conc_workers()->continue_task(&tsk);
@@ -8548,6 +8549,7 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	    oop p = oop(addr);
 	    if(p == NULL){
 	    	cout << p << " is null" << endl;
+	    	exit(-1);
 	    }
 	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
 	      // in the case of Clean-on-Enter optimization, redirty card
