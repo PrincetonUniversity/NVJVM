@@ -8546,6 +8546,9 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 
 	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
 	    oop p = oop(addr);
+	    if(p == NULL){
+	    	cout << p << " is null" << endl;
+	    }
 	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
 	      // in the case of Clean-on-Enter optimization, redirty card
 	      // and avoid clearing card by increasing  the threshold.
