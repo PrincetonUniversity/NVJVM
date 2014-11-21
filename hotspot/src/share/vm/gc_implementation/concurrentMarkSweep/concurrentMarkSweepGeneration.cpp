@@ -8592,6 +8592,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
+	do_yield_check();
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
@@ -8678,6 +8679,14 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
     do_yield_check();
   }
   assert(_work_queue->size() == 0, "tautology, emphasizing post-condition");
+}
+
+
+// Yield in response to a request from VM Thread or
+// from mutators.
+void Par_MarkFromGreyRootsClosure::do_yield_work() {
+  assert(_task != NULL, "sanity");
+  _task->yield();
 }
 
 // Yield in response to a request from VM Thread or

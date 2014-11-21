@@ -2569,6 +2569,8 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
     ChunkList* _chunkList;
     MemRegion _whole_span;
     CMSMarkStack* _revisit_stack;
+    CMSConcMarkingTask* _task;
+    bool _yield;
 
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
@@ -2579,6 +2581,10 @@ public:
     	return _bit_map;
     }
     void scan_oops_in_oop(HeapWord* ptr);
+    inline void do_yield_check();
+
+private:
+    void do_yield_work();
 };
 
 class ClearDirtyCardClosure: public BitMapClosure {
