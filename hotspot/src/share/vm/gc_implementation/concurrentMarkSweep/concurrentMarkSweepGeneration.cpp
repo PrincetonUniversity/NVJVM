@@ -3635,7 +3635,6 @@ bool CMSCollector::markFromRoots(bool asynch) {
 
   bool res;
   if (asynch) {
-
     // Start the timers for adaptive size policy for the concurrent phases
     // Do it here so that the foreground MS can use the concurrent
     // timer since a foreground MS might has the sweep done concurrently
@@ -3711,7 +3710,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // Because the implementation of bit map marking is not
   // robust wrt simultaneous marking of bits in the same word,
   // we need to make sure that there is no such interference
-  // between concurrent such updates.
+  // between such concurrent updates.
 
   // already have locks
   assert_lock_strong(bitMapLock());

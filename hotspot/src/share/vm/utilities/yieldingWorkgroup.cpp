@@ -52,7 +52,7 @@ GangWorker* YieldingFlexibleWorkGang::allocate_worker(int which) {
 // from its last yield point. Thus, a completed task will return
 // immediately with no actual work having been done by the workers.
 /////////////////////
-// Implementatiuon notes: remove before checking XXX
+// Implementation notes: remove before checking XXX
 /*
 Each gang is working on a task at a certain time.
 Some subset of workers may have yielded and some may
