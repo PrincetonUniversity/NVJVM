@@ -8531,8 +8531,6 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
 }
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
-	bool expr;
-
 	// convert offset into a HeapWord*
 	HeapWord* addr = _bit_map->startWord() + offset;
 
