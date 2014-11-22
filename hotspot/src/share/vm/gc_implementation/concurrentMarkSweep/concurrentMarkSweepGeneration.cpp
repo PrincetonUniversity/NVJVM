@@ -8589,6 +8589,10 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
+	if(obj == NULL){
+		cout << "in scan_oops_in_oop, object is null" << endl;
+		exit (-1);
+	}
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
