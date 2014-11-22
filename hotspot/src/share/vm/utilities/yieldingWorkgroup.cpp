@@ -201,6 +201,7 @@ void YieldingFlexibleWorkGang::reset() {
 }
 
 void YieldingFlexibleWorkGang::yield() {
+  cout << "in YieldingFlexibleWorkGang" << endl;
   assert(task() != NULL, "Inconsistency; should have task binding");
   MutexLockerEx ml(monitor(), Mutex::_no_safepoint_check_flag);
   assert(yielded_workers() < total_workers(), "Consistency check");
@@ -286,6 +287,7 @@ void YieldingFlexibleWorkGang::abort() {
 ///////////////////////////////
 void YieldingFlexibleGangTask::yield() {
   assert(gang() != NULL, "No gang to signal");
+  cout << "gang yielding" << endl;
   gang()->yield();
 }
 
