@@ -8696,6 +8696,9 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
 void Par_MarkFromGreyRootsClosure::do_yield_work() {
   assert(_task != NULL, "sanity");
   cout << "in task yielding" << endl;
+  if(_task == NULL){
+	  cout << "the task is null" << endl;
+  }
   _task->yield();
 }
 
