@@ -4546,7 +4546,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 					&_collector->_markBitMap,
 					_collector->getChunkList(),
 					my_span,
-					&_collector->_revisitStack);
+					&_collector->_revisitStack, this, _asynch);
 						_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		// Special case handling the my_span.end(), which does not get iterated
 						handleOop(my_span.end(), &cl);
@@ -4829,7 +4829,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 							&_collector->_markBitMap,
 							_collector->getChunkList(),
 							my_span,
-							&_collector->_revisitStack);
+							&_collector->_revisitStack, this, _asynch);
 						        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 				// Special case handling the my_span.end(), which does not get iterated
 						        handleOop(my_span.end(), &cl);
@@ -4905,7 +4905,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS(int i){
 		                                    &_collector->_markBitMap,
 		                                    _collector->getChunkList(),
 		                                    my_span,
-		                                    &_collector->_revisitStack);
+		                                    &_collector->_revisitStack, this, _asynch);
 		        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 // Special case handling the my_span.end(), which does not get iterated
 		        handleOop(my_span.end(), &cl);
@@ -8495,14 +8495,15 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,
-		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack){
+		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield){
+	_task = task;
 	_collector = collector;
 	_bit_map = bit_map;
-
 	_chunkList = chunkList;
 	_whole_span = span;
 	_skip_bits = 0;
 	_revisit_stack = revisit_stack;
+	_yield = shouldYield;
 }
 
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
