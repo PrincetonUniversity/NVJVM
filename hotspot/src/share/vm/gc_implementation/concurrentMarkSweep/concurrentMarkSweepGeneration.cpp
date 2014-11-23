@@ -4248,7 +4248,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setToWorkFinal();
 				}
 			}
-			if(loopCount > 100000){
+			if(loopCount > 1000){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
 			}
