@@ -217,7 +217,7 @@ void YieldingFlexibleWorkGang::yield() {
   }
   printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
 		  _yielded_workers, finished_workers(), total_workers());
-  if (++_yielded_workers + finished_workers() == total_workers()) {
+  if (++_yielded_workers + finished_workers() == (total_workers()-1)) {
     yielding_task()->set_status(YIELDED);
     printf("Notifying all the waiting threads .... \n");
     monitor()->notify_all();

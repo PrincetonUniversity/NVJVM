@@ -5277,7 +5277,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
                          cms_space,
                          perm_space,
                          asynch,
-                         conc_workers()-1,
+                         conc_workers(),
                          task_queues());
 #if OCMS_NO_GREY_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
