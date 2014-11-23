@@ -4508,7 +4508,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 //#endif
 // On clearing the page level grey object count the chunk level grey object count gets decrement
 	_collector->decGreyObj(pageAddress, (int)oldValue);
-	cout << "decrement done" << endl;
+//	cout << "decrement done" << endl;
 	// Getting the space wherein the page lies
 	sp = getSpace(pageAddress);
 	// The memory region containing the
@@ -4577,7 +4577,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-
+			cout << "partitionindex"
 			if(currentPartitionIndex == -1){
 				break;
 			}
