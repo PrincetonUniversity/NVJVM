@@ -201,7 +201,7 @@ void YieldingFlexibleWorkGang::reset() {
 }
 
 void YieldingFlexibleWorkGang::yield() {
-  cout << "in YieldingFlexibleWorkGang" << endl;
+//  cout << "in YieldingFlexibleWorkGang" << endl;
   assert(task() != NULL, "Inconsistency; should have task binding");
   MutexLockerEx ml(monitor(), Mutex::_no_safepoint_check_flag);
   assert(yielded_workers() < total_workers(), "Consistency check");
@@ -215,11 +215,11 @@ void YieldingFlexibleWorkGang::yield() {
     // us to return at each potential yield point.
     return;
   }
-  printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
-		  _yielded_workers, finished_workers(), total_workers());
+//  printf("In Yield, yielded workers %d, finished workers %d, total workers %d.\n",
+//		  _yielded_workers, finished_workers(), total_workers());
   if (++_yielded_workers + finished_workers() == (total_workers()-1)) {
     yielding_task()->set_status(YIELDED);
-    printf("Notifying all the waiting threads .... \n");
+//    printf("Notifying all the waiting threads .... \n");
     monitor()->notify_all();
   } else {
     yielding_task()->set_status(YIELDING);
@@ -287,7 +287,7 @@ void YieldingFlexibleWorkGang::abort() {
 ///////////////////////////////
 void YieldingFlexibleGangTask::yield() {
   assert(gang() != NULL, "No gang to signal");
-  cout << "gang yielding" << endl;
+//  cout << "gang yielding" << endl;
   gang()->yield();
 }
 
