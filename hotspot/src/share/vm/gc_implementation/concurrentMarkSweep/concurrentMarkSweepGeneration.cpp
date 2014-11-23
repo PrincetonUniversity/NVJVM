@@ -4569,18 +4569,26 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool isSetToFinalWork;
 		Thread* t = Thread::current();
 		bool wasSleeping = false;
-//		printf("Entering do_scan_and_mark. Id = %d.\n", i);
+		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
+
 			if(currentPartitionIndex == -1){
 				break;
 			}
+
+			if(_partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
+				cout << "the grey object count for current partition is 0"  << endl;
+				exit(-1);
+			}
+
 			// The indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
+
 //#if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
@@ -4591,15 +4599,15 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				while(SwapMetrics::_shouldWait && AdaptiveGC){
+				/*while(SwapMetrics::_shouldWait && AdaptiveGC){
 					wasSleeping=true;
 //					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
-					sleep(1);
+//					sleep(1);
 				}
 				if(wasSleeping){
 //					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					wasSleeping = false;
-				}
+				}*/
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -5314,7 +5322,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   cout << "Tasks yielded/aborted" << endl;
   while (tsk.yielded()) {
     tsk.coordinator_yield();
-    cout << "continuing tasks" << endl;
+//    cout << "continuing tasks" << endl;
     conc_workers()->continue_task(&tsk);
   }
 
