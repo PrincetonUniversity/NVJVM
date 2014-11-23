@@ -4503,11 +4503,12 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 //#if OCMS_NO_GREY_ASSERT
 	if(oldValue == 0){
 		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
-//		exit (-1);
+		exit (-1);
 	}
 //#endif
-// On clearing the page level grey object count the chunk level grey object count gets cleared
+// On clearing the page level grey object count the chunk level grey object count gets decrement
 	_collector->decGreyObj(pageAddress, (int)oldValue);
+	cout << "decrement done" << endl;
 	// Getting the space wherein the page lies
 	sp = getSpace(pageAddress);
 	// The memory region containing the
