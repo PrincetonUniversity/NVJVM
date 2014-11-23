@@ -4196,10 +4196,10 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 #endif
 	}while(greyObjectCount > countThreshold);
 
-#if OCMS_NO_GREY_LOG
+//#if OCMS_NO_GREY_LOG
 			printf("Grey Object Count (%d) < Threshold. "
 					"Let me trigger the OCMS_Mark_Operation\n", greyObjectCount);
-#endif
+//#endif
 	_partitionMetaData->setToYield();
 #if OCMS_NO_GREY_LOG
 			printf("Tasks set to yield.\n");
@@ -4496,12 +4496,12 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-#if OCMS_NO_GREY_ASSERT
+//#if OCMS_NO_GREY_ASSERT
 	if(oldValue == 0){
 		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
-		exit (-1);
+//		exit (-1);
 	}
-#endif
+//#endif
 // On clearing the page level grey object count the chunk level grey object count gets cleared
 	_collector->decGreyObj(pageAddress, (int)oldValue);
 	// Getting the space wherein the page lies
@@ -4577,11 +4577,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// The indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
-#if OCMS_NO_GREY_ASSERT
-			if(pageIndices.size() == 0 && isSetToFinalWork){
+//#if OCMS_NO_GREY_ASSERT
+			if(pageIndices.size() == 0){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 			}
-#endif
+//#endif
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
