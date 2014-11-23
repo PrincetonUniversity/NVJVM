@@ -4252,7 +4252,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
 			}
-			_partitionMetaData->setToWorkFinal();
+			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
 #if OCMS_NO_GREY_LOG
@@ -4577,7 +4577,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			cout << "partitionindex"
 			if(currentPartitionIndex == -1){
 				break;
 			}
