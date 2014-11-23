@@ -4572,6 +4572,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool wasSleeping = false;
 		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
+			cout << "calling check to yield" << endl;
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
