@@ -4211,6 +4211,9 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 void CMSConcMarkingTask::masterThreadWorkFinal(){
   printf("In master thread work final entered.\n");
   int loopCount = 0;
+  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
+			_partitionMetaData->getTotalGreyObjectsChunkLevel());
+
 #if OCMS_NO_GREY_LOG
  printf("In master thread work final.\n");
 #endif
