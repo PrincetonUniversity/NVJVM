@@ -4600,8 +4600,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //#endif
 			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
 					"partition size = " << pageIndices.size() << endl;
+			int pCounter=0;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
+				pCounter++;
+				cout << "Pages Scanned = " << pCounter << endl;
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
