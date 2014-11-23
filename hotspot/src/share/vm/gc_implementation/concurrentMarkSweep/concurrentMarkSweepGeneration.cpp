@@ -4598,7 +4598,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 			}
 //#endif
-			cout << "Scanning pages for partition ::" << currentPartitionIndex;
+			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
+					"partition size = " << pageIndices.size() << endl;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
