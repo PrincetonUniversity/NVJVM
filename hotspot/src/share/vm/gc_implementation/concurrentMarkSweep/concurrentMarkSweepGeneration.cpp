@@ -4157,7 +4157,8 @@ void CMSConcMarkingTerminator::yield() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkInitial() {
-//	printf("In master thread work initial entered.\n");
+	printf("In master thread work initial entered.\n");
+	printf("LoopCount = 0. Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
 	bool wasSleeping = false;
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work initial.\n");
