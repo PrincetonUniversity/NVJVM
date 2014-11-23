@@ -4598,6 +4598,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 			}
 //#endif
+			cout << "Scanning pages for partition ::" << currentPartitionIndex;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex);
@@ -4614,6 +4615,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				}*/
 			}
 			// Releasing the partition
+			cout << "Releasing partition ::" << currentPartitionIndex;
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
 //		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
