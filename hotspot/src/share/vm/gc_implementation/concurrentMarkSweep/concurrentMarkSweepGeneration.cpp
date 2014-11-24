@@ -4483,7 +4483,7 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 
 long int CMSConcMarkingTask::getTimeStamp(){
 	struct timeval tp;
-	gettimeofday(&tp);
+	gettimeofday(&tp, NULL);
 	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 	return ms;
 }
