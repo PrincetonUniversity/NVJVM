@@ -1544,7 +1544,7 @@ public:
 		int count=0;
 		jbyte rValue;
 		while(true){
-			rValue = Atomic::cmpxchg((signed char)newValue, (signed char*)position, (signed char)value);
+			rValue = (jubyte)Atomic::cmpxchg((signed char)newValue, (signed char*)position, (signed char)value);
 			if(rValue == newValue) break;
 			value = *position;
 			newValue = value + increment;
