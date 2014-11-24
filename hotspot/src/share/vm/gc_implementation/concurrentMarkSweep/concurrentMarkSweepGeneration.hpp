@@ -1518,14 +1518,14 @@ public:
 		jubyte *position = &(_pageGOC[index]);
 		jubyte value = *position;
 		jubyte newValue = 0;
-		/*while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+				(signed char)value) != (signed char)newValue){
 			value = *position;
-		}*/
-		if(Atomic::cmpxchg((jbyte)newValue, (jbyte *)position, (jbyte)value) != (jbyte)newValue){
+		}
+		/*if(Atomic::cmpxchg((jbyte)newValue, (jbyte *)position, (jbyte)value) != (jbyte)newValue){
 			cout << "result mismatch cmpxchg" << endl;
 			exit(-1);
-		}
+		}*/
 //		decreaseBy((unsigned int)value);
 		return (unsigned int)value;
 	}
