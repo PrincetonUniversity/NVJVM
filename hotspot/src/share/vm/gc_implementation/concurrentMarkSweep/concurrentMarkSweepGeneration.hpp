@@ -1542,7 +1542,7 @@ public:
 		jubyte value = *position;
 		jubyte newValue = value + increment;
 		int count=0;
-		jbyte rValue;
+		jubyte rValue;
 		while(true){
 			rValue = (jubyte)Atomic::cmpxchg((signed char)newValue, (signed char*)position, (signed char)value);
 			if(rValue == newValue) break;
