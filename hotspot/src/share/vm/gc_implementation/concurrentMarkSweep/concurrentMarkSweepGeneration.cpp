@@ -4533,7 +4533,8 @@ cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
 		bool currentMarked = false;
 		int _skipbits = 0;
 		HeapWord* currPos = sp->block_start_careful(span.start());
-		printf("before getting starting address, %ld seconds \n", getTimeStamp());
+		printf("before getting starting address, %ld milliseconds, page index = %d"
+				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4553,7 +4554,7 @@ cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
 			}
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
-		printf("after getting starting address, %ld seconds \n", getTimeStamp());
+		printf("after getting starting address, %ld milliseconds, page index = %d\n", getTimeStamp(), pageIndex);
 		prev_obj = currPos;
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
