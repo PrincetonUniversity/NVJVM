@@ -4490,7 +4490,7 @@ long int CMSConcMarkingTask::getTimeStamp(){
 
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
-cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
+//cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
 
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
@@ -4555,7 +4555,7 @@ cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());*/
 //		printf("after getting starting address, %ld milliseconds, page index = %d\n", getTimeStamp(), pageIndex);
-		prev_obj = _partitionMetaData->objectStartAddress(pageIndex);
+		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
 			// Do the marking work within a non-empty span --
@@ -4620,8 +4620,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				cout << "Pages Scanned = " << pCounter << ",";
-				printf("%ld seconds \n", getTimeStamp());
+//				cout << "Pages Scanned = " << pCounter << ",";
+//				printf("%ld seconds \n", getTimeStamp());
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
@@ -4636,8 +4636,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				}*/
 			}
 			// Releasing the partition
-			cout << "Releasing partition ::" << currentPartitionIndex << ", ";
-			printf("%ld seconds \n", getTimeStamp());
+//			cout << "Releasing partition ::" << currentPartitionIndex << ", ";
+//			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
 //		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
