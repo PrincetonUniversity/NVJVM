@@ -1542,13 +1542,16 @@ public:
 		jubyte value = *position;
 		jubyte newValue = value + increment;
 		int count=0;
-		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)newValue){
+		jbyte rValue;
+		while(true){
+			rValue = Atomic::cmpxchg((signed char)newValue, (signed char*)position, (signed char)value);
+			if(rValue == newValue) break;
 			value = *position;
 			newValue = value + increment;
 			count++;
 			if(count>10){
-				cout << "stuck in the loop, get me out of here count::" << count << endl;
+				cout << "stuck in the loop, get me out of here count::" << count << ", newValue::" <<
+				newValue << ", rValue::" << rValue << endl;
 			}
 		}
 		return (unsigned int)newValue;
