@@ -4815,7 +4815,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 			sp = getSpace(pageAddress);
 			// The memory region containing the
 			MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
-					(HeapWord *)Utility::getPageEnd(pageAddress));
+					(HeapWord *)Utility::getPageEnd(pageAddress)+1);
 			span = span.intersection(sp->used_region());
 			if(!span.is_empty()){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
