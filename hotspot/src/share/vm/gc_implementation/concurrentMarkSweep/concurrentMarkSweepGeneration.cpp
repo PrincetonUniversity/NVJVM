@@ -4524,7 +4524,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 	sp = getSpace(pageAddress);
 	// The memory region containing the
 	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
-			(HeapWord *)Utility::getPageEnd(pageAddress));
+			(HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
 	if(!span.is_empty()){
 // One of questions that we need to get an answer to is the number of extra pages this can touch
@@ -4570,7 +4570,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 
 			// Special case handling the my_span.end(), which does not get iterated
-			handleOop(my_span.end(), &cl);
+//			handleOop(my_span.end(), &cl);
 		}
 	}
 }
