@@ -1323,7 +1323,7 @@ public:
 		jshort *position = &(_pageStart[index]);
 		jshort value = *position;
 		while(Atomic::cmpxchg((jshort)newValue, (volatile jshort*)position,
-				(jshort)value) !=  (jshort)value){
+				(jshort)value) !=  (jshort)newValue){
 			value = *position;
 			if(newValue > value){
 				break;
@@ -1522,11 +1522,6 @@ public:
 				(signed char)value) != (signed char)newValue){
 			value = *position;
 		}
-		/*if(Atomic::cmpxchg((jbyte)newValue, (jbyte *)position, (jbyte)value) != (jbyte)newValue){
-			cout << "result mismatch cmpxchg" << endl;
-			exit(-1);
-		}*/
-//		decreaseBy((unsigned int)value);
 		return (unsigned int)value;
 	}
 
@@ -1547,7 +1542,7 @@ public:
 		jubyte value = *position;
 		jubyte newValue = value + increment;
 		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+				(signed char)value) != (signed char)newValue){
 			value = *position;
 			newValue = value + increment;
 		}
@@ -1561,7 +1556,7 @@ public:
 		jubyte value = *position;
 		jubyte newValue = value - decrement;
 		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+				(signed char)value) != (signed char)newValue){
 			value = *position;
 			newValue = value - decrement;
 		}
