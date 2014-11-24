@@ -2584,6 +2584,7 @@ public:
     }
     void scan_oops_in_oop(HeapWord* ptr);
     inline void do_yield_check();
+    int getSkipBits() { return _skip_bits; }
 
 private:
     void do_yield_work();

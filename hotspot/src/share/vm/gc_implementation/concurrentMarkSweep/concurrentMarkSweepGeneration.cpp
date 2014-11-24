@@ -4870,9 +4870,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
 							_collector->getChunkList(),
 							my_span,
 							&_collector->_revisitStack, this, _asynch);
-						        _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+				_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 				// Special case handling the my_span.end(), which does not get iterated
-						        handleOop(my_span.end(), &cl);
+				//handleOop(my_span.end(), &cl);
 			}
 			// Clearing the mark on the partition, so that the partition can be reused
 		}
