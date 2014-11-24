@@ -4588,14 +4588,14 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool wasSleeping = false;
 		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
-			cout << "calling check to yield" << endl;
+//			cout << "calling check to yield" << endl;
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
 			// Getting the next available partition
-			cout << "get partition index called" << endl;
+//			cout << "get partition index called" << endl;
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			cout << "partition index :: " << currentPartitionIndex << endl;
+//			cout << "partition index :: " << currentPartitionIndex << endl;
 
 			if(currentPartitionIndex == -1){
 				break;
@@ -4614,8 +4614,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 			}
 //#endif
-			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
-					"partition size = " << pageIndices.size() << endl;
+//			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
+//					"partition size = " << pageIndices.size() << endl;
 			int pCounter=0;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
@@ -8626,7 +8626,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
     }
   }
   scan_oops_in_oop(addr);
-//  do_yield_check();
+  do_yield_check();
   return true;
 }
 
