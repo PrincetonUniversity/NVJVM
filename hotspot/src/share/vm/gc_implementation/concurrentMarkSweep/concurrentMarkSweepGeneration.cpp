@@ -4561,9 +4561,11 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 					_collector->getChunkList(),
 					my_span,
 					&_collector->_revisitStack, this, _asynch);
-						_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		printf("before markbitmap iterate, %ld seconds \n", getTimeStamp());
+		_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+		printf("after markbitmap iterate, %ld seconds \n", getTimeStamp());
 		// Special case handling the my_span.end(), which does not get iterated
-						handleOop(my_span.end(), &cl);
+		handleOop(my_span.end(), &cl);
 	}
 }
 }
