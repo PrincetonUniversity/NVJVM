@@ -1541,10 +1541,15 @@ public:
 		jubyte *position = &(_pageGOC[index]);
 		jubyte value = *position;
 		jubyte newValue = value + increment;
+		int count=0;
 		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
 				(signed char)value) != (signed char)newValue){
 			value = *position;
 			newValue = value + increment;
+			count++;
+			if(count>10){
+				cout << "stuck in the loop, get me out of here count::" << count << endl;
+			}
 		}
 		return (unsigned int)newValue;
 	}
