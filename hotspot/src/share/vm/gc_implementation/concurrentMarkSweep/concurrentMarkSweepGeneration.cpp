@@ -4490,6 +4490,8 @@ long int CMSConcMarkingTask::getTimeStamp(){
 
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
+cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
+
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
 		printf("Before .... Something is wrong. Grey Object Count = 0, "
@@ -4531,6 +4533,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		bool currentMarked = false;
 		int _skipbits = 0;
 		HeapWord* currPos = sp->block_start_careful(span.start());
+		printf("before getting starting address, %ld seconds \n", getTimeStamp());
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4550,24 +4553,25 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			}
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
+		printf("after getting starting address, %ld seconds \n", getTimeStamp());
 		prev_obj = currPos;
 		if (prev_obj <= span.end()) {
-		MemRegion my_span = MemRegion(prev_obj, span.end());
-		// Do the marking work within a non-empty span --
-		// the last argument to the constructor indicates whether the
-		// iteration should be incremental with periodic yields.
-		Par_MarkFromGreyRootsClosure cl(_collector,
-					&_collector->_markBitMap,
-					_collector->getChunkList(),
-					my_span,
-					&_collector->_revisitStack, this, _asynch);
-		printf("before markbitmap iterate, %ld seconds \n", getTimeStamp());
-		_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
-		printf("after markbitmap iterate, %ld seconds \n", getTimeStamp());
-		// Special case handling the my_span.end(), which does not get iterated
-		handleOop(my_span.end(), &cl);
+			MemRegion my_span = MemRegion(prev_obj, span.end());
+			// Do the marking work within a non-empty span --
+			// the last argument to the constructor indicates whether the
+			// iteration should be incremental with periodic yields.
+			Par_MarkFromGreyRootsClosure cl(_collector,
+						&_collector->_markBitMap,
+						_collector->getChunkList(),
+						my_span,
+						&_collector->_revisitStack, this, _asynch);
+
+			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+
+			// Special case handling the my_span.end(), which does not get iterated
+			handleOop(my_span.end(), &cl);
+		}
 	}
-}
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
