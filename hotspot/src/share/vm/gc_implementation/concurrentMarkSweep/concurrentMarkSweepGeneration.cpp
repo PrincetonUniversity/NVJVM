@@ -4620,7 +4620,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				cout << "Pages Scanned = " << pCounter << ", timestamp = " << getTimeStamp() <<  endl;
+				cout << "Pages Scanned = " << pCounter << ",";
+				printf("%.f seconds \n", getTimeStamp());
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
