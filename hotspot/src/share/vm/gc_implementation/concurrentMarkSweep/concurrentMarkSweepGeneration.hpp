@@ -25,6 +25,7 @@
 #ifndef SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CONCURRENTMARKSWEEPGENERATION_HPP
 #define SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CONCURRENTMARKSWEEPGENERATION_HPP
 
+#include <sys/time.h>
 #include "time.h"
 #include "gc_implementation/concurrentMarkSweep/freeBlockDictionary.hpp"
 #include "gc_implementation/shared/gSpaceCounters.hpp"
