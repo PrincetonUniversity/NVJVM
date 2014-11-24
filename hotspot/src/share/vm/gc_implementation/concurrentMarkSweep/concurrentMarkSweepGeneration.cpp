@@ -3868,6 +3868,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS_NO_GREY(int i);
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int i);
+  double getTimeStamp(void);
   bool shouldStop();
   void check_if_all_alive_page(int pIndex);
   int do_chunk_size(void *);
@@ -4480,6 +4481,21 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	  }
 }
 
+double CMSConcMarkingTask::getTimeStamp(){
+	  time_t timer;
+	  struct tm y2k;
+	  double seconds;
+
+	  y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
+	  y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+
+	  time(&timer);  /* get current time; same as: timer = time(NULL)  */
+
+	  seconds = difftime(timer,mktime(&y2k));
+	  return seconds;
+}
+
+
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
@@ -4604,7 +4620,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				cout << "Pages Scanned = " << pCounter << endl;
+				cout << "Pages Scanned = " << pCounter << ", timestamp = " << getTimeStamp() <<  endl;
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
