@@ -4227,9 +4227,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 			sleep(1);
 		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
-#if OCMS_NO_GREY_LOG
+//#if OCMS_NO_GREY_LOG
 				printf("Setting a signal to all the threads to wait/become idle.\n");
-#endif
+//#endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
 #if OCMS_NO_GREY_LOG
 				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
@@ -4254,7 +4254,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
 			}
 			_partitionMetaData->setToWork();
-			usleep(1000);
+			usleep(10000);
 		}
 #if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
@@ -8625,18 +8625,18 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	if(obj == NULL || obj->is_oop() == false){
+	/*if(obj == NULL || obj->is_oop() == false){
 		cout << "in scan_oops_in_oop, object is null or not an oop" << endl;
 		return;
 //		exit (-1);
-	}
+	}*/
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
-//	do_yield_check();
+	do_yield_check();
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
