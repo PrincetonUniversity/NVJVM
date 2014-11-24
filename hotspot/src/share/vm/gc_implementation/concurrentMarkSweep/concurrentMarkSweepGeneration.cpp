@@ -3868,7 +3868,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS_NO_GREY(int i);
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int i);
-  double getTimeStamp(void);
+  long int getTimeStamp(void);
   bool shouldStop();
   void check_if_all_alive_page(int pIndex);
   int do_chunk_size(void *);
@@ -4481,18 +4481,11 @@ bool CMSConcMarkingTask::handleOop(HeapWord* addr, Par_MarkFromGreyRootsClosure*
 	  }
 }
 
-double CMSConcMarkingTask::getTimeStamp(){
-	  time_t timer;
-	  struct tm y2k;
-	  double seconds;
-
-	  y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
-	  y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
-
-	  time(&timer);  /* get current time; same as: timer = time(NULL)  */
-
-	  seconds = difftime(timer,mktime(&y2k));
-	  return seconds;
+long int CMSConcMarkingTask::getTimeStamp(){
+	struct timeval tp;
+	gettimeofday(&tp);
+	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	return ms;
 }
 
 
@@ -4621,7 +4614,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				pCounter++;
 				cout << "Pages Scanned = " << pCounter << ",";
-				printf("%.f seconds \n", getTimeStamp());
+				printf("%ld seconds \n", getTimeStamp());
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
@@ -4636,7 +4629,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				}*/
 			}
 			// Releasing the partition
-			cout << "Releasing partition ::" << currentPartitionIndex;
+			cout << "Releasing partition ::" << currentPartitionIndex << ", ";
+			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
 //		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
