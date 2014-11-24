@@ -1158,7 +1158,7 @@ public:
 #endif
 			pageCount = pageIndices.size();
 			// A better logic is required here to get the
-			if((pageIndices.size() < (unsigned int)maxPageCount) && (finalWork)){
+			if((pageIndices.size() < (unsigned int)maxPageCount)){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
 					pageIndices.push_back(*it);
 					pageCount++;
@@ -1518,11 +1518,15 @@ public:
 		jubyte *position = &(_pageGOC[index]);
 		jubyte value = *position;
 		jubyte newValue = 0;
-		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+		/*while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
 				(signed char)value) != (signed char)value){
 			value = *position;
+		}*/
+		if(Atomic::cmpxchg((jbyte)newValue, (jbyte *)position, (jbyte)value) != (jbyte)newValue){
+			cout << "result mismatch cmpxchg" << endl;
+			exit(-1);
 		}
-		decreaseBy((unsigned int)value);
+//		decreaseBy((unsigned int)value);
 		return (unsigned int)value;
 	}
 
