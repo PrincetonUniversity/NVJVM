@@ -4612,6 +4612,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //#if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
+				printf("Grey Objects for partition = %d.\n", _partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex));
+				exit(-1);
 			}
 //#endif
 //			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
