@@ -8636,7 +8636,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
-	do_yield_check();
+//	do_yield_check();
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
