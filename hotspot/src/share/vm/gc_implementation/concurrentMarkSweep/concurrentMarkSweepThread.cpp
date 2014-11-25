@@ -128,7 +128,7 @@ void ConcurrentMarkSweepThread::run() {
     if (_should_terminate) break;
     if(Universe::isGCSignalled){
     	_collector->collect_in_background(false);  // !clear_all_soft_refs
-    	Universe::isGCSignalled = false;
+//    	Universe::isGCSignalled = false;
     }
   }
   assert(_should_terminate, "just checking");
