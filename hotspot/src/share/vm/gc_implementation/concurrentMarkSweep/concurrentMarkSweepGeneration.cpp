@@ -4503,7 +4503,9 @@ long int CMSConcMarkingTask::getTimeStamp(){
 
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex){
-//cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex << endl;
+	Thread* t = Thread::current();
+	int id = t->osthread()->thread_id();
+	cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex  << ", thread id = " << id << endl;
 
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
