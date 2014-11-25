@@ -1519,7 +1519,7 @@ public:
 		jubyte value = *position;
 		jubyte newValue = 0;
 		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)newValue){
+				(signed char)value) != (signed char)value){
 			value = *position;
 		}
 		return (unsigned int)value;
@@ -1541,16 +1541,8 @@ public:
 		jubyte *position = &(_pageGOC[index]);
 		jubyte value = *position;
 		jubyte newValue = value + increment;
-		int count=0;
-		jubyte rValue;
-		while(true){
-			rValue = (jubyte)Atomic::cmpxchg((signed char)newValue, (signed char*)position, (signed char)value);
-			if(rValue == newValue) break;
-			count++;
-			if(count>10){
-				cout << "stuck in the loop, get me out of here count::" << count << ", newValue::" <<
-				newValue << ", rValue::" << rValue << ", old value =" << value << ", current value = " << *position << endl;
-			}
+		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
+				(signed char)value) != (signed char)value){
 			value = *position;
 			newValue = value + increment;
 		}
@@ -1564,7 +1556,7 @@ public:
 		jubyte value = *position;
 		jubyte newValue = value - decrement;
 		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)newValue){
+				(signed char)value) != (signed char)value){
 			value = *position;
 			newValue = value - decrement;
 		}
