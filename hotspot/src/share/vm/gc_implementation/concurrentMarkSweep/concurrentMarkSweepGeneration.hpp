@@ -1620,7 +1620,9 @@ bool checkToYield(){
 
 int getPartition(int currentPartition){
 	int partitionIndex = currentPartition;
+	int count=0;
 	while(true){
+		count++;
 		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
@@ -1629,6 +1631,9 @@ int getPartition(int currentPartition){
 		}
 		if(checkToYield()){
 			return -1;
+		}
+		if(count>10000){
+			cout << "count=" << count << ", i am stuck in getPartition()" << endl;
 		}
 	}
 }
