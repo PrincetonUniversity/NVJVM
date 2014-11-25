@@ -1602,7 +1602,7 @@ bool checkToYield(){
 		incrementWaitThreadCount(); // we are waiting for the next signal from the master
 	// if yes then the count of the number of waiting threads is automatically incremented
 	while(isSetToWait()){
-		cout << "is set to wait, sleeping dude !!" << endl;
+//		cout << "is set to wait, sleeping dude !!" << endl;
 		usleep(WORKER_THREAD_SLEEP_TIME);
 	}
 	// If we find that the master thread has asked us to terminate then we can simply break
