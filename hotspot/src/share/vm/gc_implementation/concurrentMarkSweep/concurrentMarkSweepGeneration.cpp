@@ -4608,14 +4608,18 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 
 			// The indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
-
-//#if OCMS_NO_GREY_ASSERT
+/**
+ *  The below condition (where the partition has a non-zero countof grey objects and none of the pages
+ *  has a non-zero count of grey objects) can occur because the increment of grey objects is non-atomic.
+ *  The partition count of grey objects gets incremented before the page-level count.
+ */
+/*#if OCMS_NO_GREY_ASSERT
 			if(pageIndices.size() == 0){
 				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
 				printf("Grey Objects for partition = %d.\n", _partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex));
 				exit(-1);
 			}
-//#endif
+#endif*/
 //			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
 //					"partition size = " << pageIndices.size() << endl;
 			int pCounter=0;
@@ -7847,9 +7851,9 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 // The counter for the chunk is increased before the counter for the individual page. This is because the
 // decrements for the chunk counts are preceeded by a read on the individual page count. Therefore, if the page
 // count gets incremented before there can be a condition wherein the chunk level count may become negative.
+		  _collector->incGreyObj(addr, 1);
   		  // Incrementing the count for each individual page
 		  _collector->incGreyObjPage(addr, 1);
-		  _collector->incGreyObj(addr, 1);
 	  }
   }
 }
