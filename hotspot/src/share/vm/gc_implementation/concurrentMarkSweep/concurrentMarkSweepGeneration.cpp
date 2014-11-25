@@ -4176,6 +4176,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
 	unsigned int timeMasterThread = 150;
 	MasterThreadState masterThreadState = INITIAL;
+	int count =0;
 	do{
 		while(SwapMetrics::_shouldWait && AdaptiveGC){
 			wasSleeping = true;
@@ -4196,6 +4197,10 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 		printf("Grey Object Count (%d), (universe grey object count --> %d)\n",
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
+	count++;
+	if(count>1000){
+		cout << "Count:" << count << ", grey object count:" << greyObjectCount << endl;
+	}
 	}while(greyObjectCount > countThreshold);
 
 //#if OCMS_NO_GREY_LOG
@@ -4590,6 +4595,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		while(true){
 //			cout << "calling check to yield" << endl;
 			if (_partitionMetaData->checkToYield()){
+				cout << "Is set to yield, breaking" << endl;
 				break;
 			}
 			// Getting the next available partition
@@ -4598,6 +4604,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //			cout << "partition index :: " << currentPartitionIndex << endl;
 
 			if(currentPartitionIndex == -1){
+				cout << "Current partition index -1 breaking" << endl;
 				break;
 			}
 
