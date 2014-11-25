@@ -7875,6 +7875,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 		  _collector->incGreyObj(addr, 1);
   		  // Incrementing the count for each individual page
 		  _collector->incGreyObjPage(addr, 1);
+		  _collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 	  }
   }
 }
@@ -8558,6 +8559,7 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 	// Increasing the page level grey object count
 //		u_jbyte value = __u_inc(addr);
 		_collector->incGreyObjPage(addr, 1);
+		_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 		return true;
 }
 
