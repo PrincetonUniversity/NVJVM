@@ -4306,10 +4306,10 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(ref_processor()->discovery_is_mt(), "Discovery should be MT");
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
   conc_workers()->start_task(&tsk);
-  cout << "Tasks have aborted/yielded" << endl;
+//  cout << "Tasks have aborted/yielded" << endl;
   while (tsk.yielded()) {
     tsk.coordinator_yield();
-    cout << "Continuing workers" << endl;
+//    cout << "Continuing workers" << endl;
     conc_workers()->continue_task(&tsk);
   }
   // If the task was aborted, _restart_addr will be non-NULL
