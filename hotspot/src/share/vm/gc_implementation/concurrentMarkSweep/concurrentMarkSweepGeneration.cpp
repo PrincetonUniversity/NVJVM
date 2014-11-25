@@ -7847,9 +7847,9 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 // The counter for the chunk is increased before the counter for the individual page. This is because the
 // decrements for the chunk counts are preceeded by a read on the individual page count. Therefore, if the page
 // count gets incremented before there can be a condition wherein the chunk level count may become negative.
-		  _collector->incGreyObj(addr, 1);
   		  // Incrementing the count for each individual page
 		  _collector->incGreyObjPage(addr, 1);
+		  _collector->incGreyObj(addr, 1);
 	  }
   }
 }
