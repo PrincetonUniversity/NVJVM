@@ -3827,6 +3827,14 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
  	  return NULL;
    }
 
+  int typeSpace(void *address){
+ 	  if(_cms_space->is_in(address))
+ 		  return 1;
+ 	  if(_perm_space->is_in(address))
+ 		  return 2;
+ 	  return 0;
+   }
+
   OopTaskQueueSet* task_queues()  { return _task_queues; }
 
   OopTaskQueue* work_queue(int i) { return task_queues()->queue(i); }
@@ -4635,8 +4643,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				pCounter++;
 				if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
-					cout  << "Something is wrong. Page to be scanned has an illegal start address,";
-					cout << "grey count for the page:" << _partitionMetaData->getGreyCount(pageIndex) << endl;
+					int spaceType = typeSpace(_partitionMetaData->getPageBase(pageIndex));
+					cout << "Something is wrong. Page to be scanned has an illegal start address,";
+					cout << "Grey count for the page:" << _partitionMetaData->getGreyCount(pageIndex)
+						 <<	"Space Type: " << spaceType << endl;
 					exit (-1);
 				}
 				scan_a_page(pageIndex);
