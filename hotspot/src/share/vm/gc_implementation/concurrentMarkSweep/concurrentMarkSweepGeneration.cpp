@@ -4667,7 +4667,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-//		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
+		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
 }
 
 int CMSConcMarkingTask::do_live_chunk_size(HeapWord* fc){
