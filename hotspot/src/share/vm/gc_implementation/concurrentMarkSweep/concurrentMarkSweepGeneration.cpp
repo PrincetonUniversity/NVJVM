@@ -4198,9 +4198,9 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 							greyObjectCount, _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
 	count++;
-	if(count>1000){
+	/*if(count>1000){
 		cout << "Count:" << count << ", grey object count:" << greyObjectCount << endl;
-	}
+	}*/
 	}while(greyObjectCount > countThreshold);
 
 //#if OCMS_NO_GREY_LOG
