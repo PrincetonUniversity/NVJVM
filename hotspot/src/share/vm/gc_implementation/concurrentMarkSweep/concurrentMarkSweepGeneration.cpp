@@ -4505,6 +4505,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		exit (-1);
 	}
 #endif
+
 	int currentPartitionIndex = -1;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
@@ -4635,6 +4636,10 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pCounter++;
 //				cout << "Pages Scanned = " << pCounter << ",";
 //				printf("%ld seconds \n", getTimeStamp());
+				if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
+					cout  << "Something is wrong. Page to be scanned has an illegal start address" << endl;
+					exit (-1);
+				}
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
