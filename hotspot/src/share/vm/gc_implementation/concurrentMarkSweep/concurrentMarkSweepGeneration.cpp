@@ -4599,6 +4599,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		u_jbyte oldValue;
 		bool isSetToFinalWork;
 		Thread* t = Thread::current();
+		int id = t->osthread()->thread_id();
 		bool wasSleeping = false;
 //		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
@@ -4610,7 +4611,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Getting the next available partition
 //			cout << "get partition index called" << endl;
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			cout << "partition index :: " << currentPartitionIndex << endl;
+			cout << "partition index :: " << currentPartitionIndex << ", Id ="<< id << endl;
 
 			if(currentPartitionIndex == -1){
 				cout << "Current partition index -1 breaking" << endl;
@@ -4667,7 +4668,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-		printf("Yielding from do_scan_and_mark. Id = %d.\n", i);
+		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
 
 int CMSConcMarkingTask::do_live_chunk_size(HeapWord* fc){
