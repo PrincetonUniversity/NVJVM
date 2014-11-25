@@ -4610,7 +4610,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 
 			if(_partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
-				cout << "the grey object count for current partition is 0"  << endl;
+				cout << "the grey object count for current partition is 0"<< endl;
 				exit(-1);
 			}
 
@@ -4634,10 +4634,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-//				cout << "Pages Scanned = " << pCounter << ",";
-//				printf("%ld seconds \n", getTimeStamp());
 				if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
-					cout  << "Something is wrong. Page to be scanned has an illegal start address" << endl;
+					cout  << "Something is wrong. Page to be scanned has an illegal start address,";
+					cout << "grey count for the page:" << _partitionMetaData->getGreyCount(pageIndex) << endl;
 					exit (-1);
 				}
 				scan_a_page(pageIndex);
