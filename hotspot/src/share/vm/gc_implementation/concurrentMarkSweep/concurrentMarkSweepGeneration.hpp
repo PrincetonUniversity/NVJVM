@@ -2451,7 +2451,7 @@ class ConcurrentMarkSweepGeneration: public CardGeneration {
   void setNearLargestChunk();
   bool isNearLargestChunk(HeapWord* addr);
 
-  // Get the chunk at the end of the space.  Delagates to
+  // Get the chunk at the end of the space.  Delegates to
   // the space.
   FreeChunk* find_chunk_at_end();
 

@@ -4618,7 +4618,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 
 			if(_partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
-				cout << "the grey object count for current partition is 0"<< endl;
+				cout << "the grey object count for current partition :: " << currentPartitionIndex << "is 0" << endl;
 				exit(-1);
 			}
 
@@ -9032,6 +9032,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 // Increasing the page level grey object count
 //				 u_jbyte value = __u_inc(addr);
 				_collector->incGreyObjPage(addr, 1);
+				_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 			}
 		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
