@@ -4610,7 +4610,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Getting the next available partition
 //			cout << "get partition index called" << endl;
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-//			cout << "partition index :: " << currentPartitionIndex << endl;
+			cout << "partition index :: " << currentPartitionIndex << endl;
 
 			if(currentPartitionIndex == -1){
 				cout << "Current partition index -1 breaking" << endl;
