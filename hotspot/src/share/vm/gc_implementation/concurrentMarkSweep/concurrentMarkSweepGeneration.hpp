@@ -754,7 +754,11 @@ class PartitionMetaData : public CHeapObj {
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
 	jbyte* _partitionMap;
 	int _garbageChunks;
+	CMSConcMarkingTask* _task;
+    bool _yield;
 
+    void setDoyield(bool v) { _yield = v; }
+    void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
 
 // Message States Used
 	enum MessageState {
@@ -1618,6 +1622,18 @@ bool checkToYield(){
 	return false;
 }
 
+void do_yield_check(){
+	  if (ConcurrentMarkSweepThread::should_yield() &&
+	      !_collector->foregroundGCIsActive() &&
+	      _yield) {
+	    do_yield_work();
+	  }
+}
+
+void do_yield_work(){
+	_task->yield();
+}
+
 int getPartition(int currentPartition){
 	int partitionIndex = currentPartition;
 	int count=0;
@@ -1633,8 +1649,10 @@ int getPartition(int currentPartition){
 			return -1;
 		}
 		if(count>10000){
-			cout << "count=" << count << ", i am stuck in getPartition()" << endl;
+			int goc = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
+			cout << "count=" << count << ", i am stuck in getPartition(), goc " << goc << endl ;
 		}
+		do_yield_check();
 	}
 }
 };

@@ -4056,6 +4056,9 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
           tsk2.setTaskId(1);
           VM_OCMS_Mark ocms_mark_op(this, &tsk2);
           VMThread::execute(&ocms_mark_op);
+          _partitionMetaData->setDoyield(false);
+          _partitionMetaData->setCMSTask(&tsk2);
+
 
 //          VM_CMS_Final_Remark final_remark_op(this);
 //          VMThread::execute(&final_remark_op);
@@ -5349,6 +5352,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
                          asynch,
                          conc_workers(),
                          task_queues());
+
+  _partitionMetaData->setDoyield(asynch);
+  _partitionMetaData->setCMSTask(&tsk);
+
+
 #if OCMS_NO_GREY_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
 #endif
