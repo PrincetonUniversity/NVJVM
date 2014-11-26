@@ -757,9 +757,6 @@ class PartitionMetaData : public CHeapObj {
 	CMSConcMarkingTask* _task;
     bool _yield;
 
-    void setDoyield(bool v) { _yield = v; }
-    void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
-
 // Message States Used
 	enum MessageState {
 		WORK = 0,
@@ -1625,7 +1622,8 @@ bool checkToYield(){
 void do_yield_check();
 void do_yield_work();
 int getPartition(int currentPartition);
-
+void setDoyield(bool v) { _yield = v; }
+void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
 };
 
 
