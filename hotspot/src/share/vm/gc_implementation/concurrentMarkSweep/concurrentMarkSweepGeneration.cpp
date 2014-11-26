@@ -4551,7 +4551,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// We figure out the first object on the page using the markBitMap
 		bool currentMarked = false;
 		int _skipbits = 0;
-		HeapWord* currPos ;
+		HeapWord* curr ;
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		/*do{
@@ -4586,7 +4586,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			prev_obj = prev_obj;
 		}
 		else{
-			currPos = prev_obj - 1;
+			curr = prev_obj - 1;
 		// What if prev_obj is not marked and is in the middle of an un-initialized object
 		while(_collector->_markBitMap.isMarked(curr) == false)
 			 curr--;
@@ -4668,13 +4668,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
+				/*if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
 					int spaceType = typeSpace(_partitionMetaData->getPageBase(pageIndex));
 					cout << "Something is wrong. Page to be scanned has an illegal start address,";
 					cout << "Grey count for the page:" << _partitionMetaData->getGreyCount(pageIndex)
 						 <<	"Space Type: " << spaceType << endl;
 					exit (-1);
-				}
+				}*/
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
