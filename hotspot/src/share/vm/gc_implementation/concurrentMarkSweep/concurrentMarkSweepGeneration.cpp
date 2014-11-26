@@ -4614,9 +4614,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				break;
 			}
 			// Getting the next available partition
-//			cout << "get partition index called" << endl;
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			cout << "partition index :: " << currentPartitionIndex << ", Id ="<< id << endl;
 
 			if(currentPartitionIndex == -1){
 				cout << "Current partition index -1 breaking" << endl;
@@ -4705,7 +4703,7 @@ int PartitionMetaData::getPartition(int currentPartition){
 		if(count>10000){
 			int goc = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
 			cout << "count=" << count << ", i am stuck in getPartition(), goc " << goc ;
-			cout << ", number partitions = " << _numberPartitions << endl;
+			cout << ", number partitions = " << _numberPartitions << ", partition index " << partitionIndex << endl;
 		}
 		do_yield_check();
 	}
