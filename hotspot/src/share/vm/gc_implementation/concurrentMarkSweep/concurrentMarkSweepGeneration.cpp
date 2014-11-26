@@ -4576,15 +4576,11 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		prev_obj = (HeapWord*)_partitionMetaData->getPageBase(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
-		if(_partitionMetaData->liesInMatureSpace((void *)(prev_obj-1)) &&
+		/*if(_partitionMetaData->liesInMatureSpace((void *)(prev_obj-1)) &&
 				_collector->_markBitMap.isMarked(prev_obj-1) &&
 				_collector->_markBitMap.isMarked(prev_obj)){
-			while(_collector->_markBitMap.isMarked(prev_obj) == false){
+			while((prev_obj <= span.end()) && _collector->_markBitMap.isMarked(prev_obj) == false){
 				prev_obj++;
-				if(prev_obj > span.end()){
-					cout << "prev_obj > span.end()" << endl;
-					break;
-				}
 			}
 			prev_obj++;
 		}
@@ -4603,7 +4599,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 					prev_obj++;
 				prev_obj++;
 			}
-		}
+		}*/
 
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
