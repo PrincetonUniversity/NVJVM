@@ -1622,39 +1622,10 @@ bool checkToYield(){
 	return false;
 }
 
-void do_yield_check(){
-	  if (ConcurrentMarkSweepThread::should_yield() &&
-	      !_collector->foregroundGCIsActive() &&
-	      _yield) {
-	    do_yield_work();
-	  }
-}
+void do_yield_check();
+void do_yield_work();
+int getPartition(int currentPartition);
 
-void do_yield_work(){
-	_task->yield();
-}
-
-int getPartition(int currentPartition){
-	int partitionIndex = currentPartition;
-	int count=0;
-	while(true){
-		count++;
-		// we could check the count of the number of
-		partitionIndex = nextPartitionIndex(partitionIndex);
-		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
-			if(markAtomic(partitionIndex) == true)
-				return partitionIndex;
-		}
-		if(checkToYield()){
-			return -1;
-		}
-		if(count>10000){
-			int goc = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
-			cout << "count=" << count << ", i am stuck in getPartition(), goc " << goc << endl ;
-		}
-		do_yield_check();
-	}
-}
 };
 
 
