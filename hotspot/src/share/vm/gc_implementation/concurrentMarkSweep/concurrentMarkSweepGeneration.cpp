@@ -4703,7 +4703,8 @@ int PartitionMetaData::getPartition(int currentPartition){
 		if(count>10000){
 			int goc = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
 			cout << "count=" << count << ", i am stuck in getPartition(), goc " << goc ;
-			cout << ", number partitions = " << _numberPartitions << ", partition index " << partitionIndex << endl;
+			cout << ", number partitions = " << _numberPartitions << ", partition index " << partitionIndex <<
+			", grey object count for this partition " << getGreyObjectsChunkLevel(partitionIndex) << endl;
 		}
 		do_yield_check();
 	}
