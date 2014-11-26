@@ -4551,7 +4551,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// We figure out the first object on the page using the markBitMap
 		bool currentMarked = false;
 		int _skipbits = 0;
-//		HeapWord* currPos = sp->block_start_careful(span.start());
+		HeapWord* currPos ;
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		/*do{
@@ -4573,7 +4573,30 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			}
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());*/
-		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);
+		prev_obj = (HeapWord*)_partitionMetaData->getPageBase(pageIndex);// prevObj is the page base currently
+
+		// This is the case when prev_obj is the second bit of an un-initialized object
+		if(_collector->_markBitMap.isMarked(prev_obj-1) && _collector->_markBitMap.isMarked(prev_obj)){
+			while(_collector->_markBitMap.isMarked(prev_obj) == false)
+				prev_obj++;
+			prev_obj++;
+		}
+		// This is the case when prev_obj is the first bit of an un-initialized object - do nothing
+		else if(_collector->_markBitMap.isMarked(prev_obj+1) && _collector->_markBitMap.isMarked(prev_obj-1)){
+			prev_obj = prev_obj;
+		}
+		else{
+			currPos = prev_obj - 1;
+		// What if prev_obj is not marked and is in the middle of an un-initialized object
+		while(_collector->_markBitMap.isMarked(curr) == false)
+			 curr--;
+		if(_collector->_markBitMap.isMarked(curr-1) == true){
+			while(_collector->_markBitMap.isMarked(prev_obj) == false)
+				prev_obj++;
+			prev_obj++;
+		}
+		}
+
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
 			// Do the marking work within a non-empty span --
