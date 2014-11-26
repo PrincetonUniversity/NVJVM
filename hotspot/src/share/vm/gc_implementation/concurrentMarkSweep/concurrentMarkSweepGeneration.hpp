@@ -973,6 +973,10 @@ public:
 			}
 		}
 
+		bool liesInMatureSpace(void *address){
+			return ((uintptr_t)address >= (uintptr_t)_span.start());
+		}
+
 		int getPageIndexFromPageAddress(void *address){
 			return (((uintptr_t)__page_start(address) - (uintptr_t)__page_start(_span.start())) / (_PAGE_SIZE));
 		}

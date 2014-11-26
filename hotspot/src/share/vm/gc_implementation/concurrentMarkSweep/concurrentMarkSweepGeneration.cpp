@@ -4586,14 +4586,17 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			prev_obj = prev_obj;
 		}
 		else{
-			curr = prev_obj - 1;
-		// What if prev_obj is not marked and is in the middle of an un-initialized object
-		while(_collector->_markBitMap.isMarked(curr) == false)
+			curr = prev_obj;
+			// What if prev_obj is not marked and is in the middle of an un-initialized object
+			do{
 			 curr--;
-		if(_collector->_markBitMap.isMarked(curr-1) == true){
-			while(_collector->_markBitMap.isMarked(prev_obj) == false)
+			 if(_partitionMetaData->liesInMatureSpace((void *)curr) == false)
+				 break;
+			}while(_collector->_markBitMap.isMarked(curr) == false);
+			if(_collector->_markBitMap.isMarked(curr-1) == true){
+				while(_collector->_markBitMap.isMarked(prev_obj) == false)
+					prev_obj++;
 				prev_obj++;
-			prev_obj++;
 		}
 		}
 
