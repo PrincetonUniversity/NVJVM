@@ -4551,7 +4551,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		// We figure out the first object on the page using the markBitMap
 		bool currentMarked = false;
 		int _skipbits = 0;
-		HeapWord* currPos = sp->block_start_careful(span.start());
+//		HeapWord* currPos = sp->block_start_careful(span.start());
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		/*do{
@@ -4573,7 +4573,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			}
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());*/
-//		printf("after getting starting address, %ld milliseconds, page index = %d\n", getTimeStamp(), pageIndex);
 		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
@@ -4588,7 +4587,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 
-			// Special case handling the my_span.end(), which does not get iterated
+//	  Special case handling the my_span.end(), which does not get iterated
 //			handleOop(my_span.end(), &cl);
 		}
 	}
@@ -8604,7 +8603,7 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 	// Increasing the page level grey object count
 //		u_jbyte value = __u_inc(addr);
 		_collector->incGreyObjPage(addr, 1);
-		_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+//		_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 		return true;
 }
 
@@ -9566,7 +9565,6 @@ size_t SweepPageClosure::do_chunk(HeapWord* addr, int *g, int *d){
 		// need to reset the
 #if	OC_SWEEP_ASSERT
 		if(oop(addr)->is_oop(true) == false){
-
 			bool isPageStart = _partitionMetaData->isPageStart(addr);
 			printf("Inconsistency in do_chunk() -> Chunk (%p) is garbage but not oop, isPageStart = %d.\n", addr, isPageStart);
 			return _PAGE_SIZE;
