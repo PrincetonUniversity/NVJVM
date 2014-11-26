@@ -4576,13 +4576,20 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 		prev_obj = (HeapWord*)_partitionMetaData->getPageBase(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
-		if(_collector->_markBitMap.isMarked(prev_obj-1) && _collector->_markBitMap.isMarked(prev_obj)){
-			while(_collector->_markBitMap.isMarked(prev_obj) == false)
+		if(_partitionMetaData->liesInMatureSpace((void *)(prev_obj-1)) &&
+				_collector->_markBitMap.isMarked(prev_obj-1) &&
+				_collector->_markBitMap.isMarked(prev_obj)){
+			while(_collector->_markBitMap.isMarked(prev_obj) == false){
 				prev_obj++;
+				if(prev_obj > span.end()){
+					cout << "prev_obj > span.end()" << endl;
+					break;
+				}
+			}
 			prev_obj++;
 		}
 		// This is the case when prev_obj is the first bit of an un-initialized object - do nothing
-		else if(_collector->_markBitMap.isMarked(prev_obj+1) && _collector->_markBitMap.isMarked(prev_obj-1)){
+		else if(_collector->_markBitMap.isMarked(prev_obj+1) && _collector->_markBitMap.isMarked(prev_obj)){
 			prev_obj = prev_obj;
 		}
 		else{
@@ -4590,14 +4597,12 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			// What if prev_obj is not marked and is in the middle of an un-initialized object
 			do{
 			 curr--;
-			 if(_partitionMetaData->liesInMatureSpace((void *)curr) == false)
-				 break;
-			}while(_collector->_markBitMap.isMarked(curr) == false);
-			if(_collector->_markBitMap.isMarked(curr-1) == true){
-				while(_collector->_markBitMap.isMarked(prev_obj) == false)
+			}while(_partitionMetaData->liesInMatureSpace((void *)curr) && _collector->_markBitMap.isMarked(curr) == false);
+			if(_partitionMetaData->liesInMatureSpace((void *)(curr-1)) && _collector->_markBitMap.isMarked(curr-1) == true){
+				while((prev_obj < span.end()) && _collector->_markBitMap.isMarked(prev_obj) == false)
 					prev_obj++;
 				prev_obj++;
-		}
+			}
 		}
 
 		if (prev_obj <= span.end()) {

@@ -974,7 +974,8 @@ public:
 		}
 
 		bool liesInMatureSpace(void *address){
-			return ((uintptr_t)address >= (uintptr_t)_span.start());
+			return (((uintptr_t)address >= (uintptr_t)_span.start()) &&
+					((uintptr_t)address <= (uintptr_t)_span.end()));
 		}
 
 		int getPageIndexFromPageAddress(void *address){
