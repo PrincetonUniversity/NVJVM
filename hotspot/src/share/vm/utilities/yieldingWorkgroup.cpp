@@ -287,7 +287,6 @@ void YieldingFlexibleWorkGang::abort() {
 ///////////////////////////////
 void YieldingFlexibleGangTask::yield() {
   assert(gang() != NULL, "No gang to signal");
-//  cout << "gang yielding" << endl;
   gang()->yield();
 }
 

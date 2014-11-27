@@ -5439,12 +5439,12 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 #if OCMS_NO_GREY_LOG
   	printf("Beginning task 1.\n");
 #endif
-  cout << "Starting the concurrent tasks" << endl;
+//  cout << "Starting the concurrent tasks" << endl;
   conc_workers()->start_task(&tsk);
-  cout << "Tasks yielded/aborted" << endl;
+//  cout << "Tasks yielded/aborted" << endl;
   while (tsk.yielded()) {
     tsk.coordinator_yield();
-    cout << "continuing tasks" << endl;
+//    cout << "continuing tasks" << endl;
     conc_workers()->continue_task(&tsk);
   }
 
@@ -8833,10 +8833,6 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
 // from mutators.
 void Par_MarkFromGreyRootsClosure::do_yield_work() {
   assert(_task != NULL, "sanity");
-//  cout << "in task yielding" << endl;
-//  if(_task == NULL){
-//	  cout << "the task is null" << endl;
-//  }
   _task->yield();
 }
 

@@ -451,9 +451,9 @@ inline void Par_MarkFromGreyRootsClosure::do_yield_check() {
   if (ConcurrentMarkSweepThread::should_yield() &&
       !_collector->foregroundGCIsActive() &&
       _yield) {
-     cout << "Yielding Worker, Id" << id << endl;
+//     cout << "Yielding Worker, Id" << id << endl;
 	 do_yield_work();
-	 cout << "Worker Woken up, Id" << id << endl;
+//	 cout << "Worker Woken up, Id" << id << endl;
   }
 }
 
