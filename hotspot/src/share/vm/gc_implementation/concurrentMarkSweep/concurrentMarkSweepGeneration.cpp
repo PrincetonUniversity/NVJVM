@@ -4047,21 +4047,21 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
           TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
           CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
           CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
-          CMSConcMarkingTask tsk2(this,
+//          CMSConcMarkingTask tsk2(this,
           							  cms_space,
           							  perm_space,
           							  false,
           							  conc_workers(),
           							  task_queues());
-          tsk2.setTaskId(1);
-          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
-          VMThread::execute(&ocms_mark_op);
-          _partitionMetaData->setDoyield(false);
-          _partitionMetaData->setCMSTask(&tsk2);
+//          tsk2.setTaskId(1);
+//          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
+//          VMThread::execute(&ocms_mark_op);
+//          _partitionMetaData->setDoyield(false);
+//          _partitionMetaData->setCMSTask(&tsk2);
 
 
-//          VM_CMS_Final_Remark final_remark_op(this);
-//          VMThread::execute(&final_remark_op);
+          VM_CMS_Final_Remark final_remark_op(this);
+          VMThread::execute(&final_remark_op);
         }
         assert(_foregroundGCShouldWait, "block post-condition");
         printf("Final Marking Done.\n");
@@ -7946,7 +7946,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 		  _collector->incGreyObj(addr, 1);
   		  // Incrementing the count for each individual page
 		  _collector->incGreyObjPage(addr, 1);
-		  _collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+//		  _collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 	  }
   }
 }
@@ -9105,7 +9105,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 // Increasing the page level grey object count
 //				 u_jbyte value = __u_inc(addr);
 				_collector->incGreyObjPage(addr, 1);
-				_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+//				_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 			}
 		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector
