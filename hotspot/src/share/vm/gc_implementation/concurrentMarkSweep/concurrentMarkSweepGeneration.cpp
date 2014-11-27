@@ -4177,7 +4177,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	printf("Initial grey object count = %d.\n", _collector->getPartitionMetaData()->getTotalGreyObjectsPageLevel());
 #endif
     Thread* t = Thread::current();
-	int countThreshold = 1, greyObjectCount;
+	int countThreshold = 100, greyObjectCount;
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
 	unsigned int timeMasterThread = 150;
@@ -4265,7 +4265,7 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
 			}
 			_partitionMetaData->setToWork();
-			usleep(10000);
+			usleep(1000);
 		}
 #if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
@@ -4278,7 +4278,8 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 void CMSConcMarkingTask::masterThreadWork(){
 	switch (getTaskId()){
 	case 0:
-		masterThreadWorkInitial();
+//		masterThreadWorkInitial();
+		masterThreadWorkFinal();
 		break;
 
 	case 1:
