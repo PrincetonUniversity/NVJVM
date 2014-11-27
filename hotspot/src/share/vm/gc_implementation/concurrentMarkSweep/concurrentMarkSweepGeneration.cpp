@@ -4047,12 +4047,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
           TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
           CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
           CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
-//          CMSConcMarkingTask tsk2(this,
-          							  cms_space,
-          							  perm_space,
-          							  false,
-          							  conc_workers(),
-          							  task_queues());
+//          CMSConcMarkingTask tsk2(this, cms_space, perm_space, false, conc_workers(), task_queues());
 //          tsk2.setTaskId(1);
 //          VM_OCMS_Mark ocms_mark_op(this, &tsk2);
 //          VMThread::execute(&ocms_mark_op);
