@@ -4260,10 +4260,10 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setToWorkFinal();
 				}
 			}
-			if(loopCount > 1000){
+			/*if(loopCount > 1000){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
-			}
+			}*/
 			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
@@ -4569,7 +4569,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 			}
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());*/
-		prev_obj = (HeapWord*)_partitionMetaData->getPageBase(pageIndex);// prevObj is the page base currently
+		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
 		/*if(_partitionMetaData->liesInMatureSpace((void *)(prev_obj-1)) &&
