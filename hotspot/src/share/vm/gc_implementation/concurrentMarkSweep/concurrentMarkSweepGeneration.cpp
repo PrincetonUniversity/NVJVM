@@ -4632,14 +4632,14 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		while(true){
 //			cout << "calling check to yield" << endl;
 			if (_partitionMetaData->checkToYield()){
-				cout << "Is set to yield, breaking" << endl;
+//				cout << "Is set to yield, breaking" << endl;
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 
 			if(currentPartitionIndex == -1){
-				cout << "Current partition index -1 breaking" << endl;
+//				cout << "Current partition index -1 breaking" << endl;
 				break;
 			}
 
