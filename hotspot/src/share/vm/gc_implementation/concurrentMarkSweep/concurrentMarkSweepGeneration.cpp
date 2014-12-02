@@ -7349,9 +7349,10 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 }
 
 inline void Par_MarkFromRootsClosure::do_throttle_check(){
-  if((SwapMetrics::_shouldWait) && (_task->getTaskId()>2) && AdapativeGC){
+  if((SwapMetrics::_shouldWait) && (_task->getTaskId()>4) && AdapativeGC){
 	  usleep(500);
   }
+  cout << "task id::" << _task->getTaskId()<< endl;
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
