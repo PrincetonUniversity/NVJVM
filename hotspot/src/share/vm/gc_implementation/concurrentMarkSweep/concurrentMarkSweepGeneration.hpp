@@ -1416,6 +1416,7 @@ class Par_MarkFromRootsClosure: public BitMapClosure {
   HeapWord*      _finger;
   HeapWord*      _threshold;
   CMSConcMarkingTask* _task;
+  bool _doThrottle;
  public:
   Par_MarkFromRootsClosure(CMSConcMarkingTask* task, CMSCollector* collector,
                        MemRegion span,
@@ -1423,7 +1424,7 @@ class Par_MarkFromRootsClosure: public BitMapClosure {
                        OopTaskQueue* work_queue,
                        CMSMarkStack*  overflow_stack,
                        CMSMarkStack*  revisit_stack,
-                       bool should_yield);
+                       bool should_yield, bool doThrottle);
   bool do_bit(size_t offset);
   inline void do_yield_check();
   inline void do_throttle_check();

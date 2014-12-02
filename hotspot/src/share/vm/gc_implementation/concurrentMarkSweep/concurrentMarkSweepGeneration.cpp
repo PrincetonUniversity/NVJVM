@@ -3994,6 +3994,7 @@ bool CMSConcMarkingTask::get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
 
 void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
   setTaskId(i);
+  bool doThrottle=(i>0);
   SequentialSubTasksDone* pst = sp->conc_par_seq_tasks();
   int n_tasks = pst->n_tasks();
   // We allow that there may be no tasks to do here because
@@ -4076,7 +4077,7 @@ void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
                                     work_queue(i),
                                     &_collector->_markStack,
                                     &_collector->_revisitStack,
-                                    _asynch);
+                                    _asynch, doThrottle);
         _collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
       } // else nothing to do for this task
     }   // else nothing to do for this task
@@ -7302,7 +7303,7 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
                        OopTaskQueue* work_queue,
                        CMSMarkStack*  overflow_stack,
                        CMSMarkStack*  revisit_stack,
-                       bool should_yield):
+                       bool should_yield, bool doThrottle):
   _collector(collector),
   _whole_span(collector->_span),
   _span(span),
@@ -7313,6 +7314,7 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
   _revisit_stack(revisit_stack),
   _yield(should_yield),
   _skip_bits(0),
+  _doThrottle(doThrottle),
   _task(task)
 {
   assert(_work_queue->size() == 0, "work_queue should be empty");
@@ -7349,7 +7351,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 }
 
 inline void Par_MarkFromRootsClosure::do_throttle_check(){
-  if((SwapMetrics::_shouldWait) && (_task->getTaskId()>4) && AdapativeGC){
+  if((SwapMetrics::_shouldWait) && (_doThrottle) && AdapativeGC){
 	  usleep(500);
   }
   cout << "task id::" << _task->getTaskId()<< endl;
