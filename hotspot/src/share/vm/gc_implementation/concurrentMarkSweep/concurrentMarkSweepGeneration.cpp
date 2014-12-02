@@ -4627,18 +4627,14 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		Thread* t = Thread::current();
 		int id = t->osthread()->thread_id();
 		bool wasSleeping = false;
-//		printf("Entering do_scan_and_mark. Id = %d.\n", i);
 		while(true){
-//			cout << "calling check to yield" << endl;
 			if (_partitionMetaData->checkToYield()){
-//				cout << "Is set to yield, breaking" << endl;
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 
 			if(currentPartitionIndex == -1){
-//				cout << "Current partition index -1 breaking" << endl;
 				break;
 			}
 
@@ -4667,29 +4663,19 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				/*if(_partitionMetaData->shouldSweepScanPage(pageIndex) == false){
-					int spaceType = typeSpace(_partitionMetaData->getPageBase(pageIndex));
-					cout << "Something is wrong. Page to be scanned has an illegal start address,";
-					cout << "Grey count for the page:" << _partitionMetaData->getGreyCount(pageIndex)
-						 <<	"Space Type: " << spaceType << endl;
-					exit (-1);
-				}*/
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				/*while(SwapMetrics::_shouldWait && AdaptiveGC){
-					wasSleeping=true;
-//					cout << "Going for sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
-//					sleep(1);
+				while(SwapMetrics::_shouldWait && AdaptiveGC && (i>1)){// at least one of the threads must remain alive
+					//wasSleeping=true;
+					usleep(1000*100);
 				}
-				if(wasSleeping){
+				/*if(wasSleeping){
 //					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
 					wasSleeping = false;
 				}*/
 			}
 			// Releasing the partition
-//			cout << "Releasing partition ::" << currentPartitionIndex << ", ";
-//			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
 //		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
