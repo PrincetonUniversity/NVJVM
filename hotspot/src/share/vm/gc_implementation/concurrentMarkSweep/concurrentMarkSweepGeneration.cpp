@@ -7415,7 +7415,8 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   bool res = _work_queue->push(obj);   // overflow could occur here
   assert(res, "Will hold once we use workqueues");
   while (true) {
-    oop new_oop;
+	do_throttle_check();
+	oop new_oop;
     if (!_work_queue->pop_local(new_oop)) {
       // We emptied our work_queue; check if there's stuff that can
       // be gotten from the overflow stack.
