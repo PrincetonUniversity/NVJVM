@@ -7345,6 +7345,12 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
   return true;
 }
 
+inline void Par_MarkFromRootsClosure::do_throttle_check(){
+  if((SwapMetrics::_shouldWait) && (_task->getTaskId()>1)){
+	  usleep(1000*500);
+  }
+}
+
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   assert(_bit_map->isMarked(ptr), "expected bit to be set");
   // Should we assert that our work queue is empty or
