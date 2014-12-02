@@ -3777,7 +3777,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   HeapWord*     _global_finger;   // ... avoid sharing cache line
   char          _pad_back[64];
   HeapWord*     _restart_addr;
-  int _taskId;
 
   //  Exposed here for yielding support
   Mutex* const _bit_map_lock;
@@ -3813,11 +3812,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     _restart_addr = _global_finger = _cms_space->bottom();
   }
 
-  void setTaskId(int i) {
-	   cout << "Setting task id : " << i << endl;
-	  _taskId=i;
-  }
-  int getTaskId(void) 	{ return _taskId;}
 
   OopTaskQueueSet* task_queues()  { return _task_queues; }
 
@@ -3993,7 +3987,6 @@ bool CMSConcMarkingTask::get_work_from_overflow_stack(CMSMarkStack* ovflw_stk,
 }
 
 void CMSConcMarkingTask::do_scan_and_mark(int i, CompactibleFreeListSpace* sp) {
-  setTaskId(i);
   bool doThrottle=(i>0);
   SequentialSubTasksDone* pst = sp->conc_par_seq_tasks();
   int n_tasks = pst->n_tasks();
@@ -7354,7 +7347,6 @@ inline void Par_MarkFromRootsClosure::do_throttle_check(){
   if((SwapMetrics::_shouldWait) && (_doThrottle) && AdapativeGC){
 	  usleep(500);
   }
-  cout << "task id::" << _task->getTaskId()<< endl;
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
