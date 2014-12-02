@@ -4164,8 +4164,8 @@ void CMSConcMarkingTerminator::yield() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkInitial() {
-	printf("In master thread work initial entered.\n");
-	printf("LoopCount = 0. Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+//	printf("In master thread work initial entered.\n");
+//	printf("LoopCount = 0. Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
 	bool wasSleeping = false;
 #if OCMS_NO_GREY_LOG
 	printf("In master thread work initial.\n");
@@ -4222,11 +4222,10 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-  printf("In master thread work final entered.\n");
-  int loopCount = 0;
-  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
-			_partitionMetaData->getTotalGreyObjectsChunkLevel());
+//  printf("In master thread work final entered.\n");
+//  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
 
+int loopCount = 0;
 #if OCMS_NO_GREY_LOG
  printf("In master thread work final.\n");
 #endif
@@ -4693,7 +4692,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 //			printf("%ld seconds \n", getTimeStamp());
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
+//		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
 
 void PartitionMetaData::do_yield_check(){
