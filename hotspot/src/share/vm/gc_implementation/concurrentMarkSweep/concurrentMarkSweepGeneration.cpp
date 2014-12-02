@@ -7347,7 +7347,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 inline void Par_MarkFromRootsClosure::do_throttle_check(){
   if((SwapMetrics::_shouldWait) && (_task->getTaskId()>1) && AdapativeGC){
-	  usleep(1000*500);
+	  usleep(1000*50);
   }
 }
 
@@ -7415,7 +7415,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
   bool res = _work_queue->push(obj);   // overflow could occur here
   assert(res, "Will hold once we use workqueues");
   while (true) {
-	do_throttle_check();
+
 	oop new_oop;
     if (!_work_queue->pop_local(new_oop)) {
       // We emptied our work_queue; check if there's stuff that can
@@ -7423,6 +7423,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
       if (CMSConcMarkingTask::get_work_from_overflow_stack(
             _overflow_stack, _work_queue)) {
         do_yield_check();
+        do_throttle_check();
         continue;
       } else {  // done
         break;
@@ -7434,6 +7435,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
     // now scan this oop's oops
     new_oop->oop_iterate(&pushOrMarkClosure);
     do_yield_check();
+    do_throttle_check();
   }
   assert(_work_queue->size() == 0, "tautology, emphasizing post-condition");
 }
