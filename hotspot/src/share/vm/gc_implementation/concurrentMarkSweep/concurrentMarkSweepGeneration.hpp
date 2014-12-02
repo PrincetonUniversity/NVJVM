@@ -1426,11 +1426,13 @@ class Par_MarkFromRootsClosure: public BitMapClosure {
                        bool should_yield);
   bool do_bit(size_t offset);
   inline void do_yield_check();
+  inline void do_throttle_check();
 
  private:
   void scan_oops_in_oop(HeapWord* ptr);
   void do_yield_work();
   bool get_work_from_overflow_stack();
+
 };
 
 // The following closures are used to do certain kinds of verification of

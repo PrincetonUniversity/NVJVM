@@ -77,6 +77,7 @@ public:
     static int getCurrentNumberOfSwapOuts();
     static int getCurrentNumberOfPageOuts();
 
+    static bool _shouldWait;
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
 	static int _compactionPhaseFaults;

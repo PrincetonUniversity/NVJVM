@@ -7,6 +7,7 @@
 
 #include "SwapMetrics.hpp"
 
+bool SwapMetrics::_shouldWait=false;
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
@@ -111,11 +112,9 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
-//	cout << "Executing current number of page outs" << endl;
 	std::string cmd = std::string("vmstat -s | grep \"pages paged out\"");
 	fp = popen(cmd.c_str(), "r");
 	while(fgets(buf, BUF_MAX, fp) != NULL);
-//	cout << "Page Outs::" << buf << endl;
 	istringstream iss(buf);
 		do
 		 {
@@ -134,6 +133,8 @@ void* monitorIOMutators(void* arg){
   string temp;
   FILE *fp;
   char buf[BUF_MAX];
+  double cpuUtilization[] = {0, 0, 0};
+  double averageCpuUtilization;
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-2");
   while(true){
@@ -146,6 +147,7 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
+	  cpuUtilization[SwapMetrics::_numberReportsMutator%3]=value;
 	  cout << endl << "UserTimeMutator::" << value << ", ";
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
@@ -161,6 +163,8 @@ void* monitorIOMutators(void* arg){
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
+  	  averageCpuUtilization = (cpuUtilization[0]+cpuUtilization[1]+cpuUtilization[2])/3;
+  	  SwapMetrics::_shouldWait = (averageCpuUtilization>12.5);
   	  sleep(1);
   }
 }

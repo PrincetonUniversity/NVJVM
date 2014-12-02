@@ -445,6 +445,12 @@ inline void MarkFromRootsClosure::do_yield_check() {
   }
 }
 
+inline void Par_MarkFromRootsClosure::do_throttle_check(){
+  if((SwapMetrics::_shouldWait) && (_task->getTaskId()>1)){
+	  usleep(1000*500);
+  }
+}
+
 inline void Par_MarkFromRootsClosure::do_yield_check() {
   if (ConcurrentMarkSweepThread::should_yield() &&
       !_collector->foregroundGCIsActive() &&
