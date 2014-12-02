@@ -3813,7 +3813,10 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
     _restart_addr = _global_finger = _cms_space->bottom();
   }
 
-  void setTaskId(int i) { _taskId=i; }
+  void setTaskId(int i) {
+	   cout << "Setting task id : " << i << endl;
+	  _taskId=i;
+  }
   int getTaskId(void) 	{ return _taskId;}
 
   OopTaskQueueSet* task_queues()  { return _task_queues; }
