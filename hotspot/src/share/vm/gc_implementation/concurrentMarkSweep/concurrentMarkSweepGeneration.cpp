@@ -4525,12 +4525,12 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-//#if OCMS_NO_GREY_ASSERT
+#if OCMS_NO_GREY_ASSERT
 	if(oldValue == 0){
 		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
 		exit (-1);
 	}
-//#endif
+#endif
 // On clearing the page level grey object count the chunk level grey object count gets decrement
 	_collector->decGreyObj(pageAddress, (int)oldValue);
 	// Getting the space wherein the page lies
@@ -4660,7 +4660,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				pCounter++;
-				scan_a_page(pageIndex);
+				scan_a_page(pageIndex, i);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
 			}
@@ -8714,10 +8714,10 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 }
 
 inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
-	cout << "In Par_MarkFromGreyRootsClosure do_throttle_check(): _do_throttle = " << _do_throttle << ": AdapativeGC " << AdapativeGC << endl;
+//	cout << "In Par_MarkFromGreyRootsClosure do_throttle_check(): _do_throttle = " << _do_throttle << ": AdapativeGC " << AdapativeGC << endl;
 	if((SwapMetrics::_shouldWait) && (_do_throttle) && AdapativeGC){
 		 usleep(500);
-		 cout << "threads are sleeping" << endl;
+//		 cout << "threads are sleeping" << endl;
 	  }
 }
 
