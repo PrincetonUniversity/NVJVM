@@ -8616,7 +8616,7 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,
-		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield, bool doThrottle){
+		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield, bool doThrottle = false){
 	_task = task;
 	_collector = collector;
 	_bit_map = bit_map;
