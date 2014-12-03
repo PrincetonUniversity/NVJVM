@@ -8714,7 +8714,8 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 }
 
 inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
-	  if((SwapMetrics::_shouldWait) && (_do_throttle) && AdapativeGC){
+	cout << "In Par_MarkFromGreyRootsClosure do_throttle_check(): _do_throttle = " << _do_throttle << ": AdapativeGC " << AdapativeGC << endl;
+	if((SwapMetrics::_shouldWait) && (_do_throttle) && AdapativeGC){
 		 usleep(500);
 		 cout << "threads are sleeping" << endl;
 	  }
