@@ -4656,8 +4656,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				exit(-1);
 			}
 #endif*/
-//			cout << "Scanning pages for partition ::" << currentPartitionIndex << ", "
-//					"partition size = " << pageIndices.size() << endl;
 			int pCounter=0;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
@@ -8717,7 +8715,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 
 inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
 	  if((SwapMetrics::_shouldWait) && (_do_throttle) && AdapativeGC){
-		 usleep(50);
+		 usleep(500);
 	  }
 }
 
