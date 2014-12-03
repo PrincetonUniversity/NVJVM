@@ -4665,14 +4665,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				while(SwapMetrics::_shouldWait && AdapativeGC && (i>1)){// at least one of the threads must remain alive
-					//wasSleeping=true;
-					usleep(1000*100);
-				}
-				/*if(wasSleeping){
-//					cout << "Just Woken Up from sleep:: worker thread:: thread Id" << t->osthread()->thread_id() << endl;
-					wasSleeping = false;
-				}*/
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -8713,11 +8705,6 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	/*if(obj == NULL || obj->is_oop() == false){
-		cout << "in scan_oops_in_oop, object is null or not an oop" << endl;
-		return;
-//		exit (-1);
-	}*/
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
