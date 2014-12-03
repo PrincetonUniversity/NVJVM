@@ -3875,7 +3875,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS(int i);
   void do_scan_and_mark_OCMS_NO_GREY(int i);
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
-  void scan_a_page(int pageIndex, int taskId);
+  void scan_a_page(int pageIndex, int taskId=0);
   long int getTimeStamp(void);
   bool shouldStop();
   void check_if_all_alive_page(int pIndex);
