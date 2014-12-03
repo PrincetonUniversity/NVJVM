@@ -92,6 +92,7 @@ class ConcurrentMarkSweepThread: public ConcurrentGCThread {
  public:
   // Constructor
   ConcurrentMarkSweepThread(CMSCollector* collector);
+  static int _numCollectionsLeft;
 
   static void makeSurrogateLockerThread(TRAPS);
   static SurrogateLockerThread* slt() { return _slt; }

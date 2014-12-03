@@ -71,7 +71,7 @@ ConcurrentMarkSweepThread::ConcurrentMarkSweepThread(CMSCollector* collector)
   _cmst = this;
   assert(_collector == NULL, "Collector already set");
   _collector = collector;
-
+  _numCollectionsLeft = NumberCollections;
   set_name("Concurrent Mark-Sweep GC Thread");
 
   if (os::create_thread(this, os::cgc_thread)) {
@@ -127,8 +127,10 @@ void ConcurrentMarkSweepThread::run() {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
     if(Universe::isGCSignalled){
-    	_collector->collect_in_background(false);  // !clear_all_soft_refs
-//    	Universe::isGCSignalled = false;
+    	if(_numCollectionsLeft>0){
+    		_collector->collect_in_background(false);  // !clear_all_soft_refs
+    		_numCollectionsLeft--;
+    	}
     }
   }
   assert(_should_terminate, "just checking");

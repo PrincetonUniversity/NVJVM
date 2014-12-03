@@ -450,6 +450,7 @@ class CommandLineFlags {
                                                                             \
   product(bool, JavaMonitorsInStackTrace, true,                             \
           "Print info. about Java monitor locks when the stacks are dumped")\
+  product(intx, NumberCollections, 100, "") 								\
   product(bool, AdapativeGC, false, "") 									\
                                                                             \
   product_pd(bool, UseLargePages,                                           \
