@@ -437,6 +437,8 @@ class CommandLineFlags {
    */                                                                       \
   product(bool, UsePPCLWSYNC, true,                                         \
           "Use lwsync instruction if true, else use slower sync")           \
+  product(intx, NumberCollections, 100, "")									\
+  product(bool, AdapativeGC, false, "")										\
                                                                             \
   /* Temporary: See 6948537 */                                             \
   experimental(bool, UseMemSetInBOT, true,                                  \
