@@ -50,7 +50,7 @@ int  ConcurrentMarkSweepThread::_CMS_flag         = CMS_nil;
 
 volatile jint ConcurrentMarkSweepThread::_pending_yields      = 0;
 volatile jint ConcurrentMarkSweepThread::_pending_decrements  = 0;
-
+int ConcurrentMarkSweepThread::_numberCollectionsLeft=0;
 volatile jint ConcurrentMarkSweepThread::_icms_disabled   = 0;
 volatile bool ConcurrentMarkSweepThread::_should_run     = false;
 // When icms is enabled, the icms thread is stopped until explicitly
