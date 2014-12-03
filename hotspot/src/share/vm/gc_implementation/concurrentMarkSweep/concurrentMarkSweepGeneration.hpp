@@ -2574,7 +2574,7 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
     		ChunkList *chunkList,
-    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task, bool should_yield, bool do_throttle);
+    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task, bool should_yield, bool do_throttle=false);
     bool do_bit(size_t offset);
     CMSBitMap* getBitMap(){
     	return _bit_map;
