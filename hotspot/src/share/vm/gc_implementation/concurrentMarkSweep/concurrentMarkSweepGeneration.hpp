@@ -2569,11 +2569,12 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
     CMSMarkStack* _revisit_stack;
     CMSConcMarkingTask* _task;
     bool _yield;
+    bool _do_throttle;
 
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
     		ChunkList *chunkList,
-    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task, bool should_yield);
+    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task, bool should_yield, bool do_throttle);
     bool do_bit(size_t offset);
     CMSBitMap* getBitMap(){
     	return _bit_map;
@@ -2581,6 +2582,7 @@ public:
     void scan_oops_in_oop(HeapWord* ptr);
     inline void do_yield_check();
     int getSkipBits() { return _skip_bits; }
+    inline void do_throttle_check();
 
 private:
     void do_yield_work();

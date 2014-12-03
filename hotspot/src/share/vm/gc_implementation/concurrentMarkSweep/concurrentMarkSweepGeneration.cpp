@@ -3875,7 +3875,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS(int i);
   void do_scan_and_mark_OCMS_NO_GREY(int i);
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
-  void scan_a_page(int i);
+  void scan_a_page(int pageIndex, int taskId);
   long int getTimeStamp(void);
   bool shouldStop();
   void check_if_all_alive_page(int pIndex);
@@ -4500,10 +4500,10 @@ long int CMSConcMarkingTask::getTimeStamp(){
 }
 
 
-void CMSConcMarkingTask::scan_a_page(int pageIndex){
+void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	Thread* t = Thread::current();
 	int id = t->osthread()->thread_id();
-//	cout << "In CMSConcMarkingTask::scan_a_page, pageIndex = " << pageIndex  << ", thread id = " << id << endl;
+	bool doThrottle = (taskId>1);// 0 is master, 1 is the first worker
 
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
@@ -4533,7 +4533,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 //#endif
 // On clearing the page level grey object count the chunk level grey object count gets decrement
 	_collector->decGreyObj(pageAddress, (int)oldValue);
-//	cout << "decrement done" << endl;
 	// Getting the space wherein the page lies
 	sp = getSpace(pageAddress);
 	// The memory region containing the
@@ -4605,7 +4604,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex){
 						&_collector->_markBitMap,
 						_collector->getChunkList(),
 						my_span,
-						&_collector->_revisitStack, this, _asynch);
+						&_collector->_revisitStack, this, _asynch, doThrottle);
 
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 
@@ -4666,7 +4665,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex);
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
-				while(SwapMetrics::_shouldWait && AdaptiveGC && (i>1)){// at least one of the threads must remain alive
+				while(SwapMetrics::_shouldWait && AdapativeGC && (i>1)){// at least one of the threads must remain alive
 					//wasSleeping=true;
 					usleep(1000*100);
 				}
@@ -8617,7 +8616,7 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,
-		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield){
+		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield, bool doThrottle){
 	_task = task;
 	_collector = collector;
 	_bit_map = bit_map;
@@ -8626,6 +8625,7 @@ Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 	_skip_bits = 0;
 	_revisit_stack = revisit_stack;
 	_yield = shouldYield;
+	_do_throttle = doThrottle;
 }
 
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
@@ -8725,6 +8725,13 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
 	do_yield_check();
+	do_throttle_check();
+}
+
+inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
+	  if((SwapMetrics::_shouldWait) && (_doThrottle) && AdapativeGC){
+		 usleep(500);
+	  }
 }
 
 void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {

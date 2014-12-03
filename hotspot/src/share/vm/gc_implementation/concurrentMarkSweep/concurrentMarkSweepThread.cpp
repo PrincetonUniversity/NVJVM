@@ -56,6 +56,7 @@ volatile bool ConcurrentMarkSweepThread::_should_run     = false;
 // When icms is enabled, the icms thread is stopped until explicitly
 // started.
 volatile bool ConcurrentMarkSweepThread::_should_stop    = true;
+int ConcurrentMarkSweepThread::_numberCollectionsLeft=0;
 
 SurrogateLockerThread*
      ConcurrentMarkSweepThread::_slt = NULL;
@@ -71,7 +72,7 @@ ConcurrentMarkSweepThread::ConcurrentMarkSweepThread(CMSCollector* collector)
   _cmst = this;
   assert(_collector == NULL, "Collector already set");
   _collector = collector;
-
+  ConcurrentMarkSweepThread::_numberCollectionsLeft=NumberCollections;
   set_name("Concurrent Mark-Sweep GC Thread");
 
   if (os::create_thread(this, os::cgc_thread)) {
@@ -128,9 +129,11 @@ void ConcurrentMarkSweepThread::run() {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
     if(Universe::isGCSignalled){
-    	cout << "Calling collect_in_background isGCSignalled =  "<< Universe::isGCSignalled << endl;
-    	_collector->collect_in_background(false);  // !clear_all_soft_refs
-//    	Universe::isGCSignalled = false;
+    	if(_numberCollectionsLeft>0){
+    		cout << "Calling collect_in_background isGCSignalled =  "<< Universe::isGCSignalled << endl;
+    		_collector->collect_in_background(false);  // !clear_all_soft_refs
+    		_numberCollectionsLeft--;
+    	}
     }
   }
   assert(_should_terminate, "just checking");
