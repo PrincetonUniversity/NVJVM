@@ -89,7 +89,6 @@ ConcurrentMarkSweepThread::ConcurrentMarkSweepThread(CMSCollector* collector)
 }
 
 void ConcurrentMarkSweepThread::run() {
-  cout << "In ConcurrentMarkSweepThread::run()" << endl;
   assert(this == cmst(), "just checking");
 
   this->record_stack_base_and_size();

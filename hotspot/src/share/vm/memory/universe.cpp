@@ -710,7 +710,7 @@ void Universe::allocatePageTable(size_t size){
 	Universe::setPageTableBase(pageTableBase);
 	Universe::setPageTableSize(size);
 	size_t pageTableSize = size / (1024);
-	printf("Initializing Page Table %p. Size = %zu KB.\n", pageTableBase, pageTableSize);
+//	printf("Initializing Page Table %p. Size = %zu KB.\n", pageTableBase, pageTableSize);
 	fflush(stdout);
 }
 
@@ -729,7 +729,7 @@ size_t Universe::totalGreyObjectCount(){
 		exit (-1);
 	}
 #endif
-	printf("Universe::Increments %d, Decrements %d.\n", _increments, _decrements);
+	//printf("Universe::Increments %d, Decrements %d.\n", _increments, _decrements);
 	return count;
 }
 
