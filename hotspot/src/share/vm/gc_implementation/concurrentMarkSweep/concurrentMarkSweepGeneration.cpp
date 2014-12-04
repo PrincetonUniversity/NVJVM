@@ -7345,7 +7345,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 inline void Par_MarkFromRootsClosure::do_throttle_check(){
   if((SwapMetrics::_shouldWait) && (_doThrottle) && AdapativeGC){
-	  usleep(500);
+	  usleep(5);
   }
 }
 
