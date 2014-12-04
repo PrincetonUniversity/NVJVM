@@ -135,6 +135,7 @@ void* monitorIOMutators(void* arg){
   char buf[BUF_MAX];
   double cpuUtilization[] = {0, 0, 0};
   double averageCpuUtilization;
+  double diskUtilization;
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-2");
   while(true){
@@ -159,12 +160,14 @@ void* monitorIOMutators(void* arg){
 	   ret = splitString(temp, 13);
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
-	   cout << "UserDiskUtilization::" << value << endl;
+	   cout << "UserDiskUtilization::" << value << ",";
+	   diskUtilization=value;
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
   	  averageCpuUtilization = (cpuUtilization[0]+cpuUtilization[1]+cpuUtilization[2])/3;
-  	  SwapMetrics::_shouldWait = (averageCpuUtilization>12.5);
+  	  SwapMetrics::_shouldWait = (averageCpuUtilization>12.5) || (diskUtilization>90);
+  	  cout << "shouldWait::" << SwapMetrics::_shouldWait << endl;
   	  sleep(1);
   }
 }
