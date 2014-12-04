@@ -8715,7 +8715,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 
 inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
 	if((SwapMetrics::_shouldWait) && (_do_throttle) && AdapativeGC){
-		 usleep(50);
+		 usleep(1);
 	  }
 }
 
