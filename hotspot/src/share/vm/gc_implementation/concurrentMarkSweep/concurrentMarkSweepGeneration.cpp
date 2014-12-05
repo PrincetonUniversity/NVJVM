@@ -4241,17 +4241,17 @@ int loopCount = 0;
 				printf("Setting a signal to all the threads to wait/become idle.\n");
 //#endif
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
-#if OCMS_NO_GREY_LOG
+//#if OCMS_NO_GREY_LOG
 				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
-#endif
+//#endif
 				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
 					usleep(100);
 				}
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
-#if OCMS_NO_GREY_LOG
+//#if OCMS_NO_GREY_LOG
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
-#endif
+//#endif
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
 					break; // The master thread can now exit
