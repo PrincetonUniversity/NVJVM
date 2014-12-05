@@ -878,6 +878,7 @@ public:
 	}
 
 	bool areThreadsSuspended(){
+		cout << " Debugging, in areThreadsSuspended:: Idle Thread Count::" << _idleThreadCount[0] << ", Number of collector threads :: " << _numberCollectorThreads << endl;
 		return (
 			_idleThreadCount[0] == _numberCollectorThreads
 		);

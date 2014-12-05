@@ -4266,9 +4266,9 @@ int loopCount = 0;
 			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
-#if OCMS_NO_GREY_LOG
+//#if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
-#endif
+//#endif
 //	yield();
 //  printf("In master thread work final done.\n");
 }
