@@ -4501,6 +4501,9 @@ long int CMSConcMarkingTask::getTimeStamp(){
 
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
+//	struct timeval tv1, tv2, tv3, tv4, tv5, tv6;
+//	gettimeofday(&tv1,NULL);
+
 	Thread* t = Thread::current();
 	int id = t->osthread()->thread_id();
 	bool doThrottle = (taskId>1);// 0 is master, 1 is the first worker
@@ -4549,8 +4552,8 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		HeapWord* currPos = sp->block_start_careful(span.start());
-		cout << "currPos:" << currPos << ",";
-		cout << "page start:" << _partitionMetaData->getPageBase(pageIndex) << ",";
+//		cout << "currPos:" << currPos << ",";
+//		cout << "page start:" << _partitionMetaData->getPageBase(pageIndex) << ",";
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4616,6 +4619,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //	  Special case handling the my_span.end(), which does not get iterated
 //			handleOop(my_span.end(), &cl);
 		}
+//		gettimeofday(&tv2,NULL);
 	}
 }
 
