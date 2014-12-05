@@ -4574,7 +4574,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
-		cout << "prev obj:" << prev_obj << endl;
+//		cout << "prev obj:" << prev_obj << endl;
 //		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
