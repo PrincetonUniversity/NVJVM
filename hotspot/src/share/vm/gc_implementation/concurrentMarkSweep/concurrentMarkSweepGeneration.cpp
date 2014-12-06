@@ -4634,6 +4634,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool isSetToFinalWork;
 		Thread* t = Thread::current();
 		int id = t->osthread()->thread_id();
+		cout << "In do_scan_and_mark_OCMS_NO_GREY_BATCHED, id ::" << id << endl;
 		bool wasSleeping = false;
 		while(true){
 			if (_partitionMetaData->checkToYield()){
@@ -4676,7 +4677,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-//		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
+		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
 
 void PartitionMetaData::do_yield_check(){
