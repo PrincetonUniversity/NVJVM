@@ -4554,11 +4554,11 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		HeapWord* currPos = sp->block_start_careful(span.start());
 		Thread* t = Thread::current();
 		int id = t->osthread()->thread_id();
-		if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1){
+		/*if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1){
 			cout << "currPos ::" << currPos << ",";
 			cout << "page start ::" << _partitionMetaData->getPageBase(pageIndex) << ",";
 			cout << "In scan_a_page, id ::" << id << endl;
-		}
+		}*/
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4648,8 +4648,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1)
-				cout << "Current Partition Index::" << currentPartitionIndex << ", threadId ::" << id <<endl;
+			/*if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1)
+				cout << "Current Partition Index::" << currentPartitionIndex << ", threadId ::" << id <<endl;*/
 			if(currentPartitionIndex == -1){
 				break;
 			}
