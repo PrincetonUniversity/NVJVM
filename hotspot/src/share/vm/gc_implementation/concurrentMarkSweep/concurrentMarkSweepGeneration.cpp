@@ -4552,8 +4552,11 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		HeapWord* currPos = sp->block_start_careful(span.start());
-//		cout << "currPos:" << currPos << ",";
-//		cout << "page start:" << _partitionMetaData->getPageBase(pageIndex) << ",";
+		Thread* t = Thread::current();
+		int id = t->osthread()->thread_id();
+		cout << "In scan_a_page, id ::" << id << endl;
+		cout << "currPos:" << currPos << ",";
+		cout << "page start:" << _partitionMetaData->getPageBase(pageIndex) << ",";
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
