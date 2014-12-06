@@ -4233,8 +4233,8 @@ int loopCount = 0;
 	// that the collector threads come to a termination point.
 	// Currently, all the threads are in a working state.
 	while(true){
-		while(SwapMetrics::_shouldWait && AdaptiveGC)
-			sleep(1);
+//		while(SwapMetrics::_shouldWait && AdaptiveGC)
+//			sleep(1);
 		loopCount++;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
 //#if OCMS_NO_GREY_LOG
@@ -4637,12 +4637,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		cout << "In do_scan_and_mark_OCMS_NO_GREY_BATCHED, id ::" << id << endl;
 		bool wasSleeping = false;
 		while(true){
+
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-
+			cout << "Current Partition Index::" << currentPartitionIndex << ", threadId ::" << id <<endl;
 			if(currentPartitionIndex == -1){
 				break;
 			}
@@ -4684,7 +4685,10 @@ void PartitionMetaData::do_yield_check(){
 	  if (ConcurrentMarkSweepThread::should_yield() &&
 	      !_collector->foregroundGCIsActive() &&
 	      _yield) {
-	    do_yield_work();
+			Thread* t = Thread::current();
+			int id = t->osthread()->thread_id();
+			cout << "Yielding, id ::" << id << endl;
+			do_yield_work();
 	  }
 }
 
