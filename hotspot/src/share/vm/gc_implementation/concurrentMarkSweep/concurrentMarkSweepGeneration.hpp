@@ -1606,10 +1606,13 @@ bool checkToYield(){
 		return true;
 	// After every loop we check whether have been signaled by the master thread to change our current state
 	if(isSetToWait()){ // Checking if the we have to wait,
+		Thread* t = Thread::current();
+		int id = t->osthread()->thread_id();
+		cout << "is set to wait, sleeping dude !!" << ",";
+		cout << "Id:" << id << endl;
 		incrementWaitThreadCount(); // we are waiting for the next signal from the master
 	// if yes then the count of the number of waiting threads is automatically incremented
 	while(isSetToWait()){
-		cout << "is set to wait, sleeping dude !!" << endl;
 		usleep(WORKER_THREAD_SLEEP_TIME);
 	}
 	// If we find that the master thread has asked us to terminate then we can simply break
