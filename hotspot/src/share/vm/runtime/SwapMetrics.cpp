@@ -252,8 +252,24 @@ void SwapMetrics::setPhase(int phaseId){
 }
 
 void SwapMetrics::signalled(){
-	getCurrentNumberOfFaults();
-	_defaultFaults = _currentFaults[1];
+	int count = 0;
+	FILE *fp;
+	char buf[BUF_MAX];
+	pid_t pid = getpid();
+	std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+	  std::string(inToS(pid));
+	fp = popen(cmd.c_str(), "r");
+	while(fgets(buf, BUF_MAX, fp) != NULL);
+	istringstream iss(buf);
+	int currentFaults[2];
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> currentFaults[count];
+			 count++;
+		  } while(iss);
+	_defaultFaults = currentFaults[1];
 }
 
 void SwapMetrics::universeInit(){
@@ -410,7 +426,6 @@ void SwapMetrics::printTotalFaults(){
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
-//	cout  << "In Get Current Number Faults" << endl;
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];
