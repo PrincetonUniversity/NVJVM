@@ -16,6 +16,7 @@ int SwapMetrics::_compactionPhaseFaults = 0;
 int SwapMetrics::_processInitialSwapOuts=0;
 int SwapMetrics::_processInitialPageOuts=0;
 int SwapMetrics::_concurrentPrecleanFaults=0;
+int SwapMetrics::_defaultFaults=0;
 
 int SwapMetrics:: _compactionPhaseSwapOuts = 0;
 int SwapMetrics:: _markPhaseSwapOuts = 0;
