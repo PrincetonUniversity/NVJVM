@@ -676,10 +676,15 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   if(_conc_sweep_workers == NULL){
 	  CMSConcurrentSweepEnabled = false;
 	  printf("Allocation of worker threads for sweep phase failed.\n");
+	  exit(-1);
   } else {
 	  CMSConcurrentSweepEnabled = true;
 	  _conc_sweep_workers->initialize_workers();
-	  printf("Allocation of worker threads for sweep phase succeeded.\n");
+
+#if DOPRINT
+	  printf("Allocation of worker threads for sweep phase succeeded. Total Workers = %d.\n", _conc_sweep_workers->total_workers());
+#endif
+
   }
 
   // Support for multi-threaded concurrent phases
@@ -4552,13 +4557,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		HeapWord* currPos = sp->block_start_careful(span.start());
-		Thread* t = Thread::current();
-		int id = t->osthread()->thread_id();
-		/*if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1){
-			cout << "currPos ::" << currPos << ",";
-			cout << "page start ::" << _partitionMetaData->getPageBase(pageIndex) << ",";
-			cout << "In scan_a_page, id ::" << id << endl;
-		}*/
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){

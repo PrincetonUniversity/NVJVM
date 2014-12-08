@@ -60,6 +60,7 @@
 #define WORKER_THREAD_SLEEP_TIME 100
 // in microseconds, the overall time the master threads sleep for
 #define MASTER_THREAD_SLEEP_TIME 100
+#define DOPRINT
 
 
 #define __check(a, b) \
