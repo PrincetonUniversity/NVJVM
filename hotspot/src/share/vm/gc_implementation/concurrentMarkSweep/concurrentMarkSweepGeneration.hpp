@@ -725,6 +725,7 @@ class ChunkList : public CHeapObj  {
 
 class PartitionMetaData : public CHeapObj {
 	int _pagesScanned;
+	int _pagesMarkScanned;
 	int _partitionsScanned; // the number of partitions scanned by the mark sweep threads
 	int totalDecrements;
 	int totalIncrements;
@@ -770,14 +771,23 @@ public:
 
 	void resetPagesScanned(){
 		_pagesScanned = 0;
+		_pagesMarkScanned = 0;
 	}
 
 	void incrementPagesScanned(){
 		_pagesScanned++;
 	}
 
+	void incrementPagesMarkScanned(){
+		_pagesMarkScanned++;
+	}
+
 	int getPagesScanned(){
 		return _pagesScanned;
+	}
+
+	int getPagesMarkScanned(){
+		return _pagesMarkScanned;
 	}
 
 	void resetPartitionsScanned(){

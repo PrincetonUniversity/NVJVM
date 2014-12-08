@@ -4838,7 +4838,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		}while(true);
 	}
 	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
-	printf("Marked Page Scanned\n");
+	_partitionMetaData->incrementPagesScanned();
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
@@ -7483,6 +7483,8 @@ void CMSCollector::sweepWorkPartitioned(){
   perm_space->resetPartitionedDictionaries();
 
   printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
+  printf("Pages Mark Scanned = %d.\n", _partitionMetaData->getPagesMarkScanned());
+
 
 #if OC_SWEEP_LOG
   printf("Completed the sweep phase.\n");
@@ -9602,7 +9604,7 @@ void SweepPageClosure::do_page(int pIndex, int *g, int *d){
 	size_t res;
 	if(_partitionMetaData->shouldSweepScanPage(pIndex) && !_partitionMetaData->isPageScanned(pIndex)){ // checking if the page can be scanned,
 		_partitionMetaData->pageScanned(pIndex);
-		_partitionMetaData->incrementPagesScanned();
+		_partitionMetaData->incrementPagesScanned();// TODO Remove later
 		// the case when a page cannot be scanned is when an object spans
 		// across the whole page or when there is no object allocated
 		// on this page, in that case the page start has the value NO_OBJECT_MASK
