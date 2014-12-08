@@ -681,9 +681,9 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
 	  CMSConcurrentSweepEnabled = true;
 	  _conc_sweep_workers->initialize_workers();
 
-#if DOPRINT
-	  printf("Allocation of worker threads for sweep phase succeeded. Total Workers = %d.\n", _conc_sweep_workers->total_workers());
-#endif
+//#ifdef DOPRINT
+	//  printf("Allocation of worker threads for sweep phase succeeded. Total Workers = %d.\n", _conc_sweep_workers->total_workers());
+//#endif
 
   }
 
