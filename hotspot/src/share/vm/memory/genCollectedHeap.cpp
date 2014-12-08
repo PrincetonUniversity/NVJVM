@@ -833,6 +833,7 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
 #else
     // Stop-the-world full collection
 //     collect(cause, n_gens() - 1);
+    SwapMetrics::signalled();
 	 Universe::isGCSignalled=true;
 //	 cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;
 #endif

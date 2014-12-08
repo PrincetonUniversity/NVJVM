@@ -58,10 +58,13 @@ public:
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
+    static void signalled(void);
 
     static bool _shouldWait;
     static int _processInitialSwapOuts;
     static int _processInitialPageOuts;
+
+    static int _defaultFaults;
 
     static int _markPhaseSwapOuts;
     static int _sweepPhaseSwapOuts;

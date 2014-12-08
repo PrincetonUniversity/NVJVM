@@ -19,6 +19,7 @@ int SwapMetrics::_sweepPhasePageOuts=0;
 int SwapMetrics::_markPhasePageOuts=0;
 int SwapMetrics::_compactionPhasePageOuts=0;
 
+int SwapMetrics::_defaultFaults=0;
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
@@ -371,7 +372,7 @@ void SwapMetrics::printTotalFaults(){
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
        cout << "Total number of pageOuts : " << (finalPageOuts-_processInitialPageOuts) << endl;
-
+       cout << "Total number of faults without the default faults :" << (totalFaults[1] - _defaultFaults) << endl;
 
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
@@ -427,3 +428,26 @@ void SwapMetrics::getCurrentNumberOfFaults(void){
 			 count++;
 		  } while(iss);
 }
+
+void SwapMetrics::signalled(void){
+	int count = 0;
+	FILE *fp;
+	char buf[BUF_MAX];
+	pid_t pid = getpid();
+	std::string cmd = std::string("ps -o min_flt,maj_flt ") +
+	  std::string(inToS(pid));
+	fp = popen(cmd.c_str(), "r");
+	while(fgets(buf, BUF_MAX, fp) != NULL);
+	int currentFaults[2];
+	istringstream iss(buf);
+		do
+		 {
+			 string sub;
+			 iss >> sub;
+			 std::stringstream(sub) >> currentFaults[count];
+			 count++;
+		  } while(iss);
+		_defaultFaults=currentFaults[1];
+}
+
+
