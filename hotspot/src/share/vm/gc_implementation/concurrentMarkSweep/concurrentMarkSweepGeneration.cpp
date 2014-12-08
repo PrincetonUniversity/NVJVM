@@ -5397,6 +5397,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   printf("Initiaing Creation of CMSConcMarkingTask.\n");
 #endif
 
+
   CMSConcMarkingTask tsk(this,
                          cms_space,
                          perm_space,
@@ -7438,10 +7439,11 @@ void CMSCollector::sweepWorkPartitioned(){
 #endif
   // Resetting the number of partitions to be scanned
   _partitionMetaData->resetPartitionsScanned();
-  _partitionMetaData->resetPagesScanned();
+//  _partitionMetaData->resetPagesScanned();
+
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
-  _partitionMetaData->resetPageScanned();
+//  _partitionMetaData->resetPageScanned();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
 #if OC_SWEEP_LOG
@@ -7490,6 +7492,7 @@ void CMSCollector::sweepWorkPartitioned(){
   printf("Completed the sweep phase.\n");
 #endif
   _partitionMetaData->resetGOCPage();
+  _partitionMetaData->resetPageScanned();
 }
 
 
