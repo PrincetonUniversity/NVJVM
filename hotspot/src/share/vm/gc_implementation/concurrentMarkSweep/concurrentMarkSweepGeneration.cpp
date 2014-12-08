@@ -4306,14 +4306,14 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex, &inCoreCount);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
-		if(EnableProbSweep && pagesScanned>inCoreCount){
+		/*if(EnableProbSweep && pagesScanned>inCoreCount){
 			doSweep = (double)(*d % 9)/(double)9 < ((double)(*g)/(double)(*d));
 			if(doSweep){
 				sweepPageClosure->do_page(pageIndex, g, d);
 			}
-		} else
+		} else*/
 			sweepPageClosure->do_page(pageIndex, g, d);
-		pagesScanned++;
+		pagesScanned++; // TODO remove this counter later
 	}
 	// Releasing the partition
 	_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -4637,7 +4637,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool isSetToFinalWork;
 		Thread* t = Thread::current();
 		int id = t->osthread()->thread_id();
-		cout << "In do_scan_and_mark_OCMS_NO_GREY_BATCHED, id ::" << id << endl;
+//		cout << "In do_scan_and_mark_OCMS_NO_GREY_BATCHED, id ::" << id << endl;
 		bool wasSleeping = false;
 		while(true){
 
@@ -4838,6 +4838,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		}while(true);
 	}
 	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
+	cout < "Marked Page Scanned" << endl;
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
