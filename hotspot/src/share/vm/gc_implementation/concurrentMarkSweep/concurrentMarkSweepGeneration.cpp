@@ -7439,7 +7439,7 @@ void CMSCollector::sweepWorkPartitioned(){
 #endif
   // Resetting the number of partitions to be scanned
   _partitionMetaData->resetPartitionsScanned();
-//  _partitionMetaData->resetPagesScanned();
+  _partitionMetaData->resetPagesScanned();
 
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
@@ -7493,6 +7493,7 @@ void CMSCollector::sweepWorkPartitioned(){
 #endif
   _partitionMetaData->resetGOCPage();
   _partitionMetaData->resetPageScanned();
+  _partitionMetaData->resetPagesMarkScanned();
 }
 
 

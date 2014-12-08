@@ -771,6 +771,9 @@ public:
 
 	void resetPagesScanned(){
 		_pagesScanned = 0;
+	}
+
+	void resetPagesMarkScanned(){
 		_pagesMarkScanned = 0;
 	}
 
