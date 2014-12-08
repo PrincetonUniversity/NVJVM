@@ -4827,7 +4827,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		do{
 			res = do_chunk_size((void *)curr);
 			if(res<0){ // res<0 means that the object is garbage as of now
-					cout << "res:" << res << ", some object is not null here" << endl;
+//					cout << "res:" << res << ", some object is not null here" << endl;
 				return;
 			}
 			curr += res;
