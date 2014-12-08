@@ -8,13 +8,14 @@
 #include "SwapMetrics.hpp"
 
 bool SwapMetrics::_shouldWait=false;
+
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
 
 int SwapMetrics::_processInitialSwapOuts=0;
 int SwapMetrics::_processInitialPageOuts=0;
-
+int SwapMetrics::_concurrentPrecleanFaults=0;
 
 int SwapMetrics:: _compactionPhaseSwapOuts = 0;
 int SwapMetrics:: _markPhaseSwapOuts = 0;
@@ -47,6 +48,7 @@ double SwapMetrics::_userTimeCompaction = 0;
 double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
 double SwapMetrics::_compactionTime = 0;
+double SwapMetrics::_concurrentPrecleanTime=0;
 
 long int getCurrentTime(){
 	struct timeval tp;
@@ -249,6 +251,11 @@ void SwapMetrics::setPhase(int phaseId){
      _phaseId = phaseId;
 }
 
+void SwapMetrics::signalled(){
+	getCurrentNumberOfFaults();
+	_defaultFaults = _currentFaults[1];
+}
+
 void SwapMetrics::universeInit(){
 	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
@@ -276,6 +283,8 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   cout << "Start of phase :: " << phase << ", timestamp::"<< getCurrentTime() << endl;
 }
 
+
+
 SwapMetrics::~SwapMetrics() {
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
   _finalPageOuts = getCurrentNumberOfPageOuts();
@@ -300,6 +309,8 @@ SwapMetrics::~SwapMetrics() {
 	  _compactionPhaseFaults += _majorFaults;
 	  _compactionPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
 	  _compactionPhasePageOuts += _finalPageOuts-_initialPageOuts;
+  } else if(_phaseId == concurrentPreclean){
+      _concurrentPrecleanFaults += _majorFaults;
   }
 
   // Writing the minor and the major faults to the output
@@ -354,14 +365,15 @@ void SwapMetrics::printTotalFaults(){
               		              		  } while(iss3);
 
 
-
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
        cout << "Total number of pageOuts : " << (finalPageOuts-_processInitialPageOuts) << endl;
+       cout << "Faults without default faults :" << (totalFaults[1]-_defaultFaults) << endl;
 
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "CompactionPhaseFaults : " << _compactionPhaseFaults << endl;
+       cout << "ConcurrentPrecleanFaults: " << _concurrentPrecleanFaults << endl;
 
        cout << "MarkPhaseSwapOuts : " << _markPhaseSwapOuts << endl;
        cout << "SweepPhaseSwapOuts : " << _sweepPhaseSwapOuts << endl;
@@ -389,6 +401,7 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
+       cout << "TotalConcurrentPrecleanTime" << _concurrentPrecleanTime << endl;
 
        cout << "Number of mark phases : " << _numberReportsMark << endl;
        cout << "Number of sweep phases : " << _numberReportsSweep << endl;

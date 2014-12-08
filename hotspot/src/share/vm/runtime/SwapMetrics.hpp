@@ -58,6 +58,7 @@ private:
     int _processFinalPageOuts;
 
 public:
+    static void signalled();
     static void universeInit();
 	SwapMetrics(const char *phase, int phaseId);
 	virtual ~SwapMetrics();
@@ -70,13 +71,15 @@ public:
     	unknownPhase = 0,
     	markPhase = 1,
     	sweepPhase = 2,
-    	compactPhase = 3
+    	compactPhase = 3,
+    	concurrentPreclean = 4
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
     static int getCurrentNumberOfSwapOuts();
     static int getCurrentNumberOfPageOuts();
 
+    static int _defaultFaults;
     static bool _shouldWait;
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
@@ -91,6 +94,7 @@ public:
 	static int _compactionPhasePageOuts;
 	static int _markPhasePageOuts;
 	static int _sweepPhasePageOuts;
+	static int _concurrentPrecleanFaults;
 
 	int _phaseId;
 
@@ -122,6 +126,9 @@ public:
 
 	static double _sweepTime;
 	static void sweepTimeIncrement(double v) { _sweepTime += v; }
+
+	static double _concurrentPrecleanTime;
+	static void concurrentPrecleanTimeIncrement(double v) { _concurrentPrecleanTime +=v; }
 
 	static void addThreadToList(pid_t threadId, int thr_type){
 		_threadList.push_back(new ThreadStruct(threadId, thr_type));
