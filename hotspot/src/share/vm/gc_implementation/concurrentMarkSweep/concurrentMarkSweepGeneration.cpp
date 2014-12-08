@@ -4826,8 +4826,10 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		HeapWord* curr = (HeapWord*)pageObjectStart;
 		do{
 			res = do_chunk_size((void *)curr);
-			if(res<0) // res<0 means that the object is garbage as of now
+			if(res<0){ // res<0 means that the object is garbage as of now
+					cout << "res:" << res << ", some object is not null here" << endl;
 				return;
+			}
 			curr += res;
 			if((uintptr_t)curr > (uintptr_t)_partitionMetaData->getPageEnd(pIndex)){
 // checking if the current heapword is beyond the end of the page, oops we need to go to the next page

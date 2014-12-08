@@ -802,7 +802,7 @@ public:
 
 	bool shouldScanningStop(){
 		return (
-				_partitionsScanned >= 6 * _numberPartitions
+				_partitionsScanned >= _numberPartitions
 		);
 	}
 
