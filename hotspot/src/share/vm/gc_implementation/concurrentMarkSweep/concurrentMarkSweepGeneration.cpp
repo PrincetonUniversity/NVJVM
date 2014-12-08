@@ -4838,7 +4838,7 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		}while(true);
 	}
 	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
-	cout < "Marked Page Scanned" << endl;
+	printf("Marked Page Scanned\n");
 }
 
 void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY(int i){
