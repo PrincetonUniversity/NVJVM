@@ -1102,10 +1102,12 @@ public:
 				}
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
-					if((vec[count] & 1) == 1)
-						pageIndices.push_back(index);
-					 else
-						pageIndicesOutOfCore.push_back(index);
+					if(shouldSweepScanPage(index) && !isPageScanned(index)){
+						if((vec[count] & 1) == 1)
+							pageIndices.push_back(index);
+						else
+							pageIndicesOutOfCore.push_back(index);
+					}
 				}
 			}
 #if OC_SWEEP_ASSERT
