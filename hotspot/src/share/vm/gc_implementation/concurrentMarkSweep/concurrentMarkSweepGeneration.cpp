@@ -4394,6 +4394,10 @@ bool CMSCollector::do_marking_st(bool asynch) {
 }
 
 void CMSCollector::preclean() {
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("concurrent-preclean", SwapMetrics::concurrentPreclean);
+  SwapMetrics smet("concurrent-preclean", SwapMetrics::concurrentPreclean);
+
   check_correct_thread_executing();
   assert(Thread::current()->is_ConcurrentGC_thread(), "Wrong thread");
   verify_work_stacks_empty();
