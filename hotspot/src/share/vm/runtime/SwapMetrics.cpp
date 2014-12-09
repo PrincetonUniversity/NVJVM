@@ -110,7 +110,6 @@ std::string splitString(std::string buf, int index){
 }
 
 void* monitorIOMutators(void* arg){
-  printf("Starting the mutator IO monitor.\n");
   double value, average;
   int count;
   string temp;
@@ -268,11 +267,9 @@ void SwapMetrics::setPhase(int phaseId){
 }
 
 void SwapMetrics::universeInit(){
-	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 	_processInitialPageOuts = getCurrentNumberOfSwapOuts();
-	cout << "Universe Init: "<< "timestamp ::" << getCurrentTime() << endl;
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {

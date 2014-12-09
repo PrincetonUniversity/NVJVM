@@ -1142,7 +1142,7 @@ public:
 			std::vector<int>::iterator it;
 			int nonZeroCount = 0;
 			int pageCount = 0, maxPageCount;
-			double threshold = 0.5;
+			double threshold = 0.20;
 			char buf[20];
 			if(currentPartition != - 1){
 				int partitionSize = getPartitionSize(currentPartition);
