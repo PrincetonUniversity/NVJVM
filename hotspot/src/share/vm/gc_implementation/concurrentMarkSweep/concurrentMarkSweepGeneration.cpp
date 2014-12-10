@@ -4728,7 +4728,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				endIndex = pageIndex;
-				while(it < pageIndices.size()-1){
+				while(it<(pageIndices.end()-1)){
 					cPage = *it;
 					nPage = *(it+1);
 					if((cPage+1) == nPage){
