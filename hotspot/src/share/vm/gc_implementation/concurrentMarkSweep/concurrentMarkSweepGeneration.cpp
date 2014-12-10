@@ -4728,7 +4728,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				endIndex = pageIndex;
-				while(it<(pageIndices.end()-1)){
+				/*while(it<(pageIndices.end()-1)){
 					cPage = *it;
 					nPage = *(it+1);
 					if((cPage+1) == nPage){
@@ -4739,11 +4739,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					}
 				}
 				if(endIndex != pageIndex){
-
 					scan_page_range(pageIndex, endIndex);
 				} else {
 					scan_a_page(pageIndex, i);
-				}
+				}*/
+				scan_a_page(pageIndex, i);
 				if(EnableMarkCheck){
 					while(pageIndex<=endIndex){
 						check_if_all_alive_page(pageIndex);
