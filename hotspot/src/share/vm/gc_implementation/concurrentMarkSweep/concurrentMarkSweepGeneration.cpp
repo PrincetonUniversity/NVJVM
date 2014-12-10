@@ -4692,6 +4692,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
+			cout << "Continuous Count:" << cCount << ", totalCount:" << pCounter << endl;
 			SwapMetrics::_cPages += cCount;
 			SwapMetrics::_tPages += pCounter;
 		}
