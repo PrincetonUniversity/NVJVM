@@ -4679,15 +4679,16 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				if(EnableMarkCheck)
 					check_if_all_alive_page(pageIndex);
 			}
-			int cCount=0;
+			int cCount=0, pCounter=0;
 			int cPage, nPage;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
-				if(pCounter==pageIndices.size()-1)
+				if((unsigned int)pCounter==(pageIndices.size()-1))
 					break;
 				cPage = *it;
 				nPage = *(it+1);
 				if((cPage+1)==(nPage))
 					cCount++
+				pCounter++;
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
