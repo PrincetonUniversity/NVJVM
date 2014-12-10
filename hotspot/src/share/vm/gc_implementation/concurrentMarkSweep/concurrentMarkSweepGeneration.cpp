@@ -4734,6 +4734,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					if((cPage+1) == nPage){
 						endIndex=nPage;
 						it++;
+					} else {
+						break;
 					}
 				}
 				if(endIndex != pageIndex){
