@@ -1157,15 +1157,22 @@ public:
 					exit(-1);
 				}
 				int index = getPartitionStart(currentPartition), count, greyCount;
+				int iCore=0, oCore=0;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 					greyCount = _pageGOC[index];
 					if(greyCount > 0){
 						nonZeroCount++;
-					if((vec[count] & 1) == 1)
-						pageIndices.push_back(index);
-					 else
-						pageIndicesOutOfCore.push_back(index);
+						if((vec[count] & 1) == 1){
+							printf("PageInCore:%d,", index);
+							pageIndices.push_back(index);
+							iCore++;
+						}else{
+							pageIndicesOutOfCore.push_back(index);
+							printf("PageOutofCore:%d," index);
+							oCore++;
+						}
 					}
+					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
 				}
 #if PRINT_TO_LOG
 			sprintf(buf, "%d, %d, %d, %d.\n", pageIndices.size(), pageIndicesOutOfCore.size(), nonZeroCount, currentPartition);
