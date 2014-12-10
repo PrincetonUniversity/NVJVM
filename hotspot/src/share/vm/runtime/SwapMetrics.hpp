@@ -60,6 +60,9 @@ public:
     static void incrementObjectSpills(void);
     static void signalled(void);
 
+    static int _cPages;
+    static int _tPages;
+
     static bool _shouldWait;
     static int _processInitialSwapOuts;
     static int _processInitialPageOuts;

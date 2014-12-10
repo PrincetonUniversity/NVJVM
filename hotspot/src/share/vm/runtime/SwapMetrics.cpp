@@ -6,6 +6,9 @@
  */
 
 #include "SwapMetrics.hpp"
+int SwapMetrics::_cPages = 0;
+int SwapMetrics::_tPages = 0;
+
 
 bool SwapMetrics::_shouldWait=false;
 int SwapMetrics::_processInitialSwapOuts=0;
@@ -405,6 +408,9 @@ void SwapMetrics::printTotalFaults(){
        cout << "Number of mark phases : " << _numberReportsMark << endl;
        cout << "Number of sweep phases : " << _numberReportsSweep << endl;
        cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
+
+       cout << "Continuous Pages :: " << _cPages << endl;
+       cout << "Total Pages :: " << _tPages << endl;
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){

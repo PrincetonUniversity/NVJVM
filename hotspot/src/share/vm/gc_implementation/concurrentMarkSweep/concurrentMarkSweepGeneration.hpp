@@ -1163,17 +1163,17 @@ public:
 					if(greyCount > 0){
 						nonZeroCount++;
 						if((vec[count] & 1) == 1){
-							printf("PageInCore:%d,", index);
+//							printf("IC:%d, gC:%d,", index, greyCount);
 							pageIndices.push_back(index);
-							iCore++;
+//							iCore++;
 						}else{
 							pageIndicesOutOfCore.push_back(index);
-							printf("PageOutofCore:%d,", index);
-							oCore++;
+//							printf("OC:%d, gC:%d,", index, greyCount);
+//							oCore++;
 						}
 					}
 				}
-					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
+//					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
 #if PRINT_TO_LOG
 			sprintf(buf, "%d, %d, %d, %d.\n", pageIndices.size(), pageIndicesOutOfCore.size(), nonZeroCount, currentPartition);
 			CMSLogs::log(std::string(buf));
