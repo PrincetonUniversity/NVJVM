@@ -4687,7 +4687,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				cPage = *it;
 				nPage = *(it+1);
 				if((cPage+1)==(nPage))
-					cCount++
+					cCount++;
 				pCounter++;
 			}
 			// Releasing the partition
