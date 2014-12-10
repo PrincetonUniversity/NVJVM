@@ -4265,12 +4265,12 @@ int loopCount = 0;
 					_partitionMetaData->setToWorkFinal();
 				}
 			}
-			/*if(loopCount > 1000){
+			if(true || loopCount > 1000){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
-			}*/
+			}
 			_partitionMetaData->setToWork();
-			usleep(1000);
+			sleep(1);
 		}
 //#if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
