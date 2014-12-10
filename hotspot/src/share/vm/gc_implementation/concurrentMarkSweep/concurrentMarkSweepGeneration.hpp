@@ -1168,7 +1168,7 @@ public:
 							iCore++;
 						}else{
 							pageIndicesOutOfCore.push_back(index);
-							printf("PageOutofCore:%d," index);
+							printf("PageOutofCore:%d,", index);
 							oCore++;
 						}
 					}
