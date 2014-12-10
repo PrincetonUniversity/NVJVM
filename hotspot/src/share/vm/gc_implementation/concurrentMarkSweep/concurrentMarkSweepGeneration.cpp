@@ -4510,8 +4510,6 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 		HeapWord* prev_obj;
 		void* pageAddress = _partitionMetaData->getPageBase(startPageIndex);
 		void* pageAddressStart = pageAddress;
-		int pLength = (endPageIndex - startPageIndex + 1) * (_PAGE_SIZE);
-		mlock(pageAddressStart, pLength);
 		void* pageAddressEnd = (void *)((HeapWord *)_partitionMetaData->getPageEnd(endPageIndex) + 1);
 		int currentPageIndex = startPageIndex;
 		sp = getSpace(pageAddress);
@@ -4563,7 +4561,6 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 				_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 			}
 		}
-		munlock(pageAddressStart,  pLength);
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
