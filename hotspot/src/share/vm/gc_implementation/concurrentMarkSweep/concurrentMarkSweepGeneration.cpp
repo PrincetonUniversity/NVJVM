@@ -3881,6 +3881,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_scan_and_mark_OCMS_NO_GREY(int i);
   void do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i);
   void scan_a_page(int pageIndex, int taskId=0);
+  void scan_page_range(int startIndex, int endIndex);
   long int getTimeStamp(void);
   bool shouldStop();
   void check_if_all_alive_page(int pIndex);
@@ -4504,15 +4505,69 @@ long int CMSConcMarkingTask::getTimeStamp(){
 	return ms;
 }
 
+void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
+		CompactibleFreeListSpace* sp;
+		HeapWord* prev_obj;
+		void* pageAddress = _partitionMetaData->getPageBase(startPageIndex);
+		void* pageAddressStart = pageAddress;
+		void* pageAddressEnd = _partitionMetaData->getPageEnd(endPageIndex) + 1;
+		int currentPageIndex = startPageIndex;
+		sp = getSpace(pageAddress);
+		bool currentMarked = false;
+		int _skipbits = 0;
+		HeapWord* curr ;
+		int greyObjectCount =0 ;
+		while(currentPageIndex <= endPageIndex){
+			greyObjectCount += (int)_partitionMetaData->clearGreyObjectCount_Page(pageAddress);
+			pageAddress += _PAGE_SIZE;
+			currentPageIndex++;
+		}
+		_collector->decGreyObj(pageAddress, (int)greyObjectCount);
+		MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddressStart),
+				(HeapWord *)pageAddressEnd);
+		span = span.intersection(sp->used_region());
+		if(!span.is_empty()){
+			HeapWord* currPos = sp->block_start_careful(span.start());
+			do{
+			currentMarked = _collector->_markBitMap.isMarked(currPos);
+			if(currentMarked){
+				if(_skipbits > 0){
+					_skipbits--;
+				} else { // _skipbits == 0
+					if((uintptr_t)currPos >= (uintptr_t)span.start()){
+						oop p = oop(currPos);
+						if ((p->klass_or_null() != NULL && p->is_parsable())) {
+							break;
+						}
+					}
+					if(_collector->_markBitMap.isMarked(currPos + 1)){
+							_skipbits = 2;
+					}
+				}
+			}
+			currPos++;
+		}while((uintptr_t)currPos <= (uintptr_t)span.end());
+		prev_obj = currPos;
+			if (prev_obj <= span.end()) {
+				MemRegion my_span = MemRegion(prev_obj, span.end());
+				// Do the marking work within a non-empty span --
+				// the last argument to the constructor indicates whether the
+				// iteration should be incremental with periodic yields.
+				Par_MarkFromGreyRootsClosure cl(_collector,
+							&_collector->_markBitMap,
+							_collector->getChunkList(),
+							my_span,
+							&_collector->_revisitStack, this, _asynch, false);
+				_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
+			}
+		}
+}
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
-//	struct timeval tv1, tv2, tv3, tv4, tv5, tv6;
-//	gettimeofday(&tv1,NULL);
 
 	Thread* t = Thread::current();
 	int id = t->osthread()->thread_id();
 	bool doThrottle = (taskId>1);// 0 is master, 1 is the first worker
-
 #if OCMS_NO_GREY_ASSERT
 	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
 		printf("Before .... Something is wrong. Grey Object Count = 0, "
@@ -4521,14 +4576,11 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		exit (-1);
 	}
 #endif
-
-	int currentPartitionIndex = -1;
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	u_jbyte oldValue;
 	// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
-	currentPartitionIndex = _partitionMetaData->getPartitionIndexFromPage(pageIndex);
 	pageAddress = _partitionMetaData->getPageBase(pageIndex);
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
@@ -4671,16 +4723,34 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				exit(-1);
 			}
 #endif*/
-			int pCounter=0;
+			int endIndex=0;
+			int cPage, nPage;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
-				pCounter++;
-				scan_a_page(pageIndex, i);
-				if(EnableMarkCheck)
-					check_if_all_alive_page(pageIndex);
+				endIndex = pageIndex;
+				while(it < pageIndices.size()-1){
+					cPage = *it;
+					nPage = *(it+1);
+					if((cPage+1) == nPage){
+						endIndex=nPage;
+						it++;
+					}
+				}
+				if(endIndex != pageIndex){
+					scan_page_range(pageIndex, endIndex);
+				} else {
+					scan_a_page(pageIndex, i);
+				}
+				if(EnableMarkCheck){
+					while(pageIndex<=endIndex){
+						check_if_all_alive_page(pageIndex);
+						pageIndex++;
+					}
+				}
 			}
-			int cCount=0; pCounter=0;
-			int cPage, nPage;
+			// Releasing the partition
+			_partitionMetaData->releasePartition(currentPartitionIndex);
+			/*int cCount=0; pCounter=0;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				if((unsigned int)pCounter==(pageIndices.size()-1))
 					break;
@@ -4690,11 +4760,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 					cCount++;
 				pCounter++;
 			}
-			// Releasing the partition
-			_partitionMetaData->releasePartition(currentPartitionIndex);
 			cout << "Continuous Count:" << cCount << ", totalCount:" << pCounter << endl;
 			SwapMetrics::_cPages += cCount;
-			SwapMetrics::_tPages += pCounter;
+			SwapMetrics::_tPages += pCounter;*/
 		}
 		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
