@@ -4510,7 +4510,7 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 		HeapWord* prev_obj;
 		void* pageAddress = _partitionMetaData->getPageBase(startPageIndex);
 		void* pageAddressStart = pageAddress;
-		void* pageAddressEnd = _partitionMetaData->getPageEnd(endPageIndex) + 1;
+		void* pageAddressEnd = (void *)((HeapWord *)_partitionMetaData->getPageEnd(endPageIndex) + 1);
 		int currentPageIndex = startPageIndex;
 		sp = getSpace(pageAddress);
 		bool currentMarked = false;
