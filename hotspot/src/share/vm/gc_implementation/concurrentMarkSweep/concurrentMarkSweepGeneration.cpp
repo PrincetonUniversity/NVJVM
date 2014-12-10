@@ -4519,10 +4519,10 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 		int greyObjectCount =0 ;
 		while(currentPageIndex <= endPageIndex){
 			greyObjectCount += (int)_partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-			pageAddress += _PAGE_SIZE;
+			pageAddress = (void *)((HeapWord *)pageAddress + _PAGE_SIZE);
 			currentPageIndex++;
 		}
-		_collector->decGreyObj(pageAddress, (int)greyObjectCount);
+		_collector->decGreyObj(pageAddressStart, greyObjectCount);
 		MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddressStart),
 				(HeapWord *)pageAddressEnd);
 		span = span.intersection(sp->used_region());
