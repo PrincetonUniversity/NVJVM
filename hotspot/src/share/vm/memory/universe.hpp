@@ -47,7 +47,7 @@
 #define OCMS_NO_GREY_DEBUG 0
 #define OCMS_METRICS 0
 #define PRINT_TO_LOG 0
-#define TRACING_SYSTEM_GC 0
+#define TRACING_SYSTEM_GC 1
 #define OC_SWEEP_ASSERT 1
 #define OC_SWEEP_LOG 0
 #define SEG_DEBUG 0

@@ -2252,6 +2252,7 @@ class CMSConcMarkingTask;
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
 #if TRACING_SYSTEM_GC
 	printf("TRACING_SYSTEM_GC:: in collect_in_foreground");
+	return;
 #endif
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
@@ -4265,12 +4266,12 @@ int loopCount = 0;
 					_partitionMetaData->setToWorkFinal();
 				}
 			}
-			if(true || loopCount > 1000){
+			/*if(true || loopCount > 1000){
 				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
 						_partitionMetaData->getTotalGreyObjectsChunkLevel());
-			}
+			}*/
 			_partitionMetaData->setToWork();
-			sleep(1);
+			usleep(1000);
 		}
 //#if OCMS_NO_GREY_LOG
 	printf("Yielding for the master thread's final function.\n");
