@@ -1172,8 +1172,8 @@ public:
 							oCore++;
 						}
 					}
-					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
 				}
+					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
 #if PRINT_TO_LOG
 			sprintf(buf, "%d, %d, %d, %d.\n", pageIndices.size(), pageIndicesOutOfCore.size(), nonZeroCount, currentPartition);
 			CMSLogs::log(std::string(buf));
