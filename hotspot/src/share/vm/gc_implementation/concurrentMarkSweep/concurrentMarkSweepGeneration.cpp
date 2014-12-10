@@ -4510,8 +4510,8 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 		HeapWord* prev_obj;
 		void* pageAddress = _partitionMetaData->getPageBase(startPageIndex);
 		void* pageAddressStart = pageAddress;
-		int pLength = (endPageIndex - startPageIndex + 1)*_PAGE_SIZE;
-		madvise(pageAddressStart,  pLength,MADV_SEQUENTIAL);
+		int pLength = (endPageIndex - startPageIndex + 1) * (_PAGE_SIZE);
+		mlock(pageAddressStart, pLength);
 		void* pageAddressEnd = (void *)((HeapWord *)_partitionMetaData->getPageEnd(endPageIndex) + 1);
 		int currentPageIndex = startPageIndex;
 		sp = getSpace(pageAddress);
@@ -4553,7 +4553,7 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 			if (prev_obj <= span.end()) {
 				MemRegion my_span = MemRegion(prev_obj, span.end());
 				// Do the marking work within a non-empty span --
-				// the last argument to the constructor indicates whether the
+				// the second last argument to the constructor indicates whether the
 				// iteration should be incremental with periodic yields.
 				Par_MarkFromGreyRootsClosure cl(_collector,
 							&_collector->_markBitMap,
@@ -4563,7 +4563,7 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 				_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 			}
 		}
-		madvise(pageAddressStart,  pLength, MADV_NORMAL);
+		munlock(pageAddressStart,  pLength);
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
