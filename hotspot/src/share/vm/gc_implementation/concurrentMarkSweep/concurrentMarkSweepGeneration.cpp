@@ -4270,10 +4270,10 @@ int loopCount = 0;
 					_partitionMetaData->setToWorkFinal();
 				}
 			}
-			/*if(true || loopCount > 1000){
-				printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount,
-						_partitionMetaData->getTotalGreyObjectsChunkLevel());
-			}*/
+			if(loopCount > 1000){
+				printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
+				loopCount = 0;
+			}
 			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
