@@ -119,6 +119,7 @@ class ScanMarkedObjectsAgainCarefullyClosure;
 class ChunkListPolicy;
 class ChunkList;
 class ScanChunk;
+class CMSConcSweepingTask;
 
 // A generic CMS bit map. It's the basis for both the CMS marking bit map
 // as well as for the mod union table (in each case only a subset of the
@@ -2936,15 +2937,17 @@ class SweepPageClosure : public CHeapObj {
 	CMSBitMap* _bitMap;
 	bool _yield;
 	Mutex*    _freelistLock; // Free list lock (in space)
+	CMSConcSweepingTask* _task;
 
 public:
-	SweepPageClosure(CMSCollector* collector, int id, Mutex *m){
+	SweepPageClosure(CMSCollector* collector, int id, Mutex *m, CMSConcSweepingTask* task){
 		_collector = collector;
 		_id = id;
 		_partitionMetaData = collector->getPartitionMetaData();
 		_bitMap = collector->markBitMap();
 		_yield = true;
 		_freelistLock = m;
+		_task = task;
 	}
 	void do_page(int pageIndex, int *, int *);
 	int getId() { return _id; }
