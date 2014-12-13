@@ -4618,6 +4618,8 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //		printf("before getting starting address, %ld milliseconds, page index = %d"
 //				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		HeapWord* currPos = sp->block_start_careful(span.start());
+		if(_partitionMetaData->getDoPrint())
+			cout << "curr pos:" << currPos << ", pageAddress:" << pageAddress << endl;
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4638,8 +4640,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 			currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
-		if(_partitionMetaData->getDoPrint())
-			cout << "prev obj:" << prev_obj << ", pageAddress:" << pageAddress << endl;
 //		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
