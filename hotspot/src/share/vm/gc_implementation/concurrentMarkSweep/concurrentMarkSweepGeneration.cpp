@@ -4788,7 +4788,6 @@ void PartitionMetaData::do_yield_check(){
 	      _yield) {
 			Thread* t = Thread::current();
 			int id = t->osthread()->thread_id();
-//			cout << "Yielding, id ::" << id << endl;
 			do_yield_work();
 	  }
 }
@@ -4799,10 +4798,7 @@ void PartitionMetaData::do_yield_work(){
 
 int PartitionMetaData::getPartition(int currentPartition){
 	int partitionIndex = currentPartition;
-//	int count=0;
 	while(true){
-//		count++;
-		// we could check the count of the number of
 		partitionIndex = nextPartitionIndex(partitionIndex);
 		if(getGreyObjectsChunkLevel(partitionIndex) > 0){
 			if(markAtomic(partitionIndex) == true)
@@ -4811,12 +4807,6 @@ int PartitionMetaData::getPartition(int currentPartition){
 		if(checkToYield()){
 			return -1;
 		}
-		/*if(count>10000){
-			int goc = _collector->getPartitionMetaData()->getTotalGreyObjectsChunkLevel();
-			cout << "count=" << count << ", i am stuck in getPartition(), goc " << goc ;
-			cout << ", number partitions = " << _numberPartitions << ", partition index " << partitionIndex <<
-			", grey object count for this partition " << getGreyObjectsChunkLevel(partitionIndex) << endl;
-		}*/
 		do_yield_check();
 	}
 }
