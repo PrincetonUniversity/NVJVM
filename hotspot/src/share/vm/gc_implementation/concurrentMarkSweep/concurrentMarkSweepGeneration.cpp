@@ -4321,15 +4321,17 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 // Each of the worker threads scans through different partitions in order to locate garbage chunks.
 
 void CMSConcSweepingTask::work(int i){
-	SweepPageClosure sweepPageClosure(getCollector(), i);
+	CompactibleFreeListSpace* cms_space = _collector->ConcurrentMarkSweepGeneration()->cmsSpace();
+	Mutex* mutex = cms_space->freelistLock();
+	SweepPageClosure sweepPageClosure(getCollector(), i, mutex);
+
 #if OC_SWEEP_LOG
 	printf("Starting CMSConcSweepingTask with id %d.\n", i);
 #endif
+
 	int currentPartitionIndex = -1;
 	int totalGarbage = 0, totalData = 0;
     do {
-//    if(EnableDynamicWait && SwapMetrics::_shouldWait)
-//    	usleep(1000);
       // each thread tries to get the next partition here
       currentPartitionIndex = _partitionMetaData->getNextPartition(currentPartitionIndex);
       if(currentPartitionIndex == -1){
@@ -7317,21 +7319,20 @@ void CMSCollector::sweep(bool asynch) {
 
     // First sweep the old gen then the perm gen
     {
-      CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
-                               bitMapLock());
+      CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(), bitMapLock());
       if(SweepPartitioned)
     	  sweepWorkPartitioned();
-      else
+      else {
     	  sweepWork(_cmsGen, asynch);
+      }
     }
 
     // Now repeat for perm gen
-    if (should_unload_classes()) {
+    if (should_unload_classes() && (!SweepPartitioned)) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
       printf("Unloading Classes.\n");
-      if(!SweepPartitioned)
-    	  sweepWork(_permGen, asynch);
+      sweepWork(_permGen, asynch);
 
     }
 
@@ -7545,10 +7546,12 @@ void CMSCollector::sweepWorkPartitioned(){
   // Getting the cms and the permanent spaces
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
+  {
 
-  // Returning the chunks back to the cms space and the permanent space
-  cms_space->returnChunksToGlobalFreeList();
-  perm_space->returnChunksToGlobalFreeList();
+	  // Returning the chunks back to the cms space and the permanent space
+	  cms_space->returnChunksToGlobalFreeList();
+	  perm_space->returnChunksToGlobalFreeList();
+
 
 #if OC_SWEEP_LOG
   printf("Successfully returned the chunks to the global free list of the cms and the permanent spaces."
@@ -7567,6 +7570,7 @@ void CMSCollector::sweepWorkPartitioned(){
   // Resetting the partitioned dictionaries
   perm_space->returnPartitionedDictionaries();
   perm_space->resetPartitionedDictionaries();
+  }
 
   printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
   printf("Pages Mark Scanned = %d.\n", _partitionMetaData->getPagesMarkScanned());
