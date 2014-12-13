@@ -4235,7 +4235,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 void CMSConcMarkingTask::masterThreadWorkFinal(){
 //  printf("In master thread work final entered.\n");
 //  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
-
+int oldCount = 0, newCount = 0;
 int loopCount = 0;
 #if OCMS_NO_GREY_LOG
  printf("In master thread work final.\n");
@@ -4274,6 +4274,13 @@ int loopCount = 0;
 				printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
 				loopCount = 0;
 			}
+
+			// This is for debugging
+				newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
+				_partitionMetaData->setDoPrint(oldCount==newCount);
+				oldCount=newCount;
+			// End of debugging code
+
 			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
@@ -4631,7 +4638,8 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 			currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
-//		cout << "prev obj:" << prev_obj << endl;
+		if(_partitionMetaData->getDoPrint())
+			cout << "prev obj:" << prev_obj << ", pageAddress:" << pageAddress << endl;
 //		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);// prevObj is the page base currently
 
 		// This is the case when prev_obj is the second bit of an un-initialized object
@@ -4691,7 +4699,6 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		bool isSetToFinalWork;
 		Thread* t = Thread::current();
 		int id = t->osthread()->thread_id();
-//		cout << "In do_scan_and_mark_OCMS_NO_GREY_BATCHED, id ::" << id << endl;
 		bool wasSleeping = false;
 		while(true){
 
@@ -7546,12 +7553,13 @@ void CMSCollector::sweepWorkPartitioned(){
 
   // Resetting the partitionMap
   _partitionMetaData->resetPartitionMap();
-//  _partitionMetaData->resetPageScanned();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
+
 #if OC_SWEEP_LOG
   printf("CMSConcSweepingTask Completed.\n");
 #endif
+
 #if OC_SWEEP_ASSERT
   if(sweepTask.completed() == false){
 	  printf("The CMSConcSweepingTask is still not completed. There is still something wrong with the task\n");

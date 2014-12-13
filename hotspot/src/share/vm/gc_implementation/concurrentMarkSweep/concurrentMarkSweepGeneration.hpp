@@ -728,6 +728,7 @@ class PartitionMetaData : public CHeapObj {
 	int _pagesScanned;
 	int _pagesMarkScanned;
 	int _partitionsScanned; // the number of partitions scanned by the mark sweep threads
+	bool _doPrint;
 	int totalDecrements;
 	int totalIncrements;
 //  Keeps the offset of the highest allocated object for each page in order to make sure that the sweep phase can
@@ -769,6 +770,14 @@ class PartitionMetaData : public CHeapObj {
 	};
 
 public:
+
+	void setDoPrint(bool flag){
+		_doPrint = flag;
+	}
+
+	bool getDoPrint() {
+		return _doPrint;
+	}
 
 	void resetPagesScanned(){
 		_pagesScanned = 0;
@@ -1250,6 +1259,7 @@ public:
 				}
 
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
+		setDoPrint(false);
 		_collector = cmsCollector;
 		_span = span;
 		_numberPartitions = NumberPartitions;
