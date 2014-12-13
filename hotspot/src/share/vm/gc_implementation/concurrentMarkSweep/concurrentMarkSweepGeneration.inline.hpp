@@ -491,7 +491,6 @@ inline void SurvivorSpacePrecleanClosure::do_yield_check() {
 }
 
 inline void SweepPageClosure::do_yield_check() {
-	printf("Checking for yield in sweep.\n");
 	if (ConcurrentMarkSweepThread::should_yield() &&
 		!_collector->foregroundGCIsActive() &&
 	     _yield) {
