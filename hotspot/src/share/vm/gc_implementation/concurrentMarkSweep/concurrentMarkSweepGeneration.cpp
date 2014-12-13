@@ -680,6 +680,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   } else {
 	  CMSConcurrentSweepEnabled = true;
 	  _conc_sweep_workers->initialize_workers();
+	  _conc_sweep_workers->setTotalYielders(ConcSweepThreads);
 
 //#ifdef DOPRINT
 	//  printf("Allocation of worker threads for sweep phase succeeded. Total Workers = %d.\n", _conc_sweep_workers->total_workers());
@@ -694,14 +695,15 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
       FLAG_SET_DEFAULT(ConcGCThreads, (ParallelGCThreads + 3)/4);
     }
     if (ConcGCThreads > 1) {
-      _conc_workers = new YieldingFlexibleWorkGang("Parallel CMS Threads",
-              ConcGCThreads, true);
+    	_conc_workers = new YieldingFlexibleWorkGang("Parallel CMS Threads",
+    			ConcGCThreads, true);
       if (_conc_workers == NULL) {
         warning("GC/CMS: _conc_workers allocation failure: "
               "forcing -CMSConcurrentMTEnabled");
         CMSConcurrentMTEnabled = false;
       } else {
     	  _conc_workers->initialize_workers();
+    	  _conc_workers->setTotalYielders(ConcGCThreads-1);
       }
     } else {
       CMSConcurrentMTEnabled = false;

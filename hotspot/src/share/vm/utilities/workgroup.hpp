@@ -141,6 +141,8 @@ protected:
   Monitor*  _monitor;
   // The count of the number of workers in the gang.
   int _total_workers;
+  // The number of workers which will yield.
+  int _total_yielders;
   // Whether the workers should terminate.
   bool _terminate;
   // The array of worker threads for this gang.
@@ -203,6 +205,8 @@ public:
   void print_worker_threads() const {
     print_worker_threads_on(tty);
   }
+  void setTotalYielders(int n) { _total_yielders = n; }
+  int getTotalYielders() { return _total_yielders; }
 
 protected:
   friend class GangWorker;
