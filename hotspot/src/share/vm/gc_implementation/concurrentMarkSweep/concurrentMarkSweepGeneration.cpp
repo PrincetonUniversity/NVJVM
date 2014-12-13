@@ -7562,6 +7562,12 @@ void CMSCollector::sweepWorkPartitioned(){
   _partitionMetaData->resetPartitionMap();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
+  while (sweepTask.yielded()) {
+	sweepTask.coordinator_yield();
+    cout << "continuing sweep task" << endl;
+    conc_workers()->continue_task(&sweepTask);
+  }
+
 
 #if OC_SWEEP_LOG
   printf("CMSConcSweepingTask Completed.\n");
