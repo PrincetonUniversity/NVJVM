@@ -7565,7 +7565,7 @@ void CMSCollector::sweepWorkPartitioned(){
   while (sweepTask.yielded()) {
 	sweepTask.coordinator_yield();
     cout << "continuing sweep task" << endl;
-    conc_workers()->continue_task(&sweepTask);
+    conc_sweep_workers()->continue_task(&sweepTask);
   }
 
 
