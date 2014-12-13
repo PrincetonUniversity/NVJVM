@@ -772,7 +772,7 @@ class PartitionMetaData : public CHeapObj {
 public:
 
 	void setDoPrint(bool flag){
-		_doPrint = flag;
+		_doPrint = false;
 	}
 
 	bool getDoPrint() {

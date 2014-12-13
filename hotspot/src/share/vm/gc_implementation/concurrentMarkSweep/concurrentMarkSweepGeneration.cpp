@@ -4331,6 +4331,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 // Each of the worker threads scans through different partitions in order to locate garbage chunks.
 
 void CMSConcSweepingTask::work(int i){
+
 	CompactibleFreeListSpace* cms_space = _collector->cmsGen()->cmsSpace();
 	Mutex* mutex = cms_space->freelistLock();
 	SweepPageClosure sweepPageClosure(getCollector(), i, this);
@@ -7507,8 +7508,6 @@ void ConcurrentMarkSweepGeneration::rotate_debug_collection_type() {
 // Thereafter, once the threads come to a stop, the master thread returns the individual dead chunks to the main free list.
 
 void CMSCollector::sweepWorkPartitioned(){
-  printf("Triggering sweep work partitioned.\n");
- _partitionMetaData->numPagesWithNoStartMark();
  // We iterate over the space underlying both the generations (cms, perm)
  // one page at a time, checking the mark bit map to see if the bits corresponding
  // to specific blocks are marked or not.  Blocks that are
@@ -7534,6 +7533,8 @@ void CMSCollector::sweepWorkPartitioned(){
  // as well take the bit map lock for the entire duration
 
  // Initially we need to start a set of worker threads
+   printf("Triggering sweep work partitioned.\n");
+   _partitionMetaData->numPagesWithNoStartMark();
 
 #if OC_SWEEP_LOG
   printf("Initiating Creation of CMSConcSweepingTask.\n");
@@ -7544,9 +7545,11 @@ void CMSCollector::sweepWorkPartitioned(){
 #if OC_SWEEP_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
 #endif
+
 #if OC_SWEEP_LOG
   printf("Starting the CMSConcSweepingTask.\n");
 #endif
+
   // Resetting the number of partitions to be scanned
   _partitionMetaData->resetPartitionsScanned();
   _partitionMetaData->resetPagesScanned();
