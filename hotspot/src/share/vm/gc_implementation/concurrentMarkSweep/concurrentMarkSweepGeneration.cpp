@@ -4309,13 +4309,8 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 	pageIndices = _partitionMetaData->toSweepPageList(currentPartitionIndex, &inCoreCount);
 	for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 		pageIndex = *it;
-		/*if(EnableProbSweep && pagesScanned>inCoreCount){
-			doSweep = (double)(*d % 9)/(double)9 < ((double)(*g)/(double)(*d));
-			if(doSweep){
-				sweepPageClosure->do_page(pageIndex, g, d);
-			}
-		} else*/
-			sweepPageClosure->do_page(pageIndex, g, d);
+		sweepPageClosure->do_page(pageIndex, g, d);
+		sweepPageClosure->do_yield_check();
 		pagesScanned++; // TODO remove this counter later
 	}
 	// Releasing the partition
@@ -4769,7 +4764,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			SwapMetrics::_cPages += cCount;
 			SwapMetrics::_tPages += pCounter;*/
 		}
-		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
+//		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
 
 void PartitionMetaData::do_yield_check(){
@@ -4778,7 +4773,7 @@ void PartitionMetaData::do_yield_check(){
 	      _yield) {
 			Thread* t = Thread::current();
 			int id = t->osthread()->thread_id();
-			cout << "Yielding, id ::" << id << endl;
+//			cout << "Yielding, id ::" << id << endl;
 			do_yield_work();
 	  }
 }
@@ -7517,7 +7512,9 @@ void CMSCollector::sweepWorkPartitioned(){
 #if OC_SWEEP_LOG
   printf("Initiating Creation of CMSConcSweepingTask.\n");
 #endif
+
   CMSConcSweepingTask sweepTask(this, ConcSweepThreads);
+
 #if OC_SWEEP_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
 #endif
@@ -10251,6 +10248,25 @@ void SweepClosure::flush_cur_free_chunk(HeapWord* chunk, size_t size) {
   }
   set_inFreeRange(false);
   set_freeRangeInFreeLists(false);
+}
+
+void SweepPageClosure::do_yield_work(){
+	  _bitMap->lock()->unlock();
+	  _freelistLock->unlock();
+	  ConcurrentMarkSweepThread::desynchronize(true);
+	  ConcurrentMarkSweepThread::acknowledge_yield_request();
+	  _collector->stopTimer();
+	  _collector->icms_wait();
+	  for (unsigned i = 0; i < CMSYieldSleepCount &&
+	                       ConcurrentMarkSweepThread::should_yield() &&
+	                       !CMSCollector::foregroundGCIsActive(); ++i) {
+	    os::sleep(Thread::current(), 1, false);
+	    ConcurrentMarkSweepThread::acknowledge_yield_request();
+	  }
+	  ConcurrentMarkSweepThread::synchronize(true);
+	  _freelistLock->lock();
+	  _bitMap->lock()->lock_without_safepoint_check();
+	  _collector->startTimer();
 }
 
 // We take a break if we've been at this for a while,

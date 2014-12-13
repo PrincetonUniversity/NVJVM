@@ -490,6 +490,14 @@ inline void SurvivorSpacePrecleanClosure::do_yield_check() {
   }
 }
 
+inline void SweepPageClosure::do_yield_check() {
+	if (ConcurrentMarkSweepThread::should_yield() &&
+		!_collector->foregroundGCIsActive() &&
+	     _yield) {
+	   do_yield_work();
+	  }
+}
+
 inline void SweepClosure::do_yield_check(HeapWord* addr) {
   if (ConcurrentMarkSweepThread::should_yield() &&
       !_collector->foregroundGCIsActive() &&

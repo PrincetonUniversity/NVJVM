@@ -2934,6 +2934,7 @@ class SweepPageClosure : public CHeapObj {
 	PartitionMetaData* _partitionMetaData;
 	int _id;
 	CMSBitMap* _bitMap;
+	bool _yield;
 
 public:
 	SweepPageClosure(CMSCollector* collector, int id){
@@ -2941,6 +2942,7 @@ public:
 		_id = id;
 		_partitionMetaData = collector->getPartitionMetaData();
 		_bitMap = collector->markBitMap();
+		_yield = true;
 	}
 	void do_page(int pageIndex, int *, int *);
 	int getId() { return _id; }
@@ -2948,6 +2950,10 @@ public:
 	size_t do_live_chunk(HeapWord* addr);
 	size_t do_free_chunk(FreeChunk* fc);
 	size_t do_garbage_chunk(HeapWord* gc);
+	// Check if we should yield and do so when necessary.
+	inline void do_yield_check();
+	// Yield
+	void do_yield_work();
 };
 
 // This closure is used to accomplish the sweeping work
