@@ -4326,7 +4326,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 void CMSConcSweepingTask::work(int i){
 	CompactibleFreeListSpace* cms_space = _collector->cmsGen()->cmsSpace();
 	Mutex* mutex = cms_space->freelistLock();
-	SweepPageClosure sweepPageClosure(getCollector(), i, mutex);
+	SweepPageClosure sweepPageClosure(getCollector(), i, this);
 
 #if OC_SWEEP_LOG
 	printf("Starting CMSConcSweepingTask with id %d.\n", i);
