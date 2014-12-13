@@ -1856,7 +1856,9 @@ void CompactibleFreeListSpace::addToFreeList(int index){
 		}
 		_indexedPartitionedFreeList[index][size].resetNoHint(); // resetting the partitioned free list
 	}
-	printf("Total Free Size = %u.\n", freeSize);
+	// TODO -> Remove
+	double freeSizeInMB = ((double)freeSize)/(1024*1024);
+	cout << "Total Free Size :: " <<  freeSizeInMB << endl;
 }
 
 // This is the function that unifies the free list indices
