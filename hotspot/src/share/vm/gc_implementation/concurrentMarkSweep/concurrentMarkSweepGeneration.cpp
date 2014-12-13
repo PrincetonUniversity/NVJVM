@@ -4321,7 +4321,7 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 // Each of the worker threads scans through different partitions in order to locate garbage chunks.
 
 void CMSConcSweepingTask::work(int i){
-	CompactibleFreeListSpace* cms_space = _collector->ConcurrentMarkSweepGeneration()->cmsSpace();
+	CompactibleFreeListSpace* cms_space = _collector->cmsGen()->cmsSpace();
 	Mutex* mutex = cms_space->freelistLock();
 	SweepPageClosure sweepPageClosure(getCollector(), i, mutex);
 
