@@ -5405,10 +5405,8 @@ void CMSConcMarkingTask::do_work_steal(int i) {
 }
 
 void CMSConcSweepingTask::coordinator_yield() {
-	printf("In coordinator_yield.\n");
 	  _bitMap->lock()->unlock();
 	  _freelistLock->unlock();
-	  printf("In desynchronizing.\n");
 	  ConcurrentMarkSweepThread::desynchronize(true);
 	  ConcurrentMarkSweepThread::acknowledge_yield_request();
 	  _collector->stopTimer();
@@ -5419,12 +5417,10 @@ void CMSConcSweepingTask::coordinator_yield() {
 		os::sleep(Thread::current(), 1, false);
 		ConcurrentMarkSweepThread::acknowledge_yield_request();
 	  }
-	  printf("In synchronizing.\n");
 	  ConcurrentMarkSweepThread::synchronize(true);
 	  _freelistLock->lock();
 	  _bitMap->lock()->lock_without_safepoint_check();
 	  _collector->startTimer();
-	  printf("Out of coordinator_yield.\n");
 }
 
 // This is run by the CMS (coordinator) thread.
