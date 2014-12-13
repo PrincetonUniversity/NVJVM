@@ -497,6 +497,7 @@ inline void SweepPageClosure::do_yield_check() {
 	     _yield) {
 		printf("Yielding in sweep.\n");
 		do_yield_work();
+		printf("After yield in sweep.\n");
 	  }
 }
 
