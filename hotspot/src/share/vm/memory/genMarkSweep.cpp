@@ -98,8 +98,9 @@ void GenMarkSweep::invoke_at_safepoint(int level, ReferenceProcessor* rp,
   gch->save_used_regions(level, true /* perm */);
 
   allocate_stacks();
-
+  cout << "Calling the mark_sweep_phase1() method." << endl;
   mark_sweep_phase1(level, clear_all_softrefs);
+
   getPartitionMetaData()->printPartitionAliveObjectCount();
 
   mark_sweep_phase2();
