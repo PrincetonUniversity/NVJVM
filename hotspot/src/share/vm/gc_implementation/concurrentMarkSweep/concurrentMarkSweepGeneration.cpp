@@ -3731,6 +3731,8 @@ class CMSConcSweepingTask: public YieldingFlexibleGangTask {
 	int _n_workers;
 	CMSBitMap* _bitMap;
 	Mutex*    _freelistLock; // Free list lock (in space)
+	int _totalGarbageChunks;
+	int _totalGarbageCollected;
 
 public:
 	CMSConcSweepingTask(CMSCollector* collector, int nWorkers, CMSBitMap* bitMap, Mutex* freelistLock):
@@ -3745,6 +3747,11 @@ public:
 	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure, int *, int *);
 	CMSCollector* getCollector() { return _collector; }
 	void coordinator_yield();
+	void incrementGarbageCollected(int value) { _totalGarbageCollected += value; }
+	void incrementGarbageChunks(int value) 	{ _totalGarbageChunks += value; }
+	int totalGarbageChunks() { return _totalGarbageChunks; }
+	int totalGarbageCollected() { return _totalGarbageCollected; }
+
 };
 
 // MT Concurrent Marking Task
@@ -7598,9 +7605,12 @@ void CMSCollector::sweepWorkPartitioned(){
   perm_space->resetPartitionedDictionaries();
   }
 
-  printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
-  printf("Pages Mark Scanned = %d.\n", _partitionMetaData->getPagesMarkScanned());
-
+//  printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
+//  printf("Pages Mark Scanned = %d.\n", _partitionMetaData->getPagesMarkScanned());
+#if MEASUREMENTS
+  cout << totalGarbageChunks() / 1000 << "K" << endl ;
+  cout << ((double)totalGarbageCollected() / (1024*1024)) << " MB" << endl;
+#endif
 
 #if OC_SWEEP_LOG
   printf("Completed the sweep phase.\n");
@@ -9678,12 +9688,22 @@ size_t SweepPageClosure::do_live_chunk(HeapWord* fc){
 
 // Cleaning the garbage chunk updating the page start, if required.
 size_t SweepPageClosure::do_garbage_chunk(HeapWord* addr){
-#ifdef SWEEP_TESTS
+
+#if SWEEP_TESTS
 		_partitionMetaData->incrementGarbageChunks();
 #endif
+
 	size_t res = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+
+#if MEASUREMENTS
+	// TODO Remove Later
+	_task->incrementGarbageCollected(res);
+	_task->incrementGarbageChunks(1);
+#endif
+
 	CompactibleFreeListSpace* sp = _collector->getSpace((void *)addr);
 	sp->addChunkToFreeListsPartitioned(addr, res, getId());
+
 	return res;
 }
 

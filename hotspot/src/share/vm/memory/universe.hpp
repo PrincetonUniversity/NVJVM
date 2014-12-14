@@ -55,6 +55,7 @@
 #define SWEEP_TESTS 1
 #define SWEEP_PARTITIONED 1
 #define SWEEP_REGULAR (SWEEP_PARTITIONED == 0)
+#define MEASUREMENTS 1
 
 // in microseconds, the overall time the worker threads sleep for after they have been set to wait
 #define WORKER_THREAD_SLEEP_TIME 100
