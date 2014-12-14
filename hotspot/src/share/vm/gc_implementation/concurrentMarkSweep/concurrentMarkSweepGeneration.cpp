@@ -4687,7 +4687,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 //	  Special case handling the my_span.end(), which does not get iterated
 //			handleOop(my_span.end(), &cl);
 		}
-//		gettimeofday(&tv2,NULL);
 	}
 }
 
@@ -7666,6 +7665,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
     // co-terminal free run. This is done in the SweepClosure
     // destructor; so, do not remove this scope, else the
     // end-of-sweep-census below will be off by a little bit.
+    cout << "Total Garbage Collected :: " << sweepClosure.garbageCollected() << endl;
   }
   gen->cmsSpace()->sweep_completed();
   gen->cmsSpace()->endSweepFLCensus(sweep_count());
@@ -7674,6 +7674,7 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   } else {                                      // did not unload classes,
     _concurrent_cycles_since_last_unload++;     // ... increment count
   }
+
 }
 
 // Reset CMS data structures (for now just the marking bit map)
@@ -9520,6 +9521,7 @@ SweepClosure::SweepClosure(CMSCollector* collector,
                         _limit);
   }
   _numberOfGarbageChunks = 0;
+  _totalGarbageCollected = 0;
 }
 
 void SweepClosure::print_on(outputStream* st) const {
@@ -10008,6 +10010,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
   // a larger chunk.
 	 HeapWord* const addr = (HeapWord*) fc;
 	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
+	 _totalGarbageCollected += size;
 
   if (_sp->adaptive_freelists()) {
     // Verify that the bit map has no bits marked between
