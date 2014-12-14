@@ -30,11 +30,14 @@
 class GenMarkSweep : public MarkSweep {
   friend class VM_MarkSweep;
   friend class G1MarkSweep;
- public:
+
+public:
   static void invoke_at_safepoint(int level, ReferenceProcessor* rp,
                                   bool clear_all_softrefs);
+  static void setPartitionMetaData(PartitionMetaData* pmd) { pmd = _partitionMetaData; }
 
  private:
+  static PartitionMetaData* _partitionMetaData;
 
   // Mark live objects
   static void mark_sweep_phase1(int level, bool clear_all_softrefs);

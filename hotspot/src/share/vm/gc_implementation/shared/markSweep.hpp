@@ -33,6 +33,7 @@
 #include "utilities/growableArray.hpp"
 #include "utilities/stack.hpp"
 #include "utilities/taskqueue.hpp"
+#include "gc_implementation/concurrentMarkSweep/concurrentMarkSweepGeneration.hpp"
 
 class ReferenceProcessor;
 class DataLayout;
