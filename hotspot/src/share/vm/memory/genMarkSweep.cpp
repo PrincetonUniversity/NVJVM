@@ -100,6 +100,7 @@ void GenMarkSweep::invoke_at_safepoint(int level, ReferenceProcessor* rp,
   allocate_stacks();
 
   mark_sweep_phase1(level, clear_all_softrefs);
+  getPartitionMetaData()->printPartitionAliveObjectCount();
 
   mark_sweep_phase2();
 
