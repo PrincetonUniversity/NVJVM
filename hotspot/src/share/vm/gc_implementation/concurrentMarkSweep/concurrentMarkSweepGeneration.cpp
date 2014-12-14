@@ -7562,8 +7562,8 @@ void CMSCollector::sweepWorkPartitioned(){
   while (sweepTask.yielded()) {
 	sweepTask.coordinator_yield();
 #if MEASUREMENTS
-  cout << sweepTask.totalGarbageChunks() / 1000 << "K" << endl ;
-  cout << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB" << endl;
+  cout << "Total Number of garbage chunks::" << sweepTask.totalGarbageChunks() / 1000 << "K" << endl ;
+  cout << "Total Garbage Collected in bytes::" << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB" << endl;
 #endif
     conc_sweep_workers()->continue_task(&sweepTask);
   }
@@ -7605,8 +7605,8 @@ void CMSCollector::sweepWorkPartitioned(){
   }
 
 #if MEASUREMENTS
-  cout << sweepTask.totalGarbageChunks() / 1000 << "K" << endl ;
-  cout << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB" << endl;
+  cout << "Total Number of garbage chunks::" << sweepTask.totalGarbageChunks() / 1000 << "K" << endl ;
+  cout << "Total Garbage Collected in bytes::" << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB" << endl;
 #endif
 
 #if OC_SWEEP_LOG
