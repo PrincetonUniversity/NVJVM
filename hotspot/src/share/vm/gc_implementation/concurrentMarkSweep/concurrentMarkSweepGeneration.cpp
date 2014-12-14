@@ -3742,6 +3742,8 @@ public:
 		_n_workers = nWorkers;
 		_bitMap = bitMap;
 		_freelistLock = freelistLock;
+		_totalGarbageChunks = 0;
+		_totalGarbageCollected = 0;
 	}
 	void work(int id);
 	void do_partition(int partitionId, SweepPageClosure* sweepPageClosure, int *, int *);
@@ -7532,7 +7534,6 @@ void CMSCollector::sweepWorkPartitioned(){
  // as well take the bit map lock for the entire duration
 
  // Initially we need to start a set of worker threads
-   printf("Triggering sweep work partitioned.\n");
    _partitionMetaData->numPagesWithNoStartMark();
 
 #if OC_SWEEP_LOG
@@ -7557,15 +7558,10 @@ void CMSCollector::sweepWorkPartitioned(){
   _partitionMetaData->resetPartitionMap();
   // Starting the CMSConcSweepingTask with the sweep worker tasks here
   conc_sweep_workers()->start_task(&sweepTask);
-  cout << "tasks ended or yielded." << endl;
   while (sweepTask.yielded()) {
-	cout << "tasks have yielded, calling coordinator yield." << endl;
 	sweepTask.coordinator_yield();
-	cout << "continuing sweep task" << endl;
     conc_sweep_workers()->continue_task(&sweepTask);
   }
-
-  printf("CMSConcSweepingTask Completed.\n");
 
 #if OC_SWEEP_ASSERT
   if(sweepTask.completed() == false){
