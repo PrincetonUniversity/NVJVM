@@ -739,6 +739,8 @@ class PartitionMetaData : public CHeapObj {
 	jubyte* _pageScanned;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
+// Keeps a track of the number of alive objects present per partition
+	int* _partitionAliveObjectCount;
 // Total number of partitions
 	int _numberPartitions;
 // The span that contains the mature and the permanent spaces
@@ -1264,10 +1266,12 @@ public:
 		_span = span;
 		_numberPartitions = NumberPartitions;
 		_partitionGOC = new int[_numberPartitions];
+		_partitionAliveObjectCount = new int[_numberPartitions];
 		_partitionMap = new jbyte[_numberPartitions];
 		int count;
 		for(count = 0; count < _numberPartitions; count++){
 			_partitionGOC[count] = 0;
+			_partitionAliveObjectCount[count] = 0;
 			_partitionMap[count] = 0;
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
@@ -1294,12 +1298,17 @@ public:
 		free(_pageGOC);
 		free(_partitionGOC);
 		free(_partitionMap);
+		free(_partitionAliveObjectCount);
 	}
 
 	void resetGOCPartition(){
-	for(int count = 0; count < _numberPartitions; count++){
+	for(int count = 0; count < _numberPartitions; count++)
 		_partitionGOC[count] = 0;
 	}
+
+	void resetAOCPartition(){
+		for(int count=0; count < _numberPartitions; count++)
+		_partitionAliveObjectCount[count] = 0;
 	}
 
 	void resetGOCPage(){
@@ -1437,9 +1446,11 @@ public:
 	}
 
 	int getGreyObjectsChunkLevel(int p){
-		return (
-			_partitionGOC[p]
-		);
+		return _partitionGOC[p];
+	}
+
+	int getAliveObjectsChunkLevel(int p){
+		return _partitionAliveObjectCount[p];
 	}
 
 	bool isZero(int pageIndex){
@@ -1475,12 +1486,15 @@ public:
 
 	int getTotalGreyObjectsChunkLevel(){
 		int index, sum = 0;
-		for (index = 0; index < _numberPartitions; index++){
+		for (index = 0; index < _numberPartitions; index++)
 			sum += _partitionGOC[index];
-		}
-#if	OCMS_NO_GREY_LOG_HIGH
-		printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
-#endif
+		return sum;
+	}
+
+	int getTotalAliveObjectsChunkLevel(){
+		int sum = 0;
+		for(int index=0; index < _numberPartitions; index++)
+			sum += _partitionAliveObjectCount[index];
 		return sum;
 	}
 
@@ -1603,6 +1617,33 @@ public:
 		return (unsigned int)newValue;
 	}
 
+	unsigned int incrementAliveObjectCount(int increment, void *pageAddress){
+			int index = getPartitionIndexFromPageAddress(pageAddress);
+			int *position = &(_partitionAliveObjectCount[index]);
+			int value = *position;
+			int newValue = value + increment;
+			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
+				value = *position;
+				newValue = value + increment;
+			}
+			return (unsigned int)newValue;
+		}
+
+	unsigned int decrementAliveObjectCount(int decrement, void* pageAddress){
+			int index = getPartitionIndexFromPageAddress(pageAddress);
+			int *position = &(_partitionAliveObjectCount[index]);
+			int value = *position;
+			int newValue = value - decrement;
+			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
+				value = *position;
+				newValue = value - decrement;
+			}
+			return (unsigned int)newValue;
+		}
+
+
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress){
 		int index = getPartitionIndexFromPageAddress(pageAddress);
 		int *position = &(_partitionGOC[index]);
@@ -1626,11 +1667,6 @@ public:
 			value = *position;
 			newValue = value - decrement;
 		}
-#if OCMS_NO_GREY_ASSERT
-		if(*position < 0){
-			printf("Something is wrong since the value after decrementing is lesser than zero. \n");
-		}
-#endif
 		return (unsigned int)newValue;
 	}
 
