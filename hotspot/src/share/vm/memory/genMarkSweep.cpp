@@ -248,6 +248,8 @@ void GenMarkSweep::deallocate_stacks() {
 #endif
 }
 
+PartitionMetaData* GenMarkSweep::_partitionMetaData = NULL;
+
 void GenMarkSweep::mark_sweep_phase1(int level,
                                   bool clear_all_softrefs) {
   // Recursively traverse all live objects and mark them

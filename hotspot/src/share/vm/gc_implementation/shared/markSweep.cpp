@@ -106,6 +106,8 @@ void MarkSweep::follow_mdo_weak_refs() {
 MarkSweep::FollowRootClosure  MarkSweep::follow_root_closure;
 CodeBlobToOopClosure MarkSweep::follow_code_root_closure(&MarkSweep::follow_root_closure, /*do_marking=*/ true);
 
+PartitionMetaData *MarkSweep::_partitionMetaData=NULL;
+
 void MarkSweep::FollowRootClosure::do_oop(oop* p)       { follow_root(p); }
 void MarkSweep::FollowRootClosure::do_oop(narrowOop* p) { follow_root(p); }
 
