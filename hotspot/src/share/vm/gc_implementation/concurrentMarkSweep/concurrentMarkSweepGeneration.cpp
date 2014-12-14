@@ -7580,11 +7580,9 @@ void CMSCollector::sweepWorkPartitioned(){
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
   {
-
 	  // Returning the chunks back to the cms space and the permanent space
 	  cms_space->returnChunksToGlobalFreeList();
 	  perm_space->returnChunksToGlobalFreeList();
-
 
 #if OC_SWEEP_LOG
   printf("Successfully returned the chunks to the global free list of the cms and the permanent spaces."
@@ -7605,16 +7603,15 @@ void CMSCollector::sweepWorkPartitioned(){
   perm_space->resetPartitionedDictionaries();
   }
 
-//  printf("Pages Scanned = %d.\n", _partitionMetaData->getPagesScanned());
-//  printf("Pages Mark Scanned = %d.\n", _partitionMetaData->getPagesMarkScanned());
 #if MEASUREMENTS
-  cout << totalGarbageChunks() / 1000 << "K" << endl ;
-  cout << ((double)totalGarbageCollected() / (1024*1024)) << " MB" << endl;
+  cout << sweepTask.totalGarbageChunks() / 1000 << "K" << endl ;
+  cout << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB" << endl;
 #endif
 
 #if OC_SWEEP_LOG
   printf("Completed the sweep phase.\n");
 #endif
+
   _partitionMetaData->resetGOCPage();
   _partitionMetaData->resetPageScanned();
   _partitionMetaData->resetPagesMarkScanned();
