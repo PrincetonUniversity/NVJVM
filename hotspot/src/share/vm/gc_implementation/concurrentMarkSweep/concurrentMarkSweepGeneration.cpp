@@ -7397,6 +7397,7 @@ if(!SweepPartitioned)
   _inter_sweep_timer.start();
 
   update_time_of_last_gc(os::javaTimeMillis());
+  if(SweepPartitioned)
   printf("Total Number of garbage chunks = %d\n", _partitionMetaData->getGarbageChunks());
 
   // NOTE on abstract state transitions:
@@ -7665,7 +7666,8 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
     // co-terminal free run. This is done in the SweepClosure
     // destructor; so, do not remove this scope, else the
     // end-of-sweep-census below will be off by a little bit.
-    cout << "Total Garbage Collected :: " << sweepClosure.garbageCollected() << endl;
+    cout << "Total Garbage Collected :: " << ((double)sweepClosure.garbageCollected() / (1024*1024)) << " MB"<< endl;
+    cout << "Total Number Of Garbage Chunks :: " << sweepClosure.garbageChunks()/(1000)  << "K"<< endl;
   }
   gen->cmsSpace()->sweep_completed();
   gen->cmsSpace()->endSweepFLCensus(sweep_count());

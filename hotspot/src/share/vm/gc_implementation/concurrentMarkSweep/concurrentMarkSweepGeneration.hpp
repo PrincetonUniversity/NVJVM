@@ -3071,6 +3071,7 @@ class SweepClosure: public BlkClosureCareful {
   int _numberOfGarbageChunks;
   size_t _totalGarbageCollected;
 
+  int garbageChunks() { return _numberOfGarbageChunks; }
   size_t garbageCollected() { return _totalGarbageCollected; }
 
   size_t       do_blk_careful(HeapWord* addr);
