@@ -64,7 +64,15 @@ class DataLayout;
 class PreservedMark;
 
 class MarkSweep : AllStatic {
-  //
+private:
+	static PartitionMetaData *_partitionMetaData;
+public:
+	static void set_partitionMetaData(PartitionMetaData *p) {  _partitionMetaData = p ; }
+	static void recordMarkedObject(void *address) {
+		if(_partitionMetaData != NULL){
+			_partitionMetaData->incrementAliveObjectCount(1, address);
+		}
+	}
   // Inline closure decls
   //
   class FollowRootClosure: public OopsInGenClosure {

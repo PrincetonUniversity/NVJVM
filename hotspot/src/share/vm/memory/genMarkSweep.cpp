@@ -264,6 +264,7 @@ void GenMarkSweep::mark_sweep_phase1(int level,
   // as the Universe has not been created when the static constructors
   // are run.
   follow_root_closure.set_orig_generation(gch->get_gen(level));
+  MarkSweep::set_partitionMetaData(getPartitionMetaData());
 
   gch->gen_process_strong_roots(level,
                                 false, // Younger gens are not roots.

@@ -35,6 +35,7 @@ public:
   static void invoke_at_safepoint(int level, ReferenceProcessor* rp,
                                   bool clear_all_softrefs);
   static void setPartitionMetaData(PartitionMetaData* pmd) { pmd = _partitionMetaData; }
+  static PartitionMetaData* getPartitionMetaData() { return _partitionMetaData; }
 
  private:
   static PartitionMetaData* _partitionMetaData;
