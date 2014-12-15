@@ -725,6 +725,23 @@ class ChunkList : public CHeapObj  {
 		}
 };
 
+/*class CompactionRegionMetaData : public CHeapObj {
+
+private:
+	Generation* _gen; // This is the permanent generation
+	void *_startGen;
+
+public:
+	CompactionRegionMetaData(Generation *g);
+	void initAliveObjectArray();
+	void* startCompactionRegion();
+
+	int* _aliveObjectSize;
+	int _numberCompactionRegions;
+	int _sizeCompactionRegion;
+};*/
+
+
 class PartitionMetaData : public CHeapObj {
 	int _pagesScanned;
 	int _pagesMarkScanned;

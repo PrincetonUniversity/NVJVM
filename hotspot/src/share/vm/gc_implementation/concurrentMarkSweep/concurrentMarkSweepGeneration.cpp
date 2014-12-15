@@ -11190,3 +11190,28 @@ TraceCMSMemoryManagerStats::TraceCMSMemoryManagerStats(GCCause::Cause cause): Tr
              true /* recordGCEndTime */,
              true /* countCollection */ );
 }
+
+
+/*void CompactionRegionMetaData::initAliveObjectArray(){
+	CompactibleSpace* space = first_compaction_space();
+	_sizeCompactionRegion = space->capacity();
+	while (space != NULL) {
+		_numberCompactionRegions++;
+	   space->prepare_for_compaction(cp);
+	   space = space->next_compaction_space();
+	 }
+	_aliveObjectArray = new int[_numberCompactionRegions];
+	for(int count =0; count <_numberCompactionRegions; count++)
+		_aliveObjectArray[count] = 0;
+}
+
+CompactionRegionMetaData::CompactionRegionMetaData(Generation* g){
+	_gen = g;
+	_numberCompactionRegions = 0;
+	initAliveObjectArray();
+}*/
+
+
+
+
+

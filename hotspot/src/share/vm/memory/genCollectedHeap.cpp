@@ -1260,7 +1260,7 @@ GenCollectedHeap* GenCollectedHeap::heap() {
 
 
 void GenCollectedHeap::prepare_for_compaction() {
-  Generation* scanning_gen = _gens[_n_gens-1];
+	Generation* scanning_gen = _gens[_n_gens-1];
   // Start by compacting into same gen.
   CompactPoint cp(scanning_gen, NULL, NULL);
   while (scanning_gen != NULL) {
