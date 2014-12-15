@@ -1287,7 +1287,6 @@ public:
 		_idleThreadCount[0] = 0;
 		setToWork();
 		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
-		cout << "Number of collector threads :: " << _numberCollectorThreads << endl ;
 		totalDecrements = 0;
 #if	OCMS_NO_GREY_LOG
 		printf("Number of collector threads = %d.\n", _numberCollectorThreads);
