@@ -219,6 +219,7 @@ TraceCPUTime::~TraceCPUTime() {
         } else {
             _logfile->print("Phase: %s, [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
             		_phase_name.c_str(), user_secs, system_secs, real_secs);
+            printf("Tracing CPU Time: Phase: %s, [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ", _phase_name.c_str(), user_secs, system_secs, real_secs);
         }
 
       } else {

@@ -1268,7 +1268,7 @@ inline bool PSParallelCompact::mark_obj(oop obj) {
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
     _summary_data.add_obj(obj, obj_size);
     if(CoreAwareMarking){
-    	_partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
+      _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
     }
     return true;
   } else {
@@ -1318,7 +1318,8 @@ inline void PSParallelCompact::mark_and_push(ParCompactionManager* cm, T* p) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (mark_bitmap()->is_unmarked(obj) && mark_obj(obj)) {
-      cm->push(obj);
+      if(!CoreAwareMarking)
+    	  	cm->push(obj);
     }
   }
 }

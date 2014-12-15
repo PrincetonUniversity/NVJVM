@@ -2404,15 +2404,20 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  }
 
 	  if(CoreAwareMarking){
+		  printf("In core aware marking.\n");
 		  // Initialize with the mature region (as the MemRegion)
 		  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
+
 		  // Create the concurrent workers here and run the task using the workers
+		  printf("Starting the parallel compacting workers task.\n");
 		  par_compact_workers()->start_task(&parMarkTsk);
+
 		  while (parMarkTsk.yielded()) {
 			 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
 			 parMarkTsk.coordinator_yield();
 			 par_compact_workers()->continue_task(&parMarkTsk);
 		  }
+
 		  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
 	  } else {
 		// Process reference objects found during marking
@@ -2468,6 +2473,10 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
 
   {
     TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
+
+    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+    tcpu.setPhase("Parallel Mark Phase", SwapMetrics::parMarkPhase);
+
     ParallelScavengeHeap::ParStrongRootsScope psrs;
 
     GCTaskQueue* q = GCTaskQueue::create();
@@ -2503,6 +2512,10 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
   // Process reference objects found during marking
   {
     TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
+
+    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+    tcpu.setPhase("Reference Processing Phase", SwapMetrics::refProcessingPhase);
+
     if (ref_processor()->processing_is_mt()) {
       RefProcTaskExecutor task_executor;
       ref_processor()->process_discovered_references(
