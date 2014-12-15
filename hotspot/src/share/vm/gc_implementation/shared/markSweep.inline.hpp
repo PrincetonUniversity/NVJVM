@@ -37,7 +37,6 @@ inline void MarkSweep::mark_object(oop obj) {
   // and overwrite the mark.  We'll restore it at the end of markSweep.
   markOop mark = obj->mark();
   obj->set_mark(markOopDesc::prototype()->set_marked());
-  recordMarkedObject((void *)obj);
   if (mark->must_be_preserved(obj)) {
     preserve_mark(obj, mark);
   }
