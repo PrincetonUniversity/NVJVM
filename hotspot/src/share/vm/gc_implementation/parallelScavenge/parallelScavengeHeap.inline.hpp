@@ -44,7 +44,7 @@ inline void ParallelScavengeHeap::invoke_scavenge()
 inline void ParallelScavengeHeap::invoke_full_gc(bool maximum_compaction)
 {
   if (UseParallelOldGC) {
-    PSParallelCompact::invoke(maximum_compaction);
+	 PSParallelCompact::invoke(maximum_compaction);
   } else {
     PSMarkSweep::invoke(maximum_compaction);
   }

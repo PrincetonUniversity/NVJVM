@@ -1864,7 +1864,8 @@ NOT_PRODUCT(
   }
 
   if (should_compact) {
-    // If the collection is being acquired from the background
+	 PSParallelCompact::invoke(true);
+	  // If the collection is being acquired from the background
     // collector, there may be references on the discovered
     // references lists that have NULL referents (being those
     // that were concurrently cleared by a mutator) or
@@ -1873,7 +1874,7 @@ NOT_PRODUCT(
     // Scrub the list of those references because Mark-Sweep-Compact
     // code assumes referents are not NULL and that all discovered
     // Reference objects are active.
-    ref_processor()->clean_up_discovered_references();
+    /*ref_processor()->clean_up_discovered_references();
 
     do_compaction_work(clear_all_soft_refs);
 
@@ -1890,7 +1891,7 @@ NOT_PRODUCT(
                                            max_eden_size,
                                            full,
                                            gc_cause,
-                                           gch->collector_policy());
+                                           gch->collector_policy());*/
   } else {
     do_mark_sweep_work(clear_all_soft_refs, first_state,
       should_start_over);
