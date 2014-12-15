@@ -495,7 +495,8 @@ class CommandLineFlags {
   product_pd(bool, NeedsDeoptSuspend,                                       \
           "True for register window machines (sparc/ia64)")                 \
                                                                             \
-  product(bool, CoreAwareMarking, false)									\
+  product(bool, CoreAwareMarking, false, 									\
+		  "Enables core aware marking disabled by default")					\
   product(intx, UseSSE, 99,                                                 \
           "Highest supported SSE instructions set on x86/x64")              \
                                                                             \
