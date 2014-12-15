@@ -1295,9 +1295,9 @@ public:
 
 	void printPartitionAliveObjectCount(){
 		for(int index=0; index<_numberPartitions; index++){
-			printf("PartitionNumber=%d, AliveObjectCount=%d\t", (index+1), _partitionAliveObjectCount[index]);
+			if(_partitionAliveObjectCount[index] != 0)
+				printf("PartitionNumber=%d, AliveObjectCount=%d\n", (index+1), _partitionAliveObjectCount[index]);
 		}
-		printf("\n");
 	}
 
 	~PartitionMetaData(){
