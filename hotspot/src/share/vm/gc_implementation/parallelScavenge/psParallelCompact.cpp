@@ -2360,6 +2360,7 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
   PSParallelCompact::FollowStackClosure follow_stack_closure(cm);
 
   {
+	printf("In parallel marking phase\n");
     TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     tcpu.setPhase("par-marking phase", SwapMetrics::parMarkingPhase);
@@ -2393,6 +2394,7 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
 
     // We have to release the barrier tasks!
     WaitForBarrierGCTask::destroy(fin);
+    printf("End of par-marking phase \n");
   }
 
   // Process reference objects found during marking
