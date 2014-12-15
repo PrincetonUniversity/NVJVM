@@ -100,9 +100,9 @@ void GenMarkSweep::invoke_at_safepoint(int level, ReferenceProcessor* rp,
   allocate_stacks();
   cout << "Calling the mark_sweep_phase1() method." << endl;
   mark_sweep_phase1(level, clear_all_softrefs);
-
+  cout << "Printing the number of alive objects per partition" << endl;
   getPartitionMetaData()->printPartitionAliveObjectCount();
-
+  exit(-1);
   mark_sweep_phase2();
 
   // Don't add any more derived pointers during phase3
