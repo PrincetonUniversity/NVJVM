@@ -1841,10 +1841,6 @@ void CMSCollector::acquire_control_and_collect(bool full,
 
 	cout << "In acquire_control_and_collect" << endl;
 
-#if TRACING_SYSTEM_GC
-  printf("TRACING_SYSTEM_GC :: in acquire_control_and_collect.\n");
-#endif
-
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");

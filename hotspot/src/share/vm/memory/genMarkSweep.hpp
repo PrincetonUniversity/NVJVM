@@ -34,7 +34,7 @@ class GenMarkSweep : public MarkSweep {
 public:
   static void invoke_at_safepoint(int level, ReferenceProcessor* rp,
                                   bool clear_all_softrefs);
-  static void setPartitionMetaData(PartitionMetaData* pmd) { pmd = _partitionMetaData; }
+  static void setPartitionMetaData(PartitionMetaData* pmd) { _partitionMetaData = pmd; }
   static PartitionMetaData* getPartitionMetaData() { return _partitionMetaData; }
 
  private:
