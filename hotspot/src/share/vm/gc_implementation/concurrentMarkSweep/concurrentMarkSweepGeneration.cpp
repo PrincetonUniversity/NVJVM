@@ -1877,6 +1877,7 @@ void CMSCollector::acquire_control_and_collect(bool full,
   {
     MutexLockerEx x(CGC_lock, Mutex::_no_safepoint_check_flag);
     if (_foregroundGCShouldWait) {
+    	cout << "In foregroundGCShouldWait" << endl;
       // We are going to be waiting for action for the CMS thread;
       // it had better not be gone (for instance at shutdown)!
       assert(ConcurrentMarkSweepThread::cmst() != NULL,
@@ -1892,6 +1893,7 @@ void CMSCollector::acquire_control_and_collect(bool full,
              "Possible deadlock");
       while (_foregroundGCShouldWait) {
         // wait for notification
+    	  cout << "In foregroundGCShouldWait" << endl;
         CGC_lock->wait(Mutex::_no_safepoint_check_flag);
         // Possibility of delay/starvation here, since CMS token does
         // not know to give priority to VM thread? Actually, i think
