@@ -1023,6 +1023,12 @@ public:
 			return _partitionSize;
 		}
 
+		int getPartitionSizeBytes(int partitionIndex){
+			int partitionSizePages = getPartitionSize(partitionIndex);
+			int partitionSizeBytes = partitionSizePages * _PAGE_SIZE;
+			return partitionSizeBytes;
+		}
+
 		void *getPageEnd(int pageIndex){
 			return ((void *)
 							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)((pageIndex +1) * _PAGE_SIZE) - 1)
@@ -1297,7 +1303,8 @@ public:
 	void printPartitionAliveObjectCount(){
 		for(int index=0; index<_numberPartitions; index++){
 			if(_partitionAliveObjectCount[index] != 0)
-				printf("PartitionNumber=%d, AliveObjectCount=%d\n", (index+1), _partitionAliveObjectCount[index]);
+				printf("PartitionNumber=%d, AliveObjectSize=%lf MB\n",
+						(index+1), ((double)_partitionAliveObjectCount[index]/(1024*1024)));
 		}
 	}
 
