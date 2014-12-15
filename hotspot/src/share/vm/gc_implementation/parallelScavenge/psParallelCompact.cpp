@@ -1967,6 +1967,7 @@ void PSParallelCompact::summary_phase(ParCompactionManager* cm,
 // activity.  For example when the heap space is tight and full measure
 // are being taken to free space.
 void PSParallelCompact::invoke(bool maximum_heap_compaction) {
+  cout << "In PSParallelCompact::invoke" << endl;
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(Thread::current() == (Thread*)VMThread::vm_thread(),
          "should be in vm thread");

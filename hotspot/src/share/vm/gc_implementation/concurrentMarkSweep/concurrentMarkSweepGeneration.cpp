@@ -1767,6 +1767,7 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
+  cout << "In acquire control and collect" << endl;
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
@@ -1862,6 +1863,8 @@ NOT_PRODUCT(
       gclog_or_tty->print(" (concurrent mode failure)");
     }
   }
+
+
 
   if (should_compact) {
 	 PSParallelCompact::invoke(true);
