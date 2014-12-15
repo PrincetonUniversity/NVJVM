@@ -2361,6 +2361,8 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
 
   {
     TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
+    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+    tcpu.setPhase("par-marking phase", SwapMetrics::parMarkingPhase);
     ParallelScavengeHeap::ParStrongRootsScope psrs;
 
     GCTaskQueue* q = GCTaskQueue::create();
@@ -2395,6 +2397,9 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
 
   // Process reference objects found during marking
   {
+	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	tcpu.setPhase("reference processing phase", SwapMetrics::refProcessingPhase);
+
     TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
     if (ref_processor()->processing_is_mt()) {
       RefProcTaskExecutor task_executor;

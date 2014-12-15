@@ -72,7 +72,9 @@ public:
     	markPhase = 1,
     	sweepPhase = 2,
     	compactPhase = 3,
-    	concurrentPreclean = 4
+    	concurrentPreclean = 4,
+    	parMarkingPhase = 5,
+    	refProcessingPhase = 6
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);

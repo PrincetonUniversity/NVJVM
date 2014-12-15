@@ -217,6 +217,7 @@ TraceCPUTime::~TraceCPUTime() {
 
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
           user_secs, system_secs, real_secs);
+        printf("Phase-Name :: %s, [Times: user=%3.2f sys=%3.2f, real=%3.2f secs]\n", _phase_name.c_str(), user_secs, system_secs, real_secs);
 
       } else {
         _logfile->print("[Invalid result in TraceCPUTime]");
