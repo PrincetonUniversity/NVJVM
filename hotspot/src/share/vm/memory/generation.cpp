@@ -351,6 +351,8 @@ void Generation::safe_object_iterate(ObjectClosure* cl) {
 void Generation::prepare_for_compaction(CompactPoint* cp) {
   // Generic implementation, can be specialized
   CompactibleSpace* space = first_compaction_space();
+  cout << "Compactible space size :: " << space->capacity() << endl;
+  exit (-1);
   while (space != NULL) {
     space->prepare_for_compaction(cp);
     space = space->next_compaction_space();
