@@ -70,7 +70,7 @@ public:
 	static void set_partitionMetaData(PartitionMetaData *p) {  _partitionMetaData = p ; }
 	static void recordMarkedObject(void *address, int size) {
 		if(_partitionMetaData != NULL){
-			_partitionMetaData->incrementAliveObjectCount(1, address);
+			_partitionMetaData->incrementAliveObjectCount(size, address);
 		}
 	}
   // Inline closure decls
