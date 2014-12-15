@@ -16,7 +16,7 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
-
+#define PRINT_LOGS 0
 using namespace std;
 #define BUF_MAX 1000
 
