@@ -1872,7 +1872,9 @@ void CMSCollector::acquire_control_and_collect(bool full,
   // We need to lock the Free list lock for the space that we are
   // currently collecting.
   assert(haveFreelistLocks(), "Must be holding free list locks");
+  cout << "Before BitMap Lock" << endl;
   bitMapLock()->unlock();
+  cout << "Before Free List Locks" << endl;
   releaseFreelistLocks();
   {
     MutexLockerEx x(CGC_lock, Mutex::_no_safepoint_check_flag);
