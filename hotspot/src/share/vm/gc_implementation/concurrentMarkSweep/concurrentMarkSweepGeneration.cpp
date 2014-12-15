@@ -1838,6 +1838,9 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
+
+	cout << "In acquire_control_and_collect" << endl;
+
 #if TRACING_SYSTEM_GC
   printf("TRACING_SYSTEM_GC :: in acquire_control_and_collect.\n");
 #endif

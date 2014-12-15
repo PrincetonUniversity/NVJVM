@@ -130,7 +130,7 @@ void ConcurrentMarkSweepThread::run() {
     //if(Universe::isGCSignalled){
     	//if(_numberCollectionsLeft>0){
     		//cout << "Calling collect_in_background isGCSignalled =  "<< Universe::isGCSignalled << endl;
-    	_collector->collect_in_background(false);  // !clear_all_soft_refs
+//    	_collector->collect_in_background(false);  // !clear_all_soft_refs
     		//_numberCollectionsLeft--;
     	//}
     //}
