@@ -194,8 +194,8 @@ void ReferenceProcessor::update_soft_ref_master_clock() {
 
 void ReferenceProcessor::process_discovered_references(
   BoolObjectClosure*           is_alive,
-  OopClosure*                  keep_alive,
-  VoidClosure*                 complete_gc,
+  OopClosure*                  keep_alive, // mark_and_push
+  VoidClosure*                 complete_gc, // follow_stack_closure
   AbstractRefProcTaskExecutor* task_executor) {
   NOT_PRODUCT(verify_ok_to_handle_reflists());
 

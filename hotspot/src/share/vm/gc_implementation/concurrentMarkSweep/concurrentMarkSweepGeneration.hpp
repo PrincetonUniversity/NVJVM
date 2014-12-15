@@ -1938,12 +1938,12 @@ class CMSCollector: public CHeapObj {
   }
 
   unsigned int incGreyObjPage(void *addr, int count){
-	  return _partitionMetaData->incrementIndex_AtomicPage(count, addr);
-  }
+ 	  return _partitionMetaData->incrementIndex_AtomicPage(count, addr);
+   }
 
-  unsigned int incGreyObj(void *addr, int count){
-	  return _partitionMetaData->incrementIndex_Atomic(count, addr);
-  }
+   unsigned int incGreyObj(void *addr, int count){
+ 	  return _partitionMetaData->incrementIndex_Atomic(count, addr);
+   }
 
   unsigned int decGreyObj(void *addr, int count){
 	  return _partitionMetaData->decrementIndex_Atomic(count, addr);

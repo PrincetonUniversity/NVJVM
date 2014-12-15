@@ -802,6 +802,7 @@ jlong               PSParallelCompact::_time_of_last_gc = 0;
 CollectorCounters*  PSParallelCompact::_counters = NULL;
 ParMarkBitMap       PSParallelCompact::_mark_bitmap;
 ParallelCompactData PSParallelCompact::_summary_data;
+PSPartitionMetaData PSParallelCompact::_partitionMetaData;
 
 PSParallelCompact::IsAliveClosure PSParallelCompact::_is_alive_closure;
 
@@ -846,7 +847,16 @@ bool PSParallelCompact::initialize() {
   ParallelScavengeHeap* heap = gc_heap();
   assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "Sanity");
   MemRegion mr = heap->reserved_region();
+  _span = mr;
+  // Initialized the partition metadata
+  _partitionMetaData.initialize(mr);
+  // Initialize the concurrent workers here
+  _par_compact_workers = new YieldingFlexibleWorkGang("Parallel Compaction Threads", ParallelCompactThreads, true);
 
+  if(_par_compact_workers == NULL){
+	  printf("Initialization of the parallel compaction workers failed.\n");
+	  exit(-1);
+  }
   // Was the old gen get allocated successfully?
   if (!heap->old_gen()->is_allocated()) {
     return false;
@@ -2344,6 +2354,104 @@ GCTaskManager* const PSParallelCompact::gc_task_manager() {
   return ParallelScavengeHeap::gc_task_manager();
 }
 
+void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
+									bool maximum_heap_compaction){
+
+	// Recursively traverse all live objects and mark them
+	  EventMark m("1 mark object");
+	  TraceTime tm("ps marking phase core aware", print_phases(), true, gclog_or_tty);
+
+	  ParallelScavengeHeap* heap = gc_heap();
+	  uint parallel_gc_threads = heap->gc_task_manager()->workers();
+	  TaskQueueSetSuper* qset = ParCompactionManager::region_array();
+	  ParallelTaskTerminator terminator(parallel_gc_threads, qset);
+
+	  PSParallelCompact::MarkAndPushClosure mark_and_push_closure(cm);
+	  PSParallelCompact::FollowStackClosure follow_stack_closure(cm);
+
+	  {
+	    TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
+	    ParallelScavengeHeap::ParStrongRootsScope psrs;
+
+	    GCTaskQueue* q = GCTaskQueue::create();
+	    // We intercept the MarkAndPushClosure of the PSParallelCompact in order to track the number of grey objects per page
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::universe));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jni_handles));
+	    // We scan the thread roots in parallel
+	    Threads::create_thread_roots_marking_tasks(q);
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::object_synchronizer));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::flat_profiler));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::management));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::system_dictionary));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jvmti));
+	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::code_cache));
+
+	    if (parallel_gc_threads > 1) {
+	      for (uint j = 0; j < parallel_gc_threads; j++) {
+	        q->enqueue(new StealMarkingTask(&terminator));
+	      }
+	    }
+
+	    WaitForBarrierGCTask* fin = WaitForBarrierGCTask::create();
+	    q->enqueue(fin);
+
+	    gc_task_manager()->add_list(q);
+
+	    fin->wait_for();
+
+	    // We have to release the barrier tasks!
+	    WaitForBarrierGCTask::destroy(fin);
+	  }
+
+	  if(CoreAwareMarking){
+		  // Initialize with the mature region (as the MemRegion)
+		  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
+		  // Create the concurrent workers here and run the task using the workers
+		  par_compact_workers()->start_task(&parMarkTsk);
+		  while (parMarkTsk.yielded()) {
+			 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
+			 parMarkTsk.coordinator_yield();
+			 par_compact_workers()->continue_task(&parMarkTsk);
+		  }
+		  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
+	  } else {
+		// Process reference objects found during marking
+	    TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
+	    if (ref_processor()->processing_is_mt()) {
+	      RefProcTaskExecutor task_executor;
+	      ref_processor()->process_discovered_references(
+	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure,
+	        &task_executor);
+	    } else {
+	      ref_processor()->process_discovered_references(
+	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
+	    }
+	  }
+
+	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
+	  // Follow system dictionary roots and unload classes.
+	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
+
+	  // Follow code cache roots.
+	  CodeCache::do_unloading(is_alive_closure(), &mark_and_push_closure,
+	                          purged_class);
+	  cm->follow_marking_stacks(); // Flush marking stack.
+
+	  // Update subklass/sibling/implementor links of live klasses
+	  // revisit_klass_stack is used in follow_weak_klass_links().
+	  follow_weak_klass_links();
+
+	  // Revisit memoized MDO's and clear any unmarked weak refs
+	  follow_mdo_weak_refs();
+
+	  // Visit interned string tables and delete unmarked oops
+	  StringTable::unlink(is_alive_closure());
+	  // Clean up unreferenced symbols in symbol table.
+	  SymbolTable::unlink();
+
+	  assert(cm->marking_stacks_empty(), "marking stacks should be empty");
+}
+
 void PSParallelCompact::marking_phase(ParCompactionManager* cm,
                                       bool maximum_heap_compaction) {
   // Recursively traverse all live objects and mark them
@@ -2363,7 +2471,7 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
     ParallelScavengeHeap::ParStrongRootsScope psrs;
 
     GCTaskQueue* q = GCTaskQueue::create();
-
+    // We intercept the MarkAndPushClosure of the PSParallelCompact in order to track the number of grey objects per page
     q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::universe));
     q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jni_handles));
     // We scan the thread roots in parallel
@@ -3532,3 +3640,125 @@ void PSParallelCompact::compact_prologue() {
     summary_data().calc_new_pointer(Universe::intArrayKlassObj());
 }
 
+void PSParallelMarkingTask::masterMarkingTask(){
+	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
+		while(true){
+			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
+				printf("Setting a signal to all the threads to wait/become idle.\n");
+				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
+				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
+				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
+					usleep(100);
+				}
+				// Threads are suspended now
+				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
+					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
+				// If yes, we have reached the termination point, we signal all the other threads to terminate too
+					_partitionMetaData->setToTerminate();
+					break; // The master thread can now exit
+				} else {
+					_partitionMetaData->setToWorkFinal();
+				}
+			}
+			_partitionMetaData->setToWork();
+			usleep(1000);
+		}
+		printf("Master has come to an end.\n");
+}
+
+void PSParallelMarkingTask::work(int i){
+	if(i == 0){
+		masterMarkingTask();
+		return;
+	}
+	std::vector<int>::iterator it;
+	std::vector<int> pageIndices;
+	int currentPartitionIndex = -1, pageIndex;
+	void* pageAddress;
+	CompactibleFreeListSpace* sp;
+	HeapWord* prev_obj;
+	u_jbyte oldValue;
+	while(true){
+		if (PSParallelCompact::_partitionMetaData.checkToYield()){
+			break;
+		}
+		// Getting the next available partition
+		currentPartitionIndex = PSParallelCompact::_partitionMetaData.getPartition(currentPartitionIndex);
+		if(currentPartitionIndex == -1){
+			break;
+		}
+
+		if(PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
+			cout << "the grey object count for current partition :: " << currentPartitionIndex << "is 0" << endl;
+			exit(-1);
+		}
+
+		// The indices of pages that may be scanned in the next iteration
+		pageIndices = PSParallelCompact::_partitionMetaData.toScanPageList(currentPartitionIndex, true);
+/**
+*  The below condition (where the partition has a non-zero count of grey objects and none of the pages
+*  has a non-zero count of grey objects) can occur because the increment of grey objects is non-atomic.
+*  The partition count of grey objects gets incremented before the page-level count.
+*/
+		int endIndex=0;
+		int cPage, nPage;
+		for (it=pageIndices.begin(); it<pageIndices.end(); it++){
+			pageIndex = *it;
+			scan_a_page(pageIndex);
+		}
+		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
+	}
+}
+
+void PS_Par_GreyMarkClosure::do_oop(oop obj) {
+	HeapWord* addr = (HeapWord*)obj;
+	ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
+	if(_span.contains((const void*)addr)){
+	// I, hereby, check whether the object is currently marked in the bitmap or not and if the object is not marked, I perform a parallel mark(because the mark is a byte field).
+		if(!_bit_map->is_marked(addr)){
+			// If some other thread has marked this object as alive then that thread should mark it as grey
+			if(_bit_map->mark_obj(obj)){
+				PSParallelCompact::_partitionMetaData.markObject((void *)addr);
+			}
+		}
+	}
+}
+
+void PS_Par_GreyMarkClosure::do_oop(oop* p)       { PS_Par_GreyMarkClosure::do_oop_work(p); }
+void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_oop_work(p); }
+
+void PSParallelMarkingTask::scan_a_page(int pageIndex){
+	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
+	    void* pageAddress;
+		CompactibleFreeListSpace* sp;
+		HeapWord* prev_obj;
+		u_jbyte oldValue;
+		// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
+		pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
+	// On acquiring a page we clear the grey object count on the page
+	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
+		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
+	// On clearing the page level grey object count the chunk level grey object count gets decrement
+		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
+	// One of questions that we need to get an answer to is the number of extra pages this can touch
+	// (getting the start of the object).
+	// We figure out the first object on the page using the markBitMap
+		HeapWord* curr = (HeapWord *)Utility::getPageStart(pageAddress);
+		oop obj;
+		PS_Par_GreyMarkClosure greyMarkClosure(getSpan());
+		while(true){
+			if(_bit_map->is_marked(curr)){
+				obj = oop(curr);
+				obj->oop_iterate(&greyMarkClosure);
+				curr = curr + obj->size();
+			} else {
+				curr++;
+			}
+			if((uintptr_t)curr>(uintptr_t)Utility::getPageEnd(pageAddress))
+				break;
+		}
+}
+
+void PSParallelMarkingTask::coordinator_yield(){
+	return;
+}

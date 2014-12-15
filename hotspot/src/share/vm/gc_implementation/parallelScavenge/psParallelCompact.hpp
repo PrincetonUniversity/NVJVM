@@ -33,6 +33,8 @@
 #include "gc_implementation/shared/mutableSpace.hpp"
 #include "memory/sharedHeap.hpp"
 #include "oops/oop.hpp"
+#include "PSPartitionMetaData.hpp"
+#include <iterator>
 
 class ParallelScavengeHeap;
 class PSAdaptiveSizePolicy;
@@ -773,7 +775,13 @@ inline void ParMarkBitMapClosure::decrement_words_remaining(size_t words) {
 // and removed from the ready list.
 
 class PSParallelCompact : AllStatic {
+ private:
+  MemRegion _span;
+  YieldingFlexibleWorkGang* _par_compact_workers;
+
  public:
+  MemRegion getSpan() { return _span; }
+  YieldingFlexibleWorkGang* par_compact_workers() { return _par_compact_workers; }
   // Convenient access to type names.
   typedef ParMarkBitMap::idx_t idx_t;
   typedef ParallelCompactData::RegionData RegionData;
@@ -913,6 +921,8 @@ class PSParallelCompact : AllStatic {
   // Mark live objects
   static void marking_phase(ParCompactionManager* cm,
                             bool maximum_heap_compaction);
+  static void marking_phase_core_aware(ParCompactionManager* cm,
+		  	  	  	  	    bool maximum_heap_compaction);
   static void follow_weak_klass_links();
   static void follow_mdo_weak_refs();
 
@@ -1073,6 +1083,9 @@ class PSParallelCompact : AllStatic {
     virtual void do_oop(oop* p);
     virtual void do_oop(narrowOop* p);
   };
+
+  static PSPartitionMetaData _partitionMetaData;
+  static PSPartitionMetaData* getPartitionMetaData() { return &_partitionMetaData; }
 
   PSParallelCompact();
 
@@ -1254,6 +1267,9 @@ inline bool PSParallelCompact::mark_obj(oop obj) {
   const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
     _summary_data.add_obj(obj, obj_size);
+    if(CoreAwareMarking){
+    	_partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
+    }
     return true;
   } else {
     return false;
@@ -1508,6 +1524,40 @@ public:
 
 private:
   ObjectStartArray* const _start_array;
+};
+
+class PSParallelMarkingTask : public YieldingFlexibleGangTask {
+	private:
+		MemRegion _span;
+	public:
+	   PSParallelMarkingTask(MemRegion span) { _span = span; }
+	   MemRegion getSpan() { return _span; }
+	   void work(int i);
+	   void do_scan_and_mark(void);
+	   void scan_a_page(int pageIndex);
+	   void masterMarkingTask();
+};
+
+class PS_Par_GreyMarkClosure : public OopClosure {
+private:
+ MemRegion _span;
+
+protected:
+ void do_oop(oop obj);
+   template <class T> inline void do_oop_work(T* p) {
+     T heap_oop = oopDesc::load_heap_oop(p);
+     if (!oopDesc::is_null(heap_oop)) {
+       oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
+       do_oop(obj);
+     }
+   }
+
+public:
+PS_Par_GreyMarkClosure(MemRegion span) { _span = span; }
+	virtual void do_oop(oop* p);
+	virtual void do_oop(narrowOop* p);
+	inline void do_oop_nv(oop* p)       { PS_Par_GreyMarkClosure::do_oop_work(p); }
+	inline void do_oop_nv(narrowOop* p) { PS_Par_GreyMarkClosure::do_oop_work(p); }
 };
 
 #endif // SHARE_VM_GC_IMPLEMENTATION_PARALLELSCAVENGE_PSPARALLELCOMPACT_HPP

@@ -495,6 +495,7 @@ class CommandLineFlags {
   product_pd(bool, NeedsDeoptSuspend,                                       \
           "True for register window machines (sparc/ia64)")                 \
                                                                             \
+  product(bool, CoreAwareMarking, false)									\
   product(intx, UseSSE, 99,                                                 \
           "Highest supported SSE instructions set on x86/x64")              \
                                                                             \
@@ -1399,8 +1400,9 @@ class CommandLineFlags {
                                                                             \
   develop(bool, TraceRegionTasksQueuing, false,                             \
           "Trace the queuing of the region tasks")                          \
-                                                                            \
-	product(uintx, ConcSweepThreads, 4,                                     \
+  product(uintx, ParallelCompactThreads, 4, 								\
+		  	  	  "Threads that are used for parallel compaction")          \
+  product(uintx, ConcSweepThreads, 4,                                       \
 			"Number of threads concurrent gc will use")                     \
   product(uintx, ConcGCThreads, 0,                                          \
  		"Number of threads concurrent gc will use")                         \

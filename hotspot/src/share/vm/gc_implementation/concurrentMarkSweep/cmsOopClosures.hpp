@@ -360,12 +360,12 @@ protected:
 	DO_OOP_WORK_DEFN
 public:
 	Par_GreyMarkClosure(MemRegion memRegion,
-			CMSBitMap* bitMap,
-			ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack);
-	virtual void do_oop(oop* p);
-	virtual void do_oop(narrowOop* p);
-	inline void do_oop_nv(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
-	inline void do_oop_nv(narrowOop* p) { Par_GreyMarkClosure::do_oop_work(p); }
+				CMSBitMap* bitMap,
+				ChunkList* chunkList, CMSCollector* collector, CMSMarkStack* revisit_stack);
+		virtual void do_oop(oop* p);
+		virtual void do_oop(narrowOop* p);
+		inline void do_oop_nv(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
+		inline void do_oop_nv(narrowOop* p) { Par_GreyMarkClosure::do_oop_work(p); }
 	  // In support of class unloading
 	  virtual const bool should_remember_mdo() const {
 	    return false;
