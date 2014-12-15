@@ -1941,7 +1941,7 @@ NOT_PRODUCT(
       gclog_or_tty->print(" (concurrent mode failure)");
     }
   }
-
+  cout << "should_compact::" << should_compact << endl;
   if (should_compact) {
     // If the collection is being acquired from the background
     // collector, there may be references on the discovered
@@ -2056,6 +2056,7 @@ void CMSCollector::decide_foreground_collection_type(
 // A work method used by the foreground collector to do
 // a mark-sweep-compact.
 void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
+  cout << "In do compaction work" << endl;
   GenCollectedHeap* gch = GenCollectedHeap::heap();
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("compaction-phase", SwapMetrics::compactPhase);
