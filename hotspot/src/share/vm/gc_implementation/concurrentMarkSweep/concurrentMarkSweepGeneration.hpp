@@ -1029,6 +1029,13 @@ public:
 			return partitionSizeBytes;
 		}
 
+		bool shouldCompact(int partitionIndex){
+			int partBytes = getPartitionSizeBytes(partitionIndex);
+			int partBytesAlive = _partitionAliveObjectCount[partitionIndex];
+			double ratio = (double)partBytesAlive/(double)partBytes;
+			return (ratio<0.50);
+		}
+
 		void *getPageEnd(int pageIndex){
 			return ((void *)
 							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)((pageIndex +1) * _PAGE_SIZE) - 1)
