@@ -766,7 +766,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			int index = getPageIndexFromPageAddress(pageAddress);
 			jubyte *position = &(_pageGOC[index]);
 			jubyte value = *position;
-			jubyte newValue = value - decrement;
+			jubyte newValue = value - (jubyte)decrement;
 			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
 					(signed char)value) != (signed char)value){
 				value = *position;
