@@ -3761,7 +3761,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    void* pageAddress;
 		CompactibleFreeListSpace* sp;
 		HeapWord* prev_obj;
-		u_jbyte oldValue;
+		int oldValue;
 		// TODO Remove
 		int earlierValue =  PSParallelCompact::_partitionMetaData.getGreyCount(pageIndex);
 		// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
