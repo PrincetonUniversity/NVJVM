@@ -3770,7 +3770,8 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
 		if(oldValue ==0){
-			cout << "Something is wrong. old value = 0, Earlier Value = " << earlierValue << endl;
+			cout << "Something is wrong. old value = 0, Earlier Value = " << earlierValue
+					 << ". Page Index :: "<< pageIndex<< endl;
 			exit(-1);
 		}
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
