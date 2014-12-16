@@ -461,7 +461,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 				_partitionMap[count] = 0;
 			}
 			_numberPages = __numPages(_span.last(), _span.start());
-			_pageGOC = new jubyte[_numberPages];
+			_pageGOC = new int[_numberPages];
 			_pageScanned = new jubyte[_numberPages];
 			_pageStart = new jshort[_numberPages];
 			for(int count = 0; count < _numberPages; count++){
@@ -728,11 +728,11 @@ void PSPartitionMetaData::incrementPagesScanned(){
 
 		unsigned int PSPartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
 			int index = getPageIndexFromPageAddress(pageAddress);
-			jubyte *position = &(_pageGOC[index]);
-			jubyte value = *position;
-			jubyte newValue = 0;
-			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-					(signed char)value) != (signed char)value){
+			int *position = &(_pageGOC[index]);
+			int value = *position;
+			int newValue = 0;
+			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
 				value = *position;
 			}
 			return (unsigned int)value;
@@ -750,26 +750,26 @@ void PSPartitionMetaData::incrementPagesScanned(){
 
 		unsigned int PSPartitionMetaData::incrementIndex_AtomicPage(int increment, void *pageAddress){
 			int index = getPageIndexFromPageAddress(pageAddress);
-			jubyte *position = &(_pageGOC[index]);
-			jubyte value = *position;
-			jubyte newValue = value + (jubyte)increment;
-			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-					(signed char)value) != (signed char)value){
+			int *position = &(_pageGOC[index]);
+			int value = *position;
+			int newValue = value + increment;
+			while(Atomic::cmpxchg((unsigned int char)newValue, (unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
 				value = *position;
-				newValue = value + (jubyte)increment;
+				newValue = value + increment;
 			}
 			return (unsigned int)newValue;
 		}
 
 		unsigned int PSPartitionMetaData::decrementIndex_AtomicPage(int decrement, void *pageAddress){
 			int index = getPageIndexFromPageAddress(pageAddress);
-			jubyte *position = &(_pageGOC[index]);
-			jubyte value = *position;
-			jubyte newValue = value - (jubyte)decrement;
-			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-					(signed char)value) != (signed char)value){
+			int *position = &(_pageGOC[index]);
+			int value = *position;
+			int newValue = value - decrement;
+			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+					(unsigned int)value) != (unsigned int)value){
 				value = *position;
-				newValue = value - (jubyte)decrement;
+				newValue = value - decrement;
 			}
 			return (unsigned int)newValue;
 		}

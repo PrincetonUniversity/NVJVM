@@ -57,7 +57,7 @@ private:
 //  easily iterate through each page independent of the other pages
 	jshort* _pageStart;
 // Keeps a track of the number of the grey objects per page
-	jubyte*_pageGOC;
+	int* _pageGOC;
 	jubyte* _pageScanned;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
