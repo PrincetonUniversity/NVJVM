@@ -1857,7 +1857,9 @@ void PSParallelCompact::summary_phase(ParCompactionManager* cm,
 {
   EventMark m("2 summarize");
   TraceTime tm("summary phase", print_phases(), true, gclog_or_tty);
-  // trace("2");
+
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("Summary Phase", SwapMetrics::summaryPhase);
 
 #ifdef  ASSERT
   if (TraceParallelOldGCMarkingPhase) {
@@ -2111,9 +2113,9 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
 #endif  // #ifndef PRODUCT
 
     bool max_on_system_gc = UseMaximumCompactionOnSystemGC && is_system_gc;
-    cout << "Triggering the summary phase" << endl;
+
     summary_phase(vmthread_cm, maximum_heap_compaction || max_on_system_gc);
-    cout << "Summary phase finished" << endl;
+
     COMPILER2_PRESENT(assert(DerivedPointerTable::is_active(), "Sanity"));
     COMPILER2_PRESENT(DerivedPointerTable::set_active(false));
 
