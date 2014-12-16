@@ -852,15 +852,17 @@ bool PSParallelCompact::initialize() {
   MemRegion mr = heap->reserved_region();
   _span = mr;
   // Initialized the partition metadata
-  _partitionMetaData.initialize(mr);
+  if(CoreAwareMarking){
+	  _partitionMetaData.initialize(mr);
   // Initialize the concurrent workers here
-  _par_compact_workers = new YieldingFlexibleWorkGang("Parallel Compaction Threads", ParallelCompactThreads, true);
-  if(_par_compact_workers == NULL){
-	  printf("Initialization of the parallel compaction workers failed.\n");
-	  exit(-1);
-  } else {
-	  _par_compact_workers->initialize_workers();
-	  _par_compact_workers->setTotalYielders(ParallelCompactThreads-1);
+  	  _par_compact_workers = new YieldingFlexibleWorkGang("Parallel Compaction Threads", ParallelCompactThreads, true);
+	  if(_par_compact_workers == NULL){
+		  printf("Initialization of the parallel compaction workers failed.\n");
+		  exit(-1);
+	  } else {
+		  _par_compact_workers->initialize_workers();
+		  _par_compact_workers->setTotalYielders(ParallelCompactThreads-1);
+	  }
   }
   // Was the old gen get allocated successfully?
   if (!heap->old_gen()->is_allocated()) {
@@ -2093,7 +2095,10 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     bool marked_for_unloading = false;
 
     marking_start.update();
-    marking_phase_core_aware(vmthread_cm, maximum_heap_compaction);
+    if(CoreAwareMarking)
+    	marking_phase_core_aware(vmthread_cm, maximum_heap_compaction);
+    else
+    	marking_phase(vmthread_cm, maximum_heap_compaction);
 
 
 #ifndef PRODUCT
@@ -2392,11 +2397,11 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jvmti));
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::code_cache));
 
-	    if (!CoreAwareMarking && parallel_gc_threads > 1) {
+	    /*if (!CoreAwareMarking && parallel_gc_threads > 1) {
 	      for (uint j = 0; j < parallel_gc_threads; j++) {
 	        	q->enqueue(new StealMarkingTask(&terminator));
 	      }
-	    }
+	    }*/
 
 	    WaitForBarrierGCTask* fin = WaitForBarrierGCTask::create();
 	    q->enqueue(fin);
@@ -2407,21 +2412,17 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 
 	    // We have to release the barrier tasks!
 	  WaitForBarrierGCTask::destroy(fin);
-	  cout << "Core Aware Marking - " << CoreAwareMarking << endl;
-	  if(CoreAwareMarking){
-		  printf("In core aware marking.\n");
-		  // Initialize with the mature region (as the MemRegion)
-		  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
-		  // Create the concurrent workers here and run the task using the workers
-		  printf("Starting the parallel compacting workers task.\n");
-		  par_compact_workers()->start_task(&parMarkTsk);
-		  while (parMarkTsk.yielded()) {
-			 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
-			 parMarkTsk.coordinator_yield();
-			 par_compact_workers()->continue_task(&parMarkTsk);
-		  }
-		  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
+	  // Initialize with the mature region (as the MemRegion)
+	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
+	  // Create the concurrent workers here and run the task using the workers
+	  printf("Starting the parallel compacting workers task.\n");
+	  par_compact_workers()->start_task(&parMarkTsk);
+	  while (parMarkTsk.yielded()) {
+		 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
+		 parMarkTsk.coordinator_yield();
+		 par_compact_workers()->continue_task(&parMarkTsk);
 	  }
+	  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
 	  }
 
 	  {
@@ -3712,6 +3713,12 @@ void PSParallelMarkingTask::work(int i){
 
 		if(PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
 			cout << "the grey object count for current partition :: " << currentPartitionIndex << "is 0" << endl;
+			exit(-1);
+		}
+
+		if(pageIndices.size() == 0){
+			printf("For the current partition (%d) the number of pages 0. Inconsistent.",
+					currentPartitionIndex);
 			exit(-1);
 		}
 
