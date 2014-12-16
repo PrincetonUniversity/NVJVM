@@ -742,7 +742,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			*position = (jubyte)1;
 		}
 
-		bool isPageScanned(int pageIndex){
+		bool PSPartitionMetaData::isPageScanned(int pageIndex){
 			jubyte *position = &(_pageScanned[pageIndex]);
 			return (*position ==(jubyte)1);
 		}
