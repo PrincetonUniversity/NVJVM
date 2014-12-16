@@ -753,7 +753,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			int *position = &(_pageGOC[index]);
 			int value = *position;
 			int newValue = value + increment;
-			while(Atomic::cmpxchg((unsigned int char)newValue, (unsigned int*)position,
+			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
 					(unsigned int)value) != (unsigned int)value){
 				value = *position;
 				newValue = value + increment;
