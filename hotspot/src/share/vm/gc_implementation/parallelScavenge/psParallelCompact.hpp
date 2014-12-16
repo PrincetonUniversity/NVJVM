@@ -1539,6 +1539,7 @@ class PSParallelMarkingTask : public YieldingFlexibleGangTask {
 	   void do_scan_and_mark(void);
 	   void scan_a_page(int pageIndex);
 	   void masterMarkingTask();
+	   virtual void coordinator_yield();  // stuff done by coordinator
 };
 
 class PS_Par_GreyMarkClosure : public OopClosure {
