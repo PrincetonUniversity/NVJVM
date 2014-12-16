@@ -52,7 +52,10 @@ public:
     	compactPhase = 3,
     	parMarkPhase = 4,
     	refProcessingPhase = 5,
-    	summaryPhase = 6
+    	summaryPhase = 6,
+    	adjustRootsPhase = 7,
+    	compactionPhase = 8,
+    	compactPermPhase = 9
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);

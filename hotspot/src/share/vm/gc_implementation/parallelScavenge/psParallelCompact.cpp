@@ -2122,8 +2122,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     adjust_roots();
 
     compaction_start.update();
-    // Does the perm gen always have to be done serially because
-    // klasses are used in the update of an object?
+
     compact_perm(vmthread_cm);
 
     compact();
@@ -2402,12 +2401,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jvmti));
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::code_cache));
 
-	    /*if (!CoreAwareMarking && parallel_gc_threads > 1) {
-	      for (uint j = 0; j < parallel_gc_threads; j++) {
-	        	q->enqueue(new StealMarkingTask(&terminator));
-	      }
-	    }*/
-
 	    WaitForBarrierGCTask* fin = WaitForBarrierGCTask::create();
 	    q->enqueue(fin);
 
@@ -2577,6 +2570,9 @@ void PSParallelCompact::adjust_roots() {
   EventMark m("3 adjust roots");
   TraceTime tm("adjust roots", print_phases(), true, gclog_or_tty);
 
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("Adjust Roots", SwapMetrics::adjustRootsPhase);
+
   // General strong roots.
   Universe::oops_do(adjust_root_pointer_closure());
   ReferenceProcessor::oops_do(adjust_root_pointer_closure());
@@ -2609,6 +2605,9 @@ void PSParallelCompact::compact_perm(ParCompactionManager* cm) {
   EventMark m("4 compact perm");
   TraceTime tm("compact perm gen", print_phases(), true, gclog_or_tty);
   // trace("4");
+
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("Compact Permanent", SwapMetrics::compactPermPhase);
 
   gc_heap()->perm_gen()->start_array()->reset();
   move_and_update(cm, perm_space_id);
@@ -2772,6 +2771,9 @@ void PSParallelCompact::compact() {
   EventMark m("5 compact");
   // trace("5");
   TraceTime tm("compaction phase", print_phases(), true, gclog_or_tty);
+
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("Compact Phase", SwapMetrics::compactionPhase);
 
   ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
   assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "Sanity");
