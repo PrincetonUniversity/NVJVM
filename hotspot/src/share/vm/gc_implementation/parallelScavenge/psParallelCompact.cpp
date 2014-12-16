@@ -855,10 +855,12 @@ bool PSParallelCompact::initialize() {
   _partitionMetaData.initialize(mr);
   // Initialize the concurrent workers here
   _par_compact_workers = new YieldingFlexibleWorkGang("Parallel Compaction Threads", ParallelCompactThreads, true);
-
   if(_par_compact_workers == NULL){
 	  printf("Initialization of the parallel compaction workers failed.\n");
 	  exit(-1);
+  } else {
+	  _par_compact_workers->initialize_workers();
+	  _par_compact_workers->setTotalYielders(ParallelCompactThreads-1);
   }
   // Was the old gen get allocated successfully?
   if (!heap->old_gen()->is_allocated()) {
