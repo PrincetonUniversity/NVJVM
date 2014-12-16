@@ -2389,9 +2389,10 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::jvmti));
 	    q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::code_cache));
 
-	    if (parallel_gc_threads > 1) {
+	    if (!CoreAwareMarking && parallel_gc_threads > 1) {
 	      for (uint j = 0; j < parallel_gc_threads; j++) {
-	        q->enqueue(new StealMarkingTask(&terminator));
+
+	        	q->enqueue(new StealMarkingTask(&terminator));
 	      }
 	    }
 
@@ -2404,25 +2405,26 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 
 	    // We have to release the barrier tasks!
 	    WaitForBarrierGCTask::destroy(fin);
-	  }
+
 
 	  if(CoreAwareMarking){
 		  printf("In core aware marking.\n");
 		  // Initialize with the mature region (as the MemRegion)
 		  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
-
 		  // Create the concurrent workers here and run the task using the workers
 		  printf("Starting the parallel compacting workers task.\n");
 		  par_compact_workers()->start_task(&parMarkTsk);
-
 		  while (parMarkTsk.yielded()) {
 			 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
 			 parMarkTsk.coordinator_yield();
 			 par_compact_workers()->continue_task(&parMarkTsk);
 		  }
-
 		  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
-	  } else {
+	  }
+
+	  }
+
+	  {
 		// Process reference objects found during marking
 	    TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
 	    if (ref_processor()->processing_is_mt()) {
