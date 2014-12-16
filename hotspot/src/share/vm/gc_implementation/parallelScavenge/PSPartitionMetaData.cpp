@@ -756,7 +756,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
 					(signed char)value) != (signed char)value){
 				value = *position;
-				newValue = value + increment;
+				newValue = value + (jubyte)increment;
 			}
 			return (unsigned int)newValue;
 		}
@@ -770,7 +770,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
 					(signed char)value) != (signed char)value){
 				value = *position;
-				newValue = value - decrement;
+				newValue = value - (jubyte)decrement;
 			}
 			return (unsigned int)newValue;
 		}
