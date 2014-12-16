@@ -1264,7 +1264,7 @@ class PSParallelCompact : AllStatic {
 };
 
 inline bool PSParallelCompact::mark_obj(oop obj) {
-  const int obj_size = obj->size();
+  const int obj_size = obj->size(); // TODO remove the dependency on object size when marking an object
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
     _summary_data.add_obj(obj, obj_size);
     if(CoreAwareMarking){

@@ -3608,6 +3608,13 @@ MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   }
 
   oop moved_oop = (oop) destination();
+  // TODO remove just for checking
+#if PS_CHECK
+  if(moved_oop == NULL){
+	  printf("moved_oop is null in MoveAndUpdateClosure::do_addr(). Check \n");
+	  exit(-1);
+  }
+#endif
   moved_oop->update_contents(compaction_manager());
   assert(moved_oop->is_oop_or_null(), "Object should be whole at this point");
 
@@ -3789,6 +3796,8 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 		while(true){
 			if(_bit_map->is_marked(curr)){
 				obj = oop(curr);
+				// TODO Check if the object has already been scanned or not using the mark word in the object
+				// If the object has already been scanned then do not rescan it here
 				obj->oop_iterate(&greyMarkClosure);
 				curr = curr + obj->size();
 			} else {
