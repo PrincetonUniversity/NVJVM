@@ -136,7 +136,7 @@ public:
 	bool releasePartition(int partitionIndex);
 	int getGreyCount(int p);
 	std::vector<int> toSweepPageList(int currentPartition, int *inCoreCount);
-	std::vector<int> toScanPageList(int currentPartition, bool finalWork);
+	std::vector<int> toScanPageList(int currentPartition);
 	int getPageFromNextPartition(int currentPartition);
 	void initialize(MemRegion span);
 	void resetGOCPartition();

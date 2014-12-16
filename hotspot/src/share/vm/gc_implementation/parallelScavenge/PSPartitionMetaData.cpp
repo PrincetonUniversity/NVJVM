@@ -375,7 +375,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 				return pageIndices;
 			}
 
-			std::vector<int> PSPartitionMetaData::toScanPageList(int currentPartition, bool finalWork){
+			std::vector<int> PSPartitionMetaData::toScanPageList(int currentPartition){
 				std::vector<int> pageIndices;
 				std::vector<int> pageIndicesOutOfCore;
 				std::vector<int>::iterator it;
@@ -402,9 +402,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 						if(greyCount > 0){
 							nonZeroCount++;
 							if((vec[count] & 1) == 1){
-	//							printf("IC:%d, gC:%d,", index, greyCount);
 								pageIndices.push_back(index);
-	//							iCore++;
 							}else{
 								pageIndicesOutOfCore.push_back(index);
 							}

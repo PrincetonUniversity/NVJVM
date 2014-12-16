@@ -3717,10 +3717,13 @@ void PSParallelMarkingTask::work(int i){
 		}
 
 		// The indices of pages that may be scanned in the next iteration
-		pageIndices = PSParallelCompact::_partitionMetaData.toScanPageList(currentPartitionIndex, true);
+		pageIndices = PSParallelCompact::_partitionMetaData.toScanPageList(currentPartitionIndex);
+
 		if(pageIndices.size() == 0){
-					printf("For the current partition (%d) the number of pages 0. Inconsistent.",
-							currentPartitionIndex);
+					printf("For the current partition (%d) the number of pages 0. "
+							"Count = %d. Inconsistent.",
+							currentPartitionIndex,
+							PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex));
 					exit(-1);
 				}
 /**
