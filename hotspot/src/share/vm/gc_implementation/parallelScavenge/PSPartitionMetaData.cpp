@@ -738,6 +738,9 @@ void PSPartitionMetaData::incrementPagesScanned(){
 				if(value>(*position))
 					cout <<"Error Value Decreased for page index = " << index << endl;
 				value = *position;
+				if(value==0){
+					cout <<"Error Value Decreased for page index = " << index << endl;
+				}
 			}
 			return (unsigned int)value;
 		}
