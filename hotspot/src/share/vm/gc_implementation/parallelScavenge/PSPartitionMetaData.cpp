@@ -762,7 +762,6 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 		unsigned int PSPartitionMetaData::decrementIndex_AtomicPage(int decrement, void *pageAddress){
-			decreaseBy(decrement);
 			int index = getPageIndexFromPageAddress(pageAddress);
 			jubyte *position = &(_pageGOC[index]);
 			jubyte value = *position;
