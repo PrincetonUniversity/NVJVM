@@ -3724,7 +3724,6 @@ void PSParallelMarkingTask::work(int i){
 							"Count = %d. Inconsistent.",
 							currentPartitionIndex,
 							PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex));
-					exit(-1);
 				}
 /**
 *  The below condition (where the partition has a non-zero count of grey objects and none of the pages
