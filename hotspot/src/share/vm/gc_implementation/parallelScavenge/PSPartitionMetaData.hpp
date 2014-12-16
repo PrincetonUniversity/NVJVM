@@ -75,7 +75,7 @@ private:
 	int _message[1];
 	int _numberPages;
 	// This is a bit map of the partitions. For each partition within the span, a byte is stored.
-	jbyte* _partitionMap;
+	int* _partitionMap;
 	int _garbageChunks;
     bool _yield;
 

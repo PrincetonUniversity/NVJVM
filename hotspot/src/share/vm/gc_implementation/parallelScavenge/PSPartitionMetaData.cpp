@@ -147,22 +147,22 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 		bool PSPartitionMetaData::markAtomic(int partitionIndex){
-			jbyte* position = (jbyte*)&_partitionMap[partitionIndex];
-			jbyte value = *position;
+			int* position = (int*)&_partitionMap[partitionIndex];
+			int value = *position;
 			// Somebody else is already looking at this partition therefore I cannot scan the pages of this partition
-			jbyte newValue = (jbyte)1;
-			if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)0) ==
-					(jbyte)1){
+			int newValue = 1;
+			if(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)0) ==
+					(unsigned int)1){
 				return false;
 			}
 			return true;
 		}
 
 		bool PSPartitionMetaData::clearAtomic(int partitionIndex){
-			jbyte *position = (jbyte*)&_partitionMap[partitionIndex];
-			jbyte value = *position;
-			jbyte newValue = (jbyte)0;
-			if(Atomic::cmpxchg((volatile jbyte)newValue, (volatile jbyte*)position, (volatile jbyte)1) == 0){
+			int *position = (int*)&_partitionMap[partitionIndex];
+			int value = *position;
+			int newValue = 0;
+			if(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position, (unsigned int)1) == 0){
 				printf("Somebody else cleared it. Something is not correct here.\n");
 				exit(-1);
 			}
@@ -455,7 +455,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			_span = span;
 			_numberPartitions = NumberPartitions;
 			_partitionGOC = new int[_numberPartitions];
-			_partitionMap = new jbyte[_numberPartitions];
+			_partitionMap = new int[_numberPartitions];
 			for(int count = 0; count < _numberPartitions; count++){
 				_partitionGOC[count] = 0;
 				_partitionMap[count] = 0;
