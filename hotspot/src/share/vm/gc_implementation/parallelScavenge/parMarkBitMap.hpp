@@ -368,6 +368,11 @@ ParMarkBitMap::iterate(ParMarkBitMapClosure* live_closure,
                  addr_to_bit(range_beg), addr_to_bit(range_end),
                  addr_to_bit(dead_range_end));
 }
+inline bool
+ParMarkBitMap::mark_obj(oop obj)
+{
+ return mark_obj(obj, obj->size());
+}
 
 inline bool
 ParMarkBitMap::mark_obj(oop obj, int size)
