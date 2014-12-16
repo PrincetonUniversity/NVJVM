@@ -730,11 +730,13 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			int index = getPageIndexFromPageAddress(pageAddress);
 			int *position = &(_pageGOC[index]);
 			int value = *position;
+			if(value==0)
+				cout <<"Error Value Decreased for page index = " << index << endl;
 			int newValue = 0;
 			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
 					(unsigned int)value) != (unsigned int)value){
-				if(value>*position)
-					cout <<"Error Value Decreased for page index." << index << endl;
+				if(value>(*position))
+					cout <<"Error Value Decreased for page index = " << index << endl;
 				value = *position;
 			}
 			return (unsigned int)value;
