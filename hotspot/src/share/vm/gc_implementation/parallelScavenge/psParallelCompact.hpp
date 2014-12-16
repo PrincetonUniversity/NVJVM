@@ -1531,7 +1531,9 @@ class PSParallelMarkingTask : public YieldingFlexibleGangTask {
 	private:
 		MemRegion _span;
 	public:
-	   PSParallelMarkingTask(MemRegion span) { _span = span; }
+	   PSParallelMarkingTask(MemRegion span) :
+		   YieldingFlexibleGangTask("Parallel Marking Task")
+	   { _span = span; }
 	   MemRegion getSpan() { return _span; }
 	   void work(int i);
 	   void do_scan_and_mark(void);
