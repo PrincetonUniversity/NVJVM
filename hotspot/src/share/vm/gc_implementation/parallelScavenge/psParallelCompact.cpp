@@ -2099,7 +2099,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     	marking_phase_core_aware(vmthread_cm, maximum_heap_compaction);
     else
     	marking_phase(vmthread_cm, maximum_heap_compaction);
-
+    cout << "Finished with the marking phase" << endl;
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
@@ -2111,8 +2111,9 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
 #endif  // #ifndef PRODUCT
 
     bool max_on_system_gc = UseMaximumCompactionOnSystemGC && is_system_gc;
+    cout << "Triggering the summary phase" << endl;
     summary_phase(vmthread_cm, maximum_heap_compaction || max_on_system_gc);
-
+    cout << "Summary phase finished" << endl;
     COMPILER2_PRESENT(assert(DerivedPointerTable::is_active(), "Sanity"));
     COMPILER2_PRESENT(DerivedPointerTable::set_active(false));
 
@@ -2382,6 +2383,10 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 
 	  {
 	    TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
+
+	    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	    tcpu.setPhase("Parallel Mark Phase", SwapMetrics::parMarkPhase);
+
 	    ParallelScavengeHeap::ParStrongRootsScope psrs;
 
 	    GCTaskQueue* q = GCTaskQueue::create();
@@ -2417,18 +2422,19 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  // Create the concurrent workers here and run the task using the workers
 	  printf("Starting the parallel compacting workers task.\n");
 	  par_compact_workers()->start_task(&parMarkTsk);
-	  while (parMarkTsk.yielded()) {
-		 printf("Currently the threads sleep and do not yield.So, should not come here.\n");
-		 parMarkTsk.coordinator_yield();
-		 par_compact_workers()->continue_task(&parMarkTsk);
-	  }
-	  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
+	  	  while (parMarkTsk.yielded()) {
+	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
+	  		  parMarkTsk.coordinator_yield();
+	  		  par_compact_workers()->continue_task(&parMarkTsk);
+	  	  }
 	  }
 
 	  {
-		 cout << "Starting the reference processing tasks" << endl;
+		cout << "Starting the reference processing tasks" << endl;
 		// Process reference objects found during marking
 	    TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
+	    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	    tcpu.setPhase("Reference Processing Phase", SwapMetrics::refProcessingPhase);
 	    if (ref_processor()->processing_is_mt()) {
 	      RefProcTaskExecutor task_executor;
 	      ref_processor()->process_discovered_references(
