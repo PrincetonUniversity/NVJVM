@@ -3658,7 +3658,7 @@ void PSParallelCompact::compact_prologue() {
 }
 
 void PSParallelMarkingTask::masterMarkingTask(){
-	cout << "Starting the master thread work in PSParallelMarkingTask." << endl;[]
+	cout << "Starting the master thread work in PSParallelMarkingTask." << endl;
 	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
 		while(true){
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
