@@ -27,10 +27,10 @@
 
 #include "oops/oop.hpp"
 
-inline bool
+/*inline bool
 ParMarkBitMap::mark_obj(oop obj)
 {
  return mark_obj(obj, obj->size());
-}
+}*/
 
 #endif // SHARE_VM_GC_IMPLEMENTATION_PARALLELSCAVENGE_PARMARKBITMAP_INLINE_HPP
