@@ -3720,11 +3720,10 @@ void PSParallelMarkingTask::work(int i){
 		pageIndices = PSParallelCompact::_partitionMetaData.toScanPageList(currentPartitionIndex);
 
 		if(pageIndices.size() == 0){
-					printf("For the current partition (%d) the number of pages 0. "
-							"Count = %d. Inconsistent.",
-							currentPartitionIndex,
-							PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex));
-				}
+			printf("For the current partition (%d) the number of pages 0. "
+				   "Count = %d. Inconsistent.\n", currentPartitionIndex,
+				PSParallelCompact::_partitionMetaData.getGreyObjectsChunkLevel(currentPartitionIndex));
+		}
 /**
 *  The below condition (where the partition has a non-zero count of grey objects and none of the pages
 *  has a non-zero count of grey objects) can occur because the increment of grey objects is non-atomic.

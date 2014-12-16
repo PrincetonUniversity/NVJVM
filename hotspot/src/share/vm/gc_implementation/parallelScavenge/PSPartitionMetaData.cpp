@@ -376,6 +376,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			}
 
 			std::vector<int> PSPartitionMetaData::toScanPageList(int currentPartition){
+				int tGreyObjectCount=0;
 				std::vector<int> pageIndices;
 				std::vector<int> pageIndicesOutOfCore;
 				std::vector<int>::iterator it;
@@ -399,6 +400,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 					int iCore=0, oCore=0;
 					for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 						greyCount = _pageGOC[index];
+						tGreyObjectCount+=greyCount;
 						if(greyCount > 0){
 							nonZeroCount++;
 							if((vec[count] & 1) == 1){
@@ -408,6 +410,8 @@ void PSPartitionMetaData::incrementPagesScanned(){
 							}
 						}
 					}
+				if(tGreyObjectCount==0)
+					cout << "total grey object = 0., For partition index = " << currentPartition << endl;
 				pageCount = pageIndices.size();
 				// A better logic is required here to get the
 				if((pageIndices.size() < (unsigned int)maxPageCount)){
@@ -452,8 +456,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			_numberPartitions = NumberPartitions;
 			_partitionGOC = new int[_numberPartitions];
 			_partitionMap = new jbyte[_numberPartitions];
-			int count;
-			for(count = 0; count < _numberPartitions; count++){
+			for(int count = 0; count < _numberPartitions; count++){
 				_partitionGOC[count] = 0;
 				_partitionMap[count] = 0;
 			}
@@ -461,7 +464,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			_pageGOC = new jubyte[_numberPages];
 			_pageScanned = new jubyte[_numberPages];
 			_pageStart = new jshort[_numberPages];
-			for(count = 0; count < _numberPages; count++){
+			for(int count = 0; count < _numberPages; count++){
 							_pageGOC[count] = 0;
 							_pageScanned[count] = 0;
 							_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
@@ -469,7 +472,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 			_partitionSize = (int)_numberPages/_numberPartitions;
 			_idleThreadCount[0] = 0;
 			setToWork();
-			_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
+			_numberCollectorThreads = ParallelCompactThreads - 1; // One of the conc GC thread is used as a master thread
 			totalDecrements = 0;
 		}
 
