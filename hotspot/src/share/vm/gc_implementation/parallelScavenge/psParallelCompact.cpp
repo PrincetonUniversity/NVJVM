@@ -85,6 +85,9 @@ ParallelCompactData::RegionData::dc_claimed = 0x8U << dc_shift;
 const ParallelCompactData::RegionData::region_sz_t
 ParallelCompactData::RegionData::dc_completed = 0xcU << dc_shift;
 
+MemRegion PSParallelCompact::_span = NULL;
+YieldingFlexibleWorkGang* PSParallelCompact::_par_compact_workers = NULL;
+
 SpaceInfo PSParallelCompact::_space_info[PSParallelCompact::last_space_id];
 bool      PSParallelCompact::_print_phases = false;
 

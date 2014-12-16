@@ -776,12 +776,12 @@ inline void ParMarkBitMapClosure::decrement_words_remaining(size_t words) {
 
 class PSParallelCompact : AllStatic {
  private:
-  MemRegion _span;
-  YieldingFlexibleWorkGang* _par_compact_workers;
+  static MemRegion _span;
+  static YieldingFlexibleWorkGang* _par_compact_workers;
 
  public:
-  MemRegion getSpan() { return _span; }
-  YieldingFlexibleWorkGang* par_compact_workers() { return _par_compact_workers; }
+  static MemRegion getSpan() { return _span; }
+  static YieldingFlexibleWorkGang* par_compact_workers() { return _par_compact_workers; }
   // Convenient access to type names.
   typedef ParMarkBitMap::idx_t idx_t;
   typedef ParallelCompactData::RegionData RegionData;
