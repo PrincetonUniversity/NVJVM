@@ -2406,7 +2406,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    // We have to release the barrier tasks!
 	    WaitForBarrierGCTask::destroy(fin);
 
-
 	  if(CoreAwareMarking){
 		  printf("In core aware marking.\n");
 		  // Initialize with the mature region (as the MemRegion)
@@ -3659,6 +3658,7 @@ void PSParallelCompact::compact_prologue() {
 }
 
 void PSParallelMarkingTask::masterMarkingTask(){
+	cout << "Starting the master thread work in PSParallelMarkingTask." << endl;[]
 	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
 		while(true){
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
@@ -3689,6 +3689,7 @@ void PSParallelMarkingTask::work(int i){
 		masterMarkingTask();
 		return;
 	}
+	cout << "Starting the parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << "."<< endl;
 	std::vector<int>::iterator it;
 	std::vector<int> pageIndices;
 	int currentPartitionIndex = -1, pageIndex;
