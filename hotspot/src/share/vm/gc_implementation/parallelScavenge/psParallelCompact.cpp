@@ -2091,7 +2091,8 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     bool marked_for_unloading = false;
 
     marking_start.update();
-    marking_phase(vmthread_cm, maximum_heap_compaction);
+    marking_phase_core_aware(vmthread_cm, maximum_heap_compaction);
+
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
@@ -2359,7 +2360,7 @@ GCTaskManager* const PSParallelCompact::gc_task_manager() {
 
 void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 									bool maximum_heap_compaction){
-
+	  cout << "In PSParallelCompact" << endl;
 	// Recursively traverse all live objects and mark them
 	  EventMark m("1 mark object");
 	  TraceTime tm("ps marking phase core aware", print_phases(), true, gclog_or_tty);
@@ -2391,7 +2392,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 
 	    if (!CoreAwareMarking && parallel_gc_threads > 1) {
 	      for (uint j = 0; j < parallel_gc_threads; j++) {
-
 	        	q->enqueue(new StealMarkingTask(&terminator));
 	      }
 	    }
@@ -2404,8 +2404,8 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    fin->wait_for();
 
 	    // We have to release the barrier tasks!
-	    WaitForBarrierGCTask::destroy(fin);
-
+	  WaitForBarrierGCTask::destroy(fin);
+	  cout << "Core Aware Marking - " << CoreAwareMarking << endl;
 	  if(CoreAwareMarking){
 		  printf("In core aware marking.\n");
 		  // Initialize with the mature region (as the MemRegion)
@@ -2420,10 +2420,10 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 		  }
 		  printf("Parallel Marking Tasks Should Have Finished = %d.", (parMarkTsk.completed()));
 	  }
-
 	  }
 
 	  {
+		 cout << "Starting the reference processing tasks" << endl;
 		// Process reference objects found during marking
 	    TraceTime tm_r("reference processing", print_phases(), true, gclog_or_tty);
 	    if (ref_processor()->processing_is_mt()) {
