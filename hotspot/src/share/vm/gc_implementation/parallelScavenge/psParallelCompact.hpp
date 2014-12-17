@@ -1266,7 +1266,6 @@ class PSParallelCompact : AllStatic {
 inline bool PSParallelCompact::mark_obj(oop obj) {
   const int obj_size = obj->size(); // TODO remove the dependency on object size when marking an object
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
-	  printf("Adding to summary data.\n");
 	  _summary_data.add_obj(obj, obj_size);
     if(CoreAwareMarking){
       _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data

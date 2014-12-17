@@ -3589,13 +3589,13 @@ ParMarkBitMapClosure::IterationStatus
 MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   assert(destination() != NULL, "sanity");
   assert(bitmap()->obj_size(addr) == words, "bad size");
+  _source = addr;
 #if PS_CHECK
   if(_source==NULL){
 	  printf("_source is NULL, in do_addr() in in move and update closure::do_addr() .. \n");
 	  exit(-1);
   }
 #endif
-  _source = addr;
   assert(PSParallelCompact::summary_data().calc_new_pointer(source()) ==
          destination(), "wrong destination");
 
