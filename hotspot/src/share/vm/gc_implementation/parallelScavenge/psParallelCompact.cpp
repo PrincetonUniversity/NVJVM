@@ -3692,7 +3692,6 @@ void PSParallelMarkingTask::masterMarkingTask(){
 	cout << "Starting the master thread work in PSParallelMarkingTask." << endl;
 	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
 		while(true){
-//			cout << "Grey Object Count::" << _partitionMetaData->getTotalGreyObjectsChunkLevel() << endl;
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
 				printf("Setting a signal to all the threads to wait/become idle.\n");
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
@@ -3705,8 +3704,6 @@ void PSParallelMarkingTask::masterMarkingTask(){
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
-					printf("After we terminate, getting the page count = %d.\n", _partitionMetaData->getGreyPageCount());
-					exit(-1);
 					break; // The master thread can now exit
 				} else {
 					_partitionMetaData->setToWorkFinal();
@@ -3776,9 +3773,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	// I, hereby, check whether the object is currently marked in the bitmap or not and if the object is not marked, I perform a parallel mark(because the mark is a byte field).
 		if(!_bit_map->is_marked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
-			if(_bit_map->mark_obj(obj)){
-				PSParallelCompact::_partitionMetaData.markObject((void *)addr);
-			}
+			PSParallelCompact::mark_obj(obj);
 		}
 	}
 }
