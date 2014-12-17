@@ -3437,6 +3437,7 @@ void PSParallelCompact::fill_region(ParCompactionManager* cm, size_t region_idx)
     HeapWord* const cur_addr = closure.source();
     HeapWord* const end_addr = MIN2(sd.region_align_up(cur_addr + 1),
                                     src_space_top);
+
     IterationStatus status = bitmap->iterate(&closure, cur_addr, end_addr);
 
     if (status == ParMarkBitMap::incomplete) {
@@ -3704,6 +3705,8 @@ void PSParallelMarkingTask::masterMarkingTask(){
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
+					printf("After we terminate, getting the page count = %d.\n", _partitionMetaData->getGreyPageCount());
+					exit(-1);
 					break; // The master thread can now exit
 				} else {
 					_partitionMetaData->setToWorkFinal();
