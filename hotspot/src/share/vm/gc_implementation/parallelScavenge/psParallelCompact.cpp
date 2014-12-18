@@ -3810,13 +3810,11 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				obj_size = obj->size();
 				end = curr + obj_size;
 				if(_bit_map->is_marked_end(end) == false){ // check if end is marked if not
-					_bit_map->mark_obj(obj, obj_size);
-					_summary_data.add_obj(obj, obj_size);
+					_bit_map->mark_obj(obj, obj_size); // this marks the end of the object
+					_summary_data.add_obj(obj, obj_size); // adding the summary data
+					obj->oop_iterate(&greyMarkClosure); // object is scanned once
 				}
-				// TODO Check if the object has already been scanned or not using the mark word in the object
-				// If the object has already been scanned then do not rescan it here
-				obj->oop_iterate(&greyMarkClosure);
-				curr = curr + obj->size();
+				curr = curr + obj_size;
 			} else {
 				curr++;
 			}
