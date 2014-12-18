@@ -3774,7 +3774,8 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	// I, hereby, check whether the object is currently marked in the bitmap or not
 		while(!_bit_map->is_marked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
-			PSParallelCompact::mark_obj_core_aware(obj);
+			if(PSParallelCompact::mark_obj_core_aware(obj))
+				break;
 		}
 	}
 }

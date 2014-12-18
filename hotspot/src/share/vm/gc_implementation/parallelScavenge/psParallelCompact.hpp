@@ -1269,8 +1269,8 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
 	  _partitionMetaData.markObject((void*)obj);
 	  return true;
   } else {
-	printf("obj = %p, marking failed.\n", obj);
-	return false;
+	  printf("obj = %p, marking failed.\n", obj);
+	 return false;
   }
 }
 
