@@ -1279,7 +1279,7 @@ inline bool PSParallelCompact::mark_obj(oop obj) {
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
 	  _summary_data.add_obj(obj, obj_size);
     if(CoreAwareMarking){
-//       printf("In PS Parallel Compact mark_object\n");
+       printf("In PS Parallel Compact mark_object\n");
       _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
     }
     return true;
