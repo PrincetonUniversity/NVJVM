@@ -3816,10 +3816,8 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 					if(_bit_map->mark_obj_end(curr, obj_size)){
 						_summary_data.add_obj(obj, obj_size);   // adding the summary data
 						obj->oop_iterate(&greyMarkClosure);     // object is scanned once
-						break;
 					} else {
 						printf("End bit marking failed. Address = %p. Size = %d.\n", end, obj_size);
-						continue;
 					}
 				}
 				curr = curr + obj_size;
