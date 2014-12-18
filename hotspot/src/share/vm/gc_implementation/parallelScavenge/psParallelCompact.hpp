@@ -1275,13 +1275,12 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
 }
 
 inline bool PSParallelCompact::mark_obj(oop obj) {
+  if(CoreAwareMarking){
+		return mark_obj_core_aware(obj);
+  }
   const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
 	  _summary_data.add_obj(obj, obj_size);
-    if(CoreAwareMarking){
-       printf("In PS Parallel Compact mark_object\n");
-      _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
-    }
     return true;
   } else {
     return false;
