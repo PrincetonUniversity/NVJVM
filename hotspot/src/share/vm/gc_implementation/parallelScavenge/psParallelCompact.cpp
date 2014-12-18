@@ -637,7 +637,7 @@ bool ParallelCompactData::summarize(SplitInfo& split_info,
                                     HeapWord* target_beg, HeapWord* target_end,
                                     HeapWord** target_next)
 {
-  if (true) {
+  if (false) {
     HeapWord* const source_next_val = source_next == NULL ? NULL : *source_next;
     printf("sb=" PTR_FORMAT " se=" PTR_FORMAT " sn=" PTR_FORMAT
                   "tb=" PTR_FORMAT " te=" PTR_FORMAT " tn=" PTR_FORMAT,
