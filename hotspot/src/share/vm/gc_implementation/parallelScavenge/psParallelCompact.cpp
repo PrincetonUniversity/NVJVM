@@ -3590,6 +3590,7 @@ MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   assert(destination() != NULL, "sanity");
   assert(bitmap()->obj_size(addr) == words, "bad size");
   _source = addr;
+
 #if PS_CHECK
   if(_source==NULL){
 	  printf("_source is NULL, in do_addr() in in move and update closure::do_addr() .. \n");
@@ -3773,7 +3774,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	// I, hereby, check whether the object is currently marked in the bitmap or not and if the object is not marked, I perform a parallel mark(because the mark is a byte field).
 		if(!_bit_map->is_marked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
-			PSParallelCompact::mark_obj(obj);
+			PSParallelCompact::mark_obj_core_aware(obj);
 		}
 	}
 }
@@ -3787,7 +3788,6 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 		CompactibleFreeListSpace* sp;
 		HeapWord* prev_obj;
 		int oldValue;
-		// TODO Remove
 		// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 		pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
 	// On acquiring a page we clear the grey object count on the page
@@ -3795,15 +3795,24 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
 		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
+		ParallelCompactData& _summary_data = PSParallelCompact::summary_data();
 	// One of questions that we need to get an answer to is the number of extra pages this can touch
 	// (getting the start of the object).
 	// We figure out the first object on the page using the markBitMap
 		HeapWord* curr = (HeapWord *)Utility::getPageStart(pageAddress);
+		HeapWord* end;
 		oop obj;
+		size_t obj_size;
 		PS_Par_GreyMarkClosure greyMarkClosure(getSpan());
 		while(true){
 			if(_bit_map->is_marked(curr)){
 				obj = oop(curr);
+				obj_size = obj->size();
+				end = curr + obj_size;
+				if(_bit_map->is_marked_end(end) == false){ // check if end is marked if not
+					_bit_map->mark_obj(obj, obj_size);
+					_summary_data.add_obj(obj, obj_size);
+				}
 				// TODO Check if the object has already been scanned or not using the mark word in the object
 				// If the object has already been scanned then do not rescan it here
 				obj->oop_iterate(&greyMarkClosure);

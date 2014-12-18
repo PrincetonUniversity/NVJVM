@@ -1117,6 +1117,7 @@ class PSParallelCompact : AllStatic {
 
   // Marking support
   static inline bool mark_obj(oop obj);
+  static inline bool mark_obj_core_aware(oop obj);
   // Check mark and maybe push on marking stack
   template <class T> static inline void mark_and_push(ParCompactionManager* cm,
                                                       T* p);
@@ -1263,6 +1264,16 @@ class PSParallelCompact : AllStatic {
 #endif  // #ifdef ASSERT
 };
 
+inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
+  if (mark_bitmap()->mark_obj(obj, 0)) {
+	if(CoreAwareMarking){
+	  _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
+	}
+	return true;
+  } else {
+	return false;
+  }
+}
 inline bool PSParallelCompact::mark_obj(oop obj) {
   const int obj_size = obj->size(); // TODO remove the dependency on object size when marking an object
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
