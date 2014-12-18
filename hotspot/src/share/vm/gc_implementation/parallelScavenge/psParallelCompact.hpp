@@ -1274,9 +1274,8 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
 }
 
 inline bool PSParallelCompact::mark_obj(oop obj) {
-  if(CoreAwareMarking){
+  if(CoreAwareMarking)
 		return mark_obj_core_aware(obj);
-  }
   const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
 	  _summary_data.add_obj(obj, obj_size);
@@ -1329,7 +1328,7 @@ inline void PSParallelCompact::mark_and_push(ParCompactionManager* cm, T* p) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (mark_bitmap()->is_unmarked(obj) && mark_obj(obj)) {
       if(!CoreAwareMarking)
-    	  	cm->push(obj);
+    	  cm->push(obj);
     }
   }
 }
