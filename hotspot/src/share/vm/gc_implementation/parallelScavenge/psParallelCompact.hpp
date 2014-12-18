@@ -1265,7 +1265,7 @@ class PSParallelCompact : AllStatic {
 };
 
 inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
-  if (mark_bitmap()->mark_obj(obj, 0)) {
+  if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	if(CoreAwareMarking){
 	  _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
 	}
@@ -1275,7 +1275,7 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   }
 }
 inline bool PSParallelCompact::mark_obj(oop obj) {
-  const int obj_size = obj->size(); // TODO remove the dependency on object size when marking an object
+  const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
 	  _summary_data.add_obj(obj, obj_size);
     if(CoreAwareMarking){
