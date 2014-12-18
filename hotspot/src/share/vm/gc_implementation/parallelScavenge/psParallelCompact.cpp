@@ -637,7 +637,7 @@ bool ParallelCompactData::summarize(SplitInfo& split_info,
                                     HeapWord* target_beg, HeapWord* target_end,
                                     HeapWord** target_next)
 {
-  if (TraceParallelOldGCSummaryPhase) {
+  if (true || TraceParallelOldGCSummaryPhase) {
     HeapWord* const source_next_val = source_next == NULL ? NULL : *source_next;
     tty->print_cr("sb=" PTR_FORMAT " se=" PTR_FORMAT " sn=" PTR_FORMAT
                   "tb=" PTR_FORMAT " te=" PTR_FORMAT " tn=" PTR_FORMAT,
@@ -3771,7 +3771,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	HeapWord* addr = (HeapWord*)obj;
 	ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
 	if(_span.contains((const void*)addr)){
-	// I, hereby, check whether the object is currently marked in the bitmap or not and if the object is not marked, I perform a parallel mark(because the mark is a byte field).
+	// I, hereby, check whether the object is currently marked in the bitmap or not
 		if(!_bit_map->is_marked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			PSParallelCompact::mark_obj_core_aware(obj);
@@ -3809,10 +3809,14 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				obj = oop(curr);
 				obj_size = obj->size();
 				end = curr + obj_size;
-				if(_bit_map->is_marked_end(end) == false){ // check if end is marked if not
-					_bit_map->mark_obj_end(curr, obj_size); // this marks the end of the object
-					_summary_data.add_obj(obj, obj_size); // adding the summary data
-					obj->oop_iterate(&greyMarkClosure); // object is scanned once
+				if(_bit_map->is_marked_end(end) == false){ 		// if end is not marked then the object is still grey
+					if(_bit_map->mark_obj_end(curr, obj_size)){ // this marks the end of the object
+						_summary_data.add_obj(obj, obj_size);   // adding the summary data
+						obj->oop_iterate(&greyMarkClosure);     // object is scanned once
+					} else {
+						printf("Marking the end of object failed. Something is wrong.\n");
+						exit(-1);
+					}
 				}
 				curr = curr + obj_size;
 			} else {

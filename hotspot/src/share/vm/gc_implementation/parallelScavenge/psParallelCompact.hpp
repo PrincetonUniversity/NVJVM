@@ -1266,14 +1266,13 @@ class PSParallelCompact : AllStatic {
 
 inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
-	if(CoreAwareMarking){
-	  _partitionMetaData.markObject((void*)obj); // Marking of objects within the partition meta data
-	}
+	_partitionMetaData.markObject((void*)obj);
 	return true;
   } else {
 	return false;
   }
 }
+
 inline bool PSParallelCompact::mark_obj(oop obj) {
   const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
