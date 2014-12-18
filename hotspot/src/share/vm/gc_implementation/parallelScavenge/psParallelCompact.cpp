@@ -3617,6 +3617,11 @@ MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
 #endif
   if (destination() != source()) {
     DEBUG_ONLY(PSParallelCompact::check_new_location(source(), destination());)
+#if PS_CHECK
+	if(!(is_object_aligned((intptr_t)source())) || !(is_object_aligned((intptr_t)destination()))){
+		printf("Source Alignment :: %d, Destination Alignment :: %d.\n", is_object_aligned((intptr_t)source()), is_object_aligned((intptr_t)destination()));
+	}
+#endif
     Copy::aligned_conjoint_words(source(), destination(), words);
   }
 
