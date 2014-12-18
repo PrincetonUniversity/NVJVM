@@ -87,6 +87,13 @@ extern size_t mark_bitmap_size;
 #endif  // #ifdef ASSERT
 
 bool
+ParMarkBitMap::mark_obj_end(HeapWord* addr, size_t size){
+	const idx_t end_bit = addr_to_bit(addr + size - 1);
+	bool end_bit_ok = _end_bits.par_set_bit(end_bit);
+	return end_bit_ok;
+}
+
+bool
 ParMarkBitMap::mark_obj(HeapWord* addr, size_t size)
 {
   const idx_t beg_bit = addr_to_bit(addr);

@@ -48,6 +48,7 @@ public:
   bool mark_obj(HeapWord* addr, size_t size);
   inline bool mark_obj(oop obj, int size);
   inline bool mark_obj(oop obj);
+  bool mark_obj_end(HeapWord* addr, size_t size);
 
   // Return whether the specified begin or end bit is set.
   inline bool is_obj_beg(idx_t bit) const;
