@@ -3809,7 +3809,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 			if(_bit_map->is_marked(curr)){
 				obj = oop(curr);
 				obj_size = obj->size();
-				end = curr + obj_size;
+				end = curr + obj_size - 1;
 				while(_bit_map->is_marked_end(end) == false){ 		// if end is not marked then the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){
 						_summary_data.add_obj(obj, obj_size);   // adding the summary data
