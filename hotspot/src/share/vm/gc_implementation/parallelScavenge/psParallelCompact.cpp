@@ -3811,7 +3811,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				end = curr + obj_size;
 				if(_bit_map->is_marked_end(end) == false){ 		// if end is not marked then the object is still grey
 					while(_bit_map->mark_obj_end(curr, obj_size) == false){
-						printf("Marking the end of object failed. Something is wrong.\n");
+						printf("Marking the end of object failed. Something is wrong. Curr = %p\n", curr);
 					}
 					_summary_data.add_obj(obj, obj_size);   // adding the summary data
 					obj->oop_iterate(&greyMarkClosure);     // object is scanned once
