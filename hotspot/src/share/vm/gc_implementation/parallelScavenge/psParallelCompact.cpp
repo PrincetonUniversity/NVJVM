@@ -3712,7 +3712,7 @@ void PSParallelMarkingTask::masterMarkingTask(){
 			}
 			_partitionMetaData->setToWork();
 			usleep(1000);
-			cout << "Grey object count in master = " << _partitionMetaData->getTotalGreyObjectsChunkLevel() << endl;
+//			cout << "Grey object count in master = " << _partitionMetaData->getTotalGreyObjectsChunkLevel() << endl;
 		}
 		printf("Master has come to an end.\n");
 }
