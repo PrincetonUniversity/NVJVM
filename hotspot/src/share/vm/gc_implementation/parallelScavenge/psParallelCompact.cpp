@@ -3805,7 +3805,6 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
 		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
-		ParallelCompactData& _summary_data = PSParallelCompact::summary_data();
 	// One of questions that we need to get an answer to is the number of extra pages this can touch
 	// (getting the start of the object).
 	// We figure out the first object on the page using the markBitMap
@@ -3819,9 +3818,9 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				obj = oop(curr);
 				obj_size = obj->size();
 				end = curr + obj_size - 1;
-				while(_bit_map->is_marked_end(end) == false){ 		// if end is not marked then the object is still grey
+				while(_bit_map->is_unmarked_end(end)){ 		// if end is not marked then the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){
-						_summary_data.add_obj(obj, obj_size);   // adding the summary data
+						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // adding the summary data
 						obj->oop_iterate(&greyMarkClosure);     // object is scanned once
 						break;
 					} else {

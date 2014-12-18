@@ -61,6 +61,7 @@ public:
   inline bool is_marked(HeapWord* addr) const;
   inline bool is_marked(oop obj)        const;
   inline bool is_marked_end(HeapWord* addr) const;
+  inline bool is_unmarked_end(HeapWord* addr) const;
 
   inline bool is_unmarked(idx_t bit)      const;
   inline bool is_unmarked(HeapWord* addr) const;
@@ -282,6 +283,10 @@ inline bool ParMarkBitMap::is_marked(idx_t bit) const
   return is_obj_beg(bit);
 }
 
+inline bool ParMarkBitMap::is_unmarked_end(HeapWord* addr) const
+{
+	return !is_obj_end(addr_to_bit(addr));
+}
 inline bool ParMarkBitMap::is_marked_end(HeapWord* addr) const
 {
 	return is_obj_end(addr_to_bit(addr));
