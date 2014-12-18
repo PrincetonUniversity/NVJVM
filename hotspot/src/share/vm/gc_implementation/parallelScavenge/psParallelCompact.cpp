@@ -3712,6 +3712,7 @@ void PSParallelMarkingTask::masterMarkingTask(){
 			}
 			_partitionMetaData->setToWork();
 			usleep(1000);
+			cout << "Grey object count in master = " << _partitionMetaData->getTotalGreyObjectsChunkLevel() << endl;
 		}
 		printf("Master has come to an end.\n");
 }
@@ -3765,6 +3766,7 @@ void PSParallelMarkingTask::work(int i){
 		}
 		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
 	}
+	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished."<< endl;
 }
 
 void PS_Par_GreyMarkClosure::do_oop(oop obj) {
