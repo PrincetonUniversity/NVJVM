@@ -272,8 +272,8 @@ void PSPartitionMetaData::incrementPagesScanned(){
 				 return _span.start();
 			}
 
-			void* PSPartitionMetaData::getSpanEnd(){
-				return _span.end();
+			void* PSPartitionMetaData::getSpanLast(){
+				return _span.last();
 			}
 
 			int PSPartitionMetaData::getHighPriorityPageNoMinCore(int partitionIndex){

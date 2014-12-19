@@ -132,7 +132,7 @@ public:
 	void* getPageEnd(int pageIndex);
 	void* getPageBase(int pageIndex);
 	void* getSpanStart();
-	void* getSpanEnd();
+	void* getSpanLast();
 	int getHighPriorityPageNoMinCore(int partitionIndex);
 	int getHighPriorityPage(int partitionIndex);
 	bool releasePartition(int partitionIndex);

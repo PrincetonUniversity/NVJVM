@@ -2426,6 +2426,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  	  }
+	  	  PSParallelMarkingTask::checkHeap();
 	  }
 
 	  {
@@ -3795,10 +3796,26 @@ void PS_Par_GreyMarkClosure::do_oop(oop* p)       { PS_Par_GreyMarkClosure::do_o
 void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_oop_work(p); }
 
 
-/*void checkHeap(){
-	ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
-	void *startAddress = PSParallelCompact::_partitionMetaData.
-}*/
+static void PSParallelMarkingTask::checkHeap(){
+	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
+	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
+	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
+	HeapWord* curr = startAddress;
+	HeapWord* end;
+	oop obj;
+	while(curr<=endAddress){
+		if(bitMap->is_marked(curr)){
+			obj = oop(curr);
+			end = curr + obj->size() - 1;
+			if(bitMap->is_unmarked_end(end)){
+				printf("Object is unmarked");
+				exit(-1);
+			}
+			curr = curr + obj->size();
+		}
+		curr++;
+	}
+}
 
 
 
