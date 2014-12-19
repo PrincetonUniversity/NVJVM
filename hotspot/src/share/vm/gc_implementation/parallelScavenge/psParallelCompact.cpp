@@ -3781,7 +3781,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	// I, hereby, check whether the object is currently marked in the bitmap or not
 		while(_bit_map->is_unmarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
-			if(PSParallelCompact::mark_obj(obj))
+			if(PSParallelCompact::mark_obj_core_aware(obj))
 				break;
 		}
 	} else {
@@ -3811,16 +3811,16 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 			if(_bit_map->is_marked(curr)){											// Step 0: Checking if the current heap word is alive (and therefore is an object)
 				obj = oop(curr);
 				obj_size = obj->size();
-//				end = curr + obj_size - 1;
-//				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
-//					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
-//						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
+				end = curr + obj_size - 1;
+				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
+					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
+						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
-//						break;
-//					} else {
-//						printf("End bit marking failed. Address = %p. Size = %d.\n", end, obj_size);
-//					}
-//				}
+						break;
+					} else {
+						printf("End bit marking failed. Address = %p. Size = %d.\n", end, obj_size);
+					}
+				}
 				curr = curr + obj_size;
 			} else {
 				curr++;

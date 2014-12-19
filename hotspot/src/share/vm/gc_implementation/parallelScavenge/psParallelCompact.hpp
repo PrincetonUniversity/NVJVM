@@ -1274,12 +1274,11 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
 }
 
 inline bool PSParallelCompact::mark_obj(oop obj) {
-  //if(CoreAwareMarking)
-//		return mark_obj_core_aware(obj);
+  if(CoreAwareMarking)
+		return mark_obj_core_aware(obj);
   const int obj_size = obj->size();
   if (mark_bitmap()->mark_obj(obj, obj_size)) {
 	  _summary_data.add_obj(obj, obj_size);
-	  _partitionMetaData.markObject((void*)obj);
     return true;
   } else {
     return false;
