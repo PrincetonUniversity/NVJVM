@@ -788,6 +788,10 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 		void PSPartitionMetaData::markObject(void *address){
+			if(liesInMatureSpace(address) == false){
+				printf("while marking object, address = %p does not lie in mature space \n", address);
+				exit(-1);
+			}
 			incrementIndex_Atomic(1, address);
 			incrementIndex_AtomicPage(1, address);
 		}
