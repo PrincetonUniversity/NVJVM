@@ -2426,7 +2426,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  	  }
-	  	  PSParallelMarkingTask::checkHeap();
 	  }
 
 	  {
