@@ -85,6 +85,9 @@ ParallelCompactData::RegionData::dc_claimed = 0x8U << dc_shift;
 const ParallelCompactData::RegionData::region_sz_t
 ParallelCompactData::RegionData::dc_completed = 0xcU << dc_shift;
 
+int PSParallelCompact::_count1 = 0;
+int PSParallelCompact::_count2 = 0;
+
 MemRegion PSParallelCompact::_span;
 YieldingFlexibleWorkGang* PSParallelCompact::_par_compact_workers = NULL;
 
@@ -2102,6 +2105,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     else
     	marking_phase(vmthread_cm, maximum_heap_compaction);
     cout << "Finished with the marking phase" << endl;
+    cout << "Count 1 = " << PSParallelCompact::_count1 << ", Count 2 = " << PSParallelCompact::_count2 << endl;
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
@@ -3809,6 +3813,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				HeapWord* end = curr + obj_size - 1;
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
+						Atomic::inc(&(PSParallelCompact::_count2));
 						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;

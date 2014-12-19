@@ -794,6 +794,9 @@ class PSParallelCompact : AllStatic {
  public:
   // Inline closure decls
   //
+  static int _count1;
+  static int _count2;
+
   class IsAliveClosure: public BoolObjectClosure {
    public:
     virtual void do_object(oop p);
@@ -1268,6 +1271,7 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	  _partitionMetaData.markObject((void*)obj);
 //	  _summary_data.add_obj(obj, obj->size());
+	  Atomic::inc(&(PSParallelCompact::_count1));
 	  return true;
   } else {
 	 return false;
