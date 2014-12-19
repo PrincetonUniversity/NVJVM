@@ -3805,10 +3805,9 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
 		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
 		HeapWord* curr = (HeapWord *)Utility::getPageStart(pageAddress);
-		cout << "Page Start = " << curr << endl;
-		cout << "Page End = " << (uintptr_t)Utility::getPageEnd(pageAddress) << endl;
+		HeapWord* pageEnd = (HeapWord *)Utility::getPageEnd(pageAddress);
 		PS_Par_GreyMarkClosure greyMarkClosure(getSpan());
-		while((uintptr_t)curr <= (uintptr_t)Utility::getPageEnd(pageAddress)){
+		while((uintptr_t)curr <= (uintptr_t)pageEnd){
 			if(_bit_map->is_marked(curr)){											// Step 0: Checking if the current heap word is alive (and therefore is an object)
 				oop obj = oop(curr);
 				const int obj_size = obj->size();
