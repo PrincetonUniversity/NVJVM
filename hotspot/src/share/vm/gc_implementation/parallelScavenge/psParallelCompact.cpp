@@ -3803,8 +3803,10 @@ void PSParallelMarkingTask::checkHeap(){
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
+	int count =0;
 	while(curr<=endAddress){
 		if(bitMap->is_marked(curr)){
+			count++;
 			obj = oop(curr);
 			end = curr + obj->size() - 1;
 			if(bitMap->is_unmarked_end(end)){
@@ -3815,6 +3817,7 @@ void PSParallelMarkingTask::checkHeap(){
 		}
 		curr++;
 	}
+	cout << "Total Live Object Count :: " << count << endl;
 }
 
 
