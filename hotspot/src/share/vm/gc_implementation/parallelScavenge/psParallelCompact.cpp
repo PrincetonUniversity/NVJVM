@@ -3781,7 +3781,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	// I, hereby, check whether the object is currently marked in the bitmap or not
 		while(_bit_map->is_unmarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
-			if(PSParallelCompact::mark_obj_core_aware(obj))
+			if(PSParallelCompact::mark_obj(obj))
 				break;
 		}
 	} else {
@@ -3795,38 +3795,32 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
 	    void* pageAddress;
-		CompactibleFreeListSpace* sp;
-		HeapWord* prev_obj;
 		int oldValue;
-		// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
 		pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
 	// On acquiring a page we clear the grey object count on the page
-	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
+	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
 		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
-	// One of questions that we need to get an answer to is the number of extra pages this can touch
-	// (getting the start of the object).
-	// We figure out the first object on the page using the markBitMap
 		HeapWord* curr = (HeapWord *)Utility::getPageStart(pageAddress);
 		HeapWord* end;
 		oop obj;
 		size_t obj_size;
 		PS_Par_GreyMarkClosure greyMarkClosure(getSpan());
 		while((uintptr_t)curr <= (uintptr_t)Utility::getPageEnd(pageAddress)){
-			if(_bit_map->is_marked(curr)){
+			if(_bit_map->is_marked(curr)){											// Step 0: Checking if the current heap word is alive (and therefore is an object)
 				obj = oop(curr);
 				obj_size = obj->size();
 				end = curr + obj_size - 1;
-				while(_bit_map->is_unmarked_end(end)){ 		// if end is not marked then the object is still grey
-					if(_bit_map->mark_obj_end(curr, obj_size)){
-						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // adding the summary data
-						obj->oop_iterate(&greyMarkClosure);     // object is scanned once
+//				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
+//					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
+//						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
+						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;
-					} else {
-						printf("End bit marking failed. Address = %p. Size = %d.\n", end, obj_size);
-					}
-				}
+//					} else {
+//						printf("End bit marking failed. Address = %p. Size = %d.\n", end, obj_size);
+//					}
+//				}
 				curr = curr + obj_size;
 			} else {
 				curr++;
