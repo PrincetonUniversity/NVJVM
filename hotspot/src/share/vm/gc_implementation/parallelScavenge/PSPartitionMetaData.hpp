@@ -129,8 +129,10 @@ public:
 	int getPartitionStart(int partitionIndex);
 	int getPartitionSize(int partitionIndex);
 	int getPartitionSizeBytes(int partitionIndex);
-	void *getPageEnd(int pageIndex);
-	void *getPageBase(int pageIndex);
+	void* getPageEnd(int pageIndex);
+	void* getPageBase(int pageIndex);
+	void* getSpanStart();
+	void* getSpanEnd();
 	int getHighPriorityPageNoMinCore(int partitionIndex);
 	int getHighPriorityPage(int partitionIndex);
 	bool releasePartition(int partitionIndex);

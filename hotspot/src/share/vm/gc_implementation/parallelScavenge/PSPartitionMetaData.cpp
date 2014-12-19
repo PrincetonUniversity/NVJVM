@@ -213,7 +213,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 
 			bool PSPartitionMetaData::liesInMatureSpace(void *address){
 				return (((uintptr_t)address >= (uintptr_t)_span.start()) &&
-						((uintptr_t)address <= (uintptr_t)_span.end()));
+						((uintptr_t)address <= (uintptr_t)_span.last()));
 			}
 
 			int PSPartitionMetaData::getPageIndexFromPageAddress(void *address){
@@ -266,6 +266,14 @@ void PSPartitionMetaData::incrementPagesScanned(){
 				return ((void *)
 					((uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE))
 				);
+			}
+
+			void* PSPartitionMetaData::getSpanStart(){
+				 return _span.start();
+			}
+
+			void* PSPartitionMetaData::getSpanEnd(){
+				return _span.end();
 			}
 
 			int PSPartitionMetaData::getHighPriorityPageNoMinCore(int partitionIndex){
@@ -788,10 +796,6 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 		void PSPartitionMetaData::markObject(void *address){
-			if(liesInMatureSpace(address) == false){
-				printf("while marking object, address = %p does not lie in mature space \n", address);
-				exit(-1);
-			}
 			incrementIndex_Atomic(1, address);
 			incrementIndex_AtomicPage(1, address);
 		}

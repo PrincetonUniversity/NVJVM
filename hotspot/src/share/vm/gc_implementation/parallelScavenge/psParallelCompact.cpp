@@ -3767,8 +3767,6 @@ void PSParallelMarkingTask::work(int i){
 *  has a non-zero count of grey objects) can occur because the increment of grey objects is non-atomic.
 *  The partition count of grey objects gets incremented before the page-level count.
 */
-		int endIndex=0;
-		int cPage, nPage;
 		for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 			pageIndex = *it;
 			scan_a_page(pageIndex);
@@ -3795,6 +3793,14 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 
 void PS_Par_GreyMarkClosure::do_oop(oop* p)       { PS_Par_GreyMarkClosure::do_oop_work(p); }
 void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_oop_work(p); }
+
+
+/*void checkHeap(){
+	ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
+	void *startAddress = PSParallelCompact::_partitionMetaData.
+}*/
+
+
 
 void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
