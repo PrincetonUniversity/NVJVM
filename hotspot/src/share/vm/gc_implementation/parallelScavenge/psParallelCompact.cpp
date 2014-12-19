@@ -3799,7 +3799,7 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
-	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
+	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast() + 1;
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
