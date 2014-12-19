@@ -124,6 +124,7 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 		bool PSPartitionMetaData::areThreadsSuspended(){
+			cout << "Number Collector Threads :: " << _numberCollectorThreads << endl;
 			return (
 				_idleThreadCount[0] == _numberCollectorThreads
 			);

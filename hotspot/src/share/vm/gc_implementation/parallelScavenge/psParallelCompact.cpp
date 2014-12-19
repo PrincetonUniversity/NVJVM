@@ -3716,6 +3716,8 @@ void PSParallelMarkingTask::masterMarkingTask(){
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
+					cout << "Checking the heap" << endl;
+					checkHeap();
 					break; // The master thread can now exit
 				} else {
 					_partitionMetaData->setToWorkFinal();
@@ -3795,8 +3797,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 void PS_Par_GreyMarkClosure::do_oop(oop* p)       { PS_Par_GreyMarkClosure::do_oop_work(p); }
 void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_oop_work(p); }
 
-
-static void PSParallelMarkingTask::checkHeap(){
+void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
 	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
