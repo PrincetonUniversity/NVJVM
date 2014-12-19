@@ -3794,24 +3794,19 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 
 void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
-	    void* pageAddress;
-		int oldValue;
-		pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
+		void* pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
 	// On acquiring a page we clear the grey object count on the page
-		oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
+		int oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
 	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	// On clearing the page level grey object count the chunk level grey object count gets decrement
 		PSParallelCompact::_partitionMetaData.decrementIndex_Atomic((int)oldValue, pageAddress);
 		HeapWord* curr = (HeapWord *)Utility::getPageStart(pageAddress);
-		HeapWord* end;
-		oop obj;
-		size_t obj_size;
 		PS_Par_GreyMarkClosure greyMarkClosure(getSpan());
 		while((uintptr_t)curr <= (uintptr_t)Utility::getPageEnd(pageAddress)){
 			if(_bit_map->is_marked(curr)){											// Step 0: Checking if the current heap word is alive (and therefore is an object)
-				obj = oop(curr);
-				obj_size = obj->size();
-				end = curr + obj_size - 1;
+				oop obj = oop(curr);
+				const int obj_size = obj->size();
+				HeapWord* end = curr + obj_size - 1;
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
 						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
