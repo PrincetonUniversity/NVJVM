@@ -3813,6 +3813,7 @@ void PSParallelMarkingTask::checkHeap(){
 				printf("Object is unmarked");
 				exit(-1);
 			}
+			PSParallelCompact::summary_data().add_obj(obj, obj->size());
 			curr = curr + obj->size();
 		}
 		curr++;
@@ -3841,7 +3842,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
 						DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count2));)
-						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
+//						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;
 					} else {
