@@ -3776,7 +3776,6 @@ void PSParallelMarkingTask::work(int i){
 		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
 	}
 	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished."<< endl;
-	cout << "Count2 = " << _count2 << endl;
 }
 
 void PS_Par_GreyMarkClosure::do_oop(oop obj) {
@@ -3841,8 +3840,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				HeapWord* end = curr + obj_size - 1;
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
-//						Atomic::inc(&(PSParallelCompact::_count2));
-						_count2++;
+						DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count2));)
 						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;

@@ -1273,7 +1273,7 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	  _partitionMetaData.markObject((void*)obj);
 //	  _summary_data.add_obj(obj, obj->size());
-	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));) // TODO Remove
+	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));)
 	  return true;
   } else {
 	 return false;
@@ -1546,14 +1546,12 @@ private:
 class PSParallelMarkingTask : public YieldingFlexibleGangTask {
 	private:
 		MemRegion _span;
-		int _count2;
 
 	public:
 	   PSParallelMarkingTask(MemRegion span) :
 		   YieldingFlexibleGangTask("Parallel Marking Task")
 	   {
 		   _span = span;
-		   _count2 = 0;
 	   }
 	   MemRegion getSpan() { return _span; }
 	   void work(int i);
