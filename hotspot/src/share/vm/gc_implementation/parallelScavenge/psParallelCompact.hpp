@@ -1546,10 +1546,15 @@ private:
 class PSParallelMarkingTask : public YieldingFlexibleGangTask {
 	private:
 		MemRegion _span;
+		int _count2;
+
 	public:
 	   PSParallelMarkingTask(MemRegion span) :
 		   YieldingFlexibleGangTask("Parallel Marking Task")
-	   { _span = span; }
+	   {
+		   _span = span;
+		   _count2 = 0;
+	   }
 	   MemRegion getSpan() { return _span; }
 	   void work(int i);
 	   void do_scan_and_mark(void);
