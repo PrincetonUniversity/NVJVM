@@ -2427,7 +2427,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  	  }
 	  }
-
+	  cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
 	  {
 		cout << "Starting the reference processing tasks" << endl;
 		// Process reference objects found during marking
@@ -2444,7 +2444,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
-
+	  cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
@@ -3777,9 +3777,9 @@ void PSParallelMarkingTask::work(int i){
 		}
 		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
 	}
-	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished."<< endl;
-	cout << "Count1:" << PSParallelCompact::_count1 << endl;
-	cout << "Count2:" << PSParallelCompact::_count2 << endl;
+	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished,";
+	cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
+	fflush(stdout);
 }
 
 void PS_Par_GreyMarkClosure::do_oop(oop obj) {

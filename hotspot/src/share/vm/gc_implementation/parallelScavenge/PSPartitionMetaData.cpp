@@ -818,8 +818,6 @@ void PSPartitionMetaData::incrementPagesScanned(){
 		}
 
 	bool PSPartitionMetaData::checkToYield(){
-		if(isSetToYield())
-			return true;
 		// After every loop we check whether have been signaled by the master thread to change our current state
 		if(isSetToWait()){ // Checking if the we have to wait,
 			incrementWaitThreadCount(); // we are waiting for the next signal from the master
