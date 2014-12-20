@@ -3590,6 +3590,12 @@ void MoveAndUpdateClosure::copy_partial_obj()
 }
 
 ParMarkBitMapClosure::IterationStatus
+CountLiveObjectClosure::do_addr(HeapWord* addr, size_t words) {
+	count++;
+	ParMarkBitMap::incomplete;
+}
+
+ParMarkBitMapClosure::IterationStatus
 MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   assert(destination() != NULL, "sanity");
   assert(bitmap()->obj_size(addr) == words, "bad size");
@@ -3799,29 +3805,30 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
-	HeapWord* nextAddress = startAddress + 1;
 	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
-		printf("Span Start = %p, Next Address = %p.\n", startAddress, nextAddress); fflush(stdout);
-	char* curr = (char *)startAddress;
+	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
 	int count=0;
-	while((uintptr_t)curr<=(uintptr_t)endAddress){
-		if(bitMap->is_marked((HeapWord*)curr)){
-			count++;
+	CountLiveObjectClosure cl;
+	bitMap->iterate(&cl, startAddress, endAddress);
+	cout << "Total Live Object Count :: " << cl.getCount() << endl;
+	exit(-1);
+//	while((uintptr_t)curr<=(uintptr_t)endAddress){
+//		if(bitMap->is_marked(curr)){
+//			count++;
+//			obj = oop(curr);
+//			end = curr + obj->size() - 1;
+//			if(bitMap->is_unmarked_end(end)){
+//				printf("Object is unmarked");
+//				exit(-1);
+//			}
+//			PSParallelCompact::summary_data().add_obj(obj, obj->size());
+//			curr = curr + obj->size();
+//		}
+//			curr++;
+//		}
 
-			/*obj = oop(curr);
-			end = curr + obj->size() - 1;
-			if(bitMap->is_unmarked_end(end)){
-				printf("Object is unmarked");
-				exit(-1);
-			}
-			PSParallelCompact::summary_data().add_obj(obj, obj->size());
-			curr = curr + obj->size();*/
-		}
-			curr++;
-		}
-	cout << "Total Live Object Count :: " << count << endl;
 }
 
 

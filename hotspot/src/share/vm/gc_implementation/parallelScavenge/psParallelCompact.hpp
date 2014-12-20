@@ -1450,6 +1450,19 @@ PSParallelCompact::check_new_location(HeapWord* old_addr, HeapWord* new_addr)
 }
 #endif // ASSERT
 
+class CountLiveObjectClosure: public ParMarkBitMapClosure {
+private:
+	int count;
+public:
+	CountLiveObjectClosure(){
+		count = 0;
+	}
+	int getCount() { return count; }
+
+virtual IterationStatus do_addr(HeapWord* addr, size_t size);
+};
+
+
 class MoveAndUpdateClosure: public ParMarkBitMapClosure {
  public:
   inline MoveAndUpdateClosure(ParMarkBitMap* bitmap, ParCompactionManager* cm,
