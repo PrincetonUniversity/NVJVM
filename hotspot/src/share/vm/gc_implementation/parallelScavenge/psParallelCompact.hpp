@@ -1276,7 +1276,7 @@ inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
 		  printf("Bug in marking object %p.", obj);
 		  exit (-1);
 	  }
-//	  _summary_data.add_obj(obj, obj->size());
+//	  _summary_data.add_obj(obj, obj->size()); TODO Remove
 	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));)
 	  return true;
   } else {
