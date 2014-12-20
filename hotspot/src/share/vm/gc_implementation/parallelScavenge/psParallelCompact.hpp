@@ -50,7 +50,7 @@ class PreGCValues;
 class MoveAndUpdateClosure;
 class RefProcTaskExecutor;
 
-#define DEBUG_EX(xxx) xxx
+#define DEBUG_EX(xxx)
 
 // The SplitInfo class holds the information needed to 'split' a source region
 // so that the live data can be copied to two destination *spaces*.  Normally,
@@ -1272,13 +1272,6 @@ class PSParallelCompact : AllStatic {
 inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	  _partitionMetaData.markObject((void*)obj);
-	  // TODO Remove
-	  if(mark_bitmap()->is_marked((HeapWord *)obj) == false) {
-		  printf("Bug in marking object %p.", obj);
-		  exit (-1);
-	  }
-	  // TODO Remove
-	  //_summary_data.add_obj(obj, obj->size());
 	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));)
 	  return true;
   } else {

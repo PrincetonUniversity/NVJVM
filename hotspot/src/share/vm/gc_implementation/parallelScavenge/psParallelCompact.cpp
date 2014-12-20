@@ -2416,7 +2416,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 
 	    // We have to release the barrier tasks!
 	  WaitForBarrierGCTask::destroy(fin);
-	  // Initialize with the mature region (as the MemRegion)
 	  }
 
 	  {
@@ -2435,15 +2434,16 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
+
 	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
 	  // Create the concurrent workers here and run the task using the workers
-	  printf("Starting the parallel compacting workers task.\n");
+	  printf("Starting the parallel marking task.\n");
 	  par_compact_workers()->start_task(&parMarkTsk);
 	  	  while (parMarkTsk.yielded()) {
 	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
-	  	  }
+	  }
 
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
@@ -3715,8 +3715,6 @@ void PSParallelMarkingTask::masterMarkingTask(){
 					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
-					cout << "Checking the heap" << endl;
-					checkHeap();
 					break; // The master thread can now exit
 				} else {
 					_partitionMetaData->setToWorkFinal();
@@ -3726,8 +3724,6 @@ void PSParallelMarkingTask::masterMarkingTask(){
 			usleep(1000);
 		}
 		printf("Master has come to an end.\n");
-		cout << "Count1:" << PSParallelCompact::_count1 << endl;
-		cout << "Count2:" << PSParallelCompact::_count2 << endl;
 }
 
 void PSParallelMarkingTask::work(int i){
@@ -3777,9 +3773,6 @@ void PSParallelMarkingTask::work(int i){
 		}
 		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
 	}
-	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished,";
-	cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
-	fflush(stdout);
 }
 
 void PS_Par_GreyMarkClosure::do_oop(oop obj) {
@@ -3850,7 +3843,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
 						DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count2));)
-						//PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
+						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;
 					} else {
