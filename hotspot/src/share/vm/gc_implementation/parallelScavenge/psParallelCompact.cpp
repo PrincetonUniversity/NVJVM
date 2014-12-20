@@ -3799,8 +3799,9 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
+	HeapWord* nextAddress = startAddress + 1;
 	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
-		printf("Span Start = %p, Span End = %p.\n", startAddress, endAddress); fflush(stdout);
+		printf("Span Start = %p, Next Address = %p.\n", startAddress, nextAddress); fflush(stdout);
 	char* curr = (char *)startAddress;
 	HeapWord* end;
 	oop obj;
