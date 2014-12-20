@@ -3805,7 +3805,6 @@ void PSParallelMarkingTask::checkHeap(){
 	oop obj;
 	int count = bitMap->iterateLiveObjects(startAddress, endAddress);
 	cout << "Total Live Object Count :: " << count << endl;
-	exit(-1);
 
 //	while((uintptr_t)curr<=(uintptr_t)endAddress){
 //		if(bitMap->is_marked(curr)){
