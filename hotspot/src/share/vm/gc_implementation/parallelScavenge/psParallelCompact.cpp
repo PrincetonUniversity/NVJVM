@@ -3815,8 +3815,9 @@ void PSParallelMarkingTask::checkHeap(){
 			}
 			PSParallelCompact::summary_data().add_obj(obj, obj->size());
 			curr = curr + obj->size();
-		} else
-			curr++;
+		} else{
+			curr = (HeapWord *)((char *)curr + 1);
+		}
 	}
 	cout << "Total Live Object Count :: " << count << endl;
 }
@@ -3851,7 +3852,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				}
 				curr = curr + obj_size;
 			} else {
-				curr++;
+				curr = (HeapWord *)((char *)curr + 1);
 			}
 		}
 }
