@@ -161,6 +161,9 @@ void ParCompactionManager::follow_marking_stacks() {
 }
 
 void ParCompactionManager::drain_region_stacks() {
+	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	  tcpu.setPhase("Drain Region Stacks", SwapMetrics::drainRegionStacks);
+
   do {
     // Drain overflow stack first so other threads can steal.
     size_t region_index;

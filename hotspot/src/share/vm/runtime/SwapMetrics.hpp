@@ -56,7 +56,9 @@ public:
     	adjustRootsPhase = 7,
     	compactionPhase = 8,
     	compactPermPhase = 9,
-    	parMarkCoreAware = 10
+    	parMarkCoreAware = 10,
+    	drainRegionStacks = 11,
+    	stealRegionCompaction = 12
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);

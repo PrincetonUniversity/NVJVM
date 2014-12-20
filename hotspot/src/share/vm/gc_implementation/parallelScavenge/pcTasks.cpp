@@ -225,6 +225,9 @@ StealRegionCompactionTask::StealRegionCompactionTask(ParallelTaskTerminator* t):
   _terminator(t) {}
 
 void StealRegionCompactionTask::do_it(GCTaskManager* manager, uint which) {
+   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+   tcpu.setPhase("Steal Region Compaction", SwapMetrics::stealRegionCompaction);
+
   assert(Universe::heap()->is_gc_active(), "called outside gc");
 
   NOT_PRODUCT(TraceTime tm("StealRegionCompactionTask",
