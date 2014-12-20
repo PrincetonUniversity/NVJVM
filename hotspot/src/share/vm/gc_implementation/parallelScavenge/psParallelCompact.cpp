@@ -2361,7 +2361,7 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
   {
     TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
     ParallelScavengeHeap::ParStrongRootsScope psrs;
-
+    SwapMetrics sMet("par-mark-phase", SwapMetrics::parMarkPhase);
     GCTaskQueue* q = GCTaskQueue::create();
 
     q->enqueue(new MarkFromRootsTask(MarkFromRootsTask::universe));

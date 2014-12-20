@@ -48,7 +48,8 @@ public:
     	unknownPhase = 0,
     	markPhase = 1,
     	sweepPhase = 2,
-    	compactPhase = 3
+    	compactPhase = 3,
+    	parMarkPhase=4
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
