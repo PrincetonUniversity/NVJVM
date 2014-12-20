@@ -3803,26 +3803,27 @@ void PSParallelMarkingTask::checkHeap(){
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
-	int count = bitMap->iterateLiveObjects(startAddress, endAddress);
-	cout << "Total Live Object Count :: " << count << endl;
+//	int count = bitMap->iterateLiveObjects(startAddress, endAddress);
+	int count = 0;
+
 	cout << "Count1:" << PSParallelCompact::_count1 << endl;
 	cout << "Count2:" << PSParallelCompact::_count2 << endl;
 
-//	while((uintptr_t)curr<=(uintptr_t)endAddress){
-//		if(bitMap->is_marked(curr)){
-//			count++;
-//			obj = oop(curr);
-//			end = curr + obj->size() - 1;
-//			if(bitMap->is_unmarked_end(end)){
-//				printf("Object is unmarked");
-//				exit(-1);
-//			}
-//			PSParallelCompact::summary_data().add_obj(obj, obj->size());
-//			curr = curr + obj->size();
-//		}
-//			curr++;
-//		}
-
+	while((uintptr_t)curr<=(uintptr_t)endAddress){
+		if(bitMap->is_marked(curr)){
+			count++;
+			obj = oop(curr);
+			end = curr + obj->size() - 1;
+			if(bitMap->is_unmarked_end(end)){
+				printf("Object is unmarked");
+				exit(-1);
+			}
+			PSParallelCompact::summary_data().add_obj(obj, obj->size());
+			curr = curr + obj->size();
+		}
+			curr++;
+		}
+	cout << "Total Live Object Count :: " << count << endl;
 }
 
 
