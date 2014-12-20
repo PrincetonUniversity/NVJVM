@@ -3726,6 +3726,8 @@ void PSParallelMarkingTask::masterMarkingTask(){
 			usleep(1000);
 		}
 		printf("Master has come to an end.\n");
+		cout << "Count1:" << PSParallelCompact::_count1 << endl;
+		cout << "Count2:" << PSParallelCompact::_count2 << endl;
 }
 
 void PSParallelMarkingTask::work(int i){
@@ -3776,6 +3778,8 @@ void PSParallelMarkingTask::work(int i){
 		PSParallelCompact::_partitionMetaData.releasePartition(currentPartitionIndex); // Releasing the partition
 	}
 	cout << "The parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << " has finished."<< endl;
+	cout << "Count1:" << PSParallelCompact::_count1 << endl;
+	cout << "Count2:" << PSParallelCompact::_count2 << endl;
 }
 
 void PS_Par_GreyMarkClosure::do_oop(oop obj) {
@@ -3803,7 +3807,6 @@ void PSParallelMarkingTask::checkHeap(){
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
-//	int count = bitMap->iterateLiveObjects(startAddress, endAddress);
 	int count = 0;
 
 	cout << "Count1:" << PSParallelCompact::_count1 << endl;
