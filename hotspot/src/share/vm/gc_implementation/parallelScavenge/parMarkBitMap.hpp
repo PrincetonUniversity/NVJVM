@@ -109,6 +109,7 @@ public:
   inline IterationStatus iterate(ParMarkBitMapClosure* live_closure,
                                  HeapWord* range_beg,
                                  HeapWord* range_end) const;
+  int iterateLiveObjects(HeapWord* range_beg, HeapWord* range_end) const;
 
   // Apply live closure as above and additionally apply dead_closure to all dead
   // space in the range [range_beg, dead_range_end).  Note that dead_range_end

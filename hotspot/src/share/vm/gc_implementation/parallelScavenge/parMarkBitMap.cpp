@@ -161,6 +161,37 @@ size_t ParMarkBitMap::live_words_in_range(HeapWord* beg_addr, oop end_obj) const
   return bits_to_words(live_bits);
 }
 
+int ParMarkBitMap::iterateLiveObjects(HeapWord *range_beg_hw, HeapWord* range_end_hw) const
+{
+
+  idx_t range_beg = addr_to_bit(range_beg_hw);
+  idx_t range_end = addr_to_bit(range_end_hw);
+
+  int count = 0;
+  DEBUG_ONLY(verify_bit(range_beg);)
+  DEBUG_ONLY(verify_bit(range_end);)
+  assert(range_beg <= range_end, "live range invalid");
+
+  // The bitmap routines require the right boundary to be word-aligned.
+  const idx_t search_end = BitMap::word_align_up(range_end);
+
+  idx_t cur_beg = find_obj_beg(range_beg, search_end);
+  while (cur_beg < range_end) {
+    const idx_t cur_end = find_obj_end(cur_beg, search_end);
+    if (cur_end >= range_end) {
+      break;
+    }
+
+    const size_t size = obj_size(cur_beg, cur_end);
+    count++;
+
+    // Successfully processed the object; look for the next object.
+    cur_beg = find_obj_beg(cur_end + 1, search_end);
+  }
+
+  return count;
+}
+
 ParMarkBitMap::IterationStatus
 ParMarkBitMap::iterate(ParMarkBitMapClosure* live_closure,
                        idx_t range_beg, idx_t range_end) const

@@ -3590,12 +3590,6 @@ void MoveAndUpdateClosure::copy_partial_obj()
 }
 
 ParMarkBitMapClosure::IterationStatus
-CountLiveObjectClosure::do_addr(HeapWord* addr, size_t words) {
-	count++;
-	ParMarkBitMap::incomplete;
-}
-
-ParMarkBitMapClosure::IterationStatus
 MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   assert(destination() != NULL, "sanity");
   assert(bitmap()->obj_size(addr) == words, "bad size");
@@ -3809,11 +3803,11 @@ void PSParallelMarkingTask::checkHeap(){
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
-	int count=0;
-	CountLiveObjectClosure cl;
-	bitMap->iterate(&cl, startAddress, endAddress);
-	cout << "Total Live Object Count :: " << cl.getCount() << endl;
+	int count;
+	int count = bitMap->iterateLiveObjects(startAddress, endAddress);
+	cout << "Total Live Object Count :: " << count << endl;
 	exit(-1);
+
 //	while((uintptr_t)curr<=(uintptr_t)endAddress){
 //		if(bitMap->is_marked(curr)){
 //			count++;
