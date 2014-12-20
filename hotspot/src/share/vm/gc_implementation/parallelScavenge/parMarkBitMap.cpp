@@ -176,7 +176,7 @@ int ParMarkBitMap::iterateLiveObjects(HeapWord *range_beg_hw, HeapWord* range_en
   const idx_t search_end = BitMap::word_align_up(range_end);
 
   idx_t cur_beg = find_obj_beg(range_beg, search_end);
-  while (cur_beg < range_end) {
+  while (cur_beg <= range_end) {
     const idx_t cur_end = find_obj_end(cur_beg, search_end);
 
     const size_t size = obj_size(cur_beg, cur_end);
