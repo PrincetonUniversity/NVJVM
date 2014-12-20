@@ -3800,26 +3800,26 @@ void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
 	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
-	printf("Span Start = %p, Span End = %p.\n", startAddress, endAddress); fflush(stdout);
-	HeapWord* curr = startAddress;
+		printf("Span Start = %p, Span End = %p.\n", startAddress, endAddress); fflush(stdout);
+	char* curr = (char *)startAddress;
 	HeapWord* end;
 	oop obj;
 	int count=0;
 	while((uintptr_t)curr<=(uintptr_t)endAddress){
-		if(bitMap->is_marked(curr)){
+		if(bitMap->is_marked((HeapWord*)curr)){
 			count++;
-			obj = oop(curr);
+
+			/*obj = oop(curr);
 			end = curr + obj->size() - 1;
 			if(bitMap->is_unmarked_end(end)){
 				printf("Object is unmarked");
 				exit(-1);
 			}
 			PSParallelCompact::summary_data().add_obj(obj, obj->size());
-			curr = curr + obj->size();
-		} else{
+			curr = curr + obj->size();*/
+		}
 			curr++;
 		}
-	}
 	cout << "Total Live Object Count :: " << count << endl;
 }
 
@@ -3844,7 +3844,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				while(_bit_map->is_unmarked_end(end)){ 								// Step 1: Checking if the object is still grey
 					if(_bit_map->mark_obj_end(curr, obj_size)){ 					// Step 2: Marking the object white
 						DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count2));)
-//						PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
+						//PSParallelCompact::summary_data().add_obj(obj, obj_size);   // Step 3: Updating the summary data
 						obj->oop_iterate(&greyMarkClosure);     					// Step 4: Scanning the grey object
 						break;
 					} else {
