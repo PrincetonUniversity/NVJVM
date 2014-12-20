@@ -3799,12 +3799,13 @@ void PS_Par_GreyMarkClosure::do_oop(narrowOop* p) { PS_Par_GreyMarkClosure::do_o
 void PSParallelMarkingTask::checkHeap(){
 	ParMarkBitMap* bitMap = PSParallelCompact::mark_bitmap();
 	HeapWord* startAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanStart();
-	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast() + 1;
+	HeapWord* endAddress = (HeapWord*) PSParallelCompact::_partitionMetaData.getSpanLast();
+	printf("Span Start = %p, Span End = %p.\n", startAddress, endAddress); fflush(stdout);
 	HeapWord* curr = startAddress;
 	HeapWord* end;
 	oop obj;
-	int count =0;
-	while(curr<=endAddress){
+	int count=0;
+	while((uintptr_t)curr<=(uintptr_t)endAddress){
 		if(bitMap->is_marked(curr)){
 			count++;
 			obj = oop(curr);
@@ -3816,7 +3817,7 @@ void PSParallelMarkingTask::checkHeap(){
 			PSParallelCompact::summary_data().add_obj(obj, obj->size());
 			curr = curr + obj->size();
 		} else{
-			curr = (HeapWord *)((char *)curr + 1);
+			curr++;
 		}
 	}
 	cout << "Total Live Object Count :: " << count << endl;
@@ -3852,7 +3853,7 @@ void PSParallelMarkingTask::scan_a_page(int pageIndex){
 				}
 				curr = curr + obj_size;
 			} else {
-				curr = (HeapWord *)((char *)curr + 1);
+				curr++;
 			}
 		}
 }
