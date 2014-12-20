@@ -2105,7 +2105,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     else
     	marking_phase(vmthread_cm, maximum_heap_compaction);
     cout << "Finished with the marking phase" << endl;
-    cout << "Count 1 = " << PSParallelCompact::_count1 << ", Count 2 = " << PSParallelCompact::_count2 << endl;
+    DEBUG_EX(cout << "Count 1 = " << PSParallelCompact::_count1 << ", Count 2 = " << PSParallelCompact::_count2 << endl;)
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
@@ -2434,6 +2434,9 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
+	  {
+	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
 
 	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
 	  // Create the concurrent workers here and run the task using the workers
@@ -2444,7 +2447,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  }
-
+	  }
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
@@ -3704,15 +3707,15 @@ void PSParallelMarkingTask::masterMarkingTask(){
 	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
 		while(true){
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
-				printf("Setting a signal to all the threads to wait/become idle.\n");
+				DEBUG_EX(printf("Setting a signal to all the threads to wait/become idle.\n");)
 				_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
-				printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
+				DEBUG_EX(printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());)
 				while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
 					usleep(100);
 				}
 				// Threads are suspended now
 				if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
-					printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
+					DEBUG_EX(printf("we have reached the termination point, we signal all the other threads to terminate too.\n");)
 				// If yes, we have reached the termination point, we signal all the other threads to terminate too
 					_partitionMetaData->setToTerminate();
 					break; // The master thread can now exit
@@ -3723,7 +3726,7 @@ void PSParallelMarkingTask::masterMarkingTask(){
 			_partitionMetaData->setToWork();
 			usleep(1000);
 		}
-		printf("Master has come to an end.\n");
+		DEBUG_EX(printf("Master has come to an end.\n");)
 }
 
 void PSParallelMarkingTask::work(int i){
@@ -3731,7 +3734,7 @@ void PSParallelMarkingTask::work(int i){
 		masterMarkingTask();
 		return;
 	}
-	cout << "Starting the parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << "."<< endl;
+	DEBUG_EX(cout << "Starting the parallel worker thread in PSParallelMarkingTask::work(), Id = " << i  << "."<< endl;)
 	std::vector<int>::iterator it;
 	std::vector<int> pageIndices;
 	int currentPartitionIndex = -1, pageIndex;
@@ -3821,8 +3824,6 @@ void PSParallelMarkingTask::checkHeap(){
 		}
 	cout << "Total Live Object Count :: " << count << endl;
 }
-
-
 
 void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
