@@ -2106,6 +2106,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     	marking_phase(vmthread_cm, maximum_heap_compaction);
     cout << "Finished with the marking phase" << endl;
     DEBUG_EX(cout << "Count 1 = " << PSParallelCompact::_count1 << ", Count 2 = " << PSParallelCompact::_count2 << endl;)
+    exit(-1);
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
@@ -3705,7 +3706,7 @@ void PSParallelCompact::compact_prologue() {
 }
 
 void PSParallelMarkingTask::masterMarkingTask(){
-	cout << "Starting the master thread work in PSParallelMarkingTask." << endl;
+	DEBUG_EX(cout << "Starting the master thread work in PSParallelMarkingTask." << endl;)
 	PSPartitionMetaData* _partitionMetaData = PSParallelCompact::getPartitionMetaData();
 		while(true){
 			if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
