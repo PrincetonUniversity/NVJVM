@@ -2417,17 +2417,8 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    // We have to release the barrier tasks!
 	  WaitForBarrierGCTask::destroy(fin);
 	  // Initialize with the mature region (as the MemRegion)
-	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
-	  // Create the concurrent workers here and run the task using the workers
-	  printf("Starting the parallel compacting workers task.\n");
-	  par_compact_workers()->start_task(&parMarkTsk);
-	  	  while (parMarkTsk.yielded()) {
-	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
-	  		  parMarkTsk.coordinator_yield();
-	  		  par_compact_workers()->continue_task(&parMarkTsk);
-	  	  }
 	  }
-	  cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
+
 	  {
 		cout << "Starting the reference processing tasks" << endl;
 		// Process reference objects found during marking
@@ -2444,10 +2435,16 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
-	  cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
-	  cout << "Chunk Level Grey Objects::" << PSParallelCompact::_partitionMetaData.getTotalGreyObjectsChunkLevel() << endl;
+	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
+	  // Create the concurrent workers here and run the task using the workers
+	  printf("Starting the parallel compacting workers task.\n");
+	  par_compact_workers()->start_task(&parMarkTsk);
+	  	  while (parMarkTsk.yielded()) {
+	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
+	  		  parMarkTsk.coordinator_yield();
+	  		  par_compact_workers()->continue_task(&parMarkTsk);
+	  	  }
 
-	  exit(-1);
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
