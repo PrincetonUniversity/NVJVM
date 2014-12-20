@@ -3820,7 +3820,7 @@ void PSParallelMarkingTask::checkHeap(){
 			}
 			PSParallelCompact::summary_data().add_obj(obj, obj->size());
 			curr = curr + obj->size();
-		}
+		} else
 			curr++;
 		}
 	cout << "Total Live Object Count :: " << count << endl;
