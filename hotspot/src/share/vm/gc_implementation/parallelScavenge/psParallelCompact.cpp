@@ -2445,6 +2445,9 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    }
 	  }
 	  cout << "Count1:" << PSParallelCompact::_count1 << "," <<  "Count2:" << PSParallelCompact::_count2 << endl;
+	  cout << "Chunk Level Grey Objects::" << PSParallelCompact::_partitionMetaData.getTotalGreyObjectsChunkLevel() << endl;
+
+	  exit(-1);
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
