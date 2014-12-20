@@ -2106,7 +2106,7 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
     else
     	marking_phase(vmthread_cm, maximum_heap_compaction);
     cout << "Finished with the marking phase" << endl;
-    cout << "Alive Object Size::" << (double)(_aliveObjectSize*8)/(1024*1024*1024) << " GB." << endl;
+    cout << "Alive Object Size::" << ((double)(_aliveObjectSize)/(1024*1024*1024)*8) << " GB." << endl;
     DEBUG_EX(cout << "Count 1 = " << PSParallelCompact::_count1 << ", Count 2 = " << PSParallelCompact::_count2 << endl;)
     exit(-1);
 
