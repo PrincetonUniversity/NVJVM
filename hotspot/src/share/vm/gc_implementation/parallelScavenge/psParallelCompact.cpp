@@ -2434,10 +2434,11 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
+
 	  {
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
-
+	  SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkCoreAware);
 	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
 	  // Create the concurrent workers here and run the task using the workers
 	  printf("Starting the parallel marking task.\n");
@@ -2447,6 +2448,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  }
+
 	  }
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
@@ -2488,7 +2490,7 @@ void PSParallelCompact::marking_phase(ParCompactionManager* cm,
 
   {
     TraceTime tm_m("par mark", print_phases(), true, gclog_or_tty);
-
+    SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkPhase);
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     tcpu.setPhase("Parallel Mark Phase", SwapMetrics::parMarkPhase);
 

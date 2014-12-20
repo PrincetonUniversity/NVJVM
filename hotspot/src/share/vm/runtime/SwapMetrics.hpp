@@ -87,6 +87,8 @@ public:
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
 	static int _compactionPhaseFaults;
+	static int _parMarkCoreAware;
+	static int _parMarkFaults;
 
 	int _phaseId;
 

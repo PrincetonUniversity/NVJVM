@@ -26,6 +26,8 @@ int SwapMetrics::_defaultFaults=0;
 int SwapMetrics::_markPhaseFaults = 0;
 int SwapMetrics::_sweepPhaseFaults = 0;
 int SwapMetrics::_compactionPhaseFaults = 0;
+int SwapMetrics::_parMarkCoreAware = 0;
+int SwapMetrics::_parMarkFaults = 0;
 
 double SwapMetrics::_sumDiskUtilizationMark = 0;
 double SwapMetrics::_sumDiskUtilizationSweep = 0;
@@ -324,6 +326,10 @@ SwapMetrics::~SwapMetrics() {
 	  _compactionPhaseFaults += _majorFaults;
 	  _compactionPhaseSwapOuts += _finalSwapOuts-_initialSwapOuts;
 	  _compactionPhasePageOuts += _finalPageOuts-_initialPageOuts;
+  }else if(_phaseId == parMarkCoreAware){
+	  _parMarkCoreAware += _majorFaults;
+  } else if(_phaseId == parMarkPhase){
+	  _parMarkFaults += _majorFaults;
   }
 
   // Writing the minor and the major faults to the output
@@ -385,6 +391,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "MarkPhaseFaults : " << _markPhaseFaults << endl;
        cout << "SweepPhaseFaults : " << _sweepPhaseFaults << endl;
        cout << "CompactionPhaseFaults : " << _compactionPhaseFaults << endl;
+       cout << "ParMarkPhaseFaults :" << _parMarkCoreAware << endl;
+       cout << "ParMarkPhaseFaults :" << _parMarkFaults << endl;
 
        cout << "MarkPhaseSwapOuts : " << _markPhaseSwapOuts << endl;
        cout << "SweepPhaseSwapOuts : " << _sweepPhaseSwapOuts << endl;
