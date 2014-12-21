@@ -45,6 +45,7 @@ class PartitionMetaData {
 	};
 
 public:
+	int getGreyCount(int pI);
 	void setDoPrint(bool flag);
 	bool getDoPrint();
 	void resetPagesScanned();

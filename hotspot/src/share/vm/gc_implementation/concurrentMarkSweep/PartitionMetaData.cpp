@@ -271,13 +271,7 @@
 			for(count = 0;
 				count < getPartitionSize(partitionIndex);
 				count++, index++){
-				greyCount = _pageGOC[index];  		// Get the grey count of the page
-#if PRINT_TO_LOG
-/*				if(greyCount > 0){
-					sprintf(buf, "%d,%d.\n", index, greyCount);
-					CMSLogs::log(std::string(buf));
-				}*/
-#endif
+				greyCount = _pageGOC[index];
 				if((largestGreyCount < greyCount)){
 				   largestGreyCount = greyCount;
 				   lPIndex = index;
@@ -331,9 +325,7 @@
 		}
 
 		int PartitionMetaData::getGreyCount(int p){
-			return (
-				_pageGOC[p]
-			);
+			return _pageGOC[p];
 		}
 
 		std::vector<int> PartitionMetaData::toSweepPageList(int currentPartition, int *inCoreCount){
@@ -402,30 +394,14 @@
 					if(greyCount > 0){
 						nonZeroCount++;
 						if((vec[count] & 1) == 1){
-//							printf("IC:%d, gC:%d,", index, greyCount);
 							pageIndices.push_back(index);
-//							iCore++;
 						}else{
 							pageIndicesOutOfCore.push_back(index);
-//							printf("OC:%d, gC:%d,", index, greyCount);
-//							oCore++;
 						}
 					}
 				}
-//					printf("incorecount=%d, ocorecount=%d\n",iCore,oCore);
-#if PRINT_TO_LOG
-			sprintf(buf, "%d, %d, %d, %d.\n", pageIndices.size(), pageIndicesOutOfCore.size(), nonZeroCount, currentPartition);
-			CMSLogs::log(std::string(buf));
-#endif
 			}
-#if OCMS_NO_GREY_ASSERT
-			else {
-				printf("Invalid Partition Index. Index = -1");
-				exit(-1);
-			}
-#endif
 			pageCount = pageIndices.size();
-			// A better logic is required here to get the
 			if((pageIndices.size() < (unsigned int)maxPageCount)){
 				for(it = pageIndicesOutOfCore.begin(); it < pageIndicesOutOfCore.end(); it++){
 					pageIndices.push_back(*it);
@@ -502,7 +478,7 @@
 							_partitionMap[count] = 0;
 						}
 						_numberPages = __numPages(_span.last(), _span.start());
-						_pageGOC = new jubyte[_numberPages];
+						_pageGOC = new int[_numberPages];
 						_bytesOccupiedPage = new int[_numberPages];
 						_pageScanned = new jubyte[_numberPages];
 						_pageStart = new jshort[_numberPages];
@@ -602,7 +578,7 @@
 	int PartitionMetaData::getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;
 			for (index = 0; index < _numberPages; index++){
-				sum += (int)_pageGOC[index];
+				sum += _pageGOC[index];
 			}
 
 #if	OCMS_NO_GREY_LOG_HIGH
@@ -836,11 +812,11 @@
 
 	unsigned int PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
 		int index = getPageIndexFromPageAddress(pageAddress);
-		jubyte *position = &(_pageGOC[index]);
-		jubyte value = *position;
-		jubyte newValue = 0;
-		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+		int* position = &(_pageGOC[index]);
+		int value = *position;
+		int newValue = 0;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 		}
 		return (unsigned int)value;
@@ -859,11 +835,11 @@
 	unsigned int PartitionMetaData::incrementIndex_AtomicPage(int increment, void *pageAddress){
 		increaseBy(increment);
 		int index = getPageIndexFromPageAddress(pageAddress);
-		jubyte *position = &(_pageGOC[index]);
-		jubyte value = *position;
-		jubyte newValue = value + increment;
-		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+		int* position = &(_pageGOC[index]);
+		int value = *position;
+		int newValue = value + increment;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value + increment;
 		}
@@ -873,11 +849,11 @@
 	unsigned int PartitionMetaData::decrementIndex_AtomicPage(int decrement, void *pageAddress){
 		decreaseBy(decrement);
 		int index = getPageIndexFromPageAddress(pageAddress);
-		jubyte *position = &(_pageGOC[index]);
-		jubyte value = *position;
-		jubyte newValue = value - decrement;
-		while(Atomic::cmpxchg((signed char)newValue, (signed char*)position,
-				(signed char)value) != (signed char)value){
+		int* position = &(_pageGOC[index]);
+		int value = *position;
+		int newValue = value - decrement;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
 			value = *position;
 			newValue = value - decrement;
 		}
