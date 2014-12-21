@@ -3532,6 +3532,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // robust wrt simultaneous marking of bits in the same word,
   // we need to make sure that there is no such interference
   // between concurrent such updates.
+  bool result = false;
+  {
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-from-roots", SwapMetrics::markPhase);
   SwapMetrics sMet("mark-from-roots", SwapMetrics::markPhase);
@@ -3541,7 +3543,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 
   // already have locks
   assert_lock_strong(bitMapLock());
-
   // Clear the revisit stack, just in case there are any
   // obsolete contents from a short-circuited previous CMS cycle.
   _revisitStack.reset();
@@ -3549,7 +3550,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   verify_overflow_empty();
   assert(_revisitStack.isEmpty(), "tabula rasa");
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
-  bool result = false;
+
   if (CMSConcurrentMTEnabled && ConcGCThreads > 0) {
     result = do_marking_mt(asynch);
   } else {
@@ -3558,6 +3559,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   if(PrintGC){
 	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
+  }
+  MEASUREMENT_MODE(exit(-1);)
   return result;
 }
 
@@ -5145,10 +5148,6 @@ void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
-#if OCMS_NO_GREY_LOG
-  printf("do_marking_mt() called. \n");
-#endif
-
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -5156,11 +5155,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   CompactibleFreeListSpace* cms_space  = _cmsGen->cmsSpace();
   CompactibleFreeListSpace* perm_space = _permGen->cmsSpace();
-
-#if OCMS_NO_GREY_LOG
-  printf("Initiaing Creation of CMSConcMarkingTask.\n");
-#endif
-
 
   CMSConcMarkingTask tsk(this,
                          cms_space,
@@ -5186,11 +5180,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   // Get the workers going again
   	Thread* t = Thread::current();
-//  	printf("CMSCollector Thread Id = %u.\n", t->osthread()->thread_id());
-#if OCMS_NO_GREY_LOG
-  	printf("Beginning task 1.\n");
-#endif
-//  cout << "Starting the concurrent tasks" << endl;
   conc_workers()->start_task(&tsk);
 //  cout << "Tasks yielded/aborted" << endl;
   while (tsk.yielded()) {
@@ -5270,7 +5259,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
- MEASUREMENT_MODE(tsk.getAliveObjectCount(); exit(-1);)
+ MEASUREMENT_MODE(tsk.getAliveObjectCount();)
  return true;
 }
 
