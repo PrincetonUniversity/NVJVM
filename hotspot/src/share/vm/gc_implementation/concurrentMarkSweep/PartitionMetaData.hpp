@@ -189,8 +189,6 @@ public:
 	bool markGreyObject_Page(void* pageAddress);
 	void pageScanned(int pageIndex);
 	bool isPageScanned(int pageIndex);
-	unsigned int incrementIndex_AtomicPage(int increment, void *pageAddress);
-	unsigned int decrementIndex_AtomicPage(int decrement, void *pageAddress);
 	unsigned int incrementAliveObjectCount(int increment, void *pageAddress);
 	unsigned int decrementAliveObjectCount(int decrement, void* pageAddress);
 	unsigned int incrementIndex_Atomic(int increment, void *pageAddress);

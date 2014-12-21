@@ -8648,11 +8648,11 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 	HeapWord* addr = _modUnionTableBitMap->offsetToHeapWord(offset);
 	// Incrementing the count of the grey bitmap for the
 	// Incrementing the chunk level grey object count
-		_collector->incGreyObj(addr, 1);
+	//	_collector->incGreyObj(addr, 1);
 	// Increasing the page level grey object count
-//		u_jbyte value = __u_inc(addr);
-		_collector->incGreyObjPage(addr, 1);
-//		_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+    //	u_jbyte value = __u_inc(addr);
+    //  _collector->incGreyObjPage(addr, 1);
+    //_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
 		return true;
 }
 

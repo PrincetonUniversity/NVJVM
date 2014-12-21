@@ -820,33 +820,6 @@
 		return (*position ==(jubyte)1);
 	}
 
-	unsigned int PartitionMetaData::incrementIndex_AtomicPage(int increment, void *pageAddress){
-		int index = getPageIndexFromPageAddress(pageAddress);
-		int* position = &(_pageGOC[index]);
-		int value = *position;
-		int newValue = value + increment;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
-			value = *position;
-			newValue = value + increment;
-		}
-		return (unsigned int)newValue;
-	}
-
-	unsigned int PartitionMetaData::decrementIndex_AtomicPage(int decrement, void *pageAddress){
-		decreaseBy(decrement);
-		int index = getPageIndexFromPageAddress(pageAddress);
-		int* position = &(_pageGOC[index]);
-		int value = *position;
-		int newValue = value - decrement;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
-			value = *position;
-			newValue = value - decrement;
-		}
-		return (unsigned int)newValue;
-	}
-
 	unsigned int PartitionMetaData::incrementAliveObjectCount(int increment, void *pageAddress){
 			int index = getPartitionIndexFromPageAddress(pageAddress);
 			int *position = &(_partitionAliveObjectCount[index]);

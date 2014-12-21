@@ -893,18 +893,6 @@ class CMSCollector: public CHeapObj {
 	  return &(_modUnionTable);
   }
 
-  unsigned int incGreyObjPage(void *addr, int count){
- 	  return _partitionMetaData->incrementIndex_AtomicPage(count, addr);
-   }
-
-   unsigned int incGreyObj(void *addr, int count){
- 	  return _partitionMetaData->incrementIndex_Atomic(count, addr);
-   }
-
-  unsigned int decGreyObj(void *addr, int count){
-	  return _partitionMetaData->decrementIndex_Atomic(count, addr);
-  }
-
   ChunkList* getChunkList(){
 		  return _collectorChunkList;
   }
