@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
+#include <vector>
 
 class CMSConcMarkingTask;
 
