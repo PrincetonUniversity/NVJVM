@@ -792,7 +792,7 @@
 		if(doMark){
 			incrementIndex_Atomic(1, address);
 		}
-		MEASUREMENT_MODE(Atomic::inc((volatile int*)&(_totalScannedObjects));)
+		MEASUREMENT_MODE(Atomic::inc_ptr((volatile int*)&(_totalScannedObjects));)
 	}
 
 	void PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
