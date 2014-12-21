@@ -7199,7 +7199,7 @@ void CMSCollector::sweepWorkPartitioned(){
 	sweepTask.coordinator_yield();
     SWEEP_DEBUGGING(cout << "Total Number of garbage chunks::" << ((double)sweepTask.totalGarbageChunks() / 1000) << " K." << endl ;)
     SWEEP_DEBUGGING(cout << "Total Garbage Collected in bytes::" << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB." << endl;)
-    SWEEP_DEBUGGING(cout << "Total Live Object Size in bytes::" << ((double)_partitionMetaData->getAliveObjectSize()*8)/(1024*1024*1024))  < " GB." << endl;)
+    SWEEP_DEBUGGING(cout << "Total Live Object Size in bytes::" << (((double)_partitionMetaData->getAliveObjectSize()*8)/(1024*1024*1024))  << " GB." << endl;)
     conc_sweep_workers()->continue_task(&sweepTask);
   }
 
@@ -7241,7 +7241,7 @@ void CMSCollector::sweepWorkPartitioned(){
 
   SWEEP_DEBUGGING(cout << "Total Number of garbage chunks::" << ((double)sweepTask.totalGarbageChunks() / 1000) << "K." << endl;)
   SWEEP_DEBUGGING(cout << "Total Garbage Collected in bytes::" << ((double)sweepTask.totalGarbageCollected() / (1024*1024)) << " MB." << endl;)
-  SWEEP_DEBUGGING(cout << "Total Live Object Size in bytes::" << ((double)_partitionMetaData->getAliveObjectSize()*8)/(1024*1024*1024))  < " GB." << endl;)
+  SWEEP_DEBUGGING(cout << "Total Live Object Size in bytes::" << (((double)_partitionMetaData->getAliveObjectSize()*8)/(1024*1024*1024))  << " GB." << endl;)
 
   _partitionMetaData->resetGOCPage();
   _partitionMetaData->resetPageScanned();
