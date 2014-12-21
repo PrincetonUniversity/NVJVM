@@ -7,6 +7,7 @@
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
 #include <vector>
+#include "runtime/atomic.hpp"
 
 class CMSConcMarkingTask;
 
