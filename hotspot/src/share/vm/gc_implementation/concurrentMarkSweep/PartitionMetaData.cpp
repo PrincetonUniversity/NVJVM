@@ -249,14 +249,14 @@
 			return (ratio<0.50);
 		}
 
-		void PartitionMetaData::*getPageEnd(int pageIndex){
+		void* PartitionMetaData::getPageEnd(int pageIndex){
 			return ((void *)
 							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)((pageIndex +1) * _PAGE_SIZE) - 1)
 			);
 		}
 		// This function converts a given page index into the base address of the page
 		// All the indexes are now relative to the base of the span start now.
-		void PartitionMetaData::*getPageBase(int pageIndex){
+		void* PartitionMetaData::getPageBase(int pageIndex){
 			return ((void *)
 				((uintptr_t)__page_start(_span.start()) +  (uintptr_t)(pageIndex * _PAGE_SIZE))
 			);
@@ -913,27 +913,26 @@
 		return (unsigned int)newValue;
 	}
 
-bool PartitionMetaData::checkToYield(){
-	if(isSetToYield())
-		return true;
-	// After every loop we check whether have been signaled by the master thread to change our current state
-	if(isSetToWait()){ // Checking if the we have to wait,
-		incrementWaitThreadCount(); // we are waiting for the next signal from the master
-	// if yes then the count of the number of waiting threads is automatically incremented
-	while(isSetToWait()){
-		do_yield_check();
-		usleep(WORKER_THREAD_SLEEP_TIME);
+	bool PartitionMetaData::checkToYield(){
+		if(isSetToYield())
+			return true;
+		// After every loop we check whether have been signaled by the master thread to change our current state
+		if(isSetToWait()){ // Checking if the we have to wait,
+			incrementWaitThreadCount(); // we are waiting for the next signal from the master
+		// if yes then the count of the number of waiting threads is automatically incremented
+		while(isSetToWait()){
+			do_yield_check();
+			usleep(WORKER_THREAD_SLEEP_TIME);
+		}
+		// If we find that the master thread has asked us to terminate then we can simply break
+		if(isSetToTerminate()){
+		// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
+		// count was decremented earlier).
+			decrementWaitThreadCount();
+			return true;
+		}
+			// If we should be working, then lets first decrement the count of the waiting threads
+			decrementWaitThreadCount();
+		}
+		return false;
 	}
-	// If we find that the master thread has asked us to terminate then we can simply break
-	if(isSetToTerminate()){
-	// Before leaving, however, we make sure that the thread count is restored (because of my count the thread
-	// count was decremented earlier).
-		decrementWaitThreadCount();
-		return true;
-	}
-		// If we should be working, then lets first decrement the count of the waiting threads
-		decrementWaitThreadCount();
-	}
-	return false;
-}
-};

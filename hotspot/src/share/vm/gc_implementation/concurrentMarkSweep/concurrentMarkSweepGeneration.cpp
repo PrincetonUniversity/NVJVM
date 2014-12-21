@@ -3790,17 +3790,6 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminator _term;
   CMSConcMarkingTerminatorTerminator _term_term;
 
-  enum MasterThreadState {
-	  INITIAL, // When the grey object count is lesser than threshold
-	  SIGNAL_PEND_MUT, // Signalled the mutator threads to stop
-	  SIGNAL_ACK_MUT, // All the mutator threads have stopped execution
-	  DIRTY_CARD_PROCESSING, // Marks the dirty cards into the grey object counts
-	  MONITORING_GREY_OBJECT_COUNT, // Monitors the grey object count, and if it is zero,
-	  SUSPENDING_COLLECTOR_THREADS, // signals the collector threads to become idle
-	  TERMINATED // When the collector threads are suspended and the grey object count = 0, the master gets terminated and
-	  // simultaneously suspends all the other collector threads, starting the mutator threads
-  };
-
  public:
   void setTaskId(int id){
 	  _taskId = id;
@@ -4209,7 +4198,6 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 	unsigned int sleepTime = 1000 * 10; // sleep time set to 10 milliseconds
 	// 1000 milliseconds is the time when the concurrent threads touch in memory pages
 	unsigned int timeMasterThread = 150;
-	MasterThreadState masterThreadState = INITIAL;
 	int count =0;
 	do{
 		while(SwapMetrics::_shouldWait && AdaptiveGC){

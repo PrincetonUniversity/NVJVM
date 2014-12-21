@@ -9,7 +9,6 @@
 #define UTILITY_H_
 
 #include "swap_global.h"
-#include "SwapManager.h"
 #include <unistd.h>
 #include <sys/mman.h>
 
