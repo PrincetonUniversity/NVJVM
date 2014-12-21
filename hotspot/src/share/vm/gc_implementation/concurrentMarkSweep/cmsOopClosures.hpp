@@ -26,7 +26,6 @@
 #define SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CMSOOPCLOSURES_HPP
 
 #include "memory/genOopClosures.hpp"
-#include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 
 /////////////////////////////////////////////////////////////////
 // Closures used by ConcurrentMarkSweepGeneration's collector
@@ -38,6 +37,7 @@ class CMSCollector;
 class MarkFromRootsClosure;
 class Par_MarkFromRootsClosure;
 class ChunkList;
+class PartitionMetaData;
 
 // Decode the oop and call do_oop on it.
 #define DO_OOP_WORK_DEFN \
