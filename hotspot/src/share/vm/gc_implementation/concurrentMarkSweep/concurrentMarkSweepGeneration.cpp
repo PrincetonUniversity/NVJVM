@@ -8804,7 +8804,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	_partitionMetaData->incrementBytesPage(obj->size()*8);
+	_partitionMetaData->incrementBytesPage(obj->size()*8, _pageIndex);
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
