@@ -3782,6 +3782,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  void getAliveObjectCount();
   void setTaskId(int id){
 	  _taskId = id;
   }
@@ -4498,63 +4499,14 @@ long int CMSConcMarkingTask::getTimeStamp(){
 	return ms;
 }
 
-/*void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
-		CompactibleFreeListSpace* sp;
-		HeapWord* prev_obj;
-		void* pageAddress = _partitionMetaData->getPageBase(startPageIndex);
-		void* pageAddressStart = pageAddress;
-		void* pageAddressEnd = (void *)((HeapWord *)_partitionMetaData->getPageEnd(endPageIndex) + 1);
-		int currentPageIndex = startPageIndex;
-		sp = getSpace(pageAddress);
-		bool currentMarked = false;
-		int _skipbits = 0;
-		HeapWord* curr ;
-		int greyObjectCount =0 ;
-		while(currentPageIndex <= endPageIndex){
-			greyObjectCount += (int)_partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-			pageAddress = (void *)((HeapWord *)pageAddress + _PAGE_SIZE);
-			currentPageIndex++;
-		}
-		_collector->decGreyObj(pageAddressStart, greyObjectCount);
-		MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddressStart),
-				(HeapWord *)pageAddressEnd);
-		span = span.intersection(sp->used_region());
-		if(!span.is_empty()){
-			HeapWord* currPos = sp->block_start_careful(span.start());
-			do{
-			currentMarked = _collector->_markBitMap.isMarked(currPos);
-			if(currentMarked){
-				if(_skipbits > 0){
-					_skipbits--;
-				} else { // _skipbits == 0
-					if((uintptr_t)currPos >= (uintptr_t)span.start()){
-						oop p = oop(currPos);
-						if ((p->klass_or_null() != NULL && p->is_parsable())) {
-							break;
-						}
-					}
-					if(_collector->_markBitMap.isMarked(currPos + 1)){
-							_skipbits = 2;
-					}
-				}
-			}
-			currPos++;
-		}while((uintptr_t)currPos <= (uintptr_t)span.end());
-		prev_obj = currPos;
-			if (prev_obj <= span.end()) {
-				MemRegion my_span = MemRegion(prev_obj, span.end());
-				// Do the marking work within a non-empty span --
-				// the second last argument to the constructor indicates whether the
-				// iteration should be incremental with periodic yields.
-				Par_MarkFromGreyRootsClosure cl(_collector,
-							&_collector->_markBitMap,
-							_collector->getChunkList(),
-							my_span,
-							&_collector->_revisitStack, this, _asynch, false);
-				_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
-			}
-		}
-}*/
+void CMSConcMarkingTask::getAliveObjectCount(){
+	ParMarkBitMap* bitMap = _collector->markBitMap();
+	HeapWord* startAddress = (HeapWord*) _partitionMetaData.getSpanStart();
+	HeapWord* endAddress = (HeapWord*) _partitionMetaData.getSpanLast();
+	AliveObjectCountClosure cl(bitMap, getPartitionMetaData());
+	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
+	cout << "Total Alive Objects::" << _partitionMetaData->getTotalAliveObjects() << endl;
+}
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	CompactibleFreeListSpace* sp;
@@ -5317,6 +5269,8 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
+ MEASUREMENT_MODE(_partitionMetaData->getTotalObjectsScanned();)
+ MEASUREMENT_MODE(tsk.getAliveObjectCount();)
  exit(-1);
  return true;
 }
@@ -8488,33 +8442,64 @@ Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
   assert(_span.contains(_finger), "Out of bounds _finger?");
 }
 
+
+bool AliveObjectCountClosure::do_bit(size_t offset){
+	// convert offset into a HeapWord*
+		HeapWord* addr = _bit_map->startWord() + offset;
+
+		  if (_skip_bits > 0) {
+		    _skip_bits--;
+
+		    return true;
+		  }
+
+		  if (_bit_map->isMarked(addr+1)) {
+		    // this is an allocated object that might not yet be initialized
+
+		    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
+		    oop p = oop(addr);
+		    if(p == NULL){
+		    	cout << p << " is null" << endl;
+		    	exit(-1);
+		    }
+		    if (p->klass_or_null() == NULL || !p->is_parsable()) {
+		      // in the case of Clean-on-Enter optimization, redirty card
+		      // and avoid clearing card by increasing  the threshold.
+		      return true;
+		    }
+		  }
+		  _partitionMetaData->incrementAliveObjectCount();
+		  return true;
+}
+
+
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	// convert offset into a HeapWord*
-	HeapWord* addr = _bit_map->startWord() + offset;
+		HeapWord* addr = _bit_map->startWord() + offset;
 
-	  if (_skip_bits > 0) {
-	    _skip_bits--;
+		  if (_skip_bits > 0) {
+		    _skip_bits--;
 
-	    return true;
-	  }
+		    return true;
+		  }
 
-	  if (_bit_map->isMarked(addr+1)) {
-	    // this is an allocated object that might not yet be initialized
+		  if (_bit_map->isMarked(addr+1)) {
+		    // this is an allocated object that might not yet be initialized
 
-	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
-	    oop p = oop(addr);
-	    if(p == NULL){
-	    	cout << p << " is null" << endl;
-	    	exit(-1);
-	    }
-	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
-	      // in the case of Clean-on-Enter optimization, redirty card
-	      // and avoid clearing card by increasing  the threshold.
-	      return true;
-	    }
-	  }
-	  scan_oops_in_oop(addr);
-	  return true;
+		    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
+		    oop p = oop(addr);
+		    if(p == NULL){
+		    	cout << p << " is null" << endl;
+		    	exit(-1);
+		    }
+		    if (p->klass_or_null() == NULL || !p->is_parsable()) {
+		      // in the case of Clean-on-Enter optimization, redirty card
+		      // and avoid clearing card by increasing  the threshold.
+		      return true;
+		    }
+		  }
+		  scan_oops_in_oop(addr);
+		  return true;
 }
 
 

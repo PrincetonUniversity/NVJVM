@@ -1612,6 +1612,21 @@ class MarkFromRootsClosure: public BitMapClosure {
   void do_yield_work();
 };
 
+class AliveObjectCountClosure: public BitMapClosure {
+	CMSBitMap* 	  _bit_map;
+    int 		  _skip_bits;
+    PartitionMetaData* _partitionMetaData;
+
+public:
+    AliveObjectClosure(CMSBitMap* bit_map, PartitionMetaData* partitionMetaData){
+        	_skip_bits = 0;
+        	_bit_map = bitMap;
+        	_partitionMetaData = partitionMetaData;
+        }
+	bool do_bit(size_t offset);
+    void do_oop();
+};
+
 class Par_MarkFromGreyRootsClosure: public BitMapClosure {
 	CMSCollector* _collector;
 	CMSBitMap* 	  _bit_map;

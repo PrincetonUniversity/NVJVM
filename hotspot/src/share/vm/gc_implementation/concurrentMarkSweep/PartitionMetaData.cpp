@@ -469,6 +469,8 @@
 						_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
 						totalDecrements = 0;
 						_pageOccupancyRatio = (double)PageOccupancyRatio /100;
+						_totalAliveObjects = 0;
+						_totalScannedObjects = 0;
 		}
 
 	void PartitionMetaData::printPartitionAliveObjectCount(){
@@ -790,6 +792,7 @@
 		if(doMark){
 			incrementIndex_Atomic(1, address);
 		}
+		MEASUREMENT_MODE(Atomic::inc(&(_totalScannedObjects));)
 	}
 
 	void PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){

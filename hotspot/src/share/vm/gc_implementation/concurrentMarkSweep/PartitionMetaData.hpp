@@ -14,7 +14,7 @@ class CMSConcMarkingTask;
 #define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
 // that represents that no object start is present on the current page
 #define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
-
+#define MEASUREMENT_MODE(x) x
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
@@ -83,6 +83,8 @@ class PartitionMetaData {
 	CMSConcMarkingTask* _task;
     bool _yield;
     double _pageOccupancyRatio;
+    int _totalScannedObjects;
+    int _totalAliveObjects;
 
 	enum MessageState {
 		WORK = 0,
@@ -200,6 +202,12 @@ public:
 	void setDoyield(bool v) { _yield = v; }
 	void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
 	void markObject(void* address);
+	int getTotalObjectsScanned();
+	void* getSpanStart() { return _span.start(); }
+	void* getSpanLast()  { return _span.end(); }
+	void incrementAliveObjectCount() {_totalAliveObjects++;}
+	int getTotalAliveObjects() { return _totalAliveObjects;}
+	int getTotalObjectsScanned(){ return _totalScannedObjects;}
 };
 
 #endif
