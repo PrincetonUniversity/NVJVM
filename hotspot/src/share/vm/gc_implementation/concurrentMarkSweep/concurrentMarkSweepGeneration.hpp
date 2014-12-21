@@ -47,7 +47,7 @@
 #include <unistd.h>
 #include <vector>
 #include "runtime/SwapMetrics.hpp"
-#include "PartitionMetaData.hpp"
+#include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 
 #define RANDOM 1
 #define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
