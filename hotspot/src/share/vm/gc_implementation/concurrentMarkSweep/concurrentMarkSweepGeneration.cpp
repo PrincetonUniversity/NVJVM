@@ -8452,7 +8452,7 @@ bool AliveObjectCountClosure::do_bit(size_t offset){
 		    }
 		  }
 		  _partitionMetaData->incrementAliveObjectCount();
-		  _partitionMetaData->_totalAliveObjectSize(p->size());
+		  _partitionMetaData->incrementAliveObjectSize(oop(addr)->size());
 		  return true;
 }
 
