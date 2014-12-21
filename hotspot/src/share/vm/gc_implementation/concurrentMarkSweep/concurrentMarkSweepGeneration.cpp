@@ -4500,10 +4500,10 @@ long int CMSConcMarkingTask::getTimeStamp(){
 }
 
 void CMSConcMarkingTask::getAliveObjectCount(){
-	ParMarkBitMap* bitMap = _collector->markBitMap();
-	HeapWord* startAddress = (HeapWord*) _partitionMetaData.getSpanStart();
-	HeapWord* endAddress = (HeapWord*) _partitionMetaData.getSpanLast();
-	AliveObjectCountClosure cl(bitMap, getPartitionMetaData());
+	CMSBitMap* bitMap = _collector->markBitMap();
+	HeapWord* startAddress = (HeapWord*) _partitionMetaData->getSpanStart();
+	HeapWord* endAddress = (HeapWord*) _partitionMetaData->getSpanLast();
+	AliveObjectCountClosure cl(bitMap, _collector->getPartitionMetaData());
 	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
 	cout << "Total Objects Marked::" << _partitionMetaData->getTotalObjectsScanned() << endl;
 	cout << "Total Alive Objects::" << _partitionMetaData->getTotalAliveObjects() << endl;
