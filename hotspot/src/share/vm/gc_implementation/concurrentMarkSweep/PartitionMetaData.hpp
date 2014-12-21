@@ -208,6 +208,7 @@ public:
 	void incrementAliveObjectCount() {_totalAliveObjects++;}
 	int getTotalAliveObjects() { return _totalAliveObjects;}
 	int getTotalObjectsScanned(){ return _totalScannedObjects;}
+	void incrementIndexCount();
 };
 
 #endif

@@ -792,7 +792,7 @@
 		if(doMark){
 			incrementIndex_Atomic(1, address);
 		}
-		MEASUREMENT_MODE(Atomic::inc_ptr((volatile int*)&(_totalScannedObjects));)
+		MEASUREMENT_MODE(incrementIndexCount();)
 	}
 
 	void PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
@@ -849,6 +849,16 @@
 			return (unsigned int)newValue;
 		}
 
+	void PartitionMetaData::incrementIndexCount(){
+		int *position = &(_totalScannedObjects);
+		int value = *position;
+		int newValue = value + 1;
+		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
+				(unsigned int)value) != (unsigned int)value){
+			value = *position;
+			newValue = value + 1;
+		}
+	}
 
 	unsigned int PartitionMetaData::incrementIndex_Atomic(int increment, void *pageAddress){
 		int index = getPartitionIndexFromPageAddress(pageAddress);
