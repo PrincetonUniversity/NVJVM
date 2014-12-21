@@ -4605,91 +4605,24 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		std::vector<int>::iterator it;
 		std::vector<int> pageIndices;
 		int currentPartitionIndex = -1, pageIndex;
-		void* pageAddress;
-		CompactibleFreeListSpace* sp;
-		HeapWord* prev_obj;
-		u_jbyte oldValue;
-		bool isSetToFinalWork;
-		Thread* t = Thread::current();
-		int id = t->osthread()->thread_id();
-		bool wasSleeping = false;
 		while(true){
-
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
 			// Getting the next available partition
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
-			/*if(ConcurrentMarkSweepThread::_numberCollectionsLeft == 1)
-				cout << "Current Partition Index::" << currentPartitionIndex << ", threadId ::" << id <<endl;*/
 			if(currentPartitionIndex == -1){
 				break;
 			}
-
-			if(_partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex) == 0){
-				cout << "the grey object count for current partition :: " << currentPartitionIndex << "is 0" << endl;
-				exit(-1);
-			}
-
 			// The indices of pages that may be scanned in the next iteration
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
-/**
- *  The below condition (where the partition has a non-zero countof grey objects and none of the pages
- *  has a non-zero count of grey objects) can occur because the increment of grey objects is non-atomic.
- *  The partition count of grey objects gets incremented before the page-level count.
- */
-/*#if OCMS_NO_GREY_ASSERT
-			if(pageIndices.size() == 0){
-				printf("Size of pageIndices returned is zero for partition index %d.\n", currentPartitionIndex);
-				printf("Grey Objects for partition = %d.\n", _partitionMetaData->getGreyObjectsChunkLevel(currentPartitionIndex));
-				exit(-1);
-			}
-#endif*/
-			int endIndex=0;
-			int cPage, nPage;
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
-				endIndex = pageIndex;
-				/*while(it<(pageIndices.end()-1)){
-					cPage = *it;
-					nPage = *(it+1);
-					if((cPage+1) == nPage){
-						endIndex=nPage;
-						it++;
-					} else {
-						break;
-					}
-				}
-				if(endIndex != pageIndex){
-					scan_page_range(pageIndex, endIndex);
-				} else {
-					scan_a_page(pageIndex, i);
-				}*/
 				scan_a_page(pageIndex, i);
-				if(EnableMarkCheck){
-					while(pageIndex<=endIndex){
-						check_if_all_alive_page(pageIndex);
-						pageIndex++;
-					}
-				}
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
-			/*int cCount=0; pCounter=0;
-			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
-				if((unsigned int)pCounter==(pageIndices.size()-1))
-					break;
-				cPage = *it;
-				nPage = *(it+1);
-				if((cPage+1)==(nPage))
-					cCount++;
-				pCounter++;
-			}
-			cout << "Continuous Count:" << cCount << ", totalCount:" << pCounter << endl;
-			SwapMetrics::_cPages += cCount;
-			SwapMetrics::_tPages += pCounter;*/
 		}
-//		printf("Yielding from do_scan_and_mark. Id = %d.\n", id);
 }
 
 void PartitionMetaData::do_yield_check(){
@@ -4835,7 +4768,6 @@ void CMSConcMarkingTask::check_if_all_alive_page(int pIndex){
 		}while(true);
 	}
 	_partitionMetaData->pageScanned(pIndex);// marking the page scanned
-//	_partitionMetaData->incrementPagesScanned();
 }
 
 // This method performs scan and marking on a scan chunk region.
