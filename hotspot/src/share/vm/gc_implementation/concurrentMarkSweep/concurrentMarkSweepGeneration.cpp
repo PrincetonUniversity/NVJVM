@@ -5270,7 +5270,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
- MEASUREMENT_MODE(tsk.getAliveObjectCount();)
+ MEASUREMENT_MODE(tsk.getAliveObjectCount(); exit(-1);)
  return true;
 }
 
