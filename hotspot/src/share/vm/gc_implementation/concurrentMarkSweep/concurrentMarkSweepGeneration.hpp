@@ -48,6 +48,7 @@
 #include <vector>
 #include "runtime/SwapMetrics.hpp"
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
+
 #define DEBUG_ST(x)
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
@@ -816,7 +817,6 @@ class CMSCollector: public CHeapObj {
 
   // CMS marking support structures
   CMSBitMap     _markBitMap;
-//  CMSBitMap 	_deadObjBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
