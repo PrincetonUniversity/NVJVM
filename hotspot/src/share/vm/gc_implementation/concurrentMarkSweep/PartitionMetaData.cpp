@@ -242,13 +242,6 @@
 			return partitionSizeBytes;
 		}
 
-		bool PartitionMetaData::shouldCompact(int partitionIndex){
-			int partBytes = getPartitionSizeBytes(partitionIndex);
-			int partBytesAlive = _partitionAliveObjectCount[partitionIndex];
-			double ratio = (double)partBytesAlive/(double)partBytes;
-			return (ratio<0.50);
-		}
-
 		void* PartitionMetaData::getPageEnd(int pageIndex){
 			return ((void *)
 							((uintptr_t)__page_start(_span.start()) +  (uintptr_t)((pageIndex +1) * _PAGE_SIZE) - 1)
@@ -444,12 +437,10 @@
 						_span = span;
 						_numberPartitions = NumberPartitions;
 						_partitionGOC = new int[_numberPartitions];
-						_partitionAliveObjectCount = new int[_numberPartitions];
 						_partitionMap = new jbyte[_numberPartitions];
 						int count;
 						for(count = 0; count < _numberPartitions; count++){
 							_partitionGOC[count] = 0;
-							_partitionAliveObjectCount[count] = 0;
 							_partitionMap[count] = 0;
 						}
 						_numberPages = __numPages(_span.last(), _span.start());
@@ -471,14 +462,6 @@
 						_pageOccupancyRatio = (double)PageOccupancyRatio /100;
 						MEASUREMENT_MODE(_totalAliveObjects = 0; _totalScannedObjects = 0;)
 		}
-
-	void PartitionMetaData::printPartitionAliveObjectCount(){
-		for(int index=0; index<_numberPartitions; index++){
-			if(_partitionAliveObjectCount[index] != 0)
-				printf("PartitionNumber=%d, AliveObjectSize=%lf MB\n",
-						(index+1), ((double)_partitionAliveObjectCount[index]/(1024*1024)));
-		}
-	}
 
 	double PartitionMetaData::averageOccupancyRatio(){
 		double occRatio = 0;
@@ -517,17 +500,11 @@
 		free(_pageGOC);
 		free(_partitionGOC);
 		free(_partitionMap);
-		free(_partitionAliveObjectCount);
 	}
 
 	void PartitionMetaData::resetGOCPartition(){
 	for(int count = 0; count < _numberPartitions; count++)
 		_partitionGOC[count] = 0;
-	}
-
-	void PartitionMetaData::resetAOCPartition(){
-		for(int count=0; count < _numberPartitions; count++)
-		_partitionAliveObjectCount[count] = 0;
 	}
 
 	void PartitionMetaData::resetGOCPage(){
@@ -668,10 +645,6 @@
 		return _partitionGOC[p];
 	}
 
-	int PartitionMetaData::getAliveObjectsChunkLevel(int p){
-		return _partitionAliveObjectCount[p];
-	}
-
 	bool PartitionMetaData::isZero(int pageIndex){
 		char* pageStart = (char *)getPageBase(pageIndex);
 		for(int count = 0; count < _PAGE_SIZE; count++){
@@ -707,13 +680,6 @@
 		int index, sum = 0;
 		for (index = 0; index < _numberPartitions; index++)
 			sum += _partitionGOC[index];
-		return sum;
-	}
-
-	int PartitionMetaData::getTotalAliveObjectsChunkLevel(){
-		int sum = 0;
-		for(int index=0; index < _numberPartitions; index++)
-			sum += _partitionAliveObjectCount[index];
 		return sum;
 	}
 
@@ -820,32 +786,6 @@
 		jubyte *position = &(_pageScanned[pageIndex]);
 		return (*position ==(jubyte)1);
 	}
-
-	unsigned int PartitionMetaData::incrementAliveObjectCount(int increment, void *pageAddress){
-			int index = getPartitionIndexFromPageAddress(pageAddress);
-			int *position = &(_partitionAliveObjectCount[index]);
-			int value = *position;
-			int newValue = value + increment;
-			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-					(unsigned int)value) != (unsigned int)value){
-				value = *position;
-				newValue = value + increment;
-			}
-			return (unsigned int)newValue;
-		}
-
-	unsigned int PartitionMetaData::decrementAliveObjectCount(int decrement, void* pageAddress){
-			int index = getPartitionIndexFromPageAddress(pageAddress);
-			int *position = &(_partitionAliveObjectCount[index]);
-			int value = *position;
-			int newValue = value - decrement;
-			while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-					(unsigned int)value) != (unsigned int)value){
-				value = *position;
-				newValue = value - decrement;
-			}
-			return (unsigned int)newValue;
-		}
 
 	void PartitionMetaData::incrementIndexCount(){
 		int *position = &(_totalScannedObjects);

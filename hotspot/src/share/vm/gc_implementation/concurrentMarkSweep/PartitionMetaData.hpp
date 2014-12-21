@@ -70,7 +70,6 @@ class PartitionMetaData {
 	jubyte* _pageScanned;
 	int* _partitionGOC;
 	int* _bytesOccupiedPage;
-	int* _partitionAliveObjectCount;
 	int _numberPartitions;
 	MemRegion _span;
 	int _partitionSize;
