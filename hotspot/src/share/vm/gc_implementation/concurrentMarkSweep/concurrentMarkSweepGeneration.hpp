@@ -49,53 +49,6 @@
 #include "runtime/SwapMetrics.hpp"
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 
-#define RANDOM 1
-#define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
-// that represents that no object start is present on the current page
-#define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
-
-
-#define __u_pageBase(p) \
-	Universe::getPageBaseFromIndex(p)
-
-#define __u_inc(p) \
-	Universe::incrementGreyObjectCount_Atomic(p)
-
-#define __u_dec(p) \
-	Universe::decrementGreyObjectCount_Atomic(p)
-
-#define __u_clear(p, q) \
-	Universe::clearGreyObjectCount_Atomic(p, q)
-
-#define __u_goc(p) \
-	Universe::getGreyObjectCount(p)
-
-#define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
-
-#define __page_start(p) \
-	(void *)((long)p & (~(_PAGE_SIZE-1)))
-
-#define __page_start_long(p) \
-	((long)p & (~(_PAGE_SIZE-1)))
-
-#define __page_end(p) \
-	(void *)((long)p | ((_PAGE_SIZE-1)))
-
-#define __in_core(p) \
-		isInCore(p)
-
-#define __pageIndex(p) \
-	Universe::getPageIndex(p)
-
-#define __numPages(top, bot) \
-		(((uintptr_t)__page_start(top) - (uintptr_t)__page_start(bot))/(_PAGE_SIZE)) + 1
-
-#define __t_id() \
-	Thread::current()->osthread()->thread_id()
-
-#define _pm_ \
-	getPartitionMetaData()
-
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -122,6 +75,7 @@ class ChunkListPolicy;
 class ChunkList;
 class ScanChunk;
 class CMSConcSweepingTask;
+class PartitionMetaData;
 
 // A generic CMS bit map. It's the basis for both the CMS marking bit map
 // as well as for the mod union table (in each case only a subset of the
