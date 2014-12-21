@@ -1618,11 +1618,11 @@ class AliveObjectCountClosure: public BitMapClosure {
     PartitionMetaData* _partitionMetaData;
 
 public:
-    AliveObjectClosure(CMSBitMap* bit_map, PartitionMetaData* partitionMetaData){
+    AliveObjectCountClosure(CMSBitMap* bitMap, PartitionMetaData* partitionMetaData){
         	_skip_bits = 0;
         	_bit_map = bitMap;
         	_partitionMetaData = partitionMetaData;
-        }
+    }
 	bool do_bit(size_t offset);
     void do_oop();
 };

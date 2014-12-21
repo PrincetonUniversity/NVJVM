@@ -202,7 +202,6 @@ public:
 	void setDoyield(bool v) { _yield = v; }
 	void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
 	void markObject(void* address);
-	int getTotalObjectsScanned();
 	void* getSpanStart() { return _span.start(); }
 	void* getSpanLast()  { return _span.end(); }
 	void incrementAliveObjectCount() {_totalAliveObjects++;}
