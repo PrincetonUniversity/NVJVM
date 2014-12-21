@@ -5271,7 +5271,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
  MEASUREMENT_MODE(tsk.getAliveObjectCount();)
- exit(-1);
  return true;
 }
 
@@ -8540,6 +8539,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
+	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
 	do_yield_check();
 	do_throttle_check();
 }
