@@ -1747,7 +1747,6 @@ void CMSCollector::collect(bool   full,
     compute_new_size();
     return;
   }
-  DEBUG_st(printf("GC_locker is active false. Calling acquire_control_and_collect().\n");)
   acquire_control_and_collect(full, clear_all_soft_refs);
   _full_gcs_since_conc_gc++;
 
@@ -1836,7 +1835,6 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
-  DEBUG_ST(cout << "In acquire_control_and_collect" << endl;)
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
