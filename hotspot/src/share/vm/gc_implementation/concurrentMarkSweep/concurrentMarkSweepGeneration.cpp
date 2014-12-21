@@ -1747,9 +1747,7 @@ void CMSCollector::collect(bool   full,
     compute_new_size();
     return;
   }
-
-  printf("GC_locker is active false. Calling acquire_control_and_collect().\n");
-
+  DEBUG_st(printf("GC_locker is active false. Calling acquire_control_and_collect().\n");)
   acquire_control_and_collect(full, clear_all_soft_refs);
   _full_gcs_since_conc_gc++;
 
@@ -1838,9 +1836,7 @@ void CMSCollector::request_full_gc(unsigned int full_gc_count) {
 
 void CMSCollector::acquire_control_and_collect(bool full,
         bool clear_all_soft_refs) {
-
-	cout << "In acquire_control_and_collect" << endl;
-
+  DEBUG_ST(cout << "In acquire_control_and_collect" << endl;)
   assert(SafepointSynchronize::is_at_safepoint(), "should be at safepoint");
   assert(!Thread::current()->is_ConcurrentGC_thread(),
          "shouldn't try to acquire control from self!");
@@ -1867,9 +1863,7 @@ void CMSCollector::acquire_control_and_collect(bool full,
   // We need to lock the Free list lock for the space that we are
   // currently collecting.
   assert(haveFreelistLocks(), "Must be holding free list locks");
-  cout << "Before BitMap Lock" << endl;
   bitMapLock()->unlock();
-  cout << "Before Free List Locks" << endl;
   releaseFreelistLocks();
   {
     MutexLockerEx x(CGC_lock, Mutex::_no_safepoint_check_flag);
@@ -1940,7 +1934,6 @@ NOT_PRODUCT(
       gclog_or_tty->print(" (concurrent mode failure)");
     }
   }
-  cout << "should_compact::" << should_compact << endl;
   if (should_compact) {
     // If the collection is being acquired from the background
     // collector, there may be references on the discovered
@@ -3473,7 +3466,6 @@ bool CMSCollector::markFromRoots(bool asynch) {
   check_correct_thread_executing();
   verify_overflow_empty();
 
-  cout << "In mark from roots : asynch = " << asynch << endl;
   bool res;
   if (asynch) {
 

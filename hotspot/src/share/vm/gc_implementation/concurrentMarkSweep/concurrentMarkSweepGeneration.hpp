@@ -48,6 +48,7 @@
 #include <vector>
 #include "runtime/SwapMetrics.hpp"
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
+#define DEBUG_ST(x)
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
