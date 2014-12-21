@@ -26,6 +26,7 @@
 #define SHARE_VM_GC_IMPLEMENTATION_CONCURRENTMARKSWEEP_CMSOOPCLOSURES_HPP
 
 #include "memory/genOopClosures.hpp"
+#include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 
 /////////////////////////////////////////////////////////////////
 // Closures used by ConcurrentMarkSweepGeneration's collector

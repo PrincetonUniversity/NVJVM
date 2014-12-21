@@ -893,10 +893,6 @@ class CMSCollector: public CHeapObj {
 	  return &(_modUnionTable);
   }
 
-  unsigned int clearGreyObjCountPage(void *addr){
-	  return _partitionMetaData->clearGreyObjectCount_Page(addr);
-  }
-
   unsigned int incGreyObjPage(void *addr, int count){
  	  return _partitionMetaData->incrementIndex_AtomicPage(count, addr);
    }
