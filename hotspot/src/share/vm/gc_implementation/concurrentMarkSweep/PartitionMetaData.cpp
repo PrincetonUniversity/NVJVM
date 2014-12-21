@@ -438,31 +438,6 @@
 				return pageIndex;
 			}
 
-			// This method tries to get a high priority page from the set of subsequent partitions.
-			// If, all the pages have zero grey object counts, then the page index returned would be -1.
-			// Currently, the stopping condition for the thread is set to be the case when it has scanned
-			//	all the partitions and has not found a single page with a non zero count.
-				int PartitionMetaData::getPageFromNextPartitionNoMinCore(int currentPartition){
-					int partitionIndex = currentPartition, pageIndex = -1;
-					int partitionsScanned = 0;
-					while(pageIndex ==  -1 && partitionsScanned < _numberPartitions){
-						partitionIndex = nextPartitionIndex(partitionIndex);
-			// If I become the owner of the current partition --> then I can scan for pages within the
-			// current partition else I move on to the next partition.
-						if(markAtomic(partitionIndex)){
-				// We first try and get a high priority page(essentially a page with a non zero grey object count).
-						  pageIndex = getHighPriorityPageNoMinCore(partitionIndex);
-				// If there is no page with a non zero count, then we skip the partition
-						  if(pageIndex == -1){
-				// Before skipping the partition, we clear the boolean flag for it.
-							clearAtomic(partitionIndex);
-						  }
-						}
-						partitionsScanned++;
-					}
-					return pageIndex;
-				}
-
 	PartitionMetaData::PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
 						setDoPrint(false);
 						_collector = cmsCollector;
@@ -478,12 +453,12 @@
 							_partitionMap[count] = 0;
 						}
 						_numberPages = __numPages(_span.last(), _span.start());
-						_pageGOC = new int[_numberPages];
+						_pageGOC = new bool[_numberPages];
 						_bytesOccupiedPage = new int[_numberPages];
 						_pageScanned = new jubyte[_numberPages];
 						_pageStart = new jshort[_numberPages];
 						for(count = 0; count < _numberPages; count++){
-										_pageGOC[count] = 0;
+										_pageGOC[count] = false;
 										_pageScanned[count] = 0;
 										_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
 										_bytesOccupiedPage[count] = 0;
@@ -556,7 +531,7 @@
 
 	void PartitionMetaData::resetGOCPage(){
 		for(int count = 0; count < _numberPages; count++){
-			_pageGOC[count] = 0;
+			_pageGOC[count] = false;
 		}
 	}
 
@@ -810,16 +785,29 @@
 		return partitionIndex;
 	}
 
-	unsigned int PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
-		int index = getPageIndexFromPageAddress(pageAddress);
-		int* position = &(_pageGOC[index]);
-		int value = *position;
-		int newValue = 0;
-		while(Atomic::cmpxchg((unsigned int)newValue, (unsigned int*)position,
-				(unsigned int)value) != (unsigned int)value){
-			value = *position;
+	void PartitionMetaData::markObject(void* address){
+		bool doMark = markGreyObject_Page(address);
+		if(doMark){
+			incrementIndex_Atomic(1, address);
 		}
-		return (unsigned int)value;
+	}
+
+	void PartitionMetaData::clearGreyObjectCount_Page(void *pageAddress){
+		int index = getPageIndexFromPageAddress(pageAddress);
+		_pageGOC[index] = false;
+	}
+
+	void PartitionMetaData::clearPage(void* pageAddress){
+		clearGreyObjectCount_Page(pageAddress);
+		decrementIndex_Atomic(1, pageAddress);
+	}
+
+	// If markGreyObject_Page returns true then I have marked the first grey object on the page and therefore the partition count must increase
+	bool PartitionMetaData::markGreyObject_Page(void *pageAddress){
+		int index = getPageIndexFromPageAddress(pageAddress);
+		jbyte newValue = 1, oldValue = 0;
+		jbyte retValue = Atomic::cmpxchg(newValue, (volatile jbyte*)_pageGOC[index], oldValue);
+		return (retValue == oldValue);
 	}
 
 	void PartitionMetaData::pageScanned(int pageIndex){
@@ -833,7 +821,6 @@
 	}
 
 	unsigned int PartitionMetaData::incrementIndex_AtomicPage(int increment, void *pageAddress){
-		increaseBy(increment);
 		int index = getPageIndexFromPageAddress(pageAddress);
 		int* position = &(_pageGOC[index]);
 		int value = *position;

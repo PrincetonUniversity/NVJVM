@@ -55,6 +55,7 @@ private:
   CMSBitMap*      _bitMap;
   ChunkList* _chunkList;
   CMSCollector* _collector;
+  PartitionMetaData* _partitionMetaData;
 
 protected:
   DO_OOP_WORK_DEFN
@@ -355,6 +356,7 @@ private:
 	CMSBitMap* _bit_map;
 	ChunkList* _chunk_list;
 	CMSCollector* _collector;
+	PartitionMetaData* _partitionMetaData;
 
 protected:
 	DO_OOP_WORK_DEFN

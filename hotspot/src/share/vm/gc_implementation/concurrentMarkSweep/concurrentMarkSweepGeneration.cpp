@@ -4557,25 +4557,12 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
-	Thread* t = Thread::current();
-	int id = t->osthread()->thread_id();
-	bool doThrottle = (taskId>1);// 0 is master, 1 is the first worker
-	void* pageAddress;
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
-	u_jbyte oldValue;
-	// Getting the partitionIndex for the pageIndex we got, so that it can be cleared later on
-	pageAddress = _partitionMetaData->getPageBase(pageIndex);
-// On acquiring a page we clear the grey object count on the page
-// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
-	oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-// On clearing the page level grey object count the chunk level grey object count gets decrement
-	_collector->decGreyObj(pageAddress, (int)oldValue);
-	// Getting the space wherein the page lies
+	void* pageAddress = _partitionMetaData->getPageBase(pageIndex);
+	_partitionMetaData->clearPage(pageAddress);
 	sp = getSpace(pageAddress);
-	// The memory region containing the
-	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress),
-			(HeapWord *)Utility::getPageEnd(pageAddress)+1);
+	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress), (HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
 	if(!span.is_empty()){
 		bool currentMarked = false;
@@ -4609,8 +4596,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 						&_collector->_markBitMap,
 						_collector->getChunkList(),
 						my_span,
-						&_collector->_revisitStack, this, _asynch, doThrottle, pageIndex);
-
+						&_collector->_revisitStack, this, _asynch, false, pageIndex);
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		}
 	}
@@ -5529,7 +5515,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   size_t gCount = _partitionMetaData->getTotalGreyObjectsPageLevel();
   int activeWorkers = conc_workers()->active_workers();
   printf("Grey Object Count = %d. Active Workers = %d.\n", gCount, activeWorkers);
-//  tsk.getMetrics()->print_on();
   printf("Is Task Completed %d.\n", tsk.completed());
   if((activeWorkers == 0) && (gCount > 0)){
 	  printf("Something is not right.\n");
@@ -7960,7 +7945,7 @@ MarkRefsAndUpdateChunkTableClosure::MarkRefsAndUpdateChunkTableClosure(
 				_chunkList(chunkList),
 				_collector(collector)
 {
-
+	_partitionMetaData = _collector->getPartitionMetaData();
 }
 
 // Single threaded marking
@@ -7983,10 +7968,7 @@ void MarkRefsAndUpdateChunkTableClosure::do_oop(oop obj) {
 // The counter for the chunk is increased before the counter for the individual page. This is because the
 // decrements for the chunk counts are preceeded by a read on the individual page count. Therefore, if the page
 // count gets incremented before there can be a condition wherein the chunk level count may become negative.
-		  _collector->incGreyObj(addr, 1);
-  		  // Incrementing the count for each individual page
-		  _collector->incGreyObjPage(addr, 1);
-//		  _collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+		  _partitionMetaData->markObject(addr);
 	  }
   }
 }
@@ -9121,9 +9103,9 @@ Par_GreyMarkClosure::Par_GreyMarkClosure(MemRegion memRegion,
 {
 	_whole_span = memRegion;
 	_bit_map = bitMap;
-
 	_chunk_list = chunkList;
 	_collector = collector;
+	_partitionMetaData = _collector->getPartitionMetaData();
 }
 
 void Par_GreyMarkClosure::do_oop(oop* p)       { Par_GreyMarkClosure::do_oop_work(p); }
@@ -9143,12 +9125,7 @@ void Par_GreyMarkClosure::do_oop(oop obj) {
 		if(!_bit_map->isMarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(_bit_map->par_mark(addr)){
-// Incrementing the chunk level grey object count
-				_collector->incGreyObj(addr, 1);
-// Increasing the page level grey object count
-//				 u_jbyte value = __u_inc(addr);
-				_collector->incGreyObjPage(addr, 1);
-//				_collector->getPartitionMetaData()->objectAllocatedCMSSpace(addr);
+				_partitionMetaData->markObject((void*)obj);
 			}
 		}
 	} // If the referenced object is outside the whole span it is not collected by the CMS Collector

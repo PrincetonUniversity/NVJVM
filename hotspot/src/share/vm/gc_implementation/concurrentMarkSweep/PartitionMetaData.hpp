@@ -65,7 +65,7 @@ class PartitionMetaData {
 	int totalDecrements;
 	int totalIncrements;
 	jshort* _pageStart;
-	int* _pageGOC;
+	bool* _pageGOC;
 	jubyte* _pageScanned;
 	int* _partitionGOC;
 	int* _bytesOccupiedPage;
@@ -145,7 +145,6 @@ public:
 	std::vector<int> toSweepPageList(int currentPartition, int *inCoreCount);
 	std::vector<int> toScanPageList(int currentPartition, bool finalWork);
 	int getPageFromNextPartition(int currentPartition);
-	int getPageFromNextPartitionNoMinCore(int currentPartition);
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span);
 	void printPartitionAliveObjectCount();
 	double averageOccupancyRatio();
@@ -185,7 +184,9 @@ public:
 	int getMin(int a, int b);
 	int getPartitionIndexFromPage(int pageIndex);
 	int getPartitionIndexFromPageAddress(void *pageAddress);
-	unsigned int clearGreyObjectCount_Page(void *pageAddress);
+	void clearGreyObjectCount_Page(void* pageAddress);
+	void clearPage(void* pageAddress);
+	bool markGreyObject_Page(void* pageAddress);
 	void pageScanned(int pageIndex);
 	bool isPageScanned(int pageIndex);
 	unsigned int incrementIndex_AtomicPage(int increment, void *pageAddress);
@@ -200,6 +201,7 @@ public:
 	int getPartition(int currentPartition);
 	void setDoyield(bool v) { _yield = v; }
 	void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
+	void markObject(void* address);
 };
 
 #endif
