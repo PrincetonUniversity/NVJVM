@@ -460,7 +460,9 @@
 						_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
 						totalDecrements = 0;
 						_pageOccupancyRatio = (double)PageOccupancyRatio /100;
-						MEASUREMENT_MODE(_totalAliveObjects = 0; _totalScannedObjects = 0;)
+						_totalAliveObjects = 0;
+						_totalScannedObjects = 0;
+						_totalAliveObjectSize = 0;
 		}
 
 	double PartitionMetaData::averageOccupancyRatio(){
@@ -533,11 +535,6 @@
 			for (index = 0; index < _numberPages; index++){
 				sum += _pageGOC[index];
 			}
-
-#if	OCMS_NO_GREY_LOG_HIGH
-			printf("Total Increments %d, Decrements %d.\n", totalIncrements, totalDecrements);
-#endif
-
 			return sum;
 	}
 

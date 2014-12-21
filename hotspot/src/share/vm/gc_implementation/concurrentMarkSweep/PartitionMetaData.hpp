@@ -85,6 +85,7 @@ class PartitionMetaData {
     double _pageOccupancyRatio;
     int _totalScannedObjects;
     int _totalAliveObjects;
+    long int _totalAliveObjectSize;
 
 	enum MessageState {
 		WORK = 0,
@@ -208,6 +209,8 @@ public:
 	int getTotalAliveObjects() { return _totalAliveObjects;}
 	int getTotalObjectsScanned(){ return _totalScannedObjects;}
 	void incrementIndexCount();
+	void incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }
+	long int getAliveObjectSize() { return _totalAliveObjectSize; }
 };
 
 #endif
