@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
+#include <vector>
 
 #define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
 // that represents that no object start is present on the current page
