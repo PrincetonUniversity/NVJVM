@@ -5218,11 +5218,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   _partitionMetaData->setDoyield(asynch);
   _partitionMetaData->setCMSTask(&tsk);
   _partitionMetaData->clearBytesOccupiedPerPage();
-
-#if OCMS_NO_GREY_LOG
-  printf("Creation of CMSConcMarkingTask Done.\n");
-#endif
-
   // Since the actual number of workers we get may be different
   // from the number we requested above, do we need to do anything different
   // below? In particular, may be we need to subclass the SequantialSubTasksDone
@@ -5234,10 +5229,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(!ref_processor()->discovery_is_atomic(), "Should be non-atomic");
   assert(ref_processor()->discovery_is_mt(), "Discovery should be MT");
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
-
-#if OCMS_NO_GREY_LOG
-  printf("Initializing the concurrent marking task.\n");
-#endif
 
   // Get the workers going again
   	Thread* t = Thread::current();
@@ -5325,6 +5316,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
+ exit(-1);
  return true;
 }
 
