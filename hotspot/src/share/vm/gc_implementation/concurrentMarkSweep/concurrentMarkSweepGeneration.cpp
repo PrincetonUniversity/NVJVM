@@ -4275,11 +4275,6 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 						_partitionMetaData->setToWorkFinal();
 					}
 				}
-				if(loopCount > 1000){
-					printf("Grey Object Count = %d.\n", _partitionMetaData->getTotalGreyObjectsChunkLevel());
-					loopCount = 0;
-				}
-
 				// This is for debugging
 					newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
 					_partitionMetaData->setDoPrint(oldCount==newCount);
