@@ -757,6 +757,8 @@ class PartitionMetaData : public CHeapObj {
 	jubyte* _pageScanned;
 // Keeps a track of the number of the grey object count per partition
 	int* _partitionGOC;
+// Bytes occupied on a page
+	int* _bytesOccupiedPage;
 // Keeps a track of the number of alive objects present per partition
 	int* _partitionAliveObjectCount;
 // Total number of partitions
@@ -1158,7 +1160,7 @@ public:
 				}
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
-					if(shouldSweepScanPage(index) && !isPageScanned(index)){
+					if(shouldScanPage(index) && !isPageScanned(index)){
 						if((vec[count] & 1) == 1)
 							pageIndices.push_back(index);
 						else
@@ -1307,12 +1309,14 @@ public:
 		}
 		_numberPages = __numPages(_span.last(), _span.start());
 		_pageGOC = new jubyte[_numberPages];
+		_bytesOccupiedPage = new int[_numberPages];
 		_pageScanned = new jubyte[_numberPages];
 		_pageStart = new jshort[_numberPages];
 		for(count = 0; count < _numberPages; count++){
 						_pageGOC[count] = 0;
 						_pageScanned[count] = 0;
 						_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
+						_bytesOccupiedPage[count] = 0;
 		}
 		_partitionSize = (int)_numberPages/_numberPartitions;
 		_idleThreadCount[0] = 0;
@@ -1330,6 +1334,39 @@ public:
 				printf("PartitionNumber=%d, AliveObjectSize=%lf MB\n",
 						(index+1), ((double)_partitionAliveObjectCount[index]/(1024*1024)));
 		}
+	}
+
+	double averageOccupancyRatio(){
+		double occRatio = 0;
+		for(int count = 0; count < _numberPages; count++){
+			occRatio += ((double)_bytesOccupiedPage[count]) / _PAGE_SIZE;
+		}
+		return occRatio/_numberPages;
+	}
+
+	bool shouldScanPage(int pageIndex){
+		double ratio = ((double)_bytesOccupiedPage[pageIndex]) / _PAGE_SIZE;
+		return (ratio < 0.75);
+	}
+
+	void incrementBytesPage(int size, int pageIndex){
+		_bytesOccupiedPage[pageIndex] += size;
+	}
+
+	void clearBytesOccupiedPerPage(){
+		for(int count = 0; count < _numberPages; count++){
+			_bytesOccupiedPage[count] = 0;
+		}
+	}
+
+	void printRatioOfBytesPerPage(){
+		for(int count =0; count < _numberPages; count++){
+			cout << "PageIndex = " << count << ", Ratio = " << ((double)_bytesOccupiedPage[count]/_PAGE_SIZE) << endl;
+		}
+	}
+
+	void clearBytesPerPage(int pageIndex){
+		_bytesOccupiedPage[pageIndex] = 0;
 	}
 
 	~PartitionMetaData(){
@@ -2678,11 +2715,14 @@ class Par_MarkFromGreyRootsClosure: public BitMapClosure {
     CMSConcMarkingTask* _task;
     bool _yield;
     bool _do_throttle;
+    int _pageIndex;
+    PartitionMetaData* _partitionMetaData;
 
 public:
     Par_MarkFromGreyRootsClosure(CMSCollector* collector, CMSBitMap* bit_map,
     		ChunkList *chunkList,
-    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task, bool should_yield, bool do_throttle=false);
+    		MemRegion span, CMSMarkStack* revisit_stack, CMSConcMarkingTask* task,
+    		bool should_yield, bool do_throttle=false, int pageIndex = 0);
     bool do_bit(size_t offset);
     CMSBitMap* getBitMap(){
     	return _bit_map;

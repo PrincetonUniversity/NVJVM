@@ -2015,7 +2015,7 @@ void CMSCollector::decide_foreground_collection_type(
     _cmsGen->set_incremental_collection_failed();
   }
   *should_compact =
-    UseCMSCompactAtFullCollection &&
+		  UseCMSCompactAtFullCollection &&
     ((_full_gcs_since_conc_gc >= CMSFullGCsBeforeCompaction) ||
      GCCause::is_user_requested_gc(gch->gc_cause()) ||
      gch->incremental_collection_will_fail(true /* consult_young */));
@@ -4403,13 +4403,6 @@ void CMSConcSweepingTask::work(int i){
 // -- Terminate and return result
 //
 void CMSConcMarkingTask::work(int i) {
-//	cout << "Before thread loop" << endl;
-//	/while(true);
-
-#if OCMS_NO_GREY_LOG
-	printf("Starting CMSConcMarkingTask with id %d.\n", i);
-	printf("Master Thread Id = %d.", _MasterThreadId);
-#endif
 
   if(i == 0){
 	  // Implementing the code for the master thread
@@ -4591,18 +4584,9 @@ void CMSConcMarkingTask::scan_page_range(int startPageIndex, int endPageIndex){
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
-
 	Thread* t = Thread::current();
 	int id = t->osthread()->thread_id();
 	bool doThrottle = (taskId>1);// 0 is master, 1 is the first worker
-#if OCMS_NO_GREY_ASSERT
-	if(_partitionMetaData->getGreyCount(pageIndex) == 0){
-		printf("Before .... Something is wrong. Grey Object Count = 0, "
-				"on the page (%u, partition index = %u, id = %u) being scanned.\n", pageIndex,
-				_partitionMetaData->getPartitionIndexFromPage(pageIndex), __t_id());
-		exit (-1);
-	}
-#endif
 	void* pageAddress;
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
@@ -4612,12 +4596,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 // On acquiring a page we clear the grey object count on the page
 // In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	oldValue = _partitionMetaData->clearGreyObjectCount_Page(pageAddress);
-#if OCMS_NO_GREY_ASSERT
-	if(oldValue == 0){
-		printf("Something is wrong. Grey Object Count = 0, on the page (%u) being scanned.", pageIndex);
-		exit (-1);
-	}
-#endif
 // On clearing the page level grey object count the chunk level grey object count gets decrement
 	_collector->decGreyObj(pageAddress, (int)oldValue);
 	// Getting the space wherein the page lies
@@ -4627,17 +4605,10 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 			(HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
 	if(!span.is_empty()){
-// One of questions that we need to get an answer to is the number of extra pages this can touch
-// (getting the start of the object).
-		// We figure out the first object on the page using the markBitMap
 		bool currentMarked = false;
 		int _skipbits = 0;
 		HeapWord* curr ;
-//		printf("before getting starting address, %ld milliseconds, page index = %d"
-//				", currPos = %p, page address = %p\n", getTimeStamp(), pageIndex, currPos, pageAddress);
 		HeapWord* currPos = sp->block_start_careful(span.start());
-		if(_partitionMetaData->getDoPrint())
-			cout << "curr pos:" << currPos << ", pageAddress:" << pageAddress << endl;
 		do{
 			currentMarked = _collector->_markBitMap.isMarked(currPos);
 			if(currentMarked){
@@ -4658,49 +4629,16 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 			currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
-//		prev_obj = (HeapWord*)_partitionMetaData->objectStartAddress(pageIndex);// prevObj is the page base currently
-
-		// This is the case when prev_obj is the second bit of an un-initialized object
-		/*if(_partitionMetaData->liesInMatureSpace((void *)(prev_obj-1)) &&
-				_collector->_markBitMap.isMarked(prev_obj-1) &&
-				_collector->_markBitMap.isMarked(prev_obj)){
-			while((prev_obj <= span.end()) && _collector->_markBitMap.isMarked(prev_obj) == false){
-				prev_obj++;
-			}
-			prev_obj++;
-		}
-		// This is the case when prev_obj is the first bit of an un-initialized object - do nothing
-		else if(_collector->_markBitMap.isMarked(prev_obj+1) && _collector->_markBitMap.isMarked(prev_obj)){
-			prev_obj = prev_obj;
-		}
-		else{
-			curr = prev_obj;
-			// What if prev_obj is not marked and is in the middle of an un-initialized object
-			do{
-			 curr--;
-			}while(_partitionMetaData->liesInMatureSpace((void *)curr) && _collector->_markBitMap.isMarked(curr) == false);
-			if(_partitionMetaData->liesInMatureSpace((void *)(curr-1)) && _collector->_markBitMap.isMarked(curr-1) == true){
-				while((prev_obj < span.end()) && _collector->_markBitMap.isMarked(prev_obj) == false)
-					prev_obj++;
-				prev_obj++;
-			}
-		}*/
-
 		if (prev_obj <= span.end()) {
+			_partitionMetaData->clearBytesPerPage(pageIndex);
 			MemRegion my_span = MemRegion(prev_obj, span.end());
-			// Do the marking work within a non-empty span --
-			// the last argument to the constructor indicates whether the
-			// iteration should be incremental with periodic yields.
 			Par_MarkFromGreyRootsClosure cl(_collector,
 						&_collector->_markBitMap,
 						_collector->getChunkList(),
 						my_span,
-						&_collector->_revisitStack, this, _asynch, doThrottle);
+						&_collector->_revisitStack, this, _asynch, doThrottle, pageIndex);
 
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
-
-//	  Special case handling the my_span.end(), which does not get iterated
-//			handleOop(my_span.end(), &cl);
 		}
 	}
 }
@@ -5523,7 +5461,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   _partitionMetaData->setDoyield(asynch);
   _partitionMetaData->setCMSTask(&tsk);
-
+  _partitionMetaData->clearBytesOccupiedPerPage();
 
 #if OCMS_NO_GREY_LOG
   printf("Creation of CMSConcMarkingTask Done.\n");
@@ -5628,9 +5566,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
 #endif
 
+  cout << "Average Occupancy Ratio :: " << _partitionMetaData->averageOccupancyRatio();
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
+ exit (-1);
  return true;
 }
 
@@ -8764,7 +8704,8 @@ bool ClearDirtyCardClosure::do_bit(size_t offset){
 
 Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 		CMSCollector* collector, CMSBitMap* bit_map,
-		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task, bool shouldYield, bool doThrottle){
+		ChunkList *chunkList, MemRegion span, CMSMarkStack* revisit_stack,  CMSConcMarkingTask* task,
+		bool shouldYield, bool doThrottle, int pageIndex){
 	_task = task;
 	_collector = collector;
 	_bit_map = bit_map;
@@ -8774,6 +8715,8 @@ Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 	_revisit_stack = revisit_stack;
 	_yield = shouldYield;
 	_do_throttle = doThrottle;
+	_pageIndex = pageIndex;
+	_partitionMetaData = _collector->getPartitionMetaData();
 }
 
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
@@ -8861,6 +8804,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
+	_partitionMetaData->incrementBytesPage(obj->size()*8);
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
