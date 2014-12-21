@@ -2103,7 +2103,6 @@ void CMSCollector::do_compaction_work(bool clear_all_soft_refs) {
   }
 
   cout << "Invoking the Generational Mark Sweep Compaction Algorithm " << endl;
-  getPartitionMetaData()->resetAOCPartition(); // Reset the count of alive objects per partition
   GenMarkSweep::setPartitionMetaData(getPartitionMetaData()); // setting the partitionMetaData in GenerationalMarkSweep
   GenMarkSweep::invoke_at_safepoint(_cmsGen->level(), ref_processor(), clear_all_soft_refs); //Invoking the Generational Mark Sweep Compaction
 
