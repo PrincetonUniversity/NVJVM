@@ -125,13 +125,7 @@ void ConcurrentMarkSweepThread::run() {
   while (!_should_terminate) {
     sleepBeforeNextCycle();
     if (_should_terminate) break;
-    //if(Universe::isGCSignalled){
-    	//if(_numberCollectionsLeft>0){
-    		//cout << "Calling collect_in_background isGCSignalled =  "<< Universe::isGCSignalled << endl;
     	_collector->collect_in_background(false);  // !clear_all_soft_refs
-    		//_numberCollectionsLeft--;
-    	//}
-    //}
   }
   assert(_should_terminate, "just checking");
   // Check that the state of any protocol for synchronization
@@ -318,7 +312,7 @@ void ConcurrentMarkSweepThread::sleepBeforeNextCycle() {
       wait_on_cms_lock(CMSWaitDuration);
     }
     // Check if we should start a CMS collection cycle
-    if (false && _collector->shouldConcurrentCollect()) {
+    if (doBackGroundCollection && _collector->shouldConcurrentCollect()) {
       return;
     }
     // .. collection criterion not yet met, let's go back

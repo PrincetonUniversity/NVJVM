@@ -450,6 +450,8 @@ class CommandLineFlags {
   experimental(bool, UnlockExperimentalVMOptions, false,                    \
           "Enable normal processing of flags relating to experimental features")\
                                                                             \
+  product(bool, doBackGroundCollection, true,								\
+    "flag that specifies whether background collection has to be enabled")	\
   product(intx, PageOccupancyRatio, 0.75, "") 								\
   product(bool, EnableDynamicWait, false, "") 								\
   product(bool, EnableMarkCheck, false,										\
