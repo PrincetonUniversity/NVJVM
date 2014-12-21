@@ -781,6 +781,7 @@ class PartitionMetaData : public CHeapObj {
 	int _garbageChunks;
 	CMSConcMarkingTask* _task;
     bool _yield;
+    double _pageOccupancyRatio;
 
 // Message States Used
 	enum MessageState {
@@ -1323,9 +1324,7 @@ public:
 		setToWork();
 		_numberCollectorThreads = ConcGCThreads - 1; // One of the conc GC thread is used as a master thread
 		totalDecrements = 0;
-#if	OCMS_NO_GREY_LOG
-		printf("Number of collector threads = %d.\n", _numberCollectorThreads);
-#endif
+		_pageOccupancyRatio = (double)PageOccupancyRatio /100;
 	}
 
 	void printPartitionAliveObjectCount(){
@@ -1346,7 +1345,7 @@ public:
 
 	bool shouldScanPage(int pageIndex){
 		double ratio = ((double)_bytesOccupiedPage[pageIndex]) / _PAGE_SIZE;
-		return (ratio < 0.75);
+		return (ratio < _pageOccupancyRatio);
 	}
 
 	void incrementBytesPage(int size, int pageIndex){

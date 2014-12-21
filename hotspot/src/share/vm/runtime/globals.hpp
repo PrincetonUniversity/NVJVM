@@ -450,7 +450,8 @@ class CommandLineFlags {
   experimental(bool, UnlockExperimentalVMOptions, false,                    \
           "Enable normal processing of flags relating to experimental features")\
                                                                             \
-  product(bool, EnableDynamicWait, false, "") \
+  product(intx, PageOccupancyRatio, 0.75, "") 								\
+  product(bool, EnableDynamicWait, false, "") 								\
   product(bool, EnableMarkCheck, false,										\
 		  "Enables an optimization that checks "							\
 		  	  "whether a page has any live object during marking")			\
