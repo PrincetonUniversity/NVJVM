@@ -7,6 +7,8 @@
 #include "memory/universe.hpp"
 #include "swap/Utility.h"
 
+class CMSConcMarkingTask;
+
 class PartitionMetaData {
 	int _pagesScanned;
 	int _pagesMarkScanned;
