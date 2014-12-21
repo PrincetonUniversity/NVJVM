@@ -806,7 +806,7 @@
 	bool PartitionMetaData::markGreyObject_Page(void *pageAddress){
 		int index = getPageIndexFromPageAddress(pageAddress);
 		jbyte newValue = 1, oldValue = 0;
-		jbyte retValue = Atomic::cmpxchg(newValue, (volatile jbyte*)_pageGOC[index], oldValue);
+		jbyte retValue = Atomic::cmpxchg(newValue, (volatile jbyte*)&(_pageGOC[index]), oldValue);
 		return (retValue == oldValue);
 	}
 

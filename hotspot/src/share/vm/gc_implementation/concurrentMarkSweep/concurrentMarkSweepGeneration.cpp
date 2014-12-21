@@ -1932,6 +1932,7 @@ NOT_PRODUCT(
       gclog_or_tty->print(" (concurrent mode failure)");
     }
   }
+
   if (should_compact) {
     // If the collection is being acquired from the background
     // collector, there may be references on the discovered
