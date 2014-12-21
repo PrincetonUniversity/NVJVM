@@ -4505,6 +4505,7 @@ void CMSConcMarkingTask::getAliveObjectCount(){
 	HeapWord* endAddress = (HeapWord*) _partitionMetaData.getSpanLast();
 	AliveObjectCountClosure cl(bitMap, getPartitionMetaData());
 	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
+	cout << "Total Objects Marked::" << _partitionMetaData->getTotalObjectsScanned() << endl;
 	cout << "Total Alive Objects::" << _partitionMetaData->getTotalAliveObjects() << endl;
 }
 
@@ -5269,7 +5270,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
- MEASUREMENT_MODE(_partitionMetaData->getTotalObjectsScanned();)
  MEASUREMENT_MODE(tsk.getAliveObjectCount();)
  exit(-1);
  return true;
