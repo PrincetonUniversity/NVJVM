@@ -414,6 +414,7 @@ class CommandLineFlags {
             "lp64_product means flag is always constant in 32 bit VM")      \
                                                                             \
   product(bool, doBackGroundCollection, true, "flag for background collection") \
+  product(uintx, MemPress, 1, "units of memory pressure")                   \
   notproduct(bool, CheckCompressedOops, true,                               \
             "generate checks in encoding/decoding code in debug VM")        \
                                                                             \
