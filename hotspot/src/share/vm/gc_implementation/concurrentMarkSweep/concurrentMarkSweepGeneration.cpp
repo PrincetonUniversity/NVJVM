@@ -61,7 +61,7 @@ CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
 
 
-int ObjectStatistics::_totalObjectsScanned = 0;
+int ObjectStatistics::_totalObjectsAlive = 0;
 int ObjectStatistics::_randomScan = 0;
 int ObjectStatistics::_sequentialScan = 0;
 
@@ -3798,6 +3798,7 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   CMSConcMarkingTerminatorTerminator _term_term;
 
  public:
+  void getAliveObjectCount();
   CMSConcMarkingTask(CMSCollector* collector,
                  CompactibleFreeListSpace* cms_space,
                  CompactibleFreeListSpace* perm_space,
@@ -3860,6 +3861,14 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
   void do_work_steal(int i);
   void bump_global_finger(HeapWord* f);
 };
+
+void CMSConcMarkingTask::getAliveObjectCount(){
+	CMSBitMap* bitMap = _collector->markBitMap();
+	HeapWord* startAddress = (HeapWord*) _collector->getSpan()->start();
+	HeapWord* endAddress = (HeapWord*) _collector->getSpan()->last();
+	AliveObjectCountClosure cl(bitMap);
+	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
+}
 
 bool CMSConcMarkingTerminatorTerminator::should_exit_termination() {
   assert(_task != NULL, "Error");
@@ -4359,6 +4368,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
   assert(tsk.completed(), "Inconsistency");
   assert(tsk.result() == true, "Inconsistency");
+  OBJECT_STATS(tsk.getAliveObjectCount();)
   return true;
 }
 
