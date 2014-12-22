@@ -73,7 +73,9 @@ void MemPressureStats::generatePressure(){
 	_memLocked = MemPress;
 	for(unsigned int count = 0; count < _memLocked; count++){
 		_mem[count] = (char *)malloc(_unit);
-		if(mlock(_mem[count], _unit) == -1){
+		int val = mlock(_mem[count], _unit);
+		cout << "val on memlock = " << val << endl;
+		if(val < 0){
 			printf("mlock error");
 			perror("err:");
 			exit(-1);
