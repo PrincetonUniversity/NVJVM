@@ -4143,7 +4143,7 @@ void Par_ConcMarkingClosure::do_oop(oop obj) {
     // marking stack
     if (_bit_map->par_mark(addr)) {     // ... now grey
       // push on work queue (grey set)
-    	OBJECT_STATS(if(res){Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_randomScan));})
+    	OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_randomScan));)
       bool simulate_overflow = false;
       NOT_PRODUCT(
         if (CMSMarkStackOverflowALot &&
