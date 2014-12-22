@@ -1506,41 +1506,35 @@ public:
         _skip_bits = 0;
         _bit_map = bitMap;
     }
-    bool do_bit(size_t offset);
+    bool do_bit(size_t offset){
+    	// convert offset into a HeapWord*
+    	HeapWord* addr = _bit_map->startWord() + offset;
+
+    	  if (_skip_bits > 0) {
+    	    _skip_bits--;
+
+    	    return true;
+    	  }
+
+    	  if (_bit_map->isMarked(addr+1)) {
+    	    // this is an allocated object that might not yet be initialized
+
+    	    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
+    	    oop p = oop(addr);
+    	    if(p == NULL){
+    	    cout << p << " is null" << endl;
+    	    exit(-1);
+    	    }
+    	    if (p->klass_or_null() == NULL || !p->is_parsable()) {
+    	      // in the case of Clean-on-Enter optimization, redirty card
+    	      // and avoid clearing card by increasing  the threshold.
+    	      return true;
+    	    }
+    	  }
+    	  OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_totalObjectsAlive));)
+    	  return true;
+    }
 };
-
-
-
-bool AliveObjectCountClosure::do_bit(size_t offset){
-// convert offset into a HeapWord*
-HeapWord* addr = _bit_map->startWord() + offset;
-
-  if (_skip_bits > 0) {
-    _skip_bits--;
-
-    return true;
-  }
-
-  if (_bit_map->isMarked(addr+1)) {
-    // this is an allocated object that might not yet be initialized
-
-    _skip_bits = 2;  // skip next two marked bits ("Printezis-marks")
-    oop p = oop(addr);
-    if(p == NULL){
-    cout << p << " is null" << endl;
-    exit(-1);
-    }
-    if (p->klass_or_null() == NULL || !p->is_parsable()) {
-      // in the case of Clean-on-Enter optimization, redirty card
-      // and avoid clearing card by increasing  the threshold.
-      return true;
-    }
-  }
-  OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_totalObjectsAlive));)
-  return true;
-}
-
-
 
 // This closure is used during the second checkpointing phase
 // to rescan the marked objects on the dirty cards in the mod
