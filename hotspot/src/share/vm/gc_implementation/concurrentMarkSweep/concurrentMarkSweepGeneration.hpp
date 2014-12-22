@@ -527,6 +527,7 @@ public:
 	static int _totalObjectsAlive;
 	static int _randomScan;
 	static int _sequentialScan;
+	static int _totalSize;
 };
 
 
@@ -1531,7 +1532,8 @@ public:
     	      return true;
     	    }
     	  }
-    	  OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_totalObjectsAlive));)
+    	  Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_totalObjectsAlive));
+    	  Atomic::add_ptr(oop(addr)->size(), (volatile int *)&(ObjectStatistics::_totalSize));
     	  return true;
     }
 };

@@ -64,6 +64,7 @@ bool          CMSCollector::_full_gc_requested          = false;
 int ObjectStatistics::_totalObjectsAlive = 0;
 int ObjectStatistics::_randomScan = 0;
 int ObjectStatistics::_sequentialScan = 0;
+int ObjectStatistics::_totalSize = 0;
 
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
@@ -3736,9 +3737,10 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
   }
   OBJECT_STATS(
-	 cout << "Sequential Scanned Objects :: " << ObjectStatistics::_sequentialScan << endl;
-  cout << "Random Scanned Objects :: " << ObjectStatistics::_randomScan << endl;
-  cout << "Total Scanned Objects :: " << ObjectStatistics::_totalObjectsAlive << endl;
+	  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " (M)" << endl;
+  	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
+  	  cout << "Total Scanned Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
+  	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
   )
   exit(-1);
   return result;
@@ -4369,7 +4371,11 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
   assert(tsk.completed(), "Inconsistency");
   assert(tsk.result() == true, "Inconsistency");
-  OBJECT_STATS(tsk.getAliveObjectCount();)
+  OBJECT_STATS({
+	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	  tcpu.setPhase("stats-phase", SwapMetrics::miscellaneous);
+	  tsk.getAliveObjectCount();
+  })
   return true;
 }
 
