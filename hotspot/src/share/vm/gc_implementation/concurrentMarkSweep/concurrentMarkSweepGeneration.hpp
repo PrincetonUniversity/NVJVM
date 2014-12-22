@@ -49,7 +49,7 @@
 #include "runtime/SwapMetrics.hpp"
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 
-#define SWEEP_DEBUGGING(x) x
+#define SWEEP_DEBUGGING(x)
 #define DEBUG_ST(x)
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent

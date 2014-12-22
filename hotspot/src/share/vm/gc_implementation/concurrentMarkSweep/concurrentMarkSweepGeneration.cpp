@@ -4235,32 +4235,18 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 	//  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
 	int oldCount = 0, newCount = 0;
 	int loopCount = 0;
-	#if OCMS_NO_GREY_LOG
-	 printf("In master thread work final.\n");
-	#endif
 		// After clearing the dirty card bit map mark, the master thread has to make sure
 		// that the collector threads come to a termination point.
 		// Currently, all the threads are in a working state.
 		while(true){
-	//		while(SwapMetrics::_shouldWait && AdaptiveGC)
-	//			sleep(1);
 			loopCount++;
 				if(_partitionMetaData->getTotalGreyObjectsChunkLevel() == 0){ // Checking if the count is == 0
-	//#if OCMS_NO_GREY_LOG
-					printf("Setting a signal to all the threads to wait/become idle.\n");
-	//#endif
 					_partitionMetaData->setToWait(); // Setting a signal to all the threads to wait/become idle
-	//#if OCMS_NO_GREY_LOG
-					printf("Checking all threads suspended. Idle thread count =%d.\n", _partitionMetaData->getIdleThreadCount());
-	//#endif
 					while(!_partitionMetaData->areThreadsSuspended()){// Checking if the threads are suspended
 						usleep(100);
 					}
 					// Threads are suspended now
 					if(_partitionMetaData->doWeTerminate()){ // Checking if the grey object count == 0
-	//#if OCMS_NO_GREY_LOG
-						printf("we have reached the termination point, we signal all the other threads to terminate too.\n");
-	//#endif
 					// If yes, we have reached the termination point, we signal all the other threads to terminate too
 						_partitionMetaData->setToTerminate();
 						break; // The master thread can now exit
@@ -4273,15 +4259,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					_partitionMetaData->setDoPrint(oldCount==newCount);
 					oldCount=newCount;
 				// End of debugging code
-
 				_partitionMetaData->setToWork();
 				usleep(1000);
 			}
-	//#if OCMS_NO_GREY_LOG
-		printf("Yielding for the master thread's final function.\n");
-	//#endif
-	//	yield();
-	//  printf("In master thread work final done.\n");
 }
 
 // This is the code that is used by the master thread
