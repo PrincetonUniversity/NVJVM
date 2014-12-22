@@ -67,6 +67,7 @@ int ObjectStatistics::_sequentialScan = 0;
 int ObjectStatistics::_totalSize = 0;
 int ObjectStatistics::_inCore = 0;
 int ObjectStatistics::_outCore = 0;
+int ObjectStatistics:_oopIterateObjectSize = 0;
 
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
@@ -3741,11 +3742,11 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   OBJECT_STATS(
 	  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " M" << endl;
   	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
-  	  cout << "Total Scanned Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
+  	  cout << "Total Alive Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
   	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
   	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
   			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
-//  	  cout << "OopIterate Calls::" << ((double)OopStatistics::oopIterateCalls)/(1000*1000) << " M" << endl;
+  	  cout << "Total Iterated Object Sizes::" << ((double)ObjectStatistics::_oopIterateObjectSize)/(1024*1024*1024)*8 << " GB" << endl;
   )
   exit(-1);
   return result;

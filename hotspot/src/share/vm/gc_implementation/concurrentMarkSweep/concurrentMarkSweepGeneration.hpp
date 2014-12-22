@@ -532,7 +532,11 @@ public:
 	static int _totalSize;
 	static int _inCore;
 	static int _outCore;
+	static int _oopIterateObjectSize;
+
 	static void checkInCore(void* address){
+		size_t size = ((oop)address)->size();
+		Atomic::add_ptr(size, (volatile int*)&(_oopIterateObjectSize));
 		unsigned char vec[1];
 		address = __page_start(address);
 		mincore(address, _PAGE_SIZE, vec);
