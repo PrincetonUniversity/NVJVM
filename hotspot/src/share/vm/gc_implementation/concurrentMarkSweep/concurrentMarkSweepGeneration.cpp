@@ -4393,7 +4393,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("stats-phase", SwapMetrics::miscellaneous);
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
-	  tsk.getAliveObjectCount();
+	  //tsk.getAliveObjectCount();
   })
   return true;
 }
