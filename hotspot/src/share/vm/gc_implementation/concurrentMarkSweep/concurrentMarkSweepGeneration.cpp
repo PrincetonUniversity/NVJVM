@@ -55,11 +55,22 @@
 #include "runtime/vmThread.hpp"
 #include "services/memoryService.hpp"
 #include "services/runtimeService.hpp"
+#include <sys/mman.h>
 
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
+size_t MemPressureStats::_memLocked = (1*1024*1024*1024);
 
+void MemPressureStats::generatePressure(){
+	_mem = (char *)malloc(_memLocked);
+	mlock(_mem, _memLocked);
+}
+
+void MemPressureStats::releasePressure(){
+	munlock(_mem, _memLocked);
+	free(_mem);
+}
 
 int ObjectStatistics::_totalObjectsAlive = 0;
 int ObjectStatistics::_randomScan = 0;
@@ -3741,7 +3752,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
   OBJECT_STATS(
 	  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " M" << endl;
-  	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
+  	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << " M"<< endl;
   	  cout << "Total Alive Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
   	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
   	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
@@ -4309,6 +4320,7 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
+  MemPressureStats::generatePressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -4395,6 +4407,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
 	  //tsk.getAliveObjectCount();
   })
+  MemPressureStats::releasePressure();
   return true;
 }
 

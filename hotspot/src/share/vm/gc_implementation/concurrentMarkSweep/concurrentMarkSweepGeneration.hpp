@@ -547,6 +547,13 @@ public:
 	}
 };
 
+class MemPressureStats {
+	public:
+		static size_t _memLocked;
+		static char* _mem;
+		static void generatePressure();
+		static void releasePressure();
+};
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;
