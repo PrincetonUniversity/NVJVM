@@ -4371,12 +4371,12 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
   assert(tsk.completed(), "Inconsistency");
   assert(tsk.result() == true, "Inconsistency");
-  OBJECT_STATS({
+  /*OBJECT_STATS({
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("stats-phase", SwapMetrics::miscellaneous);
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
 	  tsk.getAliveObjectCount();
-  })
+  })*/
   return true;
 }
 
