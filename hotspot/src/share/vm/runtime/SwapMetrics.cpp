@@ -219,7 +219,6 @@ void SwapMetrics::setPhase(int phaseId){
 }
 
 void SwapMetrics::universeInit(){
-	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 }
