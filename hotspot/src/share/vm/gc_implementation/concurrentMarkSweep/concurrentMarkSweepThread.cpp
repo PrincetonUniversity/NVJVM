@@ -88,7 +88,6 @@ ConcurrentMarkSweepThread::ConcurrentMarkSweepThread(CMSCollector* collector)
 }
 
 void ConcurrentMarkSweepThread::run() {
-  printf("ConcMarkSweepThread run().\n");
   assert(this == cmst(), "just checking");
 
   this->record_stack_base_and_size();
@@ -312,7 +311,7 @@ void ConcurrentMarkSweepThread::sleepBeforeNextCycle() {
       wait_on_cms_lock(CMSWaitDuration);
     }
     // Check if we should start a CMS collection cycle
-    if (_collector->shouldConcurrentCollect()) {
+    if (doBackGroundCollection && _collector->shouldConcurrentCollect()) {
       return;
     }
     // .. collection criterion not yet met, let's go back

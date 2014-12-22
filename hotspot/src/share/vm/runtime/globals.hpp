@@ -413,6 +413,7 @@ class CommandLineFlags {
             "Use 32-bit object references in 64-bit VM. "                   \
             "lp64_product means flag is always constant in 32 bit VM")      \
                                                                             \
+  product(bool, doBackGroundCollection, true, "flag for background collection") \
   notproduct(bool, CheckCompressedOops, true,                               \
             "generate checks in encoding/decoding code in debug VM")        \
                                                                             \
