@@ -523,7 +523,7 @@ private:
   CMSCollector& _collector;
 };
 
-#define OBJECT_STATS(x) x
+#define OBJECT_STATS(x)
 class ObjectStatistics {
 public:
 	static int _totalObjectsAlive;
@@ -551,6 +551,7 @@ class MemPressureStats {
 	public:
 		static size_t _memLocked;
 		static char* _mem[30];
+		static size_t _unit;
 		static void generatePressure();
 		static void releasePressure();
 };
