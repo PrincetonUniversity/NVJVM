@@ -4489,7 +4489,7 @@ void CMSConcMarkingTask::getAliveObjectCount(){
 	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
 	cout << "Total Objects Marked::" << _partitionMetaData->getTotalObjectsScanned() << endl;
 	cout << "Total Alive Objects::" << _partitionMetaData->getTotalAliveObjects() << endl;
-	cout <<"Total Alive Object Sizes::" << _partitionMetaData->getAliveObjectSize() << endl;
+	cout <<"Total Alive Object Sizes::" << (_partitionMetaData->getAliveObjectSize() * 8) / (1024*1024*1024) << " GB."<< endl;
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
