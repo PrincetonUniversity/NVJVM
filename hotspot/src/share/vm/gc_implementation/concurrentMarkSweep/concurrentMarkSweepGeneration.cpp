@@ -4489,6 +4489,7 @@ void CMSConcMarkingTask::getAliveObjectCount(){
 	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
 	cout << "Total Objects Marked::" << _partitionMetaData->getTotalObjectsScanned() << endl;
 	cout << "Total Alive Objects::" << _partitionMetaData->getTotalAliveObjects() << endl;
+	cout <<"Total Alive Object Sizes::" << _partitionMetaData->getAliveObjectSize() << endl;
 }
 
 void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
@@ -8505,7 +8506,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	obj->oop_iterate(&greyMarkClosure);
 	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
 	do_yield_check();
-	do_throttle_check();
+//	do_throttle_check();
 }
 
 inline void Par_MarkFromGreyRootsClosure::do_throttle_check(){
