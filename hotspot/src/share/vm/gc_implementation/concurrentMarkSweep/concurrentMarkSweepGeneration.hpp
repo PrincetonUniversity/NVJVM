@@ -523,7 +523,7 @@ private:
   CMSCollector& _collector;
 };
 
-#define OBJECT_STATS(x)
+#define OBJECT_STATS(x) x
 class ObjectStatistics {
 public:
 	static int _totalObjectsAlive;
