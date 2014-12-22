@@ -521,6 +521,14 @@ private:
   CMSCollector& _collector;
 };
 
+#define OBJECT_STATS(x) x
+class ObjectStatistics {
+public:
+	static int _totalObjectsScanned;
+	static int _randomScan;
+	static int _sequentialScan;
+};
+
 
 class CMSCollector: public CHeapObj {
   friend class VMStructs;

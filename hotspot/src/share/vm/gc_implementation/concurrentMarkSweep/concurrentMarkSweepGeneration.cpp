@@ -60,6 +60,11 @@
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
 
+
+int ObjectStatistics::_totalObjectsScanned = 0;
+int ObjectStatistics::_randomScan = 0;
+int ObjectStatistics::_sequentialScan = 0;
+
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
 //////////////////////////////////////////////////////////////////
@@ -3730,6 +3735,10 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
   }
+  OBJECT_STATS(
+	 cout << "Sequential Scanned Objects :: " << ObjectStatistics::_sequentialScan << endl;
+  	 cout << "Random Scanned Objects :: " << ObjectStatistics::_randomScan << endl;
+  )
   exit(-1);
   return result;
 }
@@ -4134,6 +4143,7 @@ void Par_ConcMarkingClosure::do_oop(oop obj) {
     // marking stack
     if (_bit_map->par_mark(addr)) {     // ... now grey
       // push on work queue (grey set)
+    	OBJECT_STATS(if(res){Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_randomScan));})
       bool simulate_overflow = false;
       NOT_PRODUCT(
         if (CMSMarkStackOverflowALot &&
@@ -6652,6 +6662,7 @@ void MarkRefsIntoClosure::do_oop(oop obj) {
   if (_span.contains(addr)) {
     // this should be made more efficient
     _bitMap->mark(addr);
+    OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_sequentialScan));)
   }
 }
 
@@ -7670,8 +7681,12 @@ void Par_PushOrMarkClosure::do_oop(oop obj) {
     if (   !res       // someone else marked it, they will deal with it
         || (addr >= *gfa)  // will be scanned in a later task
         || (_span.contains(addr) && addr >= _finger)) { // later in this chunk
-      return;
+    	OBJECT_STATS(if(res){
+    	    		Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_sequentialScan));
+    	})
+    	return;
     }
+    OBJECT_STATS(Atomic::inc_ptr((volatile int *)&(ObjectStatistics::_randomScan));)
     // the bit map iteration has already either passed, or
     // sampled, this bit in the bit map; we'll need to
     // use the marking stack to scan this oop's oops.
