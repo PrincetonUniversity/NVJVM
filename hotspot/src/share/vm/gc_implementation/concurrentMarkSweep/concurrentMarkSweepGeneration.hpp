@@ -550,7 +550,7 @@ public:
 class MemPressureStats {
 	public:
 		static size_t _memLocked;
-		static char* _mem;
+		static char* _mem[30];
 		static void generatePressure();
 		static void releasePressure();
 };

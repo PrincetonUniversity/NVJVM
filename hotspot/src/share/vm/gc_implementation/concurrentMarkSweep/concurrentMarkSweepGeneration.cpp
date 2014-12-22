@@ -65,21 +65,26 @@ bool          CMSCollector::_full_gc_requested          = false;
 #define MiB (1024*KiB)
 #define GiB (1024*MiB)
 
-size_t MemPressureStats::_memLocked = (2*GiB);
-char* MemPressureStats::_mem = NULL;
+
+size_t MemPressureStats::_memLocked = 1;
+char* MemPressureStats::_mem[30];
 
 void MemPressureStats::generatePressure(){
-	_mem = (char *)malloc(_memLocked);
-	if(mlock(_mem, _memLocked) == -1){
-		printf("mlock error");
-		perror("err:");
-		exit(-1);
+	for(int count = 0; count < _memLocked; count++){
+		_mem[count] = (char *)malloc(GiB);
+		if(mlock(_mem[count], _memLocked) == -1){
+			printf("mlock error");
+			perror("err:");
+			exit(-1);
+		}
 	}
 }
 
 void MemPressureStats::releasePressure(){
-	munlock(_mem, _memLocked);
-	free(_mem);
+	for(int count = 0; count < _memLocked; count++){
+		munlock(_mem[count], _memLocked);
+		free(_mem[count]);
+	}
 }
 
 int ObjectStatistics::_totalObjectsAlive = 0;
