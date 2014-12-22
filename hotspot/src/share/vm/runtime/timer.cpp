@@ -181,7 +181,7 @@ TraceCPUTime::TraceCPUTime(bool doit,
     } else {
       _logfile = tty;
     }
-
+    _phase_name= "";
     _error = !os::getTimesSecs(&_starting_real_time,
                                &_starting_user_time,
                                &_starting_system_time);
@@ -212,7 +212,8 @@ TraceCPUTime::~TraceCPUTime() {
         } else if(_phaseId == SwapMetrics::compactPhase) {
         	SwapMetrics::compactionTimeIncrement(real_secs);
         }
-
+        if(_phase_name.length()>0)
+        	_logfile->print("Phase::%s", _phase_name.c_str());
         _logfile->print(" [Times: user=%3.2f sys=%3.2f, real=%3.2f secs] ",
           user_secs, system_secs, real_secs);
 
