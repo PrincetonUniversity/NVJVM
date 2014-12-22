@@ -70,6 +70,7 @@ char* MemPressureStats::_mem[30];
 size_t MemPressureStats::_unit = GiB;
 
 void MemPressureStats::generatePressure(){
+	_memLocked = MemPress;
 	for(unsigned int count = 0; count < _memLocked; count++){
 		_mem[count] = (char *)malloc(_unit);
 		if(mlock(_mem[count], _unit) == -1){
