@@ -58,6 +58,11 @@ class CMSIsAliveClosure;
 class PSPromotionManager;
 class ParCompactionManager;
 
+class OopStatistics {
+public:
+	static int oopIterateCalls;
+};
+
 class oopDesc {
   friend class VMStructs;
  private:

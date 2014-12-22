@@ -40,6 +40,7 @@
 bool always_do_update_barrier = false;
 
 BarrierSet* oopDesc::_bs = NULL;
+int OopStatistics::oopIterateCalls = 0;
 
 void oopDesc::print_on(outputStream* st) const {
   if (this == NULL) {

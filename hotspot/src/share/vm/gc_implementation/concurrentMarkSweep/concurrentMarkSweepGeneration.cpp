@@ -3739,12 +3739,13 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
   }
   OBJECT_STATS(
-	  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " (M)" << endl;
+	  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " M" << endl;
   	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
   	  cout << "Total Scanned Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
   	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
   	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
   			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
+  	  cout << "OopIterate Calls::" << ((double)OopStatistics::oopIterateCalls)/(1000*1000) << " M" << endl;
   )
   exit(-1);
   return result;
