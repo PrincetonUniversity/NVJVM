@@ -3864,8 +3864,8 @@ class CMSConcMarkingTask: public YieldingFlexibleGangTask {
 
 void CMSConcMarkingTask::getAliveObjectCount(){
 	CMSBitMap* bitMap = _collector->markBitMap();
-	HeapWord* startAddress = (HeapWord*) _collector->getSpan()->start();
-	HeapWord* endAddress = (HeapWord*) _collector->getSpan()->last();
+	HeapWord* startAddress = (HeapWord*) _collector->getSpan().start();
+	HeapWord* endAddress = (HeapWord*) _collector->getSpan().last();
 	AliveObjectCountClosure cl(bitMap);
 	_collector->_markBitMap.iterate(&cl, startAddress, endAddress);
 }
