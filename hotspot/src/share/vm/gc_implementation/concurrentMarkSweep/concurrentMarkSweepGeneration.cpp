@@ -63,6 +63,33 @@ CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
 FILE* CMSLogs::fp = NULL;
 
+#define KiB (1024)
+#define MiB (1024*KiB)
+#define GiB (1024*MiB)
+
+size_t MemPressureStats::_memLocked = 1;
+char* MemPressureStats::_mem[30];
+size_t MemPressureStats::_unit = GiB;
+
+void MemPressureStats::generatePressure(){
+	for(unsigned int count = 0; count < _memLocked; count++){
+		_mem[count] = (char *)malloc(_unit);
+		if(mlock(_mem[count], _unit) == -1){
+			printf("mlock error");
+			perror("err:");
+			exit(-1);
+		}
+	}
+}
+
+void MemPressureStats::releasePressure(){
+	for(unsigned int count = 0; count < _memLocked; count++){
+		munlock(_mem[count], _unit);
+		free(_mem[count]);
+	}
+}
+
+
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
 //////////////////////////////////////////////////////////////////
@@ -5128,6 +5155,7 @@ void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
+	MemPressureStats::generatePressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -5239,7 +5267,8 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
- tsk.getAliveObjectCount();
+// tsk.getAliveObjectCount();
+ MemPressureStats::releasePressure();
  return true;
 }
 

@@ -184,6 +184,16 @@ class CMSBitMap VALUE_OBJ_CLASS_SPEC {
   void verifyNoOneBitsInRange(HeapWord* left, HeapWord* right) PRODUCT_RETURN;
 };
 
+
+class MemPressureStats {
+	public:
+		static size_t _memLocked;
+		static char* _mem[30];
+		static size_t _unit;
+		static void generatePressure();
+		static void releasePressure();
+};
+
 // Represents a marking stack used by the CMS collector.
 // Ideally this should be GrowableArray<> just like MSC's marking stack(s).
 class CMSMarkStack: public CHeapObj  {
