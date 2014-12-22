@@ -3693,7 +3693,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // . else (oop is to left of current scan pointer)
   //   push oop on marking stack
   // . drain the marking stack
-
+  bool result = false;
+  {
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-phase", SwapMetrics::markPhase);
   SwapMetrics smet("mark-phase", SwapMetrics::markPhase);
@@ -3720,7 +3721,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   verify_overflow_empty();
   assert(_revisitStack.isEmpty(), "tabula rasa");
   DEBUG_ONLY(RememberKlassesChecker cmx(should_unload_classes());)
-  bool result = false;
   if (CMSConcurrentMTEnabled && ConcGCThreads > 0) {
     result = do_marking_mt(asynch);
   } else {
@@ -3729,6 +3729,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   if(PrintGC){
 	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
+  }
+  exit(-1);
   return result;
 }
 
