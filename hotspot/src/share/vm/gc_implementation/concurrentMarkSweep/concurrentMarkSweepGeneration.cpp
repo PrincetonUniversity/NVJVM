@@ -5239,7 +5239,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
  MEASUREMENT_MODE(tsk.getAliveObjectCount();)
- tsk.getAliveObjectCount();
  return true;
 }
 
