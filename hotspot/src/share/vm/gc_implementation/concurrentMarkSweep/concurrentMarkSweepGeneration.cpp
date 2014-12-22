@@ -67,7 +67,7 @@ int ObjectStatistics::_sequentialScan = 0;
 int ObjectStatistics::_totalSize = 0;
 int ObjectStatistics::_inCore = 0;
 int ObjectStatistics::_outCore = 0;
-int ObjectStatistics:_oopIterateObjectSize = 0;
+int ObjectStatistics::_oopIterateObjectSize = 0;
 
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
