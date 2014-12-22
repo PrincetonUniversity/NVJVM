@@ -4343,6 +4343,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // If the task was aborted, _restart_addr will be non-NULL
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
   while (_restart_addr != NULL) {
+	  cout << "Restarting" << endl;
     // XXX For now we do not make use of ABORTED state and have not
     // yet implemented the right abort semantics (even in the original
     // single-threaded CMS case). That needs some more investigation
