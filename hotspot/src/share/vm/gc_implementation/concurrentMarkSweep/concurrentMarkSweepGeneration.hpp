@@ -532,7 +532,7 @@ public:
 	static int _totalSize;
 	static int _inCore;
 	static int _outCore;
-	void checkInCore(void *address){
+	static void checkInCore(void *address){
 		unsigned char vec[1];
 		address = __page_start(address);
 		mincore(address, _PAGE_SIZE, vec);
