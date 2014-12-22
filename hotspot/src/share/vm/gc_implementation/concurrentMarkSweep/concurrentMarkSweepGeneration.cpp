@@ -60,7 +60,13 @@
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
-size_t MemPressureStats::_memLocked = (1*1024*1024*1024);
+
+#define KiB (1024)
+#define MiB (1024*KiB)
+#define GiB (1024*MiB)
+
+size_t MemPressureStats::_memLocked = (1*GiB);
+char* MemPressureStats::_mem = NULL;
 
 void MemPressureStats::generatePressure(){
 	_mem = (char *)malloc(_memLocked);
