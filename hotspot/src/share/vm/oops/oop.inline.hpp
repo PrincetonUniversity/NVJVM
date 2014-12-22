@@ -754,7 +754,6 @@ inline void oopDesc::adjust_header() {
 #define OOP_ITERATE_DEFN(OopClosureType, nv_suffix)                        \
                                                                            \
 inline int oopDesc::oop_iterate(OopClosureType* blk) {                     \
-  Atomic::inc_ptr((volatile int*)&(OopStatistics::oopIterateCalls));	   \
   SpecializationStats::record_call();                                      \
   return blueprint()->oop_oop_iterate##nv_suffix(this, blk);               \
 }                                                                          \

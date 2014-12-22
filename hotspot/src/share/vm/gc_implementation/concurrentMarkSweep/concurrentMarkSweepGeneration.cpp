@@ -3745,7 +3745,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
   	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
   			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
-  	  cout << "OopIterate Calls::" << ((double)OopStatistics::oopIterateCalls)/(1000*1000) << " M" << endl;
+//  	  cout << "OopIterate Calls::" << ((double)OopStatistics::oopIterateCalls)/(1000*1000) << " M" << endl;
   )
   exit(-1);
   return result;
