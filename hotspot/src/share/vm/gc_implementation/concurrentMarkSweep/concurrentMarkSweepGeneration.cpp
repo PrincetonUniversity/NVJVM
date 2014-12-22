@@ -70,7 +70,7 @@ size_t MemPressureStats::_memLocked = 1;
 char* MemPressureStats::_mem[30];
 
 void MemPressureStats::generatePressure(){
-	for(int count = 0; count < _memLocked; count++){
+	for(unsigned int count = 0; count < _memLocked; count++){
 		_mem[count] = (char *)malloc(GiB);
 		if(mlock(_mem[count], _memLocked) == -1){
 			printf("mlock error");
@@ -81,7 +81,7 @@ void MemPressureStats::generatePressure(){
 }
 
 void MemPressureStats::releasePressure(){
-	for(int count = 0; count < _memLocked; count++){
+	for(unsigned int count = 0; count < _memLocked; count++){
 		munlock(_mem[count], _memLocked);
 		free(_mem[count]);
 	}
