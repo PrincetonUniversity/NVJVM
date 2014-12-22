@@ -3737,7 +3737,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   }
   OBJECT_STATS(
 	 cout << "Sequential Scanned Objects :: " << ObjectStatistics::_sequentialScan << endl;
-  	 cout << "Random Scanned Objects :: " << ObjectStatistics::_randomScan << endl;
+  cout << "Random Scanned Objects :: " << ObjectStatistics::_randomScan << endl;
+  cout << "Total Scanned Objects :: " << ObjectStatistics::_totalObjectsAlive << endl;
   )
   exit(-1);
   return result;
