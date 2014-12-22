@@ -65,6 +65,8 @@ int ObjectStatistics::_totalObjectsAlive = 0;
 int ObjectStatistics::_randomScan = 0;
 int ObjectStatistics::_sequentialScan = 0;
 int ObjectStatistics::_totalSize = 0;
+int ObjectStatistics::_inCore = 0;
+int ObjectStatistics::_outCore = 0;
 
 //////////////////////////////////////////////////////////////////
 // In support of CMS/VM thread synchronization
@@ -3741,6 +3743,8 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
   	  cout << "Total Scanned Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
   	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
+  	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
+  			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
   )
   exit(-1);
   return result;
@@ -4194,6 +4198,7 @@ void Par_ConcMarkingClosure::trim_queue(size_t max) {
       assert(_bit_map->isMarked((HeapWord*)new_oop), "Grey object");
       assert(_span.contains((HeapWord*)new_oop), "Not in span");
       assert(new_oop->is_parsable(), "Should be parsable");
+      OBJECT_STATS(ObjectStatistics::checkInCore(new_oop);)
       new_oop->oop_iterate(this);  // do_oop() above
       do_yield_check();
     }
@@ -4235,6 +4240,7 @@ void CMSConcMarkingTask::do_work_steal(int i) {
     } else if (task_queues()->steal(i, seed, /* reference */ obj_to_scan)) {
       assert(obj_to_scan->is_oop(), "Should be an oop");
       assert(bm->isMarked((HeapWord*)obj_to_scan), "Grey object");
+      OBJECT_STATS(ObjectStatistics::checkInCore(obj_to_scan);)
       obj_to_scan->oop_iterate(&cl);
     } else if (terminator()->offer_termination(&_term_term)) {
       assert(work_q->size() == 0, "Impossible!");
@@ -7447,6 +7453,7 @@ void Par_MarkFromRootsClosure::scan_oops_in_oop(HeapWord* ptr) {
     // running concurrent with mutators.
     assert(new_oop->is_oop(true), "Oops! expected to pop an oop");
     // now scan this oop's oops
+    OBJECT_STATS(ObjectStatistics::checkInCore(new_oop);)
     new_oop->oop_iterate(&pushOrMarkClosure);
     do_yield_check();
   }

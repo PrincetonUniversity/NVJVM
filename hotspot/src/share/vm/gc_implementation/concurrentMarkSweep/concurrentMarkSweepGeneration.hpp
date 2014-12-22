@@ -43,6 +43,8 @@
 #include "unistd.h"
 #include "utilities/dtrace.hpp"
 #include <sys/sdt.h>
+#include <unistd.h>
+#include <sys/mman.h>
 
 #define TRACING_COLLECTION 1
 
@@ -528,6 +530,17 @@ public:
 	static int _randomScan;
 	static int _sequentialScan;
 	static int _totalSize;
+	static int _inCore;
+	static int _outCore;
+	void checkInCore(void *address){
+		unsigned char vec[1];
+		address = __page_start(address);
+		mincore(address, _PAGE_SIZE, vec);
+		if((vec[0]&1) == 1)
+			Atomic::inc_ptr((volatile int*)&(_inCore));
+		else
+			Atomic::inc_ptr((volatile int*)&(_outCore));
+	}
 };
 
 
