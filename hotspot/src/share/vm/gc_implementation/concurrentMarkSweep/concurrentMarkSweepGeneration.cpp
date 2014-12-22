@@ -4344,6 +4344,15 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   assert(tsk.completed() || _restart_addr != NULL, "Inconsistency");
   while (_restart_addr != NULL) {
 	  cout << "Restarting" << endl;
+	  OBJECT_STATS(
+		  cout << "Sequential Scanned Objects :: " << (double)ObjectStatistics::_sequentialScan/(1000*1000) << " M" << endl;
+	  	  cout << "Random Scanned Objects :: " << (double)ObjectStatistics::_randomScan/(1000*1000) << "M"<< endl;
+	  	  cout << "Total Alive Objects :: " << (double)ObjectStatistics::_totalObjectsAlive/(1000*1000) << "M" << endl;
+	  	  cout << "Total Objects Size:: " << ((double)ObjectStatistics::_totalSize/(1024*1024*1024))*8 << " GB" << endl;
+	  	  cout << "InCore::" <<  (double)ObjectStatistics::_inCore/(1000*1000) << " M, " <<
+	  			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
+	  	  cout << "Total Iterated Object Sizes::" << ((double)ObjectStatistics::_oopIterateObjectSize)/(1024*1024*1024)*8 << " GB" << endl;
+	  )
     // XXX For now we do not make use of ABORTED state and have not
     // yet implemented the right abort semantics (even in the original
     // single-threaded CMS case). That needs some more investigation
