@@ -1863,6 +1863,7 @@ NOT_PRODUCT(
     }
   }
 
+  should_compact = should_compact && UseCMSCompactAtFullCollection;
   if (should_compact) {
     // If the collection is being acquired from the background
     // collector, there may be references on the discovered
