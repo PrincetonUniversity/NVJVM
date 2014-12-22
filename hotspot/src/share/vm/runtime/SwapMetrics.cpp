@@ -89,7 +89,6 @@ std::string splitString(std::string buf, int index){
 }
 
 void* monitorIOMutators(void* arg){
-  printf("Starting the mutator IO monitor.\n");
   double value;
   int count;
   string temp;
@@ -111,7 +110,6 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  cout << "IO Wait" << SwapMetrics::_ioWaitMutator/(SwapMetrics::_numberReportsMutator+1) << endl;
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);

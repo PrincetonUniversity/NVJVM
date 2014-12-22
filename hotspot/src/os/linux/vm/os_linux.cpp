@@ -835,15 +835,15 @@ static void *java_start(Thread *thread) {
   pid_t threadId = os::Linux::gettid();
   os::ThreadType thr_type = (os::ThreadType)osthread->thread_type();
   //SwapMetrics::addThreadToList(threadId, thr_type);
-  if(thr_type == os::vm_thread){
-  	printf("Creating a VM thread. Id = %d.\n", threadId);
-  } else if(thr_type == os::cgc_thread){
-  	printf("Creating a CGC thread. Id = %d.\n", threadId);
-  } else if(thr_type == os::pgc_thread){
-  	printf("Creating a PGC thread. Id = %d.\n", threadId);
-  } else if(thr_type == os::java_thread){
-  	printf("Creating a Java thread. Id = %d.\n", threadId);
-  }
+//  if(thr_type == os::vm_thread){
+//  	printf("Creating a VM thread. Id = %d.\n", threadId);
+//  } else if(thr_type == os::cgc_thread){
+//  	printf("Creating a CGC thread. Id = %d.\n", threadId);
+//  } else if(thr_type == os::pgc_thread){
+//  	printf("Creating a PGC thread. Id = %d.\n", threadId);
+//  } else if(thr_type == os::java_thread){
+//  	printf("Creating a Java thread. Id = %d.\n", threadId);
+//  }
 
   if (UseNUMA) {
     int lgrp_id = os::numa_get_group_id();
