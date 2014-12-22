@@ -72,7 +72,7 @@ char* MemPressureStats::_mem[30];
 void MemPressureStats::generatePressure(){
 	for(unsigned int count = 0; count < _memLocked; count++){
 		_mem[count] = (char *)malloc(GiB);
-		if(mlock(_mem[count], _memLocked) == -1){
+		if(mlock(_mem[count], GiB) == -1){
 			printf("mlock error");
 			perror("err:");
 			exit(-1);
