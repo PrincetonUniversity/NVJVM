@@ -48,6 +48,10 @@
 #include <vector>
 #include "runtime/SwapMetrics.hpp"
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
+#include <fstream>
+#include <iostream>
+using namespace std;
+
 
 #define SWEEP_DEBUGGING(x)
 #define DEBUG_ST(x)
