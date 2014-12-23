@@ -4355,7 +4355,7 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
-//  MemPressureStats::generatePressure();
+  MemPressureStats::signalPressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -4442,7 +4442,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
 	  //tsk.getAliveObjectCount();
   })
-//  MemPressureStats::releasePressure();
+  MemPressureStats::signalReleasePressure();
   return true;
 }
 
