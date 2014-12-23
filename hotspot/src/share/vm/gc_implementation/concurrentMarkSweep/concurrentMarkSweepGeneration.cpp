@@ -2296,6 +2296,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
 #if TRACING_SYSTEM_GC
 	printf("TRACING_SYSTEM_GC:: in collect_in_foreground");
 #endif
+	MemPressureStats::signalPressure();
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
@@ -2397,7 +2398,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         Thread::current(), _collectorState);
     }
   }
-
+  MemPressureStats::signalReleasePressure();
   if (UseAdaptiveSizePolicy) {
     GenCollectedHeap* gch = GenCollectedHeap::heap();
     size_policy()->ms_collection_end(gch->gc_cause());
@@ -3601,7 +3602,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
   }
-  exit(-1);
   return result;
 }
 
