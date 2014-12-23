@@ -8368,6 +8368,7 @@ size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
   // Add it to a free list or let it possibly be coalesced into
   // a larger chunk.
   _numberOfGarbageChunks++;
+  PRINT_GARBAGE(cout << "Garbage Class Name :: " << oop(addr)->klass()->klass_part()->external_name();)
   HeapWord* const addr = (HeapWord*) fc;
   const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
 

@@ -524,6 +524,8 @@ private:
 };
 
 #define OBJECT_STATS(x)
+#define PRINT_GARBAGE(x) x
+
 class ObjectStatistics {
 public:
 	static int _totalObjectsAlive;
