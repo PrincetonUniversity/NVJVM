@@ -8427,7 +8427,7 @@ size_t SweepClosure::do_live_chunk(FreeChunk* fc) {
     assert(freeFinger() < addr, "freeFinger points too high");
     flush_cur_free_chunk(freeFinger(), pointer_delta(addr, freeFinger()));
   }
-  PRINT_GARBAGE(cout << "Live Class Name :: " << oop(addr)->klass()->klass_part()->external_name() << endl;)
+  PRINT_GARBAGE(cout << "Live Class Name :: " << oop(addr)->klass()->klass_part()->external_name() << "Address ::" << addr << endl;)
   // This object is live: we'd normally expect this to be
   // an oop, and like to assert the following:
   // assert(oop(addr)->is_oop(), "live block should be an oop");
