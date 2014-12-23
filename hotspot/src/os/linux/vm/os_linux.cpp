@@ -2768,7 +2768,6 @@ static char* anon_mmap(char* requested_addr, size_t bytes, bool fixed) {
   //flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS;
   flags = MAP_ANONYMOUS | MAP_SHARED;
   cout << "Modified memory mappings" << endl;
-  exit(-1);
   if (fixed) {
     assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
     flags |= MAP_FIXED;
