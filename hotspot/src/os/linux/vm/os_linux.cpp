@@ -2460,8 +2460,8 @@ void linux_wrap_code(char* base, size_t size) {
 //       problem.
 bool os::commit_memory(char* addr, size_t size, bool exec) {
   int prot = exec ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
-  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot,
-                                   MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
+  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot, MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED, -1, 0);
+//                                   MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
   return res != (uintptr_t) MAP_FAILED;
 }
 
@@ -2752,7 +2752,8 @@ static char* anon_mmap(char* requested_addr, size_t bytes, bool fixed) {
   char * addr;
   int flags;
 
-  flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS;
+  //flags = MAP_PRIVATE | MAP_NORESERVE | MAP_ANONYMOUS;
+  flags = MAP_ANONYMOUS | MAP_SHARED;
   if (fixed) {
     assert((uintptr_t)requested_addr % os::Linux::page_size() == 0, "unaligned address");
     flags |= MAP_FIXED;
