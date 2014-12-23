@@ -524,7 +524,7 @@ private:
 };
 
 #define OBJECT_STATS(x)
-#define PRINT_GARBAGE(x) x
+#define PRINT_GARBAGE(x)
 
 class ObjectStatistics {
 public:
