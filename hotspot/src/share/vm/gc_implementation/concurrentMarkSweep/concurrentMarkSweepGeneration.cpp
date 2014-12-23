@@ -2485,6 +2485,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
   printf("Collect in foreground called.\n");
+  MemPressureStats::signalPressure();
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
@@ -2586,7 +2587,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         Thread::current(), _collectorState);
     }
   }
-
+  MemPressureStats::signalReleasePressure();
   if (UseAdaptiveSizePolicy) {
     GenCollectedHeap* gch = GenCollectedHeap::heap();
     size_policy()->ms_collection_end(gch->gc_cause());
@@ -4355,7 +4356,6 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
-  MemPressureStats::signalPressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -4442,7 +4442,6 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
 	  //tsk.getAliveObjectCount();
   })
-  MemPressureStats::signalReleasePressure();
   return true;
 }
 
