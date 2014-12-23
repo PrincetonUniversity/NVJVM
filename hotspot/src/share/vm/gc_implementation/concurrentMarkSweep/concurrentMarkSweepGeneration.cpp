@@ -67,7 +67,7 @@ bool          CMSCollector::_full_gc_requested          = false;
 
 size_t MemPressureStats::_memLocked = 1;
 char* MemPressureStats::_mem[30];
-size_t MemPressureStats::_unit = 512 MiB;
+size_t MemPressureStats::_unit = 512 * MiB;
 
 void MemPressureStats::generatePressure(){
 	_memLocked = MemPress;
