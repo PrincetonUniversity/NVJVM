@@ -124,7 +124,6 @@
 # include <stdint.h>
 # include <inttypes.h>
 # include <sys/ioctl.h>
-#include "runtime/SwapMetrics.hpp"
 
 #define MAX_PATH    (2 * K)
 
@@ -832,19 +831,6 @@ static void *java_start(Thread *thread) {
   // thread_id is kernel thread id (similar to Solaris LWP id)
   osthread->set_thread_id(os::Linux::gettid());
 
-  pid_t threadId = os::Linux::gettid();
-  os::ThreadType thr_type = (os::ThreadType)osthread->thread_type();
-  //SwapMetrics::addThreadToList(threadId, thr_type);
-//  if(thr_type == os::vm_thread){
-//  	printf("Creating a VM thread. Id = %d.\n", threadId);
-//  } else if(thr_type == os::cgc_thread){
-//  	printf("Creating a CGC thread. Id = %d.\n", threadId);
-//  } else if(thr_type == os::pgc_thread){
-//  	printf("Creating a PGC thread. Id = %d.\n", threadId);
-//  } else if(thr_type == os::java_thread){
-//  	printf("Creating a Java thread. Id = %d.\n", threadId);
-//  }
-
   if (UseNUMA) {
     int lgrp_id = os::numa_get_group_id();
     if (lgrp_id != -1) {
@@ -960,6 +946,7 @@ bool os::create_thread(Thread* thread, ThreadType thr_type, size_t stack_size) {
       if (lock) os::Linux::createThread_lock()->unlock();
       return false;
     }
+
     // Store pthread info into the OSThread
     osthread->set_pthread_id(tid);
 
@@ -2473,7 +2460,7 @@ void linux_wrap_code(char* base, size_t size) {
 //       problem.
 bool os::commit_memory(char* addr, size_t size, bool exec) {
   int prot = exec ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
-  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot,MAP_ANONYMOUS | MAP_SHARED, -1, 0);
+  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot, MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED, -1, 0);
 //                                   MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
   return res != (uintptr_t) MAP_FAILED;
 }
