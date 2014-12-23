@@ -192,6 +192,8 @@ class MemPressureStats {
 		static size_t _unit;
 		static void generatePressure();
 		static void releasePressure();
+		static void signalPressure();
+		static void signalReleasePressure();
 };
 
 // Represents a marking stack used by the CMS collector.

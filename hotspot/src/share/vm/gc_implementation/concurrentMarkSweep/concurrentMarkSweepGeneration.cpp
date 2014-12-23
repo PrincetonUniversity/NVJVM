@@ -71,6 +71,20 @@ size_t MemPressureStats::_memLocked = 1;
 char* MemPressureStats::_mem[30];
 size_t MemPressureStats::_unit = GiB;
 
+void MemPressureStats::signalPressure(){
+	  ofstream myfile;
+	  myfile.open ("/home/tandon/pressure.txt");
+	  myfile << MemPress << endl;
+	  myfile.close();
+}
+
+void MemPressureStats::signalReleasePressure(){
+	  ofstream myfile;
+	  myfile.open ("/home/tandon/pressure.txt");
+	  myfile << "0" << endl;
+	  myfile.close();
+}
+
 void MemPressureStats::generatePressure(){
 	_memLocked = MemPress;
 	for(unsigned int count = 0; count < _memLocked; count++){
