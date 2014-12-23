@@ -56,6 +56,9 @@
 #include "services/memoryService.hpp"
 #include "services/runtimeService.hpp"
 #include <sys/mman.h>
+#include <fstream>
+#include <iostream>
+using namespace std;
 
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
@@ -68,6 +71,20 @@ bool          CMSCollector::_full_gc_requested          = false;
 size_t MemPressureStats::_memLocked = 1;
 char* MemPressureStats::_mem[30];
 size_t MemPressureStats::_unit = 512 * MiB;
+
+void MemPressureStats::signalPressure(){
+	  ofstream myfile;
+	  myfile.open ("/home/tandon/pressure.txt");
+	  myfile << MemPress << endl;
+	  myfile.close();
+}
+
+void MemPressureStats::signalReleasePressure(){
+	  ofstream myfile;
+	  myfile.open ("/home/tandon/pressure.txt");
+	  myfile << "0" << endl;
+	  myfile.close();
+}
 
 void MemPressureStats::generatePressure(){
 	_memLocked = MemPress;

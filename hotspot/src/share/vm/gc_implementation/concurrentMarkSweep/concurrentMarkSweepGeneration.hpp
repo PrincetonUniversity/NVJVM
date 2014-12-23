@@ -554,6 +554,8 @@ class MemPressureStats {
 		static size_t _unit;
 		static void generatePressure();
 		static void releasePressure();
+		static void signalPressure();
+		static void signalReleasePressure();
 };
 
 class CMSCollector: public CHeapObj {
