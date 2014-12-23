@@ -56,6 +56,9 @@
 #define __page_start(p) \
 	(void *)((long)p & (~(_PAGE_SIZE-1)))
 
+#define OBJECT_STATS(x)
+#define PRINT_GARBAGE(x)
+
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
 // style. We assume, for now, that this generation is always the
@@ -522,9 +525,6 @@ public:
 private:
   CMSCollector& _collector;
 };
-
-#define OBJECT_STATS(x)
-#define PRINT_GARBAGE(x)
 
 class ObjectStatistics {
 public:
