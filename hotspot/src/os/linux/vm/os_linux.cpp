@@ -2473,8 +2473,8 @@ void linux_wrap_code(char* base, size_t size) {
 //       problem.
 bool os::commit_memory(char* addr, size_t size, bool exec) {
   int prot = exec ? PROT_READ|PROT_WRITE|PROT_EXEC : PROT_READ|PROT_WRITE;
-  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot,
-                                   MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
+  uintptr_t res = (uintptr_t) ::mmap(addr, size, prot,MAP_ANONYMOUS | MAP_SHARED, -1, 0);
+//                                   MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0);
   return res != (uintptr_t) MAP_FAILED;
 }
 
