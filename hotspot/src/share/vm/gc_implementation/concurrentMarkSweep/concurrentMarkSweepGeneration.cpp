@@ -83,6 +83,7 @@ void MemPressureStats::signalReleasePressure(){
 	  myfile.open ("/home/tandon/pressure.txt");
 	  myfile << "0" << endl;
 	  myfile.close();
+	  exit(-1);
 }
 
 void MemPressureStats::generatePressure(){
