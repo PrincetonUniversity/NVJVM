@@ -5171,7 +5171,7 @@ void CMSCollector::triggerTask(CMSConcMarkingTask* tsk){
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
-	MemPressureStats::generatePressure();
+//	MemPressureStats::generatePressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -5284,7 +5284,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
 // tsk.getAliveObjectCount();
- MemPressureStats::releasePressure();
+ //MemPressureStats::releasePressure();
  return true;
 }
 
