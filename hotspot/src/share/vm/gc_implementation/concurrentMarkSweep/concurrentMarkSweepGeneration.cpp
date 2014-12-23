@@ -3778,7 +3778,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   			  "OutCore::" << (double)ObjectStatistics::_outCore/(1000*1000) << " M" << endl;
   	  cout << "Total Iterated Object Sizes::" << ((double)ObjectStatistics::_oopIterateObjectSize)/(1024*1024*1024)*8 << " GB" << endl;
   )
-  exit(-1);
   return result;
 }
 
