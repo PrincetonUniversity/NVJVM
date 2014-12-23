@@ -2486,7 +2486,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
 
 void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
   printf("Collect in foreground called.\n");
-  MemPressureStats::signalPressure();
+//MemPressureStats::signalPressure();
   assert(_foregroundGCIsActive && !_foregroundGCShouldWait,
          "Foreground collector should be waiting, not executing");
   assert(Thread::current()->is_VM_thread(), "A foreground collection"
@@ -2588,7 +2588,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         Thread::current(), _collectorState);
     }
   }
-  MemPressureStats::signalReleasePressure();
+  //MemPressureStats::signalReleasePressure();
   if (UseAdaptiveSizePolicy) {
     GenCollectedHeap* gch = GenCollectedHeap::heap();
     size_policy()->ms_collection_end(gch->gc_cause());
