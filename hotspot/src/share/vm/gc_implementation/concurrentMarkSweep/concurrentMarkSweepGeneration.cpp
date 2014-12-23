@@ -67,7 +67,7 @@ bool          CMSCollector::_full_gc_requested          = false;
 
 size_t MemPressureStats::_memLocked = 1;
 char* MemPressureStats::_mem[30];
-size_t MemPressureStats::_unit = GiB;
+size_t MemPressureStats::_unit = 512 MiB;
 
 void MemPressureStats::generatePressure(){
 	_memLocked = MemPress;
@@ -4339,7 +4339,7 @@ void CMSConcMarkingTask::coordinator_yield() {
 }
 
 bool CMSCollector::do_marking_mt(bool asynch) {
-  MemPressureStats::generatePressure();
+//  MemPressureStats::generatePressure();
   assert(ConcGCThreads > 0 && conc_workers() != NULL, "precondition");
   // In the future this would be determined ergonomically, based
   // on #cpu's, # active mutator threads (and load), and mutation rate.
@@ -4426,7 +4426,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 	  SwapMetrics smet("stats-phase", SwapMetrics::miscellaneous);
 	  //tsk.getAliveObjectCount();
   })
-  MemPressureStats::releasePressure();
+//  MemPressureStats::releasePressure();
   return true;
 }
 
