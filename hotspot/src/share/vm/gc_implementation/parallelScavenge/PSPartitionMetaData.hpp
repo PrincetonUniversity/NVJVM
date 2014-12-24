@@ -140,6 +140,7 @@ public:
 	int getGreyCount(int p);
 	std::vector<int> toSweepPageList(int currentPartition, int *inCoreCount);
 	std::vector<int> toScanPageList(int currentPartition);
+	std::vector<int> toScanPageListNoMinCore(int currentPartition);
 	int getPageFromNextPartition(int currentPartition);
 	void initialize(MemRegion span);
 	void resetGOCPartition();
