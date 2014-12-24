@@ -15,7 +15,7 @@ class CMSConcMarkingTask;
 #define NO_OBJECT_START_SHIFT 14 // the bit position (it is actually NO_OBJECT_START_SHIFT + 1)
 // that represents that no object start is present on the current page
 #define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
-#define MEASUREMENT_MODE(x) x
+#define MEASUREMENT_MODE(x)
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)
