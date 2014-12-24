@@ -2079,7 +2079,6 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
 
     marking_start.update();
     marking_phase(vmthread_cm, maximum_heap_compaction);
-    exit(1);
 
 #ifndef PRODUCT
     if (TraceParallelOldGCMarkingPhase) {
