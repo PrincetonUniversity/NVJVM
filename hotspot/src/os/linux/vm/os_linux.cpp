@@ -5359,5 +5359,4 @@ bool os::is_headless_jre() {
     if (::stat(libmawtpath, &statbuf) == 0) return false;
 
     return true;
-
-
+}
