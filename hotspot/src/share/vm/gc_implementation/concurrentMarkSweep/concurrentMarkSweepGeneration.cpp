@@ -2588,6 +2588,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         Thread::current(), _collectorState);
     }
   }
+
   //MemPressureStats::signalReleasePressure();
   if (UseAdaptiveSizePolicy) {
     GenCollectedHeap* gch = GenCollectedHeap::heap();
@@ -2603,6 +2604,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
       " exiting collection CMS state %d",
       Thread::current(), _collectorState);
   }
+  exit(-1);
 }
 
 bool CMSCollector::waitForForegroundGC() {
