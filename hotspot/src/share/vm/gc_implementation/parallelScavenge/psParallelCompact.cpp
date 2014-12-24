@@ -2640,6 +2640,10 @@ void PSParallelCompact::compact() {
   EventMark m("5 compact");
   // trace("5");
   TraceTime tm("compaction phase", print_phases(), true, gclog_or_tty);
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("compact-phase", SwapMetrics::compactPhase);
+  ParallelScavengeHeap::ParStrongRootsScope psrs;
+  SwapMetrics sMet("compact-phase", SwapMetrics::compactPhase);
 
   ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
   assert(heap->kind() == CollectedHeap::ParallelScavengeHeap, "Sanity");
