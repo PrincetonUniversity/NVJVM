@@ -2408,7 +2408,6 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
         Thread::current(), _collectorState);
     }
   }
-//  MemPressureStats::signalReleasePressure();
   if (UseAdaptiveSizePolicy) {
     GenCollectedHeap* gch = GenCollectedHeap::heap();
     size_policy()->ms_collection_end(gch->gc_cause());
@@ -2423,7 +2422,6 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
       " exiting collection CMS state %d",
       Thread::current(), _collectorState);
   }
-//  exit(-1);
 }
 
 bool CMSCollector::waitForForegroundGC() {
@@ -7076,7 +7074,7 @@ if(!SweepPartitioned)
 
   update_time_of_last_gc(os::javaTimeMillis());
   if(SweepPartitioned)
-  printf("Total Number of garbage chunks = %d\n", _partitionMetaData->getGarbageChunks());
+	  printf("Total Number of garbage chunks = %d M.\n", (double)_partitionMetaData->getGarbageChunks() / (1000*1000));
 
   // NOTE on abstract state transitions:
   // Mutators allocate-live and/or mark the mod-union table dirty
@@ -7418,6 +7416,7 @@ void CMSCollector::reset(bool asynch) {
     assert(_collectorState == Resetting, "just checking");
     assert_lock_strong(bitMapLock());
     _markBitMap.clear_all();
+    _greyMarkBitMap.clear_all();
     _collectorState = Idling;
   }
 
