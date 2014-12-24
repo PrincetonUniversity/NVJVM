@@ -2423,7 +2423,7 @@ void CMSCollector::collect_in_foreground(bool clear_all_soft_refs) {
       " exiting collection CMS state %d",
       Thread::current(), _collectorState);
   }
-  exit(-1);
+//  exit(-1);
 }
 
 bool CMSCollector::waitForForegroundGC() {
