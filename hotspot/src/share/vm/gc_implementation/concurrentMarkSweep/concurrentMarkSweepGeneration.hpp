@@ -834,7 +834,6 @@ class CMSCollector: public CHeapObj {
 
   // CMS marking support structures
   CMSBitMap     _markBitMap;
-  static CMSBitMap		_greyMarkBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
@@ -880,6 +879,7 @@ class CMSCollector: public CHeapObj {
   // . _collectorState in (Idling, Sweeping) == {initial,final}marking ||
   //                                            precleaning || abortablePrecleanb
  public:
+  CMSBitMap		_greyMarkBitMap;
   enum CollectorState {
     Resizing            = 0,
     Resetting           = 1,

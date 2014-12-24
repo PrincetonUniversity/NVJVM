@@ -61,6 +61,7 @@
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
+CMSBitMap _greyMarkBitMap;
 FILE* CMSLogs::fp = NULL;
 
 #define KiB (1024)
@@ -8546,7 +8547,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	if(CMSCollector::_greyMarkBitMap->isMarked(ptr)){ // is already scanned
+	if(CMSCollector::_greyMarkBitMap.isMarked(ptr)){ // is already scanned
 		return;
 	}
 //	_partitionMetaData->incrementBytesPage(obj->size()*8, _pageIndex);
@@ -8558,7 +8559,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	obj->oop_iterate(&greyMarkClosure);
 	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
 	do_yield_check();
-	CMSCollector::_greyMarkBitMap->par_mark(ptr);
+	CMSCollector::_greyMarkBitMap.par_mark(ptr);
 //	do_throttle_check();
 }
 
