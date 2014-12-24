@@ -834,6 +834,7 @@ class CMSCollector: public CHeapObj {
 
   // CMS marking support structures
   CMSBitMap     _markBitMap;
+  CMSBitMap		_greyMarkBitMap;
   CMSBitMap     _modUnionTable;
   CMSMarkStack  _markStack;
   CMSMarkStack  _revisitStack;            // used to keep track of klassKlass objects
@@ -879,7 +880,6 @@ class CMSCollector: public CHeapObj {
   // . _collectorState in (Idling, Sweeping) == {initial,final}marking ||
   //                                            precleaning || abortablePrecleanb
  public:
-  static CMSBitMap		_greyMarkBitMap;
   enum CollectorState {
     Resizing            = 0,
     Resetting           = 1,
@@ -1180,6 +1180,7 @@ class CMSCollector: public CHeapObj {
   void* get_data_recorder(int thr_num);
 
   CMSBitMap* markBitMap()  { return &_markBitMap; }
+  CMSBitMap* greyBitMap()  { return &_greyMarkBitMap;}
   void directAllocated(HeapWord* start, size_t size);
 
   // main CMS steps and related support
@@ -1648,6 +1649,7 @@ public:
 class Par_MarkFromGreyRootsClosure: public BitMapClosure {
 	CMSCollector* _collector;
 	CMSBitMap* 	  _bit_map;
+	CMSBitMap* _grey_mark_bit_map;
     int 		  _skip_bits;
     ChunkList* _chunkList;
     MemRegion _whole_span;

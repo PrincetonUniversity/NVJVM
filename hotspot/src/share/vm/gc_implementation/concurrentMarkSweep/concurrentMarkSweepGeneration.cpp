@@ -61,7 +61,6 @@
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
-CMSBitMap CMSCollector::_greyMarkBitMap;
 FILE* CMSLogs::fp = NULL;
 
 #define KiB (1024)
@@ -606,6 +605,7 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
   _start_sampling(false),
   _between_prologue_and_epilogue(false),
   _markBitMap(0, Mutex::leaf + 1, "CMS_markBitMap_lock"),
+  _greyMarkBitMap(0, Mutex::leaf + 1, "CMS_greyMarkBitMap_lock"),
   _perm_gen_verify_bit_map(0, -1 /* no mutex */, "No_lock"),
   _modUnionTable((CardTableModRefBS::card_shift - LogHeapWordSize),
                  -1 /* lock-free */, "No_lock" /* dummy */),
@@ -676,19 +676,23 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
 
   // Allocate MUT and marking bit map
   {
-    MutexLockerEx x(_markBitMap.lock(), Mutex::_no_safepoint_check_flag);
+	  MutexLockerEx x(_markBitMap.lock(), Mutex::_no_safepoint_check_flag);
     if (!_markBitMap.allocate(_span)) {
           warning("Failed to allocate CMS Bit Map");
-          return;
-        }
-    if (!_greyMarkBitMap.allocate(_span)) {
-          warning("Failed to allocate Grey Bit Map");
           return;
         }
 /*    size_t size = _markBitMap.sizeInBits();
     size_t sizeSpan = _span.byte_size();
     printf("Size of the mark bit map in %u bytes, span size = %u.\n", size/8, sizeSpan);*/
     assert(_markBitMap.covers(_span), "_markBitMap inconsistency?");
+  }
+  {
+	  MutexLockerEx x(_greyMarkBitMap.lock(), Mutex::_no_safepoint_check_flag);
+	    if (!_greyMarkBitMap.allocate(_span)) {
+	          warning("Failed to allocate Grey Bit Map");
+	          return;
+	        }
+
   }
   {
     _modUnionTable.allocate(_span);
@@ -8428,6 +8432,7 @@ Par_MarkFromGreyRootsClosure::Par_MarkFromGreyRootsClosure(
 	_do_throttle = doThrottle;
 	_pageIndex = pageIndex;
 	_partitionMetaData = _collector->getPartitionMetaData();
+	_grey_mark_bit_map = collector->greyBitMap();
 }
 
 Par_MarkFromRootsClosure::Par_MarkFromRootsClosure(CMSConcMarkingTask* task,
@@ -8547,7 +8552,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	if(CMSCollector::_greyMarkBitMap.isMarked(ptr)){ // is already scanned
+	if(_grey_mark_bit_map->isMarked(ptr)){ // is already scanned
 		return;
 	}
 //	_partitionMetaData->incrementBytesPage(obj->size()*8, _pageIndex);
@@ -8559,7 +8564,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	obj->oop_iterate(&greyMarkClosure);
 	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
 	do_yield_check();
-	CMSCollector::_greyMarkBitMap.par_mark(ptr);
+	_grey_mark_bit_map->par_mark(ptr);
 //	do_throttle_check();
 }
 
