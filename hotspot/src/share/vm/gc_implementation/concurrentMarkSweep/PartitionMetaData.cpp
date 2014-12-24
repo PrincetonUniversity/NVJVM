@@ -339,7 +339,7 @@
 				}
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
-					if(shouldScanPage(index) && !isPageScanned(index)){
+					if(!isPageScanned(index)){
 						if((vec[count] & 1) == 1)
 							pageIndices.push_back(index);
 						else
