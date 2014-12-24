@@ -879,7 +879,7 @@ class CMSCollector: public CHeapObj {
   // . _collectorState in (Idling, Sweeping) == {initial,final}marking ||
   //                                            precleaning || abortablePrecleanb
  public:
-  CMSBitMap		_greyMarkBitMap;
+  static CMSBitMap		_greyMarkBitMap;
   enum CollectorState {
     Resizing            = 0,
     Resetting           = 1,

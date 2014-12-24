@@ -61,7 +61,7 @@
 // statics
 CMSCollector* ConcurrentMarkSweepGeneration::_collector = NULL;
 bool          CMSCollector::_full_gc_requested          = false;
-CMSBitMap _greyMarkBitMap = NULL;
+CMSBitMap CMSCollector::_greyMarkBitMap;
 FILE* CMSLogs::fp = NULL;
 
 #define KiB (1024)
