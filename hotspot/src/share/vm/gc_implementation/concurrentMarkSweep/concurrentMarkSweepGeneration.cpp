@@ -4338,7 +4338,6 @@ void CMSConcSweepingTask::do_partition(int currentPartitionIndex, SweepPageClosu
 		pageIndex = *it;
 		sweepPageClosure->do_page(pageIndex, g, d);
 		sweepPageClosure->do_yield_check();
-		pagesScanned++; // TODO remove this counter later
 	}
 	// Releasing the partition
 	_partitionMetaData->releasePartition(currentPartitionIndex);
@@ -4570,7 +4569,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
 		if (prev_obj <= span.end()) {
-			_partitionMetaData->clearBytesPerPage(pageIndex);
+//			_partitionMetaData->clearBytesPerPage(pageIndex);
 			MemRegion my_span = MemRegion(prev_obj, span.end());
 			Par_MarkFromGreyRootsClosure cl(_collector,
 						&_collector->_markBitMap,
@@ -8543,7 +8542,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
 
 void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	oop obj = oop(ptr);
-	_partitionMetaData->incrementBytesPage(obj->size()*8, _pageIndex);
+//	_partitionMetaData->incrementBytesPage(obj->size()*8, _pageIndex);
 	Par_GreyMarkClosure greyMarkClosure(_collector->_span, _bit_map,
 			_chunkList, _collector, _revisit_stack);
 	// Iterating over all the references of the given object and marking white references grey
