@@ -147,6 +147,7 @@ public:
 	bool releasePartition(int partitionIndex);
 	std::vector<int> toSweepPageList(int currentPartition, int *inCoreCount);
 	std::vector<int> toScanPageList(int currentPartition, bool finalWork);
+	std::vector<int> toScanPageListNoMinCore(int currentPartition);
 	int getPageFromNextPartition(int currentPartition);
 	PartitionMetaData(CMSCollector* cmsCollector, MemRegion span);
 	void printPartitionAliveObjectCount();

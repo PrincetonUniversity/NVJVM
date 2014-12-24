@@ -1,6 +1,26 @@
 
 #include "PartitionMetaData.hpp"
 
+
+	std::vector<int> PartitionMetaData::toScanPageListNoMinCore(int currentPartition){
+		std::vector<int> pageIndices;
+		std::vector<int>::iterator it;
+		int nonZeroCount = 0;
+		int pageCount = 0, maxPageCount;
+		char buf[20];
+		if(currentPartition != - 1){
+			int partitionSize = getPartitionSize(currentPartition);
+			void *address = getPageBase(getPartitionStart(currentPartition));
+			int index = getPartitionStart(currentPartition), count, greyCount;
+			for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
+				if(_pageGOC[index] > 0){
+						pageIndices.push_back(index);
+				}
+			}
+		}
+		return pageIndices;
+	}
+
 	void PartitionMetaData::setDoPrint(bool flag){
 		_doPrint = false;
 	}
