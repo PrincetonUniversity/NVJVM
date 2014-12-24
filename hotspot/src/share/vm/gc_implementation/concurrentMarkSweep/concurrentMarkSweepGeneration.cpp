@@ -4604,7 +4604,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				break;
 			}
 			// The indices of pages that may be scanned in the next iteration
-			pageIndices = _partitionMetaData->toScanPageListNoMinCore(currentPartitionIndex, true);
+			pageIndices = _partitionMetaData->toScanPageListNoMinCore(currentPartitionIndex);
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
 				scan_a_page(pageIndex, i);
