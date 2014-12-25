@@ -812,7 +812,7 @@ size_t GenCollectedHeap::unsafe_max_alloc() {
 // public collection interfaces
 
 void GenCollectedHeap::collect(GCCause::Cause cause) {
-//	cout << "In GenCollectedHeap::collect" << endl;
+	cout << "In GenCollectedHeap::collect" << endl;
  if (should_do_concurrent_full_gc(cause)) {
 	 cout << "should_do_concurrent_full_gc(cause) -> true, calling collect mostly concurrent" << endl;
 #ifndef SERIALGC
