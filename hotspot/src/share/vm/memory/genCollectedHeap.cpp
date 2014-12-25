@@ -831,8 +831,14 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
       collect(cause, n_gens() - 1);
     }
 #else
+    // Mark immutable space end here
+    ConcurrentMarkSweepGeneration* cmsGen = (ConcurrentMarkSweepGeneration*)_gens[1];
+    CMSCollector* cmsCollector = cmsGen->collector();
+    PartitionMetaData* partitionMetaData = cmsCollector->getPartitionMetaData();
+    partitionMetaData->markImmutableSpaceEnd(cmsGen->used());
+
     // Stop-the-world full collection
-     collect(cause, n_gens() - 1);
+//   collect(cause, n_gens() - 1);
      //SwapMetrics::signalled();
 	 //Universe::isGCSignalled=true;
      //cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;

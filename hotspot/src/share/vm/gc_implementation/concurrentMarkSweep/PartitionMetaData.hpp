@@ -86,6 +86,8 @@ class PartitionMetaData {
     int _totalScannedObjects;
     int _totalAliveObjects;
     long int _totalAliveObjectSize;
+    void* _immutableSpaceEnd; // The end of the immutable space
+    int _minPageIndex;
 
 	enum MessageState {
 		WORK = 0,
@@ -212,6 +214,11 @@ public:
 	void incrementIndexCount();
 	void incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }
 	long int getAliveObjectSize() { return _totalAliveObjectSize; }
+	void setMinimumPageIndexToScanFrom(){ _minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd); }
+	void markImmutableSpaceEnd(size_t bytesUsed) {
+		void*_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
+		setMinimumPageIndexToScanFrom ();
+	}
 };
 
 #endif

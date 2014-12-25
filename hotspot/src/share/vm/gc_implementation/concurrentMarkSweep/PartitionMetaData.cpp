@@ -13,7 +13,7 @@
 			void *address = getPageBase(getPartitionStart(currentPartition));
 			int index = getPartitionStart(currentPartition), count, greyCount;
 			for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
-				if(_pageGOC[index] > 0){
+				if(_pageGOC[index] > 0 && index > _minPageIndex){
 						pageIndices.push_back(index);
 				}
 			}
@@ -452,6 +452,7 @@
 			}
 
 	PartitionMetaData::PartitionMetaData(CMSCollector* cmsCollector, MemRegion span){
+						_minPageIndex=0;
 						setDoPrint(false);
 						_collector = cmsCollector;
 						_span = span;
