@@ -219,6 +219,9 @@ public:
 		void*_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
 		setMinimumPageIndexToScanFrom ();
 	}
+	bool doScanObject(void *address){
+		if(getPageIndexFromPageAddress(address) > _minPageIndex);
+	}
 };
 
 #endif

@@ -771,6 +771,8 @@
 	}
 
 	void PartitionMetaData::markObject(void* address){
+		if(doScanObject(address) == false)
+			return;
 		bool doMark = markGreyObject_Page(address);
 		if(doMark){
 			incrementIndex_Atomic(1, address);
