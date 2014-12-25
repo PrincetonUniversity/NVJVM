@@ -50,7 +50,9 @@ public:
     	sweepPhase = 2,
     	compactPhase = 3,
     	parMarkPhase=4,
-    	miscellaneous=5
+    	miscellaneous=5,
+    	newGenGC=6,
+    	oldGenGC=7
     };
     void threadFunction(int id);
     static void mutatorMonitorThreadFunction(void);
@@ -58,6 +60,8 @@ public:
     static void incrementFalsePositive(void);
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
+    static void incrementNewGenGCPauseTime(int time);
+    static void incrementOldGenGCPauseTime(int time);
 
     static int _processInitialSwapOuts;
 
@@ -68,6 +72,9 @@ public:
     static int _markPhaseFaults;
 	static int _sweepPhaseFaults;
 	static int _compactionPhaseFaults;
+
+	static int _pauseTimeNewGC;
+	static int _pauseTimeOldGC;
 
 	int _phaseId;
 

@@ -7,6 +7,8 @@
 
 #include "SwapMetrics.hpp"
 
+int SwapMetrics::_pauseTimeNewGC = 0;
+int SwapMetrics::_pauseTimeOldGC = 0;
 
 int SwapMetrics::_processInitialSwapOuts=0;
 
@@ -261,7 +263,15 @@ SwapMetrics::~SwapMetrics() {
   }
 
   // Writing the minor and the major faults to the output
-  cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+  cout << "Phase-Name = " << _phaseName << ", Major-Faults = " << _majorFaults << endl;
+}
+
+void SwapMetrics::incrementNewGenGCPauseTime(int time){
+	_pauseTimeNewGC += time;
+}
+
+void SwapMetrics::incrementOldGenGCPauseTime(int time){
+	_pauseTimeOldGC += time;
 }
 
 void SwapMetrics::printTotalFaults(){
@@ -326,6 +336,11 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
+
+       cout << "New Generation Pause Time = " << _pauseTimeNewGC << endl;
+       cout << "Old Generation Pause Time = " << _pauseTimeOldGC << endl;
+       int totalPauseTime = _pauseTimeNewGC + _pauseTimeOldGC ;
+       cout << "Total Pause Time = " << totalPauseTime << endl;
 
        cout << "Number of mark phases : " << _numberReportsMark << endl;
        cout << "Number of sweep phases : " << _numberReportsSweep << endl;

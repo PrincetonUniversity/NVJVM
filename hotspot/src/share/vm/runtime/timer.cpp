@@ -211,6 +211,10 @@ TraceCPUTime::~TraceCPUTime() {
         	SwapMetrics::sweepTimeIncrement(real_secs);
         } else if(_phaseId == SwapMetrics::compactPhase) {
         	SwapMetrics::compactionTimeIncrement(real_secs);
+        } else if(_phaseId == SwapMetrics::newGenGC){
+        	SwapMetrics::incrementNewGenGCPauseTime(real_secs);
+        } else if(_phaseId == SwapMetrics::oldGenGC){
+        	SwapMetrics::incrementOldGenGCPauseTime(real_secs);
         }
         if(_phase_name.length()>0)
         	_logfile->print("Phase::%s", _phase_name.c_str());

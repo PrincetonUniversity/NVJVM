@@ -320,6 +320,7 @@ bool PSScavenge::invoke_no_policy() {
 
     gclog_or_tty->date_stamp(PrintGC && PrintGCDateStamps);
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+    printf("Tracing CPUTime for psScavenge \n");
     TraceTime t1("GC", PrintGC, !PrintGCDetails, gclog_or_tty);
     TraceCollectorStats tcs(counters());
     TraceMemoryManagerStats tms(false /* not full GC */,gc_cause);

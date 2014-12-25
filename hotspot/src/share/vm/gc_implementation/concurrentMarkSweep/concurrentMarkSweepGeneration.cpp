@@ -1712,6 +1712,10 @@ void CMSCollector::collect(bool   full,
                            size_t size,
                            bool   tlab)
 {
+	// Traces the swap-metrics and the average cpu utilization
+    TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+    tcpu.setPhase("CMS-Old-Generation Collection", SwapMetrics::oldGenGC);
+
   if (!UseCMSCollectionPassing && _collectorState > Idling) {
     // For debugging purposes skip the collection if the state
     // is not currently idle

@@ -884,6 +884,12 @@ void ParNewGeneration::collect(bool   full,
   }
 
   TraceTime t1("GC", PrintGC && !PrintGCDetails, true, gclog_or_tty);
+
+  // Traces the swap-metrics and the average cpu utilization
+  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  tcpu.setPhase("Par-New-Generation", SwapMetrics::newGenGC);
+  SwapMetrics sMet("Par-New-Generation", SwapMetrics::newGenGC);
+
   // Capture heap used before collection (for printing).
   size_t gch_prev_used = gch->used();
 
