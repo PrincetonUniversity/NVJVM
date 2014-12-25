@@ -220,7 +220,7 @@ public:
 	}
 	void markImmutableSpaceEnd(size_t bytesUsed) {
 		cout << "Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
-		void*_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
+		_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
 		setMinimumPageIndexToScanFrom ();
 	}
 	bool doScanObject(void *address){
