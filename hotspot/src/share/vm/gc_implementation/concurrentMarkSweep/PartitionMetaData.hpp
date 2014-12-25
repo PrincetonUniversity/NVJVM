@@ -216,6 +216,7 @@ public:
 	long int getAliveObjectSize() { return _totalAliveObjectSize; }
 	void setMinimumPageIndexToScanFrom(){ _minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd); }
 	void markImmutableSpaceEnd(size_t bytesUsed) {
+		cout << "Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
 		void*_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
 		setMinimumPageIndexToScanFrom ();
 	}
