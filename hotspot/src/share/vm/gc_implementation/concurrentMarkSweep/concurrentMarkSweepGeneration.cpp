@@ -1089,7 +1089,10 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
                                                   bool   tlab /* ignored */) {
   assert_lock_strong(freelistLock());
   size_t adjustedSize = CompactibleFreeListSpace::adjustObjectSize(size);
-  OBJECT_ALLOC_IMM_SPACE(cout << "Allocation Request , Size = " << size << endl;)
+  OBJECT_ALLOC_IMM_SPACE(
+		  if(cmsSpace()->isOldGen())
+			  cout << "Allocation Request , Size = " << size << endl;
+  )
   HeapWord* res = cmsSpace()->allocate(adjustedSize);
   // Allocate the object live (grey) if the background collector has
   // started marking. This is necessary because the marker may
