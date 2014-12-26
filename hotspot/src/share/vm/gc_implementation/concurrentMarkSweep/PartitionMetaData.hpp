@@ -16,8 +16,8 @@ class CMSConcMarkingTask;
 // that represents that no object start is present on the current page
 #define NO_OBJECT_MASK 1 << 14   // the mask that represents that no object start is present on a given page
 #define MEASUREMENT_MODE(x)
-#define DEBUG_LOGS(x) x
-#define FLUSH_LOGS fflush(stdout)
+#define DEBUG_LOGS(x)
+#define FLUSH_LOGS
 
 #define __u_pageBase(p) \
 	Universe::getPageBaseFromIndex(p)

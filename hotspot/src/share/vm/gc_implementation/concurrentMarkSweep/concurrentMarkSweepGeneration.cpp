@@ -3611,7 +3611,6 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
 	  _cmsGen->printOccupancy("after-mark-from-roots");
   }
   }
-  exit(-1);
   return result;
 }
 
