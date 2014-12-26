@@ -140,7 +140,6 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 	  ImmutableSpaceStats::_wordsImmutableSpace = immSpaceSize;
 	  ImmutableSpaceStats::_startImmutableSpace = addr;
 	  ImmutableSpaceStats::_endImmutableSpace = addr + immSpaceSize;
-	  ImmutableSpaceStats::print_on();
   }
   // CMSIndexedFreeListReplenish should be at least 1
   CMSIndexedFreeListReplenish = MAX2((uintx)1, CMSIndexedFreeListReplenish);

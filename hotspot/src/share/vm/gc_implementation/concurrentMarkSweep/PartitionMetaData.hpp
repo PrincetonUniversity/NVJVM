@@ -67,6 +67,9 @@ public:
 	static HeapWord* _startImmutableSpace;
 	static HeapWord* _endImmutableSpace;
 	static size_t _wordsImmutableSpace;
+	static int _startPageIndex;
+	static int _lastPageIndex;
+	static int _numberPages;
 	static void setImmutable(bool v);
 	static bool getIsImmutable();
 	static void print_on();

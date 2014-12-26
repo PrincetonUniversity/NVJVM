@@ -5,14 +5,21 @@ bool ImmutableSpaceStats::isImmutable = true;
 HeapWord* ImmutableSpaceStats::_startImmutableSpace = NULL;
 HeapWord* ImmutableSpaceStats::_endImmutableSpace = NULL;
 size_t ImmutableSpaceStats::_wordsImmutableSpace = 0;
+int ImmutableSpaceStats::_startPageIndex = 0;
+int ImmutableSpaceStats::_lastPageIndex = 0;
+int ImmutableSpaceStats::_numberPages = 0;
+
 
 void ImmutableSpaceStats::setImmutable(bool val) { isImmutable = val; }
 bool ImmutableSpaceStats::getIsImmutable() { return isImmutable; }
 void ImmutableSpaceStats::print_on(){
 	cout << "Printing statistics for the Immutable Space - " <<
-	        "Start of the immutable space" << _startImmutableSpace << "," <<
-			"End of the immutable space"  << _endImmutableSpace  << "," <<
-			"Number of words in the immutable space" << _wordsImmutableSpace << "," << endl;
+	        "Start of the immutable space" << _startImmutableSpace << endl <<
+			"End of the immutable space"  << _endImmutableSpace  << endl <<
+			"Number of words in the immutable space" << _wordsImmutableSpace << endl <<
+			"StartPageIndex" << _startPageIndex << endl <<
+			"EndPageIndex" << _lastPageIndex << endl <<
+			"NumberPages" << _numberPages << endl;
 	exit(-1);
 }
 
@@ -498,6 +505,10 @@ void ImmutableSpaceStats::print_on(){
 						_totalAliveObjects = 0;
 						_totalScannedObjects = 0;
 						_totalAliveObjectSize = 0;
+						ImmutableSpaceStats::_startPageIndex = getPageIndexFromPageAddress((void*)ImmutableSpaceStats::_startImmutableSpace);
+						ImmutableSpaceStats::_lastPageIndex = getPageIndexFromPageAddress((void*)ImmutableSpaceStats::_endImmutableSpace);
+						ImmutableSpaceStats::_numberPages = ImmutableSpaceStats::_lastPageIndex - ImmutableSpaceStats::_startPageIndex + 1;
+						ImmutableSpaceStats::print_on();
 		}
 
 	double PartitionMetaData::averageOccupancyRatio(){
