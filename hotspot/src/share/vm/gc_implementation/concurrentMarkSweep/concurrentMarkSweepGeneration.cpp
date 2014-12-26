@@ -234,7 +234,8 @@ class CMSParGCThreadState: public CHeapObj {
 ConcurrentMarkSweepGeneration::ConcurrentMarkSweepGeneration(
      ReservedSpace rs, size_t initial_byte_size, int level,
      CardTableRS* ct, bool use_adaptive_freelists,
-     FreeBlockDictionary::DictionaryChoice dictionaryChoice) :
+     FreeBlockDictionary::DictionaryChoice dictionaryChoice,
+     bool isOldGen) :
   CardGeneration(rs, initial_byte_size, level, ct),
   _dilatation_factor(((double)MinChunkSize)/((double)(CollectedHeap::min_fill_size()))),
   _debug_collection_type(Concurrent_collection_type)
@@ -253,7 +254,7 @@ ConcurrentMarkSweepGeneration::ConcurrentMarkSweepGeneration(
   cout << "Size = " << ((uintptr_t)(end)-(uintptr_t)(bottom)) << endl;
   _cmsSpace = new CompactibleFreeListSpace(_bts, MemRegion(bottom, end),
                                            use_adaptive_freelists,
-                                           dictionaryChoice);
+                                           dictionaryChoice, isOldGen);
   NOT_PRODUCT(debug_cms_space = _cmsSpace;)
   if (_cmsSpace == NULL) {
     vm_exit_during_initialization(

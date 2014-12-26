@@ -65,11 +65,11 @@ Generation* GenerationSpec::init(ReservedSpace rs, int level,
       // The constructor creates the CMSCollector if needed,
       // else registers with an existing CMSCollector
       ConcurrentMarkSweepGeneration* g = NULL;
-      cout << "Initializing the concurrent mark sweep generation initial size = " << init_size() << endl;
+      TRACE_HEAP_INIT(cout << "Initializing the concurrent mark sweep generation initial size = " << init_size() << endl;)
       g = new ConcurrentMarkSweepGeneration(rs,
                  init_size(), level, ctrs, UseCMSAdaptiveFreeLists,
-                 (FreeBlockDictionary::DictionaryChoice)CMSDictionaryChoice);
-
+                 (FreeBlockDictionary::DictionaryChoice)CMSDictionaryChoice,
+                 true);
       g->initialize_performance_counters();
       // Initializing the CMS generation
       HeapMonitor::setCMSGeneration(g);

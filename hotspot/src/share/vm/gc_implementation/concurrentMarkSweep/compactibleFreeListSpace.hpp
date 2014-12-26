@@ -137,6 +137,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   static int IndexSetStride;
 
  private:
+  bool _isOldGen;
+
   enum FitStrategyOptions {
     FreeBlockStrategyNone = 0,
     FreeBlockBestFitFirst
@@ -334,7 +336,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // Constructor...
   CompactibleFreeListSpace(BlockOffsetSharedArray* bs, MemRegion mr,
                            bool use_adaptive_freelists,
-                           FreeBlockDictionary::DictionaryChoice);
+                           FreeBlockDictionary::DictionaryChoice, bool isOldGen=false);
   // accessors
   bool bestFitFirst() { return _fitStrategy == FreeBlockBestFitFirst; }
   FreeBlockDictionary* dictionary() const { return _dictionary; }
@@ -383,6 +385,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
                      unallocated_block() : end());
   }
 
+  bool isOldGen() { return _isOldGen; }
+  void setIsOldGen(bool value) { _isOldGen = value; }
   // This is needed because the default implementation uses block_start()
   // which can;t be used at certain times (for example phase 3 of mark-sweep).
   // A better fix is to change the assertions in phase 3 of mark-sweep to

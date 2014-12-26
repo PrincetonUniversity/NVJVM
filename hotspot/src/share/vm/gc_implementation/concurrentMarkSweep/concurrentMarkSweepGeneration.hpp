@@ -1356,7 +1356,8 @@ class ConcurrentMarkSweepGeneration: public CardGeneration {
   ConcurrentMarkSweepGeneration(ReservedSpace rs, size_t initial_byte_size,
                                 int level, CardTableRS* ct,
                                 bool use_adaptive_freelists,
-                                FreeBlockDictionary::DictionaryChoice);
+                                FreeBlockDictionary::DictionaryChoice,
+                                bool isOldGen=false);
 
   // Accessors
   CMSCollector* collector() const { return _collector; }

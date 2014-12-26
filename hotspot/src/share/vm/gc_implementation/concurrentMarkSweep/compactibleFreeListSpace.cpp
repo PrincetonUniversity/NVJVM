@@ -69,7 +69,7 @@ void CompactibleFreeListSpace::set_cms_values() {
 // Constructor
 CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   MemRegion mr, bool use_adaptive_freelists,
-  FreeBlockDictionary::DictionaryChoice dictionaryChoice) :
+  FreeBlockDictionary::DictionaryChoice dictionaryChoice, bool isOldGen) :
   _dictionaryChoice(dictionaryChoice),
   _adaptive_freelists(use_adaptive_freelists),
   _bt(bs, mr),
@@ -85,8 +85,10 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
                     CMSRescanMultiple),
   _marking_task_size(CardTableModRefBS::card_size_in_words * BitsPerWord *
                     CMSConcMarkMultiple),
-  _collector(NULL)
+  _collector(NULL),
+  _isOldGen(isOldGen)
 {
+  cout << "Set the isOldGenerationFlag, isOldGen = " << _isOldGen << endl;
   cout << "Initializing the Compactible Free List Space, Size of the tree = " << mr.word_size() << endl;
   _bt.set_space(this);
   initialize(mr, SpaceDecorator::Clear, SpaceDecorator::Mangle);
@@ -129,6 +131,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
     // Allocations from the linear allocation block should
     // update it.
   } else {
+	  if(isOldGen()){ // The immutable space gets allocated only in the old generation
 	  size_t immSpaceSize = ImmutableObjectCount * ImmutableObjectSize;
 	  HeapWord* addr = (HeapWord*) _dictionary->getChunk(immSpaceSize);
 	  if(addr == NULL){
@@ -137,12 +140,13 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 	  }
 	  // Allocating the immutable space
 	  _immutableLinearAllocBlock.set(addr, immSpaceSize, 0, ImmutableObjectSize);
-	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
-	  _smallLinearAllocBlock.set(0, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
 	  // Setting the statistics for the immutable space
 	  ImmutableSpaceStats::_wordsImmutableSpace = immSpaceSize;
 	  ImmutableSpaceStats::_startImmutableSpace = addr;
 	  ImmutableSpaceStats::_endImmutableSpace = addr + immSpaceSize;
+	  }
+	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
+	  _smallLinearAllocBlock.set(0, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
   }
   // CMSIndexedFreeListReplenish should be at least 1
   CMSIndexedFreeListReplenish = MAX2((uintx)1, CMSIndexedFreeListReplenish);
