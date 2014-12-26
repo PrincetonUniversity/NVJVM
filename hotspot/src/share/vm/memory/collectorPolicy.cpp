@@ -789,6 +789,7 @@ void MarkSweepPolicy::initialize_generations() {
   } else {
     _generations[0] = new GenerationSpec(Generation::DefNew, _initial_gen0_size, _max_gen0_size);
   }
+  cout << "In MarkSweepPolicy :: Initializing Generation 1 Size :: " << _initial_gen1_size << endl;
   _generations[1] = new GenerationSpec(Generation::MarkSweepCompact, _initial_gen1_size, _max_gen1_size);
 
   if (_generations[0] == NULL || _generations[1] == NULL)
