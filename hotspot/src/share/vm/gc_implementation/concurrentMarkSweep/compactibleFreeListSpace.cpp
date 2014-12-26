@@ -119,7 +119,6 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   // Set the _refillSize for the linear allocation blocks
   if (!use_adaptive_freelists) {
 	printf("Have not handled the non-adaptive free list case and therefore exiting. Check compactibleFreeListSpace.cpp Line 121.\n");
-	exit(-1);
     FreeChunk* fc = _dictionary->getChunk(mr.word_size());
     // The small linAB initially has all the space and will allocate
     // a chunk of any size.
