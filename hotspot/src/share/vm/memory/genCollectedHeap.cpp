@@ -836,6 +836,7 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
     CMSCollector* cmsCollector = cmsGen->collector();
     PartitionMetaData* partitionMetaData = cmsCollector->getPartitionMetaData();
     partitionMetaData->markImmutableSpaceEnd(cmsGen->used());
+    ImmutableSpaceStats::setImmutable(false);
 
     // Stop-the-world full collection
 //   collect(cause, n_gens() - 1);

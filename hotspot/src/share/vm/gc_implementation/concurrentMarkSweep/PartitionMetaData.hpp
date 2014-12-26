@@ -60,6 +60,19 @@ class CMSConcMarkingTask;
 #define _pm_ \
 	getPartitionMetaData()
 
+class ImmutableSpaceStats {
+public:
+	// This is currently a hack in order to segregate object allocation until we do not have a language construct for specifying mutability nature of objects
+	static bool isImmutable;
+	static HeapWord* _startImmutableSpace;
+	static HeapWord* _endImmutableSpace;
+	static int _wordsImmutableSpace;
+	static void setImmutable(bool v);
+	static bool getIsImmutable();
+	static void print_on();
+};
+
+
 class PartitionMetaData {
 	int _pagesScanned;
 	int _pagesMarkScanned;

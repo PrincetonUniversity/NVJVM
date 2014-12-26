@@ -136,6 +136,11 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 	  _immutableLinearAllocBlock.set(addr, immSpaceSize, 0, ImmutableObjectSize);
 	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
 	  _smallLinearAllocBlock.set(0, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
+	  // Setting the statistics for the immutable space
+	  ImmutableSpaceStats::_wordsImmutableSpace = immSpaceSize;
+	  ImmutableSpaceStats::_startImmutableSpace = addr;
+	  ImmutableSpaceStats::_endImmutableSpace = addr + immSpaceSize;
+	  ImmutableSpaceStats::print_on();
   }
   // CMSIndexedFreeListReplenish should be at least 1
   CMSIndexedFreeListReplenish = MAX2((uintx)1, CMSIndexedFreeListReplenish);
@@ -1289,6 +1294,11 @@ HeapWord* CompactibleFreeListSpace::allocate_adaptive_freelists(size_t size) {
   assert(size == adjustObjectSize(size),
          "use adjustObjectSize() before calling into allocate()");
 
+  // If the getImmutable flag is currently set, then we allocate the object from the immutable
+  if(ImmutableSpaceStats::getIsImmutable()){
+	 res = getChunkFromImmutableAllocBlock(size);
+	 return res;
+  }
   // Strategy
   //   if small
   //     exact size from small object indexed list if small
@@ -1464,7 +1474,29 @@ oop CompactibleFreeListSpace::promote(oop obj, size_t obj_size) {
   return oop(res);
 }
 
-
+HeapWord*
+CompactibleFreeListSpace::getChunkFromImmutableAllocBlock(size_t size){
+	HeapWord* res = NULL;
+	ImmutableAllocBlock* blk = &(_immutableLinearAllocBlock);
+	// This is the common case.  Keep it simple.
+	res = blk->_ptr;
+	// Note that the BOT is up-to-date for the linAB before allocation.  It
+	// indicates the start of the linAB.  The split_block() updates the
+	// BOT for the linAB after the allocation (indicates the start of the
+	// next chunk to be allocated).
+	size_t blk_size = blk->_word_size;
+	blk->_word_size -= size;
+	blk->_ptr  += size;
+	splitBirth(size);
+	repairImmutableAllocBlocks();
+	// Update BOT last so that other (parallel) GC threads see a consistent
+	// view of the BOT and free blocks.
+	// Above must occur before BOT is updated below.
+	OrderAccess::storestore();
+	_bt.split_block(res, blk_size, size);  // adjust block offset table
+	_bt.allocated(res, size);
+	return res;
+}
 
 HeapWord*
 CompactibleFreeListSpace::getChunkFromSmallLinearAllocBlock(size_t size) {
@@ -1558,7 +1590,7 @@ HeapWord*  CompactibleFreeListSpace::getChunkFromLinearAllocBlockRemainder(
     blk->_word_size -= size;
     blk->_ptr  += size;
     splitBirth(size);
-    repairLinearAllocBlock(blk);
+    repairImmutableAllocBlock(blk);
     // Update BOT last so that other (parallel) GC threads see a consistent
     // view of the BOT and free blocks.
     // Above must occur before BOT is updated below.
@@ -2145,6 +2177,16 @@ bool CompactibleFreeListSpace::linearAllocationWouldFail() const {
 void CompactibleFreeListSpace::repairLinearAllocationBlocks() {
   // Fix up linear allocation blocks to look like free blocks
   repairLinearAllocBlock(&_smallLinearAllocBlock);
+}
+
+void CompactibleFreeListSpace::repairImmutableAllocBlocks(){
+	ImmutableAllocBlock* blk = &(_immutableLinearAllocBlock);
+	if (blk->_ptr != NULL) {
+	FreeChunk* fc = (FreeChunk*)(blk->_ptr);
+	fc->setSize(blk->_word_size);
+	fc->linkPrev(NULL);   // mark as free
+	fc->dontCoalesce();
+  }
 }
 
 void CompactibleFreeListSpace::repairLinearAllocBlock(LinearAllocBlock* blk) {

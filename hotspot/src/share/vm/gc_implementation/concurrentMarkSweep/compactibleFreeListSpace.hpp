@@ -50,16 +50,15 @@ class UpwardsObjectClosure;
 class ObjectClosureCareful;
 class Klass;
 
-class ImmutableAllocBloc {
+class ImmutableAllocBlock {
 private:
-      size_t _immutableSpaceSize;
 	  HeapWord* _ptr;
 	  size_t    _word_size;
 	  size_t    _refillSize;
 	  size_t    _allocation_size_limit;  // largest size that will be allocated
 
 public:
-	ImmutableAllocBloc() : _ptr(0), _word_size(0), _refillSize(0),
+	ImmutableAllocBlock() : _ptr(0), _word_size(0), _refillSize(0),
 	    _allocation_size_limit(0) {}
 	  void set(HeapWord* ptr, size_t word_size, size_t refill_size,
 	    size_t allocation_size_limit) {
@@ -160,7 +159,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // Linear allocation blocks
   LinearAllocBlock _smallLinearAllocBlock;
   // Space for allocating immutableLinearAllocBlocks
-  LinearAllocBlock _immutableLinearAllocBlock;
+  ImmutableAllocBlock _immutableLinearAllocBlock;
 
   FreeBlockDictionary::DictionaryChoice _dictionaryChoice;
   FreeBlockDictionary* _dictionary;    // ptr to dictionary for large size blocks
@@ -224,7 +223,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // is not enough space in the LinAB, refills it.
   HeapWord*  getChunkFromLinearAllocBlock(LinearAllocBlock* blk, size_t size);
   HeapWord*  getChunkFromSmallLinearAllocBlock(size_t size);
-  HeapWord* getChunkFromImmutableSpace(size_t size);
+  HeapWord* getChunkFromImmutableAllocBlock(size_t size);
   // Get a chunk from the space remaining in the linear allocation block.  Do
   // not attempt to refill if the space is not available, return NULL.  Do the
   // repairs on the linear allocation block as appropriate.
@@ -295,6 +294,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // performed on the remainder of a LinAB after an allocation
   // has been made from it.
   void       repairLinearAllocationBlocks();
+  void 		 repairImmutableAllocBlocks();
   void       repairLinearAllocBlock(LinearAllocBlock* blk);
   void       refillLinearAllocBlock(LinearAllocBlock* blk);
   void       refillLinearAllocBlockIfNeeded(LinearAllocBlock* blk);

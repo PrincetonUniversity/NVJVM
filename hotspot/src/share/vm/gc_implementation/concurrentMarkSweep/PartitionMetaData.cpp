@@ -1,6 +1,23 @@
 
 #include "PartitionMetaData.hpp"
 
+bool ImmutableSpaceStats::isImmutable = true;
+HeapWord* ImmutableSpaceStats::_startImmutableSpace = NULL;
+HeapWord* ImmutableSpaceStats::_endImmutableSpace = NULL;
+size_t ImmutableSpaceStats::_wordsImmutableSpace;
+
+void ImmutableSpaceStats::setImmutable(bool val) { isImmutable = val; }
+bool ImmutableSpaceStats::getIsImmutable() { return isImmutable; }
+void ImmutableSpaceStats::print_on(){
+	cout << "Printing statistics for the Immutable Space - " <<
+	        "Start of the immutable space" << _startImmutableSpace << "," <<
+			"End of the immutable space"  << _endImmutableSpace  << "," <<
+			"Number of words in the immutable space" << _wordsImmutableSpace << "," << endl;
+	exit(-1);
+}
+
+
+
   std::vector<int> PartitionMetaData::toScanPageListNoMinCore(int currentPartition){
 		std::vector<int> pageIndices;
 		std::vector<int>::iterator it;
