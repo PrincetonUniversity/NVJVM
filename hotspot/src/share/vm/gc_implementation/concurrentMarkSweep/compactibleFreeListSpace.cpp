@@ -132,7 +132,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 	  // Allocating the immutable space
 	  _immutableLinearAllocBlock.set(0, immSpaceSize, 0, ImmutableObjectSize);
 	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
-	 _smallLinearAllocBlock.set(immSpaceSize, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
+	 _smallLinearAllocBlock.set(0, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
   }
   // CMSIndexedFreeListReplenish should be at least 1
   CMSIndexedFreeListReplenish = MAX2((uintx)1, CMSIndexedFreeListReplenish);
