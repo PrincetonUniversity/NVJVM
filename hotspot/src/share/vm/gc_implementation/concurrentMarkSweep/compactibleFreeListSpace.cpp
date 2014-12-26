@@ -116,6 +116,8 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   // address in the heap than the klass so that the klassKlass is
   // moved to its new location before the klass is moved.
   // Set the _refillSize for the linear allocation blocks
+  cout << "Using Adaptive FreeLists = " << use_adaptive_freelists << endl;
+  exit(-1);
   if (!use_adaptive_freelists) {
     FreeChunk* fc = _dictionary->getChunk(mr.word_size());
     // The small linAB initially has all the space and will allocate
