@@ -64,7 +64,7 @@ Generation* GenerationSpec::init(ReservedSpace rs, int level,
       // Otherwise
       // The constructor creates the CMSCollector if needed,
       // else registers with an existing CMSCollector
-
+      cout << "Declaring the Concurrent Mark Sweep Generation" << UseCMSAdaptiveFreeLists << endl;
       ConcurrentMarkSweepGeneration* g = NULL;
       g = new ConcurrentMarkSweepGeneration(rs,
                  init_size(), level, ctrs, UseCMSAdaptiveFreeLists,

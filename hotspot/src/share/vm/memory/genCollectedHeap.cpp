@@ -151,7 +151,6 @@ jint GenCollectedHeap::initialize() {
   }
 
   Universe::setHeapBase((void *)heap_rs.base());
-  //printf("Heap Base = %p.\n", (void *)heap_rs.base());
   Universe::setHeapSize((size_t) heap_rs.size());
 
   _reserved = MemRegion((HeapWord*)heap_rs.base(),

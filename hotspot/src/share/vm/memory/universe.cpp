@@ -1117,9 +1117,6 @@ jint Universe::initialize_heap() {
   }
 
   jint status = Universe::heap()->initialize();
-  // Initializing the metadata related to the heap
-  size_t sizeOfPageTable = Universe::getHeapSize() / sysconf(_SC_PAGE_SIZE);
-//  allocatePageTable(sizeOfPageTable);
 
   if (status != JNI_OK) {
     return status;
