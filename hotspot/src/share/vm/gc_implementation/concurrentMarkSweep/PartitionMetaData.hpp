@@ -214,9 +214,8 @@ public:
 	void incrementIndexCount();
 	void incrementAliveObjectSize(size_t size);
 	long int getAliveObjectSize();
-	void setMinimumPageIndexToScanFrom();
 	void markImmutableSpaceEnd(size_t bytesUsed);
-	bool doScanObject(void *address);
+	bool isImmutableObject(void *address);
 };
 
 #endif

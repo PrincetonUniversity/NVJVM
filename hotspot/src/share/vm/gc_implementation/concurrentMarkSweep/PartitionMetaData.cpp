@@ -771,7 +771,7 @@
 	}
 
 	void PartitionMetaData::markObject(void* address){
-		if(doScanObject(address) == false)
+		if(isImmutableObject(address))
 			return;
 		bool doMark = markGreyObject_Page(address);
 		if(doMark){
@@ -868,20 +868,15 @@
 		return false;
 	}
 
-	void PartitionMetaData::setMinimumPageIndexToScanFrom(){
-			_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
-	}
-
 	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed) {
 			cout << " -- Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
 			_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
 			cout << "Immutable space end = " << _immutableSpaceEnd << endl;
-			setMinimumPageIndexToScanFrom ();
+			_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
 			cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;
-			exit(-1);
 	}
 
-	bool PartitionMetaData::doScanObject(void *address){
+	bool PartitionMetaData::isImmutableObject(void *address){
 			if(getPageIndexFromPageAddress(address) > _minPageIndex);
 				return true;
 			return false;
