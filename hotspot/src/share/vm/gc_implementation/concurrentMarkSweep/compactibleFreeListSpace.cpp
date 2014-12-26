@@ -778,7 +778,7 @@ void CompactibleFreeListSpace::blk_iterate_careful(BlkClosureCareful* cl) {
   assert_lock_strong(freelistLock());
   HeapWord *cur, *limit, *immSpaceEnd;
   PartitionMetaData* partitionMetaData = _collector->getPartitionMetaData();
-  immSpaceEnd = partitionMetaData->getImmutableSpaceEnd();
+  immSpaceEnd = (HeapWord* )partitionMetaData->getImmutableSpaceEnd();
   cur = block_start_careful(immSpaceEnd);
   int pageSize = sysconf(_SC_PAGE_SIZE);
   while(cur<immSpaceEnd){
