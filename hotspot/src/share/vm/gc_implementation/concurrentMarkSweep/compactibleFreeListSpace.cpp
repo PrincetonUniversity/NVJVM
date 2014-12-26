@@ -1500,7 +1500,7 @@ CompactibleFreeListSpace::getChunkFromImmutableAllocBlock(size_t size){
 	size_t blk_size = blk->_word_size;
 	blk->_word_size -= size;
 	blk->_ptr  += size;
-	splitBirth(size);
+//	splitBirth(size);
 	repairImmutableAllocBlocks();
 	// Update BOT last so that other (parallel) GC threads see a consistent
 	// view of the BOT and free blocks.
