@@ -63,6 +63,7 @@
 #define MASTER_THREAD_SLEEP_TIME 100
 #define DOPRINT
 #define TRACE_HEAP_INIT(x)
+#define OBJECT_ALLOC_IMM_SPACE(x) x
 
 #define __check(a, b) \
 	if(!a){ \
