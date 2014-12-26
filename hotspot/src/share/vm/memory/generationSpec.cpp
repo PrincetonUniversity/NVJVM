@@ -38,6 +38,8 @@
 
 Generation* GenerationSpec::init(ReservedSpace rs, int level,
                                  GenRemSet* remset) {
+  cout << "In Generation Spec init, name = " << name() << endl;
+  fflush(stdout);
   switch (name()) {
     case Generation::DefNew:
       return new DefNewGeneration(rs, init_size(), level);
@@ -65,6 +67,8 @@ Generation* GenerationSpec::init(ReservedSpace rs, int level,
       // The constructor creates the CMSCollector if needed,
       // else registers with an existing CMSCollector
       cout << "Declaring the Concurrent Mark Sweep Generation" << UseCMSAdaptiveFreeLists << endl;
+      fflush(stdout);
+      exit(-1);
       ConcurrentMarkSweepGeneration* g = NULL;
       g = new ConcurrentMarkSweepGeneration(rs,
                  init_size(), level, ctrs, UseCMSAdaptiveFreeLists,
