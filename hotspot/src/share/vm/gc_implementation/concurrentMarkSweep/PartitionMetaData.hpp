@@ -73,6 +73,7 @@ public:
 	static void setImmutable(bool v);
 	static bool getIsImmutable();
 	static void print_on();
+	static bool isInImmutableSpace(void *address);
 };
 
 

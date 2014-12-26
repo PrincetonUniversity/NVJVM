@@ -902,7 +902,11 @@ void ImmutableSpaceStats::print_on(){
 	}
 
 	bool PartitionMetaData::isMutableObject(void *address){
-			return (getPageIndexFromPageAddress(address) > _minPageIndex);
+			int pageIndex = getPageIndexFromPageAddress(address);
+			return (!
+					((pageIndex >= ImmutableSpaceStats::_startPageIndex) &&
+					(pageIndex <= ImmutableSpaceStats::_lastPageIndex))
+			);
 	}
 
 	void PartitionMetaData::incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }

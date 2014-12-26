@@ -1304,6 +1304,10 @@ HeapWord* CompactibleFreeListSpace::allocate_adaptive_freelists(size_t size) {
   // If the getImmutable flag is currently set, then we allocate the object from the immutable
   if(ImmutableSpaceStats::getIsImmutable()){
 	 res = getChunkFromImmutableAllocBlock(size);
+	 if(res == NULL){
+		 printf("Allocation failed from the Immutable Allocation Block.\n");
+		 exit(-1);
+	 }
 	 return res;
   }
   // Strategy
