@@ -16,8 +16,6 @@ void ImmutableSpaceStats::print_on(){
 	exit(-1);
 }
 
-
-
   std::vector<int> PartitionMetaData::toScanPageListNoMinCore(int currentPartition){
 		std::vector<int> pageIndices;
 		std::vector<int>::iterator it;

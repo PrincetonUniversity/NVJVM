@@ -66,7 +66,7 @@ public:
 	static bool isImmutable;
 	static HeapWord* _startImmutableSpace;
 	static HeapWord* _endImmutableSpace;
-	static int _wordsImmutableSpace;
+	static size_t _wordsImmutableSpace;
 	static void setImmutable(bool v);
 	static bool getIsImmutable();
 	static void print_on();
