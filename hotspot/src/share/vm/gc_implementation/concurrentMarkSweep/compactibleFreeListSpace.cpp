@@ -90,7 +90,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 {
   TRACE_HEAP_INIT(cout << "Set the isOldGenerationFlag, isOldGen = " << _isOldGen << endl;)
   TRACE_HEAP_INIT(cout << "Initializing the Compactible Free List Space, Size of the tree = " << mr.word_size() << endl;)
-  cout << "Is Old Gen = " << _isOldGen << ", Start = " << mr.start() << ", End = " << mr.end()  << endl;
+  TRACE_HEAP_INIT(cout << "Is Old Generation = " << _isOldGen << ", Start = " << mr.start() << ", End = " << mr.end()  << endl;)
   _bt.set_space(this);
   initialize(mr, SpaceDecorator::Clear, SpaceDecorator::Mangle);
   // We have all of "mr", all of which we place in the dictionary

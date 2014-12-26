@@ -507,7 +507,6 @@ void ImmutableSpaceStats::print_on(){
 						ImmutableSpaceStats::_startPageIndex = getPageIndexFromPageAddress((void*)ImmutableSpaceStats::_startImmutableSpace);
 						ImmutableSpaceStats::_lastPageIndex = getPageIndexFromPageAddress((void*)ImmutableSpaceStats::_endImmutableSpace);
 						ImmutableSpaceStats::_numberPages = ImmutableSpaceStats::_lastPageIndex - ImmutableSpaceStats::_startPageIndex + 1;
-						ImmutableSpaceStats::print_on();
 		}
 
 	double PartitionMetaData::averageOccupancyRatio(){
