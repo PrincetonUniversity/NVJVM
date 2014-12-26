@@ -51,13 +51,12 @@ class ObjectClosureCareful;
 class Klass;
 
 class ImmutableAllocBlock {
-private:
+public:
 	  HeapWord* _ptr;
 	  size_t    _word_size;
 	  size_t    _refillSize;
 	  size_t    _allocation_size_limit;  // largest size that will be allocated
 
-public:
 	ImmutableAllocBlock() : _ptr(0), _word_size(0), _refillSize(0),
 	    _allocation_size_limit(0) {}
 	  void set(HeapWord* ptr, size_t word_size, size_t refill_size,
