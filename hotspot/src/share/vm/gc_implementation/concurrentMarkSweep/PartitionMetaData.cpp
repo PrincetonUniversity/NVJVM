@@ -871,7 +871,7 @@
 			DEBUG_LOGS(cout << "Immutable space end = " << _immutableSpaceEnd << endl;)
 			_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
 			DEBUG_LOGS(cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;)
-			fflush(stdout);
+			FLUSH_LOGS;
 	}
 
 	bool PartitionMetaData::isMutableObject(void *address){
