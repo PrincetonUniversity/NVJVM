@@ -249,7 +249,8 @@ ConcurrentMarkSweepGeneration::ConcurrentMarkSweepGeneration(
     _numObjectsAllocated = 0;
     _numWordsAllocated = 0;
   )
-
+  cout << "Initializing the cms space within the cms generation " << endl;
+  cout << "Size = " << ((uintptr_t)(end)-(uintptr_t)(bottom)) << endl;
   _cmsSpace = new CompactibleFreeListSpace(_bts, MemRegion(bottom, end),
                                            use_adaptive_freelists,
                                            dictionaryChoice);
