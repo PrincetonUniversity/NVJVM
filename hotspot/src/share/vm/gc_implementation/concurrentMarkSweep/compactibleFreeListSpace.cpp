@@ -1590,7 +1590,7 @@ HeapWord*  CompactibleFreeListSpace::getChunkFromLinearAllocBlockRemainder(
     blk->_word_size -= size;
     blk->_ptr  += size;
     splitBirth(size);
-    repairImmutableAllocBlock(blk);
+    repairLinearAllocBlock(blk);
     // Update BOT last so that other (parallel) GC threads see a consistent
     // view of the BOT and free blocks.
     // Above must occur before BOT is updated below.
