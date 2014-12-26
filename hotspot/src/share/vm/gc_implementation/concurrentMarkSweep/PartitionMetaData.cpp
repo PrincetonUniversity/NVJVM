@@ -874,15 +874,11 @@
 	}
 
 	bool PartitionMetaData::isMutableObject(void *address){
-			if(getPageIndexFromPageAddress(address) > _minPageIndex);
-				return true;
-			return false;
+			return (getPageIndexFromPageAddress(address) > _minPageIndex);
 	}
-
 
 	void PartitionMetaData::incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }
 	long int PartitionMetaData::getAliveObjectSize() { return _totalAliveObjectSize; }
-
 	void* PartitionMetaData::getSpanStart() { return _span.start(); }
 	void* PartitionMetaData::getSpanLast()  { return _span.end(); }
 	void PartitionMetaData::incrementAliveObjectCount() {_totalAliveObjects++;}
