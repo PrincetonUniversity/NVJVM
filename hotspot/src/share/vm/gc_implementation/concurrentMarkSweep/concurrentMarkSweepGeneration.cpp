@@ -682,9 +682,6 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
           warning("Failed to allocate CMS Bit Map");
           return;
         }
-/*    size_t size = _markBitMap.sizeInBits();
-    size_t sizeSpan = _span.byte_size();
-    printf("Size of the mark bit map in %u bytes, span size = %u.\n", size/8, sizeSpan);*/
     assert(_markBitMap.covers(_span), "_markBitMap inconsistency?");
   }
   {
@@ -699,22 +696,6 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
     _modUnionTable.allocate(_span);
     assert(_modUnionTable.covers(_span), "_modUnionTable inconsistency?");
   }
-  /*{
-    MutexLockerEx x(_deadObjBitMap.lock(), Mutex::_no_safepoint_check_flag);
-    if (!_deadObjBitMap.allocate(_span)) {
-      warning("Failed to allocate Dead Object Mark CMS Bit Map");
-      return;
-    }
-    assert(_deadObjBitMap.covers(_span), "_greyMarkBitMap inconsistency?");
-  }
-  /*{
-     MutexLockerEx x(_dummyBitMap.lock(), Mutex::_no_safepoint_check_flag);
-     if (!_dummyBitMap.allocate(_span)) {
-       warning("Failed to allocate Dummy Mark CMS Bit Map");
-       return;
-     }
-     assert(_dummyBitMap.covers(_span), "_dummyBitMap inconsistency?");
-   }*/
   if (!_markStack.allocate(MarkStackSize)) {
     warning("Failed to allocate CMS Marking Stack");
     return;
@@ -734,11 +715,6 @@ CMSCollector::CMSCollector(ConcurrentMarkSweepGeneration* cmsGen,
 	  CMSConcurrentSweepEnabled = true;
 	  _conc_sweep_workers->initialize_workers();
 	  _conc_sweep_workers->setTotalYielders(ConcSweepThreads);
-
-//#ifdef DOPRINT
-	//  printf("Allocation of worker threads for sweep phase succeeded. Total Workers = %d.\n", _conc_sweep_workers->total_workers());
-//#endif
-
   }
 
   // Support for multi-threaded concurrent phases
