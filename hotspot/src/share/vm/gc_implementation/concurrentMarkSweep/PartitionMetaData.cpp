@@ -771,10 +771,7 @@
 	}
 
 	void PartitionMetaData::markObject(void* address){
-		if(isImmutableObject(address))
-			return;
-		bool doMark = markGreyObject_Page(address);
-		if(doMark){
+		if(isMutableObject(address) && markGreyObject_Page(address)){
 			incrementIndex_Atomic(1, address);
 		}
 	}
@@ -876,7 +873,7 @@
 			cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;
 	}
 
-	bool PartitionMetaData::isImmutableObject(void *address){
+	bool PartitionMetaData::isMutableObject(void *address){
 			if(getPageIndexFromPageAddress(address) > _minPageIndex);
 				return true;
 			return false;
