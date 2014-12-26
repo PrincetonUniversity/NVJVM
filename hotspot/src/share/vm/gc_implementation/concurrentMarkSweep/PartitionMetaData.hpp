@@ -214,9 +214,9 @@ public:
 	void incrementIndexCount();
 	void incrementAliveObjectSize(size_t size);
 	long int getAliveObjectSize();
-	void PartitionMetaData::setMinimumPageIndexToScanFrom();
-	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed);
-	bool PartitionMetaData::doScanObject(void *address);
+	void setMinimumPageIndexToScanFrom();
+	void markImmutableSpaceEnd(size_t bytesUsed);
+	bool doScanObject(void *address);
 };
 
 #endif
