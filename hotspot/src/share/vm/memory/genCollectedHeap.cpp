@@ -832,10 +832,12 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
     }
 #else
     // Mark immutable space end here
+    cout << "Marking Immutable space here" << endl;
     ConcurrentMarkSweepGeneration* cmsGen = (ConcurrentMarkSweepGeneration*)_gens[1];
     CMSCollector* cmsCollector = cmsGen->collector();
     PartitionMetaData* partitionMetaData = cmsCollector->getPartitionMetaData();
     partitionMetaData->markImmutableSpaceEnd(cmsGen->used());
+    cout << "Marking Immutable space done here" << endl;
 
     // Stop-the-world full collection
 //   collect(cause, n_gens() - 1);
