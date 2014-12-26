@@ -206,26 +206,17 @@ public:
 	void setDoyield(bool v) { _yield = v; }
 	void setCMSTask(CMSConcMarkingTask* tsk){ _task = tsk; }
 	void markObject(void* address);
-	void* getSpanStart() { return _span.start(); }
-	void* getSpanLast()  { return _span.end(); }
-	void incrementAliveObjectCount() {_totalAliveObjects++;}
-	int getTotalAliveObjects() { return _totalAliveObjects;}
-	int getTotalObjectsScanned(){ return _totalScannedObjects;}
+	void* getSpanStart();
+	void* getSpanLast();
+	void incrementAliveObjectCount();
+	int getTotalAliveObjects();
+	int getTotalObjectsScanned();
 	void incrementIndexCount();
-	void incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }
-	long int getAliveObjectSize() { return _totalAliveObjectSize; }
-	void setMinimumPageIndexToScanFrom(){
-		_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
-		cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;
-	}
-	void markImmutableSpaceEnd(size_t bytesUsed) {
-		cout << "Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
-		_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
-		setMinimumPageIndexToScanFrom ();
-	}
-	bool doScanObject(void *address){
-		if(getPageIndexFromPageAddress(address) > _minPageIndex);
-	}
+	void incrementAliveObjectSize(size_t size);
+	long int getAliveObjectSize();
+	void PartitionMetaData::setMinimumPageIndexToScanFrom();
+	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed);
+	bool PartitionMetaData::doScanObject(void *address);
 };
 
 #endif

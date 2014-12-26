@@ -867,3 +867,29 @@
 		}
 		return false;
 	}
+
+	void PartitionMetaData::setMinimumPageIndexToScanFrom(){
+			_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
+			cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;
+	}
+
+	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed) {
+			cout << "Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
+			_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
+			setMinimumPageIndexToScanFrom ();
+	}
+
+	bool PartitionMetaData::doScanObject(void *address){
+			if(getPageIndexFromPageAddress(address) > _minPageIndex);
+	}
+
+
+	void PartitionMetaData::incrementAliveObjectSize(size_t size) { _totalAliveObjectSize += size; }
+	long int PartitionMetaData::getAliveObjectSize() { return _totalAliveObjectSize; }
+
+	void* PartitionMetaData::getSpanStart() { return _span.start(); }
+	void* PartitionMetaData::getSpanLast()  { return _span.end(); }
+	void PartitionMetaData::incrementAliveObjectCount() {_totalAliveObjects++;}
+	int PartitionMetaData::getTotalAliveObjects() { return _totalAliveObjects;}
+	int PartitionMetaData::getTotalObjectsScanned(){ return _totalScannedObjects;}
+
