@@ -87,7 +87,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
                     CMSConcMarkMultiple),
   _collector(NULL)
 {
-  cout << "Initializing the Compactible Free List Space" << endl;
+  cout << "Initializing the Compactible Free List Space, Size of the tree = " << mr.size() << endl;
   _bt.set_space(this);
   initialize(mr, SpaceDecorator::Clear, SpaceDecorator::Mangle);
   // We have all of "mr", all of which we place in the dictionary
@@ -132,7 +132,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
 	  size_t immSpaceSize = ImmutableObjectCount * ImmutableObjectSize;
 	  HeapWord* addr = (HeapWord*) _dictionary->getChunk(immSpaceSize);
 	  if(addr == NULL){
-		  cout << "Cannot allocate the immutable space here" << endl;
+		  cout << "Cannot allocate the immutable space. Exiting." << endl;
 		  exit(-1);
 	  }
 	  // Allocating the immutable space
