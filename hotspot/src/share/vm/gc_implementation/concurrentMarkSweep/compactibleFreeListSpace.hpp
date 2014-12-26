@@ -134,8 +134,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
     SmallForDictionary  = 257,       // size < this then use _indexedFreeList
     IndexSetSize        = SmallForDictionary,  // keep this odd-sized
     FreeListPartitions = 4,
-    ImmObjectCount = ImmutableObjectCount,
-    ImmObjectSize = ImmutableObjectSize
+    ImmObjectCount = 0,
+    ImmObjectSize = 0
   };
   static int IndexSetStart;
   static int IndexSetStride;
@@ -226,6 +226,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
   // is not enough space in the LinAB, refills it.
   HeapWord*  getChunkFromLinearAllocBlock(LinearAllocBlock* blk, size_t size);
   HeapWord*  getChunkFromSmallLinearAllocBlock(size_t size);
+  HeapWord* getChunkFromImmutableSpace(size_t size);
   // Get a chunk from the space remaining in the linear allocation block.  Do
   // not attempt to refill if the space is not available, return NULL.  Do the
   // repairs on the linear allocation block as appropriate.
