@@ -118,6 +118,8 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   // moved to its new location before the klass is moved.
   // Set the _refillSize for the linear allocation blocks
   if (!use_adaptive_freelists) {
+	printf("Have not handled the non-adaptive free list case and therefore exiting. Check compactibleFreeListSpace.cpp Line 121.\n");
+	exit(-1);
     FreeChunk* fc = _dictionary->getChunk(mr.word_size());
     // The small linAB initially has all the space and will allocate
     // a chunk of any size.
@@ -129,7 +131,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
     // update it.
   } else {
 	  size_t immSpaceSize = ImmutableObjectCount * ImmutableObjectSize;
-	  HeapWord* addr = (HeapWord*) _dictionary.getChunk(immSpaceSize);
+	  HeapWord* addr = (HeapWord*) _dictionary->getChunk(immSpaceSize);
 	  // Allocating the immutable space
 	  _immutableLinearAllocBlock.set(addr, immSpaceSize, 0, ImmutableObjectSize);
 	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
