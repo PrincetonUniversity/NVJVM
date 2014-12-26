@@ -776,8 +776,15 @@ CompactibleFreeListSpace::new_dcto_cl(OopClosure* cl,
 // Apply the given closure to each block in the space.
 void CompactibleFreeListSpace::blk_iterate_careful(BlkClosureCareful* cl) {
   assert_lock_strong(freelistLock());
-  HeapWord *cur, *limit;
-  for (cur = bottom(), limit = end(); cur < limit;
+  HeapWord *cur, *limit, *immSpaceEnd;
+  PartitionMetaData* partitionMetaData = _collector->getPartitionMetaData();
+  immSpaceEnd = partitionMetaData->getImmutableSpaceEnd();
+  cur = block_start_careful(immSpaceEnd);
+  int pageSize = sysconf(_SC_PAGE_SIZE);
+  while(cur<immSpaceEnd){
+	  cur = block_start_careful((void *)((char*)cur+pageSize));
+  }
+  for (limit = end(); cur < limit;
        cur += cl->do_blk_careful(cur));
 }
 

@@ -865,6 +865,10 @@
 		return false;
 	}
 
+	void* PartitionMetaData::getImmutableSpaceEnd(){
+		return _immutableSpaceEnd;
+	}
+
 	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed) {
 			DEBUG_LOGS(cout << " -- Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;)
 			_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);

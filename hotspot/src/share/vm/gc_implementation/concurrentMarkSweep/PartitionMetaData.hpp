@@ -217,6 +217,7 @@ public:
 	void incrementAliveObjectSize(size_t size);
 	long int getAliveObjectSize();
 	void markImmutableSpaceEnd(size_t bytesUsed);
+	void* getImmutableSpaceEnd();
 	bool isMutableObject(void *address);
 };
 
