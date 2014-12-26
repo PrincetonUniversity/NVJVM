@@ -9,17 +9,16 @@ int ImmutableSpaceStats::_startPageIndex = 0;
 int ImmutableSpaceStats::_lastPageIndex = 0;
 int ImmutableSpaceStats::_numberPages = 0;
 
-
 void ImmutableSpaceStats::setImmutable(bool val) { isImmutable = val; }
 bool ImmutableSpaceStats::getIsImmutable() { return isImmutable; }
 void ImmutableSpaceStats::print_on(){
 	cout << "Printing statistics for the Immutable Space - " <<
-	        "Start of the immutable space" << _startImmutableSpace << endl <<
-			"End of the immutable space"  << _endImmutableSpace  << endl <<
-			"Number of words in the immutable space" << _wordsImmutableSpace << endl <<
-			"StartPageIndex" << _startPageIndex << endl <<
-			"EndPageIndex" << _lastPageIndex << endl <<
-			"NumberPages" << _numberPages << endl;
+	        "Start of the immutable space - " << _startImmutableSpace << endl <<
+			"End of the immutable space - "  << _endImmutableSpace  << endl <<
+			"Number of words in the immutable space - " << _wordsImmutableSpace << endl <<
+			"StartPageIndex - " << _startPageIndex << endl <<
+			"EndPageIndex - " << _lastPageIndex << endl <<
+			"NumberPages - " << _numberPages << endl;
 	exit(-1);
 }
 

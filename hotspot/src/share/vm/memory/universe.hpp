@@ -62,7 +62,7 @@
 // in microseconds, the overall time the master threads sleep for
 #define MASTER_THREAD_SLEEP_TIME 100
 #define DOPRINT
-#define TRACE_HEAP_INIT(x) x
+#define TRACE_HEAP_INIT(x)
 
 #define __check(a, b) \
 	if(!a){ \

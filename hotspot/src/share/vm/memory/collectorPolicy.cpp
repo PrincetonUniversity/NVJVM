@@ -463,7 +463,7 @@ void TwoGenerationCollectorPolicy::initialize_size_info() {
     // with the gen0 sizes and the overall heap sizes.
     assert(min_heap_byte_size() > _min_gen0_size,
       "gen0 has an unexpected minimum size");
-    cout << "Setting the minimum size of the generation 1 in two generation collector policy , min heap size= " << min_heap_byte_size() << endl;
+    TRACE_HEAP_INIT(cout << "Setting the minimum size of the generation 1 in two generation collector policy , min heap size= " << min_heap_byte_size() << endl;)
     set_min_gen1_size(min_heap_byte_size() - min_gen0_size());
     set_min_gen1_size(
       MAX2((uintx)align_size_down(_min_gen1_size, min_alignment()),
