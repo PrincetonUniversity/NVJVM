@@ -883,6 +883,8 @@
 
 	bool PartitionMetaData::doScanObject(void *address){
 			if(getPageIndexFromPageAddress(address) > _minPageIndex);
+				return true;
+			return false;
 	}
 
 
