@@ -4,7 +4,7 @@
 bool ImmutableSpaceStats::isImmutable = true;
 HeapWord* ImmutableSpaceStats::_startImmutableSpace = NULL;
 HeapWord* ImmutableSpaceStats::_endImmutableSpace = NULL;
-size_t ImmutableSpaceStats::_wordsImmutableSpace = -1;
+size_t ImmutableSpaceStats::_wordsImmutableSpace = 0;
 
 void ImmutableSpaceStats::setImmutable(bool val) { isImmutable = val; }
 bool ImmutableSpaceStats::getIsImmutable() { return isImmutable; }
