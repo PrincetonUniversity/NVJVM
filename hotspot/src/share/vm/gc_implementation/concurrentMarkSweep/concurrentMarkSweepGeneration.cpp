@@ -1353,7 +1353,7 @@ CMSCollector::allocation_limit_reached(Space* space, HeapWord* top,
 }
 
 oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
-
+  TRACKING_PROMOTE(cout << "In Promote" << endl;)
   assert(obj_size == (size_t)obj->size(), "bad obj_size passed in");
   // allocate, copy and if necessary update promoinfo --
   // delegate to underlying space.
@@ -1453,6 +1453,7 @@ oop
 ConcurrentMarkSweepGeneration::par_promote(int thread_num,
                                            oop old, markOop m,
                                            size_t word_sz) {
+	TRACKING_PROMOTE(cout << "In Par_Promote" << endl;)
 #ifndef PRODUCT
   if (Universe::heap()->promotion_should_fail()) {
     return NULL;
