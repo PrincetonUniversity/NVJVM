@@ -1541,6 +1541,7 @@ void Arguments::set_heap_size() {
       tty->print_cr("  Minimum heap size " SIZE_FORMAT, (uintx)reasonable_minimum);
     }
     FLAG_SET_ERGO(uintx, InitialHeapSize, (uintx)reasonable_initial);
+    cout << "Reasonable minimum size of the heap" << (uintx)reasonable_minimum << endl;
     set_min_heap_size((uintx)reasonable_minimum);
   }
 }

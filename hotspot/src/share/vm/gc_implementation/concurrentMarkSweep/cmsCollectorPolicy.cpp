@@ -78,8 +78,9 @@ void ConcurrentMarkSweepPolicy::initialize_generations() {
                                          _initial_gen0_size, _max_gen0_size);
   }
   if (UseAdaptiveSizePolicy) {
+	  cout << "In ConcurrentMarkSweepPolicy, initialGen1Size = " << _initial_gen1_size << ", max gen1 size = " << _max_gen1_size << endl;
     _generations[1] = new GenerationSpec(Generation::ASConcurrentMarkSweep,
-                            _initial_gen1_size, _max_gen1_size);
+    		_initial_gen1_size, _max_gen1_size);
   } else {
     _generations[1] = new GenerationSpec(Generation::ConcurrentMarkSweep,
                             _initial_gen1_size, _max_gen1_size);
