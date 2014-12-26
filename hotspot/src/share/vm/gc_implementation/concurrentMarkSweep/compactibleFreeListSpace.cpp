@@ -128,8 +128,11 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
     // Allocations from the linear allocation block should
     // update it.
   } else {
-    _smallLinearAllocBlock.set(0, 0, 1024*SmallForLinearAlloc,
-                               SmallForLinearAlloc);
+	  size_t immSpaceSize = ImmObjectCount * ImmObjectSize;
+	  // Allocating the immutable space
+	  _immutableLinearAllocBlock.set(0, immSpaceSize, 0, ImmObjectSize);
+	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
+	 _smallLinearAllocBlock.set(immSpaceSize, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
   }
   // CMSIndexedFreeListReplenish should be at least 1
   CMSIndexedFreeListReplenish = MAX2((uintx)1, CMSIndexedFreeListReplenish);
@@ -411,7 +414,7 @@ size_t CompactibleFreeListSpace::free() const {
   assert(_dictionary != NULL, "No _dictionary?");
   return (_dictionary->totalChunkSize(DEBUG_ONLY(freelistLock())) +
           totalSizeInIndexedFreeLists() +
-          _smallLinearAllocBlock._word_size) * HeapWordSize;
+          _smallLinearAllocBlock._word_size + _immutableLinearAllocBlock._word_size) * HeapWordSize;
 }
 
 size_t CompactibleFreeListSpace::max_alloc_in_words() const {

@@ -50,6 +50,28 @@ class UpwardsObjectClosure;
 class ObjectClosureCareful;
 class Klass;
 
+class ImmutableAllocBloc {
+private:
+      size_t _immutableSpaceSize;
+	  HeapWord* _ptr;
+	  size_t    _word_size;
+	  size_t    _refillSize;
+	  size_t    _allocation_size_limit;  // largest size that will be allocated
+
+public:
+	ImmutableAllocBloc() : _ptr(0), _word_size(0), _refillSize(0),
+	    _allocation_size_limit(0) {}
+	  void set(HeapWord* ptr, size_t word_size, size_t refill_size,
+	    size_t allocation_size_limit) {
+	    _ptr = ptr;
+	    _word_size = word_size;
+	    _refillSize = refill_size;
+	    _allocation_size_limit = allocation_size_limit;
+	  }
+
+	  void print_on(outputStream* st) const;
+};
+
 class LinearAllocBlock VALUE_OBJ_CLASS_SPEC {
  public:
   LinearAllocBlock() : _ptr(0), _word_size(0), _refillSize(0),
@@ -111,7 +133,9 @@ class CompactibleFreeListSpace: public CompactibleSpace {
     SmallForLinearAlloc = 16,        // size < this then use _sLAB
     SmallForDictionary  = 257,       // size < this then use _indexedFreeList
     IndexSetSize        = SmallForDictionary,  // keep this odd-sized
-    FreeListPartitions = 4
+    FreeListPartitions = 4,
+    ImmObjectCount = ImmutableObjectCount,
+    ImmObjectSize = ImmutableObjectSize
   };
   static int IndexSetStart;
   static int IndexSetStride;
@@ -137,6 +161,8 @@ class CompactibleFreeListSpace: public CompactibleSpace {
 
   // Linear allocation blocks
   LinearAllocBlock _smallLinearAllocBlock;
+  // Space for allocating immutableLinearAllocBlocks
+  LinearAllocBlock _immutableLinearAllocBlock;
 
   FreeBlockDictionary::DictionaryChoice _dictionaryChoice;
   FreeBlockDictionary* _dictionary;    // ptr to dictionary for large size blocks
