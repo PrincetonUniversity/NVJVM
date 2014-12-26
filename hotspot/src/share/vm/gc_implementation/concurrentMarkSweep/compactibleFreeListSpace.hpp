@@ -133,9 +133,7 @@ class CompactibleFreeListSpace: public CompactibleSpace {
     SmallForLinearAlloc = 16,        // size < this then use _sLAB
     SmallForDictionary  = 257,       // size < this then use _indexedFreeList
     IndexSetSize        = SmallForDictionary,  // keep this odd-sized
-    FreeListPartitions = 4,
-    ImmObjectCount = 0,
-    ImmObjectSize = 0
+    FreeListPartitions = 4
   };
   static int IndexSetStart;
   static int IndexSetStride;

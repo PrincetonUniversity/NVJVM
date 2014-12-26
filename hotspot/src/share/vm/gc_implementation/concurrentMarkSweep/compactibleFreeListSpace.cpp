@@ -87,8 +87,6 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
                     CMSConcMarkMultiple),
   _collector(NULL)
 {
-    ImmObjectCount = ImmutableObjectCount;
-    ImmObjectSize = ImmutableObjectSize;
   _bt.set_space(this);
   initialize(mr, SpaceDecorator::Clear, SpaceDecorator::Mangle);
   // We have all of "mr", all of which we place in the dictionary
@@ -130,9 +128,9 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
     // Allocations from the linear allocation block should
     // update it.
   } else {
-	    size_t immSpaceSize = ImmObjectCount * ImmObjectSize;
+	    size_t immSpaceSize = ImmutableObjectCount * ImmutableObjectSize;
 	  // Allocating the immutable space
-	  _immutableLinearAllocBlock.set(0, immSpaceSize, 0, ImmObjectSize);
+	  _immutableLinearAllocBlock.set(0, immSpaceSize, 0, ImmutableObjectSize);
 	  // Allocating the small linear block // TODO setting the word size for small linear allocation block (should not be a bug, though)
 	 _smallLinearAllocBlock.set(immSpaceSize, 0, 1024*SmallForLinearAlloc, SmallForLinearAlloc);
   }

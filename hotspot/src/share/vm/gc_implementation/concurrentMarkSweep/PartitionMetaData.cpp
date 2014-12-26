@@ -1,8 +1,7 @@
 
 #include "PartitionMetaData.hpp"
 
-
-	std::vector<int> PartitionMetaData::toScanPageListNoMinCore(int currentPartition){
+  std::vector<int> PartitionMetaData::toScanPageListNoMinCore(int currentPartition){
 		std::vector<int> pageIndices;
 		std::vector<int>::iterator it;
 		int nonZeroCount = 0;
