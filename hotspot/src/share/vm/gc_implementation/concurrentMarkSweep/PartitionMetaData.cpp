@@ -866,11 +866,12 @@
 	}
 
 	void PartitionMetaData::markImmutableSpaceEnd(size_t bytesUsed) {
-			cout << " -- Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;
+			DEBUG_LOGS(cout << " -- Bytes used by the immutable space = " << ((double)bytesUsed) / 1024 /1024 /1024 << " GB" << endl;)
 			_immutableSpaceEnd = (void *)((char *)_span.start() + bytesUsed);
-			cout << "Immutable space end = " << _immutableSpaceEnd << endl;
+			DEBUG_LOGS(cout << "Immutable space end = " << _immutableSpaceEnd << endl;)
 			_minPageIndex =  getPageIndexFromPageAddress(_immutableSpaceEnd);
-			cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;
+			DEBUG_LOGS(cout << "minimum page index = " << _minPageIndex << ", number of pages = " << _numberPages << endl;)
+			fflush(stdout);
 	}
 
 	bool PartitionMetaData::isMutableObject(void *address){
