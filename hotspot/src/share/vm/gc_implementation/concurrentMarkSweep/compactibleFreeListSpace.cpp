@@ -69,7 +69,7 @@ void CompactibleFreeListSpace::set_cms_values() {
 // Constructor
 CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   MemRegion mr, bool use_adaptive_freelists,
-  FreeBlockDictionary::DictionaryChoice dictionaryChoice, bool isOldGen) :
+  FreeBlockDictionary::DictionaryChoice dictionaryChoice, bool isOldGenFlag) :
   _dictionaryChoice(dictionaryChoice),
   _adaptive_freelists(use_adaptive_freelists),
   _bt(bs, mr),
@@ -86,7 +86,7 @@ CompactibleFreeListSpace::CompactibleFreeListSpace(BlockOffsetSharedArray* bs,
   _marking_task_size(CardTableModRefBS::card_size_in_words * BitsPerWord *
                     CMSConcMarkMultiple),
   _collector(NULL),
-  _isOldGen(isOldGen)
+  _isOldGen(isOldGenFlag)
 {
   cout << "Set the isOldGenerationFlag, isOldGen = " << _isOldGen << endl;
   cout << "Initializing the Compactible Free List Space, Size of the tree = " << mr.word_size() << endl;
