@@ -29,7 +29,7 @@ package com.sun.source.tree;
  * A visitor of trees, in the style of the visitor design pattern.
  * Classes implementing this interface are used to operate
  * on a tree when the kind of tree is unknown at compile time.
- * When a visitor is passed to an tree's {@link Tree#accept
+ * When a visitor is passed to a tree's {@link Tree#accept
  * accept} method, the <tt>visit<i>XYZ</i></tt> method most applicable
  * to that tree is invoked.
  *
@@ -85,6 +85,7 @@ public interface TreeVisitor<R,P> {
     R visitModifiers(ModifiersTree node, P p);
     R visitNewArray(NewArrayTree node, P p);
     R visitNewClass(NewClassTree node, P p);
+    R visitINewClass(INewClassTree node, P p);
     R visitParenthesized(ParenthesizedTree node, P p);
     R visitReturn(ReturnTree node, P p);
     R visitMemberSelect(MemberSelectTree node, P p);

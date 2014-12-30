@@ -1044,10 +1044,10 @@ public class JavacParser implements Parser {
                         case INEW:
                             if (typeArgs != null) return illegal();
                             mode = EXPR;
-                            int pos1 = S.pos();
+                            int position = S.pos();
                             S.nextToken();
                             if (S.token() == LT) typeArgs = typeArguments(false);
-                            t = innerCreatorINew(pos1, typeArgs, t);
+                            t = innerCreatorINew(position, typeArgs, t);
                             typeArgs = null;
                             break loop;                        	
                         }

@@ -341,6 +341,17 @@ public class TreeMaker implements JCTree.Factory {
         tree.pos = pos;
         return tree;
     }
+    
+    public JCINewClass INewClass(JCExpression encl,
+            List<JCExpression> typeargs,
+            JCExpression clazz,
+            List<JCExpression> args,
+            JCClassDecl def)
+    {
+    	JCINewClass tree = new JCINewClass(encl, typeargs, clazz, args, def);
+    	tree.pos = pos;
+    	return tree;
+    }
 
     public JCNewArray NewArray(JCExpression elemtype,
                              List<JCExpression> dims,
