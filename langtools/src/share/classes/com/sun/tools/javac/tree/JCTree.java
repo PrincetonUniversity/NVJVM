@@ -188,9 +188,13 @@ public abstract class JCTree implements Tree, Cloneable, DiagnosticPosition {
      */
     public static final int NEWCLASS = APPLY + 1;
 
+    /** Class instance creation expressions, of type NewClass.
+     */
+    public static final int INEWCLASS = NEWCLASS + 1;
+
     /** Array creation expressions, of type NewArray.
      */
-    public static final int NEWARRAY = NEWCLASS + 1;
+    public static final int NEWARRAY = INEWCLASS + 1;
 
     /** Parenthesized subexpressions, of type Parens.
      */
@@ -1392,6 +1396,56 @@ public abstract class JCTree implements Tree, Cloneable, DiagnosticPosition {
             return NEWCLASS;
         }
     }
+    
+    /**
+     * A inew(...) operation.
+     */
+    public static class JCINewClass extends JCExpression implements INewClassTree {
+        public JCExpression encl;
+        public List<JCExpression> typeargs;
+        public JCExpression clazz;
+        public List<JCExpression> args;
+        public JCClassDecl def;
+        public Symbol constructor;
+        public Type varargsElement;
+        public Type constructorType;
+        protected JCINewClass(JCExpression encl,
+                           List<JCExpression> typeargs,
+                           JCExpression clazz,
+                           List<JCExpression> args,
+                           JCClassDecl def)
+        {
+            this.encl = encl;
+            this.typeargs = (typeargs == null) ? List.<JCExpression>nil()
+                                               : typeargs;
+            this.clazz = clazz;
+            this.args = args;
+            this.def = def;
+        }
+        @Override
+        public void accept(Visitor v) { v.visitINewClass(this); }
+
+        public Kind getKind() { return Kind.INEW_CLASS; }
+        public JCExpression getEnclosingExpression() { // expr.inew C< ... > ( ... )
+            return encl;
+        }
+        public List<JCExpression> getTypeArguments() {
+            return typeargs;
+        }
+        public JCExpression getIdentifier() { return clazz; }
+        public List<JCExpression> getArguments() {
+            return args;
+        }
+        public JCClassDecl getClassBody() { return def; }
+        @Override
+        public <R,D> R accept(TreeVisitor<R,D> v, D d) {
+            return v.visitINewClass(this, d);
+        }
+        @Override
+        public int getTag() {
+            return INEWCLASS;
+        }
+    }
 
     /**
      * A new[...] operation.
@@ -2156,6 +2210,11 @@ public abstract class JCTree implements Tree, Cloneable, DiagnosticPosition {
                           JCExpression clazz,
                           List<JCExpression> args,
                           JCClassDecl def);
+        JCINewClass INewClass(JCExpression encl,
+                List<JCExpression> typeargs,
+                JCExpression clazz,
+                List<JCExpression> args,
+                JCClassDecl def);
         JCNewArray NewArray(JCExpression elemtype,
                           List<JCExpression> dims,
                           List<JCExpression> elems);
@@ -2212,6 +2271,7 @@ public abstract class JCTree implements Tree, Cloneable, DiagnosticPosition {
         public void visitAssert(JCAssert that)               { visitTree(that); }
         public void visitApply(JCMethodInvocation that)      { visitTree(that); }
         public void visitNewClass(JCNewClass that)           { visitTree(that); }
+        public void visitINewClass(JCINewClass that)		 { visitTree(that); }
         public void visitNewArray(JCNewArray that)           { visitTree(that); }
         public void visitParens(JCParens that)               { visitTree(that); }
         public void visitAssign(JCAssign that)               { visitTree(that); }

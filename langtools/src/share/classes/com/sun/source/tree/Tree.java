@@ -185,6 +185,11 @@ public interface Tree {
          * Used for instances of {@link NewClassTree}.
          */
         NEW_CLASS(NewClassTree.class),
+        
+        /**
+         * Used for instances of {@link INewClassTree}.
+         */        
+        INEW_CLASS(INewClassTree.class),
 
         /**
          * Used for instances of {@link ParenthesizedTree}.

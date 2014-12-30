@@ -73,6 +73,7 @@ public enum Token implements Formattable {
     LONG("long"),
     NATIVE("native"),
     NEW("new"),
+    INEW("inew"),
     PACKAGE("package"),
     PRIVATE("private"),
     PROTECTED("protected"),

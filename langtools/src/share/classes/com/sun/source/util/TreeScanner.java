@@ -269,6 +269,15 @@ public class TreeScanner<R,P> implements TreeVisitor<R,P> {
         return r;
     }
 
+    public R visitINewClass(INewClassTree node, P p) {
+        R r = scan(node.getEnclosingExpression(), p);
+        r = scanAndReduce(node.getIdentifier(), p, r);
+        r = scanAndReduce(node.getTypeArguments(), p, r);
+        r = scanAndReduce(node.getArguments(), p, r);
+        r = scanAndReduce(node.getClassBody(), p, r);
+        return r;
+    }
+
     public R visitNewClass(NewClassTree node, P p) {
         R r = scan(node.getEnclosingExpression(), p);
         r = scanAndReduce(node.getIdentifier(), p, r);

@@ -148,7 +148,7 @@ public class ClassWriter extends BasicWriter {
         }
 
         Attribute sfa = cf.getAttribute(Attribute.SourceFile);
-        if (sfa instanceof SourceFile_attribute) {
+        if (sfa instanceof SourceFile_attribute) {        	
             println("Compiled from \"" + getSourceFile((SourceFile_attribute) sfa) + "\"");
         }
 

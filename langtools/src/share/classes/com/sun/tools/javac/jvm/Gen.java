@@ -1563,8 +1563,10 @@ public class Gen extends JCTree.Visitor {
                 { super.visitAssert(tree); complexity+=5; }
             public void visitApply(JCMethodInvocation tree)
                 { super.visitApply(tree); complexity+=2; }
+            public void visitINewClass(JCINewClass tree)
+            { scan(tree.encl); scan(tree.args); complexity+=2; }            
             public void visitNewClass(JCNewClass tree)
-                { scan(tree.encl); scan(tree.args); complexity+=2; }
+            { scan(tree.encl); scan(tree.args); complexity+=2; }
             public void visitNewArray(JCNewArray tree)
                 { super.visitNewArray(tree); complexity+=5; }
             public void visitAssign(JCAssign tree)
@@ -1717,6 +1719,23 @@ public class Gen extends JCTree.Visitor {
         result = items.makeStackItem(pt);
     }
 
+    public void visitINewClass(JCINewClass tree){
+        // Enclosing instances or anonymous classes should have been eliminated
+        // by now.
+        Assert.check(tree.encl == null && tree.def == null);
+
+        code.emitop2(inew_, makeRef(tree.pos(), tree.type));
+        code.emitop0(dup);
+
+        // Generate code for all arguments, where the expected types are
+        // the parameters of the constructor's external type (that is,
+        // any implicit outer instance appears as first parameter).
+        genArgs(tree.args, tree.constructor.externalType(types).getParameterTypes());
+
+        items.makeMemberItem(tree.constructor, true).invoke();
+        result = items.makeStackItem(tree.type);   	
+    }
+    
     public void visitNewClass(JCNewClass tree) {
         // Enclosing instances or anonymous classes should have been eliminated
         // by now.

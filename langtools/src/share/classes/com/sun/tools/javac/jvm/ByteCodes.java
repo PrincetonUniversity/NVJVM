@@ -242,7 +242,8 @@ public interface ByteCodes {
         goto_w          = 200,
         jsr_w           = 201,
         breakpoint      = 202,
-        ByteCodeCount   = 203;
+        inew_			= 203,
+        ByteCodeCount   = 204;
 
     /** Virtual instruction codes; used for constant folding.
      */

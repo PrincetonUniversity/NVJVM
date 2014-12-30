@@ -928,7 +928,7 @@ public class JavacParser implements Parser {
                     case INTLITERAL: case LONGLITERAL: case FLOATLITERAL:
                     case DOUBLELITERAL: case CHARLITERAL: case STRINGLITERAL:
                     case TRUE: case FALSE: case NULL:
-                    case NEW: case IDENTIFIER: case ASSERT: case ENUM:
+                    case INEW: case NEW: case IDENTIFIER: case ASSERT: case ENUM:
                     case BYTE: case SHORT: case CHAR: case INT:
                     case LONG: case FLOAT: case DOUBLE: case BOOLEAN: case VOID:
                         JCExpression t1 = term3();
@@ -966,13 +966,14 @@ public class JavacParser implements Parser {
                 t = literal(names.empty);
             } else return illegal();
             break;
-        case NEW:
+        case NEW: case INEW:
+        	Token curr = S.token(); 
             if (typeArgs != null) return illegal();
             if ((mode & EXPR) != 0) {
                 mode = EXPR;
                 S.nextToken();
                 if (S.token() == LT) typeArgs = typeArguments(false);
-                t = creator(pos, typeArgs);
+                t = creator(pos, typeArgs, curr);
                 typeArgs = null;
             } else return illegal();
             break;
@@ -1031,7 +1032,7 @@ public class JavacParser implements Parser {
                             t = superSuffix(typeArgs, t);
                             typeArgs = null;
                             break loop;
-                        case NEW:
+                        case NEW: 
                             if (typeArgs != null) return illegal();
                             mode = EXPR;
                             int pos1 = S.pos();
@@ -1040,6 +1041,15 @@ public class JavacParser implements Parser {
                             t = innerCreator(pos1, typeArgs, t);
                             typeArgs = null;
                             break loop;
+                        case INEW:
+                            if (typeArgs != null) return illegal();
+                            mode = EXPR;
+                            int pos1 = S.pos();
+                            S.nextToken();
+                            if (S.token() == LT) typeArgs = typeArguments(false);
+                            t = innerCreatorINew(pos1, typeArgs, t);
+                            typeArgs = null;
+                            break loop;                        	
                         }
                     }
                     // typeArgs saved for next loop iteration.
@@ -1118,6 +1128,14 @@ public class JavacParser implements Parser {
                     S.nextToken();
                     if (S.token() == LT) typeArgs = typeArguments(false);
                     t = innerCreator(pos2, typeArgs, t);
+                    typeArgs = null;
+                } else if (S.token() == INEW && (mode & EXPR) != 0) {
+                    if (typeArgs != null) return illegal();
+                    mode = EXPR;
+                    int pos2 = S.pos();
+                    S.nextToken();
+                    if (S.token() == LT) typeArgs = typeArguments(false);
+                    t = innerCreatorINew(pos2, typeArgs, t);
                     typeArgs = null;
                 } else {
                     t = toP(F.at(pos1).Select(t, ident()));
@@ -1420,6 +1438,67 @@ public class JavacParser implements Parser {
         }
     }
 
+    JCExpression creator(int newpos, List<JCExpression> typeArgs, Token prevToken) {
+        switch (S.token()) {
+        case BYTE: case SHORT: case CHAR: case INT: case LONG: case FLOAT:
+        case DOUBLE: case BOOLEAN:
+            if (typeArgs == null)
+                return arrayCreatorRest(newpos, basicType());
+            break;
+        default:
+        }
+        JCExpression t = qualident();
+        int oldmode = mode;
+        mode = TYPE;
+        boolean diamondFound = false;
+        if (S.token() == LT) {
+            checkGenerics();
+            t = typeArguments(t, true);
+            diamondFound = (mode & DIAMOND) != 0;
+        }
+        while (S.token() == DOT) {
+            if (diamondFound) {
+                //cannot select after a diamond
+                illegal(S.pos());
+            }
+            int pos = S.pos();
+            S.nextToken();
+            t = toP(F.at(pos).Select(t, ident()));
+            if (S.token() == LT) {
+                checkGenerics();
+                t = typeArguments(t, true);
+                diamondFound = (mode & DIAMOND) != 0;
+            }
+        }
+        mode = oldmode;
+        if (S.token() == LBRACKET) {
+            JCExpression e = arrayCreatorRest(newpos, t);
+            if (typeArgs != null) {
+                int pos = newpos;
+                if (!typeArgs.isEmpty() && typeArgs.head.pos != Position.NOPOS) {
+                    // note: this should always happen but we should
+                    // not rely on this as the parser is continuously
+                    // modified to improve error recovery.
+                    pos = typeArgs.head.pos;
+                }
+                setErrorEndPos(S.prevEndPos());
+                reportSyntaxError(pos, "cannot.create.array.with.type.arguments");
+                return toP(F.at(newpos).Erroneous(typeArgs.prepend(e)));
+            }
+            return e;
+        } else if (S.token() == LPAREN) {
+            if(prevToken == NEW)
+            	return classCreatorRest(newpos, null, typeArgs, t);
+            return classCreatorRestINew(newpos, null, typeArgs, t);
+        } else {
+            reportSyntaxError(S.pos(), "expected2",
+                               LPAREN, LBRACKET);
+            t = toP(F.at(newpos).NewClass(null, typeArgs, t, List.<JCExpression>nil(), null));
+            return toP(F.at(newpos).Erroneous(List.<JCTree>of(t)));
+        }
+    }
+
+    
     /** InnerCreator = Ident [TypeArguments] ClassCreatorRest
      */
     JCExpression innerCreator(int newpos, List<JCExpression> typeArgs, JCExpression encl) {
@@ -1431,6 +1510,17 @@ public class JavacParser implements Parser {
             mode = oldmode;
         }
         return classCreatorRest(newpos, encl, typeArgs, t);
+    }
+    
+    JCExpression innerCreatorINew(int newpos, List<JCExpression> typeArgs, JCExpression encl) {
+        JCExpression t = toP(F.at(S.pos()).Ident(ident()));
+        if (S.token() == LT) {
+            int oldmode = mode;
+            checkGenerics();
+            t = typeArguments(t, true);
+            mode = oldmode;
+        }
+        return classCreatorRestINew(newpos, encl, typeArgs, t);
     }
 
     /** ArrayCreatorRest = "[" ( "]" BracketsOpt ArrayInitializer
@@ -1481,6 +1571,22 @@ public class JavacParser implements Parser {
         }
         return toP(F.at(newpos).NewClass(encl, typeArgs, t, args, body));
     }
+    
+    JCINewClass classCreatorRestINew(int newpos,
+    								  JCExpression encl,
+    								  List<JCExpression> typeArgs,
+    								  JCExpression t)
+	{
+		List<JCExpression> args = arguments();
+		JCClassDecl body = null;
+		if (S.token() == LBRACE) {
+			int pos = S.pos();
+			List<JCTree> defs = classOrInterfaceBody(names.empty, false);
+			JCModifiers mods = F.at(Position.NOPOS).Modifiers(0);
+			body = toP(F.at(pos).AnonymousClassDef(mods, defs));
+		}
+		return toP(F.at(newpos).INewClass(encl, typeArgs, t, args, body));
+	}
 
     /** ArrayInitializer = "{" [VariableInitializer {"," VariableInitializer}] [","] "}"
      */
