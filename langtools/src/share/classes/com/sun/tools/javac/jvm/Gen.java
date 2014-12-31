@@ -408,7 +408,7 @@ public class Gen extends JCTree.Visitor {
      *               (if it does, env.info.gaps != null).
      */
     void endFinalizerGap(Env<GenContext> env) {
-        if (env.info.gaps != null && env.info.gaps.length() % 2 == 1)
+        if (env.info.gaps != null && ((env.info.gaps.length() % 2) == 1))
             env.info.gaps.append(code.curPc());
     }
 
