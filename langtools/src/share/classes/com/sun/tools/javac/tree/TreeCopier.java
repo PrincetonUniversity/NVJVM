@@ -270,7 +270,17 @@ public class TreeCopier<P> implements TreeVisitor<JCTree,P> {
         JCClassDecl def = copy(t.def, p);
         return M.at(t.pos).NewClass(encl, typeargs, clazz, args, def);
     }
-
+    
+    public JCTree visitINewClass(INewClassTree node, P p) {
+        JCINewClass t = (JCINewClass) node;
+        JCExpression encl = copy(t.encl, p);
+        List<JCExpression> typeargs = copy(t.typeargs, p);
+        JCExpression clazz = copy(t.clazz, p);
+        List<JCExpression> args = copy(t.args, p);
+        JCClassDecl def = copy(t.def, p);
+        return M.at(t.pos).INewClass(encl, typeargs, clazz, args, def);
+    }
+    
     public JCTree visitParenthesized(ParenthesizedTree node, P p) {
         JCParens t = (JCParens) node;
         JCExpression expr = copy(t.expr, p);
