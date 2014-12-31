@@ -3051,7 +3051,8 @@ public class Attr extends JCTree.Visitor {
     /** Default visitor method for all other trees.
      */
     public void visitTree(JCTree tree) {
-        throw new AssertionError();
+        System.out.println("Throwing an assertion error.");
+    	throw new AssertionError();
     }
 
     /**
