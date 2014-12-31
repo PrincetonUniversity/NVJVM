@@ -206,6 +206,14 @@ public class TreeScanner extends Visitor {
         scan(tree.def);
     }
 
+    public void visitINewClass(JCINewClass tree) {
+        scan(tree.encl);
+        scan(tree.clazz);
+        scan(tree.typeargs);
+        scan(tree.args);
+        scan(tree.def);
+    }
+
     public void visitNewArray(JCNewArray tree) {
         scan(tree.elemtype);
         scan(tree.dims);
