@@ -2067,7 +2067,22 @@ public class Attr extends JCTree.Visitor {
             return clazztype;
         }
 
-        //dup attribution environment and augment the set of inference variables
+        Type attribDiamond(Env<AttrContext> env,
+                JCINewClass tree,
+                Type clazztype,
+                Pair<Scope, Scope> mapping,
+                List<Type> argtypes,
+                List<Type> typeargtypes) {
+        	if (clazztype.isErroneous() ||
+        			clazztype.isInterface() ||
+        			mapping == erroneousMapping) {
+    //if the type of the instance creation expression is erroneous,
+    //or if it's an interface, or if something prevented us to form a valid
+    //mapping, return the (possibly erroneous) type unchanged
+    	return clazztype;
+        }
+
+//dup attribution environment and augment the set of inference variables
         Env<AttrContext> localEnv = env.dup(tree);
         localEnv.info.tvars = clazztype.tsym.type.getTypeArguments();
 
