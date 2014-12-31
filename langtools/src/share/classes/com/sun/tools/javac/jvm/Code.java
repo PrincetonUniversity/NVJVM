@@ -992,6 +992,9 @@ public class Code {
         case new_:
             state.push(uninitializedObject(((Symbol)(pool.pool[od])).erasure(types), cp-3));
             break;
+        case inew_:
+        	state.push(uninitializedObject(((Symbol)(pool.pool[od])).erasure(types), cp-3));
+        	break;
         case sipush:
             state.push(syms.intType);
             break;
@@ -2176,6 +2179,7 @@ public class Code {
             mnem[invokeinterface] = "invokeinterface";
             mnem[invokedynamic] = "invokedynamic";
             mnem[new_] = "new_";
+            mnem[inew_] = "inew_";
             mnem[newarray] = "newarray";
             mnem[anewarray] = "anewarray";
             mnem[arraylength] = "arraylength";
