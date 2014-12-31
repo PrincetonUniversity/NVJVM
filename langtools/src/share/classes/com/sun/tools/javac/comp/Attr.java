@@ -1567,7 +1567,249 @@ public class Attr extends JCTree.Visitor {
             MethodType mt = new MethodType(argtypes, null, null, syms.methodClass);
             return (typeargtypes == null) ? mt : (Type)new ForAll(typeargtypes, mt);
         }
+        
+        public void visitINewClass(JCINewClass tree) {
+            Type owntype = types.createErrorType(tree.type);
 
+            // The local environment of a class creation is
+            // a new environment nested in the current one.
+            Env<AttrContext> localEnv = env.dup(tree, env.info.dup());
+
+            // The anonymous inner class definition of the new expression,
+            // if one is defined by it.
+            JCClassDecl cdef = tree.def;
+
+            // If enclosing class is given, attribute it, and
+            // complete class name to be fully qualified
+            JCExpression clazz = tree.clazz; // Class field following new
+            JCExpression clazzid =          // Identifier in class field
+                (clazz.getTag() == JCTree.TYPEAPPLY)
+                ? ((JCTypeApply) clazz).clazz
+                : clazz;
+
+            JCExpression clazzid1 = clazzid; // The same in fully qualified form
+
+            if (tree.encl != null) {
+                // We are seeing a qualified new, of the form
+                //    <expr>.new C <...> (...) ...
+                // In this case, we let clazz stand for the name of the
+                // allocated class C prefixed with the type of the qualifier
+                // expression, so that we can
+                // resolve it with standard techniques later. I.e., if
+                // <expr> has type T, then <expr>.new C <...> (...)
+                // yields a clazz T.C.
+                Type encltype = chk.checkRefType(tree.encl.pos(),
+                                                 attribExpr(tree.encl, env));
+                clazzid1 = make.at(clazz.pos).Select(make.Type(encltype),
+                                                     ((JCIdent) clazzid).name);
+                if (clazz.getTag() == JCTree.TYPEAPPLY)
+                    clazz = make.at(tree.pos).
+                        TypeApply(clazzid1,
+                                  ((JCTypeApply) clazz).arguments);
+                else
+                    clazz = clazzid1;
+            }
+
+            // Attribute clazz expression and store
+            // symbol + type back into the attributed tree.
+            Type clazztype = attribType(clazz, env);
+            Pair<Scope,Scope> mapping = getSyntheticScopeMapping(clazztype);
+            clazztype = chk.checkDiamond(tree, clazztype);
+            chk.validate(clazz, localEnv);
+            if (tree.encl != null) {
+                // We have to work in this case to store
+                // symbol + type back into the attributed tree.
+                tree.clazz.type = clazztype;
+                TreeInfo.setSymbol(clazzid, TreeInfo.symbol(clazzid1));
+                clazzid.type = ((JCIdent) clazzid).sym.type;
+                if (!clazztype.isErroneous()) {
+                    if (cdef != null && clazztype.tsym.isInterface()) {
+                        log.error(tree.encl.pos(), "anon.class.impl.intf.no.qual.for.new");
+                    } else if (clazztype.tsym.isStatic()) {
+                        log.error(tree.encl.pos(), "qualified.new.of.static.class", clazztype.tsym);
+                    }
+                }
+            } else if (!clazztype.tsym.isInterface() &&
+                       clazztype.getEnclosingType().tag == CLASS) {
+                // Check for the existence of an apropos outer instance
+                rs.resolveImplicitThis(tree.pos(), env, clazztype);
+            }
+
+            // Attribute constructor arguments.
+            List<Type> argtypes = attribArgs(tree.args, localEnv);
+            List<Type> typeargtypes = attribTypes(tree.typeargs, localEnv);
+
+            if (TreeInfo.isDiamond(tree) && !clazztype.isErroneous()) {
+                clazztype = attribDiamond(localEnv, tree, clazztype, mapping, argtypes, typeargtypes);
+                clazz.type = clazztype;
+            } else if (allowDiamondFinder &&
+                    tree.def == null &&
+                    !clazztype.isErroneous() &&
+                    clazztype.getTypeArguments().nonEmpty() &&
+                    findDiamonds) {
+                boolean prevDeferDiags = log.deferDiagnostics;
+                Queue<JCDiagnostic> prevDeferredDiags = log.deferredDiagnostics;
+                Type inferred = null;
+                try {
+                    //disable diamond-related diagnostics
+                    log.deferDiagnostics = true;
+                    log.deferredDiagnostics = ListBuffer.lb();
+                    inferred = attribDiamond(localEnv,
+                            tree,
+                            clazztype,
+                            mapping,
+                            argtypes,
+                            typeargtypes);
+                }
+                finally {
+                    log.deferDiagnostics = prevDeferDiags;
+                    log.deferredDiagnostics = prevDeferredDiags;
+                }
+                if (inferred != null &&
+                        !inferred.isErroneous() &&
+                        inferred.tag == CLASS &&
+                        types.isAssignable(inferred, pt.tag == NONE ? clazztype : pt, Warner.noWarnings)) {
+                    String key = types.isSameType(clazztype, inferred) ?
+                        "diamond.redundant.args" :
+                        "diamond.redundant.args.1";
+                    log.warning(tree.clazz.pos(), key, clazztype, inferred);
+                }
+            }
+
+            // If we have made no mistakes in the class type...
+            if (clazztype.tag == CLASS) {
+                // Enums may not be instantiated except implicitly
+                if (allowEnums &&
+                    (clazztype.tsym.flags_field&Flags.ENUM) != 0 &&
+                    (env.tree.getTag() != JCTree.VARDEF ||
+                     (((JCVariableDecl) env.tree).mods.flags&Flags.ENUM) == 0 ||
+                     ((JCVariableDecl) env.tree).init != tree))
+                    log.error(tree.pos(), "enum.cant.be.instantiated");
+                // Check that class is not abstract
+                if (cdef == null &&
+                    (clazztype.tsym.flags() & (ABSTRACT | INTERFACE)) != 0) {
+                    log.error(tree.pos(), "abstract.cant.be.instantiated",
+                              clazztype.tsym);
+                } else if (cdef != null && clazztype.tsym.isInterface()) {
+                    // Check that no constructor arguments are given to
+                    // anonymous classes implementing an interface
+                    if (!argtypes.isEmpty())
+                        log.error(tree.args.head.pos(), "anon.class.impl.intf.no.args");
+
+                    if (!typeargtypes.isEmpty())
+                        log.error(tree.typeargs.head.pos(), "anon.class.impl.intf.no.typeargs");
+
+                    // Error recovery: pretend no arguments were supplied.
+                    argtypes = List.nil();
+                    typeargtypes = List.nil();
+                }
+
+                // Resolve the called constructor under the assumption
+                // that we are referring to a superclass instance of the
+                // current instance (JLS ???).
+                else {
+                    //the following code alters some of the fields in the current
+                    //AttrContext - hence, the current context must be dup'ed in
+                    //order to avoid downstream failures
+                    Env<AttrContext> rsEnv = localEnv.dup(tree);
+                    rsEnv.info.selectSuper = cdef != null;
+                    rsEnv.info.varArgs = false;
+                    tree.constructor = rs.resolveConstructor(
+                        tree.pos(), rsEnv, clazztype, argtypes, typeargtypes);
+                    tree.constructorType = tree.constructor.type.isErroneous() ?
+                        syms.errType :
+                        checkMethod(clazztype,
+                            tree.constructor,
+                            rsEnv,
+                            tree.args,
+                            argtypes,
+                            typeargtypes,
+                            rsEnv.info.varArgs);
+                    if (rsEnv.info.varArgs)
+                        Assert.check(tree.constructorType.isErroneous() || tree.varargsElement != null);
+                }
+
+                if (cdef != null) {
+                    // We are seeing an anonymous class instance creation.
+                    // In this case, the class instance creation
+                    // expression
+                    //
+                    //    E.new <typeargs1>C<typargs2>(args) { ... }
+                    //
+                    // is represented internally as
+                    //
+                    //    E . new <typeargs1>C<typargs2>(args) ( class <empty-name> { ... } )  .
+                    //
+                    // This expression is then *transformed* as follows:
+                    //
+                    // (1) add a STATIC flag to the class definition
+                    //     if the current environment is static
+                    // (2) add an extends or implements clause
+                    // (3) add a constructor.
+                    //
+                    // For instance, if C is a class, and ET is the type of E,
+                    // the expression
+                    //
+                    //    E.new <typeargs1>C<typargs2>(args) { ... }
+                    //
+                    // is translated to (where X is a fresh name and typarams is the
+                    // parameter list of the super constructor):
+                    //
+                    //   new <typeargs1>X(<*nullchk*>E, args) where
+                    //     X extends C<typargs2> {
+                    //       <typarams> X(ET e, args) {
+                    //         e.<typeargs1>super(args)
+                    //       }
+                    //       ...
+                    //     }
+                    if (Resolve.isStatic(env)) cdef.mods.flags |= STATIC;
+
+                    if (clazztype.tsym.isInterface()) {
+                        cdef.implementing = List.of(clazz);
+                    } else {
+                        cdef.extending = clazz;
+                    }
+
+                    attribStat(cdef, localEnv);
+
+                    // If an outer instance is given,
+                    // prefix it to the constructor arguments
+                    // and delete it from the new expression
+                    if (tree.encl != null && !clazztype.tsym.isInterface()) {
+                        tree.args = tree.args.prepend(makeNullCheck(tree.encl));
+                        argtypes = argtypes.prepend(tree.encl.type);
+                        tree.encl = null;
+                    }
+
+                    // Reassign clazztype and recompute constructor.
+                    clazztype = cdef.sym.type;
+                    boolean useVarargs = tree.varargsElement != null;
+                    Symbol sym = rs.resolveConstructor(
+                        tree.pos(), localEnv, clazztype, argtypes,
+                        typeargtypes, true, useVarargs);
+                    Assert.check(sym.kind < AMBIGUOUS || tree.constructor.type.isErroneous());
+                    tree.constructor = sym;
+                    if (tree.constructor.kind > ERRONEOUS) {
+                        tree.constructorType =  syms.errType;
+                    }
+                    else {
+                        tree.constructorType = checkMethod(clazztype,
+                                tree.constructor,
+                                localEnv,
+                                tree.args,
+                                argtypes,
+                                typeargtypes,
+                                useVarargs);
+                    }
+                }
+
+                if (tree.constructor != null && tree.constructor.kind == MTH)
+                    owntype = clazztype;
+            }
+            result = check(tree, owntype, VAL, pkind, pt);
+            chk.validate(tree.typeargs, localEnv);
+        }
+        
     public void visitNewClass(JCNewClass tree) {
         Type owntype = types.createErrorType(tree.type);
 
