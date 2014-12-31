@@ -3388,6 +3388,17 @@ public class Attr extends JCTree.Visitor {
         }
 
         @Override
+        public void visitINewClass(JCINewClass that) {
+            if (that.constructor == null) {
+                that.constructor = new MethodSymbol(0, names.init, syms.unknownType, syms.noSymbol);
+            }
+            if (that.constructorType == null) {
+                that.constructorType = syms.unknownType;
+            }
+            super.visitINewClass(that);
+        }
+
+        @Override
         public void visitBinary(JCBinary that) {
             if (that.operator == null)
                 that.operator = new OperatorSymbol(names.empty, syms.unknownType, -1, syms.noSymbol);
