@@ -2067,21 +2067,6 @@ public class Attr extends JCTree.Visitor {
             return clazztype;
         }
 
-        Type attribDiamond(Env<AttrContext> env,
-                JCINewClass tree,
-                Type clazztype,
-                Pair<Scope, Scope> mapping,
-                List<Type> argtypes,
-                List<Type> typeargtypes) {
-        	if (clazztype.isErroneous() ||
-        			clazztype.isInterface() ||
-        			mapping == erroneousMapping) {
-    //if the type of the instance creation expression is erroneous,
-    //or if it's an interface, or if something prevented us to form a valid
-    //mapping, return the (possibly erroneous) type unchanged
-    	return clazztype;
-        }
-
 //dup attribution environment and augment the set of inference variables
         Env<AttrContext> localEnv = env.dup(tree);
         localEnv.info.tvars = clazztype.tsym.type.getTypeArguments();
@@ -2135,7 +2120,75 @@ public class Attr extends JCTree.Visitor {
                 clazztype,
                 true);
     }
-
+    Type attribDiamond(Env<AttrContext> env,
+            JCINewClass tree,
+            Type clazztype,
+            Pair<Scope, Scope> mapping,
+            List<Type> argtypes,
+            List<Type> typeargtypes) {
+	if (clazztype.isErroneous() ||
+	    clazztype.isInterface() ||
+	    mapping == erroneousMapping) {
+	//if the type of the instance creation expression is erroneous,
+	//or if it's an interface, or if something prevented us to form a valid
+	//mapping, return the (possibly erroneous) type unchanged
+	return clazztype;
+	}
+	
+	//dup attribution environment and augment the set of inference variables
+	Env<AttrContext> localEnv = env.dup(tree);
+	localEnv.info.tvars = clazztype.tsym.type.getTypeArguments();
+	
+	//if the type of the instance creation expression is a class type
+	//apply method resolution inference (JLS 15.12.2.7). The return type
+	//of the resolved constructor will be a partially instantiated type
+	((ClassSymbol) clazztype.tsym).members_field = mapping.snd;
+	Symbol constructor;
+	try {
+	constructor = rs.resolveDiamond(tree.pos(),
+	        localEnv,
+	        clazztype.tsym.type,
+	        argtypes,
+	        typeargtypes);
+	} finally {
+	((ClassSymbol) clazztype.tsym).members_field = mapping.fst;
+	}
+	if (constructor.kind == MTH) {
+	ClassType ct = new ClassType(clazztype.getEnclosingType(),
+	        clazztype.tsym.type.getTypeArguments(),
+	        clazztype.tsym);
+	clazztype = checkMethod(ct,
+	        constructor,
+	        localEnv,
+	        tree.args,
+	        argtypes,
+	        typeargtypes,
+	        localEnv.info.varArgs).getReturnType();
+	} else {
+	clazztype = syms.errType;
+	}
+	
+	if (clazztype.tag == FORALL && !pt.isErroneous()) {
+	//if the resolved constructor's return type has some uninferred
+	//type-variables, infer them using the expected type and declared
+	//bounds (JLS 15.12.2.8).
+	try {
+	    clazztype = infer.instantiateExpr((ForAll) clazztype,
+	            pt.tag == NONE ? syms.objectType : pt,
+	            Warner.noWarnings);
+	} catch (Infer.InferenceException ex) {
+	    //an error occurred while inferring uninstantiated type-variables
+	    log.error(tree.clazz.pos(),
+	            "cant.apply.diamond.1",
+	            diags.fragment("diamond", clazztype.tsym),
+	            ex.diagnostic);
+	}
+	}
+	return chk.checkClassType(tree.clazz.pos(),
+	    clazztype,
+	    true);
+	}
+    
     /** Creates a synthetic scope containing fake generic constructors.
      *  Assuming that the original scope contains a constructor of the kind:
      *  Foo(X x, Y y), where X,Y are class type-variables declared in Foo,
