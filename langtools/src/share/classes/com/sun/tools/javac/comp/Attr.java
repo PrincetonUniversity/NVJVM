@@ -3389,7 +3389,8 @@ public class Attr extends JCTree.Visitor {
 
         @Override
         public void visitINewClass(JCINewClass that) {
-            if (that.constructor == null) {
+            System.out.println("In visitINewClass().");
+        	if (that.constructor == null) {
                 that.constructor = new MethodSymbol(0, names.init, syms.unknownType, syms.noSymbol);
             }
             if (that.constructorType == null) {
