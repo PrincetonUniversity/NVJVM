@@ -382,7 +382,7 @@ void SwapMetrics::printTotalFaults(){
        			 break;
        		  } while(iss3);
 
-
+       if(totalFaults[1] == 0) return;
        cout << "Total number of major faults : " << totalFaults[1] << endl;
        cout << "Total number of swapOuts : " << (finalFaults-_processInitialSwapOuts) << endl;
        cout << "Total number of pageOuts : " << (finalPageOuts-_processInitialPageOuts) << endl;
