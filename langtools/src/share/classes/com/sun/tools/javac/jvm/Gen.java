@@ -1724,7 +1724,7 @@ public class Gen extends JCTree.Visitor {
         // by now.
         Assert.check(tree.encl == null && tree.def == null);
 
-        code.emitop2(inew_, makeRef(tree.pos(), tree.type));
+        code.emitop2(new_, makeRef(tree.pos(), tree.type));
         code.emitop0(dup);
 
         // Generate code for all arguments, where the expected types are
