@@ -680,8 +680,8 @@ public class Gen extends JCTree.Visitor {
     public void genDef(JCTree tree, Env<GenContext> env) {
         Env<GenContext> prevEnv = this.env;
         try {
-            this.env = env;
-            tree.accept(this);
+            this.env = env; 
+            tree.accept(this); // "this" is the Gen visitor that is passed to the definition
         } catch (CompletionFailure ex) {
             chk.completionError(tree.pos(), ex);
         } finally {
@@ -1724,7 +1724,7 @@ public class Gen extends JCTree.Visitor {
         // by now.
         Assert.check(tree.encl == null && tree.def == null);
 
-        code.emitop2(new_, makeRef(tree.pos(), tree.type));
+        code.emitop2(inew_, makeRef(tree.pos(), tree.type));
         code.emitop0(dup);
 
         // Generate code for all arguments, where the expected types are
