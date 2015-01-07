@@ -627,8 +627,8 @@ class JavaValue {
 
 // TosState describes the top-of-stack state before and after the execution of
 // a bytecode or method. The top-of-stack value may be cached in one or more CPU
-// registers. The TosState corresponds to the 'machine represention' of this cached
-// value. There's 4 states corresponding to the JAVA types int, long, float & double
+// registers. The TosState corresponds to the 'machine representation' of this cached
+// value. There are 4 states corresponding to the JAVA types int, long, float & double
 // as well as a 5th state in case the top-of-stack value is actually on the top
 // of stack (in memory) and thus not cached. The atos state corresponds to the itos
 // state when it comes to machine representation but is used separately for (oop)

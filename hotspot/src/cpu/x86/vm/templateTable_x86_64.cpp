@@ -3165,6 +3165,11 @@ void TemplateTable::invokedynamic(int byte_no) {
 //-----------------------------------------------------------------------------
 // Allocation
 
+// Allocation of the immutable objects
+void TemplateTable::_inew() {
+
+}
+
 void TemplateTable::_new() {
   transition(vtos, atos);
   __ get_unsigned_2_byte_index_at_bcp(rdx, 1);

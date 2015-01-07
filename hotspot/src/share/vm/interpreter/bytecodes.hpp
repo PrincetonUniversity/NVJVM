@@ -241,6 +241,7 @@ class Bytecodes: AllStatic {
     _goto_w               = 200, // 0xc8
     _jsr_w                = 201, // 0xc9
     _breakpoint           = 202, // 0xca
+    _inew 				  = 203, // 0xcb
 
     number_of_java_codes,
 

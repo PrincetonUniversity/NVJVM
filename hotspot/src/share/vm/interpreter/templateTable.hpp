@@ -304,6 +304,7 @@ class TemplateTable: AllStatic {
   static void putstatic(int byte_no);
   static void pop_and_check_object(Register obj);
 
+  static void _inew();
   static void _new();
   static void newarray();
   static void anewarray();
