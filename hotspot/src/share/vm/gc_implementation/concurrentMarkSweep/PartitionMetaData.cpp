@@ -445,14 +445,14 @@
 						}
 						_numberPages = __numPages(_span.last(), _span.start());
 						_pageGOC = new bool[_numberPages];
-						_bytesOccupiedPage = new int[_numberPages];
-						_pageScanned = new jubyte[_numberPages];
-						_pageStart = new jshort[_numberPages];
+						//_bytesOccupiedPage = new int[_numberPages];
+						//_pageScanned = new jubyte[_numberPages];
+						//_pageStart = new jshort[_numberPages];
 						for(count = 0; count < _numberPages; count++){
 										_pageGOC[count] = false;
-										_pageScanned[count] = 0;
-										_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
-										_bytesOccupiedPage[count] = 0;
+										//_pageScanned[count] = 0;
+										//_pageStart[count] = (jshort)NO_OBJECT_MASK; // each page is initialized with t
+										//_bytesOccupiedPage[count] = 0;
 						}
 						_partitionSize = (int)_numberPages/_numberPartitions;
 						_idleThreadCount[0] = 0;

@@ -1125,7 +1125,7 @@ HeapWord* ConcurrentMarkSweepGeneration::have_lock_and_allocate(size_t size,
       _numWordsAllocated += (int)adjustedSize;
     )
     // Marking the header for the direct allocated objects
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
+    //collector()->getPartitionMetaData()->objectAllocatedCMSSpace(res);
   }
   return res;
 }
@@ -1400,7 +1400,7 @@ oop ConcurrentMarkSweepGeneration::promote(oop obj, size_t obj_size) {
         (int)(CompactibleFreeListSpace::adjustObjectSize(obj->size()));
     )
     // The promotion of an object causes the object start to get allocated within the pageStart array
-    collector()->getPartitionMetaData()->objectAllocatedCMSSpace((HeapWord*)res);
+    //collector()->getPartitionMetaData()->objectAllocatedCMSSpace((HeapWord*)res);
 
   }
   return res;
@@ -1543,7 +1543,7 @@ ConcurrentMarkSweepGeneration::par_promote(int thread_num,
   )
 
   // The promotion of an object causes the object start to get allocated within the pageStart array
-  collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
+  //collector()->getPartitionMetaData()->objectAllocatedCMSSpace(obj_ptr);
 
   return obj;
 }
@@ -4565,7 +4565,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
 		prev_obj = currPos;
 		if (prev_obj <= span.end()) {
-//			_partitionMetaData->clearBytesPerPage(pageIndex);
 			MemRegion my_span = MemRegion(prev_obj, span.end());
 			Par_MarkFromGreyRootsClosure cl(_collector,
 						&_collector->_markBitMap,
