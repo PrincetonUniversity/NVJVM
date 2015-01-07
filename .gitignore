@@ -1,5 +1,5 @@
-.DS_STORE
 *.html
 build/*
+.DS_Store
 .settings/
 Debug/
