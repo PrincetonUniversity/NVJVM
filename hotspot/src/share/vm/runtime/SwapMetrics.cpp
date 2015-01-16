@@ -128,7 +128,6 @@ int SwapMetrics::getCurrentNumberOfPageOuts(void){
 }
 
 void* monitorIOMutators(void* arg){
-  printf("Starting the mutator IO monitor.\n");
   double value;
   int count;
   string temp;
@@ -146,18 +145,18 @@ void* monitorIOMutators(void* arg){
 	  ret = splitString(temp, 0);
 	  value = sToDub(ret);
 	  SwapMetrics::_userTimeMutator += value;
-	  cout << endl << "UserTimeMutator::" << value << ", ";
+	  //cout << endl << "UserTimeMutator::" << value << ", ";
 	  temp = std::string(buf);
 	  ret = splitString(temp, 3);
 	  value = sToDub(ret);
 	  SwapMetrics::_ioWaitMutator += value;
-	  cout << "IOWait::" << value << ", ";
+	  //cout << "IOWait::" << value << ", ";
 	}
 	if(count == 13){
 	   ret = splitString(temp, 13);
 	   value = sToDub(ret);
 	   SwapMetrics::_sumDiskUtilizationMutator += value;
-	   cout << "UserDiskUtilization::" << value << endl;
+	   //cout << "UserDiskUtilization::" << value << endl;
 	}
   }
   	  SwapMetrics::_numberReportsMutator++;
@@ -243,11 +242,9 @@ void SwapMetrics::setPhase(int phaseId){
 }
 
 void SwapMetrics::universeInit(){
-	printf("Initializing the swapMetrics.\n");
 	mutatorMonitorThreadFunction();
 	_processInitialSwapOuts = getCurrentNumberOfSwapOuts();
 	_processInitialPageOuts = getCurrentNumberOfPageOuts();
-	cout << "Timestamp at initialization::" << getCurrentTime() << endl;
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
