@@ -124,8 +124,12 @@ void ConcurrentMarkSweepThread::run() {
   }
   while (!_should_terminate) {
     sleepBeforeNextCycle();
-    if (_should_terminate) break;
-    	_collector->collect_in_background(false);  // !clear_all_soft_refs
+    if(Universe::isGCSignalled){
+        	if(_numberCollectionsLeft>0){
+        	_collector->collect_in_background(false);  // !clear_all_soft_refs
+        	_numberCollectionsLeft--;
+        	}
+        }
   }
   assert(_should_terminate, "just checking");
   // Check that the state of any protocol for synchronization
