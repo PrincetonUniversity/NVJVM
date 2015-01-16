@@ -248,7 +248,7 @@ void SwapMetrics::universeInit(){
 }
 
 SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
-  cout << "In Swap Metrics: phase" << phase << endl;
+//  cout << "In Swap Metrics: phase" << phase << endl;
   _currentFaults = new int[2];
   _initialFaults = new int[2];
   _finalFaults = new int[2];
@@ -263,7 +263,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   threadFunction(phaseId);
   _initialSwapOuts = getCurrentNumberOfSwapOuts();
   _initialPageOuts = getCurrentNumberOfPageOuts();
-  cout << "Start of phase :: " << phase << ", timestamp::"<< getCurrentTime() << endl;
+//  cout << "Start of phase :: " << phase << ", timestamp::"<< getCurrentTime() << endl;
 }
 
 SwapMetrics::~SwapMetrics() {
@@ -293,8 +293,8 @@ SwapMetrics::~SwapMetrics() {
   }
 
   // Writing the minor and the major faults to the output
-  cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
-  cout << "End of phase :: " << _phaseName << ", timestamp::"<< getCurrentTime() << endl;
+//  cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+//  cout << "End of phase :: " << _phaseName << ", timestamp::"<< getCurrentTime() << endl;
 }
 
 void SwapMetrics::printTotalFaults(){
@@ -387,7 +387,6 @@ void SwapMetrics::printTotalFaults(){
 }
 
 void SwapMetrics::getCurrentNumberOfFaults(void){
-//	cout  << "In Get Current Number Faults" << endl;
 	int count = 0;
 	FILE *fp;
 	char buf[BUF_MAX];

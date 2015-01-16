@@ -3648,7 +3648,6 @@ bool CMSCollector::markFromRoots(bool asynch) {
     // weak ref discovery by a younger generation collector.
 
     CMSTokenSyncWithLocks ts(true, bitMapLock());
-    cout << "Acquired CMSTokenSyncWithLocks" << endl;
     TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
     CMSPhaseAccounting pa(this, "mark", !PrintGCDetails);
     res = markFromRootsWork(asynch);
@@ -6247,7 +6246,6 @@ void CMSCollector::sweepWork(ConcurrentMarkSweepGeneration* gen,
   // promote), so we might as well prevent all young generation
   // GC's while we do a sweeping step. For the same reason, we might
   // as well take the bit map lock for the entire duration
-  printf("In sweepWork \n");
   // check that we hold the requisite locks
   assert(have_cms_token(), "Should hold cms token");
   assert(   (asynch && ConcurrentMarkSweepThread::cms_thread_has_cms_token())
