@@ -9692,22 +9692,22 @@ void SweepClosure::do_already_free_chunk(FreeChunk* fc) {
 }*/
 
 size_t SweepClosure::do_garbage_chunk(FreeChunk* fc) {
-	_numberOfGarbageChunks++;
+	//_numberOfGarbageChunks++;
 	PartitionMetaData* pmd = _collector->getPartitionMetaData();
-	bool shouldScan = pmd->shouldSweepScanPageAddr((void *)fc);
+	/*bool shouldScan = pmd->shouldSweepScanPageAddr((void *)fc);
 	if(shouldScan == false){
 		printf("A page with no object start has a free chunk.\n");
 		int type = _collector->getSpaceType(_sp);
 		printf("Space Type (1 for Mature, 2 for Permanent) = %d.\n", type);
 		exit(-1);
-	}
+	}*/
 
   // This is a chunk of garbage.  It is not in any free list.
   // Add it to a free list or let it possibly be coalesced into
   // a larger chunk.
 	 HeapWord* const addr = (HeapWord*) fc;
 	 const size_t size = CompactibleFreeListSpace::adjustObjectSize(oop(addr)->size());
-	 _totalGarbageCollected += size;
+	 //_totalGarbageCollected += size;
 
   if (_sp->adaptive_freelists()) {
     // Verify that the bit map has no bits marked between
