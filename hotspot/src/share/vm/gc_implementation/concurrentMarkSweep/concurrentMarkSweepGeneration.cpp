@@ -5184,7 +5184,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 
   _partitionMetaData->setDoyield(asynch);
   _partitionMetaData->setCMSTask(&tsk);
-  _partitionMetaData->clearBytesOccupiedPerPage();
+  //_partitionMetaData->clearBytesOccupiedPerPage();
   // Since the actual number of workers we get may be different
   // from the number we requested above, do we need to do anything different
   // below? In particular, may be we need to subclass the SequantialSubTasksDone
