@@ -123,12 +123,9 @@ void ConcurrentMarkSweepThread::run() {
     clear_CMS_flag(CMS_cms_wants_token);
   }
   while (!_should_terminate) {
-    cout << "Calling sleepBeforeNextCycle()" << endl;
 	sleepBeforeNextCycle();
-    cout << "After sleepBeforeNextCycle(). Checking if isGCSignalled" << endl;
     if(Universe::isGCSignalled){
         	if(_numberCollectionsLeft>0){
-        	cout << "Calling collect_in_background()" << endl;
         	_collector->collect_in_background(false);  // !clear_all_soft_refs
         	_numberCollectionsLeft--;
         	}
