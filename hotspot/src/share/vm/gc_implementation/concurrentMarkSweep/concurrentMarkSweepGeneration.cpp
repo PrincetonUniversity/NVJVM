@@ -5274,7 +5274,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
   }
 #endif
 
-  cout << "Average Occupancy Ratio :: " << _partitionMetaData->averageOccupancyRatio();
+  //cout << "Average Occupancy Ratio :: " << _partitionMetaData->averageOccupancyRatio();
   // Resetting the partition metadata to working state, after the worker threads have all yielded
   // Missing this can lead to the worker threads yielding before again !!
  _partitionMetaData->reset();
