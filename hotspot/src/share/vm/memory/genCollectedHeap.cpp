@@ -826,7 +826,6 @@ void GenCollectedHeap::collect(GCCause::Cause cause) {
 //	ConcurrentMarkSweepGeneration* cmsCMSG = (ConcurrentMarkSweepGeneration*)_gens[1];
 //	cmsCMSG->collector()->collect_in_background(false);
     Universe::isGCSignalled=true;
-    cout << "isGCSignalled =  "<< Universe::isGCSignalled << endl;
 #endif
   }
 }
