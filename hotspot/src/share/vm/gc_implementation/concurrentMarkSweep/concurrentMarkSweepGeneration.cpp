@@ -4581,7 +4581,9 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 		std::vector<int>::iterator it;
 		std::vector<int> pageIndices;
 		int currentPartitionIndex = -1, pageIndex;
+		int count=0;
 		while(true){
+			count++;
 			if (_partitionMetaData->checkToYield()){
 				break;
 			}
@@ -4596,9 +4598,13 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				scan_a_page(pageIndex, i);
 			}
+			if((count%1000)=0){
+				printf("Worker Id = %d, Size of the pageIndices = %d.\n", i, pageIndices.size());
+			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
+			printf("Worker index = %d, leaving the scan_and_mark function.\n",i);
 }
 
 void PartitionMetaData::do_yield_check(){
