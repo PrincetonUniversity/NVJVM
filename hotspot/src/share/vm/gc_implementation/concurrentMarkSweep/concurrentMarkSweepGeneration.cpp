@@ -4599,7 +4599,8 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				scan_a_page(pageIndex, i);
 			}
 			if((count%1000)==0){
-				printf("Worker Id = %d, Size of the pageIndices = %d.\n", i, pageIndices.size());
+				printf("Worker Id = %d, Size of the pageIndices = %d, currentPartitionIndex =%d.\n",
+						i, pageIndices.size(), currentPartitionIndex);
 			}
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
