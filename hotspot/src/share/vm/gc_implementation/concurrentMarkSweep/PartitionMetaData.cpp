@@ -533,7 +533,8 @@
 	int PartitionMetaData::getTotalGreyObjectsPageLevel(){
 		int index, sum = 0;
 			for (index = 0; index < _numberPages; index++){
-				sum += _pageGOC[index];
+				if(_pageGOC[index])
+					sum++;
 			}
 			return sum;
 	}

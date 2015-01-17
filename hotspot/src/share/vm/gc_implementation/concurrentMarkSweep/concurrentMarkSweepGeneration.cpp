@@ -4271,7 +4271,6 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 void CMSConcMarkingTask::masterThreadWorkFinal(){
   printf("In master thread work final entered.\n");
 	//  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
-	int oldCount = 0, newCount = 0;
 	int loopCount = 0;
 		// After clearing the dirty card bit map mark, the master thread has to make sure
 		// that the collector threads come to a termination point.
@@ -4294,8 +4293,9 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 				}
 				// This is for debugging
 				if((loopCount%1000)==0){
-					newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
-					printf("In master thread, newCount = %d\n", newCount);
+					int newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
+					int greyPages=_partitionMetaData->getTotalGreyObjectsPageLevel();
+						printf("In master thread, newCount = %d, greyPages = %d.\n", newCount, greyPages);
 				}
 					//newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
 					//_partitionMetaData->setDoPrint(oldCount==newCount);
