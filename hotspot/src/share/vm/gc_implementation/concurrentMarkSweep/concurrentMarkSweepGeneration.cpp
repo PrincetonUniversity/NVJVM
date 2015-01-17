@@ -4269,7 +4269,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-	//  printf("In master thread work final entered.\n");
+  printf("In master thread work final entered.\n");
 	//  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
 	int oldCount = 0, newCount = 0;
 	int loopCount = 0;
@@ -4293,9 +4293,13 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					}
 				}
 				// This is for debugging
+				if((loopCount%1000)==0){
 					newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
-					_partitionMetaData->setDoPrint(oldCount==newCount);
-					oldCount=newCount;
+					printf("In master thread, newCount = %d\n", newCount);
+				}
+					//newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
+					//_partitionMetaData->setDoPrint(oldCount==newCount);
+					//oldCount=newCount;
 				// End of debugging code
 				_partitionMetaData->setToWork();
 				usleep(1000);
