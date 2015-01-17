@@ -3574,7 +3574,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // between concurrent such updates.
   bool result = false;
   {
-  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  TraceCPUTime tcpu(true, true, gclog_or_tty);
   tcpu.setPhase("mark-from-roots", SwapMetrics::markPhase);
   SwapMetrics sMet("mark-from-roots", SwapMetrics::markPhase);
   if(PrintGC){
@@ -4533,7 +4533,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	void* pageAddress = _partitionMetaData->getPageBase(pageIndex);
-	_partitionMetaData->clearPage(pageAddress);
 	sp = getSpace(pageAddress);
 	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress), (HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
@@ -6991,7 +6990,7 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.reset();
   _intra_sweep_timer.start();
   if (asynch) {
-	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	TraceCPUTime tcpu(true, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
@@ -8542,7 +8541,7 @@ void Par_MarkFromGreyRootsClosure::scan_oops_in_oop(HeapWord* ptr){
 	// While marking the references as grey if any of the pages get a non zero grey reference then
 	// those pages are added to the chunk list
 	obj->oop_iterate(&greyMarkClosure);
-	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
+//	MEASUREMENT_MODE(_partitionMetaData->incrementIndexCount();)
 	do_yield_check();
 //	do_throttle_check();
 }

@@ -408,7 +408,6 @@ void PSPartitionMetaData::incrementPagesScanned(){
 					int iCore=0, oCore=0;
 					for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
 						greyCount = _pageGOC[index];
-						tGreyObjectCount+=greyCount;
 						if(greyCount > 0){
 							nonZeroCount++;
 							if((vec[count] & 1) == 1){
@@ -418,8 +417,6 @@ void PSPartitionMetaData::incrementPagesScanned(){
 							}
 						}
 					}
-				if(tGreyObjectCount==0)
-					cout << "total grey object = 0., For partition index = " << currentPartition << endl;
 				pageCount = pageIndices.size();
 				// A better logic is required here to get the
 				if((pageIndices.size() < (unsigned int)maxPageCount)){
