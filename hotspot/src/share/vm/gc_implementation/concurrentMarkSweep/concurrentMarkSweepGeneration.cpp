@@ -4537,6 +4537,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	void* pageAddress = _partitionMetaData->getPageBase(pageIndex);
+	_partitionMetaData->clearPage(pageAddress);
 	sp = getSpace(pageAddress);
 	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress), (HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
