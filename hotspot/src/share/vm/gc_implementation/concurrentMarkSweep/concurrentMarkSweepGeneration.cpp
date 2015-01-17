@@ -3695,7 +3695,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   //   push oop on marking stack
   // . drain the marking stack
 
-  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  TraceCPUTime tcpu(true, true, gclog_or_tty);
   tcpu.setPhase("mark-phase", SwapMetrics::markPhase);
   SwapMetrics smet("mark-phase", SwapMetrics::markPhase);
 
@@ -6064,7 +6064,7 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.reset();
   _intra_sweep_timer.start();
   if (asynch) {
-	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	TraceCPUTime tcpu(true, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics smet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
