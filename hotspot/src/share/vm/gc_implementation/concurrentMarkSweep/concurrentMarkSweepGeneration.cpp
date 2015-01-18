@@ -3577,7 +3577,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   TraceCPUTime tcpu(true||PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-from-roots", SwapMetrics::markPhase);
   SwapMetrics sMet("mark-from-roots", SwapMetrics::markPhase);
-  if(PrintGC){
+  if(true || PrintGC){
 	_cmsGen->printOccupancy("before-mark-from-roots");
   }
 
