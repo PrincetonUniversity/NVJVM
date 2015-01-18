@@ -3574,7 +3574,7 @@ bool CMSCollector::markFromRootsWork(bool asynch) {
   // between concurrent such updates.
   bool result = false;
   {
-  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+  TraceCPUTime tcpu(true||PrintGCDetails, true, gclog_or_tty);
   tcpu.setPhase("mark-from-roots", SwapMetrics::markPhase);
   SwapMetrics sMet("mark-from-roots", SwapMetrics::markPhase);
   if(PrintGC){
@@ -7002,7 +7002,7 @@ void CMSCollector::sweep(bool asynch) {
   _intra_sweep_timer.reset();
   _intra_sweep_timer.start();
   if (asynch) {
-	TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	TraceCPUTime tcpu(true || PrintGCDetails, true, gclog_or_tty);
 	tcpu.setPhase("sweep-phase", SwapMetrics::sweepPhase);
 	SwapMetrics sMet("sweep-phase", SwapMetrics::sweepPhase);
     CMSPhaseAccounting pa(this, "sweep", !PrintGCDetails);
