@@ -4269,7 +4269,7 @@ void CMSConcMarkingTask::masterThreadWorkInitial() {
 }
 
 void CMSConcMarkingTask::masterThreadWorkFinal(){
-  printf("In master thread work final entered.\n");
+//  printf("In master thread work final entered.\n");
 	//  printf("LoopCount = %d. Grey Object Count = %d.\n", loopCount, _partitionMetaData->getTotalGreyObjectsChunkLevel());
 	int loopCount = 0;
 		// After clearing the dirty card bit map mark, the master thread has to make sure
@@ -4292,11 +4292,11 @@ void CMSConcMarkingTask::masterThreadWorkFinal(){
 					}
 				}
 				// This is for debugging
-				if((loopCount%1000)==0){
+				/*if((loopCount%1000)==0){
 					int newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
 					int greyPages=_partitionMetaData->getTotalGreyObjectsPageLevel();
 						printf("In master thread, newCount = %d, greyPages = %d.\n", newCount, greyPages);
-				}
+				}*/
 					//newCount=_partitionMetaData->getTotalGreyObjectsChunkLevel();
 					//_partitionMetaData->setDoPrint(oldCount==newCount);
 					//oldCount=newCount;
@@ -4599,14 +4599,14 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				pageIndex = *it;
 				scan_a_page(pageIndex, i);
 			}
-			if((count%1000)==0){
+			/*if((count%1000)==0){
 				printf("Worker Id = %d, Size of the pageIndices = %d, currentPartitionIndex =%d.\n",
 						i, pageIndices.size(), currentPartitionIndex);
-			}
+			}*/
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
 		}
-			printf("Worker index = %d, leaving the scan_and_mark function.\n",i);
+//			printf("Worker index = %d, leaving the scan_and_mark function.\n",i);
 }
 
 void PartitionMetaData::do_yield_check(){
