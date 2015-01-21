@@ -446,8 +446,8 @@ inline void MarkFromRootsClosure::do_yield_check() {
 }
 
 inline void Par_MarkFromGreyRootsClosure::do_yield_check() {
-  Thread* t = Thread::current();
-  int id = t->osthread()->thread_id();
+  //Thread* t = Thread::current();
+  //int id = t->osthread()->thread_id();
 //  cout << "Yielded:: thread id::" << id << endl;
   if (ConcurrentMarkSweepThread::should_yield() &&
       !_collector->foregroundGCIsActive() &&

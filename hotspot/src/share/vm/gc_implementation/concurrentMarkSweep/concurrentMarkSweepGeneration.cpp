@@ -5212,7 +5212,7 @@ bool CMSCollector::do_marking_mt(bool asynch) {
 //  cout << "Tasks yielded/aborted" << endl;
   while (tsk.yielded()) {
     tsk.coordinator_yield();
-//    cout << "continuing tasks" << endl;
+    cout << "Tasks yielded, continuing tasks" << endl;
     conc_workers()->continue_task(&tsk);
   }
 
