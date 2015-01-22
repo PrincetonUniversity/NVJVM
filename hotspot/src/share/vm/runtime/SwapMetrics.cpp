@@ -57,6 +57,8 @@ int SwapMetrics::_falsePositives = 0;
 int SwapMetrics::_pageTouches = 0;
 int SwapMetrics::_objectSpills = 0;
 
+bool SwapMetrics::_monitorIOsFlag = false;
+
 long int getCurrentTime(){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
@@ -171,9 +173,10 @@ void* monitorIOs(void* arg){
   string temp;
   FILE *fp;
   char buf[BUF_MAX];
-  count++;
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-2");;
+  while(SwapMetrics::_monitorIOsFlag){
+  count =1;
   fp = popen(cmd.c_str(), "r");
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
@@ -182,7 +185,7 @@ void* monitorIOs(void* arg){
 	value = sToDub(ret);
 	if(id == SwapMetrics::markPhase){
 	  SwapMetrics::_userTimeMark += value;
-	  cout << "Buffer ::" << buf << endl;
+	  cout << "Buffer ::" << temp << endl;
 	  cout << "In Mark Phase, value = " << value << endl;
 	} else if(id == SwapMetrics::sweepPhase){
 		SwapMetrics::_userTimeSweep += value;
@@ -215,6 +218,7 @@ void* monitorIOs(void* arg){
    	}
     }
     count++;
+  }
   }
   free(arg);
 }
@@ -303,9 +307,11 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseId = phaseId;
   threadFunction(phaseId);
   cout << "Start of phase: "<< phase << ",timestamp :: " << getCurrentTime() << endl;
+  SwapMetrics::_monitorIOsFlag = true;
 }
 
 SwapMetrics::~SwapMetrics() {
+  SwapMetrics::_monitorIOsFlag = false;
   getCurrentNumberOfFaults();
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
   _finalPageOuts = getCurrentNumberOfPageOuts();
@@ -423,9 +429,9 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
 
-       cout << "Number of mark phases : " << _numberReportsMark << endl;
-       cout << "Number of sweep phases : " << _numberReportsSweep << endl;
-       cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
+       //cout << "Number of mark phases : " << _numberReportsMark << endl;
+       //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
+       //cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
 
        cout << "Continuous Pages :: " << _cPages << endl;
        cout << "Total Pages :: " << _tPages << endl;
