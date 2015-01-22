@@ -47,6 +47,8 @@ double SwapMetrics::_markTime = 0;
 double SwapMetrics::_sweepTime = 0;
 double SwapMetrics::_compactionTime = 0;
 
+int SwapMetrics::_monitorIOFlag = 0;
+
 long int getCurrentTime(){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
@@ -165,6 +167,7 @@ void* monitorIOMutators(void* arg){
 }
 
 void* monitorIOs(void* arg){
+  int initialValue = SwapMetrics::_monitorIOFlag;
   int id = *(int *)arg;
   double value;
   int count = 0;
@@ -173,7 +176,9 @@ void* monitorIOs(void* arg){
   char buf[BUF_MAX];
   count++;
   std::string ret;
-  std::string cmd = std::string("iostat -x 1 2 dm-2");;
+  std::string cmd = std::string("iostat -x 1 2 dm-2");
+  while(SwapMetrics::_monitorIOFlag==initialValue){
+  count=1;
   fp = popen(cmd.c_str(), "r");
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
@@ -213,6 +218,7 @@ void* monitorIOs(void* arg){
    	}
     }
     count++;
+  }
   }
   free(arg);
 }
@@ -267,6 +273,7 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
 }
 
 SwapMetrics::~SwapMetrics() {
+  SwapMetrics::_monitorIOFlag++;
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
   _finalPageOuts = getCurrentNumberOfPageOuts();
   _currentFaults = new int[2];
@@ -380,9 +387,9 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
 
-       cout << "Number of mark phases : " << _numberReportsMark << endl;
-       cout << "Number of sweep phases : " << _numberReportsSweep << endl;
-       cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
+       //cout << "Number of mark phases : " << _numberReportsMark << endl;
+       //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
+       //cout << "Number of compaction phases : " << _numberReportsCompaction << endl;
 
 }
 

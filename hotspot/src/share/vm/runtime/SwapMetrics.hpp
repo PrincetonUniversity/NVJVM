@@ -113,6 +113,8 @@ public:
 	static double _userTimeMark;
 	static double _userTimeCompaction;
 
+	static int _monitorIOFlag;
+
 	static double _compactionTime;
 	static void compactionTimeIncrement(double v) { _compactionTime += v; }
 
