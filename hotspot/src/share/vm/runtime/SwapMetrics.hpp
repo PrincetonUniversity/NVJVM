@@ -127,7 +127,7 @@ public:
 	static double _sweepTime;
 	static void sweepTimeIncrement(double v) { _sweepTime += v; }
 
-	static bool _monitorIOsFlag;
+	static int _monitorIOsFlag;
 
 };
 

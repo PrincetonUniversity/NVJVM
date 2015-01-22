@@ -57,7 +57,7 @@ int SwapMetrics::_falsePositives = 0;
 int SwapMetrics::_pageTouches = 0;
 int SwapMetrics::_objectSpills = 0;
 
-bool SwapMetrics::_monitorIOsFlag = false;
+int SwapMetrics::_monitorIOsFlag = 0;
 
 long int getCurrentTime(){
 	struct timeval tp;
@@ -167,6 +167,7 @@ void* monitorIOMutators(void* arg){
 }
 
 void* monitorIOs(void* arg){
+  int initialValue=SwapMetrics::_monitorIOsFlag;
   int id = *(int *)arg;
   double value;
   int count = 0;
@@ -175,8 +176,8 @@ void* monitorIOs(void* arg){
   char buf[BUF_MAX];
   std::string ret;
   std::string cmd = std::string("iostat -x 1 2 dm-2");;
-  while(SwapMetrics::_monitorIOsFlag){
-  count =1;
+  while(SwapMetrics::_monitorIOsFlag == initialValue){
+  count=1;
   fp = popen(cmd.c_str(), "r");
   while(fgets(buf, BUF_MAX, fp) != NULL){
     temp = std::string(buf);
@@ -307,11 +308,10 @@ SwapMetrics::SwapMetrics(const char* phase, int phaseId) {
   _phaseId = phaseId;
   threadFunction(phaseId);
   cout << "Start of phase: "<< phase << ",timestamp :: " << getCurrentTime() << endl;
-  SwapMetrics::_monitorIOsFlag = true;
 }
 
 SwapMetrics::~SwapMetrics() {
-  SwapMetrics::_monitorIOsFlag = false;
+  SwapMetrics::_monitorIOsFlag++;
   getCurrentNumberOfFaults();
   _finalSwapOuts = getCurrentNumberOfSwapOuts();
   _finalPageOuts = getCurrentNumberOfPageOuts();
