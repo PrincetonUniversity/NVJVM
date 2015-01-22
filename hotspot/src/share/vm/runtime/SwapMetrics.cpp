@@ -182,6 +182,7 @@ void* monitorIOs(void* arg){
 	value = sToDub(ret);
 	if(id == SwapMetrics::markPhase){
 	  SwapMetrics::_userTimeMark += value;
+	  cout << "Buffer ::" << buf << endl;
 	  cout << "In Mark Phase, value = " << value << endl;
 	} else if(id == SwapMetrics::sweepPhase){
 		SwapMetrics::_userTimeSweep += value;
