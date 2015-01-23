@@ -454,7 +454,7 @@ void SwapMetrics::printTotalFaults(){
        cout << "Total Pages:" <<  _pageScans<< endl;
 
        cout << "Total Object Scan Time:" << _objectScanTotalTime << endl;
-       cout << "Total Objects:" <<
+       cout << "Total Objects:" << _objectScans << endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
