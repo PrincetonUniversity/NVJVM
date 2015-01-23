@@ -8515,7 +8515,11 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 		      return true;
 		    }
 		  }
+		  PROFILE(long int t1 = SwapMetrics::getCurrentTime();)
 		  scan_oops_in_oop(addr);
+		  PROFILE(long int t2 = SwapMetrics::getCurrentTime();)
+		  PROFILE(long int td = t2-t1;)
+		  PROFILE(SwapMetrics::incrementObjectScanTime(td);)
 		  return true;
 }
 
@@ -8544,11 +8548,7 @@ bool Par_MarkFromRootsClosure::do_bit(size_t offset) {
     }
   }
 
-  PROFILE(long int t1 = SwapMetrics::getCurrentTime();)
   scan_oops_in_oop(addr);
-  PROFILE(long int t2 = SwapMetrics::getCurrentTime();)
-  PROFILE(long int td = t2-t1;)
-  PROFILE(SwapMetrics::incrementObjectScanTime(td);)
   do_yield_check();
   return true;
 }
