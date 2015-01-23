@@ -116,7 +116,7 @@ public:
 	static double _userTimeSweep;
 	static double _userTimeMark;
 	static double _userTimeCompaction;
-	static int _mincoreCallCount;
+	static volatile int _mincoreCallCount;
 
 	static int _falsePositives;
 	static int _pageTouches;
