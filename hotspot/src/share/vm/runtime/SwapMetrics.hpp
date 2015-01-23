@@ -118,6 +118,7 @@ public:
 	static double _userTimeMark;
 	static double _userTimeCompaction;
 	static volatile long _mincoreCallTime;
+	static volatile int _totalMinCoreCalls;
 
 	static int _falsePositives;
 	static int _pageTouches;
