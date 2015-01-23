@@ -61,7 +61,7 @@ int SwapMetrics::_monitorIOsFlag = 0;
 int SwapMetrics::_mincoreCallCount = 0;
 
 void SwapMetrics::incrementMinCore(){
-	Atomic::inc((volatile jint*)&(SwapMetrics::_mincoreCallCount));
+//	Atomic::inc((volatile jint*)&(SwapMetrics::_mincoreCallCount));
 }
 
 long int getCurrentTime(){
