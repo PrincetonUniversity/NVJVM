@@ -70,7 +70,7 @@ public:
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
     static void signalled(void);
-    static void incrementMinCore(void);
+    static void incrementMinCoreTime(long);
 
     static int _cPages;
     static int _tPages;
@@ -116,7 +116,7 @@ public:
 	static double _userTimeSweep;
 	static double _userTimeMark;
 	static double _userTimeCompaction;
-	static volatile int _mincoreCallCount;
+	static volatile long _mincoreCallTime;
 
 	static int _falsePositives;
 	static int _pageTouches;

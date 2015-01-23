@@ -58,10 +58,10 @@ int SwapMetrics::_pageTouches = 0;
 int SwapMetrics::_objectSpills = 0;
 
 int SwapMetrics::_monitorIOsFlag = 0;
-volatile int SwapMetrics::_mincoreCallCount = 0;
+volatile long SwapMetrics::_mincoreCallTime = 0;
 
-void SwapMetrics::incrementMinCore(){
-//	Atomic::inc((volatile jint*)&(SwapMetrics::_mincoreCallCount));
+void SwapMetrics::incrementMinCoreTime(long t){
+	Atomic::add_ptr((intptr_t)t,(volatile intptr_t*)&_mincoreCallTime);
 }
 
 long int getCurrentTime(){
@@ -431,7 +431,7 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
-       cout << "Total Mincore calls: " << _mincoreCallCount << endl;
+       cout << "Total Mincore calls: " << _mincoreCallTime << endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;

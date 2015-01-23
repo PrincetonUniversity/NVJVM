@@ -360,6 +360,13 @@
 			return pageIndices;
 		}
 
+		long int getCurrentTime(){
+			struct timeval tp;
+			gettimeofday(&tp, NULL);
+			long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+			return ms;
+		}
+
 		std::vector<int> PartitionMetaData::toScanPageList(int currentPartition, bool finalWork){
 			std::vector<int> pageIndices;
 			std::vector<int> pageIndicesOutOfCore;
@@ -373,14 +380,17 @@
 				maxPageCount = (int)(threshold * partitionSize);
 				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
+				long int t1 = getCurrentTime();
 				memset(vec, 0, partitionSize);
-				Atomic::inc(&(SwapMetrics::_mincoreCallCount));
 				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 					perror("err :");
 					printf("Error in mincore, arguments %p."
 							"Partition Size = %d.\n", address, partitionSize);
 					exit(-1);
 				}
+				long int t2 = getCurrentTime();
+				long int td = t2-t1;
+				SwapMetrics::incrementMinCoreTime(td);
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				int iCore=0, oCore=0;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
