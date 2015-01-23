@@ -16,7 +16,8 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
-#include <vm/runtime/atomic.hpp>
+#include "vm/runtime/atomic.hpp"
+
 #define PRINT_LOGS 0
 using namespace std;
 #define BUF_MAX 1000
