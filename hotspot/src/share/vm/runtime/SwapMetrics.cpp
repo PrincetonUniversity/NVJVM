@@ -64,7 +64,7 @@ void SwapMetrics::incrementMinCoreTime(long t){
 	Atomic::add_ptr((intptr_t)t,(volatile intptr_t*)&_mincoreCallTime);
 }
 
-long int getCurrentTime(){
+long int SwapMetrics::getCurrentTime(){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
 	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;

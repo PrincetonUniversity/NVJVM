@@ -71,6 +71,7 @@ public:
     static void incrementObjectSpills(void);
     static void signalled(void);
     static void incrementMinCoreTime(long);
+    static long int getCurrentTime();
 
     static int _cPages;
     static int _tPages;
