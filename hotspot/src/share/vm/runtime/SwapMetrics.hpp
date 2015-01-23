@@ -72,6 +72,7 @@ public:
     static void signalled(void);
     static void incrementMinCoreTime(long);
     static long int getCurrentTime();
+    static void incrementPageScanTime(long);
 
     static int _cPages;
     static int _tPages;
@@ -119,6 +120,8 @@ public:
 	static double _userTimeCompaction;
 	static volatile long _mincoreCallTime;
 	static volatile int _totalMinCoreCalls;
+	static volatile int _pageScans;
+	static volatile long _pageScanTotalTime;
 
 	static int _falsePositives;
 	static int _pageTouches;

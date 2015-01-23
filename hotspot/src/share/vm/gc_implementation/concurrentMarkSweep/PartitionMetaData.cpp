@@ -373,7 +373,7 @@
 				maxPageCount = (int)(threshold * partitionSize);
 				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
-				long int t1 = SwapMetrics::getCurrentTime();
+				PROFILE(long int t1 = SwapMetrics::getCurrentTime();)
 				memset(vec, 0, partitionSize);
 				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 					perror("err :");
@@ -381,9 +381,9 @@
 							"Partition Size = %d.\n", address, partitionSize);
 					exit(-1);
 				}
-				long int t2 = SwapMetrics::getCurrentTime();
-				long int td = t2-t1;
-				SwapMetrics::incrementMinCoreTime(td);
+				PROFILE(long int t2 = SwapMetrics::getCurrentTime();)
+				PROFILE(long int td = t2-t1;)
+				PROFILE(SwapMetrics::incrementMinCoreTime(td);)
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				int iCore=0, oCore=0;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){

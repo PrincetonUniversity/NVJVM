@@ -4597,7 +4597,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
 			for (it=pageIndices.begin(); it<pageIndices.end(); it++){
 				pageIndex = *it;
+				PROFILE(long int t1 = SwapMetrics::getCurrentTime();)
 				scan_a_page(pageIndex, i);
+				PROFILE(long int t2 = SwapMetrics::getCurrentTime();)
+				PROFILE(long int td = t2-t1;)
+				PROFILE(SwapMetrics::incrementPageScanTime(td);)
 			}
 			/*if((count%1000)==0){
 				printf("Worker Id = %d, Size of the pageIndices = %d, currentPartitionIndex =%d.\n",

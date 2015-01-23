@@ -60,6 +60,13 @@ int SwapMetrics::_objectSpills = 0;
 int SwapMetrics::_monitorIOsFlag = 0;
 volatile long SwapMetrics::_mincoreCallTime = 0;
 volatile int SwapMetrics::_totalMinCoreCalls=0;
+volatile int SwapMetrics::_pageScans= 0;
+volatile long SwapMetrics::_pageScanTotalTime=0;
+
+void SwapMetrics::incrementPageScanTime(long t){
+	_pageScanTotalTime += t;
+	_pageScans++;
+}
 
 void SwapMetrics::incrementMinCoreTime(long t){
 	_mincoreCallTime += t;
@@ -435,6 +442,9 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalCompactionTime : " << _compactionTime << endl;
        cout << "Total Mincore call time: " << _mincoreCallTime << endl;
        cout << "Total Mincore calls: " << _totalMinCoreCalls << endl;
+
+       cout << "Total Page Scan Time:" << _pageScanTotalTime << endl;
+       cout << "Total Pages:" <<  _pageScans<< endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
