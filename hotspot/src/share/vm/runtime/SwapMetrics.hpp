@@ -73,6 +73,7 @@ public:
     static void incrementMinCoreTime(long);
     static long int getCurrentTime();
     static void incrementPageScanTime(long);
+    static void incrementObjectScanTime(long);
 
     static int _cPages;
     static int _tPages;
@@ -122,6 +123,8 @@ public:
 	static volatile int _totalMinCoreCalls;
 	static volatile int _pageScans;
 	static volatile long _pageScanTotalTime;
+	static volatile int _objectScans;
+	static volatile long _objectScanTotalTime;
 
 	static int _falsePositives;
 	static int _pageTouches;

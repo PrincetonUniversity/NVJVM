@@ -62,6 +62,13 @@ volatile long SwapMetrics::_mincoreCallTime = 0;
 volatile int SwapMetrics::_totalMinCoreCalls=0;
 volatile int SwapMetrics::_pageScans= 0;
 volatile long SwapMetrics::_pageScanTotalTime=0;
+volatile int SwapMetrics::_objectScans=0;
+volatile long SwapMetrics::_objectScanTotalTime=0;
+
+void SwapMetrics::incrementObjectScanTime(long t){
+	_objectScanTotalTime+=t;
+	_objectScans++;
+}
 
 void SwapMetrics::incrementPageScanTime(long t){
 	_pageScanTotalTime += t;
@@ -445,6 +452,9 @@ void SwapMetrics::printTotalFaults(){
 
        cout << "Total Page Scan Time:" << _pageScanTotalTime << endl;
        cout << "Total Pages:" <<  _pageScans<< endl;
+
+       cout << "Total Object Scan Time:" << _objectScanTotalTime << endl;
+       cout << "Total Objects:" <<
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
