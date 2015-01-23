@@ -61,7 +61,7 @@ int SwapMetrics::_monitorIOsFlag = 0;
 volatile long SwapMetrics::_mincoreCallTime = 0;
 
 void SwapMetrics::incrementMinCoreTime(long t){
-	Atomic::add_ptr((intptr_t)t,(volatile intptr_t*)&_mincoreCallTime);
+	_mincoreCallTime += t;
 }
 
 long int SwapMetrics::getCurrentTime(){
