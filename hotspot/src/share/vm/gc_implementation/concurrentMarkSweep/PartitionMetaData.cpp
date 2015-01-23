@@ -373,13 +373,13 @@
 				maxPageCount = (int)(threshold * partitionSize);
 				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
-				memset(vec, 0, partitionSize);
-				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
+				memset(vec, 1, partitionSize);
+				/*if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 					perror("err :");
 					printf("Error in mincore, arguments %p."
 							"Partition Size = %d.\n", address, partitionSize);
 					exit(-1);
-				}
+				}*/
 				int index = getPartitionStart(currentPartition), count, greyCount;
 				int iCore=0, oCore=0;
 				for(count = 0; count < getPartitionSize(currentPartition); count++, index++){
