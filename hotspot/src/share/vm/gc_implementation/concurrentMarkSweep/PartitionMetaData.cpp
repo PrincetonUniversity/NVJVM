@@ -374,6 +374,7 @@
 				void *address = getPageBase(getPartitionStart(currentPartition));
 				unsigned char vec[partitionSize];
 				memset(vec, 0, partitionSize);
+				SwapMetrics::incrementMinCore();
 				if(mincore(address, partitionSize * sysconf(_SC_PAGE_SIZE), vec) == -1){
 					perror("err :");
 					printf("Error in mincore, arguments %p."

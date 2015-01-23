@@ -16,6 +16,7 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
+#include <vm/runtime/atomic.hpp>
 #define PRINT_LOGS 0
 using namespace std;
 #define BUF_MAX 1000
@@ -68,6 +69,7 @@ public:
     static void incrementPageTouches(void);
     static void incrementObjectSpills(void);
     static void signalled(void);
+    static void incrementMinCore(void);
 
     static int _cPages;
     static int _tPages;
@@ -113,6 +115,7 @@ public:
 	static double _userTimeSweep;
 	static double _userTimeMark;
 	static double _userTimeCompaction;
+	static int _mincoreCallCount;
 
 	static int _falsePositives;
 	static int _pageTouches;
