@@ -16,7 +16,7 @@
 #include <string>
 #include <pthread.h>
 #include <sys/time.h>
-#include "vm/runtime/atomic.hpp"
+#include "runtime/atomic.hpp"
 
 #define PRINT_LOGS 0
 using namespace std;
