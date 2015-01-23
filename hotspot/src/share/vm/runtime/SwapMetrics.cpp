@@ -60,7 +60,7 @@ int SwapMetrics::_objectSpills = 0;
 int SwapMetrics::_monitorIOsFlag = 0;
 int SwapMetrics::_mincoreCallCount = 0;
 
-static void SwapMetrics::incrementMinCore(){
+void SwapMetrics::incrementMinCore(){
 	Atomic::inc((volatile jint*)&(SwapMetrics::_mincoreCallCount));
 }
 
