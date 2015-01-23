@@ -4589,6 +4589,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				break;
 			}
 			// Getting the next available partition
+			PROFILE(long int t1_par = SwapMetrics::getCurrentTime();)
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 			if(currentPartitionIndex == -1){
 				break;
@@ -4603,14 +4604,12 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				PROFILE(long int td = t2-t1;)
 				PROFILE(SwapMetrics::incrementPageScanTime(td);)
 			}
-			/*if((count%1000)==0){
-				printf("Worker Id = %d, Size of the pageIndices = %d, currentPartitionIndex =%d.\n",
-						i, pageIndices.size(), currentPartitionIndex);
-			}*/
 			// Releasing the partition
 			_partitionMetaData->releasePartition(currentPartitionIndex);
+			PROFILE(long int t2_par = SwapMetrics::getCurrentTime();)
+			PROFILE(long int td_par = t2_par-t1_par;)
+			PROFILE(SwapMetrics::incrementPartitionScanTime(td_par);)
 		}
-//			printf("Worker index = %d, leaving the scan_and_mark function.\n",i);
 }
 
 void PartitionMetaData::do_yield_check(){

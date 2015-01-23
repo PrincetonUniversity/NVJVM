@@ -64,6 +64,13 @@ volatile int SwapMetrics::_pageScans= 0;
 volatile long SwapMetrics::_pageScanTotalTime=0;
 volatile int SwapMetrics::_objectScans=0;
 volatile long SwapMetrics::_objectScanTotalTime=0;
+volatile int SwapMetrics::_partitionScans=0;
+volatile long SwapMetrics::_partitionScanTotalTime=0;
+
+void SwapMetrics::incrementPartitionScanTime(long t){
+	_partitionScans++;
+	_partitionScanTotalTime+=t;
+}
 
 void SwapMetrics::incrementObjectScanTime(long t){
 	_objectScanTotalTime+=t;
@@ -455,6 +462,9 @@ void SwapMetrics::printTotalFaults(){
 
        cout << "Total Object Scan Time:" << _objectScanTotalTime << endl;
        cout << "Total Objects:" << _objectScans << endl;
+
+       cout << "Total Partition Scan Time : " << _partitionScanTotalTime << endl;
+       cout << "Total Partitions : " << _partitionScans << endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
