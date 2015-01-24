@@ -497,28 +497,28 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
-       cout << "Total Mincore call time: " << _mincoreCallTime << endl;
-       cout << "Total Mincore calls: " << _totalMinCoreCalls << endl;
+       PROFILE(cout << "Total Mincore call time: " << _mincoreCallTime << endl;)
+       PROFILE(cout << "Total Mincore calls: " << _totalMinCoreCalls << endl;)
 
-       cout << "Total Page Scan Time:" << _pageScanTotalTime << endl;
-       cout << "Total Pages:" <<  _pageScans<< endl;
+       PROFILE(cout << "Total Page Scan Time:" << _pageScanTotalTime << endl;)
+       PROFILE(cout << "Total Pages:" <<  _pageScans<< endl;)
 
-       cout << "Total Object Scan Time:" << _objectScanTotalTime << endl;
-       cout << "Total Objects:" << _objectScans << endl;
+       PROFILE(cout << "Total Object Scan Time:" << _objectScanTotalTime << endl;)
+       PROFILE(cout << "Total Objects:" << _objectScans << endl;)
 
-       cout << "Total Partition Scan Time : " << _partitionScanTotalTime << endl;
-       cout << "Total Partitions : " << _partitionScans << endl;
+       PROFILE(cout << "Total Partition Scan Time : " << _partitionScanTotalTime << endl;)
+       PROFILE(cout << "Total Partitions : " << _partitionScans << endl;)
 
-       cout << "Total Get Page List Call Time :" << _getPageListCallTotalTime << endl;
-       cout << "Total Get Page List Calls :" << _getPageListCalls << endl;
+       PROFILE(cout << "Total Get Page List Call Time :" << _getPageListCallTotalTime << endl;)
+       PROFILE(cout << "Total Get Page List Calls :" << _getPageListCalls << endl;)
 
-       cout << "Total Get Page Start Time :" << _getPageStartTotalTime << endl;
-       cout << "Total Get Page Start Calls:" << _getPageStartCalls << endl;
+       PROFILE(cout << "Total Get Page Start Time :" << _getPageStartTotalTime << endl;)
+       PROFILE(cout << "Total Get Page Start Calls:" << _getPageStartCalls << endl;)
 
-       cout << "Total Iterations time: " <<_totalPageIterationTime<< endl;
-       cout << "Total Iterations:" << _totalPageIterations<<endl;
+       PROFILE(cout << "Total Iterations time: " <<_totalPageIterationTime<< endl;)
+       PROFILE(cout << "Total Iterations:" << _totalPageIterations<<endl;)
 
-       cout << "Total Time Do Bits:" << _doBitTotalTime << endl;
+       PROFILE(cout << "Total Time Do Bits:" << _doBitTotalTime << endl;)
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;

@@ -21,6 +21,7 @@
 #define PRINT_LOGS 0
 using namespace std;
 #define BUF_MAX 1000
+#define PROFILE(x)
 
 class SwapMetrics {
 private:
