@@ -4541,6 +4541,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	sp = getSpace(pageAddress);
 	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress), (HeapWord *)Utility::getPageEnd(pageAddress)+1);
 	span = span.intersection(sp->used_region());
+	PROFILE(long int t1 = SwapMetrics::getCurrentTime();)
 	if(!span.is_empty()){
 		bool currentMarked = false;
 		int _skipbits = 0;
@@ -4565,6 +4566,9 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 			}
 			currPos++;
 		}while((uintptr_t)currPos <= (uintptr_t)span.end());
+		PROFILE(long int t2 = SwapMetrics::getCurrentTime();)
+		PROFILE(long int td=t2-t1;)
+		PROFILE(SwapMetrics::timeToGetPageStart(td);)
 		prev_obj = currPos;
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
@@ -4590,16 +4594,11 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Getting the next available partition
 			PROFILE(long int t1_par = SwapMetrics::getCurrentTime();)
-			PROFILE(long int t1_gP = SwapMetrics::getCurrentTime();)
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 			if(currentPartitionIndex == -1){
 				break;
 			}
 			// The indices of pages that may be scanned in the next iteration
-			PROFILE(long int t2_gP = SwapMetrics::getCurrentTime();)
-			PROFILE(long int td_gP = t2_gP-t1_gP;)
-			PROFILE(SwapMetrics::getPartitionCallTime(td_gP);)
-
 			PROFILE(long int t1_tS = SwapMetrics::getCurrentTime();)
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
 			PROFILE(long int t2_tS = SwapMetrics::getCurrentTime();)
@@ -4615,11 +4614,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 				PROFILE(SwapMetrics::incrementPageScanTime(td);)
 			}
 			// Releasing the partition
-			PROFILE(long int t1_rP = SwapMetrics::getCurrentTime();)
 			_partitionMetaData->releasePartition(currentPartitionIndex);
-			PROFILE(long int t2_rP = SwapMetrics::getCurrentTime();)
-			PROFILE(long int td_rP = t2_rP - t1_rP;)
-			PROFILE(SwapMetrics::incrementReleasePartitionCallTime(td_rP);)
 
 			PROFILE(long int t2_par = SwapMetrics::getCurrentTime();)
 			PROFILE(long int td_par = t2_par-t1_par;)

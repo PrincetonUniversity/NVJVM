@@ -72,6 +72,14 @@ volatile long SwapMetrics::_releasePartitionCallTotalTime=0;
 volatile int SwapMetrics::_releasePartitionCalls=0;
 volatile long SwapMetrics::_getPartitionCallTotalTime=0;
 volatile int SwapMetrics::_getPartitionCalls=0;
+volatile long SwapMetrics::_getPageStartCalls=0;
+volatile int SwapMetrics::_getPageStartTotalTime=0;
+
+void SwapMetrics::timeToGetPageStart(long t){
+	_getPageStartCalls++;
+	_getPageStartTotalTime+=t;
+}
+
 
 void SwapMetrics::getPartitionCallTime(long t){
 	_getPartitionCalls++;
@@ -488,13 +496,16 @@ void SwapMetrics::printTotalFaults(){
        cout << "Total Partitions : " << _partitionScans << endl;
 
        cout << "Total Get Page List Call Time :" << _getPageListCallTotalTime << endl;
-       cout << "Total Get Page List Calls :" << _releasePartitionCalls << endl;
+       cout << "Total Get Page List Calls :" << _getPageListCalls << endl;
 
-       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
-       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
+       cout << "Total Get Page Start Time :" << _getPageStartTotalTime << endl;
+       cout << "Total Get Page Start Calls:" << _getPageStartCalls << endl;
 
-       cout << "Total get partition call time:" << _getPartitionCallTotalTime << endl;
-       cout << "Total get partition calls :" << _getPartitionCalls << endl;
+//       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
+//       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
+
+//       cout << "Total get partition call time:" << _getPartitionCallTotalTime << endl;
+//       cout << "Total get partition calls :" << _getPartitionCalls << endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;
