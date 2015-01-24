@@ -77,6 +77,7 @@ public:
     static void incrementPartitionScanTime(long);
     static void incrementGetPageListCallTime(long);
     static void incrementReleasePartitionCallTime(long);
+    static void getPartitionCallTime(long);
 
     static int _cPages;
     static int _tPages;
@@ -134,6 +135,8 @@ public:
 	static volatile long _getPageListCalls;
 	static volatile long _releasePartitionCallTotalTime;
 	static volatile int _releasePartitionCalls;
+	static volatile long _getPartitionCallTotalTime;
+	static volatile int _getPartitionCalls;
 
 	static int _falsePositives;
 	static int _pageTouches;

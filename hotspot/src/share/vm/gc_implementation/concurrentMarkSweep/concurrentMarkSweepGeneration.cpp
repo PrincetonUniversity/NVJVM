@@ -4590,11 +4590,15 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			}
 			// Getting the next available partition
 			PROFILE(long int t1_par = SwapMetrics::getCurrentTime();)
+			PROFILE(long int t1_gP = SwapMetrics::getCurrentTime();)
 			currentPartitionIndex = _partitionMetaData->getPartition(currentPartitionIndex);
 			if(currentPartitionIndex == -1){
 				break;
 			}
 			// The indices of pages that may be scanned in the next iteration
+			PROFILE(long int t2_gP = SwapMetrics::getCurrentTime();)
+			PROFILE(long int td_gP = t2_gP-t1_gP;)
+			PROFILE(SwapMetrics::getPartitionCallTime(td_gP);)
 
 			PROFILE(long int t1_tS = SwapMetrics::getCurrentTime();)
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
