@@ -8505,11 +8505,14 @@ bool AliveObjectCountClosure::do_bit(size_t offset){
 
 bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 	// convert offset into a HeapWord*
+	PROFILE(long int t1_dB = SwapMetrics::getCurrentTime();)
 		HeapWord* addr = _bit_map->startWord() + offset;
 
 		  if (_skip_bits > 0) {
 		    _skip_bits--;
-
+    PROFILE(long int t2_dB = SwapMetrics::getCurrentTime();)
+	PROFILE(long int td_dB=t2_dB-t1_dB;)
+	PROFILE(SwapMetrics::incrementDoBits(td_dB);)
 		    return true;
 		  }
 
@@ -8525,6 +8528,9 @@ bool Par_MarkFromGreyRootsClosure::do_bit(size_t offset){
 		    if (p->klass_or_null() == NULL || !p->is_parsable()) {
 		      // in the case of Clean-on-Enter optimization, redirty card
 		      // and avoid clearing card by increasing  the threshold.
+		        PROFILE(long int t2_dB = SwapMetrics::getCurrentTime();)
+		    	PROFILE(long int td_dB=t2_dB-t1_dB;)
+		    	PROFILE(SwapMetrics::incrementDoBits(td_dB);)
 		      return true;
 		    }
 		  }

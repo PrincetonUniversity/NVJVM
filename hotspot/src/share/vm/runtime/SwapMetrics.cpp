@@ -76,6 +76,13 @@ volatile long SwapMetrics::_getPageStartCalls=0;
 volatile int SwapMetrics::_getPageStartTotalTime=0;
 volatile long SwapMetrics::_totalPageIterationTime=0;
 volatile int SwapMetrics::_totalPageIterations=0;
+volatile long SwapMetrics::_doBitTotalTime=0;
+volatile int SwapMetrics::_doBitCalls=0;
+
+void SwapMetrics::incrementDoBits(long t){
+	_doBitTotalTime+=t;
+	_doBitCalls++;
+}
 
 void SwapMetrics::timeToIterate(long t){
 	_totalPageIterations++;
@@ -510,6 +517,8 @@ void SwapMetrics::printTotalFaults(){
 
        cout << "Total Iterations time: " <<_totalPageIterationTime<< endl;
        cout << "Total Iterations:" << _totalPageIterations<<endl;
+
+       cout << "Total Time Do Bits:" << _doBitTotalTime << endl;
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
