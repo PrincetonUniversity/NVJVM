@@ -4570,6 +4570,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 		PROFILE(long int td=t2-t1;)
 		PROFILE(SwapMetrics::timeToGetPageStart(td);)
 		prev_obj = currPos;
+		PROFILE(long int t1_pI=SwapMetrics::getCurrentTime();)
 		if (prev_obj <= span.end()) {
 			MemRegion my_span = MemRegion(prev_obj, span.end());
 			Par_MarkFromGreyRootsClosure cl(_collector,
@@ -4579,6 +4580,9 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 						&_collector->_revisitStack, this, _asynch, false, pageIndex);
 			_collector->_markBitMap.iterate(&cl, my_span.start(), my_span.end());
 		}
+		PROFILE(long int t2_pI=SwapMetrics::getCurrentTime();)
+		PROFILE(long int td_pI=t2_pI-t1_pI;)
+		PROFILE(SwapMetrics::timeToIterate(td_pI);)
 	}
 }
 

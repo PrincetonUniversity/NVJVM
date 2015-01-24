@@ -74,6 +74,13 @@ volatile long SwapMetrics::_getPartitionCallTotalTime=0;
 volatile int SwapMetrics::_getPartitionCalls=0;
 volatile long SwapMetrics::_getPageStartCalls=0;
 volatile int SwapMetrics::_getPageStartTotalTime=0;
+volatile long SwapMetrics::_totalPageIterationTime=0;
+volatile int SwapMetrics::_totalPageIterations=0;
+
+void SwapMetrics::timeToIterate(long t){
+	_totalPageIterations++;
+	_totalPageIterationTime+=t;
+}
 
 void SwapMetrics::timeToGetPageStart(long t){
 	_getPageStartCalls++;
@@ -500,6 +507,9 @@ void SwapMetrics::printTotalFaults(){
 
        cout << "Total Get Page Start Time :" << _getPageStartTotalTime << endl;
        cout << "Total Get Page Start Calls:" << _getPageStartCalls << endl;
+
+       cout << "Total Iterations time: " <<_totalPageIterationTime<< endl;
+       cout << "Total Iterations:" << _totalPageIterations<<endl;
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
