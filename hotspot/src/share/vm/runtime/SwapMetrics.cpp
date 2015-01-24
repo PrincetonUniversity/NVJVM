@@ -66,6 +66,20 @@ volatile int SwapMetrics::_objectScans=0;
 volatile long SwapMetrics::_objectScanTotalTime=0;
 volatile int SwapMetrics::_partitionScans=0;
 volatile long SwapMetrics::_partitionScanTotalTime=0;
+volatile int SwapMetrics::_getPageListCallTotalTime=0;
+volatile long SwapMetrics::_getPageListCalls=0;
+volatile long SwapMetrics::_releasePartitionCallTotalTime=0;
+volatile int SwapMetrics::_releasePartitionCalls=0;
+
+void SwapMetrics::incrementReleasePartitionCallTime(long t){
+	_releasePartitionCallTotalTime+=t;
+	_releasePartitionCalls++;
+}
+
+void SwapMetrics::incrementGetPageListCallTime(long t){
+	_getPageListCallTotalTime+=t;
+	_getPageListCalls++;
+}
 
 void SwapMetrics::incrementPartitionScanTime(long t){
 	_partitionScans++;
@@ -465,6 +479,12 @@ void SwapMetrics::printTotalFaults(){
 
        cout << "Total Partition Scan Time : " << _partitionScanTotalTime << endl;
        cout << "Total Partitions : " << _partitionScans << endl;
+
+       cout << "Total Get Page List Call Time :" << _getPageListCallTotalTime << endl;
+       cout << "Total Get Page List Calls :" << _releasePartitionCalls << endl;
+
+       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
+       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
 
        //cout << "Number of mark phases : " << _numberReportsMark << endl;
        //cout << "Number of sweep phases : " << _numberReportsSweep << endl;

@@ -75,6 +75,8 @@ public:
     static void incrementPageScanTime(long);
     static void incrementObjectScanTime(long);
     static void incrementPartitionScanTime(long);
+    static void incrementGetPageListCallTime(long);
+    static void incrementReleasePartitionCallTime(long);
 
     static int _cPages;
     static int _tPages;
@@ -128,6 +130,10 @@ public:
 	static volatile long _objectScanTotalTime;
 	static volatile int _partitionScans;
 	static volatile long _partitionScanTotalTime;
+	static volatile int _getPageListCallTotalTime;
+	static volatile long _getPageListCalls;
+	static volatile long _releasePartitionCallTotalTime;
+	static volatile int _releasePartitionCalls;
 
 	static int _falsePositives;
 	static int _pageTouches;
