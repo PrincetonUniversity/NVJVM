@@ -416,6 +416,7 @@ SwapMetrics::~SwapMetrics() {
 }
 
 void SwapMetrics::printTotalFaults(){
+	printThreads();
     int totalFaults[2];
 	int count = 0;
        FILE *fp;
