@@ -50,6 +50,7 @@
 #include "gc_implementation/concurrentMarkSweep/PartitionMetaData.hpp"
 #include <fstream>
 #include <iostream>
+#include "utilities/dtrace.hpp"
 #include <sys/sdt.h>
 using namespace std;
 
