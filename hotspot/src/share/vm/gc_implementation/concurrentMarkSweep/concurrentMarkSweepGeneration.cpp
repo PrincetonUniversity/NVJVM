@@ -3495,6 +3495,10 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
 }
 
 bool CMSCollector::markFromRoots(bool asynch) {
+  #if ENABLE_MARK_PROBES
+  DTRACE_PROBE(hotspot, mark_from_roots_begin);
+#endif
+  
   // we might be tempted to assert that:
   // assert(asynch == !SafepointSynchronize::is_at_safepoint(),
   //        "inconsistent argument?");
@@ -3552,6 +3556,12 @@ bool CMSCollector::markFromRoots(bool asynch) {
     }
   }
   verify_overflow_empty();
+  
+  
+#if ENABLE_MARK_PROBES
+  DTRACE_PROBE(hotspot, mark_from_roots_end);
+#endif
+
   return res;
 }
 
