@@ -124,6 +124,7 @@
 # include <stdint.h>
 # include <inttypes.h>
 # include <sys/ioctl.h>
+#include "runtime/SwapMetrics.hpp"
 
 #define MAX_PATH    (2 * K)
 
@@ -830,6 +831,11 @@ static void *java_start(Thread *thread) {
 
   // thread_id is kernel thread id (similar to Solaris LWP id)
   osthread->set_thread_id(os::Linux::gettid());
+
+
+  pid_t threadId = os::Linux::gettid();
+  os::ThreadType thr_type = (os::ThreadType)osthread->thread_type();
+  SwapMetrics::addThreadToList(threadId, thr_type);
 
   if (UseNUMA) {
     int lgrp_id = os::numa_get_group_id();
