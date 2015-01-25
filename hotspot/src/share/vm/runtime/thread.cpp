@@ -400,7 +400,16 @@ void Thread::start(Thread* thread) {
     }
     os::start_thread(thread);
   }
-  cout << "Thread with id : " << thread->osthread()->thread_id() << ", started" << endl;
+
+  if (is_VM_thread())
+	  cout << "VM_Thread, " << thread->osthread()->thread_id() << endl;
+  else if (is_Java_thread())
+  	  cout << "Java_Thread, " << thread->osthread()->thread_id() << endl;
+  else if (is_GC_task_thread())
+  	  cout << "GC_Thread, " << thread->osthread()->thread_id() << endl;
+  else if (is_ConcurrentGC_thread())
+  	  cout << "GC_Thread, " << thread->osthread()->thread_id() << endl;
+
 }
 
 // Enqueue a VM_Operation to do the job for us - sometime later
