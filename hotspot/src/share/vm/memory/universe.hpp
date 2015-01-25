@@ -62,7 +62,8 @@
 // in microseconds, the overall time the master threads sleep for
 #define MASTER_THREAD_SLEEP_TIME 100
 #define DOPRINT
-
+#define ENABLE_PROBES 1
+#define ENABLE_MARK_PROBES 1 && ENABLE_PROBES
 
 #define __check(a, b) \
 	if(!a){ \

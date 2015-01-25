@@ -57,7 +57,6 @@ using namespace std;
 
 #define SWEEP_DEBUGGING(x)
 #define DEBUG_ST(x)
-#define ENABLE_MARK_PROBES 1
 
 // ConcurrentMarkSweepGeneration is in support of a concurrent
 // mark-sweep old generation in the Detlefs-Printezis--Boehm-Demers-Schenker
