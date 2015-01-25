@@ -400,7 +400,7 @@ void Thread::start(Thread* thread) {
     }
     os::start_thread(thread);
   }
-  cout << "Thread with id : " << osthread()->thread_id() << ", started" << endl;
+  cout << "Thread with id : " << thread->osthread()->thread_id() << ", started" << endl;
 }
 
 // Enqueue a VM_Operation to do the job for us - sometime later
