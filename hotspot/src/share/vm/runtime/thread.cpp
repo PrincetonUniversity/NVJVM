@@ -384,7 +384,6 @@ void Thread::set_priority(Thread* thread, ThreadPriority priority) {
   (void)os::set_priority(thread, priority);
 }
 
-
 void Thread::start(Thread* thread) {
   trace("start", thread);
   // Start is different from resume in that its safety is guaranteed by context or
@@ -400,15 +399,6 @@ void Thread::start(Thread* thread) {
     }
     os::start_thread(thread);
   }
-
-  if (thread->is_VM_thread())
-	  cout << "VM_Thread, " << thread->osthread()->thread_id() << endl;
-  else if (thread->is_Java_thread())
-  	  cout << "Java_Thread, " << thread->osthread()->thread_id() << endl;
-  else if (thread->is_GC_task_thread())
-  	  cout << "GC_Thread, " << thread->osthread()->thread_id() << endl;
-  else if (thread->is_ConcurrentGC_thread())
-  	  cout << "CGC_Thread, " << thread->osthread()->thread_id() << endl;
 }
 
 // Enqueue a VM_Operation to do the job for us - sometime later
