@@ -503,8 +503,8 @@ void SwapMetrics::printTotalFaults(){
        cout << "TotalMarkTime : " << _markTime << endl;
        cout << "TotalSweepTime : " << _sweepTime << endl;
        cout << "TotalCompactionTime : " << _compactionTime << endl;
-       PROFILE(cout << "Total Mincore call time: " << _mincoreCallTime << endl;)
-       PROFILE(cout << "Total Mincore calls: " << _totalMinCoreCalls << endl;)
+       cout << "Total Mincore call time: " << _mincoreCallTime << endl;
+       cout << "Total Mincore calls: " << _totalMinCoreCalls << endl;
 
        PROFILE(cout << "Total Page Scan Time:" << _pageScanTotalTime << endl;)
        PROFILE(cout << "Total Pages:" <<  _pageScans<< endl;)
@@ -525,7 +525,7 @@ void SwapMetrics::printTotalFaults(){
        PROFILE(cout << "Total Iterations:" << _totalPageIterations<<endl;)
 
        PROFILE(cout << "Total Time Do Bits:" << _doBitTotalTime << endl;)
-       cout << "Total pages scanned :" << _pageScans << endl;
+       //cout << "Total pages scanned :" << _pageScans << endl;
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
