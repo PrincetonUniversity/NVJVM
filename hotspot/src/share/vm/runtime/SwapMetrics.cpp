@@ -79,7 +79,6 @@ volatile int SwapMetrics::_totalPageIterations=0;
 volatile long SwapMetrics::_doBitTotalTime=0;
 volatile int SwapMetrics::_doBitCalls=0;
 std::vector<ThreadStruct *> SwapMetrics::_threadList;
-volatile int SwapMetrics::_pageScans=0;
 
 void SwapMetrics::incrementPageScans(int num){
 	_pageScans += num;

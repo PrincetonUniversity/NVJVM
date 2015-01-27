@@ -167,7 +167,6 @@ public:
 	static volatile int _totalPageIterations;
 	static volatile long _doBitTotalTime;
 	static volatile int _doBitCalls;
-	static volatile int _pageScans;
 
 	static int _falsePositives;
 	static int _pageTouches;
