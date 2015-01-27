@@ -4615,6 +4615,7 @@ void CMSConcMarkingTask::do_scan_and_mark_OCMS_NO_GREY_BATCHED(int i){
 			// The indices of pages that may be scanned in the next iteration
 			PROFILE(long int t1_tS = SwapMetrics::getCurrentTime();)
 			pageIndices = _partitionMetaData->toScanPageList(currentPartitionIndex, true);
+			SwapMetrics::incrementPageScans(pageIndices.size());
 			PROFILE(long int t2_tS = SwapMetrics::getCurrentTime();)
 			PROFILE(long int td_tS = t2_tS - t1_tS;)
 			PROFILE(SwapMetrics::incrementGetPageListCallTime(td_tS);)

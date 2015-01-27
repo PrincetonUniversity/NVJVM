@@ -79,6 +79,11 @@ volatile int SwapMetrics::_totalPageIterations=0;
 volatile long SwapMetrics::_doBitTotalTime=0;
 volatile int SwapMetrics::_doBitCalls=0;
 std::vector<ThreadStruct *> SwapMetrics::_threadList;
+volatile int SwapMetrics::_pageScans=0;
+
+void SwapMetrics::incrementPageScans(int num){
+	_pageScans += num;
+}
 
 void SwapMetrics::incrementDoBits(long t){
 	_doBitTotalTime+=t;
@@ -521,6 +526,7 @@ void SwapMetrics::printTotalFaults(){
        PROFILE(cout << "Total Iterations:" << _totalPageIterations<<endl;)
 
        PROFILE(cout << "Total Time Do Bits:" << _doBitTotalTime << endl;)
+       cout << "Total pages scanned :" << incrementPageScans << endl;
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;

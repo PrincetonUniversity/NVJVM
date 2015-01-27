@@ -101,6 +101,7 @@ public:
     static void timeToGetPageStart(long);
     static void timeToIterate(long);
     static void incrementDoBits(long);
+    static void incrementPageScans(int);
 
     static int _cPages;
     static int _tPages;
@@ -166,6 +167,7 @@ public:
 	static volatile int _totalPageIterations;
 	static volatile long _doBitTotalTime;
 	static volatile int _doBitCalls;
+	static volatile int _pageScans;
 
 	static int _falsePositives;
 	static int _pageTouches;
