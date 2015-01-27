@@ -4553,7 +4553,7 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	if(mincore(pageAddress, 1 * sysconf(_SC_PAGE_SIZE), vec) == -1){
 			perror("err :");
 						printf("Error in mincore, arguments %p."
-								"Partition Size = %d.\n", address, partitionSize);
+								"Partition Size = %d.\n", pageAddress, 1);
 						exit(-1);
 	}
 	long int t2_MC = SwapMetrics::getCurrentTime();
