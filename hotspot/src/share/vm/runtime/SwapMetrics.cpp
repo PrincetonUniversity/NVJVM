@@ -525,7 +525,7 @@ void SwapMetrics::printTotalFaults(){
        PROFILE(cout << "Total Iterations:" << _totalPageIterations<<endl;)
 
        PROFILE(cout << "Total Time Do Bits:" << _doBitTotalTime << endl;)
-       cout << "Total pages scanned :" << incrementPageScans << endl;
+       cout << "Total pages scanned :" << _pageScans << endl;
 
 //       cout << "Total Release Partition Call Time : " << _releasePartitionCallTotalTime << endl;
 //       cout << "Total Release Partition Calls : " << _releasePartitionCalls << endl;
