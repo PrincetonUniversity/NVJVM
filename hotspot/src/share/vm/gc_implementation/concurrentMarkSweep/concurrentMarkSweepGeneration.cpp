@@ -4547,18 +4547,6 @@ void CMSConcMarkingTask::scan_a_page(int pageIndex, int taskId){
 	CompactibleFreeListSpace* sp;
 	HeapWord* prev_obj;
 	void* pageAddress = _partitionMetaData->getPageBase(pageIndex);
-	unsigned char vec[1];
-	long int t1_MC = SwapMetrics::getCurrentTime();
-	memset(vec, 0, 1);
-	if(mincore(pageAddress, 1 * sysconf(_SC_PAGE_SIZE), vec) == -1){
-			perror("err :");
-						printf("Error in mincore, arguments %p."
-								"Partition Size = %d.\n", pageAddress, 1);
-						exit(-1);
-	}
-	long int t2_MC = SwapMetrics::getCurrentTime();
-	long int td_MC = t2_MC-t1_MC;
-	SwapMetrics::incrementMinCoreTime(td_MC);
 	_partitionMetaData->clearPage(pageAddress);
 	sp = getSpace(pageAddress);
 	MemRegion span = MemRegion((HeapWord *)Utility::getPageStart(pageAddress), (HeapWord *)Utility::getPageEnd(pageAddress)+1);
