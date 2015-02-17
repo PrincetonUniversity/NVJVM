@@ -359,7 +359,7 @@ class CollectedHeap : public CHeapObj {
   virtual HeapWord* imem_allocate(size_t size,
                                  bool is_noref,
                                  bool is_tlab,
-                                 bool* gc_overhead_limit_was_exceeded) = 0;
+                                 bool* gc_overhead_limit_was_exceeded) { return NULL; }
 
   // Utilities for turning raw memory into filler objects.
   //
