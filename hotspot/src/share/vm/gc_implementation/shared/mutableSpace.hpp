@@ -31,11 +31,11 @@
 
 // A MutableSpace is a subtype of ImmutableSpace that supports the
 // concept of allocation. This includes the concepts that a space may
-// be only partially full, and the querry methods that go with such
+// be only partially full, and the query methods that go with such
 // an assumption. MutableSpace is also responsible for minimizing the
-// page allocation time by having the memory pretouched (with
+// page allocation time by having the memory pre-touched (with
 // AlwaysPretouch) and for optimizing page placement on NUMA systems
-// by make the underlying region interleaved (with UseNUMA).
+// by making the underlying region interleaved (with UseNUMA).
 //
 // Invariant: (ImmutableSpace +) bottom() <= top() <= end()
 // top() is inclusive and end() is exclusive.

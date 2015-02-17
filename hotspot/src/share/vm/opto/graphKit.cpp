@@ -3041,7 +3041,8 @@ Node* GraphKit::set_output_for_allocation(AllocateNode* alloc,
 //  - If 'return_size_val', report the the total object size to the caller.
 Node* GraphKit::new_instance(Node* klass_node,
                              Node* extra_slow_test,
-                             Node* *return_size_val) {
+                             Node* *return_size_val,
+                             bool isImmortal) {
   // Compute size in doublewords
   // The size is always an integral number of doublewords, represented
   // as a positive bytewise size stored in the klass's layout_helper.
@@ -3063,7 +3064,7 @@ Node* GraphKit::new_instance(Node* klass_node,
   } else {   // reflective case
     // This reflective path is used by Unsafe.allocateInstance.
     // (It may be stress-tested by specifying StressReflectiveCode.)
-    // Basically, we want to get into the VM is there's an illegal argument.
+    // Basically, we want to get into the VM if there's an illegal argument.
     Node* bit = intcon(Klass::_lh_instance_slow_path_bit);
     initial_slow_test = _gvn.transform( new (C, 3) AndINode(layout_val, bit) );
     if (extra_slow_test != intcon(0)) {
@@ -3100,7 +3101,7 @@ Node* GraphKit::new_instance(Node* klass_node,
   // Now generate allocation code
 
   // The entire memory state is needed for slow path of the allocation
-  // since GC and deoptimization can happened.
+  // since GC and deoptimization can happen.
   Node *mem = reset_memory();
   set_all_memory(mem); // Create new memory state
 
@@ -3109,7 +3110,8 @@ Node* GraphKit::new_instance(Node* klass_node,
         AllocateNode(C, AllocateNode::alloc_type(),
                      control(), mem, i_o(),
                      size, klass_node,
-                     initial_slow_test);
+                     initial_slow_test,
+                     isImmortal);
 
   return set_output_for_allocation(alloc, oop_type);
 }

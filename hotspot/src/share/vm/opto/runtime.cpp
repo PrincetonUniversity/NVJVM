@@ -100,6 +100,7 @@
 
 
 // Compiled code entry points
+address OptoRuntime::_new_instance_Java_imm						  = NULL;
 address OptoRuntime::_new_instance_Java                           = NULL;
 address OptoRuntime::_new_array_Java                              = NULL;
 address OptoRuntime::_multianewarray2_Java                        = NULL;
@@ -148,6 +149,7 @@ void OptoRuntime::generate(ciEnv* env) {
   //
   //   variable/name                       type-function-gen              , runtime method                  ,fncy_jp, tls,save_args,retpc
   // -------------------------------------------------------------------------------------------------------------------------------
+  gen(env, _new_instance_Java_imm          , new_instance_Type            , new_instance_C_imm              ,    0 , true , false, false);
   gen(env, _new_instance_Java              , new_instance_Type            , new_instance_C                  ,    0 , true , false, false);
   gen(env, _new_array_Java                 , new_array_Type               , new_array_C                     ,    0 , true , false, false);
   gen(env, _multianewarray2_Java           , multianewarray2_Type         , multianewarray2_C               ,    0 , true , false, false);
@@ -250,6 +252,50 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_instance_C(klassOopDesc* klass, JavaThrea
   if (klass != NULL) {
     // Scavenge and allocate an instance.
     oop result = instanceKlass::cast(klass)->allocate_instance(THREAD);
+    thread->set_vm_result(result);
+
+    // Pass oops back through thread local storage.  Our apparent type to Java
+    // is that we return an oop, but we can block on exit from this routine and
+    // a GC can trash the oop in C's return register.  The generated stub will
+    // fetch the oop from TLS after any possible GC.
+  }
+
+  deoptimize_caller_frame(thread, HAS_PENDING_EXCEPTION);
+  JRT_BLOCK_END;
+
+  if (GraphKit::use_ReduceInitialCardMarks()) {
+    // inform GC that we won't do card marks for initializing writes.
+    new_store_pre_barrier(thread);
+  }
+JRT_END
+
+// object allocation in the immortal space
+JRT_BLOCK_ENTRY(void, OptoRuntime::new_instance_C_imm(klassOopDesc* klass, JavaThread* thread))
+  JRT_BLOCK;
+#ifndef PRODUCT
+//  SharedRuntime::_new_instance_ctr++;         // new instance requires GC
+#endif
+  assert(check_compiled_frame(thread), "incorrect caller");
+
+  // These checks are cheap to make and support reflective allocation.
+  int lh = Klass::cast(klass)->layout_helper();
+  if (Klass::layout_helper_needs_slow_path(lh)
+      || !instanceKlass::cast(klass)->is_initialized()) {
+    KlassHandle kh(THREAD, klass);
+    kh->check_valid_for_instantiation(false, THREAD);
+    if (!HAS_PENDING_EXCEPTION) {
+      instanceKlass::cast(kh())->initialize(THREAD);
+    }
+    if (!HAS_PENDING_EXCEPTION) {
+      klass = kh();
+    } else {
+      klass = NULL;
+    }
+  }
+
+  if (klass != NULL) {
+    // Scavenge and allocate an instance.
+    oop result = instanceKlass::cast(klass)->allocate_instance(THREAD, true);
     thread->set_vm_result(result);
 
     // Pass oops back through thread local storage.  Our apparent type to Java

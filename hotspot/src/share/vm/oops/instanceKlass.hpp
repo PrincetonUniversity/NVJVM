@@ -568,7 +568,7 @@ class instanceKlass: public Klass {
 
   // allocation
   DEFINE_ALLOCATE_PERMANENT(instanceKlass);
-  instanceOop allocate_instance(TRAPS);
+  instanceOop allocate_instance(TRAPS, bool isImmortal=false);
   instanceOop allocate_permanent_instance(TRAPS);
 
   // additional member function to return a handle

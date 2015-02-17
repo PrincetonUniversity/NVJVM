@@ -60,6 +60,7 @@ private:
     _igvn.register_new_node_with_optimizer(n);
     return n;
   }
+  void set_imm_space_pointers(Node* &imm_space_top_adr, Node* &imm_space_end_adr);
   void set_eden_pointers(Node* &eden_top_adr, Node* &eden_end_adr);
   Node* make_load( Node* ctl, Node* mem, Node* base, int offset,
                    const Type* value_type, BasicType bt);
@@ -79,6 +80,10 @@ private:
 
   void expand_allocate(AllocateNode *alloc);
   void expand_allocate_array(AllocateArrayNode *alloc);
+/*  void expand_allocate_imm(AllocateNode* alloc,
+                              Node* length,
+                              const TypeFunc* slow_call_type,
+                              address slow_call_address);*/
   void expand_allocate_common(AllocateNode* alloc,
                               Node* length,
                               const TypeFunc* slow_call_type,

@@ -174,7 +174,10 @@ CollectorPolicy* collector_policy() const { return (CollectorPolicy*) _collector
 
   HeapWord* permanent_mem_allocate(size_t size);
   HeapWord* failed_permanent_mem_allocate(size_t size);
-
+  HeapWord* imem_allocate(size_t size,
+          bool is_noref,
+          bool is_tlab,
+          bool* gc_overhead_limit_was_exceeded);
   // Support for System.gc()
   void collect(GCCause::Cause cause);
 
@@ -200,6 +203,8 @@ CollectorPolicy* collector_policy() const { return (CollectorPolicy*) _collector
 
   HeapWord** top_addr() const { return !UseNUMA ? young_gen()->top_addr() : (HeapWord**)-1; }
   HeapWord** end_addr() const { return !UseNUMA ? young_gen()->end_addr() : (HeapWord**)-1; }
+  HeapWord** imm_top_addr() const { return old_gen()->immortal_object_space()->top_addr(); }
+  HeapWord** imm_end_addr() const { return old_gen()->immortal_object_space()->end_addr(); }
 
   void ensure_parsability(bool retire_tlabs);
   void accumulate_statistics_all_tlabs();

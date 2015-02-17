@@ -45,6 +45,7 @@ class PSOldGen : public CHeapObj {
   PSVirtualSpace*          _virtual_space;     // Controls mapping and unmapping of virtual mem
   ObjectStartArray         _start_array;       // Keeps track of where objects start in a 512b block
   MutableSpace*            _object_space;      // Where all the objects live
+  MutableSpace* 		   _immortal_object_space; // Where all the immortal objects live
   PSMarkSweepDecorator*    _object_mark_sweep; // The mark sweep view of _object_space
   const char* const        _name;              // Name of this generation.
 
@@ -59,6 +60,22 @@ class PSOldGen : public CHeapObj {
 
   // Used when initializing the _name field.
   static inline const char* select_name();
+
+  // This is the function call that is needed to allocate objects in the immortal space through
+  // compare and swap without holding a lock.
+  // Support for MT garbage collection. CAS allocation is lower overhead than grabbing
+  // and releasing the heap lock, which is held during gc's anyway. This method is not
+  // safe for use at the same time as allocate_noexpand()!
+  /*HeapWord* cas_iallocate_noexpand(size_t word_size) {
+    assert(SafepointSynchronize::is_at_safepoint(), "Must only be called at safepoint");
+    HeapWord* res = immortal_object_space()->cas_allocate(word_size);
+//   This part may not be needed.
+//    if (res != NULL) {
+//      _start_array.allocate_block(res);
+//    }
+    return res;
+  }*/
+
 
   HeapWord* allocate_noexpand(size_t word_size, bool is_tlab) {
     // We assume the heap lock is held here.
@@ -130,6 +147,7 @@ class PSOldGen : public CHeapObj {
     return reserved().contains(p);
   }
 
+  MutableSpace* 		immortal_object_space() const { return _immortal_object_space; }
   MutableSpace*         object_space() const      { return _object_space; }
   PSMarkSweepDecorator* object_mark_sweep() const { return _object_mark_sweep; }
   ObjectStartArray*     start_array()             { return &_start_array; }
@@ -165,6 +183,7 @@ class PSOldGen : public CHeapObj {
   // Allocation. We report all successful allocations to the size policy
   // Note that the perm gen does not use this method, and should not!
   HeapWord* allocate(size_t word_size, bool is_tlab);
+  HeapWord* iallocate(size_t word_size, bool is_tlab);
 
   // Iteration.
   void oop_iterate(OopClosure* cl) { object_space()->oop_iterate(cl); }

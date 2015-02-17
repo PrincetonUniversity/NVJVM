@@ -989,6 +989,14 @@ bool PhaseMacroExpand::eliminate_allocate_node(AllocateNode *alloc) {
   return true;
 }
 
+//--- gets the top of the immortal space from the collected heap -----
+void PhaseMacroExpand::set_imm_space_pointers(Node* &imm_space_top_adr, Node* &imm_space_end_adr){
+	CollectedHeap* ch = Universe::heap();
+	address imm_top_adr = (address)ch->imm_top_addr();
+	address imm_end_adr = (address)ch->imm_end_addr();
+	imm_space_top_adr = makecon(TypeRawPtr::make(imm_top_adr));
+	imm_space_end_adr = basic_plus_adr(imm_space_top_adr, imm_space_end_adr - imm_space_top_adr);
+}
 
 //---------------------------set_eden_pointers-------------------------
 void PhaseMacroExpand::set_eden_pointers(Node* &eden_top_adr, Node* &eden_end_adr) {
@@ -1086,6 +1094,7 @@ void PhaseMacroExpand::expand_allocate_common(
     )
 {
 
+  bool isImmortalAlloc = alloc->isImmortal();
   Node* ctrl = alloc->in(TypeFunc::Control);
   Node* mem  = alloc->in(TypeFunc::Memory);
   Node* i_o  = alloc->in(TypeFunc::I_O);
@@ -1120,7 +1129,6 @@ void PhaseMacroExpand::expand_allocate_common(
     always_slow = true;
     initial_slow_test = NULL;
   }
-
 
   enum { too_big_or_final_path = 1, need_gc_path = 2 };
   Node *slow_region = NULL;
@@ -1158,13 +1166,16 @@ void PhaseMacroExpand::expand_allocate_common(
     Node* eden_top_adr;
     Node* eden_end_adr;
 
-    set_eden_pointers(eden_top_adr, eden_end_adr);
+    if(isImmortalAlloc)
+    	set_imm_space_pointers(eden_top_adr, eden_end_adr);
+    else
+    	set_eden_pointers(eden_top_adr, eden_end_adr);
 
     // Load Eden::end.  Loop invariant and hoisted.
     //
     // Note: We set the control input on "eden_end" and "old_eden_top" when using
     //       a TLAB to work around a bug where these values were being moved across
-    //       a safepoint.  These are not oops, so they cannot be include in the oop
+    //       a safepoint.  These are not oops, so they cannot be included in the oop
     //       map, but they can be changed by a GC.   The proper way to fix this would
     //       be to set the raw memory state when generating a  SafepointNode.  However
     //       this will require extensive changes to the loop optimization in order to
@@ -1182,7 +1193,7 @@ void PhaseMacroExpand::expand_allocate_common(
     enum { fall_in_path = 1, contended_loopback_path = 2 };
     Node *contended_region;
     Node *contended_phi_rawmem;
-    if (UseTLAB) {
+    if (UseTLAB && !isImmortalAlloc) {
       contended_region = toobig_false;
       contended_phi_rawmem = mem;
     } else {
@@ -1198,7 +1209,7 @@ void PhaseMacroExpand::expand_allocate_common(
 
     // Load(-locked) the heap top.
     // See note above concerning the control input when using a TLAB
-    Node *old_eden_top = UseTLAB
+    Node *old_eden_top = UseTLAB && !isImmortalAlloc
       ? new (C, 3) LoadPNode      (ctrl, contended_phi_rawmem, eden_top_adr, TypeRawPtr::BOTTOM, TypeRawPtr::BOTTOM)
       : new (C, 3) LoadPLockedNode(contended_region, contended_phi_rawmem, eden_top_adr);
 
@@ -1244,7 +1255,7 @@ void PhaseMacroExpand::expand_allocate_common(
     // Store (-conditional) the modified eden top back down.
     // StorePConditional produces flags for a test PLUS a modified raw
     // memory state.
-    if (UseTLAB) {
+    if (UseTLAB && !isImmortalAlloc) {
       Node* store_eden_top =
         new (C, 4) StorePNode(needgc_false, contended_phi_rawmem, eden_top_adr,
                               TypeRawPtr::BOTTOM, new_eden_top);
@@ -1461,6 +1472,38 @@ void PhaseMacroExpand::expand_allocate_common(
   transform_later(result_phi_i_o);
   // This completes all paths into the result merge point
 }
+
+/*void PhaseMacroExpand::expand_allocate_imm(
+            AllocateNode* alloc, // allocation node to be expanded, the alloc node here is an immortal node
+            Node* length,  // array length for an array allocation
+            const TypeFunc* slow_call_type, // Type of slow call
+            address slow_call_address  // Address of slow call
+            ) {
+
+	  Node* ctrl = alloc->in(TypeFunc::Control);
+	  Node* mem  = alloc->in(TypeFunc::Memory);
+	  Node* i_o  = alloc->in(TypeFunc::I_O);
+	  Node* size_in_bytes     = alloc->in(AllocateNode::AllocSize);
+	  Node* klass_node        = alloc->in(AllocateNode::KlassNode);
+
+	  Node* imm_space_top;
+	  set_imm_space_pointers(imm_space_top);
+
+	  // We need a Region for the loop-back contended case.
+	  enum { fall_in_path = 1, contended_loopback_path = 2 };
+	  Node *contended_region = new (C, 3) RegionNode(3);
+	  Node *contended_phi_rawmem = new (C, 3) PhiNode(contended_region, Type::MEMORY, TypeRawPtr::BOTTOM);
+	  // Now handle the passing-too-big test.  We fall into the contended
+	  // loop-back merge point.
+	  contended_region    ->init_req(fall_in_path, ctrl);
+	  contended_phi_rawmem->init_req(fall_in_path, mem);
+	  transform_later(contended_region);
+	  transform_later(contended_phi_rawmem);
+
+	  Node* old_imm_space_top = new (C, 3) LoadPLockedNode(contended_region, contended_phi_rawmem, imm_space_top);
+
+
+}*/
 
 
 // Helper for PhaseMacroExpand::expand_allocate_common.

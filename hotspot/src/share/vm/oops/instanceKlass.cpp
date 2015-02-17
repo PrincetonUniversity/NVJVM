@@ -652,7 +652,7 @@ instanceOop instanceKlass::register_finalizer(instanceOop i, TRAPS) {
   return h_i();
 }
 
-instanceOop instanceKlass::allocate_instance(TRAPS) {
+instanceOop instanceKlass::allocate_instance(TRAPS, bool isImmortal) {
   assert(!oop_is_instanceMirror(), "wrong allocation path");
   bool has_finalizer_flag = has_finalizer(); // Query before possible GC
   int size = size_helper();  // Query before forming handle.
@@ -661,7 +661,7 @@ instanceOop instanceKlass::allocate_instance(TRAPS) {
 
   instanceOop i;
 
-  i = (instanceOop)CollectedHeap::obj_allocate(h_k, size, CHECK_NULL);
+  i = (instanceOop)CollectedHeap::obj_allocate(h_k, size, CHECK_NULL, isImmortal);
   if (has_finalizer_flag && !RegisterFinalizersAtInit) {
     i = register_finalizer(i, CHECK_NULL);
   }
