@@ -713,6 +713,8 @@ public:
 //
 class AllocateNode : public CallNode {
 public:
+  bool _isImmortal;
+  bool isImmortal() { return _isImmortal; }
   enum {
     // Output:
     RawAddress  = TypeFunc::Parms,    // the newly-allocated raw address
@@ -746,7 +748,7 @@ public:
 
   virtual uint size_of() const; // Size is bigger
   AllocateNode(Compile* C, const TypeFunc *atype, Node *ctrl, Node *mem, Node *abio,
-               Node *size, Node *klass_node, Node *initial_test);
+               Node *size, Node *klass_node, Node *initial_test, bool isImmortal=false);
   // Expansion modifies the JVMState, so we need to clone it
   virtual void  clone_jvms() {
     set_jvms(jvms()->clone_deep(Compile::current()));

@@ -112,6 +112,7 @@ class OptoRuntime : public AllStatic {
   static address generate_stub(ciEnv* ci_env, TypeFunc_generator gen, address C_function, const char *name, int is_fancy_jump, bool pass_tls, bool save_arguments, bool return_pc);
 
   // References to generated stubs
+  static address _new_instance_Java_imm;
   static address _new_instance_Java;
   static address _new_array_Java;
   static address _multianewarray2_Java;
@@ -139,6 +140,8 @@ class OptoRuntime : public AllStatic {
 
   // Allocate storage for a Java instance.
   static void new_instance_C(klassOopDesc* instance_klass, JavaThread *thread);
+  // Allocate storage for a Java instance.
+  static void new_instance_C_imm(klassOopDesc* instance_klass, JavaThread *thread);
 
   // Allocate storage for a objArray or typeArray
   static void new_array_C(klassOopDesc* array_klass, int len, JavaThread *thread);
@@ -204,6 +207,7 @@ private:
   static const char* stub_name(address entry);
 
   // access to runtime stubs entry points for java code
+  static address new_instace_Java_imm()					 { return _new_instance_Java_imm; }
   static address new_instance_Java()                     { return _new_instance_Java; }
   static address new_array_Java()                        { return _new_array_Java; }
   static address multianewarray2_Java()                  { return _multianewarray2_Java; }

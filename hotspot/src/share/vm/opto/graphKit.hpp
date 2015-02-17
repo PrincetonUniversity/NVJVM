@@ -777,7 +777,8 @@ class GraphKit : public Phase {
   Node* get_layout_helper(Node* klass_node, jint& constant_value);
   Node* new_instance(Node* klass_node,
                      Node* slow_test = NULL,
-                     Node* *return_size_val = NULL);
+                     Node* *return_size_val = NULL,
+                     bool isImmortal = false);
   Node* new_array(Node* klass_node, Node* count_val, int nargs,
                   Node* *return_size_val = NULL);
 

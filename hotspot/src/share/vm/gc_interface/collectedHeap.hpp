@@ -110,10 +110,10 @@ class CollectedHeap : public CHeapObj {
   // Allocate an uninitialized block of the given size, or returns NULL if
   // this is impossible.
   inline static HeapWord* common_mem_allocate_noinit(size_t size, bool is_noref, TRAPS);
-
+  //inline static HeapWord* common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS);
   // Like allocate_init, but the block returned by a successful allocation
   // is guaranteed initialized to zeros.
-  inline static HeapWord* common_mem_allocate_init(size_t size, bool is_noref, TRAPS);
+  inline static HeapWord* common_mem_allocate_init(size_t size, bool is_noref, TRAPS, bool isImmortal=false);
 
   // Same as common_mem version, except memory is allocated in the permanent area
   // If there is no permanent area, revert to common_mem_allocate_noinit
@@ -320,7 +320,7 @@ class CollectedHeap : public CHeapObj {
   virtual void preload_and_dump(TRAPS) { ShouldNotReachHere(); }
 
   // General obj/array allocation facilities.
-  inline static oop obj_allocate(KlassHandle klass, int size, TRAPS);
+  inline static oop obj_allocate(KlassHandle klass, int size, TRAPS, bool isImmortal = false);
   inline static oop array_allocate(KlassHandle klass, int size, int length, TRAPS);
   inline static oop large_typearray_allocate(KlassHandle klass, int size, int length, TRAPS);
 
@@ -354,6 +354,12 @@ class CollectedHeap : public CHeapObj {
 
   // The boundary between a "large" and "small" array of primitives, in words.
   virtual size_t large_typearray_limit() = 0;
+
+  // The virtual function for allocating objects within the immortal space for the corresponding heap.
+  virtual HeapWord* imem_allocate(size_t size,
+                                 bool is_noref,
+                                 bool is_tlab,
+                                 bool* gc_overhead_limit_was_exceeded) = 0;
 
   // Utilities for turning raw memory into filler objects.
   //
@@ -395,6 +401,14 @@ class CollectedHeap : public CHeapObj {
   virtual HeapWord** end_addr() const {
     guarantee(false, "inline contiguous allocation not supported");
     return NULL;
+  }
+  virtual HeapWord** imm_top_addr() const {
+	guarantee(false, "allocation in the immortal region not supported");
+	return NULL;
+  }
+  virtual HeapWord** imm_end_addr() const {
+	guarantee(false, "allocation in the immortal region not supported");
+	return NULL;
   }
 
   // Some heaps may be in an unparseable state at certain times between

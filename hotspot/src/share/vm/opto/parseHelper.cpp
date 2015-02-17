@@ -246,6 +246,42 @@ void Parse::emit_guard_for_new(ciInstanceKlass* klass) {
                 klass);
 }
 
+// ----- do_inew ----- for allocating objects to the immortal space
+void Parse::do_inew(){
+	kill_dead_locals();
+
+	  bool will_link;
+	  ciInstanceKlass* klass = iter().get_klass(will_link)->as_instance_klass();
+	  assert(will_link, "_new: typeflow responsibility");
+
+	  // Should initialize, or throw an InstantiationError?
+	  if (!klass->is_initialized() && !klass->is_being_initialized() ||
+	      klass->is_abstract() || klass->is_interface() ||
+	      klass->name() == ciSymbol::java_lang_Class() ||
+	      iter().is_unresolved_klass()) {
+	    uncommon_trap(Deoptimization::Reason_uninitialized,
+	                  Deoptimization::Action_reinterpret,
+	                  klass);
+	    return;
+	  }
+	  if (klass->is_being_initialized()) {
+	    emit_guard_for_new(klass);
+	  }
+
+	  Node* kls = makecon(TypeKlassPtr::make(klass));
+	  Node* obj = new_instance(kls, NULL, NULL, true);
+
+	  // Push resultant oop onto stack
+	  push(obj);
+
+	  // Keep track of whether opportunities exist for StringBuilder
+	  // optimizations.
+	  if (OptimizeStringConcat &&
+	      (klass == C->env()->StringBuilder_klass() ||
+	       klass == C->env()->StringBuffer_klass())) {
+	    C->set_has_stringbuilder(true);
+	  }
+}
 
 //------------------------------do_new-----------------------------------------
 void Parse::do_new() {

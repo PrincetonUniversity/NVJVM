@@ -3165,6 +3165,106 @@ void TemplateTable::invokedynamic(int byte_no) {
 //-----------------------------------------------------------------------------
 // Allocation
 
+// Allocation of objects to the immutable space
+void TemplateTable::_inew() {
+	transition(vtos, atos);
+	  __ get_unsigned_2_byte_index_at_bcp(rdx, 1);
+	  Label slow_case;
+	  Label done;
+	  Label initialize_header;
+	  Label initialize_object; // including clearing the fields
+	  Label allocate_shared;
+
+	  __ get_cpool_and_tags(rsi, rax);
+	  // Make sure the class we're about to instantiate has been resolved.
+	  // This is done before loading instanceKlass to be consistent with the order
+	  // how Constant Pool is updated (see constantPoolOopDesc::klass_at_put)
+	  const int tags_offset = typeArrayOopDesc::header_size(T_BYTE) * wordSize;
+	  __ cmpb(Address(rax, rdx, Address::times_1, tags_offset),
+	          JVM_CONSTANT_Class);
+	  __ jcc(Assembler::notEqual, slow_case);
+
+	  // get instanceKlass
+	  __ movptr(rsi, Address(rsi, rdx,
+	            Address::times_8, sizeof(constantPoolOopDesc)));
+
+	  // make sure klass is initialized & doesn't have finalizer
+	  // make sure klass is fully initialized
+	  __ cmpl(Address(rsi,
+	                  instanceKlass::init_state_offset_in_bytes() +
+	                  sizeof(oopDesc)),
+	          instanceKlass::fully_initialized);
+	  __ jcc(Assembler::notEqual, slow_case);
+
+	  // get instance_size in instanceKlass (scaled to a count of bytes)
+	  __ movl(rdx,
+	          Address(rsi,
+	                  Klass::layout_helper_offset_in_bytes() + sizeof(oopDesc)));
+	  // test to see if it has a finalizer or is malformed in some way
+	  __ testl(rdx, Klass::_lh_instance_slow_path_bit);
+	  __ jcc(Assembler::notZero, slow_case);
+
+	  // Allocate the instance
+	  // 1) Try to allocate in the TLAB
+	  // 2) if fail and the object is large allocate in the shared Eden
+	  // 3) if the above fails (or is not applicable), go to a slow case
+	  // (creates a new TLAB, etc.)
+
+	  //const bool allow_shared_alloc =
+	    //Universe::heap()->supports_inline_contig_alloc() && !CMSIncrementalMode;
+
+	  // Allocation in the shared Eden, if allowed.
+	  //
+	  // rdx: instance size in bytes
+	  if (true) {
+	    __ bind(allocate_shared);
+
+	    ExternalAddress top((address)Universe::heap()->imm_top_addr());
+	    ExternalAddress end((address)Universe::heap()->imm_end_addr());
+
+	    const Register RtopAddr = rscratch1;
+	    const Register RendAddr = rscratch2;
+
+	    __ lea(RtopAddr, top);
+	    __ lea(RendAddr, end);
+	    __ movptr(rax, Address(RtopAddr, 0));
+
+	    // For retries rax gets set by cmpxchgq
+	    Label retry;
+	    __ bind(retry);
+	    __ lea(rbx, Address(rax, rdx, Address::times_1));
+	    __ cmpptr(rbx, Address(RendAddr, 0));
+	    __ jcc(Assembler::above, slow_case);
+
+	    // Compare rax with the top addr, and if still equal, store the new
+	    // top addr in rbx at the address of the top addr pointer. Sets ZF if was
+	    // equal, and clears it otherwise. Use lock prefix for atomicity on MPs.
+	    //
+	    // rax: object begin
+	    // rbx: object end
+	    // rdx: instance size in bytes
+	    if (os::is_MP()) {
+	      __ lock();
+	    }
+	    __ cmpxchgptr(rbx, Address(RtopAddr, 0));
+
+	    // if someone beat us on the allocation, try again, otherwise continue
+	    __ jcc(Assembler::notEqual, retry);
+
+	    __ incr_allocated_bytes(r15_thread, rdx, 0);
+	  }
+
+	  // slow case
+	  __ bind(slow_case);
+	  __ get_constant_pool(c_rarg1);
+	  __ get_unsigned_2_byte_index_at_bcp(c_rarg2, 1);
+	  call_VM(rax, CAST_FROM_FN_PTR(address, InterpreterRuntime::_inew), c_rarg1, c_rarg2);
+	  __ verify_oop(rax);
+
+	  // continue
+	  __ bind(done);
+}
+
 void TemplateTable::_new() {
   transition(vtos, atos);
   __ get_unsigned_2_byte_index_at_bcp(rdx, 1);

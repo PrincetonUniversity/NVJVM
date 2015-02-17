@@ -93,8 +93,14 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   // Card table stuff
   //
 
-  MemRegion cmr((HeapWord*)virtual_space()->low(),
-                (HeapWord*)virtual_space()->high());
+  long immortalSpaceSize = sizeImmortalSpace * 1024 * 1024 * 1024;
+  char* immSpaceStart =  virtual_space()->low() + immortalSpaceSize;
+
+  MemRegion cmr((HeapWord*)virtual_space()->low(), (HeapWord*)virtual_space()->high());
+
+  MemRegion osr((HeapWord*)virtual_space()->low(), (HeapWord*)immSpaceStart);
+  MemRegion isr((HeapWord*) immSpaceStart, (HeapWord*)virtual_space()->high());
+
   if (ZapUnusedHeapArea) {
     // Mangle newly committed space immediately rather than
     // waiting for the initialization of the space even though
@@ -125,11 +131,16 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   //
 
   _object_space = new MutableSpace(virtual_space()->alignment());
+  _immortal_object_space = new MutableSpace(virtual_space()->alignment());
 
   if (_object_space == NULL)
     vm_exit_during_initialization("Could not allocate an old gen space");
 
-  object_space()->initialize(cmr,
+  object_space()->initialize(osr,
+                             SpaceDecorator::Clear,
+                             SpaceDecorator::Mangle);
+
+  immortal_object_space()->initialize(isr,
                              SpaceDecorator::Clear,
                              SpaceDecorator::Mangle);
 
@@ -198,6 +209,27 @@ HeapWord* PSOldGen::allocate(size_t word_size, bool is_tlab) {
 
   return res;
 }
+/**
+ * This is the method that allocates immortal objects within the PS Old Generation.
+
+HeapWord* PSOldGen::iallocate(size_t word_size, bool is_tlab) {
+  assert_locked_or_safepoint(Heap_lock);
+  HeapWord* res = cas_iallocate_noexpand(word_size);
+
+  if (res == NULL) {
+	  cout << "Allocation of immortal object of size = " << word_size << "failed in old generation" << endl;
+	  exit(-1);
+//	  res = expand_and_allocate(word_size, is_tlab);
+  }
+
+  // Allocations in the old generation need to be reported
+  if (res != NULL) {
+    ParallelScavengeHeap* heap = (ParallelScavengeHeap*)Universe::heap();
+    heap->size_policy()->tenured_allocation(word_size);
+  }
+
+  return res;
+}*/
 
 HeapWord* PSOldGen::expand_and_allocate(size_t word_size, bool is_tlab) {
   assert(!is_tlab, "TLAB's are not supported in PSOldGen");

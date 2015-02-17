@@ -2245,6 +2245,9 @@ void Parse::do_one_bytecode() {
   case Bytecodes::_new:
     do_new();
     break;
+  case Bytecodes::_inew:
+	do_inew();
+	break;
 
   case Bytecodes::_jsr:
   case Bytecodes::_jsr_w:

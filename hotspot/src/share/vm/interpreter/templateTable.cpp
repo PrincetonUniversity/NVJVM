@@ -446,6 +446,7 @@ void TemplateTable::initialize() {
   def(Bytecodes::_invokeinterface     , ubcp|disp|clvm|____, vtos, vtos, invokeinterface     , f1_byte      );
   def(Bytecodes::_invokedynamic       , ubcp|disp|clvm|____, vtos, vtos, invokedynamic       , f1_oop       );
   def(Bytecodes::_new                 , ubcp|____|clvm|____, vtos, atos, _new                ,  _           );
+  def(Bytecodes::_inew				  , ubcp|____|clvm|____, vtos, atos, _inew               ,  _           );
   def(Bytecodes::_newarray            , ubcp|____|clvm|____, itos, atos, newarray            ,  _           );
   def(Bytecodes::_anewarray           , ubcp|____|clvm|____, itos, atos, anewarray           ,  _           );
   def(Bytecodes::_arraylength         , ____|____|____|____, atos, itos, arraylength         ,  _           );

@@ -122,6 +122,11 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
   post_allocation_notify(klass, (oop)obj);
 }
 
+/*HeapWord* CollectedHeap::common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS) {
+	HeapWord* result = Universe::heap()->imem_allocate(size, is_noref, false, false);
+	return result;
+}*/
+
 HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, TRAPS) {
 
   // Clear unhandled oops for memory allocation.  Memory allocation might
@@ -183,8 +188,14 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, 
   }
 }
 
-HeapWord* CollectedHeap::common_mem_allocate_init(size_t size, bool is_noref, TRAPS) {
-  HeapWord* obj = common_mem_allocate_noinit(size, is_noref, CHECK_NULL);
+HeapWord* CollectedHeap::common_mem_allocate_init(size_t size, bool is_noref, TRAPS, bool isImmortal) {
+  HeapWord* obj = NULL;
+  //if(isImmortal){
+  //	  obj = common_mem_allocate_noinint_imm(size, is_noref, CHECK_NULL);
+  //}
+  //else{
+	  obj = common_mem_allocate_noinit(size, is_noref, CHECK_NULL);
+  //}
   init_obj(obj, size);
   return obj;
 }
@@ -251,11 +262,11 @@ void CollectedHeap::init_obj(HeapWord* obj, size_t size) {
   Copy::fill_to_aligned_words(obj + hs, size - hs);
 }
 
-oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS) {
+oop CollectedHeap::obj_allocate(KlassHandle klass, int size, TRAPS, bool isImmortal) {
   debug_only(check_for_valid_allocation_state());
   assert(!Universe::heap()->is_gc_active(), "Allocation during gc not allowed");
   assert(size >= 0, "int won't convert to size_t");
-  HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL);
+  HeapWord* obj = common_mem_allocate_init(size, false, CHECK_NULL, isImmortal);
   post_allocation_setup_obj(klass, obj, size);
   NOT_PRODUCT(Universe::heap()->check_for_bad_heap_word_value(obj, size));
   return (oop)obj;

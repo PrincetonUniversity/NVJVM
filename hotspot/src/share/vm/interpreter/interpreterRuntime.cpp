@@ -183,6 +183,34 @@ IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, constantPoolOopDesc
   thread->set_vm_result(obj);
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::_inew(JavaThread* thread, constantPoolOopDesc* pool, int index))
+  printf("In the interpreterRuntime inew function call.");
+  klassOop k_oop = pool->klass_at(index, CHECK);
+  instanceKlassHandle klass (THREAD, k_oop);
+
+  // Make sure we are not instantiating an abstract klass
+  klass->check_valid_for_instantiation(true, CHECK);
+
+  // Make sure klass is initialized
+  klass->initialize(CHECK);
+
+  // At this point the class may not be fully initialized
+  // because of recursive initialization. If it is fully
+  // initialized & has_finalized is not set, we rewrite
+  // it into its fast version (Note: no locking is needed
+  // here since this is an atomic byte write and can be
+  // done more than once).
+  //
+  // Note: In case of classes with has_finalized we don't
+  //       rewrite since that saves us an extra check in
+  //       the fast version which then would call the
+  //       slow version anyway (and do a call back into
+  //       Java).
+  //       If we have a breakpoint, then we don't rewrite
+  //       because the _breakpoint bytecode would be lost.
+  oop obj = klass->allocate_instance(CHECK, true);
+  thread->set_vm_result(obj);
+IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::newarray(JavaThread* thread, BasicType type, jint size))
   oop obj = oopFactory::new_typeArray(type, size, CHECK);

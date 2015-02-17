@@ -83,6 +83,7 @@ class InterpreterRuntime: AllStatic {
   static void    resolve_ldc   (JavaThread* thread, Bytecodes::Code bytecode);
 
   // Allocation
+  static void 	 _inew         (JavaThread* thread, constantPoolOopDesc* pool, int index);
   static void    _new          (JavaThread* thread, constantPoolOopDesc* pool, int index);
   static void    newarray      (JavaThread* thread, BasicType type, jint size);
   static void    anewarray     (JavaThread* thread, constantPoolOopDesc* pool, int index, jint size);

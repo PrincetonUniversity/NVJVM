@@ -501,6 +501,7 @@ class Parse : public GraphKit {
   // implementation of object creation bytecodes
   void emit_guard_for_new(ciInstanceKlass* klass);
   void do_new();
+  void do_inew();
   void do_newarray(BasicType elemtype);
   void do_anewarray();
   void do_multianewarray();
