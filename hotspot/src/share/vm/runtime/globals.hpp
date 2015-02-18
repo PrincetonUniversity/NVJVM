@@ -413,7 +413,7 @@ class CommandLineFlags {
      	"Number of objects in the immutable space" ) 						\
     product(uintx, ImmutableObjectSize, 10, 								\
 		"Size of each immutable object" ) 									\
-    product(uintx, sizeImmortalSpace, 0, "Size of the immortal space in gb")\
+    product(uintx, sizeImmortalSpace, 1, "Size of the immortal space in gb")\
   lp64_product(bool, UseCompressedOops, false,                              \
             "Use 32-bit object references in 64-bit VM. "                   \
             "lp64_product means flag is always constant in 32 bit VM")      \
