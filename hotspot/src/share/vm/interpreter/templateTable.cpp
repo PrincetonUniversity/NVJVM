@@ -199,6 +199,9 @@ void TemplateTable::def(Bytecodes::Code code, int flags, TosState in, TosState o
   Template* t = is_wide ? template_for_wide(code) : template_for(code);
   // setup entry
   t->initialize(flags, in, out, gen, arg);
+  if(t->bytecode() == Bytecodes::Code::_inew){
+	 printf("Initialized inew template\n");
+  }
   assert(t->bytecode() == code, "just checkin'");
 }
 
@@ -447,11 +450,6 @@ void TemplateTable::initialize() {
   def(Bytecodes::_invokeinterface     , ubcp|disp|clvm|____, vtos, vtos, invokeinterface     , f1_byte      );
   def(Bytecodes::_invokedynamic       , ubcp|disp|clvm|____, vtos, vtos, invokedynamic       , f1_oop       );
   def(Bytecodes::_new                 , ubcp|____|clvm|____, vtos, atos, _new                ,  _           );
-
-  printf("creeating the template table for inew.\n");
-  def(Bytecodes::_inew				  , ubcp|____|clvm|____, vtos, atos, _inew               ,  _           );
-  printf("creeated the template table for inew.\n");
-
   def(Bytecodes::_newarray            , ubcp|____|clvm|____, itos, atos, newarray            ,  _           );
   def(Bytecodes::_anewarray           , ubcp|____|clvm|____, itos, atos, anewarray           ,  _           );
   def(Bytecodes::_arraylength         , ____|____|____|____, atos, itos, arraylength         ,  _           );
@@ -481,6 +479,9 @@ void TemplateTable::initialize() {
   def(Bytecodes::_iinc                , ubcp|____|____|iswd, vtos, vtos, wide_iinc           ,  _           );
   def(Bytecodes::_ret                 , ubcp|disp|____|iswd, vtos, vtos, wide_ret            ,  _           );
   def(Bytecodes::_breakpoint          , ubcp|disp|clvm|____, vtos, vtos, _breakpoint         ,  _           );
+  printf("creating the template table for inew.\n");
+  def(Bytecodes::_inew				  , ubcp|____|clvm|____, vtos, atos, _inew               ,  _           );
+  printf("creeated the template table for inew.\n");
 
   // JVM bytecodes
   def(Bytecodes::_fast_agetfield      , ubcp|____|____|____, atos, atos, fast_accessfield    ,  atos        );
