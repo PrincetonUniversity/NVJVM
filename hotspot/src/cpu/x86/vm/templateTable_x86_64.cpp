@@ -3216,7 +3216,7 @@ void TemplateTable::_inew() {
 	  // Allocation in the shared Eden, if allowed.
 	  //
 	  // rdx: instance size in bytes
-	  if (true) {
+	  if (false) {
 	    __ bind(allocate_shared);
 
 	    ExternalAddress top((address)Universe::heap()->imm_top_addr());
