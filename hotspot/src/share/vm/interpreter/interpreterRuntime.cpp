@@ -156,6 +156,7 @@ IRT_END
 // Allocation
 
 IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, constantPoolOopDesc* pool, int index))
+  printf("Interpreter runtime enters the slow case. Need to check it up.\n");
   klassOop k_oop = pool->klass_at(index, CHECK);
   instanceKlassHandle klass (THREAD, k_oop);
 
