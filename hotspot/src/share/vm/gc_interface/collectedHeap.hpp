@@ -358,8 +358,7 @@ class CollectedHeap : public CHeapObj {
   // The virtual function for allocating objects within the immortal space for the corresponding heap.
   virtual HeapWord* imem_allocate(size_t size,
                                  bool is_noref,
-                                 bool is_tlab,
-                                 bool* gc_overhead_limit_was_exceeded) {
+                                 bool is_tlab) {
 	  printf("Warning !! imme_allocate not defined.\n");
 	  return NULL;
   }

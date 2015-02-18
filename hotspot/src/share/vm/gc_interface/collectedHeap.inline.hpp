@@ -123,7 +123,7 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
 }
 
 HeapWord* CollectedHeap::common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS) {
-	HeapWord* result = Universe::heap()->imem_allocate(size, is_noref, false, false);
+	HeapWord* result = Universe::heap()->imem_allocate(size, is_noref, false);
 	return result;
 }
 

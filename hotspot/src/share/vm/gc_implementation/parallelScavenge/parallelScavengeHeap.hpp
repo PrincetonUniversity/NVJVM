@@ -174,10 +174,9 @@ CollectorPolicy* collector_policy() const { return (CollectorPolicy*) _collector
 
   HeapWord* permanent_mem_allocate(size_t size);
   HeapWord* failed_permanent_mem_allocate(size_t size);
-  /*HeapWord* imem_allocate(size_t size,
+  HeapWord* imem_allocate(size_t size,
           bool is_noref,
-          bool is_tlab,
-          bool* gc_overhead_limit_was_exceeded);*/
+          bool is_tlab);
   // Support for System.gc()
   void collect(GCCause::Cause cause);
 
