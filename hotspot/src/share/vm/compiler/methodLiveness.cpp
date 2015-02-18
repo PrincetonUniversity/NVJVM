@@ -658,6 +658,7 @@ void MethodLiveness::BasicBlock::compute_gen_kill_single(ciBytecodeStream *instr
     case Bytecodes::_goto_w:
     case Bytecodes::_aconst_null:
     case Bytecodes::_new:
+    case Bytecodes::_inew: //#inewChange
     case Bytecodes::_iconst_m1:
     case Bytecodes::_iconst_0:
     case Bytecodes::_iconst_1:
