@@ -188,8 +188,6 @@ IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread))
 IRT_END
 
 IRT_ENTRY(void, InterpreterRuntime::_inew(JavaThread* thread, constantPoolOopDesc* pool, int index))
-  printf("In the interpreterRuntime inew function call.");
-  exit(-1);
   klassOop k_oop = pool->klass_at(index, CHECK);
   instanceKlassHandle klass (THREAD, k_oop);
 
