@@ -110,7 +110,7 @@ class CollectedHeap : public CHeapObj {
   // Allocate an uninitialized block of the given size, or returns NULL if
   // this is impossible.
   inline static HeapWord* common_mem_allocate_noinit(size_t size, bool is_noref, TRAPS);
-  //inline static HeapWord* common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS);
+  inline static HeapWord* common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS);
   // Like allocate_init, but the block returned by a successful allocation
   // is guaranteed initialized to zeros.
   inline static HeapWord* common_mem_allocate_init(size_t size, bool is_noref, TRAPS, bool isImmortal=false);

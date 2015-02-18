@@ -66,15 +66,15 @@ class PSOldGen : public CHeapObj {
   // Support for MT garbage collection. CAS allocation is lower overhead than grabbing
   // and releasing the heap lock, which is held during gc's anyway. This method is not
   // safe for use at the same time as allocate_noexpand()!
-  /*HeapWord* cas_iallocate_noexpand(size_t word_size) {
+  HeapWord* cas_iallocate_noexpand(size_t word_size) {
     assert(SafepointSynchronize::is_at_safepoint(), "Must only be called at safepoint");
     HeapWord* res = immortal_object_space()->cas_allocate(word_size);
 //   This part may not be needed.
-//    if (res != NULL) {
-//      _start_array.allocate_block(res);
-//    }
+    if (res != NULL) {
+      _start_array.allocate_block(res);
+    }
     return res;
-  }*/
+  }
 
 
   HeapWord* allocate_noexpand(size_t word_size, bool is_tlab) {
