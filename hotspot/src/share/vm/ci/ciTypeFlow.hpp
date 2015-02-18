@@ -371,6 +371,7 @@ public:
     void do_ldc(ciBytecodeStream* str);
     void do_multianewarray(ciBytecodeStream* str);
     void do_new(ciBytecodeStream* str);
+    void do_inew(ciBytecodeStream* str);
     void do_newarray(ciBytecodeStream* str);
     void do_putfield(ciBytecodeStream* str);
     void do_putstatic(ciBytecodeStream* str);
