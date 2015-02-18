@@ -183,7 +183,7 @@ IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, constantPoolOopDesc
   thread->set_vm_result(obj);
 IRT_END
 
-IRT_ENTRY(void, InterpreterRuntime::_debug())
+IRT_ENTRY(void, InterpreterRuntime::_debug(JavaThread* thread))
 	printf("in debug \n");
 IRT_END
 
