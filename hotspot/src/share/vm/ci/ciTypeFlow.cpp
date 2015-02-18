@@ -762,6 +762,17 @@ void ciTypeFlow::StateVector::do_new(ciBytecodeStream* str) {
   }
 }
 
+
+void ciTypeFlow::StateVector::do_inew(ciBytecodeStream* str) {
+  bool will_link;
+  ciKlass* klass = str->get_klass(will_link);
+  if (!will_link || str->is_unresolved_klass()) {
+    trap(str, klass, str->get_klass_index());
+  } else {
+    push_object(klass);
+  }
+}
+
 // ------------------------------------------------------------------
 // ciTypeFlow::StateVector::do_newarray
 void ciTypeFlow::StateVector::do_newarray(ciBytecodeStream* str) {
@@ -1426,6 +1437,7 @@ bool ciTypeFlow::StateVector::apply_one_bytecode(ciBytecodeStream* str) {
   case Bytecodes::_multianewarray: do_multianewarray(str);          break;
 
   case Bytecodes::_new:      do_new(str);                           break;
+  case Bytecodes::_inew:	 do_inew(str);							break; // #inewChange
 
   case Bytecodes::_newarray: do_newarray(str);                      break;
 
