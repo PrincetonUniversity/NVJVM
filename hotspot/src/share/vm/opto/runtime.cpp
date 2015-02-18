@@ -232,6 +232,7 @@ JRT_BLOCK_ENTRY(void, OptoRuntime::new_instance_C(klassOopDesc* klass, JavaThrea
   SharedRuntime::_new_instance_ctr++;         // new instance requires GC
 #endif
   assert(check_compiled_frame(thread), "incorrect caller");
+  printf("Allocation from OptoRuntime::new_instance_C.\n");
 
   // These checks are cheap to make and support reflective allocation.
   int lh = Klass::cast(klass)->layout_helper();
