@@ -199,9 +199,6 @@ void TemplateTable::def(Bytecodes::Code code, int flags, TosState in, TosState o
   Template* t = is_wide ? template_for_wide(code) : template_for(code);
   // setup entry
   t->initialize(flags, in, out, gen, arg);
-  if(t->bytecode() == 203){
-	 printf("Initialized inew template\n");
-  }
   assert(t->bytecode() == code, "just checkin'");
 }
 
@@ -245,7 +242,6 @@ void TemplateTable::def(Bytecodes::Code code, int flags, TosState in, TosState o
 #endif // TEMPLATE_TABLE_BUG
 
 void TemplateTable::initialize() {
-  printf("Initializing the template table.\n");
   if (_is_initialized) return;
 
   // Initialize table
