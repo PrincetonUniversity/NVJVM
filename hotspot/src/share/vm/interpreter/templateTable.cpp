@@ -242,6 +242,7 @@ void TemplateTable::def(Bytecodes::Code code, int flags, TosState in, TosState o
 #endif // TEMPLATE_TABLE_BUG
 
 void TemplateTable::initialize() {
+  printf("Initializing the template table.\n");
   if (_is_initialized) return;
 
   // Initialize table
@@ -446,7 +447,11 @@ void TemplateTable::initialize() {
   def(Bytecodes::_invokeinterface     , ubcp|disp|clvm|____, vtos, vtos, invokeinterface     , f1_byte      );
   def(Bytecodes::_invokedynamic       , ubcp|disp|clvm|____, vtos, vtos, invokedynamic       , f1_oop       );
   def(Bytecodes::_new                 , ubcp|____|clvm|____, vtos, atos, _new                ,  _           );
+
+  printf("creeating the template table for inew.\n");
   def(Bytecodes::_inew				  , ubcp|____|clvm|____, vtos, atos, _inew               ,  _           );
+  printf("creeated the template table for inew.\n");
+
   def(Bytecodes::_newarray            , ubcp|____|clvm|____, itos, atos, newarray            ,  _           );
   def(Bytecodes::_anewarray           , ubcp|____|clvm|____, itos, atos, anewarray           ,  _           );
   def(Bytecodes::_arraylength         , ____|____|____|____, atos, itos, arraylength         ,  _           );
