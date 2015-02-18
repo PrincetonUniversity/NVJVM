@@ -360,8 +360,7 @@ bool ParallelScavengeHeap::is_in_partial_collection(const void *p) {
 HeapWord* ParallelScavengeHeap::imem_allocate(
                                      size_t size,
                                      bool is_noref,
-                                     bool is_tlab,
-                                     bool* gc_overhead_limit_was_exceeded) {
+                                     bool is_tlab) {
 	HeapWord* result = old_gen()->iallocate(size, is_tlab);
 	return result;
 }
