@@ -145,7 +145,8 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
                              SpaceDecorator::Mangle);
 
   printf("Initializing the immortal space. \n");
-  printf("Top of the immortal space = %p", _immortal_object_space->top());
+  printf("Top of the object space = %p.\n", object_space()->top());
+  printf("Top of the immortal space = %p.\n", _immortal_object_space->top());
 
   _object_mark_sweep = new PSMarkSweepDecorator(_object_space, start_array(), MarkSweepDeadRatio);
 
