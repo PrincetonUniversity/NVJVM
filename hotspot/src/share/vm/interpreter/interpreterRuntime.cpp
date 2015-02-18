@@ -183,6 +183,10 @@ IRT_ENTRY(void, InterpreterRuntime::_new(JavaThread* thread, constantPoolOopDesc
   thread->set_vm_result(obj);
 IRT_END
 
+IRT_ENTRY(void, InterpreterRuntime::_debug())
+	printf("in debug \n");
+IRT_END
+
 IRT_ENTRY(void, InterpreterRuntime::_inew(JavaThread* thread, constantPoolOopDesc* pool, int index))
   printf("In the interpreterRuntime inew function call.");
   exit(-1);

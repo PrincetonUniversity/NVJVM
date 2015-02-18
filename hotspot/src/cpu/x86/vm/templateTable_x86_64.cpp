@@ -3168,6 +3168,7 @@ void TemplateTable::invokedynamic(int byte_no) {
 // Allocation of objects to the immutable space
 void TemplateTable::_inew() {
 	transition(vtos, atos);
+	call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug));
 	  __ get_unsigned_2_byte_index_at_bcp(rdx, 1);
 	  Label slow_case;
 	  Label done;
