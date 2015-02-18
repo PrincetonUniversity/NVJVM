@@ -357,14 +357,14 @@ bool ParallelScavengeHeap::is_in_partial_collection(const void *p) {
 // This function allocates immortal objects in the ParallelScavengeHeap.
 // It does not acquire locks, since allocation in the old generation is using
 // compare and swap operation.
-/*HeapWord* ParallelScavengeHeap::imem_allocate(
+HeapWord* ParallelScavengeHeap::imem_allocate(
                                      size_t size,
                                      bool is_noref,
                                      bool is_tlab,
                                      bool* gc_overhead_limit_was_exceeded) {
 	HeapWord* result = old_gen()->iallocate(size, is_tlab);
 	return result;
-}*/
+}
 
 // There are two levels of allocation policy here.
 //

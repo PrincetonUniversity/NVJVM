@@ -122,10 +122,10 @@ void CollectedHeap::post_allocation_setup_array(KlassHandle klass,
   post_allocation_notify(klass, (oop)obj);
 }
 
-/*HeapWord* CollectedHeap::common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS) {
+HeapWord* CollectedHeap::common_mem_allocate_noinint_imm(size_t size, bool is_noref, TRAPS) {
 	HeapWord* result = Universe::heap()->imem_allocate(size, is_noref, false, false);
 	return result;
-}*/
+}
 
 HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, TRAPS) {
 
@@ -190,12 +190,12 @@ HeapWord* CollectedHeap::common_mem_allocate_noinit(size_t size, bool is_noref, 
 
 HeapWord* CollectedHeap::common_mem_allocate_init(size_t size, bool is_noref, TRAPS, bool isImmortal) {
   HeapWord* obj = NULL;
-  //if(isImmortal){
-  //	  obj = common_mem_allocate_noinint_imm(size, is_noref, CHECK_NULL);
-  //}
-  //else{
+  if(isImmortal){
+  	  obj = common_mem_allocate_noinint_imm(size, is_noref, CHECK_NULL);
+  }
+  else{
 	  obj = common_mem_allocate_noinit(size, is_noref, CHECK_NULL);
-  //}
+  }
   init_obj(obj, size);
   return obj;
 }

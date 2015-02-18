@@ -215,7 +215,7 @@ HeapWord* PSOldGen::allocate(size_t word_size, bool is_tlab) {
 }
 /**
  * This is the method that allocates immortal objects within the PS Old Generation.
-
+ */
 HeapWord* PSOldGen::iallocate(size_t word_size, bool is_tlab) {
   assert_locked_or_safepoint(Heap_lock);
   HeapWord* res = cas_iallocate_noexpand(word_size);
@@ -233,7 +233,7 @@ HeapWord* PSOldGen::iallocate(size_t word_size, bool is_tlab) {
   }
 
   return res;
-}*/
+}
 
 HeapWord* PSOldGen::expand_and_allocate(size_t word_size, bool is_tlab) {
   assert(!is_tlab, "TLAB's are not supported in PSOldGen");
