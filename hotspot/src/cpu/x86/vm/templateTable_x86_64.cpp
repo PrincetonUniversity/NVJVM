@@ -3168,7 +3168,7 @@ void TemplateTable::invokedynamic(int byte_no) {
 // Allocation of objects to the immutable space
 void TemplateTable::_inew() {
 	transition(vtos, atos);
-	call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug));
+//	call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::_debug));
 	  __ get_unsigned_2_byte_index_at_bcp(rdx, 1);
 	  Label slow_case;
 	  Label done;
@@ -3217,7 +3217,7 @@ void TemplateTable::_inew() {
 	  // Allocation in the shared Eden, if allowed.
 	  //
 	  // rdx: instance size in bytes
-	  if (false) {
+	  if (true) {
 	    __ bind(allocate_shared);
 
 	    ExternalAddress top((address)Universe::heap()->imm_top_addr());
@@ -3255,7 +3255,53 @@ void TemplateTable::_inew() {
 	    __ incr_allocated_bytes(r15_thread, rdx, 0);
 	  }
 
-	  // slow case
+
+	  	  // The object is initialized before the header.  If the object size is
+	      // zero, go directly to the header initialization.
+	      __ bind(initialize_object);
+	      __ decrementl(rdx, sizeof(oopDesc));
+	      __ jcc(Assembler::zero, initialize_header);
+
+	      // Initialize object fields
+	      __ xorl(rcx, rcx); // use zero reg to clear memory (shorter code)
+	      __ shrl(rdx, LogBytesPerLong);  // divide by oopSize to simplify the loop
+	      {
+	        Label loop;
+	        __ bind(loop);
+	        __ movq(Address(rax, rdx, Address::times_8,
+	                        sizeof(oopDesc) - oopSize),
+	                rcx);
+	        __ decrementl(rdx);
+	        __ jcc(Assembler::notZero, loop);
+	      }
+
+	      // initialize object header only.
+	      __ bind(initialize_header);
+	      if (UseBiasedLocking) {
+	        __ movptr(rscratch1, Address(rsi, Klass::prototype_header_offset_in_bytes() + klassOopDesc::klass_part_offset_in_bytes()));
+	        __ movptr(Address(rax, oopDesc::mark_offset_in_bytes()), rscratch1);
+	      } else {
+	        __ movptr(Address(rax, oopDesc::mark_offset_in_bytes()),
+	                 (intptr_t) markOopDesc::prototype()); // header (address 0x1)
+	      }
+	      __ xorl(rcx, rcx); // use zero reg to clear memory (shorter code)
+	      __ store_klass_gap(rax, rcx);  // zero klass gap for compressed oops
+	      __ store_klass(rax, rsi);      // store klass last
+
+	      {
+	        SkipIfEqual skip(_masm, &DTraceAllocProbes, false);
+	        // Trigger dtrace event for fastpath
+	        __ push(atos); // save the return value
+	        __ call_VM_leaf(
+	             CAST_FROM_FN_PTR(address, SharedRuntime::dtrace_object_alloc), rax);
+	        __ pop(atos); // restore the return value
+
+	      }
+	      __ jmp(done);
+
+
+
+	  // slow case this should not occur
 	  __ bind(slow_case);
 	  __ get_constant_pool(c_rarg1);
 	  __ get_unsigned_2_byte_index_at_bcp(c_rarg2, 1);
