@@ -480,6 +480,7 @@ void Bytecodes::initialize() {
   def(_invokeinterface     , "invokeinterface"     , "bJJ__", NULL    , T_ILLEGAL, -1, true);
   def(_invokedynamic       , "invokedynamic"       , "bJJJJ", NULL    , T_ILLEGAL,  0, true );
   def(_new                 , "new"                 , "bkk"  , NULL    , T_OBJECT ,  1, true );
+  def(_inew                , "inew"                , "bkk"  , NULL    , T_OBJECT ,  1, true );
   def(_newarray            , "newarray"            , "bc"   , NULL    , T_OBJECT ,  0, true );
   def(_anewarray           , "anewarray"           , "bkk"  , NULL    , T_OBJECT ,  0, true );
   def(_arraylength         , "arraylength"         , "b"    , NULL    , T_VOID   ,  0, true );
