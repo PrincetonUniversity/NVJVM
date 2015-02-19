@@ -1094,7 +1094,7 @@ void PhaseMacroExpand::expand_allocate_common(
     )
 {
 
-  bool isImmortalAlloc = alloc->isImmortal() && false;
+  bool isImmortalAlloc = alloc->isImmortal();
   if(isImmortalAlloc){
       slow_call_address = OptoRuntime::new_instace_Java_imm();
   }
@@ -1169,7 +1169,7 @@ void PhaseMacroExpand::expand_allocate_common(
     Node* eden_top_adr;
     Node* eden_end_adr;
 
-    if(isImmortalAlloc)
+    if(false && isImmortalAlloc)
     	set_imm_space_pointers(eden_top_adr, eden_end_adr);
     else
     	set_eden_pointers(eden_top_adr, eden_end_adr);
