@@ -995,7 +995,7 @@ void PhaseMacroExpand::set_imm_space_pointers(Node* &imm_space_top_adr, Node* &i
 	address imm_top_adr = (address)ch->imm_top_addr();
 	address imm_end_adr = (address)ch->imm_end_addr();
 	imm_space_top_adr = makecon(TypeRawPtr::make(imm_top_adr));
-	imm_space_end_adr = basic_plus_adr(imm_space_top_adr, imm_space_end_adr - imm_space_top_adr);
+	imm_space_end_adr = basic_plus_adr(imm_space_top_adr, imm_end_adr - imm_top_adr);
 }
 
 //---------------------------set_eden_pointers-------------------------
