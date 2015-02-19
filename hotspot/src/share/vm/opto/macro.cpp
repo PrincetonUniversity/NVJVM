@@ -1094,9 +1094,9 @@ void PhaseMacroExpand::expand_allocate_common(
     )
 {
 
-  bool isImmortalAlloc = alloc->isImmortal();
+  bool isImmortalAlloc = alloc->isImmortal() && false;
   if(isImmortalAlloc){
-//      slow_call_address = OptoRuntime::new_instace_Java_imm();
+      slow_call_address = OptoRuntime::new_instace_Java_imm();
   }
   Node* ctrl = alloc->in(TypeFunc::Control);
   Node* mem  = alloc->in(TypeFunc::Memory);
