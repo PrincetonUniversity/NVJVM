@@ -68,6 +68,7 @@ static void trace_gen_sizes(const char* const str,
 }
 
 jint ParallelScavengeHeap::initialize() {
+  printf("Initializing the parallel scavenge heap.\n");
   CollectedHeap::pre_initialize();
 
   // Cannot be initialized until after the flags are parsed
