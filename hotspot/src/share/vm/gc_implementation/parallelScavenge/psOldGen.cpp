@@ -44,6 +44,7 @@ PSOldGen::PSOldGen(ReservedSpace rs, size_t alignment,
   _max_gen_size(max_size)
 {
   cout << "max size of the old generation " << max_size << endl;
+  cout << "data_name " << perf_data_name << endl;
   initialize(rs, alignment, perf_data_name, level);
 }
 
