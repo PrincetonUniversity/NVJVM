@@ -1116,6 +1116,7 @@ jint Universe::initialize_heap() {
     Universe::_collectedHeap = new GenCollectedHeap(gc_policy);
   }
 
+  printf("Initializing the Universe::heap.\n");
   jint status = Universe::heap()->initialize();
 
   if (status != JNI_OK) {
