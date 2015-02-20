@@ -43,8 +43,6 @@ PSOldGen::PSOldGen(ReservedSpace rs, size_t alignment,
   _name(select_name()), _init_gen_size(initial_size), _min_gen_size(min_size),
   _max_gen_size(max_size)
 {
-  cout << "max size of the old generation " << max_size << endl;
-  cout << "data_name " << perf_data_name << endl;
   initialize(rs, alignment, perf_data_name, level);
 }
 
@@ -57,8 +55,6 @@ PSOldGen::PSOldGen(size_t initial_size,
 
 void PSOldGen::initialize(ReservedSpace rs, size_t alignment,
                           const char* perf_data_name, int level) {
-  printf("Initializing the old generation\n");
-  cout << "Name::" << _name << endl;
   initialize_virtual_space(rs, alignment);
   initialize_work(perf_data_name, level);
   // The old gen can grow to gen_size_limit().  _reserve reflects only
@@ -133,7 +129,7 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   //
   // ObjectSpace stuff
   //
-
+  cout << "perf_data_name == " << perf_data_name << endl;
   _object_space = new MutableSpace(virtual_space()->alignment());
   _immortal_object_space = new MutableSpace(virtual_space()->alignment());
 
