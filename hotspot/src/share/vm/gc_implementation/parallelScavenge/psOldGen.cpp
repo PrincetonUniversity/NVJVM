@@ -56,6 +56,7 @@ PSOldGen::PSOldGen(size_t initial_size,
 void PSOldGen::initialize(ReservedSpace rs, size_t alignment,
                           const char* perf_data_name, int level) {
   printf("Initializing the old generation\n");
+  cout << "Name::" << _name << endl;
   initialize_virtual_space(rs, alignment);
   initialize_work(perf_data_name, level);
   // The old gen can grow to gen_size_limit().  _reserve reflects only
