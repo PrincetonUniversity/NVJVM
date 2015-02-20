@@ -204,6 +204,12 @@ CollectorPolicy* collector_policy() const { return (CollectorPolicy*) _collector
   HeapWord** end_addr() const { return !UseNUMA ? young_gen()->end_addr() : (HeapWord**)-1; }
   HeapWord** imm_top_addr() const { return old_gen()->immortal_object_space()->top_addr(); }
   HeapWord** imm_end_addr() const { return old_gen()->immortal_object_space()->end_addr(); }
+  bool lies_in_immortal_region(void *add) const {
+	  uintptr_t addr = (uintptr_t) add;
+	  uintptr_t startAddr = (uintptr_t)old_gen()->immortal_object_space()->top();
+	  uintptr_t endAddr = (uintptr_t)old_gen()->immortal_object_space()->end();
+	  return ((addr >= startAddr) && (addr <= endAddr));
+  }
 
   void ensure_parsability(bool retire_tlabs);
   void accumulate_statistics_all_tlabs();

@@ -1271,9 +1271,14 @@ class PSParallelCompact : AllStatic {
 };
 
 inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
+  // Check whether the object lies in the immortal region or not.
+  // If the object lies in the immortal heap space, then the scan
+  // on the object is skipped.
+  if(Universe::heap()->lies_in_immortal_region((void *)obj)){
+	  return true;
+  }
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	  _partitionMetaData.markObject((void*)obj);
-
 	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));)
 	  return true;
   } else {

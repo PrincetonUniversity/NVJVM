@@ -132,7 +132,6 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   //
   // ObjectSpace stuff
   //
-  cout << "perf_data_name == " << perf_data_name << endl;
   _object_space = new MutableSpace(virtual_space()->alignment());
   _immortal_object_space = new MutableSpace(virtual_space()->alignment());
 
@@ -146,10 +145,6 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   immortal_object_space()->initialize(isr,
                              SpaceDecorator::Clear,
                              SpaceDecorator::Mangle);
-
-  printf("Initializing the immortal space. \n");
-  printf("Top of the object space = %p.\n", object_space()->top());
-  printf("Top of the immortal space = %p.\n", _immortal_object_space->top());
 
   _object_mark_sweep = new PSMarkSweepDecorator(_object_space, start_array(), MarkSweepDeadRatio);
 

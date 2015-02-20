@@ -231,14 +231,12 @@ jint ParallelScavengeHeap::initialize() {
                              GCTimeRatio
                              );
 
-  printf("Initializing the permanent generation.\n");
   _perm_gen = new PSPermGen(perm_rs,
                             pg_align,
                             pg_cur_size,
                             pg_cur_size,
                             pg_max_size,
                             "perm", 2);
-  printf("The permanent generation initialized.\n");
 
   assert(!UseAdaptiveGCBoundary ||
     (old_gen()->virtual_space()->high_boundary() ==

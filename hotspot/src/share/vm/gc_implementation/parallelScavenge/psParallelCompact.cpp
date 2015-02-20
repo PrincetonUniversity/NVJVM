@@ -2373,8 +2373,7 @@ GCTaskManager* const PSParallelCompact::gc_task_manager() {
   return ParallelScavengeHeap::gc_task_manager();
 }
 
-void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
-									bool maximum_heap_compaction){
+void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm, bool maximum_heap_compaction){
 	  cout << "In PSParallelCompact" << endl;
 	// Recursively traverse all live objects and mark them
 	  EventMark m("1 mark object");
@@ -3786,7 +3785,7 @@ void PS_Par_GreyMarkClosure::do_oop(oop obj) {
 	HeapWord* addr = (HeapWord*)obj;
 	ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
 	if(_span.contains((const void*)addr)){
-	// I, hereby, check whether the object is currently marked in the bitmap or not
+	// I check whether the object is currently marked in the bitmap or not
 		while(_bit_map->is_unmarked(addr)){
 			// If some other thread has marked this object as alive then that thread should mark it as grey
 			if(PSParallelCompact::mark_obj_core_aware(obj))

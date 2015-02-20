@@ -412,6 +412,10 @@ class CollectedHeap : public CHeapObj {
 	guarantee(false, "allocation in the immortal region not supported");
 	return NULL;
   }
+  virtual bool lies_in_immortal_region(void *addr) const {
+	  return false;
+  }
+
 
   // Some heaps may be in an unparseable state at certain times between
   // collections. This may be necessary for efficient implementation of
