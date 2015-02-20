@@ -92,12 +92,15 @@ void PSOldGen::initialize_work(const char* perf_data_name, int level) {
   //
   // Card table stuff
   //
-
-  long immortalSpaceSize = sizeImmortalSpace * 1024 * 1024 * 1024;
-  char* immSpaceStart =  virtual_space()->low() + immortalSpaceSize;
+  char* immSpaceStart;
+  if(strcmp(perf_data_name, "perm") != 0){
+	  immSpaceStart = virtual_space()->high();
+  } else {
+	  long managedOldHeap = sizeManagedOldHeap * 1024 * 1024 * 1024;
+	  immSpaceStart = (char*)virtual_space()->low() + managedOldHeap;
+  }
 
   MemRegion cmr((HeapWord*)virtual_space()->low(), (HeapWord*)virtual_space()->high());
-
   MemRegion osr((HeapWord*)virtual_space()->low(), (HeapWord*)immSpaceStart);
   MemRegion isr((HeapWord*) immSpaceStart, (HeapWord*)virtual_space()->high());
 

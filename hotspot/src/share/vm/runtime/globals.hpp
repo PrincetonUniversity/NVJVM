@@ -414,6 +414,7 @@ class CommandLineFlags {
     product(uintx, ImmutableObjectSize, 10, 								\
 		"Size of each immutable object" ) 									\
     product(uintx, sizeImmortalSpace, 1, "Size of the immortal space in gb")\
+    product(uintx, sizeManagedOldHeap, 1, "Space of the managed old heap") \
   lp64_product(bool, UseCompressedOops, false,                              \
             "Use 32-bit object references in 64-bit VM. "                   \
             "lp64_product means flag is always constant in 32 bit VM")      \
