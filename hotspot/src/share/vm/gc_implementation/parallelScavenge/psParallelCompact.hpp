@@ -693,9 +693,9 @@ inline void ParMarkBitMapClosure::decrement_words_remaining(size_t words) {
 // does parts of the collection using parallel threads.  The collection includes
 // the tenured generation and the young generation.  The permanent generation is
 // collected at the same time as the other two generations but the permanent
-// generation is collect by a single GC thread.  The permanent generation is
+// generation is collected by a single GC thread.  The permanent generation is
 // collected serially because of the requirement that during the processing of a
-// klass AAA, any objects reference by AAA must already have been processed.
+// klass AAA, any objects referenced by AAA must already have been processed.
 // This requirement is enforced by a left (lower address) to right (higher
 // address) sliding compaction.
 //
@@ -740,7 +740,7 @@ inline void ParMarkBitMapClosure::decrement_words_remaining(size_t words) {
 // The summary phase calculates the total live data to the left of each region
 // XXX.  Based on that total and the bottom of the space, it can calculate the
 // starting location of the live data in XXX.  The summary phase calculates for
-// each region XXX quantites such as
+// each region XXX quantities such as
 //
 //      - the amount of live data at the beginning of a region from an object
 //        entering the region.

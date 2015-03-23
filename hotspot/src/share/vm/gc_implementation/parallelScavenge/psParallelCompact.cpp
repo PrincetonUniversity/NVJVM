@@ -727,11 +727,6 @@ bool ParallelCompactData::summarize(SplitInfo& split_info,
 HeapWord* ParallelCompactData::calc_new_pointer(HeapWord* addr) {
   assert(addr != NULL, "Should detect NULL oop earlier");
   assert(PSParallelCompact::gc_heap()->is_in(addr), "addr not in heap");
-#ifdef ASSERT
-  if (PSParallelCompact::mark_bitmap()->is_unmarked(addr)) {
-    gclog_or_tty->print_cr("calc_new_pointer:: addr " PTR_FORMAT, addr);
-  }
-#endif
   assert(PSParallelCompact::mark_bitmap()->is_marked(addr), "obj not marked");
 
   // Region covering the object.
@@ -2131,7 +2126,8 @@ void PSParallelCompact::invoke_no_policy(bool maximum_heap_compaction) {
 
     compaction_start.update();
 
-    compact_perm(vmthread_cm);
+    // We have
+    //compact_perm(vmthread_cm);
 
     compact();
 
@@ -2650,11 +2646,20 @@ void PSParallelCompact::enqueue_region_draining_tasks(GCTaskQueue* q,
     HeapWord* const new_top = space_info->new_top();
 
     const size_t beg_region = sd.addr_to_region_idx(space_info->dense_prefix());
-    const size_t end_region =
-      sd.addr_to_region_idx(sd.region_align_up(new_top));
+    const size_t end_region = sd.addr_to_region_idx(sd.region_align_up(new_top));
+    const size_t end_region_index = end_region -1;
+    if(id == old_space_id){
+		for (size_t cur = end_region; cur >= beg_region; --cur) {
+			HeapWord* start = sd.region_to_addr(cur);
+			if(Universe::heap()->lies_in_immortal_region(start) == false){
+				end_region_index = cur;
+				break;
+			}
+		}
+    }
     assert(end_region > 0, "perm gen cannot be empty");
 
-    for (size_t cur = end_region - 1; cur >= beg_region; --cur) {
+    for (size_t cur = end_region_index; cur >= beg_region; --cur) {
       if (sd.region(cur)->claim_unsafe()) {
         ParCompactionManager* cm = ParCompactionManager::manager_array(which);
         cm->push_region(cur);
@@ -2780,8 +2785,7 @@ void PSParallelCompact::enqueue_region_stealing_tasks(
 }
 
 void PSParallelCompact::compact() {
-  EventMark m("5 compact");
-  // trace("5");
+  EventMark m("5 compact");// trace("5");
   TraceTime tm("compaction phase", print_phases(), true, gclog_or_tty);
 
   TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
@@ -3600,14 +3604,6 @@ MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   assert(destination() != NULL, "sanity");
   assert(bitmap()->obj_size(addr) == words, "bad size");
   _source = addr;
-
-#if PS_CHECK
-  if(_source==NULL){
-	  printf("_source is NULL, in do_addr() in in move and update closure::do_addr() .. \n");
-	  exit(-1);
-  }
-#endif
-
   assert(PSParallelCompact::summary_data().calc_new_pointer(source()) ==
          destination(), "wrong destination");
 
@@ -3619,30 +3615,12 @@ MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
   if (_start_array != NULL) {
     _start_array->allocate_block(destination());
   }
-#if PS_CHECK
-  if(destination() == NULL){
-	  printf("destination is null, in move and update closure::do_addr()\n");
-	  exit(-1);
-  }
-#endif
   if (destination() != source()) {
     DEBUG_ONLY(PSParallelCompact::check_new_location(source(), destination());)
-#if PS_CHECK
-	if(!(is_object_aligned((intptr_t)source())) || !(is_object_aligned((intptr_t)destination()))){
-		printf("Source Alignment :: %d, Destination Alignment :: %d.\n", is_object_aligned((intptr_t)source()), is_object_aligned((intptr_t)destination()));
-	}
-#endif
     Copy::aligned_conjoint_words(source(), destination(), words);
   }
 
   oop moved_oop = (oop) destination();
-  // TODO remove just for checking
-#if PS_CHECK
-  if(moved_oop == NULL){
-	  printf("moved_oop is null in MoveAndUpdateClosure::do_addr(). Check \n");
-	  exit(-1);
-  }
-#endif
   moved_oop->update_contents(compaction_manager());
   assert(moved_oop->is_oop_or_null(), "Object should be whole at this point");
 
