@@ -2437,7 +2437,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    }
 	  }
 
-	  /*{
+	  {
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
 	  SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkCoreAware);
@@ -2450,17 +2450,14 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  	  }
-	  }*/
+	  }
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
-	  //bool t = CoreAwareMarking;
-	  //CoreAwareMarking = false;
 	  // Follow code cache roots.
 	  CodeCache::do_unloading(is_alive_closure(), &mark_and_push_closure,
 	                          purged_class);
 	  cm->follow_marking_stacks(); // Flush marking stack.
-
 
 	  // Update subklass/sibling/implementor links of live klasses
 	  // revisit_klass_stack is used in follow_weak_klass_links().
@@ -2473,7 +2470,6 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  StringTable::unlink(is_alive_closure());
 	  // Clean up unreferenced symbols in symbol table.
 	  SymbolTable::unlink();
-	  //CoreAwareMarking = t;
 	  {
 	 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
