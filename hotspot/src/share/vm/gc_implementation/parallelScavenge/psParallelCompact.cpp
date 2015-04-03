@@ -2437,7 +2437,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    }
 	  }
 
-	  {
+	  /*{
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
 	  SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkCoreAware);
@@ -2449,14 +2449,13 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
 	  		  parMarkTsk.coordinator_yield();
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
-	  }
-
-	  }
+	  	  }
+	  }*/
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
-	  bool t = CoreAwareMarking;
-	  CoreAwareMarking = false;
+	  //bool t = CoreAwareMarking;
+	  //CoreAwareMarking = false;
 	  // Follow code cache roots.
 	  CodeCache::do_unloading(is_alive_closure(), &mark_and_push_closure,
 	                          purged_class);
@@ -2474,7 +2473,21 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  StringTable::unlink(is_alive_closure());
 	  // Clean up unreferenced symbols in symbol table.
 	  SymbolTable::unlink();
-	  CoreAwareMarking = t;
+	  //CoreAwareMarking = t;
+	  {
+	 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
+	 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
+	 	  SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkCoreAware);
+	 	  PSParallelMarkingTask parMarkTsk(PSParallelCompact::getSpan());
+	 	  // Create the concurrent workers here and run the task using the workers
+	 	  printf("Starting the parallel marking task.\n");
+	 	  par_compact_workers()->start_task(&parMarkTsk);
+	 	  	  while (parMarkTsk.yielded()) {
+	 	  		  printf("Currently the threads sleep and do not yield.So, should not come here.\n");
+	 	  		  parMarkTsk.coordinator_yield();
+	 	  		  par_compact_workers()->continue_task(&parMarkTsk);
+	 	  	  }
+	 	  }
 	  assert(cm->marking_stacks_empty(), "marking stacks should be empty");
 }
 
