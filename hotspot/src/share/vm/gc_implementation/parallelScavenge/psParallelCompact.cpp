@@ -3832,7 +3832,7 @@ void PSParallelMarkingTask::checkHeap(){
 void PSParallelMarkingTask::scan_a_page(int pageIndex){
 	    ParMarkBitMap* _bit_map = PSParallelCompact::mark_bitmap();
 		void* pageAddress = PSParallelCompact::_partitionMetaData.getPageBase(pageIndex);
-	// On acquiring a page we clear the grey object count on the page
+	// On acquiring a page we clear the grey object count for the page
 		int oldValue = PSParallelCompact::_partitionMetaData.clearGreyObjectCount_Page(pageAddress);
 	// In order to clear the chunk level grey object count present we also pass in the oldValue counter here
 	// On clearing the page level grey object count the chunk level grey object count gets decrement

@@ -1273,7 +1273,6 @@ class PSParallelCompact : AllStatic {
 inline bool PSParallelCompact::mark_obj_core_aware(oop obj){
   if (mark_bitmap()->mark_obj_start((HeapWord *)obj)) {
 	  _partitionMetaData.markObject((void*)obj);
-
 	  DEBUG_EX(Atomic::inc(&(PSParallelCompact::_count1));)
 	  return true;
   } else {
@@ -1335,7 +1334,7 @@ inline void PSParallelCompact::mark_and_push(ParCompactionManager* cm, T* p) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (mark_bitmap()->is_unmarked(obj) && mark_obj(obj)) {
-      if(!CoreAwareMarking)
+      if(true || !CoreAwareMarking)
     	  cm->push(obj);
     }
   }
