@@ -2461,7 +2461,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  CodeCache::do_unloading(is_alive_closure(), &mark_and_push_closure,
 	                          purged_class);
 	  cm->follow_marking_stacks(); // Flush marking stack.
-	  CoreAwareMarking = t;
+
 
 	  // Update subklass/sibling/implementor links of live klasses
 	  // revisit_klass_stack is used in follow_weak_klass_links().
@@ -2474,7 +2474,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  StringTable::unlink(is_alive_closure());
 	  // Clean up unreferenced symbols in symbol table.
 	  SymbolTable::unlink();
-
+	  CoreAwareMarking = t;
 	  assert(cm->marking_stacks_empty(), "marking stacks should be empty");
 }
 
