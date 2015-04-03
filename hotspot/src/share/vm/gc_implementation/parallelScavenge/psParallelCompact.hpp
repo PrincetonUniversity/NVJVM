@@ -1334,7 +1334,7 @@ inline void PSParallelCompact::mark_and_push(ParCompactionManager* cm, T* p) {
   if (!oopDesc::is_null(heap_oop)) {
     oop obj = oopDesc::decode_heap_oop_not_null(heap_oop);
     if (mark_bitmap()->is_unmarked(obj) && mark_obj(obj)) {
-      if(!CoreAwareMarking)
+      if(true || !CoreAwareMarking)
     	  cm->push(obj);
     }
   }

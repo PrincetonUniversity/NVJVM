@@ -2451,7 +2451,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	  	  }
 	  }
-	  CoreAwareMarking = false;
+	  //CoreAwareMarking = false;
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
@@ -2485,7 +2485,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	 	  	  }
 	  }*/
-	  CoreAwareMarking = true;
+	  //CoreAwareMarking = true;
 	  assert(cm->marking_stacks_empty(), "marking stacks should be empty");
 }
 
