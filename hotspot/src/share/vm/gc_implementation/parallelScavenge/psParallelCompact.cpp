@@ -2455,11 +2455,13 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  TraceTime tm_c("class unloading", print_phases(), true, gclog_or_tty);
 	  // Follow system dictionary roots and unload classes.
 	  bool purged_class = SystemDictionary::do_unloading(is_alive_closure());
-
+	  bool t = CoreAwareMarking;
+	  CoreAwareMarking = false;
 	  // Follow code cache roots.
 	  CodeCache::do_unloading(is_alive_closure(), &mark_and_push_closure,
 	                          purged_class);
 	  cm->follow_marking_stacks(); // Flush marking stack.
+	  CoreAwareMarking = t;
 
 	  // Update subklass/sibling/implementor links of live klasses
 	  // revisit_klass_stack is used in follow_weak_klass_links().
