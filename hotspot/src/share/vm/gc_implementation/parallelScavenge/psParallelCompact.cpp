@@ -2471,7 +2471,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	  StringTable::unlink(is_alive_closure());
 	  // Clean up unreferenced symbols in symbol table.
 	  SymbolTable::unlink();
-	  /*{
+	  {
 	 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
 	 	  SwapMetrics sMet("mark-from-roots", SwapMetrics::parMarkCoreAware);
@@ -2484,7 +2484,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	 	  		  parMarkTsk.coordinator_yield();
 	 	  		  par_compact_workers()->continue_task(&parMarkTsk);
 	 	  	  }
-	  }*/
+	  }
 	  //CoreAwareMarking = true;
 	  assert(cm->marking_stacks_empty(), "marking stacks should be empty");
 }
