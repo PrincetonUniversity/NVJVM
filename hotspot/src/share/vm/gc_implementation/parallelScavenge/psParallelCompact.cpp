@@ -2419,7 +2419,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	    // We have to release the barrier tasks!
 	  WaitForBarrierGCTask::destroy(fin);
 	  }
-
+	  cout << "Before reference processing :: " << cm->marking_stacks_empty() << endl;
 	  {
 		cout << "Starting the reference processing tasks" << endl;
 		// Process reference objects found during marking
@@ -2436,7 +2436,7 @@ void PSParallelCompact::marking_phase_core_aware(ParCompactionManager* cm,
 	        is_alive_closure(), &mark_and_push_closure, &follow_stack_closure, NULL);
 	    }
 	  }
-
+	  cout << "After reference processing :: " << cm->marking_stacks_empty() << endl;
 	  {
 	  TraceCPUTime tcpu(PrintGCDetails, true, gclog_or_tty);
 	  tcpu.setPhase("Parallel Marking Phase Core Aware", SwapMetrics::parMarkCoreAware);
