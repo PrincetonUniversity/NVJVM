@@ -6075,14 +6075,14 @@ void CMSCollector::sweep(bool asynch) {
     {
       CMSTokenSyncWithLocks ts(true, _cmsGen->freelistLock(),
                                bitMapLock());
-      //sweepWork(_cmsGen, asynch);
+      sweepWork(_cmsGen, asynch);
     }
 
     // Now repeat for perm gen
     if (should_unload_classes()) {
       CMSTokenSyncWithLocks ts(true, _permGen->freelistLock(),
                              bitMapLock());
-      //sweepWork(_permGen, asynch);
+      sweepWork(_permGen, asynch);
     }
 
     // Update Universe::_heap_*_at_gc figures.
