@@ -2298,7 +2298,7 @@ void CMSCollector::collect_in_background(bool clear_all_soft_refs) {
         // The collector state may be any legal state at this point
         // since the background collector may have yielded to the
         // foreground collector.
-//        break;
+        break;
       case Marking:
         // initial marking in checkpointRootsInitialWork has been completed
         if (markFromRoots(true)) { // we were successful
@@ -3617,7 +3617,7 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
 }
 
 bool CMSCollector::markFromRoots(bool asynch) {
-
+printf("In markFromRoots \n"); fflush(stdout);
 #if ENABLE_MARK_PROBES
   DTRACE_PROBE(hotspot, mark_from_roots_begin);
 #endif
