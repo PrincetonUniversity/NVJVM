@@ -3617,7 +3617,10 @@ void CMSCollector::checkpointRootsInitialWork(bool asynch) {
 }
 
 bool CMSCollector::markFromRoots(bool asynch) {
-printf("In markFromRoots \n"); fflush(stdout);
+
+	printf("In markFromRoots \n");
+	fflush(stdout);
+
 #if ENABLE_MARK_PROBES
   DTRACE_PROBE(hotspot, mark_from_roots_begin);
 #endif

@@ -300,8 +300,8 @@ SwapMetrics::~SwapMetrics() {
   }
 
   // Writing the minor and the major faults to the output
-//  cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
-//  cout << "End of phase :: " << _phaseName << ", timestamp::"<< getCurrentTime() << endl;
+  cout  << _phaseName << "," << _minorFaults << "," << _majorFaults << endl;
+  cout << "End of phase :: " << _phaseName << ", timestamp::"<< getCurrentTime() << endl;
 }
 
 void SwapMetrics::printTotalFaults(){
